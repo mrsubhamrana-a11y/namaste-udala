@@ -64,6 +64,19 @@ input{border:3px solid #111;border-radius:12px;background:#fff;font-weight:700}
 .stp button{width:28px;height:28px;border:2px solid #111;border-radius:8px;background:#a3e635;font-weight:900;font-size:16px;line-height:1}
 .stp button:first-child{background:#f9a8d4}
 .cbar{position:sticky;bottom:78px;background:#111;color:#fff;border-radius:16px;padding:12px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.tick{background:#111;color:#a3e635;overflow:hidden;white-space:nowrap;border-radius:14px;margin:0 0 12px;border:3px solid #111;box-shadow:4px 4px 0 #7c3aed}
+.tick div{display:inline-block;padding:8px 0;font-weight:900;font-size:12px;letter-spacing:1px;animation:mq 18s linear infinite}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.stk{position:absolute;border:3px solid #111;border-radius:12px;padding:3px 9px;font-size:11px;font-weight:900;color:#111;box-shadow:3px 3px 0 #111}
+.stk.a{background:#fde047;right:14px;bottom:14px;transform:rotate(8deg);animation:wg 2.5s ease-in-out infinite}
+.stk.b{background:#a3e635;right:92px;bottom:20px;transform:rotate(-7deg);animation:wg 3s ease-in-out infinite reverse}
+@keyframes wg{50%{transform:rotate(-4deg) scale(1.08)}}
+.sp:nth-child(1){transform:rotate(-2deg)}.sp:nth-child(2){transform:rotate(2deg)}.sp:nth-child(3){transform:rotate(-1.5deg)}
+.sp{border:3px solid #111;box-shadow:3px 3px 0 #111;transition:transform .15s}
+.sp:active{transform:scale(1.1) rotate(3deg)}
+.sp div:first-child{font-size:30px!important}
+.pc.on{animation:bn .35s}
+@keyframes bn{40%{transform:scale(1.07) rotate(-1deg)}}
 </style></head>
 <body>
 <header><b>NAMASTE UDALA</b><h1 id="ht">Plan</h1><div class="s" style="color:#94a3b8">Ghar jaisa khana · roz time pe</div></header>
@@ -129,14 +142,14 @@ plan:()=>{const t=D0();let at=0;Object.entries(C).forEach(([k,q])=>{const p=S.pr
 const ex=S.prod.filter(p=>p.s&&p.c==='Extra khana');
 const row=(p,k,pp,l)=>`<div class="row"><div>${esc(p.n)}${l}<div class="s">${inr(pp)}</div></div><div><button class="btn sm r" data-a="dec" data-id="${k}">−</button> <b>${C[k]||0}</b> <button class="btn sm g" data-a="inc" data-id="${k}">+</button></div></div>`;
 const pcd=(ty,em,l)=>`<button class="pc ${F.type===ty?'on':''}" data-a="set" data-k="type" data-v="${ty}"><div>${vi(ty)}</div><b>${l}</b><div class="s">${F.days} din</div><div style="font-size:20px;font-weight:900;color:var(--o)">${inr(PL[ty][F.days])}</div></button>`;
-const sp=(em,d,a,b)=>`<div class="sp"><div style="font-size:24px">${em}</div><b>${d}</b><div class="s">${F.type==='nv'?a:b}</div></div>`;
-return`<div class="hero"><div class="em">🍱</div><h2>Ghar jaisa khana,<br>roz time pe</h2><p>Subah · Lunch · Dinner, seedha aapke darwaze par</p><div class="chips"><span>⏰ Roz 3 time</span><span>🎁 1 din FREE trial</span><span>⏭️ Kabhi bhi skip</span></div></div>
+const sp=(em,d,a,b)=>`<div class="sp"><div style="font-size:24px">${F.type==='nv'?em[0]:em[1]}</div><b>${d}</b><div class="s">${F.type==='nv'?a:b}</div></div>`;
+return`<div class="hero"><div class="em">🍱</div><h2>Ghar jaisa khana,<br>roz time pe</h2><p>Subah · Lunch · Dinner, seedha aapke darwaze par</p><span class="stk a">🔥 FRESH</span><span class="stk b">✨ HOMEMADE</span><div class="chips"><span>⏰ Roz 3 time</span><span>🎁 1 din FREE trial</span><span>⏭️ Kabhi bhi skip</span></div></div>
 ${banner()}
-<div class="card"><h3>🍽️ Aaj ka menu</h3>
+<div class="tick"><div>🍱 1 DIN FREE TRIAL &nbsp;•&nbsp; ⏰ ROZ 3 TIME &nbsp;•&nbsp; ⏭️ KABHI BHI SKIP &nbsp;•&nbsp; 🛵 DOORSTEP DELIVERY &nbsp;•&nbsp; 🍱 1 DIN FREE TRIAL &nbsp;•&nbsp; ⏰ ROZ 3 TIME &nbsp;•&nbsp; ⏭️ KABHI BHI SKIP &nbsp;•&nbsp; 🛵 DOORSTEP DELIVERY &nbsp;•&nbsp; 🍱 1 DIN FREE TRIAL &nbsp;•&nbsp; ⏰ ROZ 3 TIME &nbsp;•&nbsp; ⏭️ KABHI BHI SKIP &nbsp;•&nbsp; 🛵 DOORSTEP DELIVERY &nbsp;•&nbsp; 🍱 1 DIN FREE TRIAL &nbsp;•&nbsp; ⏰ ROZ 3 TIME &nbsp;•&nbsp; ⏭️ KABHI BHI SKIP &nbsp;•&nbsp; 🛵 DOORSTEP DELIVERY &nbsp;•&nbsp; </div></div><div class="card"><h3>🍽️ Aaj ka menu</h3>
 <div class="row"><div>🌅 <b>Subah</b><div class="s">7:30 - 8:15</div></div><div class="s">Chai, nashta</div></div>
 <div class="row"><div>☀️ <b>Lunch</b><div class="s">1:30 - 2:15</div></div><div class="s">${mf(t,F.type)}</div></div>
 <div class="row"><div>🌙 <b>Dinner</b><div class="s">8:00 - 9:00</div></div><div class="s">${mf(t,F.type)}</div></div></div>
-<div class="card"><h3>⭐ Special din</h3><div class="sps">${sp('🐟','Budhbar','Fish curry','Paneer sabzi')}${sp('🥚','Guruvar','2 egg curry','Dahi vada')}${sp('🍗','Ravivar','Chicken','Paneer + meetha')}</div></div>
+<div class="card"><h3>⭐ Special din</h3><div class="sps">${sp(['🐟','🧀'],'Budhbar','Fish curry','Paneer sabzi')}${sp(['🥚','🥘'],'Guruvar','2 egg curry','Dahi vada')}${sp(['🍗','🍮'],'Ravivar','Chicken','Paneer + meetha')}</div></div>
 <div class="card"><h3>1️⃣ Khana chuno</h3><div class="seg">${pcd('veg','🥗','Veg')}${pcd('nv','🍗','Non-veg')}</div>
 <h3 style="margin-top:10px">2️⃣ Kitne din</h3>${seg('days',[[7,'7 din'],[15,'15 din'],[30,'30 din']])}
 <div class="s" style="margin-top:6px">Start date</div><input type="date" data-f="start" value="${F.start}">
