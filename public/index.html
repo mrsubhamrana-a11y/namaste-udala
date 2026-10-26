@@ -74,8 +74,9 @@ else{if(w===3)return'Paneer sabzi, roti, chawal';if(w===4)return'Dahi vada, sabz
 return'Dal, sabzi, roti, chawal'};
 const act=(s,dt)=>{const k=iso(dt);return k>=s.start&&k<=iso(add(new Date(s.start+'T12:00:00'),s.days-1))};
 const seg=(k,o)=>'<div class="seg">'+o.map(([v,l])=>`<button class="${String(F[k])===String(v)?'on':''}" data-a="set" data-k="${k}" data-v="${v}">${l}</button>`).join('')+'</div>';
-const contact=()=>`<input data-f="name" placeholder="Naam" value="${esc(F.name)}"><input data-f="phone" type="tel" placeholder="Phone number" value="${esc(F.phone)}"><input data-f="area" placeholder="Area / Sector" value="${esc(F.area)}"><input data-f="addr" placeholder="Pura address" value="${esc(F.addr)}"><input data-f="map" placeholder="Google Maps location link (optional)" value="${esc(F.map)}">`;
+const contact=()=>`<input data-f="name" placeholder="Naam" value="${esc(F.name)}"><input data-f="phone" type="tel" placeholder="Phone number" value="${esc(F.phone)}"><input data-f="area" placeholder="Area / Sector" value="${esc(F.area)}"><input data-f="addr" placeholder="Pura address" value="${esc(F.addr)}"><input data-f="map" placeholder="Google Maps location link" value="${esc(F.map)}"><button class="btn g" data-a="gps">📍 Meri asli location lo (GPS)</button>`;
 const banner=()=>{const t=add(D0(),1);return`<div class="card ban"><b>🔔 Kal ka menu (${t.getDate()}/${t.getMonth()+1})</b><br>Veg: ${mf(t,'veg')}<br>Non-veg: ${mf(t,'nv')}</div>`};
+const rt=l=>{const pt=l.map(s=>{const m=(s.map||'').match(/q=(-?\d+\.\d+),(-?\d+\.\d+)/);return m?m[1]+','+m[2]:(s.addr+' '+s.area)}).slice(0,10);const d=pt.pop();return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+encodeURIComponent(d)+(pt.length?'&waypoints='+encodeURIComponent(pt.join('|')):'')};
 const V={
 plan:()=>`<div style="height:14px"></div>${banner()}<div class="card"><h3>Plan chuno</h3>
 ${seg('type',[['veg','Veg'],['nv','Non-veg']])}${seg('days',[[7,'7 din'],[15,'15 din'],[30,'30 din']])}${seg('half',[[0,'Full'],[1,'Half']])}
@@ -99,7 +100,7 @@ delivery:()=>{const t=D0(),k=iso(t),l=S.subs.filter(s=>act(s,t)&&!s.skip.include
 l.forEach(s=>(g[s.area||'Other']=g[s.area||'Other']||[]).push(s));
 const mp=(a,b)=>`<a href="${esc(a||'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(b))}" target="_blank">📍 Map kholo</a>`;
 const ords=S.orders.filter(o=>!o.dlv);
-return`<div style="height:14px"></div>`+(Object.keys(g).sort().map(a=>`<div class="card"><h3>📍 ${esc(a)} · ${g[a].length} dabbe</h3><div class="s">${SL}</div>`+g[a].map(s=>{const d=S.done[k+'_'+s.id];return`<div class="row"><div><b>${esc(s.name)}</b> · ${s.type==='veg'?'Veg':'Non-veg'} ${s.half?'Half':''}<div class="s">${esc(s.addr)}</div>${mp(s.map,s.addr+' '+s.area)}</div><button class="btn sm ${d?'g':''}" style="${d?'':'background:#e2e8f0'}" data-a="done" data-id="${s.id}">${d?'✓ Diya':'Diya?'}</button></div>`}).join('')+'</div>').join('')||'<div class="card">Aaj koi delivery nahi</div>')+
+return`<div style="height:14px"></div>`+(Object.keys(g).sort().map(a=>`<div class="card"><h3>📍 ${esc(a)} · ${g[a].length} dabbe</h3><div class="s">${SL}</div><a href="${esc(rt(g[a]))}" target="_blank">🧭 Poora route (Google Maps)</a>`+g[a].map(s=>{const d=S.done[k+'_'+s.id];return`<div class="row"><div><b>${esc(s.name)}</b> · ${s.type==='veg'?'Veg':'Non-veg'} ${s.half?'Half':''}<div class="s">${esc(s.addr)}</div>${mp(s.map,s.addr+' '+s.area)}</div><button class="btn sm ${d?'g':''}" style="${d?'':'background:#e2e8f0'}" data-a="done" data-id="${s.id}">${d?'✓ Diya':'Diya?'}</button></div>`}).join('')+'</div>').join('')||'<div class="card">Aaj koi delivery nahi</div>')+
 (ords.length?`<div class="card"><h3>🛒 Shop orders</h3>`+ords.map(o=>`<div class="row"><div><b>${esc(o.name)}</b> · ${inr(o.total)} · ${o.pay==='online'?'UPI':'Cash'}<div class="s">${o.items.map(i=>esc(i.n)+' x'+i.q).join(', ')}</div><div class="s">${esc(o.addr)} · ${esc(o.area)}</div>${mp(o.map,o.addr+' '+o.area)}</div><button class="btn sm g" data-a="odone" data-id="${o.id}">Diya</button></div>`).join('')+'</div>':'')},
 owner:()=>{const us=S.subs.filter(s=>!s.paid),uo=S.orders.filter(o=>!o.paid),pend=us.reduce((a,s)=>a+s.price,0)+uo.reduce((a,o)=>a+o.total,0),t=add(D0(),1),k=iso(t);
 return`<div style="height:14px"></div><div class="card" style="background:#fff5f5"><h3 style="color:#ef4444">💰 Pending: ${inr(pend)}</h3>
@@ -117,6 +118,7 @@ const mk=tr=>{if(need())return;const s={id:Date.now(),name:F.name,phone:F.phone.
 S.subs.push(s);save();alert(tr?'1 din free trial shuru!':'Plan ban gaya: '+inr(s.price));if(!tr&&F.pay==='online')location.href=upi(s.price)};
 const A={
 tab:v=>{tab=v;render()},
+gps:()=>{if(!navigator.geolocation){alert('Is phone mein GPS nahi hai');return}navigator.geolocation.getCurrentPosition(p=>{F.map='https://www.google.com/maps?q='+p.coords.latitude.toFixed(6)+','+p.coords.longitude.toFixed(6);render();alert('Location mil gayi ✓')},e=>alert('Location nahi mili. Phone ka Location ON karo aur browser ko permission do.'),{enableHighAccuracy:true,timeout:15000})},
 set:(v,k)=>{F[k]=v;render()},
 join:()=>mk(0),trial:()=>mk(1),
 inc:(v,k,id)=>{C[id]=(C[id]||0)+1;render()},
