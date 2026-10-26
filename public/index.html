@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+window.db = getDatabase(app);
+window.dbSet = set;
+  window.dbRef = ref;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,8 +154,12 @@
         };
 
         function saveData() {
-            localStorage.setItem('udalaDB', JSON.stringify(db));
-            updateUI();
+        localStorage.setItem('udalaDB', JSON.stringify(db));
+        if (window.dbSet && window.dbRef && window.db) {
+            window.dbSet(window.dbRef(window.db, 'udala_live_data/'), db);
+        }
+        updateUI();
+    };
         }
 
         function skipLunch() {
@@ -200,7 +207,10 @@
 
   // App aur Database chalu karna
   const app = initializeApp(firebaseConfig);
-  window.db = getDatabase(app); 
+  window.db = getDatabase(app);
+window.dbSet = set;
+window.dbRef = ref;
+ 
 
   // Ek test message bhej kar check karna ki connection hua ya nahi
   set(ref(window.db, 'system_test/'), {
