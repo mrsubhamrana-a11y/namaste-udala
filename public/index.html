@@ -151,6 +151,7 @@ button,.btn{border-radius:13px;font-weight:700;min-height:42px}
 .nav div.on i{transform:none!important}
 @media(max-width:380px){.hero h2{font-size:22px!important}.card{padding:14px}}
 
+.shc{background:#15543b!important;color:#fff!important}.shc h3{color:#fff!important}.shc .s{color:#dbe9e1!important}.shc .row{border-bottom:1px solid #ffffff33}.shc .pm div{background:#ffffff22}
 </style></head>
 <body>
 <header><b>NAMASTE UDALA</b><h1 id="ht">Plan</h1><div class="s" style="color:#94a3b8">Ghar jaisa khana · roz time pe</div></header>
@@ -208,7 +209,7 @@ const seg=(k,o)=>'<div class="seg">'+o.map(([v,l])=>`<button class="${String(F[k
 const contact=()=>`<input data-f="name" placeholder="Naam" value="${esc(F.name)}"><input data-f="phone" type="tel" placeholder="Phone number" value="${esc(F.phone)}"><input data-f="area" placeholder="Area / Sector" value="${esc(F.area)}"><input data-f="addr" placeholder="Pura address" value="${esc(F.addr)}"><input data-f="map" placeholder="Google Maps location link" value="${esc(F.map)}"><button class="btn g" data-a="gps">📍 Meri asli location lo (GPS)</button>`;
 const banner=()=>{const t=add(D0(),1);return`<div class="card ban"><b>🔔 Kal ka menu (${t.getDate()}/${t.getMonth()+1})</b><br>Veg: ${mf(t,'veg')}<br>Non-veg: ${mf(t,'nv')}</div>`};
 const rt=l=>{const pt=l.map(s=>{const m=(s.map||'').match(/q=(-?\d+\.\d+),(-?\d+\.\d+)/);return m?m[1]+','+m[2]:(s.addr+' '+s.area)}).slice(0,10);const d=pt.pop();return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+encodeURIComponent(d)+(pt.length?'&waypoints='+encodeURIComponent(pt.join('|')):'')};
-const OPIN="4821";let OK=0;try{OK=sessionStorage.getItem('udok')?1:0}catch(e){}
+const OPIN="4821",DPIN="7788";let OK=0;try{OK=sessionStorage.getItem('udok')?1:0}catch(e){}
 const vi=t=>'<span class="vi '+(t==='nv'?'nv':'')+'"></span>';
 let SCAT='all';
 const EM=[[/doodh|milk/,'🥛'],[/dahi/,'🥣'],[/paneer/,'🧀'],[/butter/,'🧈'],[/chai|coffee/,'☕'],[/bread/,'🍞'],[/ande|egg/,'🥚'],[/detergent/,'🧺'],[/bartan/,'🍽️'],[/floor/,'🧹'],[/sabun/,'🧼'],[/shampoo|lotion/,'🧴'],[/toothpaste/,'🪥'],[/pad/,'🌸'],[/atta/,'🌾'],[/chawal|rice/,'🍚'],[/dal/,'🫘'],[/tel/,'🛢️'],[/roti/,'🫓'],[/chicken/,'🍗']];
@@ -245,7 +246,7 @@ const utrCard=()=>{const L=[];
 S.subs.forEach(s=>{if(MY.includes('s'+s.id)&&!s.paid&&s.pay==='online')L.push({k:'s'+s.id,n:s.name,a:due(s),u:s.utr})});
 S.orders.forEach(o=>{if(MY.includes('o'+o.id)&&!o.paid&&o.pay==='online'&&!(o.sid&&S.subs.some(s=>s.id===o.sid&&!s.paid&&MY.includes('s'+s.id))))L.push({k:'o'+o.id,n:o.name,a:o.total,u:o.utr})});
 return L.map(e=>`<div class="card" style="border:2px solid var(--o)"><h3>💳 Payment confirm karo</h3><div class="s">${esc(e.n)} · <b>${inr(e.a)}</b></div>${e.u?`<div class="s" style="margin-top:6px">✅ UTR <b>${esc(e.u)}</b> mil gaya. Owner check karke confirm karega.</div>`:`<div class="s" style="margin:6px 0">UPI se paisa bhejne ke baad apne UPI app se 12 digit UTR / Transaction ID yahan daalo.</div><a href="${esc(upi(e.a))}">📲 UPI app kholo</a><input id="u${e.k}" inputmode="numeric" maxlength="14" placeholder="12 digit UTR number"><button class="btn" data-a="utr" data-id="${e.k}">UTR bhejo</button>`}</div>`).join('')};
-const pRow=(e,v)=>`<div class="row"><div><b>${esc(e.n)}</b><div class="s">${esc(e.d)} · ${inr(e.a)} · ${e.pay==='online'?'UPI':'Cash'}</div>${e.u?`<div class="s">UTR: <b>${esc(e.u)}</b>${dup(e.u,e.x)?' <span style="color:#c92a2a">⚠️ Ye UTR pehle use ho chuka hai!</span>':''}</div>`:''}</div><div>${v?`<button class="btn sm r" data-a="badu" data-id="${e.k}">Galat</button>`:`<button class="btn sm g" data-a="${e.rem}" data-id="${e.id}">WhatsApp</button>`}<button class="btn sm" data-a="${e.paid}" data-id="${e.id}">Paid ✓</button></div></div>`;
+const pRow=(e,v)=>`<div class="row"><div><b>${esc(e.n)}</b>${e.it?'<div class="s">'+esc(e.it)+'</div>':''}<div class="s">${esc(e.d)} · ${inr(e.a)} · ${e.pay==='online'?'UPI':'Cash'}</div>${e.u?`<div class="s">UTR: <b>${esc(e.u)}</b>${dup(e.u,e.x)?' <span style="color:#c92a2a">⚠️ Ye UTR pehle use ho chuka hai!</span>':''}</div>`:''}</div><div>${v?`<button class="btn sm r" data-a="badu" data-id="${e.k}">Galat</button>`:`<button class="btn sm g" data-a="${e.rem}" data-id="${e.id}">WhatsApp</button>`}<button class="btn sm" data-a="${e.paid}" data-id="${e.id}">Paid ✓</button></div></div>`;
 const V={
 plan:()=>{const t=D0();let at=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(p&&q>0)at+=(k.endsWith('h')?Math.round(p.p*.6):p.p)*q});
 const ex=S.prod.filter(p=>p.s&&p.c==='Extra khana');
@@ -284,21 +285,21 @@ kitchen:()=>{const t=add(D0(),1),k=iso(t),all=S.subs.filter(s=>act(s,t)),on=all.
 return`<div style="height:14px"></div><div class="big"><div class="s" style="color:#fff">KAL (${k}) · HAR TIME KE DABBE</div><div class="n">${on.length}</div>
 <div class="gr"><div><b>${c(s=>s.type==='veg')}</b>${vi('veg')} Veg</div><div><b>${c(s=>s.type==='nv')}</b>${vi('nv')} Non-veg</div><div><b>${all.length-on.length}</b>Skip</div><div><b>${c(s=>!s.half)}</b>Full</div><div><b>${c(s=>s.half)}</b>Half</div><div><b>${on.length*3}</b>Total meals</div></div></div>
 <div class="card"><h3>Kal ka menu</h3>Veg: ${mf(t,'veg')}<br>Non-veg: ${mf(t,'nv')}</div>
-<div class="card"><h3>Customers</h3>${all.map(s=>`<div class="row"><div><b>${esc(s.name)}</b> · ${vi(s.type)} ${s.type==='veg'?'Veg':'Non-veg'} ${s.half?'Half':'Full'}${s.trial?' · Trial':''}</div><button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skip" data-id="${s.id}">${s.skip.includes(k)?'Wapas':'Skip kal'}</button></div>`).join('')||'<div class="s">Koi plan nahi</div>'}</div>`},
+<div class="card"><h3>Customers</h3>${all.map(s=>`<div class="row"><div><b>${esc(s.name)}</b> · ${vi(s.type)} ${s.type==='veg'?'Veg':'Non-veg'} ${s.half?'Half':'Full'}${S.orders.filter(o=>o.sid===s.id).map(o=>o.items.map(i=>i.n+' x'+i.q).join(', ')).join('; ')?'<div class="s">➕ '+esc(S.orders.filter(o=>o.sid===s.id).map(o=>o.items.map(i=>i.n+' x'+i.q).join(', ')).join('; '))+'</div>':''}${s.trial?' · Trial':''}</div><button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skip" data-id="${s.id}">${s.skip.includes(k)?'Wapas':'Skip kal'}</button></div>`).join('')||'<div class="s">Koi plan nahi</div>'}</div>`},
 delivery:()=>{const t=D0(),k=iso(t),l=S.subs.filter(s=>act(s,t)&&!s.skip.includes(k)),g={};
 l.forEach(s=>(g[s.area||'Other']=g[s.area||'Other']||[]).push(s));
 const mp=(a,b)=>`<a href="${esc(a||'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(b))}" target="_blank">📍 Map kholo</a>`;
 const ords=S.orders.filter(o=>!o.dlv);
 return`<div style="height:14px"></div>`+(Object.keys(g).sort().map(a=>`<div class="card"><h3>📍 ${esc(a)} · ${g[a].length} dabbe</h3><div class="s">${SL}</div><a href="${esc(rt(g[a]))}" target="_blank">🧭 Poora route (Google Maps)</a>`+g[a].map(s=>{const d=S.done[k+'_'+s.id];return`<div class="row"><div><b>${esc(s.name)}</b> · ${vi(s.type)} ${s.type==='veg'?'Veg':'Non-veg'} ${s.half?'Half':''}<div class="s">${esc(s.addr)}</div>${mp(s.map,s.addr+' '+s.area)}</div><button class="btn sm ${d?'g':''}" style="${d?'':'background:#e2e8f0'}" data-a="done" data-id="${s.id}">${d?'✓ Diya':'Diya?'}</button></div>`}).join('')+'</div>').join('')||'<div class="card">Aaj koi delivery nahi</div>')+
 (ords.length?`<div class="card"><h3>🛒 Shop orders</h3>`+ords.map(o=>`<div class="row"><div><b>${esc(o.name)}</b> · ${inr(o.total)} · ${o.pay==='online'?'UPI':'Cash'}<div class="s">${o.items.map(i=>esc(i.n)+' x'+i.q).join(', ')}</div><div class="s">${esc(o.addr)} · ${esc(o.area)}</div>${mp(o.map,o.addr+' '+o.area)}</div><button class="btn sm g" data-a="odone" data-id="${o.id}">Diya</button></div>`).join('')+'</div>':'')},
-owner:()=>{const t=add(D0(),1),td=iso(D0()),mo=td.slice(0,7),P=PY();
+owner:()=>{const t=add(D0(),1),td=iso(D0()),mo=td.slice(0,7),P=PY();const shk=iso(t);const sho=S.subs.filter(s=>act(s,t)&&!s.skip.includes(shk));const shit=s=>S.orders.filter(o=>o.sid===s.id).map(o=>o.items.map(i=>i.n+' x'+i.q).join(', ')).filter(Boolean).join('; ');const shCard='<div class="card shc"><h3>📋 KAL KA ORDER SHEET ('+shk.slice(5)+')</h3><div class="pm"><div><b>'+sho.filter(x=>x.type==='veg').length+'</b><span>Veg</span></div><div><b>'+sho.filter(x=>x.type==='nv').length+'</b><span>Non-veg</span></div><div><b>'+sho.length+'</b><span>Total dabbe</span></div></div><div class="s" style="margin-top:8px">Veg: '+mf(t,'veg')+'<br>Non-veg: '+mf(t,'nv')+'</div>'+sho.map(s=>'<div class="row" style="align-items:flex-start"><div><b>'+esc(s.name)+'</b> · '+esc(s.phone)+'<div class="s">'+esc(s.addr)+' · '+esc(s.area)+'</div>'+(shit(s)?'<div class="s">➕ '+esc(shit(s))+'</div>':'')+'</div><b>'+inr(due(s))+'</b></div>').join('')+'</div>';
 const us=S.subs.filter(s=>!s.paid),uo=S.orders.filter(o=>!o.paid&&!(o.sid&&us.some(s=>s.id===o.sid)));
-const E=[...us.map(s=>({k:'s'+s.id,id:s.id,n:s.name,a:due(s),u:s.utr,x:s,d:s.days+' din plan',pay:s.pay,paid:'paidS',rem:'remS'})),...uo.map(o=>({k:'o'+o.id,id:o.id,n:o.name,a:o.total,u:o.utr,x:o,d:'Shop order',pay:o.pay,paid:'paidO',rem:'remO'}))];
+const E=[...us.map(s=>({k:'s'+s.id,id:s.id,n:s.name,a:due(s),u:s.utr,x:s,d:s.days+' din plan',it:S.orders.filter(o=>o.sid===s.id).map(o=>o.items.map(i=>i.n+' x'+i.q).join(', ')).join('; '),pay:s.pay,paid:'paidS',rem:'remS'})),...uo.map(o=>({k:'o'+o.id,id:o.id,n:o.name,a:o.total,u:o.utr,x:o,d:'Shop order',it:o.items.map(i=>i.n+' x'+i.q).join(', '),pay:o.pay,paid:'paidO',rem:'remO'}))];
 const ver=E.filter(e=>e.u),pen=E.filter(e=>!e.u),pend=E.reduce((a,e)=>a+e.a,0);
 const sm=(l,m)=>l.filter(p=>!m||p.mode===m).reduce((a,p)=>a+p.amt,0);
 const dl=P.filter(p=>p.d===td),ml=P.filter(p=>String(p.d).slice(0,7)===mo);
 const box=(l,h)=>`<div class="card"><h3>${h}</h3><div class="pm"><div><b>${inr(sm(l))}</b><span class="s">Total</span></div><div><b>${inr(sm(l,'cash'))}</b><span class="s">Cash</span></div><div><b>${inr(sm(l,'online'))}</b><span class="s">UPI</span></div></div></div>`;
-return`<div style="height:14px"></div>${box(dl,'📅 Aaj ki collection')}${box(ml,'🗓️ Is mahine ('+mo+')')}
+return`<div style="height:14px"></div>${shCard}${box(dl,'📅 Aaj ki collection')}${box(ml,'🗓️ Is mahine ('+mo+')')}
 <div class="card" style="border:2px solid var(--o)"><h3>✅ Verify karo (${ver.length})</h3><div class="s">Customer ne UTR bheja hai. Bank ya UPI app mein amount aur UTR milao, phir Paid ✓ dabao.</div>${ver.map(e=>pRow(e,1)).join('')||'<div class="s">Koi UTR verify karne ko nahi</div>'}</div>
 <div class="card"><h3>💰 Pending: ${inr(pend)}</h3>${pen.map(e=>pRow(e,0)).join('')||'<div class="s">Koi pending nahi 🎉</div>'}</div>
 <div class="card"><h3>🧾 Payment history</h3>${P.slice(-30).reverse().map(p=>`<div class="row"><div><b>${esc(p.name)}</b><div class="s">${esc(p.d)} · ${esc(p.kind)} · ${p.mode==='online'?'UPI':'Cash'}${p.utr?' · '+esc(p.utr):''}</div></div><b>${inr(p.amt)}</b></div>`).join('')||'<div class="s">Abhi koi payment nahi</div>'}</div>
@@ -310,7 +311,7 @@ ${S.prod.map(p=>`<div class="row"><div>${esc(p.n)}<div class="s">${inr(p.p)} · 
 const T=[['plan','📱','Plan'],['shop','🛒','Shop'],['kitchen','🧑‍🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','💼','Owner']];
 function render(){if(!OK&&tab!=='plan'&&tab!=='shop')tab='plan';$('#v').innerHTML=V[tab]();$('#ht').textContent=({plan:'Apna Plan',shop:'Shop',kitchen:'Kal Kitne Dabbe?',delivery:'Aaj Ka Route',owner:'Kiska Paisa Baaki?'})[tab];
 $('#nav').innerHTML=T.filter(t=>OK||t[0]==='plan'||t[0]==='shop').map(t=>`<div class="${t[0]===tab?'on':''}" data-a="tab" data-v="${t[0]}"><i>${t[1]}</i>${t[2]}</div>`).join('')}
-const need=()=>{if(!F.name||!F.phone){alert('Naam aur phone daalo');return 1}};
+const need=()=>{if(!F.name||!F.phone){alert('Naam aur phone daalo');return 1}if(!/q=-?\d/.test(F.map||'')){alert('Location zaroori hai. GPS wala button dabao');return 1}};
 const addon=s=>{const it=[];let total=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(!p||q<1)return;const h=k.endsWith('h'),pp=h?Math.round(p.p*.6):p.p;it.push({n:p.n+(h?' (Half)':''),q,p:pp});total+=pp*q});if(!it.length)return 0;S.orders.push({id:Date.now()+1,sid:s.id,name:s.name,phone:s.phone,area:s.area,addr:s.addr,map:s.map,items:it,total,pay:s.pay,paid:0,dlv:0,t:new Date().toLocaleString()});C={};return total};
 const mk=tr=>{if(need())return;const s={id:Date.now(),name:F.name,phone:F.phone.replace(/\D/g,'').slice(-10),area:F.area||'Other',addr:F.addr,map:F.map,type:F.type,days:tr?1:+F.days,half:+F.half,start:F.start,price:tr?0:pr(),pay:F.pay,paid:tr?1:0,skip:[],trial:tr?1:0};
 const ad=addon(s);if(ad&&tr)MY.push('o'+S.orders[S.orders.length-1].id);S.subs.push(s);if(!tr)MY.push('s'+s.id);saveMY();save();alert(tr?'1 din free trial shuru!':'Plan ban gaya: '+inr(s.price));if(!tr&&F.pay==='online')location.href=upi(s.price+ad)};
@@ -332,7 +333,7 @@ paidO:(v,k,id)=>{const o=S.orders.find(x=>x.id==id);if(!o)return;
 if(!confirm(o.name+': '+inr(o.total)+' mil gaye? Bank/UPI mein check kar liya?'))return;
 o.paid=1;S.pays=S.pays||[];S.pays.push({id:Date.now(),d:iso(D0()),name:o.name,amt:o.total,mode:o.pay,utr:o.utr||'',kind:'Shop order'});save()},
 remS:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;wa(s.phone,'Namaste '+s.name+'! 🙏\n\nAapka Namaste Udala ka '+inr(due(s))+' pending hai.\nUPI: *'+UPI+'*\n\nPayment ke baad app mein 12 digit UTR number daal dijiye. Dhanyawad! 🍱')},
-tab:v=>{if(['kitchen','delivery','owner'].includes(v)&&!OK){const x=prompt('Owner PIN daalo');if(x!==OPIN){if(x!==null)alert('Galat PIN');return}OK=1;try{sessionStorage.setItem('udok','1')}catch(e){}}tab=v;render()},
+tab:v=>{if(['kitchen','delivery','owner'].includes(v)&&!OK){const dv=v==='delivery',x=prompt(dv?'Delivery PIN daalo':'Owner PIN daalo');if(dv?(!x||(x!==DPIN&&x!==OPIN)):(x!==OPIN)){if(x!==null)alert('Galat PIN');return}OK=1;try{sessionStorage.setItem('udok','1')}catch(e){}}tab=v;render()},
 gps:()=>{if(!navigator.geolocation){alert('Is phone mein GPS nahi hai');return}navigator.geolocation.getCurrentPosition(p=>{F.map='https://www.google.com/maps?q='+p.coords.latitude.toFixed(6)+','+p.coords.longitude.toFixed(6);render();alert('Location mil gayi ✓')},e=>alert('Location nahi mili. Phone ka Location ON karo aur browser ko permission do.'),{enableHighAccuracy:true,timeout:15000})},
 set:(v,k)=>{F[k]=v;render()},
 join:()=>mk(0),trial:()=>mk(1),
@@ -364,4 +365,5 @@ function ologin(){const x=prompt('Owner PIN daalo');if(x===OPIN){OK=1;try{sessio
 let hc=0;document.querySelector('header').addEventListener('click',()=>{hc++;if(hc>=5){hc=0;ologin()}});
 render();
 if(location.hash==='#owner')ologin();
+if(location.hash==='#delivery'){tab='delivery';A.tab('delivery')}
 </script></body></html>
