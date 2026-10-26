@@ -184,5 +184,28 @@
             updateUI();
         }
     </script>
-</body>
+<!-- Firebase Database Connection -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",
+    authDomain: "namaste-udala.firebaseapp.com",
+    projectId: "namaste-udala",
+    storageBucket: "namaste-udala.firebasestorage.app",
+    messagingSenderId: "998684348165",
+    appId: "1:998684348165:web:4bb0d2f5335a90a394716c"
+  };
+
+  // App aur Database chalu karna
+  const app = initializeApp(firebaseConfig);
+  window.db = getDatabase(app); 
+
+  // Ek test message bhej kar check karna ki connection hua ya nahi
+  set(ref(window.db, 'system_test/'), {
+    status: "Namaste Udala Database Connected!",
+    time: new Date().toString()
+  });
+</script></body>
 </html>

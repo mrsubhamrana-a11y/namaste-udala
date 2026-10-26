@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - Namaste Udala</title>
+<style>
+  body { font-family: Arial, sans-serif; background-color: #f7f9fc; margin: 0; padding: 15px; }
+  .header { text-align: center; color: #166534; margin-bottom: 20px; }
+  .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+  h2 { font-size: 18px; color: #1f2937; margin-top: 0; margin-bottom: 15px; }
+  input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+  button { width: 100%; padding: 14px; background-color: #d97706; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; }
+  .payment-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+  .btn-small { width: auto; padding: 8px 15px; background-color: #16a34a; font-size: 14px; box-shadow: none; }
+</style>
+</head>
+<body>
+  <h1 class="header">Namaste Udala<br><span style="font-size: 16px; color: #4b5563;">Owner Dashboard</span></h1>
+  
+  <div class="card">
+    <h2>1. Kal Ka Menu Set Karein</h2>
+    <input type="text" id="menuItem" placeholder="Jaise: Rajma Chawal, Roti, Salad">
+    <button onclick="setMenu()">Menu Update Karein</button>
+  </div>
+
+  <div class="card">
+    <h2>2. Naya HUL Item Add Karein</h2>
+    <input type="text" id="hulItem" placeholder="Item ka naam">
+    <input type="number" id="hulPrice" placeholder="Daam (₹)">
+    <input type="number" id="hulStock" placeholder="Stock">
+    <button onclick="addHulProduct()">Store Mein Jodein</button>
+    <p id="statusMsg" style="color: green; font-weight: bold; display: none;">✅ Item database mein save ho gaya!</p>
+  </div>
+
+  <div class="card">
+    <h2>3. Live Orders & Pending Dues</h2>
+    <div id="live-orders-list">
+      <p style="color: #666; font-size: 14px;">Orders check kiye ja rahe hain...</p>
+    </div>
+  </div>
+
+  <script>
+    async function fetchOrders() {
+      try {
+        const res = await fetch('/api/admin-pending-orders');
+        const orders = await res.json();
+        let html = '';
+        if(orders.length === 0) {
+          html = '<p style="color: #6b7280; font-size: 14px;">Abhi koi naya order ya due nahi hai.</p>';
+        } else {
+          orders.forEach(o => {
+            let desc = o.type === 'HUL' ? `₹${o.detail} - ${o.name}` : `Plan: ${o.detail}`;
+            html += `<div class="payment-row">
+              <div><strong>${o.type} Order</strong><br><span style="font-size: 14px; color: #666;">${desc}</span></div>
+              <button class="btn-small" onclick="this.innerText='Paid ✅'; this.style.backgroundColor='#9ca3af'; this.disabled=true;">Collect</button>
+            </div>`;
+          });
+        }
+        document.getElementById('live-orders-list').innerHTML = html;
+      } catch(e) {}
+    }
+
+    async function setMenu() {
+      const menu = document.getElementById('menuItem').value;
+      if(!menu) return;
+      await fetch('/api/set-menu', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ menu_text: menu }) });
+      alert("✅ Menu Live ho gaya!");
+      document.getElementById('menuItem').value = '';
+    }
+
+    async function addHulProduct() {
+      const name = document.getElementById('hulItem').value;
+      const price = document.getElementById('hulPrice').value;
+      const stock = document.getElementById('hulStock').value;
+      if(!name || !price || !stock) return alert("Saari details bharein!");
+      const res = await fetch('/api/add-hul-product', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ item_name: name, price: price, stock: stock }) });
+      if(res.ok) {
+        document.getElementById('statusMsg').style.display = 'block';
+        setTimeout(() => document.getElementById('statusMsg').style.display = 'none', 3000);
+      }
+    }
+    
+    window.onload = fetchOrders;
+  </script>
+</body>
+</html>

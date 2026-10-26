@@ -1,0 +1,28 @@
+const assert=require('assert'),os=require('os'),path=require('path');
+process.env.DB_FILE=path.join(os.tmpdir(),'nu2-'+Date.now()+'.db');process.env.ADMIN_PHONE='9000000001';process.env.ADMIN_PASSWORD='ChangeMe123';
+const {server}=require('./server');
+server.listen(0,async()=>{const base='http://localhost:'+server.address().port;let n=0;
+ const call=async(ck,m,u,b)=>{const r=await fetch(base+u,{method:m,headers:{'Content-Type':'application/json',cookie:ck||''},body:b?JSON.stringify(b):undefined});return{s:r.status,j:await r.json().catch(()=>({})),ck:(r.headers.get('set-cookie')||'').split(';')[0]};};
+ const ok=(c,m)=>{assert(c,m);n++;console.log('PASS',m)};
+ const day=k=>new Date(Date.now()+5.5*36e5+k*864e5).toISOString().slice(0,10);
+ try{
+ const adm=await call('','POST','/api/login',{phone:'9000000001',password:'ChangeMe123'});
+ const s=await call('','POST','/api/register',{name:'Sita',phone:'9811111111',password:'password1'});
+ const cats=(await call('','GET','/api/categories')).j.categories,tiffin=cats.find(c=>c.name.startsWith('Restaurants')),meat=cats.find(c=>c.regulated);
+ ok((await call(s.ck,'POST','/api/seller/apply',{name:'Meat shop',category_id:meat.id})).s===400,'regulated category needs licence info');
+ ok((await call(s.ck,'POST','/api/seller/products',{name:'Rice',price:50})).s===403,'unapproved user cannot add products');
+ const ap=await call(s.ck,'POST','/api/seller/apply',{name:'Sita Tiffin',category_id:tiffin.id,phone:'9811111111',service_areas:'Udala'});ok(ap.s===200,'seller applies (pending)');
+ ok((await call(s.ck,'PUT','/api/seller/menu',{date:day(1),lunch:'x',price:80})).s===403,'pending seller cannot publish menu');
+ ok((await call(s.ck,'POST','/api/admin/businesses/'+ap.j.id+'/review',{decision:'approved'})).s===403,'seller cannot self-approve');
+ ok((await call(adm.ck,'POST','/api/admin/businesses/'+ap.j.id+'/review',{decision:'approved'})).s===200,'admin approves');
+ ok((await call(s.ck,'GET','/api/me')).j.user.role==='seller','owner becomes seller');
+ ok((await call(s.ck,'PUT','/api/seller/menu',{date:day(0),lunch:'x',price:80})).s===400,'same-day menu rejected');
+ ok((await call(s.ck,'PUT','/api/seller/menu',{date:day(1),lunch:'Dal, aloo-gobhi, roti, rice',dinner:'Paneer, roti',vegetables:'aloo, gobhi',price:80})).s===200,'menu for tomorrow saved');
+ ok((await call('','GET','/api/menu')).j.menus.length===1,'public sees tomorrow menu');
+ const p=await call(s.ck,'POST','/api/seller/products',{name:'Milk',price:28,unit:'500ml',stock:10});ok(p.s===200,'seller adds product');
+ ok((await call('','GET','/api/products?q=mil')).j.products.length===1,'product searchable');
+ await call(s.ck,'PATCH','/api/seller/products/'+p.j.id,{stock:0});
+ ok((await call('','GET','/api/products')).j.products.length===0,'out-of-stock hidden');
+ const o=await call('','POST','/api/register',{name:'Other',phone:'9822222222',password:'password1'});await call(adm.ck,'PATCH','/api/admin/users/'+o.j.user.id,{role:'seller'});
+ ok((await call(o.ck,'PATCH','/api/seller/products/'+p.j.id,{price:1})).s===403,'seller w/o approved business blocked from others\' products');
+ console.log(n+' checks passed');}catch(e){console.error('FAIL',e.message);process.exitCode=1}server.close();process.exit(process.exitCode||0);});

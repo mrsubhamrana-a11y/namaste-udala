@@ -1,0 +1,23 @@
+const assert=require('assert'),os=require('os'),path=require('path');
+process.env.DB_FILE=path.join(os.tmpdir(),'nu5-'+Date.now()+'.db');process.env.ADMIN_PHONE='9000000001';process.env.ADMIN_PASSWORD='ChangeMe123';
+const {server}=require('./server');
+server.listen(0,async()=>{const base='http://localhost:'+server.address().port;let n=0;
+ const call=async(ck,m,u,b)=>{const r=await fetch(base+u,{method:m,headers:{'Content-Type':'application/json',cookie:ck||''},body:b?JSON.stringify(b):undefined});return{s:r.status,j:await r.json().catch(()=>({})),ck:(r.headers.get('set-cookie')||'').split(';')[0]};};
+ const ok=(c,m)=>{assert(c,m);n++;console.log('PASS',m)};
+ try{
+ const adm=await call('','POST','/api/login',{phone:'9000000001',password:'ChangeMe123'});
+ const s=await call('','POST','/api/register',{name:'Sita',phone:'9811111111',password:'password1'}),c=await call('','POST','/api/register',{name:'Ravi',phone:'9822222222',password:'password1'});
+ const cat=(await call('','GET','/api/categories')).j.categories.find(x=>x.name.startsWith('Restaurants'));
+ const ap=await call(s.ck,'POST','/api/seller/apply',{name:'Sita Tiffin',category_id:cat.id});await call(adm.ck,'POST','/api/admin/businesses/'+ap.j.id+'/review',{decision:'approved'});
+ ok((await call(s.ck,'POST','/api/seller/packs',{days:7,meal_type:'lunch',diet:'veg'})).s===400,'pack needs rates or a price');
+ ok((await call(s.ck,'PUT','/api/seller/rates',{preset:'suggested'})).s===200,'rates saved');
+ const rt=(await call('','GET','/api/rates?business_id='+ap.j.id)).j.rates;ok(rt.find(r=>r.slot==='lunch'&&r.diet==='veg').price_paise===5000&&rt.length===6,'veg: morning 40, lunch 50, dinner 60');
+ const all=await call(s.ck,'POST','/api/seller/packs',{days:7,meal_type:'morning,lunch,dinner',diet:'veg'});ok(all.j.price_paise===105000,'7-day veg all meals = ₹1,050');
+ const nv=await call(s.ck,'POST','/api/seller/packs',{days:7,meal_type:'lunch',diet:'nonveg'});ok(nv.j.price_paise===56000,'7-day non-veg lunch = ₹560');
+ const ad=await call(c.ck,'POST','/api/addresses',{line1:'Ward 3',landmark:'Near temple'});
+ const sb=await call(c.ck,'POST','/api/subscriptions',{pack_id:all.j.id,address_id:ad.j.id});await call(s.ck,'POST','/api/seller/subscriptions/'+sb.j.id+'/confirm-cash');
+ const day=(await call('','GET','/api/packs?business_id='+ap.j.id)).j.earliest_start;
+ ok((await call(c.ck,'POST','/api/subscriptions/'+sb.j.id+'/skip',{date:day,slot:'morning'})).j.credit_paise===4000,'skipping morning credits ₹40');
+ ok((await call(c.ck,'POST','/api/subscriptions/'+sb.j.id+'/skip',{date:day,slot:'dinner'})).j.credit_paise===6000,'skipping dinner credits ₹60');
+ const ct=(await call(s.ck,'GET','/api/seller/count?date='+day)).j;ok(ct.morning.skipped===1&&ct.lunch.veg===1&&ct.dinner.skipped===1,'count covers morning/lunch/dinner');
+ console.log(n+' checks passed');}catch(e){console.error('FAIL',e.message);process.exitCode=1}server.close();process.exit(process.exitCode||0);});
