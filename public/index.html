@@ -178,11 +178,15 @@
         }
 
         function updateUI() {
-            document.getElementById('veg-count').innerText = db.vegLunch;
-            document.getElementById('skip-count').innerText = db.skips;
-            document.getElementById('total-lunch-count').innerText = db.vegLunch + 15; // Veg + 15 Non-veg
-            document.getElementById('pending-amount').innerText = '💰 Pending: ₹' + db.pending.toLocaleString();
-        }
+    try {
+        document.getElementById('veg-count').innerText = db.vegLunch;
+        document.getElementById('skip-count').innerText = db.skips;
+        document.getElementById('total-lunch-count').innerText = db.vegLunch + 15;
+        document.getElementById('pending-amount').innerText = '💰 Pending: ₹' + db.pending;
+    } catch (e) {
+        console.log("UI error ignored");
+    }
+}
 
         function resetData() {
             localStorage.removeItem('udalaDB');
