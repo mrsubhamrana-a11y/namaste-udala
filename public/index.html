@@ -24,6 +24,13 @@ input{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px;margin
 .nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;justify-content:space-around;padding:8px 0 12px}
 .nav div{text-align:center;font-size:11px;font-weight:700;color:#94a3b8;flex:1}.nav div.on{color:var(--o)}.nav i{display:block;font-style:normal;font-size:20px}
 a{color:var(--o);font-weight:700;font-size:12px}
+.hero{background:linear-gradient(135deg,#f97316,#ea580c 55%,#be123c);color:#fff;border-radius:22px;padding:22px 18px;margin:14px 0 12px;position:relative;overflow:hidden;box-shadow:0 8px 20px #ea580c55}
+.hero .em{font-size:56px;position:absolute;right:14px;top:10px;animation:fl 3s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-8px)}}
+.hero h2{font-size:25px;line-height:1.2;margin-bottom:6px}.hero p{font-size:13px;opacity:.9}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.chips span{background:#fff3;border-radius:20px;padding:5px 10px;font-size:11px;font-weight:700}
+.pc{flex:1;border:2px solid #e2e8f0;border-radius:14px;padding:12px;background:#fff;text-align:center}.pc.on{border-color:var(--o);background:#fff7ed}
+.sps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.sp{background:#fff7ed;border-radius:14px;padding:10px 6px;text-align:center;font-size:12px}
 </style></head>
 <body>
 <header><b>NAMASTE UDALA</b><h1 id="ht">Plan</h1><div class="s" style="color:#94a3b8">Ghar jaisa khana · roz time pe</div></header>
@@ -79,13 +86,28 @@ const banner=()=>{const t=add(D0(),1);return`<div class="card ban"><b>🔔 Kal k
 const rt=l=>{const pt=l.map(s=>{const m=(s.map||'').match(/q=(-?\d+\.\d+),(-?\d+\.\d+)/);return m?m[1]+','+m[2]:(s.addr+' '+s.area)}).slice(0,10);const d=pt.pop();return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+encodeURIComponent(d)+(pt.length?'&waypoints='+encodeURIComponent(pt.join('|')):'')};
 const OPIN="4821";let OK=0;try{OK=sessionStorage.getItem('udok')?1:0}catch(e){}
 const V={
-plan:()=>`<div style="height:14px"></div>${banner()}<div class="card"><h3>Plan chuno</h3>
-${seg('type',[['veg','Veg'],['nv','Non-veg']])}${seg('days',[[7,'7 din'],[15,'15 din'],[30,'30 din']])}${seg('half',[[0,'Full'],[1,'Half']])}
-<div class="s">Roz 3 time: ${SL}</div>
-<div class="s" style="margin-top:8px">Start date</div><input type="date" data-f="start" value="${F.start}">
-${contact()}<div class="s">Payment</div>${seg('pay',[['cash','Cash'],['online','Online UPI']])}
-<div class="row"><b>Total</b><b style="font-size:22px">${inr(pr())}</b></div>
-<button class="btn" data-a="join">Plan shuru karo</button><button class="btn g" data-a="trial">1 din FREE trial</button></div>`,
+plan:()=>{const t=D0();let at=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(p&&q>0)at+=(k.endsWith('h')?Math.round(p.p*.6):p.p)*q});
+const ex=S.prod.filter(p=>p.s&&p.c==='Extra khana');
+const row=(p,k,pp,l)=>`<div class="row"><div>${esc(p.n)}${l}<div class="s">${inr(pp)}</div></div><div><button class="btn sm r" data-a="dec" data-id="${k}">−</button> <b>${C[k]||0}</b> <button class="btn sm g" data-a="inc" data-id="${k}">+</button></div></div>`;
+const pcd=(ty,em,l)=>`<button class="pc ${F.type===ty?'on':''}" data-a="set" data-k="type" data-v="${ty}"><div style="font-size:26px">${em}</div><b>${l}</b><div class="s">${F.days} din</div><div style="font-size:20px;font-weight:900;color:var(--o)">${inr(PL[ty][F.days])}</div></button>`;
+const sp=(em,d,a,b)=>`<div class="sp"><div style="font-size:24px">${em}</div><b>${d}</b><div class="s">${F.type==='nv'?a:b}</div></div>`;
+return`<div class="hero"><div class="em">🍱</div><h2>Ghar jaisa khana,<br>roz time pe</h2><p>Subah · Lunch · Dinner, seedha aapke darwaze par</p><div class="chips"><span>⏰ Roz 3 time</span><span>🎁 1 din FREE trial</span><span>⏭️ Kabhi bhi skip</span></div></div>
+${banner()}
+<div class="card"><h3>🍽️ Aaj ka menu</h3>
+<div class="row"><div>🌅 <b>Subah</b><div class="s">7:30 - 8:15</div></div><div class="s">Chai, nashta</div></div>
+<div class="row"><div>☀️ <b>Lunch</b><div class="s">1:30 - 2:15</div></div><div class="s">${mf(t,F.type)}</div></div>
+<div class="row"><div>🌙 <b>Dinner</b><div class="s">8:00 - 9:00</div></div><div class="s">${mf(t,F.type)}</div></div></div>
+<div class="card"><h3>⭐ Special din</h3><div class="sps">${sp('🐟','Budhbar','Fish curry','Paneer sabzi')}${sp('🥚','Guruvar','2 egg curry','Dahi vada')}${sp('🍗','Ravivar','Chicken','Paneer + meetha')}</div></div>
+<div class="card"><h3>1️⃣ Khana chuno</h3><div class="seg">${pcd('veg','🥗','Veg')}${pcd('nv','🍗','Non-veg')}</div>
+<h3 style="margin-top:10px">2️⃣ Kitne din</h3>${seg('days',[[7,'7 din'],[15,'15 din'],[30,'30 din']])}
+<div class="s" style="margin-top:6px">Start date</div><input type="date" data-f="start" value="${F.start}">
+<h3 style="margin-top:10px">3️⃣ Aapki details</h3>${contact()}
+<h3 style="margin-top:10px">4️⃣ Payment</h3>${seg('pay',[['cash','Cash'],['online','Online UPI']])}</div>
+<div class="card"><h3>➕ Add-on (optional)</h3><div class="s">Extra khana chahiye? Yahan Full ya Half chuno. Paise plan ke saath hi lagenge.</div>
+${ex.map(p=>row(p,p.id,p.p,p.h?' (Full)':'')+(p.h?row(p,p.id+'h',Math.round(p.p*.6),' (Half)'):'')).join('')}</div>
+<div class="card"><div class="row"><span>Plan</span><b>${inr(pr())}</b></div><div class="row"><span>Add-on</span><b>${inr(at)}</b></div><div class="row"><b>Total</b><b style="font-size:24px">${inr(pr()+at)}</b></div>
+<button class="btn" data-a="join">Plan shuru karo</button><button class="btn g" data-a="trial">🎁 1 din FREE trial</button></div>
+<div class="card"><h3>Kaise kaam karta hai?</h3><div class="row"><span>📱 Plan chuno</span><span class="s">1 minute</span></div><div class="row"><span>🍱 Roz time par khana</span><span class="s">Aapke darwaze par</span></div><div class="row"><span>⏭️ Kal nahi chahiye?</span><span class="s">Raat 9 baje tak skip</span></div></div>`},
 shop:()=>{const cats=[...new Set(S.prod.filter(p=>p.s).map(p=>p.c))];let tot=0;
 const items=Object.entries(C).filter(e=>e[1]>0).map(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(!p)return 0;return(k.endsWith('h')?Math.round(p.p*.6):p.p)*q});items.forEach(x=>tot+=x);
 return`<div style="height:14px"></div>`+cats.map(c=>`<div class="card"><h3>${esc(c)}</h3>`+S.prod.filter(p=>p.s&&p.c===c).map(p=>{
@@ -115,8 +137,9 @@ const T=[['plan','📱','Plan'],['shop','🛒','Shop'],['kitchen','🧑‍🍳',
 function render(){if(!OK&&tab!=='plan'&&tab!=='shop')tab='plan';$('#v').innerHTML=V[tab]();$('#ht').textContent=({plan:'Apna Plan',shop:'Shop',kitchen:'Kal Kitne Dabbe?',delivery:'Aaj Ka Route',owner:'Kiska Paisa Baaki?'})[tab];
 $('#nav').innerHTML=T.filter(t=>OK||t[0]==='plan'||t[0]==='shop').map(t=>`<div class="${t[0]===tab?'on':''}" data-a="tab" data-v="${t[0]}"><i>${t[1]}</i>${t[2]}</div>`).join('')}
 const need=()=>{if(!F.name||!F.phone){alert('Naam aur phone daalo');return 1}};
+const addon=s=>{const it=[];let total=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(!p||q<1)return;const h=k.endsWith('h'),pp=h?Math.round(p.p*.6):p.p;it.push({n:p.n+(h?' (Half)':''),q,p:pp});total+=pp*q});if(!it.length)return 0;S.orders.push({id:Date.now()+1,name:s.name,phone:s.phone,area:s.area,addr:s.addr,map:s.map,items:it,total,pay:s.pay,paid:0,dlv:0,t:new Date().toLocaleString()});C={};return total};
 const mk=tr=>{if(need())return;const s={id:Date.now(),name:F.name,phone:F.phone.replace(/\D/g,'').slice(-10),area:F.area||'Other',addr:F.addr,map:F.map,type:F.type,days:tr?1:+F.days,half:+F.half,start:F.start,price:tr?0:pr(),pay:F.pay,paid:tr?1:0,skip:[],trial:tr?1:0};
-S.subs.push(s);save();alert(tr?'1 din free trial shuru!':'Plan ban gaya: '+inr(s.price));if(!tr&&F.pay==='online')location.href=upi(s.price)};
+const ad=addon(s);S.subs.push(s);save();alert(tr?'1 din free trial shuru!':'Plan ban gaya: '+inr(s.price));if(!tr&&F.pay==='online')location.href=upi(s.price+ad)};
 const A={
 tab:v=>{if(['kitchen','delivery','owner'].includes(v)&&!OK){const x=prompt('Owner PIN daalo');if(x!==OPIN){if(x!==null)alert('Galat PIN');return}OK=1;try{sessionStorage.setItem('udok','1')}catch(e){}}tab=v;render()},
 gps:()=>{if(!navigator.geolocation){alert('Is phone mein GPS nahi hai');return}navigator.geolocation.getCurrentPosition(p=>{F.map='https://www.google.com/maps?q='+p.coords.latitude.toFixed(6)+','+p.coords.longitude.toFixed(6);render();alert('Location mil gayi ✓')},e=>alert('Location nahi mili. Phone ka Location ON karo aur browser ko permission do.'),{enableHighAccuracy:true,timeout:15000})},
