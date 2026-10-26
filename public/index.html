@@ -23,9 +23,7 @@
         .btn { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; text-align: center; }
         .btn-solid { background: #fee2e2; color: #ef4444; border: 2px solid #fca5a5; }
         .btn-green { background: #dcfce7; color: #16a34a; border: 2px solid #86efac; }
-        .kitchen-card { background: linear-gradient(135deg, #f97316, #ea580c); color: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(234,88,12,0.3); }
-        .k-count { font-size: 42px; font-weight: 900; line-height: 1; }
-        .k-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+        tchen-card { background: linear-gradient(135deg, #f97316, #ea580c); color: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(234,88,12,0.3); }
         .k-box { background: rgba(255,255,255,0.2); padding: 10px; border-radius: 12px; text-align: center; }
         .k-box-num { font-size: 18px; font-weight: 800; }
         .del-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
@@ -39,7 +37,7 @@
         .nav-item.active { color: var(--org); }
         .nav-icon { font-size: 22px; }
     </style>
-</head>
+<button class="btn btn-green" onclick="acceptLunch()">Chahiye</button><button class="btn btn-green" onclick="acceptLunch()">Chahiye</button></head>
 <body>
 
     <div class="app-header" id="main-header">
@@ -54,7 +52,7 @@
             <div class="card-title">🍲 Kal 27 Oct · Lunch</div>
             <div class="card-sub">Rajma chawal, roti, salad</div>
             <div class="btn-group">
-                <button class="btn btn-green">Chahiye</button>
+                <button class="btn btn-green" onclick="acceptLunch()">Chahiye</button>
                 <button class="btn btn-solid" onclick="skipLunch()">Kal nahi chahiye</button>
             </div>
             <p style="font-size: 11px; color: #f59e0b; margin-top: 12px; font-weight: 700;">⏰ Skip ka time: aaj raat 9 baje tak</p>
