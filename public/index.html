@@ -1,200 +1,37 @@
-<!DOCTYPE html
-7<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Namaste Udala - Full App</title>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#0f172a">
-    <style>
-        :root { --org: #ea580c; --bg: #0f172a; --card: #ffffff; --text: #0f172a; --muted: #64748b; --green: #10b981; }
-        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; }
-        body { background: #f8fafc; color: var(--text); padding-bottom: 80px; }
-        .app-header { background: var(--bg); color: white; padding: 20px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: -15px; z-index: 10; position: relative; }
-        .tag { background: rgba(255,255,255,0.1); color: #facc15; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 12px; display: inline-block; margin-bottom: 5px; }
-        .screen { display: none; padding: 30px 20px 20px; animation: fadeIn 0.3s; }
-        .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card { background: var(--card); border-radius: 20px; padding: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 15px; }
-        .card-title { font-size: 18px; font-weight: 800; margin-bottom: 5px; color: var(--text); }
-        .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 15px; }
-        .btn-group { display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; text-align: center; }
-        .btn-solid { background: #fee2e2; color: #ef4444; border: 2px solid #fca5a5; }
-        .btn-green { background: #dcfce7; color: #16a34a; border: 2px solid #86efac; }
-        tchen-card { background: linear-gradient(135deg, #f97316, #ea580c); color: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(234,88,12,0.3); }
-        .k-box { background: rgba(255,255,255,0.2); padding: 10px; border-radius: 12px; text-align: center; }
-        .k-box-num { font-size: 18px; font-weight: 800; }
-        .del-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
-        .del-circle { width: 40px; height: 40px; background: #e0e7ff; color: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 15px; }
-        .check-circle { width: 28px; height: 28px; border: 2px solid #cbd5e1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: transparent; cursor: pointer; }
-        .check-circle.done { background: var(--green); border-color: var(--green); color: white; }
-        .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .dash-box { background: #fff7ed; border: 1px solid #ffedd5; padding: 15px 10px; border-radius: 16px; text-align: center; }
-        .nav { position: fixed; bottom: 0; width: 100%; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 10px 0 15px; z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; font-size: 11px; font-weight: 700; cursor: pointer; }
-        .nav-item.active { color: var(--org); }
-        .nav-icon { font-size: 22px; }
-    </style>
+<!DOCTYPE html>
+<html lang="hi"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Namaste Udala</title>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#0f172a">
+<style>
+:root{--o:#ea580c;--d:#0f172a;--m:#64748b;--g:#10b981}
+*{box-sizing:border-box;font-family:system-ui,sans-serif;margin:0;padding:0}
+body{background:#f8fafc;color:var(--d);padding-bottom:84px}
+header{background:var(--d);color:#fff;padding:18px 18px 28px;border-radius:0 0 22px 22px}
+header b{color:#facc15;font-size:11px}header h1{font-size:22px}
+#v{padding:0 14px;margin-top:-14px}
+.card{background:#fff;border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 3px 12px #0001}
+.card h3{margin-bottom:8px;font-size:16px}.s{font-size:12px;color:var(--m)}
+.seg{display:flex;gap:6px;margin:6px 0}.seg button,.btn{flex:1;padding:10px;border-radius:10px;border:2px solid #e2e8f0;background:#fff;font-weight:700;font-size:13px}
+.seg .on{border-color:var(--o);background:#fff7ed;color:var(--o)}
+.btn{background:var(--o);color:#fff;border:0;width:100%;margin-top:6px}.btn.g{background:#dcfce7;color:#16a34a}.btn.r{background:#fee2e2;color:#ef4444}.btn.sm{padding:6px 10px;flex:none;width:auto;margin:0 0 0 4px;font-size:12px}
+input{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px;margin:4px 0;font-size:14px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #f1f5f9;gap:6px}
+.big{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border-radius:18px;padding:16px;margin-bottom:12px}
+.big .n{font-size:40px;font-weight:900}.gr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.gr div{background:#fff3;border-radius:10px;padding:8px;text-align:center;font-size:11px}.gr b{font-size:17px;display:block}
+.ban{background:#fffbeb;border:1px solid #fde68a;font-size:13px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;justify-content:space-around;padding:8px 0 12px}
+.nav div{text-align:center;font-size:11px;font-weight:700;color:#94a3b8;flex:1}.nav div.on{color:var(--o)}.nav i{display:block;font-style:normal;font-size:20px}
+a{color:var(--o);font-weight:700;font-size:12px}
+</style></head>
 <body>
-
-    <div class="app-header" id="main-header">
-        <div class="tag">CUSTOMER DEMO</div>
-        <h1 style="font-size: 24px; font-weight: 800; margin-top: 5px;" id="header-title">Namaste Udala</h1>
-        <p style="color: #94a3b8; font-size: 13px;" id="header-sub">Ghar jaisa khana · roz time pe</p>
-    </div>
-
-    <!-- SCREEN 1: Plans -->
-    <div id="screen-plan" class="screen active">
-        <div class="card" style="border: 2px solid #ffedd5; background: #fffaf5;">
-            <div class="card-title">🍲 Kal 27 Oct · Lunch</div>
-            <div class="card-sub">Rajma chawal, roti, salad</div>
-            <div class="btn-group">
-                <button class="btn btn-green" onclick="acceptLunch()">Chahiye</button>
-                <button class="btn btn-solid" onclick="skipLunch()">Kal nahi chahiye</button>
-            </div>
-            <p style="font-size: 11px; color: #f59e0b; margin-top: 12px; font-weight: 700;">⏰ Skip ka time: aaj raat 9 baje tak</p>
-        </div>
-    </div>
-
-    <!-- SCREEN 2: Kitchen Count -->
-    <div id="screen-kitchen" class="screen">
-        <h3 style="margin-bottom: 15px; font-size: 14px; color: var(--muted);">KAL KA KHANA (27 OCT)</h3>
-        <div class="kitchen-card">
-            <div style="font-size: 12px; font-weight: 700; opacity: 0.9; margin-bottom: 5px;">KAL LUNCH</div>
-            <div class="k-count" id="total-lunch-count">46</div>
-            <div class="k-grid">
-                <div class="k-box"><div class="k-box-num" id="veg-count">31</div><div style="font-size: 10px;">Veg</div></div>
-                <div class="k-box"><div class="k-box-num">15</div><div style="font-size: 10px;">Non-veg</div></div>
-                <div class="k-box" style="background: rgba(255,255,255,0.9); color: var(--org);"><div class="k-box-num" id="skip-count">0</div><div style="font-size: 10px;">Skip</div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCREEN 3: Delivery List -->
-    <div id="screen-delivery" class="screen">
-        <div class="card" style="background: #fff7ed; border-left: 4px solid var(--org);">
-            <div style="color: var(--org); font-weight: 800; font-size: 14px; margin-bottom: 5px;">📍 Sector 21 · 12 Dabbe</div>
-            <div style="font-size: 12px; color: #78350f;">Abhi deliver karna hai</div>
-        </div>
-        <div class="card">
-            <div class="del-item">
-                <div style="display: flex; align-items: center;">
-                    <div class="del-circle" style="background: #ffedd5; color: #ea580c;">SV</div>
-                    <div>
-                        <div style="font-weight: 800; font-size: 15px;">Sneha V. · Veg</div>
-                        <div style="font-size: 12px; color: var(--muted);">B-204, Green Towers</div>
-                    </div>
-                </div>
-                <div class="check-circle done" onclick="this.classList.toggle('done')">✓</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCREEN 4: Owner Dashboard -->
-    <div id="screen-owner" class="screen">
-        <div class="card" style="border: 2px solid #fecaca; background: #fff5f5;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <div style="font-weight: 800; color: #ef4444;" id="pending-amount">💰 Pending: ₹12,400</div>
-                <div style="font-size: 11px; color: var(--muted);">1 TAP REMINDER</div>
-            </div>
-            
-            <div class="del-item">
-                <div style="display: flex; align-items: center;">
-                    <div class="del-circle" style="background: #fee2e2; color: #ef4444;">VS</div>
-                    <div>
-                        <div style="font-weight: 800; font-size: 15px;">Vikas S.</div>
-                        <div style="font-size: 12px; color: var(--muted);">₹2,600 · 6 din late</div>
-                    </div>
-                </div>
-                <button class="btn btn-green" style="padding: 6px 12px; font-size: 12px;" onclick="sendWhatsApp('Vikas S.', db.pending)">Bheja ✓</button>
-            </div>
-            
-            <button onclick="resetData()" style="width: 100%; margin-top: 15px; padding: 10px; background: #e2e8f0; border: none; border-radius: 8px; font-size: 12px; color: #64748b;">🔄 Reset Demo Data</button>
-        </div>
-    </div>
-
-    <!-- Bottom Nav -->
-    <div class="nav">
-        <div class="nav-item active" onclick="switchTab('plan', this, 'CUSTOMER DEMO', 'Apna Plan', 'Ghar jaisa khana')"><span class="nav-icon">📱</span>Plan</div>
-        <div class="nav-item" onclick="switchTab('kitchen', this, 'KITCHEN SCREEN', 'Kal Kitne Dabbe?', 'Raat 9 baje count lock')"><span class="nav-icon">🧑‍🍳</span>Kitchen</div>
-        <div class="nav-item" onclick="switchTab('delivery', this, 'DELIVERY BOY', 'Aaj Ka Route', 'Area-wise delivery list')"><span class="nav-icon">🛵</span>Delivery</div>
-        <div class="nav-item" onclick="switchTab('owner', this, 'OWNER DASHBOARD', 'Kiska Paisa Baaki?', '1-Tap WhatsApp Reminder')"><span class="nav-icon">💼</span>Owner</div>
-    </div>
-
-    <script>
-        function switchTab(tabId, element, tag, title, sub) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('screen-' + tabId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            element.classList.add('active');
-            document.querySelector('.tag').innerText = tag;
-            document.getElementById('header-title').innerText = title;
-            document.getElementById('header-sub').innerText = sub;
-        }
-
-        function sendWhatsApp(customerName, pendingAmount) {
-            const upiId = "9583937047@jio"; 
-            const message = `Namaste ${customerName}! 🙏\n\nAapka Namaste Udala tiffin service ka ₹${pendingAmount} pending hai.\n\nKripya is UPI ID par payment kar dein:\n👉 *${upiId}* (SUBHAM RANA)\n\nPayment hone ke baad yahan ek screenshot bhej dijiyega. Dhanyawad! 🍱`;
-            const demoPhone = "910000000000"; 
-            window.open(`https://wa.me/${demoPhone}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        // 🟢 DATABASE LOGIC (Data Save Karna) 🟢
-        let db = JSON.parse(localStorage.getItem('udalaDB')) || {
-            skips: 0,
-            vegLunch: 31,
-            pending: 12400
-        };
-
-        function saveData() {
-    localStorage.setItem('udalaDB', JSON.stringify(db)); 
-    try {
-        if (window.dbSet && window.dbRef && window.db) {
-            window.dbSet(window.dbRef(window.db, 'udala_live_data/'), db);
-        }
-    } catch (err) {
-        console.log("Cloud sync skipped:", err);
-    }
-    updateUI();
-}
-
-
-        function skipLunch() {
-    db.skips += 1;
-    db.vegLunch -= 1;
-    db.pending -= 80; // ₹80 minus
-    alert('✅ Kal ka lunch skip ho gaya. ₹80 agle bill mein adjust honge!');
-    saveData();
-}
-
-        function updateUI() {
-    try {
-        document.getElementById('veg-count').innerText = db.vegLunch;
-        document.getElementById('skip-count').innerText = db.skips;
-        document.getElementById('total-lunch-count').innerText = db.vegLunch + 15;
-        document.getElementById('pending-amount').innerText = '💰 Pending: ₹' + db.pending;
-    } catch (e) {
-        console.log("UI error ignored");
-    }
-}
-
-        function resetData() {
-            localStorage.removeItem('udalaDB');
-            location.reload();
-        }
-
-        // Page load hote hi data update karo
-        window.onload = function() {
-            updateUI();
-        }
-    </script>
-<!-- Firebase Database Connection -->
+<header><b>NAMASTE UDALA</b><h1 id="ht">Plan</h1><div class="s" style="color:#94a3b8">Ghar jaisa khana · roz time pe</div></header>
+<div id="v"></div>
+<div class="nav" id="nav"></div>
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
-
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+import{getDatabase,ref,set,onValue}from"https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
   const firebaseConfig = {
     apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",
     authDomain: "namaste-udala.firebaseapp.com",
@@ -203,12 +40,107 @@
     messagingSenderId: "998684348165",
     appId: "1:998684348165:web:4bb0d2f5335a90a394716c"
   };
-
-  // App aur Database chalu karna
-  const app = initializeApp(firebaseConfig);
-  window.db = getDatabase(app);
-window.dbSet = set;
-window.dbRef = ref;
-
-</script></body>
-</html>
+try{navigator.serviceWorker&&navigator.serviceWorker.getRegistrations().then(r=>r.forEach(x=>x.unregister()))}catch(e){}
+const UPI='9583937047@jio';
+const PL={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
+const SL='Subah 7:30-8:15 · Lunch 1:30-2:15 · Dinner 8:00-9:00';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const add=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const D0=()=>{const d=new Date();d.setHours(12,0,0,0);return d};
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const SEED=[['Doodh 500 ml',30,'Doodh aur dairy'],['Dahi 400 g',40,'Doodh aur dairy'],['Paneer 200 g',80,'Doodh aur dairy'],['Butter 100 g',56,'Doodh aur dairy'],
+['Chai patti 250 g',130,'Chai aur nashta'],['Coffee 50 g',140,'Chai aur nashta'],['Bread',40,'Chai aur nashta'],['Ande (6)',72,'Chai aur nashta'],
+['Detergent 1 kg',130,'Ghar ki safai'],['Bartan gel 500 ml',110,'Ghar ki safai'],['Floor cleaner 500 ml',99,'Ghar ki safai'],
+['Sabun',30,'Body care'],['Shampoo 340 ml',180,'Body care'],['Toothpaste 150 g',95,'Body care'],['Body lotion 100 ml',90,'Body care'],
+['Sanitary pads (8)',50,'Women care'],['Atta 1 kg',50,'Kirana'],['Chawal 1 kg',70,'Kirana'],['Dal 1 kg',150,'Kirana'],['Tel 1 L',150,'Kirana'],
+['Roti',5,'Extra khana',1],['Chawal plate',20,'Extra khana',1],['Paneer sabzi',50,'Extra khana',1],['Egg',12,'Extra khana'],['Chicken piece',40,'Extra khana']
+].map((a,i)=>({id:i+1,n:a[0],p:a[1],c:a[2],s:1,h:a[3]||0}));
+let S={prod:SEED,subs:[],orders:[],done:{}};
+try{const l=JSON.parse(localStorage.getItem('udala2'));if(l)S=l}catch(e){}
+const fix=()=>{S.prod=S.prod||[];S.subs=S.subs||[];S.orders=S.orders||[];S.done=S.done||{};S.subs.forEach(s=>s.skip=s.skip||[])};fix();
+let db=null,tab='plan',C={};
+const F={type:'veg',days:'30',half:'0',pay:'cash',name:'',phone:'',area:'',addr:'',map:'',start:iso(add(D0(),1))};
+try{const app=initializeApp(firebaseConfig);db=getDatabase(app);
+onValue(ref(db,'udala2'),sn=>{const v=sn.val();if(v){S=v;fix();const t=document.activeElement&&document.activeElement.tagName;if(t!=='INPUT')render()}})}catch(e){console.log('Cloud off',e)}
+const save=()=>{try{localStorage.setItem('udala2',JSON.stringify(S))}catch(e){}try{db&&set(ref(db,'udala2'),S)}catch(e){console.log(e)}render()};
+const pr=()=>{const b=PL[F.type][F.days];return +F.half?Math.round(b*.6):b};
+const upi=a=>'upi://pay?pa='+UPI+'&pn=Namaste%20Udala&cu=INR&am='+Math.round(a);
+const wa=(ph,t)=>window.open('https://wa.me/91'+ph+'?text='+encodeURIComponent(t),'_blank');
+const mf=(d,t)=>{const w=d.getDay();
+if(t==='nv'){if(w===3)return'Fish curry, roti, chawal';if(w===4)return'2 egg curry, roti, chawal';if(w===0)return'Chicken, roti, chawal'}
+else{if(w===3)return'Paneer sabzi, roti, chawal';if(w===4)return'Dahi vada, sabzi, roti';if(w===0)return'Special paneer + meetha'}
+return'Dal, sabzi, roti, chawal'};
+const act=(s,dt)=>{const k=iso(dt);return k>=s.start&&k<=iso(add(new Date(s.start+'T12:00:00'),s.days-1))};
+const seg=(k,o)=>'<div class="seg">'+o.map(([v,l])=>`<button class="${String(F[k])===String(v)?'on':''}" data-a="set" data-k="${k}" data-v="${v}">${l}</button>`).join('')+'</div>';
+const contact=()=>`<input data-f="name" placeholder="Naam" value="${esc(F.name)}"><input data-f="phone" type="tel" placeholder="Phone number" value="${esc(F.phone)}"><input data-f="area" placeholder="Area / Sector" value="${esc(F.area)}"><input data-f="addr" placeholder="Pura address" value="${esc(F.addr)}"><input data-f="map" placeholder="Google Maps location link (optional)" value="${esc(F.map)}">`;
+const banner=()=>{const t=add(D0(),1);return`<div class="card ban"><b>🔔 Kal ka menu (${t.getDate()}/${t.getMonth()+1})</b><br>Veg: ${mf(t,'veg')}<br>Non-veg: ${mf(t,'nv')}</div>`};
+const V={
+plan:()=>`<div style="height:14px"></div>${banner()}<div class="card"><h3>Plan chuno</h3>
+${seg('type',[['veg','Veg'],['nv','Non-veg']])}${seg('days',[[7,'7 din'],[15,'15 din'],[30,'30 din']])}${seg('half',[[0,'Full'],[1,'Half']])}
+<div class="s">Roz 3 time: ${SL}</div>
+<div class="s" style="margin-top:8px">Start date</div><input type="date" data-f="start" value="${F.start}">
+${contact()}<div class="s">Payment</div>${seg('pay',[['cash','Cash'],['online','Online UPI']])}
+<div class="row"><b>Total</b><b style="font-size:22px">${inr(pr())}</b></div>
+<button class="btn" data-a="join">Plan shuru karo</button><button class="btn g" data-a="trial">1 din FREE trial</button></div>`,
+shop:()=>{const cats=[...new Set(S.prod.filter(p=>p.s).map(p=>p.c))];let tot=0;
+const items=Object.entries(C).filter(e=>e[1]>0).map(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(!p)return 0;return(k.endsWith('h')?Math.round(p.p*.6):p.p)*q});items.forEach(x=>tot+=x);
+return`<div style="height:14px"></div>`+cats.map(c=>`<div class="card"><h3>${esc(c)}</h3>`+S.prod.filter(p=>p.s&&p.c===c).map(p=>{
+const r=(k,pp,l)=>`<div class="row"><div>${esc(p.n)}${l}<div class="s">${inr(pp)}</div></div><div><button class="btn sm r" data-a="dec" data-id="${k}">−</button> <b>${C[k]||0}</b> <button class="btn sm g" data-a="inc" data-id="${k}">+</button></div></div>`;
+return r(p.id,p.p,p.h?' (Full)':'')+(p.h?r(p.id+'h',Math.round(p.p*.6),' (Half)'):'')}).join('')+'</div>').join('')+
+`<div class="card"><h3>Cart: ${inr(tot)}</h3><div class="s">Prices sample hain, owner badal sakta hai. Delivery tiffin ke saath.</div>${contact()}${seg('pay',[['cash','Cash'],['online','Online UPI']])}<button class="btn" data-a="order">Order karo</button></div>`},
+kitchen:()=>{const t=add(D0(),1),k=iso(t),all=S.subs.filter(s=>act(s,t)),on=all.filter(s=>!s.skip.includes(k)),c=f=>on.filter(f).length;
+return`<div style="height:14px"></div><div class="big"><div class="s" style="color:#fff">KAL (${k}) · HAR TIME KE DABBE</div><div class="n">${on.length}</div>
+<div class="gr"><div><b>${c(s=>s.type==='veg')}</b>Veg</div><div><b>${c(s=>s.type==='nv')}</b>Non-veg</div><div><b>${all.length-on.length}</b>Skip</div><div><b>${c(s=>!s.half)}</b>Full</div><div><b>${c(s=>s.half)}</b>Half</div><div><b>${on.length*3}</b>Total meals</div></div></div>
+<div class="card"><h3>Kal ka menu</h3>Veg: ${mf(t,'veg')}<br>Non-veg: ${mf(t,'nv')}</div>
+<div class="card"><h3>Customers</h3>${all.map(s=>`<div class="row"><div><b>${esc(s.name)}</b> · ${s.type==='veg'?'Veg':'Non-veg'} ${s.half?'Half':'Full'}${s.trial?' · Trial':''}</div><button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skip" data-id="${s.id}">${s.skip.includes(k)?'Wapas':'Skip kal'}</button></div>`).join('')||'<div class="s">Koi plan nahi</div>'}</div>`},
+delivery:()=>{const t=D0(),k=iso(t),l=S.subs.filter(s=>act(s,t)&&!s.skip.includes(k)),g={};
+l.forEach(s=>(g[s.area||'Other']=g[s.area||'Other']||[]).push(s));
+const mp=(a,b)=>`<a href="${esc(a||'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(b))}" target="_blank">📍 Map kholo</a>`;
+const ords=S.orders.filter(o=>!o.dlv);
+return`<div style="height:14px"></div>`+(Object.keys(g).sort().map(a=>`<div class="card"><h3>📍 ${esc(a)} · ${g[a].length} dabbe</h3><div class="s">${SL}</div>`+g[a].map(s=>{const d=S.done[k+'_'+s.id];return`<div class="row"><div><b>${esc(s.name)}</b> · ${s.type==='veg'?'Veg':'Non-veg'} ${s.half?'Half':''}<div class="s">${esc(s.addr)}</div>${mp(s.map,s.addr+' '+s.area)}</div><button class="btn sm ${d?'g':''}" style="${d?'':'background:#e2e8f0'}" data-a="done" data-id="${s.id}">${d?'✓ Diya':'Diya?'}</button></div>`}).join('')+'</div>').join('')||'<div class="card">Aaj koi delivery nahi</div>')+
+(ords.length?`<div class="card"><h3>🛒 Shop orders</h3>`+ords.map(o=>`<div class="row"><div><b>${esc(o.name)}</b> · ${inr(o.total)} · ${o.pay==='online'?'UPI':'Cash'}<div class="s">${o.items.map(i=>esc(i.n)+' x'+i.q).join(', ')}</div><div class="s">${esc(o.addr)} · ${esc(o.area)}</div>${mp(o.map,o.addr+' '+o.area)}</div><button class="btn sm g" data-a="odone" data-id="${o.id}">Diya</button></div>`).join('')+'</div>':'')},
+owner:()=>{const us=S.subs.filter(s=>!s.paid),uo=S.orders.filter(o=>!o.paid),pend=us.reduce((a,s)=>a+s.price,0)+uo.reduce((a,o)=>a+o.total,0),t=add(D0(),1),k=iso(t);
+return`<div style="height:14px"></div><div class="card" style="background:#fff5f5"><h3 style="color:#ef4444">💰 Pending: ${inr(pend)}</h3>
+${us.map(s=>`<div class="row"><div><b>${esc(s.name)}</b><div class="s">${s.days} din plan · ${inr(s.price)}</div></div><div><button class="btn sm g" data-a="rem" data-id="${s.id}">WhatsApp</button><button class="btn sm" data-a="paidS" data-id="${s.id}">Paid</button></div></div>`).join('')}
+${uo.map(o=>`<div class="row"><div><b>${esc(o.name)}</b><div class="s">Shop order · ${inr(o.total)}</div></div><div><button class="btn sm g" data-a="remO" data-id="${o.id}">WhatsApp</button><button class="btn sm" data-a="paidO" data-id="${o.id}">Paid</button></div></div>`).join('')||''}${pend?'':'<div class="s">Sab paisa aa gaya 🎉</div>'}</div>
+<div class="card"><h3>📣 Kal ka menu bhejo</h3>${S.subs.filter(s=>act(s,t)).map(s=>`<div class="row"><span>${esc(s.name)}</span><button class="btn sm g" data-a="menu" data-id="${s.id}">Menu bhejo</button></div>`).join('')||'<div class="s">Kal ke liye koi plan nahi</div>'}</div>
+<div class="card"><h3>🛍 Products</h3><input id="pn" placeholder="Naam"><input id="pp" type="number" placeholder="Price"><input id="pc" placeholder="Category"><button class="btn" data-a="addp">Product jodo</button>
+${S.prod.map(p=>`<div class="row"><div>${esc(p.n)}<div class="s">${inr(p.p)} · ${esc(p.c)}</div></div><div><button class="btn sm ${p.s?'g':'r'}" data-a="stock" data-id="${p.id}">${p.s?'Stock mein':'Khatam'}</button><button class="btn sm r" data-a="delp" data-id="${p.id}">✕</button></div></div>`).join('')}</div>
+<button class="btn r" data-a="reset">Reset sab data</button>`}};
+const T=[['plan','📱','Plan'],['shop','🛒','Shop'],['kitchen','🧑‍🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','💼','Owner']];
+function render(){$('#v').innerHTML=V[tab]();$('#ht').textContent=({plan:'Apna Plan',shop:'Shop',kitchen:'Kal Kitne Dabbe?',delivery:'Aaj Ka Route',owner:'Kiska Paisa Baaki?'})[tab];
+$('#nav').innerHTML=T.map(t=>`<div class="${t[0]===tab?'on':''}" data-a="tab" data-v="${t[0]}"><i>${t[1]}</i>${t[2]}</div>`).join('')}
+const need=()=>{if(!F.name||!F.phone){alert('Naam aur phone daalo');return 1}};
+const mk=tr=>{if(need())return;const s={id:Date.now(),name:F.name,phone:F.phone.replace(/\D/g,'').slice(-10),area:F.area||'Other',addr:F.addr,map:F.map,type:F.type,days:tr?1:+F.days,half:+F.half,start:F.start,price:tr?0:pr(),pay:F.pay,paid:tr?1:0,skip:[],trial:tr?1:0};
+S.subs.push(s);save();alert(tr?'1 din free trial shuru!':'Plan ban gaya: '+inr(s.price));if(!tr&&F.pay==='online')location.href=upi(s.price)};
+const A={
+tab:v=>{tab=v;render()},
+set:(v,k)=>{F[k]=v;render()},
+join:()=>mk(0),trial:()=>mk(1),
+inc:(v,k,id)=>{C[id]=(C[id]||0)+1;render()},
+dec:(v,k,id)=>{C[id]=Math.max(0,(C[id]||0)-1);render()},
+order:()=>{if(need())return;const it=[];let total=0;
+Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(!p||q<1)return;const h=k.endsWith('h'),pp=h?Math.round(p.p*.6):p.p;it.push({n:p.n+(h?' (Half)':''),q,p:pp});total+=pp*q});
+if(!it.length){alert('Cart khali hai');return}
+S.orders.push({id:Date.now(),name:F.name,phone:F.phone.replace(/\D/g,'').slice(-10),area:F.area||'Other',addr:F.addr,map:F.map,items:it,total,pay:F.pay,paid:0,dlv:0,t:new Date().toLocaleString()});
+C={};save();alert('Order ho gaya: '+inr(total));if(F.pay==='online')location.href=upi(total)},
+skip:(v,k,id)=>{const s=S.subs.find(x=>x.id==id),d=iso(add(D0(),1)),i=s.skip.indexOf(d);i>=0?s.skip.splice(i,1):s.skip.push(d);save()},
+done:(v,k,id)=>{const key=iso(D0())+'_'+id;S.done[key]=S.done[key]?0:1;save()},
+odone:(v,k,id)=>{S.orders.find(o=>o.id==id).dlv=1;save()},
+paidS:(v,k,id)=>{S.subs.find(s=>s.id==id).paid=1;save()},
+paidO:(v,k,id)=>{S.orders.find(o=>o.id==id).paid=1;save()},
+rem:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);wa(s.phone,`Namaste ${s.name}! 🙏\n\nAapka Namaste Udala tiffin plan ka ${inr(s.price)} pending hai.\nUPI: *${UPI}*\n\nPayment ke baad screenshot bhej dijiye. Dhanyawad! 🍱`)},
+remO:(v,k,id)=>{const o=S.orders.find(x=>x.id==id);wa(o.phone,`Namaste ${o.name}! 🙏\n\nAapke order ka ${inr(o.total)} pending hai.\nUPI: *${UPI}*\n\nDhanyawad!`)},
+menu:(v,k,id)=>{const s=S.subs.find(x=>x.id==id),t=add(D0(),1);wa(s.phone,`Namaste ${s.name}! 🙏\n\nKal (${t.getDate()}/${t.getMonth()+1}) ka menu: ${mf(t,s.type)}\n\nSkip karna ho to aaj raat 9 baje tak bata dijiye. 🍱`)},
+addp:()=>{const n=$('#pn').value.trim(),p=+$('#pp').value,c=$('#pc').value.trim()||'Other';if(!n||!p){alert('Naam aur price daalo');return}
+S.prod.push({id:Date.now(),n,p,c,s:1,h:0});save()},
+stock:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);p.s=p.s?0:1;save()},
+delp:(v,k,id)=>{if(confirm('Delete karein?')){S.prod=S.prod.filter(x=>x.id!=id);save()}},
+reset:()=>{if(confirm('Sab data delete ho jayega. Pakka?')){S={prod:SEED,subs:[],orders:[],done:{}};save()}}
+};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const f=A[b.dataset.a];if(!f)return;try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(x){alert('Error: '+x.message)}});
+document.addEventListener('input',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f)F[f]=e.target.value});
+render();
+</script></body></html>
