@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Boy - Namaste Udyal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body { background:linear-gradient(160deg,#0a3d1f,#0d5c2f); color:#fff; min-height:100vh; padding:20px; }
+    header { text-align:center; padding:15px 0; }
+    header h1 { font-size:1.5rem; font-weight:800; }
+    header p { color:#a8e6a3; font-size:0.9rem; }
+    .card { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:18px; padding:18px; margin:15px 0; }
+    .task { background:rgba(255,255,255,0.12); border-radius:14px; padding:14px; margin:10px 0; }
+    .task b { color:#ffc107; }
+    .btn { width:100%; padding:12px; border:none; border-radius:12px; background:#ffc107; color:#000; font-weight:800; font-size:1rem; cursor:pointer; margin-top:10px; }
+    .done { background:#2ecc71 !important; color:#fff; }
+    .lock { text-align:center; padding:60px 10px; }
+    .lock input { width:80%; padding:14px; text-align:center; font-size:1.4rem; letter-spacing:10px; border:none; border-radius:12px; margin:15px 0; }
+    .hidden { display:none; }
+    .empty { text-align:center; color:#a8e6a3; padding:30px 0; }
+  </style>
+</head>
+<body>
+  <!-- PIN LOCK -->
+  <div class="lock" id="lock">
+    <h1>🛵 Delivery Login</h1>
+    <p>Sirf delivery boy ke liye</p>
+    <input type="password" id="pin" maxlength="4" placeholder="••••">
+    <button class="btn" onclick="checkPin()">🔓 Kholo</button>
+  </div>
+
+  <!-- WORK PAGE -->
+  <div id="work" class="hidden">
+    <header>
+      <h1>🛵 Mere Deliveries</h1>
+      <p>Sirf aapka kaam — baaki hidden</p>
+    </header>
+    <div class="card">
+      <h2>📍 Aaj ke Delivery Tasks</h2>
+      <div id="list"></div>
+    </div>
+  </div>
+
+<script>
+  const MYPIN = "1234"; // 👈 Delivery boy ka PIN (badal sakte ho)
+
+  function checkPin() {
+    if(document.getElementById('pin').value === MYPIN) {
+      document.getElementById('lock').classList.add('hidden');
+      document.getElementById('work').classList.remove('hidden');
+      loadTasks();
+    } else { alert("❌ Galat PIN!"); }
+  }
+
+  function loadTasks() {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const list = document.getElementById('list');
+    const today = orders.filter(o => o.status === 'ready' || o.status === 'out-for-delivery');
+    if(today.length === 0) {
+      list.innerHTML = '<p class="empty">😴 Aaj koi delivery nahi hai!</p>';
+      return;
+    }
+    list.innerHTML = today.map((o, i) => `
+      <div class="task">
+        <b>👤 ${o.naam}</b><br>
+        📞 ${o.phone}<br>
+        🏠 ${o.address}<br>
+        🍱 ${o.order}
+        <button class="btn o.delivered?′done′:′′"onclick="deliver({o.delivered ? 'done' : ''}" onclick="deliver(o.delivered?′done′:′′"onclick="deliver({i})">
+          ${o.delivered ? '✅ Delivered' : '🛵 Delivered kar diya'}
+        </button>
+      </div>`).join('');
+  }
+
+  function deliver(i) {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const today = orders.filter(o => o.status === 'ready' || o.status === 'out-for-delivery');
+    today[i].delivered = true;
+    today[i].status = 'delivered';
+    localStorage.setItem('orders', JSON.stringify(orders));
+    loadTasks();
+  }
+</script>
+</body>
+</html>
+
