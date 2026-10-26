@@ -152,12 +152,17 @@
         };
 
         function saveData() {
-        localStorage.setItem('udalaDB', JSON.stringify(db));
+    localStorage.setItem('udalaDB', JSON.stringify(db)); 
+    try {
         if (window.dbSet && window.dbRef && window.db) {
             window.dbSet(window.dbRef(window.db, 'udala_live_data/'), db);
         }
-        updateUI();
-    };
+    } catch (err) {
+        console.log("Cloud sync skipped:", err);
+    }
+    updateUI();
+}
+
         }
 
         function skipLunch() {
