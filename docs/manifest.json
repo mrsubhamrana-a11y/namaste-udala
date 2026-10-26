@@ -1,0 +1,15 @@
+{
+  "name": "Namaste Udala",
+  "short_name": "UdalaApp",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3143/3143666.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

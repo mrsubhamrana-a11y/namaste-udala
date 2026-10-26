@@ -2,7 +2,7 @@
 <html lang="hi"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Namaste Udala</title>
-<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#0f172a">
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0f172a">
 <style>
 :root{--o:#ea580c;--d:#0f172a;--m:#64748b;--g:#10b981}
 *{box-sizing:border-box;font-family:system-ui,sans-serif;margin:0;padding:0}
@@ -77,6 +77,7 @@ const seg=(k,o)=>'<div class="seg">'+o.map(([v,l])=>`<button class="${String(F[k
 const contact=()=>`<input data-f="name" placeholder="Naam" value="${esc(F.name)}"><input data-f="phone" type="tel" placeholder="Phone number" value="${esc(F.phone)}"><input data-f="area" placeholder="Area / Sector" value="${esc(F.area)}"><input data-f="addr" placeholder="Pura address" value="${esc(F.addr)}"><input data-f="map" placeholder="Google Maps location link" value="${esc(F.map)}"><button class="btn g" data-a="gps">📍 Meri asli location lo (GPS)</button>`;
 const banner=()=>{const t=add(D0(),1);return`<div class="card ban"><b>🔔 Kal ka menu (${t.getDate()}/${t.getMonth()+1})</b><br>Veg: ${mf(t,'veg')}<br>Non-veg: ${mf(t,'nv')}</div>`};
 const rt=l=>{const pt=l.map(s=>{const m=(s.map||'').match(/q=(-?\d+\.\d+),(-?\d+\.\d+)/);return m?m[1]+','+m[2]:(s.addr+' '+s.area)}).slice(0,10);const d=pt.pop();return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+encodeURIComponent(d)+(pt.length?'&waypoints='+encodeURIComponent(pt.join('|')):'')};
+const OPIN="4821";let OK=0;try{OK=sessionStorage.getItem('udok')?1:0}catch(e){}
 const V={
 plan:()=>`<div style="height:14px"></div>${banner()}<div class="card"><h3>Plan chuno</h3>
 ${seg('type',[['veg','Veg'],['nv','Non-veg']])}${seg('days',[[7,'7 din'],[15,'15 din'],[30,'30 din']])}${seg('half',[[0,'Full'],[1,'Half']])}
@@ -109,15 +110,15 @@ ${uo.map(o=>`<div class="row"><div><b>${esc(o.name)}</b><div class="s">Shop orde
 <div class="card"><h3>📣 Kal ka menu bhejo</h3>${S.subs.filter(s=>act(s,t)).map(s=>`<div class="row"><span>${esc(s.name)}</span><button class="btn sm g" data-a="menu" data-id="${s.id}">Menu bhejo</button></div>`).join('')||'<div class="s">Kal ke liye koi plan nahi</div>'}</div>
 <div class="card"><h3>🛍 Products</h3><input id="pn" placeholder="Naam"><input id="pp" type="number" placeholder="Price"><input id="pc" placeholder="Category"><button class="btn" data-a="addp">Product jodo</button>
 ${S.prod.map(p=>`<div class="row"><div>${esc(p.n)}<div class="s">${inr(p.p)} · ${esc(p.c)}</div></div><div><button class="btn sm ${p.s?'g':'r'}" data-a="stock" data-id="${p.id}">${p.s?'Stock mein':'Khatam'}</button><button class="btn sm r" data-a="delp" data-id="${p.id}">✕</button></div></div>`).join('')}</div>
-<button class="btn r" data-a="reset">Reset sab data</button>`}};
+<button class="btn" data-a="out">Owner se bahar</button><button class="btn r" data-a="reset">Reset sab data</button>`}};
 const T=[['plan','📱','Plan'],['shop','🛒','Shop'],['kitchen','🧑‍🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','💼','Owner']];
-function render(){$('#v').innerHTML=V[tab]();$('#ht').textContent=({plan:'Apna Plan',shop:'Shop',kitchen:'Kal Kitne Dabbe?',delivery:'Aaj Ka Route',owner:'Kiska Paisa Baaki?'})[tab];
-$('#nav').innerHTML=T.map(t=>`<div class="${t[0]===tab?'on':''}" data-a="tab" data-v="${t[0]}"><i>${t[1]}</i>${t[2]}</div>`).join('')}
+function render(){if(!OK&&tab!=='plan'&&tab!=='shop')tab='plan';$('#v').innerHTML=V[tab]();$('#ht').textContent=({plan:'Apna Plan',shop:'Shop',kitchen:'Kal Kitne Dabbe?',delivery:'Aaj Ka Route',owner:'Kiska Paisa Baaki?'})[tab];
+$('#nav').innerHTML=T.filter(t=>OK||t[0]==='plan'||t[0]==='shop').map(t=>`<div class="${t[0]===tab?'on':''}" data-a="tab" data-v="${t[0]}"><i>${t[1]}</i>${t[2]}</div>`).join('')}
 const need=()=>{if(!F.name||!F.phone){alert('Naam aur phone daalo');return 1}};
 const mk=tr=>{if(need())return;const s={id:Date.now(),name:F.name,phone:F.phone.replace(/\D/g,'').slice(-10),area:F.area||'Other',addr:F.addr,map:F.map,type:F.type,days:tr?1:+F.days,half:+F.half,start:F.start,price:tr?0:pr(),pay:F.pay,paid:tr?1:0,skip:[],trial:tr?1:0};
 S.subs.push(s);save();alert(tr?'1 din free trial shuru!':'Plan ban gaya: '+inr(s.price));if(!tr&&F.pay==='online')location.href=upi(s.price)};
 const A={
-tab:v=>{tab=v;render()},
+tab:v=>{if(['kitchen','delivery','owner'].includes(v)&&!OK){const x=prompt('Owner PIN daalo');if(x!==OPIN){if(x!==null)alert('Galat PIN');return}OK=1;try{sessionStorage.setItem('udok','1')}catch(e){}}tab=v;render()},
 gps:()=>{if(!navigator.geolocation){alert('Is phone mein GPS nahi hai');return}navigator.geolocation.getCurrentPosition(p=>{F.map='https://www.google.com/maps?q='+p.coords.latitude.toFixed(6)+','+p.coords.longitude.toFixed(6);render();alert('Location mil gayi ✓')},e=>alert('Location nahi mili. Phone ka Location ON karo aur browser ko permission do.'),{enableHighAccuracy:true,timeout:15000})},
 set:(v,k)=>{F[k]=v;render()},
 join:()=>mk(0),trial:()=>mk(1),
@@ -140,9 +141,13 @@ addp:()=>{const n=$('#pn').value.trim(),p=+$('#pp').value,c=$('#pc').value.trim(
 S.prod.push({id:Date.now(),n,p,c,s:1,h:0});save()},
 stock:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);p.s=p.s?0:1;save()},
 delp:(v,k,id)=>{if(confirm('Delete karein?')){S.prod=S.prod.filter(x=>x.id!=id);save()}},
+out:()=>{OK=0;try{sessionStorage.removeItem('udok')}catch(e){}tab='plan';render()},
 reset:()=>{if(confirm('Sab data delete ho jayega. Pakka?')){S={prod:SEED,subs:[],orders:[],done:{}};save()}}
 };
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const f=A[b.dataset.a];if(!f)return;try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(x){alert('Error: '+x.message)}});
 document.addEventListener('input',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f)F[f]=e.target.value});
+function ologin(){const x=prompt('Owner PIN daalo');if(x===OPIN){OK=1;try{sessionStorage.setItem('udok','1')}catch(e){}tab='owner';render()}else if(x!==null)alert('Galat PIN')}
+let hc=0;document.querySelector('header').addEventListener('click',()=>{hc++;if(hc>=5){hc=0;ologin()}});
 render();
+if(location.hash==='#owner')ologin();
 </script></body></html>
