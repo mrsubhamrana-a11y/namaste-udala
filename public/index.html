@@ -166,16 +166,12 @@
         }
 
         function skipLunch() {
-            if(db.skips > 0) {
-                alert("Aapne pehle hi kal ka lunch skip kar diya hai!");
-                return;
-            }
-            db.skips += 1;
-            db.vegLunch -= 1;
-            db.pending -= 80; // ₹80 minus
-            alert('✅ Kal ka lunch skip ho gaya. ₹80 agle bill mein adjust honge!');
-            saveData();
-        }
+    db.skips += 1;
+    db.vegLunch -= 1;
+    db.pending -= 80; // ₹80 minus
+    alert('✅ Kal ka lunch skip ho gaya. ₹80 agle bill mein adjust honge!');
+    saveData();
+}
 
         function updateUI() {
     try {
