@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namaste Udala - Full App</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <style>
+        :root { --org: #ea580c; --bg: #0f172a; --card: #ffffff; --text: #0f172a; --muted: #64748b; --green: #10b981; }
+        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; }
+        body { background: #f8fafc; color: var(--text); padding-bottom: 80px; }
+        .app-header { background: var(--bg); color: white; padding: 20px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: -15px; z-index: 10; position: relative; }
+        .tag { background: rgba(255,255,255,0.1); color: #facc15; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 12px; display: inline-block; margin-bottom: 5px; }
+        .screen { display: none; padding: 30px 20px 20px; animation: fadeIn 0.3s; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card { background: var(--card); border-radius: 20px; padding: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 15px; }
+        .card-title { font-size: 18px; font-weight: 800; margin-bottom: 5px; color: var(--text); }
+        .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 15px; }
+        .btn-group { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; text-align: center; }
+        .btn-solid { background: #fee2e2; color: #ef4444; border: 2px solid #fca5a5; }
+        .btn-green { background: #dcfce7; color: #16a34a; border: 2px solid #86efac; }
+        .kitchen-card { background: linear-gradient(135deg, #f97316, #ea580c); color: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(234,88,12,0.3); }
+        .k-count { font-size: 42px; font-weight: 900; line-height: 1; }
+        .k-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .k-box { background: rgba(255,255,255,0.2); padding: 10px; border-radius: 12px; text-align: center; }
+        .k-box-num { font-size: 18px; font-weight: 800; }
+        .del-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .del-circle { width: 40px; height: 40px; background: #e0e7ff; color: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-right: 15px; }
+        .check-circle { width: 28px; height: 28px; border: 2px solid #cbd5e1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: transparent; cursor: pointer; }
+        .check-circle.done { background: var(--green); border-color: var(--green); color: white; }
+        .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .dash-box { background: #fff7ed; border: 1px solid #ffedd5; padding: 15px 10px; border-radius: 16px; text-align: center; }
+        .nav { position: fixed; bottom: 0; width: 100%; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 10px 0 15px; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .nav-item.active { color: var(--org); }
+        .nav-icon { font-size: 22px; }
+    </style>
+</head>
+<body>
+
+    <div class="app-header" id="main-header">
+        <div class="tag">CUSTOMER DEMO</div>
+        <h1 style="font-size: 24px; font-weight: 800; margin-top: 5px;" id="header-title">Namaste Udala</h1>
+        <p style="color: #94a3b8; font-size: 13px;" id="header-sub">Ghar jaisa khana · roz time pe</p>
+    </div>
+
+    <!-- SCREEN 1: Plans -->
+    <div id="screen-plan" class="screen active">
+        <div class="card" style="border: 2px solid #ffedd5; background: #fffaf5;">
+            <div class="card-title">🍲 Kal 27 Oct · Lunch</div>
+            <div class="card-sub">Rajma chawal, roti, salad</div>
+            <div class="btn-group">
+                <button class="btn btn-green">Chahiye</button>
+                <button class="btn btn-solid" onclick="skipLunch()">Kal nahi chahiye</button>
+            </div>
+            <p style="font-size: 11px; color: #f59e0b; margin-top: 12px; font-weight: 700;">⏰ Skip ka time: aaj raat 9 baje tak</p>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: Kitchen Count -->
+    <div id="screen-kitchen" class="screen">
+        <h3 style="margin-bottom: 15px; font-size: 14px; color: var(--muted);">KAL KA KHANA (27 OCT)</h3>
+        <div class="kitchen-card">
+            <div style="font-size: 12px; font-weight: 700; opacity: 0.9; margin-bottom: 5px;">KAL LUNCH</div>
+            <div class="k-count" id="total-lunch-count">46</div>
+            <div class="k-grid">
+                <div class="k-box"><div class="k-box-num" id="veg-count">31</div><div style="font-size: 10px;">Veg</div></div>
+                <div class="k-box"><div class="k-box-num">15</div><div style="font-size: 10px;">Non-veg</div></div>
+                <div class="k-box" style="background: rgba(255,255,255,0.9); color: var(--org);"><div class="k-box-num" id="skip-count">0</div><div style="font-size: 10px;">Skip</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: Delivery List -->
+    <div id="screen-delivery" class="screen">
+        <div class="card" style="background: #fff7ed; border-left: 4px solid var(--org);">
+            <div style="color: var(--org); font-weight: 800; font-size: 14px; margin-bottom: 5px;">📍 Sector 21 · 12 Dabbe</div>
+            <div style="font-size: 12px; color: #78350f;">Abhi deliver karna hai</div>
+        </div>
+        <div class="card">
+            <div class="del-item">
+                <div style="display: flex; align-items: center;">
+                    <div class="del-circle" style="background: #ffedd5; color: #ea580c;">SV</div>
+                    <div>
+                        <div style="font-weight: 800; font-size: 15px;">Sneha V. · Veg</div>
+                        <div style="font-size: 12px; color: var(--muted);">B-204, Green Towers</div>
+                    </div>
+                </div>
+                <div class="check-circle done" onclick="this.classList.toggle('done')">✓</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: Owner Dashboard -->
+    <div id="screen-owner" class="screen">
+        <div class="card" style="border: 2px solid #fecaca; background: #fff5f5;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div style="font-weight: 800; color: #ef4444;" id="pending-amount">💰 Pending: ₹12,400</div>
+                <div style="font-size: 11px; color: var(--muted);">1 TAP REMINDER</div>
+            </div>
+            
+            <div class="del-item">
+                <div style="display: flex; align-items: center;">
+                    <div class="del-circle" style="background: #fee2e2; color: #ef4444;">VS</div>
+                    <div>
+                        <div style="font-weight: 800; font-size: 15px;">Vikas S.</div>
+                        <div style="font-size: 12px; color: var(--muted);">₹2,600 · 6 din late</div>
+                    </div>
+                </div>
+                <button class="btn btn-green" style="padding: 6px 12px; font-size: 12px;" onclick="sendWhatsApp('Vikas S.', db.pending)">Bheja ✓</button>
+            </div>
+            
+            <button onclick="resetData()" style="width: 100%; margin-top: 15px; padding: 10px; background: #e2e8f0; border: none; border-radius: 8px; font-size: 12px; color: #64748b;">🔄 Reset Demo Data</button>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="nav">
+        <div class="nav-item active" onclick="switchTab('plan', this, 'CUSTOMER DEMO', 'Apna Plan', 'Ghar jaisa khana')"><span class="nav-icon">📱</span>Plan</div>
+        <div class="nav-item" onclick="switchTab('kitchen', this, 'KITCHEN SCREEN', 'Kal Kitne Dabbe?', 'Raat 9 baje count lock')"><span class="nav-icon">🧑‍🍳</span>Kitchen</div>
+        <div class="nav-item" onclick="switchTab('delivery', this, 'DELIVERY BOY', 'Aaj Ka Route', 'Area-wise delivery list')"><span class="nav-icon">🛵</span>Delivery</div>
+        <div class="nav-item" onclick="switchTab('owner', this, 'OWNER DASHBOARD', 'Kiska Paisa Baaki?', '1-Tap WhatsApp Reminder')"><span class="nav-icon">💼</span>Owner</div>
+    </div>
+
+    <script>
+        function switchTab(tabId, element, tag, title, sub) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-' + tabId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            element.classList.add('active');
+            document.querySelector('.tag').innerText = tag;
+            document.getElementById('header-title').innerText = title;
+            document.getElementById('header-sub').innerText = sub;
+        }
+
+        function sendWhatsApp(customerName, pendingAmount) {
+            const upiId = "9583937047@jio"; 
+            const message = `Namaste ${customerName}! 🙏\n\nAapka Namaste Udala tiffin service ka ₹${pendingAmount} pending hai.\n\nKripya is UPI ID par payment kar dein:\n👉 *${upiId}* (SUBHAM RANA)\n\nPayment hone ke baad yahan ek screenshot bhej dijiyega. Dhanyawad! 🍱`;
+            const demoPhone = "910000000000"; 
+            window.open(`https://wa.me/${demoPhone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // 🟢 DATABASE LOGIC (Data Save Karna) 🟢
+        let db = JSON.parse(localStorage.getItem('udalaDB')) || {
+            skips: 0,
+            vegLunch: 31,
+            pending: 12400
+        };
+
+        function saveData() {
+            localStorage.setItem('udalaDB', JSON.stringify(db));
+            updateUI();
+        }
+
+        function skipLunch() {
+            if(db.skips > 0) {
+                alert("Aapne pehle hi kal ka lunch skip kar diya hai!");
+                return;
+            }
+            db.skips += 1;
+            db.vegLunch -= 1;
+            db.pending -= 80; // ₹80 minus
+            alert('✅ Kal ka lunch skip ho gaya. ₹80 agle bill mein adjust honge!');
+            saveData();
+        }
+
+        function updateUI() {
+            document.getElementById('veg-count').innerText = db.vegLunch;
+            document.getElementById('skip-count').innerText = db.skips;
+            document.getElementById('total-lunch-count').innerText = db.vegLunch + 15; // Veg + 15 Non-veg
+            document.getElementById('pending-amount').innerText = '💰 Pending: ₹' + db.pending.toLocaleString();
+        }
+
+        function resetData() {
+            localStorage.removeItem('udalaDB');
+            location.reload();
+        }
+
+        // Page load hote hi data update karo
+        window.onload = function() {
+            updateUI();
+        }
+    </script>
+</body>
+</html>
