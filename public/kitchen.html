@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitchen - Namaste Udyal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body { background:linear-gradient(160deg,#4a2000,#7a3b00); color:#fff; min-height:100vh; padding:20px; }
+    header { text-align:center; padding:15px 0; }
+    header h1 { font-size:1.5rem; font-weight:800; }
+    header p { color:#ffcc99; font-size:0.9rem; }
+    .card { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:18px; padding:18px; margin:15px 0; }
+    .task { background:rgba(255,255,255,0.12); border-radius:14px; padding:14px; margin:10px 0; }
+    .btn { width:100%; padding:12px; border:none; border-radius:12px; background:#ffc107; color:#000; font-weight:800; font-size:1rem; cursor:pointer; margin-top:10px; }
+    .done { background:#2ecc71 !important; color:#fff; }
+    .lock { text-align:center; padding:60px 10px; }
+    .lock input { width:80%; padding:14px; text-align:center; font-size:1.4rem; letter-spacing:10px; border:none; border-radius:12px; margin:15px 0; }
+    .hidden { display:none; }
+    .empty { text-align:center; color:#ffcc99; padding:30px 0; }
+  </style>
+</head>
+<body>
+  <div class="lock" id="lock">
+    <h1>🍳 Kitchen Login</h1>
+    <p>Sirf kitchen staff ke liye</p>
+    <input type="password" id="pin" maxlength="4" placeholder="••••">
+    <button class="btn" onclick="checkPin()">🔓 Kholo</button>
+  </div>
+
+  <div id="work" class="hidden">
+    <header>
+      <h1>🍳 Aaj Cook Karna Hai</h1>
+      <p>Customer details hidden — sirf kaam</p>
+    </header>
+    <div class="card">
+      <h2>📋 Order List</h2>
+      <div id="list"></div>
+    </div>
+  </div>
+
+<script>
+  const MYPIN = "1111"; // 👈 Kitchen ka PIN (badal sakte ho)
+
+  function checkPin() {
+    if(document.getElementById('pin').value === MYPIN) {
+      document.getElementById('lock').classList.add('hidden');
+      document.getElementById('work').classList.remove('hidden');
+      loadTasks();
+    } else { alert("❌ Galat PIN!"); }
+  }
+
+  function loadTasks() {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const list = document.getElementById('list');
+    const pending = orders.filter(o => o.status !== 'delivered');
+    if(pending.length === 0) {
+      list.innerHTML = '<p class="empty">😴 Sab cook ho gaya! Aaram karo.</p>';
+      return;
+    }
+    list.innerHTML = pending.map((o, i) => `
+      <div class="task">
+        <b>🍱 ${o.order}</b><br>
+        ⏰ Slot: ${o.slot || 'Lunch'}
+        <button class="btn o.cooked?′done′:′′"onclick="cook({o.cooked ? 'done' : ''}" onclick="cook(o.cooked?′done′:′′"onclick="cook({i})">
+          ${o.cooked ? '✅ Ready hai' : '👨‍🍳 Cook ho gaya'}
+        </button>
+      </div>`).join('');
+  }
+
+  function cook(i) {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const pending = orders.filter(o => o.status !== 'delivered');
+    pending[i].cooked = true;
+    pending[i].status = 'ready';
+    localStorage.setItem('orders', JSON.stringify(orders));
+    loadTasks();
+  }
+</script>
+</body>
+</html>
