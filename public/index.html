@@ -176,8 +176,8 @@ const pr=()=>{const b=PL[F.type][F.days];return +F.half?Math.round(b*.6):b};
 const upi=a=>'upi://pay?pa='+UPI+'&pn=Namaste%20Udala&cu=INR&am='+Math.round(a);
 const wa=(ph,t)=>window.open('https://wa.me/91'+ph+'?text='+encodeURIComponent(t),'_blank');
 const mf=(d,t)=>{const w=d.getDay();
-if(t==='nv'){if(w===3)return'Fish curry, roti, chawal';if(w===4)return'2 egg curry, roti, chawal';if(w===0)return'Chicken, roti, chawal'}
-else{if(w===3)return'Paneer sabzi, roti, chawal';if(w===4)return'Dahi vada, sabzi, roti';if(w===0)return'Special paneer + meetha'}
+if(t==='nv'){if(w===3)return'Fish curry, roti, chawal';if(w===5)return'2 egg curry, roti, chawal';if(w===0)return'Chicken, roti, chawal'}
+else{if(w===3)return'Paneer sabzi, roti, chawal';if(w===5)return'Dahi vada, sabzi, roti';if(w===0)return'Special paneer + meetha'}
 return'Dal, sabzi, roti, chawal'};
 const act=(s,dt)=>{const k=iso(dt);return k>=s.start&&k<=iso(add(new Date(s.start+'T12:00:00'),s.days-1))};
 const seg=(k,o)=>'<div class="seg">'+o.map(([v,l])=>`<button class="${String(F[k])===String(v)?'on':''}" data-a="set" data-k="${k}" data-v="${v}">${l}</button>`).join('')+'</div>';
@@ -234,7 +234,7 @@ ${utrCard()}${banner()}
 <div class="row"><div>🌅 <b>Subah</b><div class="s">7:30 - 8:15</div></div><div class="s">Chai, nashta</div></div>
 <div class="row"><div>☀️ <b>Lunch</b><div class="s">1:30 - 2:15</div></div><div class="s">${mf(t,F.type)}</div></div>
 <div class="row"><div>🌙 <b>Dinner</b><div class="s">8:00 - 9:00</div></div><div class="s">${mf(t,F.type)}</div></div></div>
-<div class="card"><h3>⭐ Special din</h3><div class="sps">${sp(['🐟','🧀'],'Budhbar','Fish curry','Paneer sabzi')}${sp(['🥚','🥘'],'Guruvar','2 egg curry','Dahi vada')}${sp(['🍗','🍮'],'Ravivar','Chicken','Paneer + meetha')}</div></div>
+<div class="card"><h3>⭐ Special din</h3><div class="sps">${sp(['🐟','🧀'],'Budhbar','Fish curry','Paneer sabzi')}${sp(['🥚','🥘'],'Shukravar','2 egg curry','Dahi vada')}${sp(['🍗','🍮'],'Ravivar','Chicken','Paneer + meetha')}</div></div>
 <div class="card"><h3>1️⃣ Khana chuno</h3><div class="seg">${pcd('veg','🥗','Veg')}${pcd('nv','🍗','Non-veg')}</div>
 <h3 style="margin-top:10px">2️⃣ Kitne din</h3>${seg('days',[[7,'7 din'],[15,'15 din'],[30,'30 din']])}
 <div class="s" style="margin-top:6px">Start date</div><input type="date" data-f="start" value="${F.start}">
