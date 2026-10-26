@@ -37,7 +37,6 @@
         .nav-item.active { color: var(--org); }
         .nav-icon { font-size: 22px; }
     </style>
-<button class="btn btn-green" onclick="acceptLunch()">Chahiye</button><button class="btn btn-green" onclick="acceptLunch()">Chahiye</button></head>
 <body>
 
     <div class="app-header" id="main-header">
@@ -213,7 +212,8 @@ window.dbSet = set;
 window.dbRef = ref;
 window.skipLunch = skipLunch;
 window.resetData = resetData;
- 
+ window.switchTab = switchTab;
+window.acceptLunch = acceptLunch;
 
   // Ek test message bhej kar check karna ki connection hua ya nahi
   set(ref(window.db, 'system_test/'), {
