@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Karein - Namaste Udala</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f5f5f5;padding:15px}
+h1{text-align:center;color:#e67e22;margin-bottom:15px}
+.card{background:#fff;border-radius:12px;padding:15px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #eee}
+.item button{background:#e67e22;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-weight:bold}
+.qty{font-weight:bold;margin:0 10px}
+input,textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
+.gps{background:#e8f5e9;border:1px solid #4caf50;border-radius:8px;padding:10px;margin:10px 0;font-size:14px}
+.btn-big{width:100%;background:#27ae60;color:#fff;border:none;padding:16px;border-radius:12px;font-size:18px;font-weight:bold}
+.btn-big:disabled{background:#999}
+.plan{background:#fff3e0;border-left:4px solid #e67e22}
+</style>
+</head>
+<body>
+<h1>🍛 Namaste Udala - Order</h1>
+
+<div class="card">
+  <h3>📋 Aaj ka Menu</h3>
+  <div id="menu"></div>
+</div>
+
+<div class="card plan">
+  <h3>📅 Kal ka Meal Plan</h3>
+  <p id="tomPlan">Veg Thali, Paneer Curry, Roti, Rice, Dal</p>
+</div>
+
+<div class="card">
+  <h3>📝 Tumhari Details</h3>
+  <input id="name" placeholder="Tumhara naam">
+  <input id="phone" placeholder="Mobile number" type="tel">
+  <textarea id="note" placeholder="Item details / special note (jaise: 2 tiffin, extra roti...)"></textarea>
+  <div class="gps" id="gpsBox">📍 <b>Location zaroori hai!</b> Order ke liye GPS ON karo.
+    <button onclick="getGPS()" style="background:#4caf50;color:#fff;border:none;border-radius:8px;padding:8px 12px;margin-top:6px">📍 Location Lo</button>
+    <div id="gpsStatus"></div>
+  </div>
+  <button class="btn-big" id="orderBtn" onclick="placeOrder()" disabled>✅ Order Place Karo</button>
+</div>
+
+<script>
+// Menu
+const menu = JSON.parse(localStorage.getItem('menu')) || [
+  {name:'Veg Thali', price:80},
+  {name:'Special Thali', price:120},
+  {name:'Tiffin (Monthly)', price:2500}
+];
+let cart = {}, gps = null;
+
+function renderMenu(){
+  document.getElementById('menu').innerHTML = menu.map((m,i)=>
+    `<div class="item"><span>m.name−₹{m.name} - ₹m.name−₹{m.price}</span>
+    <span><button onclick="add(${i})">+</button>
+    <span class="qty" id="q${i}">0</span>
+    <button onclick="sub(${i})">−</button></span></div>`).join('');
+}
+function add(i){cart[i]=(cart[i]||0)+1;document.getElementById('q'+i).textContent=cart[i];check()}
+function sub(i){if(cart[i]>0){cart[i]--;document.getElementById('q'+i).textContent=cart[i];check()}}
+function check(){document.getElementById('orderBtn').disabled = !Object.values(cart).some(v=>v>0)}
+
+// GPS MANDATORY
+function getGPS(){
+  document.getElementById('gpsStatus').textContent = '⏳ Location le rahe hain...';
+  navigator.geolocation.getCurrentPosition(p=>{
+    gps = {lat:p.coords.latitude, lng:p.coords.longitude};
+    document.getElementById('gpsStatus').innerHTML =
+      `✅ Location mil gaya!<br><a target="_blank" href="https://www.google.com/maps?q=gps.lat,{gps.lat},gps.lat,{gps.lng}">🗺️ Google Maps pe dekho</a>`;
+    checkGPS();
+  }, ()=>{ document.getElementById('gpsStatus').textContent='❌ GPS chahiye! Location ON karo.'; },{enableHighAccuracy:true});
+}
+function checkGPS(){check(); document.getElementById('orderBtn').disabled = !gps || !Object.values(cart).some(v=>v>0)}
+
+// ORDER SAVE
+function placeOrder(){
+  const name=document.getElementById('name').value, phone=document.getElementById('phone').value;
+  if(!name||!phone){alert('Naam aur number likho!');return}
+  const items = Object.entries(cart).filter(([i,q])=>q>0).map(([i,q])=>`menu[i].namex{menu[i].name} xmenu[i].namex{q}`);
+  const total = Object.entries(cart).reduce((s,[i,q])=>s+menu[i].price*q,0);
+  const order = {
+    id: 'ORD'+Date.now(), name, phone,
+    items: items.join(', '),
+    note: document.getElementById('note').value,
+    total, time: new Date().toLocaleString('hi-IN'),
+    gps, maps: `https://www.google.com/maps?q=gps.lat,{gps.lat},gps.lat,{gps.lng}`,
+    status: 'naya'
+  };
+  // Firebase sync (agar setup hai) + localStorage fallback
+  try{
+    const db=firebase.firestore();
+    db.collection('orders').add(order);
+  }catch(e){}
+  const o=JSON.parse(localStorage.getItem('orders')||'[]');
+  o.push(order);
+  localStorage.setItem('orders', JSON.stringify(o));
+  alert('✅ Order placed! Kitchen ko dikh jayega.');
+  location.reload();
+}
+renderMenu();
+</script>
+</body>
+</html>
