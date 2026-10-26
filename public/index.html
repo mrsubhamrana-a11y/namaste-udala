@@ -115,6 +115,15 @@ input{border:1.5px solid #f0e3d3;background:#fffdf9;color:#2b1d12;font-weight:50
 .tick{background:linear-gradient(135deg,#1f5f3a,#14452a);color:#fcc419;border:0;box-shadow:none}
 .stk{border:0;box-shadow:0 3px 8px rgba(0,0,0,.2)}
 /*ENDTHEME*/
+.it{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(128,128,128,.18)}
+.it:last-child{border-bottom:0}
+.it.half{padding:0 0 10px 54px;border-bottom:1px solid rgba(128,128,128,.18)}
+.ie{width:44px;height:44px;border-radius:12px;background:rgba(128,128,128,.14);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}
+.in{flex:1;min-width:0;font-size:14px}.in b{font-size:14px}
+.stp2{display:flex;align-items:center;gap:8px;border:1.5px solid var(--o);border-radius:12px;padding:3px;flex:none}
+.stp2 button{width:28px;height:28px;border:0;border-radius:9px;background:transparent;color:var(--o);font-size:20px;font-weight:900;line-height:1}
+.stp2 b{min-width:18px;text-align:center;color:var(--o)}
+#sq{margin:12px 0 4px}
 </style></head>
 <body>
 <header><b>NAMASTE UDALA</b><h1 id="ht">Plan</h1><div class="s" style="color:#94a3b8">Ghar jaisa khana · roz time pe</div></header>
@@ -150,7 +159,11 @@ const SEED=[['Doodh 500 ml',30,'Doodh aur dairy'],['Dahi 400 g',40,'Doodh aur da
 ].map((a,i)=>({id:i+1,n:a[0],p:a[1],c:a[2],s:1,h:a[3]||0}));
 let S={prod:SEED,subs:[],orders:[],done:{}};
 try{const l=JSON.parse(localStorage.getItem('udala2'));if(l)S=l}catch(e){}
-const fix=()=>{S.prod=S.prod||[];S.subs=S.subs||[];S.orders=S.orders||[];S.done=S.done||{};S.subs.forEach(s=>s.skip=s.skip||[])};fix();
+const FM={'Roti':'Roti & Chawal','Chawal plate':'Roti & Chawal','Paneer sabzi':'Sabzi & Dal','Egg':'Non-veg special','Chicken piece':'Non-veg special'};
+const NEWF=[['Dal fry',40,'Sabzi & Dal',1,0],['Mix veg',45,'Sabzi & Dal',1,0],['Paratha',15,'Roti & Chawal',0,0],['Jeera rice',35,'Roti & Chawal',1,0],['Raita',20,'Meetha & Drinks',0,0],['Gulab jamun (2)',30,'Meetha & Drinks',0,0],['Kheer',35,'Meetha & Drinks',1,0],['Chhaas / Lassi',25,'Meetha & Drinks',0,0],['Egg curry',40,'Non-veg special',1,1],['Fish piece',60,'Non-veg special',0,1]];
+const mig=()=>{if(S.mig2)return;S.prod.forEach(p=>{if(p.c==='Extra khana'&&FM[p.n])p.c=FM[p.n];if(p.n==='Egg'||p.n==='Chicken piece')p.nv=1});
+NEWF.forEach((a,i)=>{if(!S.prod.some(p=>p.n===a[0]))S.prod.push({id:9000+i,n:a[0],p:a[1],c:a[2],s:1,h:a[3],nv:a[4]})});S.mig2=1};
+const fix=()=>{S.prod=S.prod||[];S.subs=S.subs||[];S.orders=S.orders||[];S.done=S.done||{};S.subs.forEach(s=>s.skip=s.skip||[]);mig()};fix();
 let db=null,tab='plan',C={};
 const F={type:'veg',days:'30',half:'0',pay:'cash',name:'',phone:'',area:'',addr:'',map:'',start:iso(add(D0(),1))};
 try{const app=initializeApp(firebaseConfig);db=getDatabase(app);
@@ -175,6 +188,27 @@ const EM=[[/doodh|milk/,'🥛'],[/dahi/,'🥣'],[/paneer/,'🧀'],[/butter/,'�
 const CE={'Doodh aur dairy':'🥛','Chai aur nashta':'☕','Ghar ki safai':'🧽','Body care':'🧴','Women care':'🌸','Kirana':'🌾','Extra khana':'🍛'};
 const ce=c=>CE[c]||'🛍️';
 const pe=p=>{const n=p.n.toLowerCase();for(const x of EM)if(x[0].test(n))return x[1];return ce(p.c)};
+let SQ='',VO=0,ACAT='all';
+const FOOD=['Roti & Chawal','Sabzi & Dal','Non-veg special','Meetha & Drinks','Extra khana'];
+const isF=p=>FOOD.includes(p.c);
+Object.assign(CE,{'Roti & Chawal':'🫓','Sabzi & Dal':'🥘','Non-veg special':'🍗','Meetha & Drinks':'🍮'});
+EM.unshift([/fish/,'🐟'],[/paratha/,'🫓'],[/gulab|kheer/,'🍮'],[/lassi|chhaas/,'🥤'],[/raita/,'🥣'],[/mix veg/,'🥗']);
+const item=p=>{const q=C[p.id]||0,qh=C[p.id+'h']||0;
+const ctl=(k,n)=>n?`<div class="stp2"><button data-a="dec" data-id="${k}">−</button><b>${n}</b><button data-a="inc" data-id="${k}">+</button></div>`:`<button class="btn sm" data-a="inc" data-id="${k}">ADD +</button>`;
+return`<div class="it"><div class="ie">${pe(p)}</div><div class="in"><b>${isF(p)?vi(p.nv?'nv':'veg')+' ':''}${esc(p.n)}</b><div class="s">${inr(p.p)}${p.h?' · Full':''}</div></div>${ctl(p.id,q)}</div>`+(p.h?`<div class="it half"><div class="in s">½ Half · <b>${inr(Math.round(p.p*.6))}</b></div>${ctl(p.id+'h',qh)}</div>`:'')};
+const shopList=()=>{const q=SQ.trim().toLowerCase();let l=S.prod.filter(p=>p.s);
+if(VO)l=l.filter(p=>!p.nv);
+if(SCAT==='food')l=l.filter(isF);else if(SCAT!=='all')l=l.filter(p=>p.c===SCAT);
+if(q)l=l.filter(p=>p.n.toLowerCase().includes(q)||p.c.toLowerCase().includes(q));
+const g={};l.forEach(p=>(g[p.c]=g[p.c]||[]).push(p));
+return Object.keys(g).map(c=>`<div class="card"><h3>${ce(c)} ${esc(c)}</h3>${g[c].map(item).join('')}</div>`).join('')||'<div class="card">Kuch nahi mila 🔍</div>'};
+const addonCard=()=>{const fi=S.prod.filter(p=>p.s&&isF(p)&&(F.type==='nv'||!p.nv)),fc=[...new Set(fi.map(p=>p.c))];
+if(ACAT!=='all'&&!fc.includes(ACAT))ACAT='all';
+const l=fi.filter(p=>ACAT==='all'||p.c===ACAT);
+return`<div class="card"><h3>➕ Khana add-on</h3><div class="s">Plan ke saath extra khana mangwao. Full ya Half chuno.</div>
+<div class="chips2"><button class="${ACAT==='all'?'on':''}" data-a="acat" data-v="all">🍽️ Sab</button>${fc.map(c=>`<button class="${ACAT===c?'on':''}" data-a="acat" data-v="${esc(c)}">${ce(c)} ${esc(c)}</button>`).join('')}</div>
+${l.map(item).join('')||'<div class="s">Abhi koi add-on nahi</div>'}
+<button class="btn g" data-a="tab" data-v="shop">🛒 Doodh, kirana aur saaman → Shop</button></div>`};
 const V={
 plan:()=>{const t=D0();let at=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(p&&q>0)at+=(k.endsWith('h')?Math.round(p.p*.6):p.p)*q});
 const ex=S.prod.filter(p=>p.s&&p.c==='Extra khana');
@@ -193,21 +227,22 @@ ${banner()}
 <div class="s" style="margin-top:6px">Start date</div><input type="date" data-f="start" value="${F.start}">
 <h3 style="margin-top:10px">3️⃣ Aapki details</h3>${contact()}
 <h3 style="margin-top:10px">4️⃣ Payment</h3>${seg('pay',[['cash','Cash'],['online','Online UPI']])}</div>
-<div class="card"><h3>➕ Add-on (optional)</h3><div class="s">Extra khana chahiye? Yahan Full ya Half chuno. Paise plan ke saath hi lagenge.</div>
-${ex.map(p=>row(p,p.id,p.p,p.h?' (Full)':'')+(p.h?row(p,p.id+'h',Math.round(p.p*.6),' (Half)'):'')).join('')}</div>
+${addonCard()}
 <div class="card"><div class="row"><span>Plan</span><b>${inr(pr())}</b></div><div class="row"><span>Add-on</span><b>${inr(at)}</b></div><div class="row"><b>Total</b><b style="font-size:24px">${inr(pr()+at)}</b></div>
 <button class="btn" data-a="join">Plan shuru karo</button><button class="btn g" data-a="trial">🎁 1 din FREE trial</button></div>
 <div class="card"><h3>Kaise kaam karta hai?</h3><div class="row"><span>📱 Plan chuno</span><span class="s">1 minute</span></div><div class="row"><span>🍱 Roz time par khana</span><span class="s">Aapke darwaze par</span></div><div class="row"><span>⏭️ Kal nahi chahiye?</span><span class="s">Raat 9 baje tak skip</span></div></div>`},
-shop:()=>{const vis=S.prod.filter(p=>p.s),cats=[...new Set(vis.map(p=>p.c))];let tot=0,cnt=0;
-Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(p&&q>0){tot+=(k.endsWith('h')?Math.round(p.p*.6):p.p)*q;cnt+=q}});
-if(SCAT!=='all'&&!cats.includes(SCAT))SCAT='all';
-const list=vis.filter(p=>SCAT==='all'||p.c===SCAT);
-const st=(k,l,pp)=>`<div class="stp"><span>${l}${inr(pp)}</span><div><button data-a="dec" data-id="${k}">−</button><b>${C[k]||0}</b><button data-a="inc" data-id="${k}">+</button></div></div>`;
-return`<div class="hero" style="padding:16px 14px"><div class="em" style="font-size:44px">🛒</div><h2 style="font-size:21px">Ghar ka saaman,<br>ek tap mein</h2><p>Doodh, kirana, safai aur bahut kuch</p></div>
-<div class="chips2"><button class="${SCAT==='all'?'on':''}" data-a="cat" data-v="all">🛍️ Sab</button>${cats.map(c=>`<button class="${SCAT===c?'on':''}" data-a="cat" data-v="${esc(c)}">${ce(c)} ${esc(c)}</button>`).join('')}</div>
-<div class="pg">${list.map(p=>`<div class="pcard"><div class="pe">${pe(p)}</div><b>${esc(p.n)}</b>${st(p.id,p.h?'Full · ':'',p.p)}${p.h?st(p.id+'h','Half · ',Math.round(p.p*.6)):''}</div>`).join('')||'<div class="card">Abhi koi product nahi</div>'}</div>
+shop:()=>{const vis=S.prod.filter(p=>p.s);let tot=0,cnt=0;const ln=[];
+Object.entries(C).forEach(([k,n])=>{const p=S.prod.find(x=>x.id===parseInt(k));if(p&&n>0){const h=k.endsWith('h'),pp=h?Math.round(p.p*.6):p.p;tot+=pp*n;cnt+=n;ln.push(`<div class="row"><span>${esc(p.n)}${h?' (Half)':''} × ${n}</span><b>${inr(pp*n)}</b></div>`)}});
+const nf=[...new Set(vis.filter(p=>!isF(p)).map(p=>p.c))],fcs=[...new Set(vis.filter(isF).map(p=>p.c))];
+if(SCAT!=='all'&&SCAT!=='food'&&!nf.includes(SCAT)&&!fcs.includes(SCAT))SCAT='all';
+const ch=(v,l)=>`<button class="${SCAT===v?'on':''}" data-a="cat" data-v="${esc(v)}">${l}</button>`;
+return`<div class="hero" style="padding:14px"><div class="em" style="font-size:40px">🛒</div><h2 style="font-size:20px">Ghar ka saaman,<br>ek tap mein</h2><p>Khana, doodh, kirana aur safai</p></div>
+<input id="sq" placeholder="🔍 Roti, doodh, sabun dhundo..." value="${esc(SQ)}">
+<div class="chips2">${ch('all','🛍️ Sab')}${ch('food','🍛 Khana')}${nf.map(c=>ch(c,ce(c)+' '+esc(c))).join('')}<button class="${VO?'on':''}" data-a="vo">${vi('veg')} Sirf Veg</button></div>
+${SCAT==='food'||fcs.includes(SCAT)?`<div class="chips2">${ch('food','Sab khana')}${fcs.map(c=>ch(c,ce(c)+' '+esc(c))).join('')}</div>`:''}
+<div id="pl">${shopList()}</div>
 ${cnt?`<div class="cbar"><span>🛒 ${cnt} item · <b>${inr(tot)}</b></span><button class="btn sm g" data-a="goc">Checkout ↓</button></div>`:''}
-<div class="card" id="co"><h3>📦 Delivery details</h3>${contact()}<div class="s">Payment</div>${seg('pay',[['cash','Cash'],['online','Online UPI']])}<div class="row"><b>Total</b><b style="font-size:22px">${inr(tot)}</b></div><button class="btn" data-a="order">Order karo 🚀</button></div>`},
+<div class="card" id="co"><h3>📦 Cart aur delivery</h3>${ln.join('')||'<div class="s">Cart khali hai. Upar se ADD dabao 👆</div>'}<div class="row"><b>Total</b><b style="font-size:22px">${inr(tot)}</b></div>${contact()}<div class="s">Payment</div>${seg('pay',[['cash','Cash'],['online','Online UPI']])}<button class="btn" data-a="order">Order karo 🚀</button></div>`},
 kitchen:()=>{const t=add(D0(),1),k=iso(t),all=S.subs.filter(s=>act(s,t)),on=all.filter(s=>!s.skip.includes(k)),c=f=>on.filter(f).length;
 return`<div style="height:14px"></div><div class="big"><div class="s" style="color:#fff">KAL (${k}) · HAR TIME KE DABBE</div><div class="n">${on.length}</div>
 <div class="gr"><div><b>${c(s=>s.type==='veg')}</b>${vi('veg')} Veg</div><div><b>${c(s=>s.type==='nv')}</b>${vi('nv')} Non-veg</div><div><b>${all.length-on.length}</b>Skip</div><div><b>${c(s=>!s.half)}</b>Full</div><div><b>${c(s=>s.half)}</b>Half</div><div><b>${on.length*3}</b>Total meals</div></div></div>
@@ -237,6 +272,8 @@ const ad=addon(s);S.subs.push(s);save();alert(tr?'1 din free trial shuru!':'Plan
 const A={
 cat:v=>{SCAT=v;render()},
 goc:()=>{const e=document.getElementById('co');if(e)e.scrollIntoView({behavior:'smooth'})},
+acat:v=>{ACAT=v;render()},
+vo:()=>{VO=VO?0:1;render()},
 tab:v=>{if(['kitchen','delivery','owner'].includes(v)&&!OK){const x=prompt('Owner PIN daalo');if(x!==OPIN){if(x!==null)alert('Galat PIN');return}OK=1;try{sessionStorage.setItem('udok','1')}catch(e){}}tab=v;render()},
 gps:()=>{if(!navigator.geolocation){alert('Is phone mein GPS nahi hai');return}navigator.geolocation.getCurrentPosition(p=>{F.map='https://www.google.com/maps?q='+p.coords.latitude.toFixed(6)+','+p.coords.longitude.toFixed(6);render();alert('Location mil gayi ✓')},e=>alert('Location nahi mili. Phone ka Location ON karo aur browser ko permission do.'),{enableHighAccuracy:true,timeout:15000})},
 set:(v,k)=>{F[k]=v;render()},
@@ -264,7 +301,7 @@ out:()=>{OK=0;try{sessionStorage.removeItem('udok')}catch(e){}tab='plan';render(
 reset:()=>{if(confirm('Sab data delete ho jayega. Pakka?')){S={prod:SEED,subs:[],orders:[],done:{}};save()}}
 };
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const f=A[b.dataset.a];if(!f)return;try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(x){alert('Error: '+x.message)}});
-document.addEventListener('input',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f)F[f]=e.target.value});
+document.addEventListener('input',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f)F[f]=e.target.value;if(e.target.id==='sq'){SQ=e.target.value;const el=document.getElementById('pl');if(el)el.innerHTML=shopList()}});
 function ologin(){const x=prompt('Owner PIN daalo');if(x===OPIN){OK=1;try{sessionStorage.setItem('udok','1')}catch(e){}tab='owner';render()}else if(x!==null)alert('Galat PIN')}
 let hc=0;document.querySelector('header').addEventListener('click',()=>{hc++;if(hc>=5){hc=0;ologin()}});
 render();
