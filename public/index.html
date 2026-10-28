@@ -91,7 +91,7 @@ a{color:var(--o);font-weight:700}
 const UPI='9583937047@jio';
 const PL={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
 const OPIN='4821', DPIN='7788';
-const IM={thali:'',grocery:'🛒',kitchen:'🍳',scooter:'🛵',money:'💰',curry:'',roti:'🫓',chawal:'🍚',paneer:'',chicken:'🍗',egg:'🥚',doodh:'🥛',chai:'☕',dal:'',meetha:'🍮',clean:'🧹',care:'🧼'};
+const IM={thali:'',grocery:'🛒',kitchen:'🍳',scooter:'',money:'💰',curry:'',roti:'🫓',chawal:'🍚',paneer:'',chicken:'',egg:'🥚',doodh:'🥛',chai:'☕',dal:'',meetha:'🍮',clean:'',care:'🧼'};
 
 // ===== HELPERS =====
 const $=s=>document.querySelector(s);
@@ -105,9 +105,9 @@ const cleanPh=s=>String(s||'').replace(/\D/g,'').slice(-10);
 
 // ===== SEED DATA =====
 const SEED=[
-{n:'Doodh 500 ml',p:30,c:'Doodh aur dairy',h:0,img:'🥛',mrp:34},
+{n:'Doodh 500 ml',p:30,c:'Doodh aur dairy',h:0,img:'',mrp:34},
 {n:'Dahi 400 g',p:40,c:'Doodh aur dairy',h:0,img:'',mrp:46},
-{n:'Paneer 200 g',p:80,c:'Doodh aur dairy',h:0,img:'🧀',mrp:95},
+{n:'Paneer 200 g',p:80,c:'Doodh aur dairy',h:0,img:'',mrp:95},
 {n:'Chai patti 250 g',p:130,c:'Chai aur nashta',h:0,img:'☕',mrp:150},
 {n:'Bread',p:40,c:'Chai aur nashta',h:0,img:'🍞',mrp:45},
 {n:'Ande (6)',p:72,c:'Chai aur nashta',h:0,img:'🥚',mrp:85},
@@ -115,11 +115,11 @@ const SEED=[
 {n:'Sabun',p:30,c:'Body care',h:0,img:'🧼',mrp:36},
 {n:'Atta 1 kg',p:50,c:'Kirana',h:0,img:'🌾',mrp:58},
 {n:'Chawal 1 kg',p:70,c:'Kirana',h:0,img:'🍚',mrp:82},
-{n:'Dal 1 kg',p:150,c:'Kirana',h:0,img:'🫘',mrp:175},
-{n:'Tel 1 L',p:150,c:'Kirana',h:0,img:'🫙',mrp:178},
+{n:'Dal 1 kg',p:150,c:'Kirana',h:0,img:'',mrp:175},
+{n:'Tel 1 L',p:150,c:'Kirana',h:0,img:'',mrp:178},
 {n:'Roti',p:5,c:'Extra khana',h:1,img:'🫓',mrp:6},
 {n:'Chawal plate',p:20,c:'Extra khana',h:1,img:'',mrp:25},
-{n:'Paneer sabzi',p:50,c:'Extra khana',h:1,img:'🧀',mrp:65},
+{n:'Paneer sabzi',p:50,c:'Extra khana',h:1,img:'',mrp:65},
 {n:'Egg curry',p:40,c:'Extra khana',h:1,img:'🥚',mrp:50},
 {n:'Chicken piece',p:60,c:'Extra khana',h:1,img:'🍗',mrp:75,nv:1}
 ].map((a,i)=>({id:i+1,...a,s:1,brand:null}));
@@ -173,6 +173,36 @@ const mf=(d,t)=>{const k=iso(d);const o=(S.mset||{})[k];if(o){if(t==='nv'&&o.nv)
 const due=s=>s.price+S.orders.filter(o=>o.sid===s.id&&!o.paid).reduce((a,o)=>a+o.total,0);
 const prefOf=s=>(s.lunch==='both'?'L:Dono':s.lunch==='chawal'?'L:Chawal':'L:Roti')+' | '+(s.dinner==='both'?'D:Dono':s.dinner==='chawal'?'D:Chawal':'D:Roti')+(s.extraRoti>0?' +'+s.extraRoti+'R':'');
 
+// ===== VALIDATION FUNCTION =====
+const validateForm=()=>{
+  // Name validation
+  if(!F.name || F.name.trim().length<2){
+    alert('❌ Naam zaroori hai (kam se kam 2 akshar)');
+    return false;
+  }
+  
+  // Phone validation - must be 10 digits
+  const phone=cleanPh(F.phone);
+  if(!phone || phone.length!==10){
+    alert('❌ 10 digit ka phone number daalo (bina +91 ke)');
+    return false;
+  }
+  
+  // GPS/Location validation
+  if(!F.map || !F.map.includes('q=') || F.map.length<20){
+    alert('❌ Location zaroori hai!\n"📍 GPS location lo" button dabao');
+    return false;
+  }
+  
+  // Address validation
+  if(!F.addr || F.addr.trim().length<10){
+    alert('❌ Pura address daalo (kam se kam 10 akshar)');
+    return false;
+  }
+  
+  return true;
+};
+
 // ===== RENDER VIEWS =====
 const V={
 plan:()=>{
@@ -190,22 +220,25 @@ plan:()=>{
     const left=mp?Math.max(0,mp.days-used):0;
     html+='<div class="card" style="border-left:4px solid var(--g)"><div style="display:flex;justify-content:space-between;align-items:center"><b>👤 '+esc(ME.name)+'</b><button class="btn sm r" data-a="logout" style="margin:0">Logout</button></div>'+(mp?'<div class="s" style="color:#166534;font-weight:700;margin-top:4px">✅ '+used+' din chua · '+left+' baaki · 🍱 '+mf(D0(),mp.type)+'</div>':'<div class="s" style="margin-top:4px">Koi active plan nahi</div>')+'<div class="s" style="margin-top:4px">🪔 Code <b style="color:var(--o)">'+codeOf(ME.phone)+'</b> · Credit ₹'+credOf(ME.phone)+'</div></div>';
   } else {
-    html+='<div class="card" id="logcard"><div class="s" style="font-weight:700;margin-bottom:6px">👤 Login karo (optional)</div><div style="display:flex;gap:8px"><input id="lname" style="margin:0" maxlength="40" placeholder="Naam"><input id="lphone" style="margin:0" type="tel" maxlength="10" placeholder="Phone"><button class="btn sm g" data-a="login" style="margin:0;flex:none">Login</button></div></div>';
+    html+='<div class="card" id="logcard"><div class="s" style="font-weight:700;margin-bottom:6px"> Login karo (optional)</div><div style="display:flex;gap:8px"><input id="lname" style="margin:0" maxlength="40" placeholder="Naam"><input id="lphone" style="margin:0" type="tel" maxlength="10" placeholder="Phone"><button class="btn sm g" data-a="login" style="margin:0;flex:none">Login</button></div></div>';
   }
 
   // Plan form
   const crNow=credOf(F.phone);
   const disc=(elig(F.days)&&crNow>0)?Math.min(crNow,pr()):0;
 
-  html+='<div class="zrest"><div class="zrimg"><span class="zpromo"> ₹100 OFF on refer · 🎁 1 din free trial</span></div><div class="zrbody"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:17px">Namaste Udala Tiffin</b><span class="rpill">4.5 ★</span></div><div class="s" style="margin:4px 0">Veg · Non-veg | Subah-Lunch-Dinner</div><div class="s" style="margin:6px 0;font-weight:700;color:var(--g)">🍽️ Aaj: '+mf(t,F.type)+'</div>';
+  html+='<div class="zrest"><div class="zrimg"><span class="zpromo"> ₹100 OFF on refer ·  1 din free trial</span></div><div class="zrbody"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:17px">Namaste Udala Tiffin</b><span class="rpill">4.5 ★</span></div><div class="s" style="margin:4px 0">Veg · Non-veg | Subah-Lunch-Dinner</div><div class="s" style="margin:6px 0;font-weight:700;color:var(--g)">🍽️ Aaj: '+mf(t,F.type)+'</div>';
   html+='<div class="s">Khana</div>'+seg('type',[['veg','🟢 Veg'],['nv','🔴 Non-veg']]);
   html+='<div class="s">Kitne din</div>'+seg('days',[[7,'7 din'],[15,'15 din'],[30,'30 din']]);
-  html+='<div class="s">Naam & phone</div><input data-f="name" maxlength="40" placeholder="Naam" value="'+esc(F.name)+'"><input data-f="phone" type="tel" maxlength="10" placeholder="Phone" value="'+esc(F.phone)+'">';
-  html+='<button class="btn g" data-a="gps">📍 GPS location lo</button>';
+  html+='<div class="s">Naam <span style="color:red">*</span></div><input data-f="name" maxlength="40" placeholder="Apna pura naam" value="'+esc(F.name)+'">';
+  html+='<div class="s">Phone <span style="color:red">*</span></div><input data-f="phone" type="tel" maxlength="10" placeholder="10 digit number (bina +91)" value="'+esc(F.phone)+'">';
+  html+='<button class="btn g" data-a="gps"> GPS location lo <span style="color:red">*</span></button>';
+  if(F.map)html+='<div class="s" style="color:#1f7a3f;font-weight:700;margin:6px 0">✅ Location save ho gayi</div>';
   html+='<button class="btn g" data-a="cust">'+(CUST?'▲ Customize band karo':'▼ Customize (address/lunch/dinner)')+'</button>';
 
   if(CUST){
-    html+='<div class="s" style="margin-top:8px">Area + address</div><input data-f="area" maxlength="40" placeholder="Area" value="'+esc(F.area)+'"><input data-f="addr" maxlength="120" placeholder="Pura address" value="'+esc(F.addr)+'">';
+    html+='<div class="s" style="margin-top:8px">Area <span style="color:red">*</span></div><input data-f="area" maxlength="40" placeholder="Area/Locality" value="'+esc(F.area)+'">';
+    html+='<div class="s">Pura address <span style="color:red">*</span></div><input data-f="addr" maxlength="120" placeholder="Ghar ka pura address" value="'+esc(F.addr)+'">';
     html+='<div class="s">Lunch mein</div>'+seg('lunch',[['roti','🫓 Roti'],['chawal','🍚 Chawal'],['both',' Dono +₹10']]);
     html+='<div class="s">Dinner mein</div>'+seg('dinner',[['roti',' Roti'],['chawal','🍚 Chawal'],['both','🍱 Dono +₹10']]);
     html+='<div class="s" style="margin-top:6px">Extra roti (5/din)</div><div class="stp2" style="width:fit-content"><button data-a="dec" data-id="extraRoti">−</button><b>'+clamp(F.extraRoti||0,0,4)+'</b><button data-a="inc" data-id="extraRoti">+</button></div>';
@@ -219,7 +252,8 @@ plan:()=>{
   html+='<div class="row"><span>🛵 Delivery</span><b style="color:#1f7a3f">FREE</b></div>';
   html+='<div class="row"><b>Total</b><b style="font-size:24px">'+inr(pr()+at-disc)+'</b></div>';
   html+='<button class="btn" data-a="join">✅ Plan shuru karo</button>';
-  html+='<button class="btn g" data-a="trial">🎁 1 din FREE trial</button></div></div>';
+  html+='<button class="btn g" data-a="trial">🎁 1 din FREE trial</button>';
+  html+='<div class="s" style="margin-top:10px;color:#c92a2a"><b>⚠️ Note:</b> Naam, Phone, GPS aur Address zaroori hai</div></div></div>';
 
   return html;
 },
@@ -235,7 +269,7 @@ shop:()=>{
 
   let html='<div class="hero"><h2>Ghar ka saaman</h2><p>Khana, doodh, kirana — sab yahan</p></div>';
   html+='<input id="sq" maxlength="30" placeholder="🔍 Dhundo..." value="'+esc(SQ)+'">';
-  html+='<div class="chips2"><button class="'+(SCAT==='all'?'on':'')+'" data-a="cat" data-v="all">Sab</button>'+cats.map(c=>'<button class="'+(SCAT===c?'on':'')+'" data-a="cat" data-v="'+esc(c)+'">'+IM[c]||'📦'+' '+esc(c)+'</button>').join('')+'<button class="'+(VO?'on':'')+'" data-a="vo">'+vi('veg')+' Sirf Veg</button></div>';
+  html+='<div class="chips2"><button class="'+(SCAT==='all'?'on':'')+'" data-a="cat" data-v="all">Sab</button>'+cats.map(c=>'<button class="'+(SCAT===c?'on':'')+'" data-a="cat" data-v="'+esc(c)+'">'+IM[c]||''+' '+esc(c)+'</button>').join('')+'<button class="'+(VO?'on':'')+'" data-a="vo">'+vi('veg')+' Sirf Veg</button></div>';
 
   // Products
   let q=SQ.trim().toLowerCase();
@@ -248,7 +282,7 @@ shop:()=>{
     const cq=C[p.id]||0;
     const ctl=cq?('<div class="stp2"><button data-a="dec" data-id="'+p.id+'">−</button><b>'+cq+'</b><button data-a="inc" data-id="'+p.id+'">+</button></div>'):('<button class="btn sm" data-a="inc" data-id="'+p.id+'">ADD +</button>');
     return '<div class="it"><div class="iew">'+(p.img||'🍛')+'</div><div class="in"><b>'+(p.nv?vi('nv')+' ':'')+esc(p.n)+'</b><div class="s">'+(p.mrp?'<span class="mrp">MRP ₹'+p.mrp+'</span>':'')+'<span class="price">'+inr(p.p)+'</span>'+(p.h?' · Full':'')+'</div></div>'+ctl+'</div>'+(p.h?'<div class="it" style="padding:0 0 12px 50px"><div class="in s">½ Half · <b>'+inr(Math.round(p.p*.6))+'</b></div><div class="stp2"><button data-a="dec" data-id="'+p.id+'h">−</button><b>'+(C[p.id+'h']||0)+'</b><button data-a="inc" data-id="'+p.id+'h">+</button></div></div>':'');
-  }).join('')+'</div>').join('')||'<div class="card">Kuch nahi mila 🔍</div>';
+  }).join('')+'</div>').join('')||'<div class="card">Kuch nahi mila </div>';
 
   // Cart bar
   if(cnt)html+='<div class="cbar"><span> '+cnt+' item · <b>'+inr(tot)+'</b></span><button class="btn sm g" data-a="goc">Checkout ↓</button></div>';
@@ -256,8 +290,10 @@ shop:()=>{
   // Checkout
   html+='<div class="card" id="co"><h3>📦 Cart aur delivery</h3>'+(ln.join('')||'<div class="s">Cart khali hai</div>');
   html+='<div class="row"><b>Total</b><b style="font-size:22px">'+inr(tot)+'</b></div>';
-  html+='<input data-f="name" maxlength="40" placeholder="Naam" value="'+esc(F.name)+'"><input data-f="phone" type="tel" maxlength="10" placeholder="Phone" value="'+esc(F.phone)+'"><input data-f="addr" maxlength="120" placeholder="Address" value="'+esc(F.addr)+'">';
-  html+='<button class="btn g" data-a="gps">📍 GPS location lo</button>';
+  html+='<div class="s">Naam <span style="color:red">*</span></div><input data-f="name" maxlength="40" placeholder="Apna naam" value="'+esc(F.name)+'">';
+  html+='<div class="s">Phone <span style="color:red">*</span></div><input data-f="phone" type="tel" maxlength="10" placeholder="10 digit number" value="'+esc(F.phone)+'">';
+  html+='<div class="s">Address <span style="color:red">*</span></div><input data-f="addr" maxlength="120" placeholder="Pura address" value="'+esc(F.addr)+'">';
+  html+='<button class="btn g" data-a="gps"> GPS location lo</button>';
   html+='<div class="s">Payment</div>'+seg('pay',[['cash','Cash'],['online','Online UPI']]);
   html+='<button class="btn" data-a="order">Order karo 🚀</button>';
   if(cnt)html+='<button class="btn r" data-a="clearCart" style="margin-top:8px">️ Clear Cart</button>';
@@ -273,7 +309,7 @@ kitchen:()=>{
   const exR=on.reduce((a,s)=>a+(s.extraRoti||0),0);
   const cntL=m=>on.filter(s=>(s.lunch||'chawal')===m).length;
   const cntD=m=>on.filter(s=>(s.dinner||'roti')===m).length;
-  const mealTxt=m=>m==='chawal'?'🍚 Chawal':m==='both'?'🫓 Roti x4 + 🍚 Chawal':'🫓 Roti x4';
+  const mealTxt=m=>m==='chawal'?'🍚 Chawal':m==='both'?'🫓 Roti x4 +  Chawal':'🫓 Roti x4';
   const curry=s=>s.type==='nv'?'🍗 NV curry':' Veg sabzi';
 
   let agg='',lines=[];
@@ -283,7 +319,7 @@ kitchen:()=>{
   else{agg='<div class="pm"><div><b>'+vegC+'</b><span class="s">Veg</span></div><div><b>'+nvC+'</b><span class="s">NV</span></div><div><b>'+exR+'</b><span class="s">Extra roti</span></div></div>';lines=on.map(s=>({s:s,l:' Full dabba'}))}
 
   let html='<div style="height:14px"></div><div class="big"><div style="display:flex;justify-content:space-between;align-items:center"><div><div class="s" style="color:#fff">AAJ · '+({subah:'SUBAH 7:30',lunch:'LUNCH 1:30',dinner:'DINNER 8:00',all:'FULL DABBA'})[KMEAL]+'</div><div class="n">'+on.length+'</div><div class="s" style="color:#fff">🟢 '+vegC+' ·  '+nvC+' · 🫓 +'+exR+'</div></div><div style="font-size:60px">🥘</div></div></div>';
-  html+='<div class="card"><h3>🍳 Cooking count</h3><div class="chips2">'+[['subah','🌅 Subah'],['lunch','☀️ Lunch'],['dinner','🌙 Dinner'],['all','📦 Full']].map(a=>'<button class="'+(KMEAL===a[0]?'on':'')+'" data-a="kmeal" data-v="'+a[0]+'">'+a[1]+'</button>').join('')+'</div>'+agg+'<button class="btn g" data-a="copyKitchen" style="margin-top:12px"> WhatsApp Summary Copy</button></div>';
+  html+='<div class="card"><h3> Cooking count</h3><div class="chips2">'+[['subah','🌅 Subah'],['lunch','☀️ Lunch'],['dinner','🌙 Dinner'],['all','📦 Full']].map(a=>'<button class="'+(KMEAL===a[0]?'on':'')+'" data-a="kmeal" data-v="'+a[0]+'">'+a[1]+'</button>').join('')+'</div>'+agg+'<button class="btn g" data-a="copyKitchen" style="margin-top:12px"> WhatsApp Summary Copy</button></div>';
   html+='<div class="card"><h3>👥 Kis ko kya ('+on.length+')</h3>'+(lines.map(x=>'<div class="row" style="align-items:flex-start"><div style="flex:1"><b>'+esc(x.s.name)+'</b> <span class="s">'+(x.s.type==='veg'?'🟢':'')+(x.s.half?' Half':'')+'</span><div class="s" style="color:var(--g);font-weight:700;margin-top:2px">'+x.l+'</div></div><button class="btn sm '+(x.s.skip.includes(k)?'g':'r')+'" data-a="skip" data-id="'+x.s.id+'">'+(x.s.skip.includes(k)?'Wapas':'Skip')+'</button></div>').join('')||'<div class="s">Koi nahi</div>')+'</div>';
   return html;
 },
@@ -298,16 +334,16 @@ delivery:()=>{
   let html='<div style="height:14px"></div>';
   html+='<div class="card" style="background:linear-gradient(135deg,#1f5f3a,#14452a);color:#fff;text-align:center"><div class="s" style="color:#dbe9e1">AAJ KI DELIVERY</div><div style="font-size:40px;font-weight:900">'+doneL.length+' / '+l.length+'</div><div style="height:8px;background:rgba(255,255,255,.2);border-radius:6px;margin:12px 0"><div style="height:8px;width:'+(l.length?Math.round(doneL.length/l.length*100):0)+'%;background:#06d6a0;border-radius:6px"></div></div></div>';
 
-  html+='<div class="card"><h3>⏳ Baaki ('+pend.length+')</h3>'+(pend.map((s,i)=>'<div class="row" style="align-items:flex-start"><div style="flex:1"><b>'+esc(s.name)+'</b><div class="s">'+esc(s.addr)+', '+esc(s.area)+'</div><div class="s" style="color:var(--o);font-weight:700">'+vi(s.type)+' '+(s.type==='veg'?'Veg':'Non-veg')+' · '+prefOf(s)+'</div></div><div style="font-size:20px;font-weight:900;color:var(--muted)">#'+(i+1)+'</div></div><div style="display:flex;gap:6px;margin-top:8px"><a class="btn g" style="flex:1;margin:0;text-align:center;text-decoration:none;font-size:12px" href="tel:+91'+esc(s.phone)+'">📞 Call</a><button class="btn" style="flex:1;margin:0;font-size:12px" data-a="done" data-id="'+s.id+'">✅ Delivered</button></div>').join('')||'<div class="s">Sab deliver ho gaya 🎉</div>')+'</div>';
+  html+='<div class="card"><h3>⏳ Baaki ('+pend.length+')</h3>'+(pend.map((s,i)=>'<div class="row" style="align-items:flex-start"><div style="flex:1"><b>'+esc(s.name)+'</b><div class="s">'+esc(s.addr)+', '+esc(s.area)+'</div><div class="s" style="color:var(--o);font-weight:700">'+vi(s.type)+' '+(s.type==='veg'?'Veg':'Non-veg')+' · '+prefOf(s)+'</div></div><div style="font-size:20px;font-weight:900;color:var(--muted)">#'+(i+1)+'</div></div><div style="display:flex;gap:6px;margin-top:8px"><a class="btn g" style="flex:1;margin:0;text-align:center;text-decoration:none;font-size:12px" href="tel:+91'+esc(s.phone)+'">📞 Call</a><button class="btn" style="flex:1;margin:0;font-size:12px" data-a="done" data-id="'+s.id+'">✅ Delivered</button></div>').join('')||'<div class="s">Sab deliver ho gaya </div>')+'</div>';
 
   if(ords.length){html+='<div class="card"><h3>🛒 Shop Orders ('+ords.length+')</h3>'+ords.map((o,i)=>'<div class="row"><div><b>'+esc(o.name)+'</b><div class="s">'+o.items.length+' items · '+inr(o.total)+'</div></div><button class="btn sm g" data-a="odone" data-id="'+o.id+'">Diya</button></div>').join('')+'</div>'}
   if(doneL.length){html+='<div class="card"><h3>✅ Ho gaya ('+doneL.length+')</h3>'+doneL.map(s=>'<div class="row"><div><b>'+esc(s.name)+'</b><div class="s">'+esc(s.area)+'</div></div><span style="color:#06d6a0;font-size:18px">✓</span></div>').join('')+'</div>'}
-  if(!l.length&&!ords.length)html+='<div class="card">Aaj koi delivery nahi 🎉</div>';
+  if(!l.length&&!ords.length)html+='<div class="card">Aaj koi delivery nahi </div>';
   return html;
 },
 
 owner:()=>{
-  if(!OK)return '<div class="card"><h3>🔒 Owner Login</h3><div class="s">Header par 5 baar tap karo</div></div>';
+  if(!OK)return '<div class="card"><h3> Owner Login</h3><div class="s">Header par 5 baar tap karo</div></div>';
   if(DET){
     const s=S.subs.find(x=>x.id==DET.id);
     if(s){
@@ -336,7 +372,7 @@ owner:()=>{
   const pendAmt=S.subs.filter(s=>!s.paid).reduce((a,s)=>a+due(s),0)+S.orders.filter(o=>!o.paid).reduce((a,o)=>a+o.total,0);
 
   let html='<div style="height:14px"></div>';
-  html+='<div class="card" style="background:linear-gradient(135deg,#1f5f3a,#14452a);color:#fff"><h3 style="color:#fff">📊 Dashboard</h3><div class="gr"><div><b>'+inr(todayEarn)+'</b><span class="s" style="color:#dbe9e1">💰 Aaj</span></div><div><b>'+actS.length+'</b><span class="s" style="color:#dbe9e1">📦 Plans</span></div><div><b style="color:#ffbe0b">'+inr(pendAmt)+'</b><span class="s" style="color:#ffbe0b"> Pending</span></div><div><b style="color:#7ef0c0">'+doneN+'/'+todayDel.length+'</b><span class="s" style="color:#7ef0c0">🛵 Delivered</span></div></div></div>';
+  html+='<div class="card" style="background:linear-gradient(135deg,#1f5f3a,#14452a);color:#fff"><h3 style="color:#fff"> Dashboard</h3><div class="gr"><div><b>'+inr(todayEarn)+'</b><span class="s" style="color:#dbe9e1">💰 Aaj</span></div><div><b>'+actS.length+'</b><span class="s" style="color:#dbe9e1">📦 Plans</span></div><div><b style="color:#ffbe0b">'+inr(pendAmt)+'</b><span class="s" style="color:#ffbe0b"> Pending</span></div><div><b style="color:#7ef0c0">'+doneN+'/'+todayDel.length+'</b><span class="s" style="color:#7ef0c0">🛵 Delivered</span></div></div></div>';
 
   // Ledger tabs
   html+='<div class="card"><h3>📒 Ledger</h3><div class="chips2">'+[['deliv',' Aaj'],['plan','🍱 Plan'],['shop','🛒 Shop'],['pay','💰 Payment'],['kitch','🧑 Kitchen'],['set','️ Set']].map(a=>'<button class="'+(OVIEW===a[0]?'on':'')+'" data-a="oview" data-v="'+a[0]+'">'+a[1]+'</button>').join('')+'</div>';
@@ -346,12 +382,12 @@ owner:()=>{
   } else if(OVIEW==='plan'){
     html+=S.subs.slice().reverse().map(s=>'<div class="row" style="cursor:pointer" data-a="det" data-v="plan" data-id="'+s.id+'"><div><b>'+esc(s.name)+'</b> · '+esc(s.phone)+'<div class="s">'+s.days+' din · '+(s.type==='veg'?'Veg':'NV')+'</div></div><div style="text-align:right"><b>'+inr(s.price)+'</b><div class="s">'+(s.paid?'✅':'⏳')+'</div></div></div>').join('')||'<div class="s">Koi plan nahi</div>';
   } else if(OVIEW==='shop'){
-    html+=S.orders.slice().reverse().map(o=>'<div class="row"><div><b>'+esc(o.name)+'</b><div class="s">'+o.items.map(i=>esc(i.n)+' x'+i.q).join(', ')+'</div></div><div style="text-align:right"><b>'+inr(o.total)+'</b><div class="s">'+(o.paid?'✅':'⏳')+' '+(o.dlv?'🟢':'')+'</div></div></div>').join('')||'<div class="s">Koi order nahi</div>';
+    html+=S.orders.slice().reverse().map(o=>'<div class="row"><div><b>'+esc(o.name)+'</b><div class="s">'+o.items.map(i=>esc(i.n)+' x'+i.q).join(', ')+'</div></div><div style="text-align:right"><b>'+inr(o.total)+'</b><div class="s">'+(o.paid?'✅':'⏳')+' '+(o.dlv?'':'')+'</div></div></div>').join('')||'<div class="s">Koi order nahi</div>';
   } else if(OVIEW==='pay'){
     html+='<div class="row"><span>💰 Total</span><b>'+inr(totalEarn)+'</b></div>';
     html+=P.slice().reverse().map(p=>'<div class="row"><div><b>'+esc(p.name)+'</b><div class="s">'+esc(p.d)+' · '+(p.mode==='online'?'UPI':'Cash')+'</div></div><b>'+inr(p.amt)+'</b></div>').join('')||'<div class="s">Koi payment nahi</div>';
   } else if(OVIEW==='kitch'){
-    html+=todayDel.map(s=>'<div class="row"><div><b>'+esc(s.name)+'</b><div class="s" style="color:var(--g);font-weight:700">📦 '+(s.type==='veg'?'Veg':'NV')+' · '+(s.half?'Half':'Full')+'</div></div></div>').join('')||'<div class="s">Kuch nahi</div>';
+    html+=todayDel.map(s=>'<div class="row"><div><b>'+esc(s.name)+'</b><div class="s" style="color:var(--g);font-weight:700"> '+(s.type==='veg'?'Veg':'NV')+' · '+(s.half?'Half':'Full')+'</div></div></div>').join('')||'<div class="s">Kuch nahi</div>';
   } else if(OVIEW==='set'){
     html+='<div class="s">Kal ka menu:</div><input id="mveg" maxlength="60" placeholder="Veg menu" value="'+esc(mf(add(D0(),1),'veg'))+'"><input id="mnv" maxlength="60" placeholder="Non-veg menu" value="'+esc(mf(add(D0(),1),'nv'))+'"><button class="btn sm" data-a="setmenu">💾 Menu save</button>';
     html+='<div class="edbox" style="margin-top:12px"><div class="s" style="font-weight:800">🔒 Security</div><div class="s">Naya Owner PIN (Default: 4821)</div><input id="newopin" maxlength="4" placeholder="Naya 4 digit PIN" type="password"><button class="btn sm g" data-a="chopin" style="margin-top:6px">PIN Badlo</button></div>';
@@ -361,7 +397,7 @@ owner:()=>{
 
   // Products
   const ep=PED?S.prod.find(p=>p.id==PED):null;
-  html+='<div class="card"><h3>🛍 Products</h3>';
+  html+='<div class="card"><h3> Products</h3>';
   if(ep){html+='<div class="edbox"><div class="s" style="font-weight:800">✏️ Edit: '+esc(ep.n)+'</div><input id="epn" maxlength="40" value="'+esc(ep.n)+'"><input id="epp" type="number" min="1" value="'+ep.p+'"><input id="epc" maxlength="30" value="'+esc(ep.c)+'"><div style="display:flex;gap:8px"><button class="btn sm g" data-a="savep">💾 Save</button><button class="btn sm r" data-a="editp">✕ Cancel</button></div></div>'}
   html+='<input id="pn" maxlength="40" placeholder="Naam"><input id="pp" type="number" min="1" placeholder="Price"><input id="pc" maxlength="30" placeholder="Category"><button class="btn" data-a="addp">Product jodo</button>';
   html+=S.prod.map(p=>'<div class="row"><div style="display:flex;align-items:center;gap:8px"><div class="iew">'+(p.img||'🍛')+'</div><div>'+esc(p.n)+'<div class="s">'+(p.mrp?'<span class="mrp">MRP ₹'+p.mrp+'</span>':'')+'<span class="price">'+inr(p.p)+'</span></div></div></div><div><button class="btn sm" data-a="editp" data-id="'+p.id+'">✏️</button><button class="btn sm '+(p.s?'g':'r')+'" data-a="stock" data-id="'+p.id+'">'+(p.s?'Stock':'X')+'</button><button class="btn sm r" data-a="delp" data-id="'+p.id+'">✕</button></div></div>').join('');
@@ -388,7 +424,7 @@ const A={
     ep.n=n.trim().slice(0,40);ep.p=Math.round(p);ep.c=c.trim().slice(0,30);
     PED=null;save();alert('Product update ✅')},
   setmenu:()=>{if(!needOK())return;const a=$('#mveg'),b=$('#mnv');const k=iso(add(D0(),1));S.mset[k]={veg:a?String(a.value).slice(0,60).trim():'',nv:b?String(b.value).slice(0,60).trim():''};logAdd('Menu set '+k);save();alert('Kal ka menu set ✅')},
-  login:()=>{const ne=$('#lname'),pe2=$('#lphone');const n=ne?ne.value.trim().slice(0,40):'';const p=pe2?cleanPh(pe2.value):'';if(!n||p.length<10){alert('Naam aur 10 digit phone daalo');return}ME={name:n,phone:p};saveME();F.name=n;F.phone=p;render();alert('Login ho gaya! 🙏')},
+  login:()=>{const ne=$('#lname'),pe2=$('#lphone');const n=ne?ne.value.trim().slice(0,40):'';const p=pe2?cleanPh(pe2.value):'';if(!n||n.length<2){alert('Naam kam se kam 2 akshar ka hona chahiye');return}if(p.length!==10){alert('10 digit ka phone number daalo');return}ME={name:n,phone:p};saveME();F.name=n;F.phone=p;render();alert('Login ho gaya! 🙏')},
   logout:()=>{ME=null;DET=null;saveME();render();alert('Logout ho gaya')},
   cat:v=>{SCAT=v;render()},
   goc:()=>{const e=$('#co');if(e)e.scrollIntoView({behavior:'smooth'})},
@@ -397,13 +433,26 @@ const A={
   paidO:(v,k,id)=>{if(!needOK())return;const o=S.orders.find(x=>x.id==id);if(!o)return;if(!confirm(o.name+': '+inr(o.total)+' mil gaye?'))return;o.paid=1;S.pays.push({id:Date.now(),d:iso(D0()),name:o.name,amt:o.total,mode:o.pay,kind:'Shop'});logAdd('Paid: '+o.name);save()},
   remS:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(s)wa(s.phone,'Namaste '+s.name+'! Aapka '+inr(due(s))+' pending hai. UPI: '+UPI)},
   tab:v=>{if(['kitchen','delivery','owner'].includes(v)&&!OK){const x=prompt(v==='delivery'?'Delivery PIN daalo':'Owner PIN daalo');if(x===null)return;const ok=v==='delivery'?(x===DPIN||x===OPIN):(x===OPIN);if(!ok){alert('Galat PIN');return}OK=1}if(v==='owner'){OVIEW='deliv';DET=null}tab=v;render()},
-  gps:()=>{if(!navigator.geolocation){alert('GPS nahi hai');return}navigator.geolocation.getCurrentPosition(p=>{F.map='https://www.google.com/maps?q='+p.coords.latitude.toFixed(6)+','+p.coords.longitude.toFixed(6);render();alert('Location mil gayi ✓')},e=>alert('Location nahi mili. Phone ka Location ON karo.'),{enableHighAccuracy:true,timeout:15000})},
+  gps:()=>{if(!navigator.geolocation){alert('GPS nahi hai is device mein');return}navigator.geolocation.getCurrentPosition(p=>{F.map='https://www.google.com/maps?q='+p.coords.latitude.toFixed(6)+','+p.coords.longitude.toFixed(6);render();alert('✅ Location save ho gayi')},e=>{alert('❌ Location nahi mili\nPhone ka Location ON karo aur try karo')},{enableHighAccuracy:true,timeout:15000})},
   set:(v,k)=>{F[k]=v;render()},
   join:()=>mk(0),
   trial:()=>mk(1),
   inc:(v,k,id)=>{if(id==='extraRoti'){F.extraRoti=clamp((F.extraRoti||0)+1,0,4);render()}else{C[id]=clamp((C[id]||0)+1,0,99);render()}},
   dec:(v,k,id)=>{if(id==='extraRoti'){F.extraRoti=clamp((F.extraRoti||0)-1,0,4);render()}else{C[id]=clamp((C[id]||0)-1,0,99);render()}},
-  order:()=>{if(!F.name||!F.phone){alert('Naam aur phone daalo');return}const it=[];let total=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k,10));if(!p||q<1)return;const h=k.endsWith('h');const pp=h?Math.round(p.p*.6):p.p;it.push({n:p.n+(h?' (Half)':''),q:clamp(q,1,99),p:pp});total+=pp*q});if(!it.length){alert('Cart khali hai');return}S.orders.push({id:Date.now(),ts:Date.now(),name:String(F.name).slice(0,40),phone:cleanPh(F.phone),area:String(F.area||'Other').slice(0,40),addr:String(F.addr).slice(0,120),map:String(F.map).slice(0,200),items:it,total:total,pay:F.pay==='online'?'online':'cash',paid:0,dlv:0,t:new Date().toLocaleString()});C={};save();alert('Order ho gaya: '+inr(total));if(F.pay==='online')location.href=upi(total)},
+  order:()=>{
+    // Validate shop order
+    if(!F.name || F.name.trim().length<2){alert('❌ Naam daalo');return}
+    const phone=cleanPh(F.phone);
+    if(!phone || phone.length!==10){alert('❌ 10 digit phone number daalo');return}
+    if(!F.addr || F.addr.trim().length<10){alert('❌ Pura address daalo');return}
+    
+    const it=[];let total=0;
+    Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id===parseInt(k,10));if(!p||q<1)return;const h=k.endsWith('h');const pp=h?Math.round(p.p*.6):p.p;it.push({n:p.n+(h?' (Half)':''),q:clamp(q,1,99),p:pp});total+=pp*q});
+    if(!it.length){alert('Cart khali hai');return}
+    S.orders.push({id:Date.now(),ts:Date.now(),name:String(F.name).slice(0,40),phone:phone,area:String(F.area||'Other').slice(0,40),addr:String(F.addr).slice(0,120),map:String(F.map).slice(0,200),items:it,total:total,pay:F.pay==='online'?'online':'cash',paid:0,dlv:0,t:new Date().toLocaleString()});
+    C={};save();alert('✅ Order ho gaya: '+inr(total));
+    if(F.pay==='online')location.href=upi(total)
+  },
   clearCart:()=>{C={};render();alert('Cart saaf ho gaya')},
   skip:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;const d=iso(D0());const i=s.skip.indexOf(d);if(i>=0)s.skip.splice(i,1);else s.skip.push(d);save()},
   pause:(v,k,id)=>{if(!needOK())return;const s=S.subs.find(x=>x.id==id);if(!s)return;const d=iso(D0());if(!s.skip.includes(d)){s.skip.push(d);save();alert(s.name+' ka aaj ka meal skip ✅')}else{alert('Pehle se skip hai')}},
@@ -413,7 +462,7 @@ const A={
   stock:(v,k,id)=>{if(!needOK())return;const p=S.prod.find(x=>x.id==id);if(p){p.s=p.s?0:1;save()}},
   delp:(v,k,id)=>{if(!needOK())return;const p=S.prod.find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);logAdd('Product delete: '+p.n);save()}},
   out:()=>{OK=0;DET=null;PED=null;tab='plan';render()},
-  reset:()=>{if(!needOK())return;if(confirm('Sab data delete? Pakka?')){S={prod:SEED,subs:[],orders:[],done:{},pays:[],mset:{},kll:'',cred:{},refs:{},plog:[],log:[]};logAdd('FULL RESET');save()}},
+  reset:()=>{if(!needOK())return;if(confirm('⚠️ Sab data delete? Pakka?')){S={prod:SEED,subs:[],orders:[],done:{},pays:[],mset:{},kll:'',cred:{},refs:{},plog:[],log:[]};logAdd('FULL RESET');save()}},
   chopin:()=>{if(!needOK())return;const el=$('#newopin');if(el&&el.value.length===4&&/^\d{4}$/.test(el.value)){localStorage.setItem('ud_opin',el.value);alert('Owner PIN badal gaya: '+el.value);el.value=''}else{alert('Sahi 4 digit PIN daalo')}},
   copyKitchen:()=>{
     const t=D0(),k=iso(t);const on=S.subs.filter(s=>act(s,t)&&!s.skip.includes(k));
@@ -423,22 +472,45 @@ const A={
     const cntD=m=>on.filter(s=>(s.dinner||'roti')===m).length;
     const rp=(cntL('roti')+cntL('both'))*4+(cntD('roti')+cntD('both'))*4+exR;
     const cp=cntL('chawal')+cntL('both')+cntD('chawal')+cntD('both');
-    const txt=' Namaste Udala - Aaj Ka Kitchen\n📅 '+k+'\n👥 Total: '+on.length+'\n🟢 Veg: '+vegC+' | 🔴 NV: '+nvC+'\n🫓 Roti: '+rp+' pcs\n🍚 Chawal: '+cp+' plates\n Extra: '+exR;
+    const txt=' Namaste Udala - Aaj Ka Kitchen\n📅 '+k+'\n👥 Total: '+on.length+'\n Veg: '+vegC+' | 🔴 NV: '+nvC+'\n🫓 Roti: '+rp+' pcs\n🍚 Chawal: '+cp+' plates\n Extra: '+exR;
     navigator.clipboard.writeText(txt).then(()=>alert('Copy ho gayi! WhatsApp mein paste karo.')).catch(()=>alert('Copy nahi hui'));
   }
 };
 
 function mk(tr){
-  if(!F.name||!F.phone){alert('Naam aur phone daalo');return}
-  const s={id:Date.now(),ts:Date.now(),name:String(F.name).slice(0,40),phone:cleanPh(F.phone),area:String(F.area||'Other').slice(0,40),addr:String(F.addr).slice(0,120),map:String(F.map).slice(0,200),type:F.type==='nv'?'nv':'veg',days:tr?1:clamp(+F.days||30,1,365),half:+F.half?1:0,start:F.start||iso(add(D0(),1)),price:0,pay:F.pay==='online'?'online':'cash',paid:tr?1:0,skip:[],trial:tr?1:0,lunch:F.lunch,dinner:F.dinner,extraRoti:clamp(F.extraRoti||0,0,4),ref:''};
+  // Strict validation before creating plan
+  if(!validateForm()) return;
+  
+  const s={id:Date.now(),ts:Date.now(),name:String(F.name).trim().slice(0,40),phone:cleanPh(F.phone),area:String(F.area||'Other').slice(0,40),addr:String(F.addr).trim().slice(0,120),map:String(F.map).slice(0,200),type:F.type==='nv'?'nv':'veg',days:tr?1:clamp(+F.days||30,1,365),half:+F.half?1:0,start:F.start||iso(add(D0(),1)),price:0,pay:F.pay==='online'?'online':'cash',paid:tr?1:0,skip:[],trial:tr?1:0,lunch:F.lunch,dinner:F.dinner,extraRoti:clamp(F.extraRoti||0,0,4),ref:''};
+  
   let disc=0;
   if(!tr&&elig(s.days)){const cred=credOf(s.phone);disc=Math.min(cred,pr());if(disc>0){S.cred[s.phone]=cred-disc}}
   s.price=tr?0:(pr()-disc);
+  
   S.subs.push(s);
+  
+  // Handle referral
   const rc=(F.ref||'').trim().toUpperCase();
-  if(!tr&&refActive()&&elig(s.days)&&rc){const refSub=S.subs.find(x=>codeOf(x.phone)===rc&&x.phone!==s.phone);if(refSub){S.refs[refSub.phone]=S.refs[refSub.phone]||[];if(!S.refs[refSub.phone].some(e=>e.p===s.phone)){S.refs[refSub.phone].push({p:s.phone,n:s.name,d:iso(D0()),amt:100});S.cred[refSub.phone]=(S.cred[refSub.phone]||0)+100;s.ref=rc}}}
-  saveME();save();
-  alert(tr?'1 din free trial shuru!':'Plan ban gaya: '+inr(s.price)+(disc>0?' (₹'+disc+' credit kata)':''));
+  if(!tr&&refActive()&&elig(s.days)&&rc){
+    const refSub=S.subs.find(x=>codeOf(x.phone)===rc&&x.phone!==s.phone);
+    if(refSub){
+      S.refs[refSub.phone]=S.refs[refSub.phone]||[];
+      if(!S.refs[refSub.phone].some(e=>e.p===s.phone)){
+        S.refs[refSub.phone].push({p:s.phone,n:s.name,d:iso(D0()),amt:100});
+        S.cred[refSub.phone]=(S.cred[refSub.phone]||0)+100;
+        s.ref=rc;
+      }
+    }
+  }
+  
+  // Save login if not already
+  if(!ME){ME={name:s.name,phone:s.phone};saveME()}
+  
+  save();
+  
+  const msg=tr?'✅ 1 din FREE trial ACTIVE ho gaya!\nKal se delivery shuru hogi.':'✅ Plan ban gaya!\nAmount: '+inr(s.price)+(disc>0?' (₹'+disc+' credit kata)':'');
+  alert(msg);
+  
   if(!tr&&F.pay==='online')location.href=upi(s.price);
 }
 
@@ -449,7 +521,7 @@ function render(){
   try{html=V[tab]()}catch(e){html='<div class="card"><h3>⚠️ Error</h3><div class="s">'+esc(e.message)+'</div><button class="btn g" onclick="location.reload()">Refresh</button></div>'}
   $('#v').innerHTML=html;
   $('#ht').textContent=({plan:'Aaj ka Plan',shop:'Shop',kitchen:'Aaj Ka Khana',delivery:'Aaj Ka Route',owner:'Owner Dashboard'})[tab];
-  const tabs=[['plan','Plan','🍱'],['shop','Shop','🛒'],['kitchen','Kitchen','🍳'],['delivery','Delivery',''],['owner','Owner','💰']];
+  const tabs=[['plan','Plan',''],['shop','Shop','🛒'],['kitchen','Kitchen','🍳'],['delivery','Delivery',''],['owner','Owner','💰']];
   $('#nav').innerHTML=tabs.filter(x=>OK||x[0]==='plan'||x[0]==='shop').map(x=>'<div class="'+(x[0]===tab?'on':'')+'" data-a="tab" data-v="'+x[0]+'"><span class="emoji">'+x[2]+'</span>'+x[1]+'</div>').join('');
 }
 
