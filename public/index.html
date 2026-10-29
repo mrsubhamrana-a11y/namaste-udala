@@ -113,7 +113,6 @@ const CONFIG = { firebase: { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", 
 const PRICING = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
 const IMAGES = { thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80', grocery: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80', kitchen: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80', scooter: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80', money: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80', doodh: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80', paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80', chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80', roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80', chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80', hul: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&q=80' };
 
-// ✅ FIX: Added dailyVideo to initial state
 let S = { prod: [], subs: [], orders: [], expenses: [], pays: [], kopt: {}, mset: {}, done: {}, dailyVideo: 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4' };
 try { const saved = localStorage.getItem('udala6'); if (saved) S = { ...S, ...JSON.parse(saved) }; } catch (e) {}
 
@@ -158,27 +157,18 @@ try {
   });
 } catch (e) { console.log('Offline mode'); }
 
-// ✅ FIX: Added all missing fields (kopt, mset, done, dailyVideo) to Firebase update
 const save = () => { 
   localStorage.setItem('udala6', JSON.stringify(S)); 
   if (db) {
     update(ref(db, 'udala2'), {
-      prod: S.prod, 
-      subs: S.subs, 
-      orders: S.orders, 
-      expenses: S.expenses || [], 
-      pays: S.pays || [],
-      kopt: S.kopt || {},
-      mset: S.mset || {},
-      done: S.done || {},
-      dailyVideo: S.dailyVideo || ''
+      prod: S.prod, subs: S.subs, orders: S.orders, expenses: S.expenses || [], 
+      pays: S.pays || [], kopt: S.kopt || {}, mset: S.mset || {}, done: S.done || {}, dailyVideo: S.dailyVideo || ''
     });
   }
   render(); 
 };
 
 const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const iso = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
 const todayStr = () => iso(new Date());
@@ -187,7 +177,6 @@ const cleanPhone = s => String(s || '').replace(/\D/g, '').slice(-10);
 const showToast = (msg, type = 'success') => { const t = $('#toast'); t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3000); };
 const vibrate = () => { if (navigator.vibrate) navigator.vibrate(20); };
 
-// --- ADVANCED 3D MODELS SETUP ---
 let scene, camera, renderer, vegModel, nvModel, currentModel;
 const init3D = () => {
   const container = $('#canvas-container');
@@ -200,7 +189,6 @@ const init3D = () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
   
-  // Advanced Veg Thali Model
   vegModel = new THREE.Group();
   const plate = new THREE.Mesh(new THREE.CylinderGeometry(1, 0.8, 0.15, 32), new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.9, roughness: 0.3 }));
   vegModel.add(plate);
@@ -211,7 +199,6 @@ const init3D = () => {
   const roti = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.05, 16), new THREE.MeshStandardMaterial({ color: 0xD4A574, roughness: 0.9 }));
   roti.position.set(0, 0.15, 0.4); roti.rotation.x = 0.2; vegModel.add(roti);
 
-  // Advanced Non-Veg Model
   nvModel = new THREE.Group();
   const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 0.8, 8, 16), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.5, metalness: 0.1 }));
   leg.rotation.z = Math.PI / 4; nvModel.add(leg);
@@ -221,20 +208,15 @@ const init3D = () => {
   currentModel = vegModel;
   scene.add(currentModel);
   
-  // Advanced Lighting
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
   const pl1 = new THREE.PointLight(0xFCD34D, 2, 10); pl1.position.set(3, 3, 3); scene.add(pl1);
   const pl2 = new THREE.PointLight(0xFF6B35, 1, 10); pl2.position.set(-3, -2, 2); scene.add(pl2);
   
-  // Mouse Parallax Interaction
   container.addEventListener('mousemove', (e) => {
     const rect = container.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    if(currentModel) {
-      currentModel.rotation.y = x * 0.5;
-      currentModel.rotation.x = y * 0.3;
-    }
+    if(currentModel) { currentModel.rotation.y = x * 0.5; currentModel.rotation.x = y * 0.3; }
   });
   container.addEventListener('mouseleave', () => {
     if(currentModel) { currentModel.rotation.x = 0; currentModel.rotation.y = 0; }
@@ -242,9 +224,7 @@ const init3D = () => {
 
   const animate = () => {
     requestAnimationFrame(animate);
-    if (currentModel) { 
-      currentModel.position.y = Math.sin(Date.now() * 0.002) * 0.1; 
-    }
+    if (currentModel) { currentModel.position.y = Math.sin(Date.now() * 0.002) * 0.1; }
     renderer.render(scene, camera);
   };
   animate();
@@ -258,7 +238,6 @@ const switch3DModel = (type) => {
   scene.add(currentModel);
 };
 
-// --- VIEWS ---
 const VIEWS = {
   plan: () => {
     switch3DModel(F.type);
@@ -291,8 +270,8 @@ const VIEWS = {
           <input data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
           <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit Mobile" value="${esc(F.phone)}">
           <input data-f="area" placeholder="Area / Locality" value="${esc(F.area)}">
-          <button class="btn sm g" data-a="getLocation" style="margin-top:4px; width:100%">📍 Meri Current Location Lo</button>
-          ${F.mapLink ? `<div class="s" style="color:var(--success); margin-top:8px; word-break:break-all;">✅ Location locked: <a href="${F.mapLink}" target="_blank" style="color:var(--success); font-weight:700">Google Maps par dekhein</a></div>` : ''}
+          <button class="btn sm g" data-a="getLocation" style="margin-top:4px; width:100%">📍 Meri Current Location Lo (Zaroori)</button>
+          ${F.mapLink ? `<div class="s" style="color:var(--success); margin-top:8px; word-break:break-all;">✅ Location locked: <a href="${F.mapLink}" target="_blank" style="color:var(--success); font-weight:700">Google Maps par dekhein</a></div>` : '<div class="s" style="color:var(--danger); margin-top:8px;">⚠️ Bina GPS location ke plan nahi banega!</div>'}
           <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:900;margin:16px 0">
             <span>Total</span><span style="color:var(--o)">${inr(price)}</span>
           </div>
@@ -439,7 +418,6 @@ const VIEWS = {
   }
 };
 
-// --- RENDER & ACTIONS ---
 const render = () => {
   if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
   $('#v').innerHTML = VIEWS[tab]();
@@ -494,41 +472,64 @@ const ACTIONS = {
 
   join: () => {
     vibrate();
-    if (!F.name || F.phone.length !== 10) { showToast('❌ Naam aur 10 digit phone daalo', 'error'); return; }
+    const name = (F.name || '').trim();
+    const phone = cleanPhone(F.phone);
+    if (name.length < 2) { showToast('❌ Kripya apna sahi Naam likhein', 'error'); return; }
+    if (phone.length !== 10) { showToast('❌ 10 digit ka valid Mobile Number daalein', 'error'); return; }
+    if (!F.mapLink) { showToast('❌ Pehle 📍 "Meri Current Location Lo" button dabakar GPS allow karein', 'error'); return; }
+    
     const price = PRICING[F.type][F.days] || 2899;
-    S.subs.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, type: F.type, days: +F.days, start: todayStr(), startDate: todayStr(), price: price, status: 'active', extraRoti: 0, map: F.mapLink || '' });
-    save(); showToast('✅ Plan ban gaya!');
-    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🍱 *Naya Plan*%0A👤 ${F.name}%0A📱 ${F.phone}%0A🍽️ ${F.type} · ${F.days} din%0A💰 ₹${price}%0A📍 Map: ${F.mapLink || 'N/A'}`, '_blank');
+    S.subs.push({ 
+      id: Date.now(), name: name, phone: phone, area: (F.area || '').trim() || 'Udala', 
+      type: F.type, days: +F.days, start: todayStr(), startDate: todayStr(), 
+      price: price, status: 'active', extraRoti: 0, map: F.mapLink 
+    });
+    save(); showToast('✅ Plan successfully ban gaya!');
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🍱 *Naya Plan*%0A👤 ${name}%0A📱 ${phone}%0A🍽️ ${F.type} · ${F.days} din%0A💰 ₹${price}%0A📍 Map: ${F.mapLink}`, '_blank');
     F.name = ''; F.phone = ''; F.area = ''; F.mapLink = '';
   },
   
   order: () => {
     vibrate();
-    if (!F.name || F.phone.length !== 10) { showToast('❌ Naam aur phone daalo', 'error'); return; }
+    const name = (F.name || '').trim();
+    const phone = cleanPhone(F.phone);
+    if (name.length < 2) { showToast('❌ Kripya apna sahi Naam likhein', 'error'); return; }
+    if (phone.length !== 10) { showToast('❌ 10 digit ka valid Mobile Number daalein', 'error'); return; }
+    if (!F.mapLink) { showToast('❌ Pehle 📍 "Meri Current Location Lo" button dabakar GPS allow karein', 'error'); return; }
+    
     const items = []; let total = 0;
     Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { items.push({ n: p.n, q, p: p.p }); total += p.p * q; } });
     if (!items.length) { showToast('❌ Cart khali hai', 'error'); return; }
-    S.orders.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, items, total, status: 'pending', date: todayStr(), map: F.mapLink || '' });
+    
+    S.orders.push({ id: Date.now(), name: name, phone: phone, area: (F.area || '').trim() || 'Udala', items, total, status: 'pending', date: todayStr(), map: F.mapLink });
     C = {}; save(); showToast('✅ Order ho gaya!');
-    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *Naya Order*%0A👤 ${F.name}%0A📱 ${F.phone}%0A📦 ${items.map(i=>`${i.n} x${i.q}`).join(', ')}%0A💰 ₹${total}%0A📍 Map: ${F.mapLink || 'N/A'}`, '_blank');
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *Naya Order*%0A👤 ${name}%0A📱 ${phone}%0A📦 ${items.map(i=>`${i.n} x${i.q}`).join(', ')}%0A💰 ₹${total}%0A📍 Map: ${F.mapLink}`, '_blank');
   },
 
   updateVideo: () => {
     vibrate();
-    const url = $('#vidUrl')?.value;
-    if(url) {
+    const url = ($('#vidUrl')?.value || '').trim();
+    if(url && url.startsWith('http')) {
       S.dailyVideo = url;
       save();
-      showToast('✅ Daily video updated!');
+      showToast('✅ Daily video updated successfully!');
+    } else {
+      showToast('❌ Valid http/https video URL daalein', 'error');
     }
   },
 
   addProduct: () => {
     vibrate();
-    const name = $('#newPName')?.value, price = parseInt($('#newPPrice')?.value), cat = $('#newPCat')?.value || 'General', nv = parseInt($('#newPType')?.value) || 0;
-    if (!name || !price) { showToast('❌ Name aur Price daalo', 'error'); return; }
+    const name = ($('#newPName')?.value || '').trim();
+    const price = parseInt($('#newPPrice')?.value);
+    const cat = ($('#newPCat')?.value || '').trim() || 'General';
+    const nv = parseInt($('#newPType')?.value) || 0;
+    if (!name || !price || price <= 0) { showToast('❌ Sahi Name aur Price daalo', 'error'); return; }
     S.prod.push({ id: Date.now(), n: name, p: price, c: cat, img: IMAGES.grocery, nv: nv });
-    save(); showToast('✅ Product added!');
+    save(); showToast('✅ Product add ho gaya!');
+    if($('#newPName')) $('#newPName').value = '';
+    if($('#newPPrice')) $('#newPPrice').value = '';
+    if($('#newPCat')) $('#newPCat').value = '';
   },
   
   delProd: (v, k, id) => {
@@ -538,10 +539,13 @@ const ACTIONS = {
 
   addExpense: () => {
     vibrate();
-    const name = $('#expName')?.value, amount = parseInt($('#expAmount')?.value);
-    if (!name || !amount) { showToast('❌ Name aur Amount daalo', 'error'); return; }
+    const name = ($('#expName')?.value || '').trim();
+    const amount = parseInt($('#expAmount')?.value);
+    if (!name || !amount || amount <= 0) { showToast('❌ Sahi Name aur Amount daalo', 'error'); return; }
     S.expenses.push({ id: Date.now(), name: name, amount: amount, date: todayStr() });
-    save(); showToast('✅ Expense added!');
+    save(); showToast('✅ Expense add ho gaya!');
+    if($('#expName')) $('#expName').value = '';
+    if($('#expAmount')) $('#expAmount').value = '';
   },
 
   markDelivered: (v, k, id) => {
