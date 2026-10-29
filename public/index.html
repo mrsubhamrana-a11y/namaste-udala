@@ -25,14 +25,12 @@
 * { box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
-/* Loading & Animations */
 .loading-screen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
 .loading-screen.hide { opacity: 0; pointer-events: none; }
 .loader { width: 50px; height: 50px; border: 4px solid var(--line); border-top: 4px solid var(--o); border-radius: 50%; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes rise { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-/* Header & 3D */
 header { background: linear-gradient(135deg, var(--g) 0%, #0F2C21 100%); color: #fff; padding: 24px 20px 60px; border-radius: 0 0 32px 32px; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
 header .logo { font-size: 11px; letter-spacing: 2.5px; font-weight: 700; color: #FCD34D; text-transform: uppercase; }
 header h1 { font-size: 26px; font-weight: 800; margin-top: 4px; }
@@ -40,7 +38,6 @@ header .tagline { font-size: 13px; opacity: 0.9; margin-top: 4px; }
 #canvas-container { position: absolute; right: 10px; top: 10px; width: 110px; height: 110px; pointer-events: none; }
 .header-wave { position: absolute; bottom: -1px; left: 0; width: 100%; height: 40px; fill: var(--bg); }
 
-/* Layout & Cards */
 #v { padding: 0 16px; margin-top: -20px; position: relative; z-index: 1; perspective: 1000px; }
 .card-3d { transform-style: preserve-3d; transition: transform 0.15s ease-out, box-shadow 0.3s ease; }
 .card-3d .card-content { transform: translateZ(20px); }
@@ -49,7 +46,6 @@ header .tagline { font-size: 13px; opacity: 0.9; margin-top: 4px; }
 [data-theme="dark"] .card h3 { color: #4ADE80; }
 .s { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-/* Stats Grid */
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
 .stat-box { background: linear-gradient(135deg, var(--g) 0%, var(--g-light) 100%); color: #fff; border-radius: 20px; padding: 16px; text-align: center; box-shadow: var(--shadow-md); }
 .stat-box.orange { background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); }
@@ -57,7 +53,6 @@ header .tagline { font-size: 13px; opacity: 0.9; margin-top: 4px; }
 .stat-box .val { font-size: 24px; font-weight: 800; }
 .stat-box .lbl { font-size: 11px; opacity: 0.9; font-weight: 600; margin-top: 4px; }
 
-/* Buttons & Inputs */
 .btn { padding: 14px 24px; border-radius: 16px; border: none; font-weight: 600; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); color: #fff; box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3); transition: transform 0.2s; }
 .btn:active { transform: scale(0.96); }
 .btn.g { background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); color: #065F46; border: 1px solid #A7F3D0; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); }
@@ -66,14 +61,12 @@ header .tagline { font-size: 13px; opacity: 0.9; margin-top: 4px; }
 input, select { width: 100%; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 16px; margin: 6px 0 12px; font-size: 15px; background: var(--bg); color: var(--text); font-family: inherit; }
 input:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1); }
 
-/* Navigation */
 .nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(16px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); }
 .nav div { text-align: center; font-size: 10px; font-weight: 600; color: var(--muted); flex: 1; cursor: pointer; padding: 6px 4px; border-radius: 12px; transition: all 0.2s; }
 .nav div.on { color: var(--o); background: rgba(255, 107, 53, 0.08); }
 .nav img { width: 24px; height: 24px; border-radius: 6px; object-fit: cover; margin: 0 auto 4px; display: block; }
 .nav div.on img { transform: scale(1.1); border: 2px solid var(--o); }
 
-/* Items & Lists */
 .item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .item:last-child { border-bottom: 0; }
 .item-img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; background: var(--line); flex-shrink: 0; }
@@ -85,7 +78,6 @@ input:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(
 .qty-ctrl button { width: 30px; height: 30px; border: 0; border-radius: 8px; background: var(--o); color: #fff; font-size: 18px; font-weight: 700; cursor: pointer; }
 .qty-ctrl b { min-width: 20px; text-align: center; font-weight: 700; font-size: 14px; }
 
-/* Cart Bar & Toast */
 .cart-bar { position: fixed; bottom: 80px; left: 16px; right: 16px; background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 99; box-shadow: var(--shadow-lg); animation: rise 0.4s ease; }
 .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1F2937; color: #fff; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; opacity: 0; transition: all 0.4s ease; max-width: 90%; text-align: center; }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
@@ -128,9 +120,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 import * as THREE from 'three';
 
-// ============================================================
-// 1. CONFIG & STATE
-// ============================================================
 const CONFIG = {
   firebase: { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", authDomain: "namaste-udala.firebaseapp.com", projectId: "namaste-udala", storageBucket: "namaste-udala.firebasestorage.app", messagingSenderId: "998684348165", appId: "1:998684348165:web:4bb0d2f5335a90a394716c" },
   whatsapp: '919583937047',
@@ -168,9 +157,6 @@ if (S.prod.length === 0) {
   ];
 }
 
-// ============================================================
-// 2. FIREBASE & UTILS
-// ============================================================
 try {
   const app = initializeApp(CONFIG.firebase);
   db = getDatabase(app);
@@ -198,9 +184,6 @@ const showToast = (msg, type = 'success') => {
 };
 const vibrate = () => { if (navigator.vibrate) navigator.vibrate(15); };
 
-// ============================================================
-// 3. THREE.JS 3D TIFFIN
-// ============================================================
 const init3D = () => {
   const container = $('#canvas-container');
   if (!container) return;
@@ -223,9 +206,6 @@ const init3D = () => {
   animate();
 };
 
-// ============================================================
-// 4. VIEWS (FULLY FUNCTIONAL)
-// ============================================================
 const VIEWS = {
   plan: () => {
     const price = F.type === 'veg' ? (F.days == 7 ? 749 : F.days == 15 ? 1499 : 2899) : (F.days == 7 ? 949 : F.days == 15 ? 1849 : 3599);
@@ -374,9 +354,6 @@ const VIEWS = {
   }
 };
 
-// ============================================================
-// 5. RENDER & ACTIONS
-// ============================================================
 const render = () => {
   if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
   $('#v').innerHTML = VIEWS[tab]();
@@ -484,7 +461,6 @@ $('#mainHeader').addEventListener('click', () => {
   }
 });
 
-// Theme
 const initTheme = () => {
   const saved = localStorage.getItem('ud_theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
