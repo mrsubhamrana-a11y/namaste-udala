@@ -4,97 +4,72 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1B4332">
-<title>🍱 Namaste Udala - Complete Suite</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>🍱 Namaste Udala 6.0 - Ultimate 3D</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script type="importmap">
   { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
 <style>
-:root {
-  --o: #FF6B35; --o-dark: #E85D04; --o-light: #FF8C61;
-  --g: #1B4332; --g-light: #2D6A4F; --g-dark: #0F2C21;
-  --bg: #FAFAFA; --text: #1A1A1A; --muted: #6B7280; --card: #FFFFFF;
-  --line: #F3F4F6; --success: #10B981; --danger: #EF4444; --warning: #F59E0B; --info: #3B82F6;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04); --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
-  --shadow-lg: 0 16px 40px rgba(0,0,0,0.08); --shadow-xl: 0 24px 48px rgba(0,0,0,0.12);
-  --glass: rgba(255, 255, 255, 0.85);
-}
-[data-theme="dark"] {
-  --bg: #0A0A0A; --text: #F9FAFB; --muted: #9CA3AF; --card: #161616;
-  --line: #2A2A2A; --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.4); --shadow-lg: 0 16px 40px rgba(0,0,0,0.5);
-  --shadow-xl: 0 24px 48px rgba(0,0,0,0.6); --glass: rgba(22, 22, 22, 0.85);
-}
+:root { --o: #FF6B35; --o-dark: #E85D04; --g: #1B4332; --g-light: #2D6A4F; --bg: #FAFAFA; --text: #1A1A1A; --muted: #6B7280; --card: #FFFFFF; --line: #F3F4F6; --success: #10B981; --danger: #EF4444; --shadow-md: 0 8px 24px rgba(0,0,0,0.06); --shadow-lg: 0 16px 40px rgba(0,0,0,0.08); --glass: rgba(255, 255, 255, 0.85); }
+[data-theme="dark"] { --bg: #0A0A0A; --text: #F9FAFB; --muted: #9CA3AF; --card: #161616; --line: #2A2A2A; --shadow-md: 0 8px 24px rgba(0,0,0,0.4); --shadow-lg: 0 16px 40px rgba(0,0,0,0.5); --glass: rgba(22, 22, 22, 0.85); }
 * { box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--text); padding-bottom: 90px; font-weight: 500; min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
-
+body { background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 .loading-screen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
 .loading-screen.hide { opacity: 0; pointer-events: none; }
-.loader { width: 60px; height: 60px; border: 4px solid var(--line); border-top: 4px solid var(--o); border-radius: 50%; animation: spin 1s linear infinite; }
+.loader { width: 50px; height: 50px; border: 4px solid var(--line); border-top: 4px solid var(--o); border-radius: 50%; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-@keyframes rise { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes rise { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-header { background: linear-gradient(135deg, var(--g) 0%, var(--g-dark) 100%); color: #fff; padding: 28px 20px 70px; border-radius: 0 0 40px 40px; position: relative; overflow: hidden; box-shadow: var(--shadow-xl); }
-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top right, rgba(255,107,53,0.3), transparent 60%); pointer-events: none; z-index: 1; }
-header .logo { font-size: 11px; letter-spacing: 3px; font-weight: 800; color: #FCD34D; text-transform: uppercase; position: relative; z-index: 3; }
-header h1 { font-size: 28px; font-weight: 900; margin-top: 6px; position: relative; z-index: 3; text-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-header .tagline { font-size: 14px; opacity: 0.9; margin-top: 6px; position: relative; z-index: 3; }
-#canvas-container { position: absolute; right: 10px; top: 15px; width: 120px; height: 120px; z-index: 2; pointer-events: none; }
-.header-wave { position: absolute; bottom: -1px; left: 0; width: 100%; height: 50px; fill: var(--bg); z-index: 3; }
+header { background: linear-gradient(135deg, var(--g) 0%, #0F2C21 100%); color: #fff; padding: 24px 20px 60px; border-radius: 0 0 32px 32px; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+header .logo { font-size: 11px; letter-spacing: 3px; font-weight: 800; color: #FCD34D; text-transform: uppercase; }
+header h1 { font-size: 26px; font-weight: 900; margin-top: 6px; text-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+header .tagline { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+#canvas-container { position: absolute; right: 10px; top: 15px; width: 120px; height: 120px; pointer-events: none; }
+.header-wave { position: absolute; bottom: -1px; left: 0; width: 100%; height: 40px; fill: var(--bg); }
 
-#v { padding: 0 16px; margin-top: -30px; position: relative; z-index: 1; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-md); animation: rise 0.6s ease both; position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
-.card:hover { box-shadow: var(--shadow-lg); }
+#v { padding: 0 16px; margin-top: -30px; position: relative; z-index: 1; perspective: 1000px; }
+.card-3d { transform-style: preserve-3d; transition: transform 0.15s ease-out, box-shadow 0.3s ease; }
+.card-3d .card-content { transform: translateZ(20px); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-md); animation: rise 0.6s ease both; position: relative; overflow: hidden; }
 .card h3 { color: var(--g); font-size: 18px; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
 [data-theme="dark"] .card h3 { color: #4ADE80; }
-.s { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.s { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
-.stat-box { background: linear-gradient(135deg, var(--g) 0%, var(--g-light) 100%); color: #fff; border-radius: 20px; padding: 16px; text-align: center; box-shadow: var(--shadow-md); transition: transform 0.3s; }
-.stat-box:hover { transform: translateY(-4px); }
+.stat-box { background: linear-gradient(135deg, var(--g) 0%, var(--g-light) 100%); color: #fff; border-radius: 20px; padding: 16px; text-align: center; box-shadow: var(--shadow-md); }
 .stat-box.orange { background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); }
 .stat-box.purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); }
-.stat-box.blue { background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%); }
-.stat-box.green { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
-.stat-box .val { font-size: 24px; font-weight: 900; margin-bottom: 4px; }
-.stat-box .lbl { font-size: 11px; opacity: 0.9; font-weight: 600; }
+.stat-box .val { font-size: 24px; font-weight: 900; }
+.stat-box .lbl { font-size: 11px; opacity: 0.9; font-weight: 600; margin-top: 4px; }
 
-.btn { padding: 14px 20px; border-radius: 16px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); color: #fff; box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3); transition: transform 0.2s; }
+.btn { padding: 14px 24px; border-radius: 16px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); color: #fff; box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3); transition: transform 0.2s; }
 .btn:active { transform: scale(0.96); }
 .btn.g { background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); color: #065F46; border: 1px solid #A7F3D0; }
 .btn.r { background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); color: #991B1B; border: 1px solid #FECACA; }
-.btn.b { background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); color: #1E40AF; border: 1px solid #BFDBFE; }
-.btn.sm { padding: 8px 14px; font-size: 13px; width: auto; margin: 0; border-radius: 12px; }
-.btn.xs { padding: 6px 10px; font-size: 11px; width: auto; margin: 0; border-radius: 10px; }
+.btn.sm { padding: 8px 16px; font-size: 13px; width: auto; margin: 0; border-radius: 12px; }
+input, select { width: 100%; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 16px; margin: 6px 0 12px; font-size: 15px; background: var(--bg); color: var(--text); font-family: inherit; }
+input:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1); }
 
-input, select, textarea { width: 100%; padding: 14px 16px; border: 2px solid var(--line); border-radius: 16px; margin: 6px 0 12px; font-size: 15px; background: var(--bg); color: var(--text); font-family: inherit; }
-input:focus, select:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1); }
-
-.nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.15); display: flex; justify-content: space-around; padding: 10px 0 max(14px, env(safe-area-inset-bottom)); z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); }
-.nav div { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); flex: 1; cursor: pointer; padding: 6px 4px; border-radius: 12px; transition: all 0.2s; }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(16px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); }
+.nav div { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); flex: 1; cursor: pointer; padding: 8px 4px; border-radius: 12px; transition: all 0.3s; }
 .nav div.on { color: var(--o); background: rgba(255, 107, 53, 0.1); transform: translateY(-6px); }
 .nav img { width: 24px; height: 24px; border-radius: 6px; object-fit: cover; margin: 0 auto 4px; display: block; border: 2px solid transparent; }
-.nav div.on img { transform: scale(1.1); border-color: var(--o); }
+.nav div.on img { transform: scale(1.15); border-color: var(--o); }
 
-.item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); transition: background 0.2s; }
+.item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .item:last-child { border-bottom: 0; }
 .item-img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; background: var(--line); flex-shrink: 0; }
 .item-info { flex: 1; min-width: 0; }
-.item-info b { font-size: 15px; font-weight: 700; display: block; margin-bottom: 3px; }
+.item-info b { font-size: 15px; font-weight: 700; display: block; margin-bottom: 2px; }
 .price { color: var(--o); font-weight: 800; font-size: 16px; }
 
-.qty-ctrl { display: flex; align-items: center; gap: 10px; border: 2px solid var(--o); border-radius: 14px; padding: 4px; background: rgba(255, 107, 53, 0.05); }
+.qty-ctrl { display: flex; align-items: center; gap: 10px; border: 2px solid var(--o); border-radius: 12px; padding: 4px; background: rgba(255, 107, 53, 0.05); }
 .qty-ctrl button { width: 32px; height: 32px; border: 0; border-radius: 10px; background: var(--o); color: #fff; font-size: 18px; font-weight: 800; cursor: pointer; }
-.qty-ctrl button:active { transform: scale(0.9); background: var(--o-dark); }
 .qty-ctrl b { min-width: 24px; text-align: center; font-weight: 800; font-size: 15px; }
 
-.cart-bar { position: fixed; bottom: 85px; left: 16px; right: 16px; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 99; box-shadow: var(--shadow-lg); animation: rise 0.4s ease; }
-
-.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1F2937; color: #fff; padding: 14px 28px; border-radius: 50px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 1000; opacity: 0; transition: all 0.4s; max-width: 90%; text-align: center; }
+.cart-bar { position: fixed; bottom: 85px; left: 16px; right: 16px; background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 99; box-shadow: var(--shadow-lg); animation: rise 0.4s ease; }
+.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1F2937; color: #fff; padding: 14px 28px; border-radius: 50px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; opacity: 0; transition: all 0.4s; max-width: 90%; text-align: center; }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast.error { background: var(--danger); }
 .toast.success { background: var(--success); }
@@ -102,67 +77,26 @@ input:focus, select:focus { outline: none; border-color: var(--o); box-shadow: 0
 .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
 .badge.pending { background: #FEF3C7; color: #92400E; }
 .badge.delivered { background: #D1FAE5; color: #065F46; }
-.badge.active { background: #DBEAFE; color: #1E40AF; }
-.badge.cancelled { background: #FEE2E2; color: #991B1B; }
-.badge.expired { background: #F3F4F6; color: #6B7280; }
 
-.theme-toggle { position: fixed; top: 20px; right: 20px; width: 44px; height: 44px; border-radius: 50%; background: var(--glass); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; z-index: 101; box-shadow: var(--shadow-md); }
+.theme-toggle { position: fixed; top: 20px; right: 20px; width: 44px; height: 44px; border-radius: 50%; background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; z-index: 101; box-shadow: var(--shadow-md); }
 .fab { position: fixed; right: 16px; bottom: 95px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #25d366, #128c7e); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4); z-index: 99; text-decoration: none; animation: float 3s ease-in-out infinite; }
-
-.chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 4px 12px; scrollbar-width: none; margin: 0 -4px; }
-.chips::-webkit-scrollbar { display: none; }
-.chips button { flex: none; border: 2px solid var(--line); background: var(--card); border-radius: 50px; padding: 8px 16px; font-weight: 700; font-size: 13px; color: var(--text); cursor: pointer; white-space: nowrap; }
-.chips button.on { background: var(--o); color: #fff; border-color: var(--o); }
-
-.voice-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: var(--o); color: white; border: none; border-radius: 12px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; z-index: 10; }
-.voice-btn.listening { animation: pulse 1s infinite; background: var(--danger); }
-
-/* Detail Modal */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; animation: rise 0.3s ease; }
-.modal { background: var(--card); border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-xl); }
-.modal h3 { margin-bottom: 16px; }
-.detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); }
-.detail-row:last-child { border-bottom: 0; }
-.detail-row .label { color: var(--muted); font-size: 13px; }
-.detail-row .value { font-weight: 700; font-size: 14px; text-align: right; }
-
-/* Sub-tabs for Owner */
-.sub-tabs { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
-.sub-tabs::-webkit-scrollbar { display: none; }
-.sub-tab { flex: none; padding: 8px 14px; border-radius: 12px; background: var(--bg); border: 1.5px solid var(--line); font-weight: 700; font-size: 12px; cursor: pointer; white-space: nowrap; color: var(--text); }
-.sub-tab.on { background: var(--o); color: #fff; border-color: var(--o); }
-
-@media (max-width: 480px) {
-  header h1 { font-size: 24px; }
-  .card { padding: 18px; border-radius: 20px; }
-  #canvas-container { width: 100px; height: 100px; }
-}
 </style>
 </head>
 <body>
 
-<div class="loading-screen" id="loadingScreen">
-  <div class="loader"></div>
-  <p style="margin-top:20px;font-weight:800;color:var(--o);font-size:20px">Namaste Udala</p>
-  <p class="s" style="margin-top:8px">Loading Complete Suite...</p>
-</div>
-
+<div class="loading-screen" id="loadingScreen"><div class="loader"></div><p style="margin-top:16px;font-weight:800;color:var(--o);font-size:18px">Namaste Udala 6.0</p></div>
 <button class="theme-toggle" id="themeToggle">🌙</button>
 <div class="toast" id="toast"></div>
-<div id="modalContainer"></div>
 
 <header id="mainHeader">
   <div class="logo">NAMASTE UDALA</div>
   <h1 id="ht">Aaj ka Plan</h1>
   <div class="tagline">Ghar jaisa khana · Roz time pe</div>
   <div id="canvas-container"></div>
-  <svg class="header-wave" viewBox="0 0 1440 100" preserveAspectRatio="none">
-    <path d="M0,60 C360,120 1080,0 1440,60 L1440,100 L0,100 Z"></path>
-  </svg>
+  <svg class="header-wave" viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,60 C360,120 1080,0 1440,60 L1440,100 L0,100 Z"></path></svg>
 </header>
 
 <div id="v"></div>
-
 <a class="fab" href="https://wa.me/919583937047?text=Namaste%20Udala" target="_blank">💬</a>
 <div class="nav" id="nav"></div>
 
@@ -171,38 +105,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 import * as THREE from 'three';
 
-// ============================================================
-// CONFIG
-// ============================================================
-const CONFIG = {
-  firebase: { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", authDomain: "namaste-udala.firebaseapp.com", projectId: "namaste-udala", storageBucket: "namaste-udala.firebasestorage.app", messagingSenderId: "998684348165", appId: "1:998684348165:web:4bb0d2f5335a90a394716c" },
-  whatsapp: '919583937047', ownerPin: '4821'
-};
+const CONFIG = { firebase: { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", authDomain: "namaste-udala.firebaseapp.com", projectId: "namaste-udala", storageBucket: "namaste-udala.firebasestorage.app", messagingSenderId: "998684348165", appId: "1:998684348165:web:4bb0d2f5335a90a394716c" }, whatsapp: '919583937047', ownerPin: '4821' };
 const PRICING = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
-const IMAGES = {
-  thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80',
-  grocery: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80',
-  kitchen: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80',
-  scooter: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80',
-  money: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80',
-  doodh: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80',
-  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80',
-  chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80',
-  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80',
-  chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80',
-  egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80'
-};
+const IMAGES = { thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80', grocery: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80', kitchen: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80', scooter: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80', money: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80', doodh: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80', paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80', chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80', roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80', chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80' };
 
-// ============================================================
-// STATE
-// ============================================================
 let S = { prod: [], subs: [], orders: [], expenses: [] };
-try { const saved = localStorage.getItem('udalaFinal'); if (saved) S = JSON.parse(saved); } catch (e) {}
-
-let db = null, tab = 'plan', C = {}, OK = 0, SCAT = 'all', SQ = '', ownerSubTab = 'dashboard';
+try { const saved = localStorage.getItem('udala6'); if (saved) S = JSON.parse(saved); } catch (e) {}
+let db = null, tab = 'plan', C = {}, OK = 0;
 try { OK = sessionStorage.getItem('udok') ? 1 : 0; } catch (e) {}
-
-const F = { type: 'veg', days: '30', name: '', phone: '', area: '', addr: '', pay: 'cash' };
+const F = { type: 'veg', days: '30', name: '', phone: '', area: '', addr: '' };
 
 if (S.prod.length === 0) {
   S.prod = [
@@ -211,101 +122,61 @@ if (S.prod.length === 0) {
     { id: 3, n: 'Chai patti 250 g', p: 130, c: 'Kirana', img: IMAGES.chai, nv: 0 },
     { id: 4, n: 'Atta 1 kg', p: 50, c: 'Kirana', img: IMAGES.roti, nv: 0 },
     { id: 5, n: 'Chicken piece', p: 40, c: 'Non-Veg', img: IMAGES.chicken, nv: 1 },
-    { id: 6, n: 'Egg (6 pcs)', p: 48, c: 'Non-Veg', img: IMAGES.egg, nv: 1 }
+    { id: 6, n: 'Egg (6 pcs)', p: 48, c: 'Non-Veg', img: IMAGES.chicken, nv: 1 }
   ];
 }
 
-// ============================================================
-// FIREBASE
-// ============================================================
 try {
   const app = initializeApp(CONFIG.firebase);
   db = getDatabase(app);
-  onValue(ref(db, 'udalaFinal'), snapshot => {
-    const v = snapshot.val();
-    if (v) { S = { ...S, ...v }; render(); }
-  });
-} catch (e) { console.log('Offline'); }
+  onValue(ref(db, 'udala6'), snapshot => { const v = snapshot.val(); if (v) { S = { ...S, ...v }; render(); } });
+} catch (e) { console.log('Offline mode'); }
 
-const save = () => {
-  localStorage.setItem('udalaFinal', JSON.stringify(S));
-  if (db) set(ref(db, 'udalaFinal'), S);
-  render();
-};
-
-// ============================================================
-// UTILITIES
-// ============================================================
+const save = () => { localStorage.setItem('udala6', JSON.stringify(S)); if (db) set(ref(db, 'udala6'), S); render(); };
 const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const iso = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
-const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const todayStr = () => iso(new Date());
 const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
 const cleanPhone = s => String(s || '').replace(/\D/g, '').slice(-10);
-const showToast = (msg, type = 'success') => {
-  const t = $('#toast'); t.textContent = msg; t.className = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 3000);
-};
+const showToast = (msg, type = 'success') => { const t = $('#toast'); t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3000); };
 const vibrate = () => { if (navigator.vibrate) navigator.vibrate(20); };
 
-// Helper: Check if subscription is active today
-const isSubActive = (sub) => {
-  const today = todayStr();
-  const end = iso(addDays(new Date(sub.startDate), sub.days - 1));
-  return today >= sub.startDate && today <= end && sub.status === 'active';
-};
-
-// Helper: Get subscription end date
-const getSubEndDate = (sub) => iso(addDays(new Date(sub.startDate), sub.days - 1));
-
-// Helper: Get subscription status
-const getSubStatus = (sub) => {
-  if (sub.status === 'cancelled') return 'cancelled';
-  const today = todayStr();
-  const end = getSubEndDate(sub);
-  if (today > end) return 'expired';
-  return 'active';
-};
-
-// ============================================================
-// THREE.JS 3D
-// ============================================================
+// --- 3D MODELS SETUP ---
 let scene, camera, renderer, vegModel, nvModel, currentModel;
 const init3D = () => {
   const container = $('#canvas-container');
   if (!container) return;
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-  camera.position.z = 4;
+  camera.position.z = 3.5;
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(120, 120);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
   
-  // Veg Thali
+  // Veg Thali Model
   vegModel = new THREE.Group();
-  const plate = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.1, 32), new THREE.MeshPhysicalMaterial({ color: 0xC0C0C0, metalness: 0.9, roughness: 0.1 }));
+  const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.1, 32), new THREE.MeshPhysicalMaterial({ color: 0xC0C0C0, metalness: 0.8, roughness: 0.2 }));
   vegModel.add(plate);
-  const b1 = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.2, 16), new THREE.MeshPhysicalMaterial({ color: 0xFF6B35 }));
-  b1.position.set(-0.4, 0.15, 0); vegModel.add(b1);
-  const b2 = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.2, 16), new THREE.MeshPhysicalMaterial({ color: 0x10B981 }));
-  b2.position.set(0.4, 0.15, 0); vegModel.add(b2);
+  const food1 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), new THREE.MeshPhysicalMaterial({ color: 0xFF6B35 }));
+  food1.position.set(-0.35, 0.2, 0); vegModel.add(food1);
+  const food2 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), new THREE.MeshPhysicalMaterial({ color: 0x10B981 }));
+  food2.position.set(0.35, 0.2, 0); vegModel.add(food2);
   const roti = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.05, 16), new THREE.MeshPhysicalMaterial({ color: 0xD4A574 }));
-  roti.position.set(0, 0.1, 0.4); vegModel.add(roti);
-  
-  // Chicken Leg
+  roti.position.set(0, 0.15, 0.4); vegModel.add(roti);
+
+  // Non-Veg Chicken Leg Model
   nvModel = new THREE.Group();
-  const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 0.8, 8, 16), new THREE.MeshPhysicalMaterial({ color: 0x8B4513, roughness: 0.6 }));
+  const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.25, 0.7, 8, 16), new THREE.MeshPhysicalMaterial({ color: 0x8B4513, roughness: 0.6 }));
   leg.rotation.z = Math.PI / 4; nvModel.add(leg);
-  const bone = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.4, 8), new THREE.MeshPhysicalMaterial({ color: 0xFFFFFF }));
+  const bone = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.35, 8), new THREE.MeshPhysicalMaterial({ color: 0xFFFFFF }));
   bone.position.set(-0.3, -0.3, 0); bone.rotation.z = Math.PI / 4; nvModel.add(bone);
   
   currentModel = vegModel;
   scene.add(currentModel);
   scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-  const pl = new THREE.PointLight(0xFCD34D, 1.5, 10); pl.position.set(3, 3, 3); scene.add(pl);
+  const pl = new THREE.PointLight(0xFCD34D, 1.5, 10); pl.position.set(2, 2, 2); scene.add(pl);
   
   const animate = () => {
     requestAnimationFrame(animate);
@@ -322,17 +193,7 @@ const switch3DModel = (type) => {
   scene.add(currentModel);
 };
 
-// ============================================================
-// MODAL
-// ============================================================
-const showModal = (content) => {
-  $('#modalContainer').innerHTML = `<div class="modal-overlay" data-a="closeModal"><div class="modal" onclick="event.stopPropagation()">${content}</div></div>`;
-};
-const closeModal = () => { $('#modalContainer').innerHTML = ''; };
-
-// ============================================================
-// VIEWS
-// ============================================================
+// --- VIEWS ---
 const VIEWS = {
   plan: () => {
     switch3DModel(F.type);
@@ -344,111 +205,78 @@ const VIEWS = {
         </video>
         <div style="position:relative;z-index:2;padding:24px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent)">
           <h3 style="color:#fff;margin:0;font-size:20px">🌅 Suprabhat Udala!</h3>
-          <p style="font-size:24px;font-weight:900;margin:10px 0;line-height:1.3">Ghar jaisa khana,<br>Roz time pe 🍱</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-            <span style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700">⭐ 4.5 Rating</span>
-            <span style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700">🛵 30-40 min</span>
-          </div>
+          <p style="font-size:24px;font-weight:900;margin:8px 0;line-height:1.3">Ghar jaisa khana,<br>Roz time pe 🍱</p>
         </div>
       </div>
-      <div class="card">
-        <h3>🍽️ Plan Chunein</h3>
-        <div class="s">Khana type:</div>
-        <div style="display:flex;gap:8px;margin:8px 0">
-          <button class="btn sm ${F.type==='veg'?'g':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button>
-          <button class="btn sm ${F.type==='nv'?'r':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-veg</button>
+      <div class="card card-3d">
+        <div class="card-content">
+          <h3>🍽️ Plan Chunein</h3>
+          <div class="s">Khana type:</div>
+          <div style="display:flex;gap:8px;margin:8px 0">
+            <button class="btn sm ${F.type==='veg'?'g':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button>
+            <button class="btn sm ${F.type==='nv'?'r':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-veg</button>
+          </div>
+          <div class="s">Kitne din:</div>
+          <div style="display:flex;gap:8px;margin:8px 0">
+            <button class="btn sm ${F.days==7?'g':''}" data-a="set" data-k="days" data-v="7">7 din</button>
+            <button class="btn sm ${F.days==15?'g':''}" data-a="set" data-k="days" data-v="15">15 din</button>
+            <button class="btn sm ${F.days==30?'g':''}" data-a="set" data-k="days" data-v="30">30 din</button>
+          </div>
+          <input data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
+          <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit Mobile" value="${esc(F.phone)}">
+          <input data-f="area" placeholder="Area / Locality" value="${esc(F.area)}">
+          <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:900;margin:16px 0">
+            <span>Total</span><span style="color:var(--o)">${inr(price)}</span>
+          </div>
+          <button class="btn" data-a="join">✅ Plan Shuru Karo</button>
         </div>
-        <div class="s">Kitne din:</div>
-        <div style="display:flex;gap:8px;margin:8px 0">
-          <button class="btn sm ${F.days==7?'g':''}" data-a="set" data-k="days" data-v="7">7 din</button>
-          <button class="btn sm ${F.days==15?'g':''}" data-a="set" data-k="days" data-v="15">15 din</button>
-          <button class="btn sm ${F.days==30?'g':''}" data-a="set" data-k="days" data-v="30">30 din</button>
-        </div>
-        <input data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
-        <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit Mobile" value="${esc(F.phone)}">
-        <input data-f="area" placeholder="Area / Locality" value="${esc(F.area)}">
-        <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:900;margin:16px 0">
-          <span>Total</span><span style="color:var(--o)">${inr(price)}</span>
-        </div>
-        <button class="btn" data-a="join">✅ Plan Shuru Karo</button>
       </div>`;
   },
 
   shop: () => {
     let total = 0, count = 0;
     Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { total += p.p * q; count += q; } });
-    const cats = [...new Set(S.prod.map(p => p.c))];
-    let filtered = S.prod;
-    if (SCAT !== 'all') filtered = filtered.filter(p => p.c === SCAT);
-    if (SQ) filtered = filtered.filter(p => p.n.toLowerCase().includes(SQ.toLowerCase()));
-    
     return `
       <div class="card" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none">
         <h3 style="color:#fff">🛒 Ghar ka Saaman</h3>
-        <p style="opacity:.9">Fresh items, ghar tak delivery</p>
       </div>
-      <div style="position:relative;margin-bottom:12px">
-        <input id="sq" placeholder="🔍 Search products..." value="${esc(SQ)}" style="padding-right:55px">
-        <button class="voice-btn" id="voiceBtn" data-a="voice">🎤</button>
+      <div class="card card-3d">
+        <div class="card-content">
+          ${S.prod.map(p => {
+            const q = C[p.id] || 0;
+            return `<div class="item">
+              <img class="item-img" src="${p.img}" onerror="this.style.display='none'">
+              <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)}</div><div class="price">${inr(p.p)}</div></div>
+              ${q > 0 ? `<div class="qty-ctrl"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}
+            </div>`;
+          }).join('')}
+        </div>
       </div>
-      <div class="chips">
-        <button class="${SCAT === 'all' ? 'on' : ''}" data-a="cat" data-v="all">📦 All</button>
-        ${cats.map(c => `<button class="${SCAT === c ? 'on' : ''}" data-a="cat" data-v="${esc(c)}">${esc(c)}</button>`).join('')}
-      </div>
-      <div class="card">
-        ${filtered.map(p => {
-          const q = C[p.id] || 0;
-          return `<div class="item">
-            <img class="item-img" src="${p.img}" onerror="this.style.display='none'">
-            <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)}</div><div class="price">${inr(p.p)}</div></div>
-            ${q > 0 ? `<div class="qty-ctrl"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}
-          </div>`;
-        }).join('')}
-      </div>
-      ${count > 0 ? `<div class="cart-bar"><div><div style="font-size:12px;font-weight:700">🛒 ${count} items</div><div style="font-size:20px;font-weight:900;color:var(--o)">${inr(total)}</div></div><button class="btn g" data-a="order" style="margin:0;width:auto">Checkout</button></div>` : ''}`;
+      ${count > 0 ? `<div class="cart-bar"><div><div style="font-size:13px;font-weight:700">🛒 ${count} items</div><div style="font-size:22px;font-weight:900;color:var(--o)">${inr(total)}</div></div><button class="btn g" data-a="order" style="margin:0;width:auto">Checkout</button></div>` : ''}`;
   },
 
   kitchen: () => {
     if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
     const tStr = todayStr();
     let veg = 0, nv = 0, roti = 0;
-    const activeSubs = S.subs.filter(isSubActive);
-    activeSubs.forEach(sub => {
-      if (sub.type === 'veg') veg++; else nv++;
-      roti += (sub.extraRoti || 0);
+    S.subs.forEach(sub => {
+      const end = new Date(sub.startDate); end.setDate(end.getDate() + sub.days - 1);
+      if (tStr >= sub.startDate && tStr <= iso(end) && sub.status === 'active') {
+        if (sub.type === 'veg') veg++; else nv++;
+        roti += (sub.extraRoti || 0);
+      }
     });
     return `
-      <div class="card">
-        <h3>👨‍🍳 Aaj ki Kitchen List</h3>
-        <div class="s" style="margin-bottom:16px">📅 Date: ${tStr}</div>
-        <div class="stats-grid">
-          <div class="stat-box"><div class="val">${veg}</div><div class="lbl">Veg Thali</div></div>
-          <div class="stat-box orange"><div class="val">${nv}</div><div class="lbl">Non-Veg Thali</div></div>
-          <div class="stat-box blue"><div class="val">${roti}</div><div class="lbl">Extra Roti</div></div>
-          <div class="stat-box purple"><div class="val">${veg + nv}</div><div class="lbl">Total Tiffin</div></div>
-        </div>
-        <h4 style="margin:20px 0 12px">📋 Aaj ke Active Subscribers:</h4>
-        ${activeSubs.length === 0 ? '<p class="s">Koi active subscriber nahi</p>' :
-          activeSubs.map(sub => `
-            <div class="item" style="cursor:pointer" data-a="viewSub" data-id="${sub.id}">
-              <div style="width:40px;height:40px;border-radius:50%;background:${sub.type==='veg'?'#D1FAE5':'#FEE2E2'};display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
-                ${sub.type === 'veg' ? '🟢' : '🔴'}
-              </div>
-              <div class="item-info">
-                <b>${esc(sub.name)}</b>
-                <div class="s">${sub.type === 'veg' ? 'Veg' : 'Non-Veg'} · ${sub.days} din · 📱 ${sub.phone}</div>
-              </div>
-              <div style="font-size:18px;color:var(--muted)">→</div>
-            </div>
-          `).join('')}
-        <div style="margin-top:20px;padding:16px;background:var(--bg);border-radius:16px">
-          <h4 style="margin-bottom:10px">✅ Aaj ka Menu:</h4>
-          <div class="s">• Dal Fry</div>
-          <div class="s">• Seasonal Sabzi</div>
-          <div class="s">• Jeera Rice</div>
-          <div class="s">• 4 Roti per tiffin</div>
-          <div class="s">• Salad & Papad</div>
-          ${nv > 0 ? '<div class="s" style="margin-top:8px;color:var(--o)">• Chicken/Egg Curry (Non-Veg)</div>' : ''}
+      <div class="card card-3d">
+        <div class="card-content">
+          <h3>👨‍🍳 Aaj ki Kitchen List</h3>
+          <div class="s" style="margin-bottom:16px">📅 Date: ${tStr}</div>
+          <div class="stats-grid">
+            <div class="stat-box"><div class="val">${veg}</div><div class="lbl">Veg Thali</div></div>
+            <div class="stat-box orange"><div class="val">${nv}</div><div class="lbl">Non-Veg Thali</div></div>
+            <div class="stat-box purple"><div class="val">${roti}</div><div class="lbl">Extra Roti</div></div>
+            <div class="stat-box" style="background:linear-gradient(135deg, #3B82F6, #1E40AF)"><div class="val">${veg + nv}</div><div class="lbl">Total Tiffin</div></div>
+          </div>
         </div>
       </div>`;
   },
@@ -456,361 +284,116 @@ const VIEWS = {
   delivery: () => {
     if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
     const pending = S.orders.filter(o => o.status === 'pending');
-    const delivered = S.orders.filter(o => o.status === 'delivered');
-    const todayOrders = S.orders.filter(o => o.date === todayStr());
-    
     return `
-      <div class="card">
-        <h3>🛵 Delivery Management</h3>
-        <div class="stats-grid">
-          <div class="stat-box orange"><div class="val">${pending.length}</div><div class="lbl">Pending</div></div>
-          <div class="stat-box green"><div class="val">${delivered.length}</div><div class="lbl">Delivered</div></div>
-          <div class="stat-box blue"><div class="val">${todayOrders.length}</div><div class="lbl">Today Orders</div></div>
-          <div class="stat-box purple"><div class="val">${inr(pending.reduce((s,o)=>s+o.total,0))}</div><div class="lbl">Pending ₹</div></div>
-        </div>
-        <h4 style="margin:16px 0 12px">⏳ Pending Deliveries:</h4>
-        ${pending.length === 0 ? '<p class="s">Koi pending delivery nahi! 🎉</p>' : 
-          pending.map(o => `
-            <div class="item" style="flex-direction:column;align-items:flex-start;gap:10px;cursor:pointer" data-a="viewOrder" data-id="${o.id}">
-              <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
-                <b>${esc(o.name)}</b>
-                <span class="badge pending">Pending</span>
-              </div>
-              <div class="s">📍 ${esc(o.area || 'Udala')} | 📱 ${o.phone}</div>
-              <div class="s">📦 ${o.items.map(i=>`${i.n} x${i.q}`).join(', ')}</div>
-              <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
-                <div class="price">${inr(o.total)}</div>
-                <div style="display:flex;gap:6px">
-                  <a href="https://wa.me/91${o.phone}" target="_blank" class="btn xs g" onclick="event.stopPropagation()">💬</a>
-                  <a href="tel:${o.phone}" class="btn xs b" onclick="event.stopPropagation()">📞</a>
-                  <button class="btn xs" data-a="markDelivered" data-id="${o.id}" onclick="event.stopPropagation()">✅</button>
+      <div class="card card-3d">
+        <div class="card-content">
+          <h3>🛵 Pending Deliveries (${pending.length})</h3>
+          ${pending.length === 0 ? '<p class="s">Koi pending delivery nahi! 🎉</p>' : 
+            pending.map(o => `
+              <div class="item" style="flex-direction:column;align-items:flex-start;gap:10px">
+                <div style="display:flex;justify-content:space-between;width:100%"><b>${esc(o.name)}</b><span class="badge pending">Pending</span></div>
+                <div class="s">📍 ${esc(o.area || 'Udala')} | 📱 ${o.phone}</div>
+                <div class="s">📦 ${o.items.map(i=>`${i.n} x${i.q}`).join(', ')}</div>
+                <div class="s" style="font-weight:800;color:var(--o)">💰 ${inr(o.total)}</div>
+                <div style="display:flex;gap:8px;width:100%;margin-top:10px">
+                  <a href="https://wa.me/91${o.phone}" target="_blank" class="btn sm g" style="flex:1;text-align:center;text-decoration:none">💬 WhatsApp</a>
+                  <a href="tel:${o.phone}" class="btn sm" style="flex:1;text-align:center;text-decoration:none;background:var(--info);color:#fff">📞 Call</a>
+                  <button class="btn sm" data-a="markDelivered" data-id="${o.id}" style="flex:1">✅ Done</button>
                 </div>
               </div>
-            </div>
-          `).join('')}
-        
-        <h4 style="margin:20px 0 12px">✅ Recent Delivered:</h4>
-        ${delivered.slice(-5).reverse().map(o => `
-          <div class="item" style="opacity:0.7">
-            <div class="item-info">
-              <b>${esc(o.name)}</b>
-              <div class="s">${o.items.map(i=>`${i.n} x${i.q}`).join(', ')} · <span class="badge delivered">Delivered</span></div>
-            </div>
-            <div class="price">${inr(o.total)}</div>
-          </div>
-        `).join('') || '<p class="s">Koi delivered order nahi</p>'}
+            `).join('')}
+        </div>
       </div>`;
   },
 
   owner: () => {
     if (!OK) return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
-    
-    // Calculate stats
-    const revenue = S.orders.reduce((s, o) => s + (o.total || 0), 0) + S.subs.reduce((s, sub) => s + (sub.price || 0), 0);
-    const expenses = S.expenses.reduce((s, e) => s + (e.amount || 0), 0);
+    const revenue = S.orders.reduce((sum, o) => sum + (o.total || 0), 0) + S.subs.reduce((sum, s) => sum + (s.price || 0), 0);
+    const expenses = S.expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
     const profit = revenue - expenses;
-    const activeSubs = S.subs.filter(s => getSubStatus(s) === 'active').length;
+    const activeSubs = S.subs.filter(s => s.status === 'active').length;
     const pendingDel = S.orders.filter(o => o.status === 'pending').length;
-    const todayRevenue = S.orders.filter(o => o.date === todayStr()).reduce((s,o)=>s+o.total,0);
-    
-    let content = '';
-    
-    // Dashboard
-    if (ownerSubTab === 'dashboard') {
-      content = `
-        <div class="stats-grid">
-          <div class="stat-box"><div class="val">${inr(revenue)}</div><div class="lbl">Total Revenue</div></div>
-          <div class="stat-box orange"><div class="val">${inr(expenses)}</div><div class="lbl">Expenses</div></div>
-          <div class="stat-box ${profit >= 0 ? 'green' : 'r'}" style="${profit < 0 ? 'background:linear-gradient(135deg, #EF4444, #DC2626)' : ''}"><div class="val">${inr(profit)}</div><div class="lbl">Net Profit</div></div>
-          <div class="stat-box blue"><div class="val">${inr(todayRevenue)}</div><div class="lbl">Today Revenue</div></div>
-          <div class="stat-box purple"><div class="val">${activeSubs}</div><div class="lbl">Active Subs</div></div>
-          <div class="stat-box orange"><div class="val">${pendingDel}</div><div class="lbl">Pending Del.</div></div>
-          <div class="stat-box"><div class="val">${S.prod.length}</div><div class="lbl">Products</div></div>
-          <div class="stat-box blue"><div class="val">${S.orders.length}</div><div class="lbl">Total Orders</div></div>
-        </div>
-        <h4 style="margin:16px 0 12px">📈 Recent Activity:</h4>
-        ${[...S.orders.slice(-3).reverse(), ...S.subs.slice(-3).reverse()].slice(0, 5).map(item => {
-          if (item.items) return `<div class="item"><div class="item-info"><b>${esc(item.name)}</b><div class="s">🛒 Order · ${item.items.length} items · <span class="badge ${item.status}">${item.status}</span></div></div><div class="price">${inr(item.total)}</div></div>`;
-          else return `<div class="item"><div class="item-info"><b>${esc(item.name)}</b><div class="s">🍱 ${item.type} · ${item.days} din · <span class="badge ${getSubStatus(item)}">${getSubStatus(item)}</span></div></div><div class="price">${inr(item.price)}</div></div>`;
-        }).join('') || '<p class="s">Koi activity nahi</p>'}
-      `;
-    }
-    
-    // Subscriptions
-    else if (ownerSubTab === 'subs') {
-      content = `
-        <h4 style="margin-bottom:12px">📋 Total Subscriptions: ${S.subs.length}</h4>
-        ${S.subs.length === 0 ? '<p class="s">Koi subscription nahi</p>' :
-          S.subs.slice().reverse().map(sub => {
-            const status = getSubStatus(sub);
-            const endDate = getSubEndDate(sub);
-            return `
-              <div class="item" style="cursor:pointer" data-a="viewSub" data-id="${sub.id}">
-                <div style="width:44px;height:44px;border-radius:50%;background:${sub.type==='veg'?'#D1FAE5':'#FEE2E2'};display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">
-                  ${sub.type === 'veg' ? '🟢' : '🔴'}
-                </div>
-                <div class="item-info">
-                  <b>${esc(sub.name)}</b>
-                  <div class="s">${sub.type === 'veg' ? 'Veg' : 'Non-Veg'} · ${sub.days} din · 📱 ${sub.phone}</div>
-                  <div class="s">Ends: ${endDate} · <span class="badge ${status}">${status}</span></div>
-                </div>
-                <div class="price">${inr(sub.price)}</div>
-              </div>
-            `;
-          }).join('')}
-      `;
-    }
-    
-    // Customers
-    else if (ownerSubTab === 'customers') {
-      const customerMap = {};
-      [...S.subs, ...S.orders].forEach(item => {
-        if (!customerMap[item.phone]) {
-          customerMap[item.phone] = { name: item.name, phone: item.phone, area: item.area || '', subs: 0, orders: 0, totalSpent: 0 };
-        }
-        customerMap[item.phone].totalSpent += (item.price || item.total || 0);
-        if (item.items) customerMap[item.phone].orders++;
-        else customerMap[item.phone].subs++;
-      });
-      const customers = Object.values(customerMap);
-      
-      content = `
-        <h4 style="margin-bottom:12px">👥 Total Customers: ${customers.length}</h4>
-        ${customers.length === 0 ? '<p class="s">Koi customer nahi</p>' :
-          customers.map(c => `
-            <div class="item" style="cursor:pointer" data-a="viewCustomer" data-id="${c.phone}">
-              <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg, var(--o), var(--o-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;flex-shrink:0">
-                ${c.name.charAt(0).toUpperCase()}
-              </div>
-              <div class="item-info">
-                <b>${esc(c.name)}</b>
-                <div class="s">📱 ${c.phone} · 📍 ${esc(c.area || 'Udala')}</div>
-                <div class="s">🍱 ${c.subs} subs · 🛒 ${c.orders} orders</div>
-              </div>
-              <div class="price">${inr(c.totalSpent)}</div>
+
+    return `
+      <div class="card card-3d">
+        <div class="card-content">
+          <h3>📊 Super Admin Dashboard</h3>
+          <div class="stats-grid">
+            <div class="stat-box"><div class="val">${inr(revenue)}</div><div class="lbl">Total Revenue</div></div>
+            <div class="stat-box orange"><div class="val">${inr(expenses)}</div><div class="lbl">Expenses</div></div>
+            <div class="stat-box" style="background:linear-gradient(135deg, ${profit >= 0 ? '#10B981' : '#EF4444'}, ${profit >= 0 ? '#059669' : '#DC2626'})"><div class="val">${inr(profit)}</div><div class="lbl">Net Profit</div></div>
+            <div class="stat-box purple"><div class="val">${activeSubs}</div><div class="lbl">Active Subs</div></div>
+            <div class="stat-box" style="background:linear-gradient(135deg, #3B82F6, #1E40AF)"><div class="val">${pendingDel}</div><div class="lbl">Pending</div></div>
+            <div class="stat-box"><div class="val">${S.prod.length}</div><div class="lbl">Products</div></div>
+          </div>
+          
+          <h3 style="margin-top:20px">🛒 Manage Products</h3>
+          <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
+            <input id="newPName" placeholder="Product Name (e.g., Surf Excel)">
+            <div style="display:flex;gap:8px">
+              <input id="newPPrice" type="number" placeholder="Price ₹" style="flex:1">
+              <input id="newPCat" placeholder="Category" style="flex:1">
+            </div>
+            <select id="newPType" style="margin-top:8px">
+              <option value="0">Veg</option>
+              <option value="1">Non-Veg</option>
+            </select>
+            <button class="btn g" data-a="addProduct">➕ Add Product</button>
+          </div>
+          ${S.prod.map(p => `
+            <div class="item">
+              <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} · ${inr(p.p)} ${p.nv ? '(Non-Veg)' : ''}</div></div>
+              <button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button>
             </div>
           `).join('')}
-      `;
-    }
-    
-    // Orders
-    else if (ownerSubTab === 'orders') {
-      content = `
-        <h4 style="margin-bottom:12px">📦 Total Orders: ${S.orders.length}</h4>
-        ${S.orders.length === 0 ? '<p class="s">Koi order nahi</p>' :
-          S.orders.slice().reverse().map(o => `
-            <div class="item" style="cursor:pointer" data-a="viewOrder" data-id="${o.id}">
-              <div style="width:44px;height:44px;border-radius:50%;background:${o.status==='pending'?'#FEF3C7':'#D1FAE5'};display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">
-                ${o.status === 'pending' ? '⏳' : '✅'}
-              </div>
-              <div class="item-info">
-                <b>${esc(o.name)}</b>
-                <div class="s">${o.items.length} items · 📱 ${o.phone}</div>
-                <div class="s">📅 ${o.date} · <span class="badge ${o.status}">${o.status}</span></div>
-              </div>
+
+          <h3 style="margin-top:24px">💰 Add Expense</h3>
+          <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
+            <input id="expName" placeholder="Expense Name (e.g., Petrol, Ration)">
+            <input id="expAmount" type="number" placeholder="Amount ₹">
+            <button class="btn" style="background:var(--info)" data-a="addExpense">➕ Add Expense</button>
+          </div>
+          ${S.expenses.slice(-5).reverse().map(e => `
+            <div class="item">
+              <div class="item-info"><b>${esc(e.name)}</b><div class="s">${e.date}</div></div>
+              <div class="price">${inr(e.amount)}</div>
+            </div>
+          `).join('') || '<p class="s">No expenses yet.</p>'}
+
+          <h3 style="margin-top:24px">📦 Recent Orders</h3>
+          ${S.orders.slice(-5).reverse().map(o => `
+            <div class="item">
+              <div class="item-info"><b>${esc(o.name)}</b><div class="s">${o.items.map(i=>`${i.n} x${i.q}`).join(', ')} · <span class="badge ${o.status}">${o.status}</span></div></div>
               <div class="price">${inr(o.total)}</div>
             </div>
-          `).join('')}
-      `;
-    }
-    
-    // Products
-    else if (ownerSubTab === 'products') {
-      content = `
-        <h4 style="margin-bottom:12px">🛒 Manage Products (${S.prod.length})</h4>
-        <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
-          <input id="newPName" placeholder="Product Name">
-          <div style="display:flex;gap:8px">
-            <input id="newPPrice" type="number" placeholder="Price ₹" style="flex:1">
-            <input id="newPCat" placeholder="Category" style="flex:1">
-          </div>
-          <select id="newPType" style="margin-top:8px">
-            <option value="0">🟢 Veg</option>
-            <option value="1">🔴 Non-Veg</option>
-          </select>
-          <button class="btn g" data-a="addProduct">➕ Add Product</button>
+          `).join('') || '<p class="s">No orders yet.</p>'}
+          
+          <button class="btn r" data-a="out" style="margin-top:24px">🚪 Logout Owner</button>
         </div>
-        ${S.prod.map(p => `
-          <div class="item">
-            <img class="item-img" src="${p.img}" onerror="this.style.display='none'">
-            <div class="item-info">
-              <b>${esc(p.n)}</b>
-              <div class="s">${esc(p.c)} · ${p.nv ? '🔴 Non-Veg' : '🟢 Veg'}</div>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
-              <div class="price">${inr(p.p)}</div>
-              <button class="btn xs r" data-a="delProd" data-id="${p.id}">🗑️ Delete</button>
-            </div>
-          </div>
-        `).join('')}
-      `;
-    }
-    
-    // Expenses
-    else if (ownerSubTab === 'expenses') {
-      content = `
-        <h4 style="margin-bottom:12px">💰 Expenses (Total: ${inr(expenses)})</h4>
-        <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
-          <input id="expName" placeholder="Expense Name (Petrol, Ration, etc.)">
-          <input id="expAmount" type="number" placeholder="Amount ₹">
-          <button class="btn b" data-a="addExpense">➕ Add Expense</button>
-        </div>
-        ${S.expenses.length === 0 ? '<p class="s">Koi expense nahi</p>' :
-          S.expenses.slice().reverse().map(e => `
-            <div class="item">
-              <div style="width:40px;height:40px;border-radius:50%;background:#FEE2E2;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">💸</div>
-              <div class="item-info">
-                <b>${esc(e.name)}</b>
-                <div class="s">📅 ${e.date}</div>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
-                <div class="price">${inr(e.amount)}</div>
-                <button class="btn xs r" data-a="delExpense" data-id="${e.id}">🗑️</button>
-              </div>
-            </div>
-          `).join('')}
-      `;
-    }
-    
-    return `
-      <div class="card">
-        <h3>📊 Super Admin Panel</h3>
-        <div class="sub-tabs">
-          <button class="sub-tab ${ownerSubTab==='dashboard'?'on':''}" data-a="ownerTab" data-v="dashboard">📊 Dashboard</button>
-          <button class="sub-tab ${ownerSubTab==='subs'?'on':''}" data-a="ownerTab" data-v="subs">🍱 Subscriptions</button>
-          <button class="sub-tab ${ownerSubTab==='customers'?'on':''}" data-a="ownerTab" data-v="customers">👥 Customers</button>
-          <button class="sub-tab ${ownerSubTab==='orders'?'on':''}" data-a="ownerTab" data-v="orders">📦 Orders</button>
-          <button class="sub-tab ${ownerSubTab==='products'?'on':''}" data-a="ownerTab" data-v="products">🛒 Products</button>
-          <button class="sub-tab ${ownerSubTab==='expenses'?'on':''}" data-a="ownerTab" data-v="expenses">💰 Expenses</button>
-        </div>
-        ${content}
-        <button class="btn r" data-a="out" style="margin-top:20px">🚪 Logout Owner</button>
       </div>`;
   }
 };
 
-// ============================================================
-// DETAIL VIEWS (Modal)
-// ============================================================
-const viewSubscription = (id) => {
-  const sub = S.subs.find(s => s.id == id);
-  if (!sub) return;
-  const status = getSubStatus(sub);
-  const endDate = getSubEndDate(sub);
-  const daysLeft = Math.max(0, Math.ceil((new Date(endDate) - new Date()) / (1000*60*60*24)));
-  
-  showModal(`
-    <h3>🍱 Subscription Details</h3>
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="width:80px;height:80px;border-radius:50%;background:${sub.type==='veg'?'#D1FAE5':'#FEE2E2'};display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 12px">
-        ${sub.type === 'veg' ? '🟢' : '🔴'}
-      </div>
-      <h2 style="margin-bottom:4px">${esc(sub.name)}</h2>
-      <span class="badge ${status}">${status.toUpperCase()}</span>
-    </div>
-    <div class="detail-row"><span class="label">📱 Phone</span><span class="value">${sub.phone}</span></div>
-    <div class="detail-row"><span class="label">📍 Area</span><span class="value">${esc(sub.area || 'Udala')}</span></div>
-    <div class="detail-row"><span class="label">🍽️ Type</span><span class="value">${sub.type === 'veg' ? '🟢 Veg' : '🔴 Non-Veg'}</span></div>
-    <div class="detail-row"><span class="label">📅 Duration</span><span class="value">${sub.days} din</span></div>
-    <div class="detail-row"><span class="label">🚀 Start Date</span><span class="value">${sub.startDate}</span></div>
-    <div class="detail-row"><span class="label">🏁 End Date</span><span class="value">${endDate}</span></div>
-    <div class="detail-row"><span class="label">⏳ Days Left</span><span class="value">${daysLeft} din</span></div>
-    <div class="detail-row"><span class="label">💰 Price</span><span class="value" style="color:var(--o)">${inr(sub.price)}</span></div>
-    <div class="detail-row"><span class="label">🫓 Extra Roti</span><span class="value">${sub.extraRoti || 0} per day</span></div>
-    <div style="display:flex;gap:8px;margin-top:20px">
-      <a href="https://wa.me/91${sub.phone}" target="_blank" class="btn g" style="flex:1;text-decoration:none;text-align:center">💬 WhatsApp</a>
-      <a href="tel:${sub.phone}" class="btn b" style="flex:1;text-decoration:none;text-align:center">📞 Call</a>
-    </div>
-    ${status === 'active' ? `<button class="btn r" data-a="cancelSub" data-id="${sub.id}">❌ Cancel Subscription</button>` : ''}
-    <button class="btn" data-a="closeModal" style="background:var(--line);color:var(--text)">Close</button>
-  `);
-};
-
-const viewOrder = (id) => {
-  const order = S.orders.find(o => o.id == id);
-  if (!order) return;
-  
-  showModal(`
-    <h3>📦 Order Details</h3>
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="width:80px;height:80px;border-radius:50%;background:${order.status==='pending'?'#FEF3C7':'#D1FAE5'};display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 12px">
-        ${order.status === 'pending' ? '⏳' : '✅'}
-      </div>
-      <h2 style="margin-bottom:4px">${esc(order.name)}</h2>
-      <span class="badge ${order.status}">${order.status.toUpperCase()}</span>
-    </div>
-    <div class="detail-row"><span class="label">📱 Phone</span><span class="value">${order.phone}</span></div>
-    <div class="detail-row"><span class="label">📍 Area</span><span class="value">${esc(order.area || 'Udala')}</span></div>
-    <div class="detail-row"><span class="label">📅 Date</span><span class="value">${order.date}</span></div>
-    <h4 style="margin:16px 0 8px">🛒 Items:</h4>
-    ${order.items.map(i => `<div class="detail-row"><span class="label">${esc(i.n)} × ${i.q}</span><span class="value">${inr(i.p * i.q)}</span></div>`).join('')}
-    <div class="detail-row" style="background:var(--bg);padding:12px;border-radius:12px;margin-top:12px"><span class="label" style="font-weight:700">💰 Total</span><span class="value" style="color:var(--o);font-size:18px">${inr(order.total)}</span></div>
-    <div style="display:flex;gap:8px;margin-top:20px">
-      <a href="https://wa.me/91${order.phone}" target="_blank" class="btn g" style="flex:1;text-decoration:none;text-align:center">💬 WhatsApp</a>
-      <a href="tel:${order.phone}" class="btn b" style="flex:1;text-decoration:none;text-align:center">📞 Call</a>
-    </div>
-    ${order.status === 'pending' ? `<button class="btn" data-a="markDelivered" data-id="${order.id}">✅ Mark Delivered</button>` : ''}
-    <button class="btn" data-a="closeModal" style="background:var(--line);color:var(--text)">Close</button>
-  `);
-};
-
-const viewCustomer = (phone) => {
-  const customerData = { name: '', phone, area: '', subs: [], orders: [], totalSpent: 0 };
-  S.subs.forEach(s => { if (s.phone === phone) { customerData.name = s.name; customerData.area = s.area; customerData.subs.push(s); customerData.totalSpent += s.price; } });
-  S.orders.forEach(o => { if (o.phone === phone) { customerData.name = o.name; customerData.area = o.area; customerData.orders.push(o); customerData.totalSpent += o.total; } });
-  
-  showModal(`
-    <h3>👤 Customer Details</h3>
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg, var(--o), var(--o-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:32px;margin:0 auto 12px">
-        ${customerData.name.charAt(0).toUpperCase()}
-      </div>
-      <h2 style="margin-bottom:4px">${esc(customerData.name)}</h2>
-      <div class="s">📱 ${customerData.phone} · 📍 ${esc(customerData.area || 'Udala')}</div>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-box"><div class="val">${customerData.subs.length}</div><div class="lbl">Subscriptions</div></div>
-      <div class="stat-box orange"><div class="val">${customerData.orders.length}</div><div class="lbl">Orders</div></div>
-    </div>
-    <div class="detail-row" style="background:var(--bg);padding:12px;border-radius:12px"><span class="label" style="font-weight:700">💰 Total Spent</span><span class="value" style="color:var(--o);font-size:18px">${inr(customerData.totalSpent)}</span></div>
-    
-    ${customerData.subs.length > 0 ? `<h4 style="margin:16px 0 8px">🍱 Subscriptions:</h4>${customerData.subs.map(s => `<div class="detail-row"><span class="label">${s.type === 'veg' ? '🟢' : '🔴'} ${s.days} din · ${s.startDate}</span><span class="value">${inr(s.price)}</span></div>`).join('')}` : ''}
-    
-    ${customerData.orders.length > 0 ? `<h4 style="margin:16px 0 8px">📦 Orders:</h4>${customerData.orders.map(o => `<div class="detail-row"><span class="label">${o.date} · ${o.items.length} items</span><span class="value">${inr(o.total)}</span></div>`).join('')}` : ''}
-    
-    <div style="display:flex;gap:8px;margin-top:20px">
-      <a href="https://wa.me/91${phone}" target="_blank" class="btn g" style="flex:1;text-decoration:none;text-align:center">💬 WhatsApp</a>
-      <a href="tel:${phone}" class="btn b" style="flex:1;text-decoration:none;text-align:center">📞 Call</a>
-    </div>
-    <button class="btn" data-a="closeModal" style="background:var(--line);color:var(--text)">Close</button>
-  `);
-};
-
-// ============================================================
-// RENDER
-// ============================================================
+// --- RENDER & ACTIONS ---
 const render = () => {
   if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
   $('#v').innerHTML = VIEWS[tab]();
   $('#ht').textContent = { plan: 'Aaj ka Plan', shop: 'Shop', kitchen: 'Kitchen', delivery: 'Delivery', owner: 'Admin Panel' }[tab];
   
-  const navItems = [
-    ['plan', '🍱 Plan', IMAGES.thali],
-    ['shop', '🛒 Shop', IMAGES.grocery],
-    ['kitchen', '👨‍🍳 Kitchen', IMAGES.kitchen],
-    ['delivery', '🛵 Delivery', IMAGES.scooter],
-    ['owner', '👤 Admin', IMAGES.money]
-  ];
-  
-  $('#nav').innerHTML = navItems.filter(x => OK || x[0] === 'plan' || x[0] === 'shop')
-    .map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
-  
+  const navItems = [['plan', '🍱 Plan', IMAGES.thali], ['shop', '🛒 Shop', IMAGES.grocery], ['kitchen', '👨‍🍳 Kitchen', IMAGES.kitchen], ['delivery', '🛵 Delivery', IMAGES.scooter], ['owner', '👤 Admin', IMAGES.money]];
+  $('#nav').innerHTML = navItems.filter(x => OK || x[0] === 'plan' || x[0] === 'shop').map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
+    
+  $$('.card-3d').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const rx = ((e.clientY - r.top - r.height/2)/(r.height/2))*-5, ry = ((e.clientX - r.left - r.width/2)/(r.width/2))*5;
+      card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'; });
+  });
   setTimeout(() => $('#loadingScreen').classList.add('hide'), 600);
 };
 
-// ============================================================
-// ACTIONS
-// ============================================================
 const ACTIONS = {
   tab: v => {
     if (['kitchen', 'delivery', 'owner'].includes(v) && !OK) {
@@ -823,28 +406,6 @@ const ACTIONS = {
   set: (v, k) => { F[k] = v; render(); },
   inc: (v, k, id) => { vibrate(); C[id] = (C[id] || 0) + 1; render(); },
   dec: (v, k, id) => { vibrate(); C[id] = Math.max(0, (C[id] || 0) - 1); if (C[id] === 0) delete C[id]; render(); },
-  cat: v => { SCAT = v; render(); },
-  ownerTab: v => { ownerSubTab = v; render(); },
-  closeModal: () => closeModal(),
-  
-  viewSub: (v, k, id) => viewSubscription(id),
-  viewOrder: (v, k, id) => viewOrder(id),
-  viewCustomer: (v, k, id) => viewCustomer(id),
-  
-  voice: () => {
-    vibrate();
-    if ('webkitSpeechRecognition' in window) {
-      const recognition = new webkitSpeechRecognition();
-      recognition.lang = 'hi-IN';
-      recognition.start();
-      const btn = $('#voiceBtn');
-      if (btn) btn.classList.add('listening');
-      showToast('🎤 Bol rahe hain...');
-      recognition.onresult = (e) => { SQ = e.results[0][0].transcript; render(); showToast(`🔍 ${SQ}`); };
-      recognition.onerror = () => { showToast('❌ Awaaz nahi suni', 'error'); if (btn) btn.classList.remove('listening'); };
-      recognition.onend = () => { if (btn) btn.classList.remove('listening'); };
-    } else showToast('❌ Voice not supported', 'error');
-  },
   
   join: () => {
     vibrate();
@@ -888,26 +449,13 @@ const ACTIONS = {
     save(); showToast('✅ Expense added!');
   },
 
-  delExpense: (v, k, id) => {
-    vibrate();
-    if (confirm('Delete this expense?')) { S.expenses = S.expenses.filter(e => e.id != id); save(); showToast('🗑️ Deleted'); }
-  },
-
   markDelivered: (v, k, id) => {
     vibrate();
     const order = S.orders.find(o => o.id == id);
-    if (order) { order.status = 'delivered'; save(); showToast('✅ Delivered!'); closeModal(); }
-  },
-
-  cancelSub: (v, k, id) => {
-    vibrate();
-    if (confirm('Cancel this subscription?')) {
-      const sub = S.subs.find(s => s.id == id);
-      if (sub) { sub.status = 'cancelled'; save(); showToast('❌ Cancelled'); closeModal(); }
-    }
+    if (order) { order.status = 'delivered'; save(); showToast('✅ Delivered!'); }
   },
   
-  out: () => { OK = 0; sessionStorage.removeItem('udok'); tab = 'plan'; ownerSubTab = 'dashboard'; render(); showToast('🚪 Logged out'); }
+  out: () => { OK = 0; sessionStorage.removeItem('udok'); tab = 'plan'; render(); showToast('🚪 Logged out'); }
 };
 
 document.addEventListener('click', e => {
@@ -915,13 +463,12 @@ document.addEventListener('click', e => {
   if (!btn) return;
   vibrate();
   const action = ACTIONS[btn.dataset.a];
-  if (action) { try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } catch (err) { console.error(err); showToast('❌ Error', 'error'); } }
+  if (action) { try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } catch (err) { showToast('❌ Error', 'error'); } }
 });
 
 document.addEventListener('input', e => {
   const field = e.target.dataset?.f;
   if (field) { F[field] = e.target.value; if (field === 'phone') F.phone = cleanPhone(F.phone); }
-  if (e.target.id === 'sq') { SQ = e.target.value; if (tab === 'shop') render(); }
 });
 
 let tapCount = 0;
@@ -951,7 +498,7 @@ $('#themeToggle').addEventListener('click', () => {
 initTheme();
 init3D();
 render();
-console.log('🍱 Namaste Udala Complete Suite Loaded!');
+console.log('🍱 Namaste Udala 6.0 Ultimate 3D Loaded!');
 </script>
 </body>
 </html>
