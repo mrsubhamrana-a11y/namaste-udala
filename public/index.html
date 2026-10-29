@@ -4,233 +4,170 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1B4332">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>🍱 Namaste Udala Pro 7.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-<script type="importmap">
-  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
-</script>
+<title>🍱 Namaste Udala - Business Logic Fixed</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root { --o: #FF6B35; --o-dark: #E85D04; --g: #1B4332; --g-light: #2D6A4F; --bg: #FAFAFA; --text: #1A1A1A; --muted: #6B7280; --card: #FFFFFF; --line: #F3F4F6; --success: #10B981; --danger: #EF4444; --info: #3B82F6; --shadow-md: 0 8px 24px rgba(0,0,0,0.06); --shadow-lg: 0 16px 40px rgba(0,0,0,0.08); --glass: rgba(255, 255, 255, 0.85); }
-[data-theme="dark"] { --bg: #0A0A0A; --text: #F9FAFB; --muted: #9CA3AF; --card: #161616; --line: #2A2A2A; --shadow-md: 0 8px 24px rgba(0,0,0,0.4); --shadow-lg: 0 16px 40px rgba(0,0,0,0.5); --glass: rgba(22, 22, 22, 0.85); }
-* { box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
-.loading-screen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
-.loading-screen.hide { opacity: 0; pointer-events: none; }
-.loader { width: 50px; height: 50px; border: 4px solid var(--line); border-top: 4px solid var(--o); border-radius: 50%; animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes rise { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-header { background: linear-gradient(135deg, var(--g) 0%, #0F2C21 100%); color: #fff; padding: 24px 20px 60px; border-radius: 0 0 32px 32px; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+:root { --o: #FF6B35; --g: #1B4332; --bg: #FAFAFA; --text: #1A1A1A; --muted: #6B7280; --card: #FFFFFF; --line: #F3F4F6; --success: #10B981; --danger: #EF4444; --warning: #F59E0B; }
+* { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; }
+header { background: linear-gradient(135deg, var(--g) 0%, #0F2C21 100%); color: #fff; padding: 24px 20px 40px; border-radius: 0 0 32px 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 header .logo { font-size: 11px; letter-spacing: 3px; font-weight: 800; color: #FCD34D; text-transform: uppercase; }
-header h1 { font-size: 26px; font-weight: 900; margin-top: 6px; text-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-header .tagline { font-size: 13px; opacity: 0.9; margin-top: 6px; }
-#canvas-container { position: absolute; right: 10px; top: 15px; width: 140px; height: 140px; pointer-events: auto; cursor: grab; }
-.header-wave { position: absolute; bottom: -1px; left: 0; width: 100%; height: 40px; fill: var(--bg); }
-
-#v { padding: 0 16px; margin-top: -30px; position: relative; z-index: 1; perspective: 1000px; }
-.card-3d { transform-style: preserve-3d; transition: transform 0.15s ease-out, box-shadow 0.3s ease; }
-.card-3d .card-content { transform: translateZ(20px); }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-md); animation: rise 0.6s ease both; position: relative; overflow: hidden; }
-.card h3 { color: var(--g); font-size: 18px; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-[data-theme="dark"] .card h3 { color: #4ADE80; }
+header h1 { font-size: 24px; font-weight: 900; margin-top: 6px; }
+header .tagline { font-size: 13px; opacity: 0.9; margin-top: 4px; }
+#v { padding: 0 16px; margin-top: -20px; position: relative; z-index: 1; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); animation: rise 0.4s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.card h3 { color: var(--g); font-size: 17px; font-weight: 800; margin-bottom: 14px; }
 .s { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
-.stat-box { background: linear-gradient(135deg, var(--g) 0%, var(--g-light) 100%); color: #fff; border-radius: 20px; padding: 16px; text-align: center; box-shadow: var(--shadow-md); }
-.stat-box.orange { background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); }
-.stat-box .val { font-size: 24px; font-weight: 900; }
-.stat-box .lbl { font-size: 11px; opacity: 0.9; font-weight: 600; margin-top: 4px; }
-
-.btn { padding: 14px 24px; border-radius: 16px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); color: #fff; box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3); transition: transform 0.2s; }
-.btn:active { transform: scale(0.96); }
-.btn.g { background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); color: #065F46; border: 1px solid #A7F3D0; }
-.btn.r { background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); color: #991B1B; border: 1px solid #FECACA; }
-.btn.b { background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: #fff; }
-.btn.sm { padding: 8px 16px; font-size: 13px; width: auto; margin: 0; border-radius: 12px; }
-input, select, textarea { width: 100%; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 16px; margin: 6px 0 12px; font-size: 15px; background: var(--bg); color: var(--text); font-family: inherit; }
-textarea { min-height: 80px; resize: vertical; }
-input:focus, textarea:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1); }
-
-.nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(16px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); }
-.nav div { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); flex: 1; cursor: pointer; padding: 8px 4px; border-radius: 12px; transition: all 0.3s; }
-.nav div.on { color: var(--o); background: rgba(255, 107, 53, 0.1); transform: translateY(-6px); }
-.nav img { width: 24px; height: 24px; border-radius: 6px; object-fit: cover; margin: 0 auto 4px; display: block; border: 2px solid transparent; }
-.nav div.on img { transform: scale(1.15); border-color: var(--o); }
-
-.item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-.item:last-child { border-bottom: 0; }
-.item-img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; background: var(--line); flex-shrink: 0; }
-.item-info { flex: 1; min-width: 0; }
-.item-info b { font-size: 15px; font-weight: 700; display: block; margin-bottom: 2px; }
-.price { color: var(--o); font-weight: 800; font-size: 16px; }
-
-.qty-ctrl { display: flex; align-items: center; gap: 10px; border: 2px solid var(--o); border-radius: 12px; padding: 4px; background: rgba(255, 107, 53, 0.05); }
-.qty-ctrl button { width: 32px; height: 32px; border: 0; border-radius: 10px; background: var(--o); color: #fff; font-size: 18px; font-weight: 800; cursor: pointer; }
-.qty-ctrl b { min-width: 24px; text-align: center; font-weight: 800; font-size: 15px; }
-
-.cart-bar { position: fixed; bottom: 85px; left: 16px; right: 16px; background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 99; box-shadow: var(--shadow-lg); animation: rise 0.4s ease; }
-.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1F2937; color: #fff; padding: 14px 28px; border-radius: 50px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; opacity: 0; transition: all 0.4s; max-width: 90%; text-align: center; }
-.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-.toast.error { background: var(--danger); }
-.toast.success { background: var(--success); }
-
+.btn { padding: 14px; border-radius: 14px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; background: var(--o); color: #fff; transition: transform 0.1s; }
+.btn:active { transform: scale(0.97); }
+.btn.g { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+.btn.r { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
+.btn.b { background: #3B82F6; color: #fff; }
+.btn.sm { padding: 8px 14px; font-size: 12px; width: auto; margin: 0; border-radius: 10px; }
+input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid var(--line); border-radius: 14px; margin: 6px 0 12px; font-size: 15px; background: var(--bg); color: var(--text); font-family: inherit; }
+input:focus, textarea:focus { outline: none; border-color: var(--o); }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 10px 0 15px; z-index: 100; }
+.nav div { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); flex: 1; cursor: pointer; }
+.nav div.on { color: var(--o); }
+.nav div span { font-size: 22px; display: block; margin-bottom: 2px; }
 .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
 .badge.pending { background: #FEF3C7; color: #92400E; }
-.badge.delivered { background: #D1FAE5; color: #065F46; }
-
-.theme-toggle { position: fixed; top: 20px; right: 20px; width: 44px; height: 44px; border-radius: 50%; background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; z-index: 101; box-shadow: var(--shadow-md); }
-.fab { position: fixed; right: 16px; bottom: 95px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #25d366, #128c7e); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4); z-index: 99; text-decoration: none; animation: float 3s ease-in-out infinite; }
+.badge.active { background: #D1FAE5; color: #065F46; }
+.badge.trial { background: #DBEAFE; color: #1E40AF; }
+.badge.expired { background: #F3F4F6; color: #4B5563; }
+.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1F2937; color: #fff; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; z-index: 1000; opacity: 0; transition: all 0.3s; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.error { background: var(--danger); }
+.progress-bar { width: 100%; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin: 10px 0; }
+.progress-fill { height: 100%; background: var(--success); transition: width 0.5s ease; }
+.fab { position: fixed; right: 16px; bottom: 90px; width: 50px; height: 50px; border-radius: 50%; background: #25d366; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; box-shadow: 0 4px 15px rgba(37,211,102,0.4); }
 </style>
 </head>
 <body>
-
-<div class="loading-screen" id="loadingScreen"><div class="loader"></div><p style="margin-top:16px;font-weight:800;color:var(--o);font-size:18px">Namaste Udala Pro 7.0</p></div>
-<button class="theme-toggle" id="themeToggle">🌙</button>
-<div class="toast" id="toast"></div>
 
 <header id="mainHeader">
   <div class="logo">NAMASTE UDALA</div>
   <h1 id="ht">Aaj ka Plan</h1>
   <div class="tagline">Ghar jaisa khana · Roz time pe</div>
-  <div id="canvas-container"></div>
-  <svg class="header-wave" viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,60 C360,120 1080,0 1440,60 L1440,100 L0,100 Z"></path></svg>
 </header>
 
 <div id="v"></div>
-<a class="fab" href="https://wa.me/919583937047?text=Namaste%20Udala" target="_blank">💬</a>
+<a class="fab" href="https://wa.me/919583937047" target="_blank">💬</a>
 <div class="nav" id="nav"></div>
+<div class="toast" id="toast"></div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-import * as THREE from 'three';
-
-const CONFIG = { firebase: { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", authDomain: "namaste-udala.firebaseapp.com", projectId: "namaste-udala", storageBucket: "namaste-udala.firebasestorage.app", messagingSenderId: "998684348165", appId: "1:998684348165:web:4bb0d2f5335a90a394716c" }, whatsapp: '919583937047', ownerPin: '4821' };
+const CONFIG = { whatsapp: '919583937047', ownerPin: '4821' };
 const PRICING = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
-const IMAGES = { thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80', grocery: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80', kitchen: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80', scooter: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80', money: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80', doodh: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80', paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80', chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80', roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80', chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80', hul: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&q=80' };
 
-let S = { prod: [], subs: [], orders: [], expenses: [], pays: [], kopt: {}, mset: {}, done: {}, dailyVideo: 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4', partners: ['Raju Bhaiya', 'Suresh Delivery'] };
-try { const saved = localStorage.getItem('udala7'); if (saved) S = { ...S, ...JSON.parse(saved) }; } catch (e) {}
+let S = { prod: [], subs: [], orders: [], expenses: [] };
+try { const saved = localStorage.getItem('udala_logic'); if (saved) S = { ...S, ...JSON.parse(saved) }; } catch (e) {}
 
-let db = null, tab = 'plan', C = {}, OK = 0;
+let tab = 'plan', C = {}, OK = 0;
 try { OK = sessionStorage.getItem('udok') ? 1 : 0; } catch (e) {}
-const F = { type: 'veg', days: '30', name: '', phone: '', area: '', addr: '', mapLink: '', notes: '' };
+const F = { type: 'veg', days: '30', name: '', phone: '', area: '', utr: '' };
 
 if (!S.prod || S.prod.length === 0) {
   S.prod = [
-    { id: 1, n: 'Doodh 500 ml', p: 30, c: 'Dairy', img: IMAGES.doodh, nv: 0 },
-    { id: 2, n: 'Paneer 200 g', p: 80, c: 'Dairy', img: IMAGES.paneer, nv: 0 },
-    { id: 3, n: 'Chai patti 250 g', p: 130, c: 'Kirana', img: IMAGES.chai, nv: 0 },
-    { id: 4, n: 'Atta 1 kg', p: 50, c: 'Kirana', img: IMAGES.roti, nv: 0 },
-    { id: 5, n: 'Chicken piece', p: 40, c: 'Non-Veg', img: IMAGES.chicken, nv: 1 },
-    { id: 6, n: 'Egg (6 pcs)', p: 48, c: 'Non-Veg', img: IMAGES.chicken, nv: 1 },
-    { id: 7, n: 'Surf Excel 1 kg', p: 110, c: 'HUL Essentials', img: IMAGES.hul, nv: 0 },
-    { id: 8, n: 'Vim Bar 300 g', p: 35, c: 'HUL Essentials', img: IMAGES.hul, nv: 0 }
+    { id: 1, n: 'Doodh 500 ml', p: 30, c: 'Dairy', nv: 0 },
+    { id: 2, n: 'Paneer 200 g', p: 80, c: 'Dairy', nv: 0 },
+    { id: 3, n: 'Chicken piece', p: 40, c: 'Non-Veg', nv: 1 },
+    { id: 4, n: 'Atta 1 kg', p: 50, c: 'Kirana', nv: 0 }
   ];
 }
 
-try {
-  const app = initializeApp(CONFIG.firebase);
-  db = getDatabase(app);
-  onValue(ref(db, 'udala2'), snapshot => { 
-    const v = snapshot.val(); 
-    if (v) { S = { ...S, prod: v.prod || S.prod, subs: v.subs || [], orders: v.orders || [], expenses: v.expenses || [], pays: v.pays || [], kopt: v.kopt || {}, mset: v.mset || {}, done: v.done || {}, dailyVideo: v.dailyVideo || S.dailyVideo, partners: v.partners || S.partners }; render(); } 
-  });
-} catch (e) { console.log('Offline mode'); }
-
-const save = () => { 
-  localStorage.setItem('udala7', JSON.stringify(S)); 
-  if (db) update(ref(db, 'udala2'), { prod: S.prod, subs: S.subs, orders: S.orders, expenses: S.expenses || [], pays: S.pays || [], kopt: S.kopt || {}, mset: S.mset || {}, done: S.done || {}, dailyVideo: S.dailyVideo || '', partners: S.partners || [] }).catch(()=>{});
-  render(); 
-};
-
+const save = () => { localStorage.setItem('udala_logic', JSON.stringify(S)); render(); };
 const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const iso = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
 const todayStr = () => iso(new Date());
 const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
 const cleanPhone = s => String(s || '').replace(/\D/g, '').slice(-10);
-const showToast = (msg, type = 'success') => { const t = $('#toast'); if(t) { t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3000); } };
-const vibrate = () => { if (navigator.vibrate) navigator.vibrate(20); };
-const hideLoading = () => { const ls = $('#loadingScreen'); if (ls) setTimeout(() => ls.classList.add('hide'), 600); };
+const showToast = (msg, type = 'success') => { const t = $('#toast'); t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3000); };
 
-let scene, camera, renderer, vegModel, nvModel, currentModel;
-const init3D = () => {
-  try {
-    const container = $('#canvas-container'); if (!container) return;
-    scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100); camera.position.z = 4;
-    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); renderer.setSize(140, 140); renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-    vegModel = new THREE.Group();
-    vegModel.add(new THREE.Mesh(new THREE.CylinderGeometry(1, 0.8, 0.15, 32), new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.9, roughness: 0.3 })));
-    const rice = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24), new THREE.MeshStandardMaterial({ color: 0xFFFDD0, roughness: 0.8 })); rice.position.set(-0.35, 0.25, 0); vegModel.add(rice);
-    const dal = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24), new THREE.MeshStandardMaterial({ color: 0xFFA500, roughness: 0.6 })); dal.position.set(0.35, 0.25, 0); vegModel.add(dal);
-    nvModel = new THREE.Group();
-    const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 0.8, 8, 16), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.5 })); leg.rotation.z = Math.PI / 4; nvModel.add(leg);
-    currentModel = vegModel; scene.add(currentModel);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-    const pl1 = new THREE.PointLight(0xFCD34D, 2, 10); pl1.position.set(3, 3, 3); scene.add(pl1);
-    container.addEventListener('mousemove', (e) => { const rect = container.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2; const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2; if(currentModel) { currentModel.rotation.y = x * 0.5; currentModel.rotation.x = y * 0.3; } });
-    container.addEventListener('mouseleave', () => { if(currentModel) { currentModel.rotation.x = 0; currentModel.rotation.y = 0; } });
-    const animate = () => { requestAnimationFrame(animate); if (currentModel) currentModel.position.y = Math.sin(Date.now() * 0.002) * 0.1; renderer.render(scene, camera); };
-    animate();
-  } catch (err) { console.error("3D Error:", err); }
+// --- CORE LOGIC HELPERS ---
+const getSubStatus = (sub) => {
+  if (!sub) return 'expired';
+  const start = new Date(sub.start + 'T12:00:00');
+  const end = new Date(start); end.setDate(end.getDate() + sub.days);
+  const today = new Date(); today.setHours(12,0,0,0);
+  
+  if (sub.status === 'pending') return 'pending';
+  if (today >= end) return 'expired';
+  if (sub.status === 'trial') return 'trial';
+  if (sub.status === 'paused') return 'paused';
+  return 'active';
 };
-const switch3DModel = (type) => { if (!scene || !currentModel) return; scene.remove(currentModel); currentModel = type === 'nv' ? nvModel : vegModel; scene.add(currentModel); };
 
 const VIEWS = {
   plan: () => {
-    switch3DModel(F.type);
     const price = PRICING[F.type][F.days] || 2899;
-    const vid = S.dailyVideo || 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4';
-    let h = `<div class="card" style="background:#000;color:#fff;padding:0;overflow:hidden;min-height:220px">
-      <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.6"><source src="${vid}" type="video/mp4"></video>
-      <div style="position:relative;z-index:2;padding:24px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent)">
-        <h3 style="color:#fff;margin:0;font-size:20px">🌅 Suprabhat Udala!</h3>
-        <p style="font-size:24px;font-weight:900;margin:8px 0;line-height:1.3">Ghar jaisa khana,<br>Roz time pe 🍱</p>
-      </div></div>`;
-    
-    // Customer Dashboard if logged in
+    let h = `<div class="card" style="background:linear-gradient(135deg, var(--g), #0F2C21); color:#fff; border:none;">
+      <h3 style="color:#fff">🍱 Namaste Udala</h3>
+      <p style="font-size:20px;font-weight:900;line-height:1.3">Ghar jaisa khana,<br>Roz time pe 🍱</p>
+    </div>`;
+
+    // Customer Tracking Section
     if (F.phone && F.phone.length === 10) {
-      const mySubs = (S.subs || []).filter(s => s.phone === cleanPhone(F.phone) && s.status === 'active');
-      const myOrders = (S.orders || []).filter(o => o.phone === cleanPhone(F.phone)).reverse();
+      const mySubs = (S.subs || []).filter(s => s.phone === cleanPhone(F.phone)).sort((a,b) => b.id - a.id);
       if (mySubs.length > 0) {
-        h += `<div class="card" style="border-left:4px solid var(--success)"><h3>👤 Mera Active Plan</h3>`;
-        mySubs.forEach(s => {
-          const used = Math.max(1, Math.round((new Date() - new Date(s.start + 'T12:00:00')) / 86400000));
-          h += `<div class="row"><div><b>${s.type === 'veg' ? '🟢 Veg' : '🔴 Non-Veg'} Plan</b><div class="s">${used} din chua, ${s.days - used} baaki</div></div><span class="badge delivered">Active</span></div>`;
-        });
-        h += `</div>`;
-      }
-      if (myOrders.length > 0) {
-        h += `<div class="card"><h3>📜 Mera Order History</h3>`;
-        myOrders.slice(0, 3).forEach(o => {
-          h += `<div class="row" style="align-items:flex-start"><div><b>${o.date}</b><div class="s">${o.items.map(i=>i.n+' x'+i.q).join(', ')}</div></div><div style="text-align:right"><b>${inr(o.total)}</b><span class="badge ${o.status}">${o.status}</span><br><button class="btn sm g" style="margin-top:6px" data-a="reorder" data-id="${o.id}">🔄 Reorder</button></div></div>`;
-        });
-        h += `</div>`;
+        const latest = mySubs[0];
+        const status = getSubStatus(latest);
+        const start = new Date(latest.start + 'T12:00:00');
+        const end = new Date(start); end.setDate(end.getDate() + latest.days);
+        const today = new Date(); today.setHours(12,0,0,0);
+        const totalDays = latest.days;
+        const daysPassed = Math.floor((today - start) / 86400000);
+        const daysLeft = Math.max(0, totalDays - daysPassed);
+        const progress = Math.min(100, (daysPassed / totalDays) * 100);
+
+        let statusBadge = '';
+        if (status === 'pending') statusBadge = `<span class="badge pending">⏳ Payment Pending</span>`;
+        else if (status === 'trial') statusBadge = `<span class="badge trial"> Free Trial</span>`;
+        else if (status === 'active') statusBadge = `<span class="badge active">✅ Active</span>`;
+        else statusBadge = `<span class="badge expired">❌ Expired</span>`;
+
+        h += `<div class="card" style="border-left: 4px solid ${status === 'active' ? 'var(--success)' : status === 'pending' ? 'var(--warning)' : 'var(--danger)'}">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <h3 style="margin:0"> Mera Plan Tracker</h3>
+            ${statusBadge}
+          </div>
+          <div class="s"><b>${latest.type === 'veg' ? ' Veg' : '🔴 Non-Veg'} Plan</b> · ${latest.days} Din</div>
+          <div class="s" style="margin-top:8px">📅 Start: ${latest.start} | End: ${iso(end)}</div>
+          <div class="s">⏳ Bache hue din: <b style="color:var(--o)">${daysLeft} din</b></div>
+          <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
+          ${status === 'pending' ? `<div class="s" style="color:var(--warning);font-weight:700;margin-top:10px">⚠️ Aapka plan abhi active nahi hai. Owner payment verify karega. UTR: ${latest.utr || 'N/A'}</div>` : ''}
+          ${status === 'trial' ? `<div class="s" style="color:var(--info);font-weight:700;margin-top:10px">🎁 Ye 1 din ka free trial hai. Kal expire ho jayega!</div>` : ''}
+        </div>`;
       }
     }
 
-    h += `<div class="card card-3d"><div class="card-content"><h3>🍽️ Naya Plan Chunein</h3>
-      <div class="s">Khana type:</div><div style="display:flex;gap:8px;margin:8px 0">
+    // Plan Form
+    h += `<div class="card">
+      <h3>️ Naya Plan Chunein</h3>
+      <div class="s">Khana type:</div>
+      <div style="display:flex;gap:8px;margin:8px 0">
         <button class="btn sm ${F.type==='veg'?'g':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button>
-        <button class="btn sm ${F.type==='nv'?'r':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-veg</button></div>
-      <div class="s">Kitne din:</div><div style="display:flex;gap:8px;margin:8px 0">
+        <button class="btn sm ${F.type==='nv'?'r':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-veg</button>
+      </div>
+      <div class="s">Kitne din:</div>
+      <div style="display:flex;gap:8px;margin:8px 0">
         <button class="btn sm ${F.days==7?'g':''}" data-a="set" data-k="days" data-v="7">7 din</button>
         <button class="btn sm ${F.days==15?'g':''}" data-a="set" data-k="days" data-v="15">15 din</button>
-        <button class="btn sm ${F.days==30?'g':''}" data-a="set" data-k="days" data-v="30">30 din</button></div>
+        <button class="btn sm ${F.days==30?'g':''}" data-a="set" data-k="days" data-v="30">30 din</button>
+      </div>
       <input data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
       <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit Mobile" value="${esc(F.phone)}">
       <input data-f="area" placeholder="Area / Locality" value="${esc(F.area)}">
-      <textarea data-f="notes" placeholder="Special Instructions (e.g., Gate par bell bajana, Kam mirch, Baby food alag)"></textarea>
-      <button class="btn sm g" data-a="getLocation" style="margin-top:4px; width:100%">📍 Meri Current Location Lo (Zaroori)</button>
-      ${F.mapLink ? `<div class="s" style="color:var(--success); margin-top:8px;">✅ Location locked: <a href="${F.mapLink}" target="_blank" style="color:var(--success); font-weight:700">Maps</a></div>` : '<div class="s" style="color:var(--danger); margin-top:8px;">⚠️ Bina GPS location ke plan nahi banega!</div>'}
-      <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:900;margin:16px 0"><span>Total</span><span style="color:var(--o)">${inr(price)}</span></div>
-      <button class="btn" data-a="join">✅ Plan Shuru Karo</button>
-    </div></div>`;
+      
+      <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:900;margin:16px 0">
+        <span>Total</span><span style="color:var(--o)">${inr(price)}</span>
+      </div>
+      
+      <button class="btn" data-a="joinPaid">💳 Pay & Join Plan</button>
+      <button class="btn g" data-a="joinTrial">🎁 Start 1 Din Free Trial</button>
+    </div>`;
     return h;
   },
 
@@ -238,263 +175,187 @@ const VIEWS = {
     let total = 0, count = 0;
     Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { total += p.p * q; count += q; } });
     let h = `<div class="card" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none"><h3 style="color:#fff">🛒 Ghar ka Saaman</h3></div>
-      <div class="card card-3d"><div class="card-content">`;
+      <div class="card">`;
     (S.prod || []).forEach(p => {
       const q = C[p.id] || 0;
-      h += `<div class="item"><img class="item-img" src="${p.img || ''}" onerror="this.style.display='none'">
-        <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} ${p.nv ? '· 🔴 Non-Veg' : ''}</div><div class="price">${inr(p.p)}</div></div>
-        ${q > 0 ? `<div class="qty-ctrl"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}</div>`;
+      h += `<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)">
+        <div style="flex:1"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} ${p.nv ? '· 🔴' : ''}</div><div style="color:var(--o);font-weight:800">${inr(p.p)}</div></div>
+        ${q > 0 ? `<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:4px"><button data-a="dec" data-id="${p.id}" style="width:28px;height:28px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}" style="width:28px;height:28px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}
+      </div>`;
     });
-    h += `</div></div>`;
+    h += `</div>`;
     if (count > 0) {
-      h += `<div class="cart-bar"><div><div style="font-size:13px;font-weight:700">🛒 ${count} items</div><div style="font-size:22px;font-weight:900;color:var(--o)">${inr(total)}</div></div><button class="btn g" data-a="order" style="margin:0;width:auto">Checkout</button></div>`;
+      h += `<div style="position:fixed;bottom:80px;left:16px;right:16px;background:var(--card);border-radius:16px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,0.1);z-index:99">
+        <div><div style="font-size:13px;font-weight:700"> ${count} items</div><div style="font-size:20px;font-weight:900;color:var(--o)">${inr(total)}</div></div>
+        <button class="btn g" data-a="order" style="margin:0;width:auto">Checkout</button>
+      </div>`;
     }
     return h;
   },
 
   kitchen: () => {
     if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
-    const tStr = todayStr(); let veg = 0, nv = 0, roti = 0;
+    const tStr = todayStr(); let veg = 0, nv = 0;
+    // Sirf Active aur Trial ko hi count karo
     (S.subs || []).forEach(sub => {
-      const end = new Date(sub.start || sub.startDate); end.setDate(end.getDate() + sub.days - 1);
-      if (tStr >= (sub.start || sub.startDate) && tStr <= iso(end) && sub.status === 'active') {
-        if (sub.type === 'veg') veg++; else nv++; roti += (sub.extraRoti || 0);
+      const status = getSubStatus(sub);
+      if ((status === 'active' || status === 'trial') && sub.start <= tStr) {
+        if (sub.type === 'veg') veg++; else nv++;
       }
     });
-    return `<div class="card card-3d"><div class="card-content"><h3>👨‍🍳 Aaj ki Kitchen List</h3><div class="s" style="margin-bottom:16px">📅 Date: ${tStr}</div>
-      <div class="stats-grid">
-        <div class="stat-box"><div class="val">${veg}</div><div class="lbl">Veg Thali</div></div>
-        <div class="stat-box orange"><div class="val">${nv}</div><div class="lbl">Non-Veg Thali</div></div>
-        <div class="stat-box" style="background:linear-gradient(135deg, #3B82F6, #1E40AF)"><div class="val">${roti}</div><div class="lbl">Extra Roti</div></div>
-        <div class="stat-box purple"><div class="val">${veg + nv}</div><div class="lbl">Total Tiffin</div></div>
-      </div></div></div>`;
-  },
-
-  delivery: () => {
-    if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
-    const pending = (S.orders || []).filter(o => o.status === 'pending');
-    return `<div class="card card-3d"><div class="card-content"><h3>🛵 Pending Deliveries (${pending.length})</h3>
-      ${pending.length === 0 ? '<p class="s">Koi pending delivery nahi! 🎉</p>' : 
-        pending.map(o => `<div class="item" style="flex-direction:column;align-items:flex-start;gap:10px">
-          <div style="display:flex;justify-content:space-between;width:100%"><b>${esc(o.name)}</b><span class="badge pending">Pending</span></div>
-          <div class="s">📍 ${esc(o.area || 'Udala')} | 📱 ${o.phone}</div>
-          ${o.notes ? `<div class="s" style="color:var(--o);font-weight:600">📝 Note: ${esc(o.notes)}</div>` : ''}
-          <div class="s">📦 ${(o.items||[]).map(i=>`${i.n} x${i.q}`).join(', ')}</div>
-          <div class="s" style="font-weight:800;color:var(--o)">💰 ${inr(o.total)}</div>
-          <div style="display:flex;gap:8px;width:100%;margin-top:10px;flex-wrap:wrap">
-            <select data-a="assignPartner" data-id="${o.id}" style="margin:0;flex:1;padding:8px;font-size:12px">
-              <option value="">Partner Assign Karein</option>
-              ${(S.partners||[]).map(p => `<option value="${p}" ${o.partner===p?'selected':''}>${p}</option>`).join('')}
-            </select>
-            ${o.map ? `<a href="${o.map}" target="_blank" class="btn sm b" style="flex:1;text-align:center;text-decoration:none">🗺️ Maps</a>` : ''}
-            <button class="btn sm" data-a="markDelivered" data-id="${o.id}" style="flex:1">✅ Done</button>
-          </div></div>`).join('')}</div></div>`;
+    return `<div class="card"><h3>👨‍ Aaj ki Kitchen List</h3><div class="s" style="margin-bottom:16px">📅 Date: ${tStr}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--g);color:#fff;border-radius:16px;padding:16px;text-align:center"><div style="font-size:28px;font-weight:900">${veg}</div><div style="font-size:11px;opacity:0.9">Veg Thali</div></div>
+        <div style="background:var(--o);color:#fff;border-radius:16px;padding:16px;text-align:center"><div style="font-size:28px;font-weight:900">${nv}</div><div style="font-size:11px;opacity:0.9">Non-Veg Thali</div></div>
+      </div></div>`;
   },
 
   owner: () => {
     if (!OK) return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
-    const revenue = (S.orders || []).reduce((sum, o) => sum + (o.total || 0), 0) + (S.subs || []).reduce((sum, s) => sum + (s.price || 0), 0);
-    const expenses = (S.expenses || []).reduce((sum, e) => sum + (e.amount || 0), 0);
-    const profit = revenue - expenses;
-    const activeSubs = (S.subs || []).filter(s => s.status === 'active').length;
     
-    // Analytics: Top Products
-    const prodCounts = {};
-    (S.orders || []).forEach(o => (o.items||[]).forEach(i => { prodCounts[i.n] = (prodCounts[i.n] || 0) + i.q; }));
-    const topProducts = Object.entries(prodCounts).sort((a,b) => b[1] - a[1]).slice(0, 3);
+    const pendingPayments = (S.subs || []).filter(s => s.status === 'pending');
+    const activeSubs = (S.subs || []).filter(s => getSubStatus(s) === 'active' || getSubStatus(s) === 'trial').length;
+    const revenue = (S.subs || []).filter(s => s.status === 'active').reduce((sum, s) => sum + (s.price || 0), 0);
 
-    return `<div class="card card-3d"><div class="card-content">
-      <h3>📊 Super Admin Dashboard</h3>
-      <div class="stats-grid">
-        <div class="stat-box"><div class="val">${inr(revenue)}</div><div class="lbl">Total Revenue</div></div>
-        <div class="stat-box orange"><div class="val">${inr(expenses)}</div><div class="lbl">Expenses</div></div>
-        <div class="stat-box" style="background:linear-gradient(135deg, ${profit >= 0 ? '#10B981' : '#EF4444'}, ${profit >= 0 ? '#059669' : '#DC2626'})"><div class="val">${inr(profit)}</div><div class="lbl">Net Profit</div></div>
-        <div class="stat-box purple"><div class="val">${activeSubs}</div><div class="lbl">Active Subs</div></div>
-      </div>
-      
-      ${topProducts.length > 0 ? `<div class="card" style="background:var(--bg);margin-top:16px"><h3>🔥 Top Selling Items</h3>` + topProducts.map((p, i) => `<div class="row"><span>${i+1}. ${esc(p[0])}</span><b>${p[1]} sold</b></div>`).join('') + `</div>` : ''}
+    let h = `<div class="card"><h3>📊 Owner Dashboard</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--g);color:#fff;border-radius:16px;padding:16px;text-align:center"><div style="font-size:22px;font-weight:900">${activeSubs}</div><div style="font-size:11px;opacity:0.9">Active Plans</div></div>
+        <div style="background:var(--o);color:#fff;border-radius:16px;padding:16px;text-align:center"><div style="font-size:22px;font-weight:900">${inr(revenue)}</div><div style="font-size:11px;opacity:0.9">Revenue</div></div>
+      </div></div>`;
 
-      <div class="card" style="margin-top:16px"><h3>📢 WhatsApp Broadcast</h3>
-        <textarea id="broadcastMsg" placeholder="Message likhein (e.g., Aaj special Paneer hai! Order karein.)"></textarea>
-        <button class="btn b" data-a="sendBroadcast">🚀 Sabhi Active Customers ko Bhejein</button>
-      </div>
+    if (pendingPayments.length > 0) {
+      h += `<div class="card" style="border:2px solid var(--warning)"><h3>⏳ Payment Verify Karein (${pendingPayments.length})</h3>`;
+      pendingPayments.forEach(sub => {
+        h += `<div style="padding:12px;background:var(--bg);border-radius:12px;margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><b>${esc(sub.name)}</b><span class="badge pending">Pending</span></div>
+          <div class="s">📱 ${sub.phone} | 🍽️ ${sub.type} ${sub.days} din</div>
+          <div class="s" style="font-weight:800;color:var(--o)">💰 Amount: ${inr(sub.price)} | UTR: ${sub.utr || 'Nahi diya'}</div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn g" data-a="verifyPayment" data-id="${sub.id}" style="flex:1">✅ Verify & Active Karo</button>
+            <button class="btn r" data-a="rejectPayment" data-id="${sub.id}" style="flex:1">❌ Reject</button>
+          </div>
+        </div>`;
+      });
+      h += `</div>`;
+    } else {
+      h += `<div class="card"><h3>✅ Sab Clear Hai</h3><p class="s">Koi payment pending nahi hai.</p></div>`;
+    }
 
-      <h3 style="margin-top:20px">🛒 Manage Products</h3>
-      <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
-        <input id="newPName" placeholder="Product Name">
-        <div style="display:flex;gap:8px"><input id="newPPrice" type="number" placeholder="Price ₹" style="flex:1"><input id="newPCat" placeholder="Category" style="flex:1"></div>
-        <button class="btn g" data-a="addProduct">➕ Add Product</button>
-      </div>
-      ${(S.prod || []).map(p => `<div class="item"><div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} · ${inr(p.p)}</div></div><button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button></div>`).join('')}
-
-      <h3 style="margin-top:24px">💰 Add Expense</h3>
-      <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
-        <input id="expName" placeholder="Expense Name (e.g., Petrol)"><input id="expAmount" type="number" placeholder="Amount ₹">
-        <button class="btn" style="background:var(--info)" data-a="addExpense">➕ Add Expense</button>
-      </div>
-      
-      <button class="btn r" data-a="out" style="margin-top:24px">🚪 Logout Owner</button>
-    </div></div>`;
+    h += `<div class="card"><h3>📋 Sabhi Subscriptions</h3>`;
+    (S.subs || []).slice().reverse().forEach(sub => {
+      const status = getSubStatus(sub);
+      h += `<div style="padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+        <div><b>${esc(sub.name)}</b><div class="s">${sub.phone} · ${inr(sub.price)}</div></div>
+        <span class="badge ${status}">${status}</span>
+      </div>`;
+    });
+    h += `</div><button class="btn r" data-a="out">🚪 Logout Owner</button>`;
+    return h;
   }
 };
 
 const render = () => {
-  try {
-    if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
-    $('#v').innerHTML = VIEWS[tab]();
-    $('#ht').textContent = { plan: 'Aaj ka Plan', shop: 'Shop', kitchen: 'Kitchen', delivery: 'Delivery', owner: 'Admin Panel' }[tab];
-    const navItems = [['plan', '🍱 Plan', IMAGES.thali], ['shop', '🛒 Shop', IMAGES.grocery], ['kitchen', '👨‍🍳 Kitchen', IMAGES.kitchen], ['delivery', '🛵 Delivery', IMAGES.scooter], ['owner', '👤 Admin', IMAGES.money]];
-    $('#nav').innerHTML = navItems.filter(x => OK || x[0] === 'plan' || x[0] === 'shop').map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
-    $$('.card-3d').forEach(card => {
-      card.addEventListener('mousemove', e => { const r = card.getBoundingClientRect(); card.style.transform = `perspective(1000px) rotateX(${((e.clientY - r.top - r.height/2)/(r.height/2))*-5}deg) rotateY(${((e.clientX - r.left - r.width/2)/(r.width/2))*5}deg) scale3d(1.02, 1.02, 1.02)`; });
-      card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'; });
-    });
-  } catch (err) { console.error("Render Error:", err); } finally { hideLoading(); }
+  if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
+  $('#v').innerHTML = VIEWS[tab]();
+  $('#ht').textContent = { plan: 'Aaj ka Plan', shop: 'Shop', kitchen: 'Kitchen', owner: 'Owner Panel' }[tab];
+  $('#nav').innerHTML = [['plan','','Plan'],['shop','🛒','Shop'],['kitchen','👨‍🍳','Kitchen'],['owner','👤','Owner']].filter(x => OK || x[0] === 'plan' || x[0] === 'shop').map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><span>${x[1]}</span>${x[2]}</div>`).join('');
 };
 
 const ACTIONS = {
   tab: v => {
-    if (['kitchen', 'delivery', 'owner'].includes(v) && !OK) {
+    if (['kitchen', 'owner'].includes(v) && !OK) {
       const pin = prompt('Owner PIN:');
       if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); showToast('🔓 Admin Access Granted'); }
       else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); return; }
     }
-    tab = v; render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    tab = v; render();
   },
   set: (v, k) => { F[k] = v; render(); },
-  inc: (v, k, id) => { vibrate(); C[id] = (C[id] || 0) + 1; render(); },
-  dec: (v, k, id) => { vibrate(); C[id] = Math.max(0, (C[id] || 0) - 1); if (C[id] === 0) delete C[id]; render(); },
-  
-  getLocation: () => {
-    vibrate();
-    if (!navigator.geolocation) { showToast('❌ Browser GPS support nahi karta', 'error'); return; }
-    showToast('📍 Location dhoondh rahe hain...');
-    navigator.geolocation.getCurrentPosition((pos) => {
-      F.mapLink = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
-      if (!F.area) F.area = 'Udala (GPS)';
-      showToast('✅ Location successfully save ho gayi!'); render();
-    }, (err) => { showToast('❌ Kripya browser mein Location Permission allow karein', 'error'); }, { enableHighAccuracy: true, timeout: 10000 });
+  inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; render(); },
+  dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); if (C[id] === 0) delete C[id]; render(); },
+
+  joinTrial: () => {
+    const name = (F.name || '').trim(), phone = cleanPhone(F.phone);
+    if (name.length < 2 || phone.length !== 10) { showToast('❌ Naam aur 10 digit phone daalo', 'error'); return; }
+    
+    // Check if already has active trial
+    const existing = (S.subs || []).find(s => s.phone === phone && getSubStatus(s) !== 'expired');
+    if (existing) { showToast('❌ Aapka pehle se ek active plan/trial hai', 'error'); return; }
+
+    S.subs.push({ 
+      id: Date.now(), name, phone, area: (F.area || '').trim() || 'Udala', 
+      type: F.type, days: 1, start: todayStr(), price: 0, 
+      status: 'trial', utr: 'FREE_TRIAL' 
+    });
+    save(); showToast('🎁 1 Din Free Trial Active Ho Gaya!');
+    F.name = ''; F.phone = ''; F.area = '';
   },
 
-  join: () => {
-    vibrate();
+  joinPaid: () => {
     const name = (F.name || '').trim(), phone = cleanPhone(F.phone);
-    if (name.length < 2) { showToast('❌ Kripya apna sahi Naam likhein', 'error'); return; }
-    if (phone.length !== 10) { showToast('❌ 10 digit ka valid Mobile Number daalein', 'error'); return; }
-    if (!F.mapLink) { showToast('❌ Pehle 📍 "Meri Current Location Lo" button dabakar GPS allow karein', 'error'); return; }
+    if (name.length < 2 || phone.length !== 10) { showToast('❌ Naam aur 10 digit phone daalo', 'error'); return; }
+    
+    const utr = prompt('Payment kar diya? Apna UTR / Transaction ID yahan likhein:');
+    if (!utr || utr.length < 5) { showToast('❌ Bina UTR ke plan nahi banega', 'error'); return; }
+
     const price = PRICING[F.type][F.days] || 2899;
-    S.subs.push({ id: Date.now(), name: name, phone: phone, area: (F.area || '').trim() || 'Udala', type: F.type, days: +F.days, start: todayStr(), startDate: todayStr(), price: price, status: 'active', extraRoti: 0, map: F.mapLink, notes: (F.notes || '').trim() });
-    save(); showToast('✅ Plan successfully ban gaya!');
-    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🍱 *Naya Plan*%0A👤 ${name}%0A📱 ${phone}%0A🍽️ ${F.type} · ${F.days} din%0A💰 ₹${price}%0A📍 Map: ${F.mapLink}%0A📝 Note: ${F.notes || 'N/A'}`, '_blank');
-    F.name = ''; F.phone = ''; F.area = ''; F.mapLink = ''; F.notes = '';
+    S.subs.push({ 
+      id: Date.now(), name, phone, area: (F.area || '').trim() || 'Udala', 
+      type: F.type, days: +F.days, start: todayStr(), price: price, 
+      status: 'pending', utr: utr 
+    });
+    save(); showToast('⏳ Plan ban gaya! Owner payment verify karega.');
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text= *Naya Plan (Payment Pending)*%0A👤 ${name}%0A📱 ${phone}%0A🍽️ ${F.type} · ${F.days} din%0A💰 ₹${price}%0A UTR: ${utr}`, '_blank');
+    F.name = ''; F.phone = ''; F.area = ''; F.utr = '';
   },
-  
-  reorder: (v, k, id) => {
-    vibrate();
-    const prevOrder = (S.orders || []).find(o => o.id == id);
-    if (!prevOrder) return;
-    F.name = prevOrder.name; F.phone = prevOrder.phone; F.area = prevOrder.area; F.notes = prevOrder.notes || '';
-    prevOrder.items.forEach(i => { const p = (S.prod || []).find(x => x.n === i.n); if(p) C[p.id] = i.q; });
-    tab = 'shop'; render(); showToast('🛒 Items cart mein add ho gaye! Checkout karein.');
+
+  verifyPayment: (v, k, id) => {
+    const sub = (S.subs || []).find(s => s.id == id);
+    if (sub) { sub.status = 'active'; save(); showToast('✅ Payment Verified! Plan Active ho gaya.'); }
+  },
+
+  rejectPayment: (v, k, id) => {
+    const sub = (S.subs || []).find(s => s.id == id);
+    if (sub) { sub.status = 'rejected'; save(); showToast('❌ Payment Reject kar diya.'); }
   },
 
   order: () => {
-    vibrate();
     const name = (F.name || '').trim(), phone = cleanPhone(F.phone);
-    if (name.length < 2 || phone.length !== 10 || !F.mapLink) { showToast('❌ Naam, Phone aur GPS Location zaroori hai', 'error'); return; }
+    if (name.length < 2 || phone.length !== 10) { showToast('❌ Naam aur phone daalo', 'error'); return; }
     const items = []; let total = 0;
     Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { items.push({ n: p.n, q, p: p.p }); total += p.p * q; } });
     if (!items.length) { showToast('❌ Cart khali hai', 'error'); return; }
-    S.orders.push({ id: Date.now(), name: name, phone: phone, area: (F.area || '').trim() || 'Udala', items, total, status: 'pending', date: todayStr(), map: F.mapLink, notes: (F.notes || '').trim() });
+    S.orders.push({ id: Date.now(), name, phone, area: (F.area || '').trim() || 'Udala', items, total, status: 'pending', date: todayStr() });
     C = {}; save(); showToast('✅ Order ho gaya!');
-    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *Naya Order*%0A👤 ${name}%0A📱 ${phone}%0A📦 ${items.map(i=>`${i.n} x${i.q}`).join(', ')}%0A💰 ₹${total}%0A📝 Note: ${F.notes || 'N/A'}%0A📍 Map: ${F.mapLink}`, '_blank');
   },
 
-  sendBroadcast: () => {
-    vibrate();
-    const msg = ($('#broadcastMsg')?.value || '').trim();
-    if (!msg) { showToast('❌ Message likhein', 'error'); return; }
-    const activePhones = [...new Set((S.subs || []).filter(s => s.status === 'active').map(s => s.phone))];
-    if (activePhones.length === 0) { showToast('❌ Koi active customer nahi hai', 'error'); return; }
-    activePhones.forEach((ph, idx) => {
-      setTimeout(() => { window.open(`https://wa.me/91${ph}?text=${encodeURIComponent(msg)}`, '_blank'); }, idx * 1500); // 1.5s delay to prevent WhatsApp block
-    });
-    showToast(`🚀 ${activePhones.length} customers ko bheja ja raha hai...`);
-  },
-
-  assignPartner: (v, k, id) => {
-    const order = (S.orders || []).find(o => o.id == id);
-    if (order) { order.partner = v; save(); showToast(`✅ ${v} ko assign kar diya`); }
-  },
-
-  updateVideo: () => { vibrate(); const url = ($('#vidUrl')?.value || '').trim(); if(url && url.startsWith('http')) { S.dailyVideo = url; save(); showToast('✅ Video updated!'); } },
-  addProduct: () => {
-    vibrate();
-    const name = ($('#newPName')?.value || '').trim(), price = parseInt($('#newPPrice')?.value), cat = ($('#newPCat')?.value || '').trim() || 'General';
-    if (!name || !price || price <= 0) { showToast('❌ Sahi Name aur Price daalo', 'error'); return; }
-    S.prod.push({ id: Date.now(), n: name, p: price, c: cat, img: IMAGES.grocery, nv: 0 });
-    save(); showToast('✅ Product add ho gaya!');
-    if($('#newPName')) $('#newPName').value = ''; if($('#newPPrice')) $('#newPPrice').value = '';
-  },
-  delProd: (v, k, id) => { vibrate(); if (confirm('Delete?')) { S.prod = (S.prod || []).filter(p => p.id != id); save(); showToast('🗑️ Deleted'); } },
-  addExpense: () => {
-    vibrate();
-    const name = ($('#expName')?.value || '').trim(), amount = parseInt($('#expAmount')?.value);
-    if (!name || !amount || amount <= 0) { showToast('❌ Sahi Name aur Amount daalo', 'error'); return; }
-    S.expenses.push({ id: Date.now(), name: name, amount: amount, date: todayStr() });
-    save(); showToast('✅ Expense add ho gaya!');
-    if($('#expName')) $('#expName').value = ''; if($('#expAmount')) $('#expAmount').value = '';
-  },
-  markDelivered: (v, k, id) => { vibrate(); const order = (S.orders || []).find(o => o.id == id); if (order) { order.status = 'delivered'; save(); showToast('✅ Delivered!'); } },
   out: () => { OK = 0; sessionStorage.removeItem('udok'); tab = 'plan'; render(); showToast('🚪 Logged out'); }
 };
 
 document.addEventListener('click', e => {
-  const btn = e.target.closest('[data-a]'); if (!btn) return; vibrate();
+  const btn = e.target.closest('[data-a]'); if (!btn) return;
   const action = ACTIONS[btn.dataset.a];
   if (action) { try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } catch (err) { console.error(err); showToast('❌ Error', 'error'); } }
 });
+
 document.addEventListener('input', e => {
   const field = e.target.dataset?.f;
   if (field) { F[field] = e.target.value; if (field === 'phone') F.phone = cleanPhone(F.phone); }
-  // Handle partner assign dropdown change
-  if (e.target.dataset?.a === 'assignPartner') { ACTIONS.assignPartner(e.target.value, '', e.target.dataset.id); }
 });
 
 let tapCount = 0;
-const headerEl = $('#mainHeader');
-if(headerEl) {
-  headerEl.addEventListener('click', () => {
-    tapCount++;
-    if (tapCount >= 5) {
-      tapCount = 0;
-      const pin = prompt('Owner PIN:');
-      if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); tab = 'owner'; render(); showToast('🔓 Admin Access Granted'); }
-      else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); }
-    }
-  });
-}
+$('#mainHeader').addEventListener('click', () => {
+  tapCount++;
+  if (tapCount >= 5) {
+    tapCount = 0;
+    const pin = prompt('Owner PIN:');
+    if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); tab = 'owner'; render(); showToast('🔓 Admin Access Granted'); }
+    else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); }
+  }
+});
 
-const initTheme = () => {
-  try {
-    const saved = localStorage.getItem('ud_theme') || 'light';
-    document.documentElement.setAttribute('data-theme', saved);
-    const toggle = $('#themeToggle'); if(toggle) toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
-  } catch(e) {}
-};
-const themeToggle = $('#themeToggle');
-if(themeToggle) {
-  themeToggle.addEventListener('click', () => {
-    vibrate();
-    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('ud_theme', next);
-    themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
-  });
-}
-
-try { initTheme(); init3D(); render(); console.log('🍱 Namaste Udala Pro 7.0 Loaded!'); } 
-catch (err) { console.error("Fatal Init Error:", err); hideLoading(); $('#v').innerHTML = `<div class="card" style="border: 2px solid var(--danger); text-align: center; padding: 30px;"><h3 style="color: var(--danger)">❌ App Load Nahi Ho Raha</h3><p class="s" style="margin: 15px 0; color: var(--text)">${err.message}</p><button class="btn r" onclick="localStorage.clear(); sessionStorage.clear(); location.reload();">🗑️ Data Clear Karke Refresh Karein</button></div>`; }
+render();
+console.log('🍱 Namaste Udala Logic Fixed!');
 </script>
 </body>
 </html>
