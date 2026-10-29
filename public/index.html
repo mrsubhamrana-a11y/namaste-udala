@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1B4332">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Namaste Udala">
-<title>🍱 Namaste Udala 6.0 - Ultimate 3D PWA</title>
+<title>🍱 Namaste Udala 6.0 - Ultimate 3D</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script type="importmap">
   { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
@@ -28,7 +27,8 @@ header { background: linear-gradient(135deg, var(--g) 0%, #0F2C21 100%); color: 
 header .logo { font-size: 11px; letter-spacing: 3px; font-weight: 800; color: #FCD34D; text-transform: uppercase; }
 header h1 { font-size: 26px; font-weight: 900; margin-top: 6px; text-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 header .tagline { font-size: 13px; opacity: 0.9; margin-top: 6px; }
-#canvas-container { position: absolute; right: 10px; top: 15px; width: 120px; height: 120px; pointer-events: none; }
+#canvas-container { position: absolute; right: 10px; top: 15px; width: 140px; height: 140px; pointer-events: auto; cursor: grab; }
+#canvas-container:active { cursor: grabbing; }
 .header-wave { position: absolute; bottom: -1px; left: 0; width: 100%; height: 40px; fill: var(--bg); }
 
 #v { padding: 0 16px; margin-top: -30px; position: relative; z-index: 1; perspective: 1000px; }
@@ -84,7 +84,6 @@ input:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(
 
 .theme-toggle { position: fixed; top: 20px; right: 20px; width: 44px; height: 44px; border-radius: 50%; background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; z-index: 101; box-shadow: var(--shadow-md); }
 .fab { position: fixed; right: 16px; bottom: 95px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #25d366, #128c7e); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4); z-index: 99; text-decoration: none; animation: float 3s ease-in-out infinite; }
-.hul-banner { background: linear-gradient(135deg, #0057B8, #003366); color: white; padding: 12px; border-radius: 16px; margin-bottom: 16px; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); }
 </style>
 </head>
 <body>
@@ -107,18 +106,18 @@ input:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 import * as THREE from 'three';
 
 const CONFIG = { firebase: { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", authDomain: "namaste-udala.firebaseapp.com", projectId: "namaste-udala", storageBucket: "namaste-udala.firebasestorage.app", messagingSenderId: "998684348165", appId: "1:998684348165:web:4bb0d2f5335a90a394716c" }, whatsapp: '919583937047', ownerPin: '4821' };
 const PRICING = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
 const IMAGES = { thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80', grocery: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80', kitchen: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80', scooter: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80', money: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80', doodh: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80', paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80', chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80', roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80', chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80', hul: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&q=80' };
 
-let S = { prod: [], subs: [], orders: [], expenses: [], dailyVideo: 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4' };
+let S = { prod: [], subs: [], orders: [], expenses: [], pays: [], kopt: {}, mset: {}, done: {} };
 try { const saved = localStorage.getItem('udala6'); if (saved) S = { ...S, ...JSON.parse(saved) }; } catch (e) {}
 let db = null, tab = 'plan', C = {}, OK = 0;
 try { OK = sessionStorage.getItem('udok') ? 1 : 0; } catch (e) {}
-const F = { type: 'veg', days: '30', name: '', phone: '', area: '', addr: '' };
+const F = { type: 'veg', days: '30', name: '', phone: '', area: '', addr: '', mapLink: '' };
 
 if (S.prod.length === 0) {
   S.prod = [
@@ -128,23 +127,48 @@ if (S.prod.length === 0) {
     { id: 4, n: 'Atta 1 kg', p: 50, c: 'Kirana', img: IMAGES.roti, nv: 0 },
     { id: 5, n: 'Chicken piece', p: 40, c: 'Non-Veg', img: IMAGES.chicken, nv: 1 },
     { id: 6, n: 'Egg (6 pcs)', p: 48, c: 'Non-Veg', img: IMAGES.chicken, nv: 1 },
-    // HUL Essentials Added for your sales business
     { id: 7, n: 'Surf Excel 1 kg', p: 110, c: 'HUL Essentials', img: IMAGES.hul, nv: 0 },
     { id: 8, n: 'Vim Bar 300 g', p: 35, c: 'HUL Essentials', img: IMAGES.hul, nv: 0 },
-    { id: 9, n: 'Horlicks 500 g', p: 250, c: 'HUL Essentials', img: IMAGES.hul, nv: 0 },
-    { id: 10, n: 'Kissan Jam 200 g', p: 95, c: 'HUL Essentials', img: IMAGES.hul, nv: 0 }
+    { id: 9, n: 'Horlicks 500 g', p: 250, c: 'HUL Essentials', img: IMAGES.hul, nv: 0 }
   ];
 }
 
 try {
   const app = initializeApp(CONFIG.firebase);
   db = getDatabase(app);
-  onValue(ref(db, 'udala6'), snapshot => { const v = snapshot.val(); if (v) { S = { ...S, ...v }; render(); } });
+  // FIXED: Read from udala2 to preserve all your old data
+  onValue(ref(db, 'udala2'), snapshot => { 
+    const v = snapshot.val(); 
+    if (v) { 
+      S = { 
+        ...S, 
+        prod: v.prod || S.prod, 
+        subs: v.subs || [], 
+        orders: v.orders || [], 
+        expenses: v.expenses || [],
+        pays: v.pays || [],
+        kopt: v.kopt || {},
+        mset: v.mset || {},
+        done: v.done || {}
+      }; 
+      render(); 
+    } 
+  });
 } catch (e) { console.log('Offline mode'); }
 
-const save = () => { localStorage.setItem('udala6', JSON.stringify(S)); if (db) set(ref(db, 'udala6'), S); render(); };
+const save = () => { 
+  localStorage.setItem('udala6', JSON.stringify(S)); 
+  if (db) {
+    // FIXED: Use update instead of set to preserve kitchen tracking data
+    update(ref(db, 'udala2'), {
+      prod: S.prod, subs: S.subs, orders: S.orders, expenses: S.expenses || [], pays: S.pays || []
+    });
+  }
+  render(); 
+};
+
 const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s); // ✅ CRITICAL BUG FIX ADDED HERE
+const $$ = s => document.querySelectorAll(s); // FIXED: Added missing $$ selector
 const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const iso = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
 const todayStr = () => iso(new Date());
@@ -153,50 +177,65 @@ const cleanPhone = s => String(s || '').replace(/\D/g, '').slice(-10);
 const showToast = (msg, type = 'success') => { const t = $('#toast'); t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3000); };
 const vibrate = () => { if (navigator.vibrate) navigator.vibrate(20); };
 
-// --- PWA SERVICE WORKER REGISTRATION (Blob method for single-file) ---
-try {
-  const swCode = `self.addEventListener('install', e => e.waitUntil(self.skipWaiting())); self.addEventListener('activate', e => e.waitUntil(self.clients.claim())); self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));`;
-  const blob = new Blob([swCode], { type: 'application/javascript' });
-  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-} catch(e) {}
-
-// --- 3D MODELS SETUP ---
+// --- ADVANCED 3D MODELS SETUP ---
 let scene, camera, renderer, vegModel, nvModel, currentModel;
 const init3D = () => {
   const container = $('#canvas-container');
   if (!container) return;
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-  camera.position.z = 3.5;
+  camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.z = 4;
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(120, 120);
+  renderer.setSize(140, 140);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
   
+  // Advanced Veg Thali Model (Brass plate with realistic food domes)
   vegModel = new THREE.Group();
-  const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.1, 32), new THREE.MeshPhysicalMaterial({ color: 0xC0C0C0, metalness: 0.8, roughness: 0.2 }));
+  const plate = new THREE.Mesh(new THREE.CylinderGeometry(1, 0.8, 0.15, 32), new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.9, roughness: 0.3 }));
   vegModel.add(plate);
-  const food1 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), new THREE.MeshPhysicalMaterial({ color: 0xFF6B35 }));
-  food1.position.set(-0.35, 0.2, 0); vegModel.add(food1);
-  const food2 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), new THREE.MeshPhysicalMaterial({ color: 0x10B981 }));
-  food2.position.set(0.35, 0.2, 0); vegModel.add(food2);
-  const roti = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.05, 16), new THREE.MeshPhysicalMaterial({ color: 0xD4A574 }));
-  roti.position.set(0, 0.15, 0.4); vegModel.add(roti);
+  const rice = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24), new THREE.MeshStandardMaterial({ color: 0xFFFDD0, roughness: 0.8 }));
+  rice.position.set(-0.35, 0.25, 0); vegModel.add(rice);
+  const dal = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24), new THREE.MeshStandardMaterial({ color: 0xFFA500, roughness: 0.6 }));
+  dal.position.set(0.35, 0.25, 0); vegModel.add(dal);
+  const roti = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.05, 16), new THREE.MeshStandardMaterial({ color: 0xD4A574, roughness: 0.9 }));
+  roti.position.set(0, 0.15, 0.4); roti.rotation.x = 0.2; vegModel.add(roti);
 
+  // Advanced Non-Veg Model (Chicken leg with bone)
   nvModel = new THREE.Group();
-  const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.25, 0.7, 8, 16), new THREE.MeshPhysicalMaterial({ color: 0x8B4513, roughness: 0.6 }));
+  const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 0.8, 8, 16), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.5, metalness: 0.1 }));
   leg.rotation.z = Math.PI / 4; nvModel.add(leg);
-  const bone = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.35, 8), new THREE.MeshPhysicalMaterial({ color: 0xFFFFFF }));
-  bone.position.set(-0.3, -0.3, 0); bone.rotation.z = Math.PI / 4; nvModel.add(bone);
+  const bone = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.4, 8), new THREE.MeshStandardMaterial({ color: 0xFFFFF0, roughness: 0.4 }));
+  bone.position.set(-0.35, -0.35, 0); bone.rotation.z = Math.PI / 4; nvModel.add(bone);
   
   currentModel = vegModel;
   scene.add(currentModel);
-  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-  const pl = new THREE.PointLight(0xFCD34D, 1.5, 10); pl.position.set(2, 2, 2); scene.add(pl);
   
+  // Advanced Lighting
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const pl1 = new THREE.PointLight(0xFCD34D, 2, 10); pl1.position.set(3, 3, 3); scene.add(pl1);
+  const pl2 = new THREE.PointLight(0xFF6B35, 1, 10); pl2.position.set(-3, -2, 2); scene.add(pl2);
+  
+  // Mouse Parallax Interaction
+  container.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    if(currentModel) {
+      currentModel.rotation.y = x * 0.5;
+      currentModel.rotation.x = y * 0.3;
+    }
+  });
+  container.addEventListener('mouseleave', () => {
+    if(currentModel) { currentModel.rotation.x = 0; currentModel.rotation.y = 0; }
+  });
+
   const animate = () => {
     requestAnimationFrame(animate);
-    if (currentModel) { currentModel.rotation.y += 0.015; currentModel.position.y = Math.sin(Date.now() * 0.002) * 0.1; }
+    if (currentModel) { 
+      // Gentle idle float and rotation if not being hovered
+      currentModel.position.y = Math.sin(Date.now() * 0.002) * 0.1; 
+    }
     renderer.render(scene, camera);
   };
   animate();
@@ -204,6 +243,7 @@ const init3D = () => {
 
 const switch3DModel = (type) => {
   if (!scene || !currentModel) return;
+  currentModel.rotation.x = 0; currentModel.rotation.y = 0; // Reset rotation
   scene.remove(currentModel);
   currentModel = type === 'nv' ? nvModel : vegModel;
   scene.add(currentModel);
@@ -214,12 +254,13 @@ const VIEWS = {
   plan: () => {
     switch3DModel(F.type);
     const price = PRICING[F.type][F.days] || 2899;
+    const vid = (S.dailyVideo || 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4');
     return `
       <div class="card" style="background:#000;color:#fff;padding:0;overflow:hidden;min-height:220px">
         <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.6">
-          <source src="${esc(S.dailyVideo)}" type="video/mp4">
+          <source src="${vid}" type="video/mp4">
         </video>
-        <div style="position:relative;z-index:2;padding:24px;background:linear-gradient(to top, rgba(0,0,0,0.95), transparent)">
+        <div style="position:relative;z-index:2;padding:24px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent)">
           <h3 style="color:#fff;margin:0;font-size:20px">🌅 Suprabhat Udala!</h3>
           <p style="font-size:24px;font-weight:900;margin:8px 0;line-height:1.3">Ghar jaisa khana,<br>Roz time pe 🍱</p>
         </div>
@@ -241,6 +282,8 @@ const VIEWS = {
           <input data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
           <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit Mobile" value="${esc(F.phone)}">
           <input data-f="area" placeholder="Area / Locality" value="${esc(F.area)}">
+          <button class="btn sm g" data-a="getLocation" style="margin-top:4px; width:100%">📍 Meri Current Location Lo</button>
+          ${F.mapLink ? `<div class="s" style="color:var(--success); margin-top:8px; word-break:break-all;">✅ Location locked: <a href="${F.mapLink}" target="_blank" style="color:var(--success); font-weight:700">Google Maps par dekhein</a></div>` : ''}
           <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:900;margin:16px 0">
             <span>Total</span><span style="color:var(--o)">${inr(price)}</span>
           </div>
@@ -252,35 +295,22 @@ const VIEWS = {
   shop: () => {
     let total = 0, count = 0;
     Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { total += p.p * q; count += q; } });
-    
-    // Group products by category for better display
-    const categories = [...new Set(S.prod.map(p => p.c))];
-    
     return `
       <div class="card" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none">
         <h3 style="color:#fff">🛒 Ghar ka Saaman</h3>
       </div>
-      
-      <div class="hul-banner" data-a="addHulKit">
-        🧺 Quick Add: Monthly HUL Essentials Kit (Surf + Vim + Horlicks) - ₹399 Only!
-      </div>
-
-      ${categories.map(cat => `
-        <div class="card card-3d">
-          <div class="card-content">
-            <h3>${cat === 'HUL Essentials' ? '🏢 ' : '📦 '}${esc(cat)}</h3>
-            ${S.prod.filter(p => p.c === cat).map(p => {
-              const q = C[p.id] || 0;
-              return `<div class="item">
-                <img class="item-img" src="${p.img}" onerror="this.style.display='none'">
-                <div class="item-info"><b>${esc(p.n)}</b><div class="price">${inr(p.p)}</div></div>
-                ${q > 0 ? `<div class="qty-ctrl"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}
-              </div>`;
-            }).join('')}
-          </div>
+      <div class="card card-3d">
+        <div class="card-content">
+          ${S.prod.map(p => {
+            const q = C[p.id] || 0;
+            return `<div class="item">
+              <img class="item-img" src="${p.img}" onerror="this.style.display='none'">
+              <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} ${p.nv ? '· 🔴 Non-Veg' : ''}</div><div class="price">${inr(p.p)}</div></div>
+              ${q > 0 ? `<div class="qty-ctrl"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}
+            </div>`;
+          }).join('')}
         </div>
-      `).join('')}
-      
+      </div>
       ${count > 0 ? `<div class="cart-bar"><div><div style="font-size:13px;font-weight:700">🛒 ${count} items</div><div style="font-size:22px;font-weight:900;color:var(--o)">${inr(total)}</div></div><button class="btn g" data-a="order" style="margin:0;width:auto">Checkout</button></div>` : ''}`;
   },
 
@@ -289,8 +319,9 @@ const VIEWS = {
     const tStr = todayStr();
     let veg = 0, nv = 0, roti = 0;
     S.subs.forEach(sub => {
-      const end = new Date(sub.startDate); end.setDate(end.getDate() + sub.days - 1);
-      if (tStr >= sub.startDate && tStr <= iso(end) && sub.status === 'active') {
+      const end = new Date(sub.start || sub.startDate); end.setDate(end.getDate() + sub.days - 1);
+      const startStr = sub.start || sub.startDate;
+      if (tStr >= startStr && tStr <= iso(end) && sub.status === 'active') {
         if (sub.type === 'veg') veg++; else nv++;
         roti += (sub.extraRoti || 0);
       }
@@ -324,9 +355,9 @@ const VIEWS = {
                 <div class="s">📍 ${esc(o.area || 'Udala')} | 📱 ${o.phone}</div>
                 <div class="s">📦 ${o.items.map(i=>`${i.n} x${i.q}`).join(', ')}</div>
                 <div class="s" style="font-weight:800;color:var(--o)">💰 ${inr(o.total)}</div>
-                <div style="display:flex;gap:8px;width:100%;margin-top:10px">
+                <div style="display:flex;gap:8px;width:100%;margin-top:10px;flex-wrap:wrap">
+                  ${o.map ? `<a href="${o.map}" target="_blank" class="btn sm b" style="flex:1;text-align:center;text-decoration:none">🗺️ Maps</a>` : ''}
                   <a href="https://wa.me/91${o.phone}" target="_blank" class="btn sm g" style="flex:1;text-align:center;text-decoration:none">💬 WhatsApp</a>
-                  <a href="tel:${o.phone}" class="btn sm" style="flex:1;text-align:center;text-decoration:none;background:#3B82F6;color:#fff">📞 Call</a>
                   <button class="btn sm" data-a="markDelivered" data-id="${o.id}" style="flex:1">✅ Done</button>
                 </div>
               </div>
@@ -337,11 +368,11 @@ const VIEWS = {
 
   owner: () => {
     if (!OK) return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
-    const revenue = S.orders.reduce((sum, o) => sum + (o.total || 0), 0) + S.subs.reduce((sum, s) => sum + (s.price || 0), 0);
-    const expenses = S.expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+    const revenue = (S.orders || []).reduce((sum, o) => sum + (o.total || 0), 0) + (S.subs || []).reduce((sum, s) => sum + (s.price || 0), 0);
+    const expenses = (S.expenses || []).reduce((sum, e) => sum + (e.amount || 0), 0);
     const profit = revenue - expenses;
-    const activeSubs = S.subs.filter(s => s.status === 'active').length;
-    const pendingDel = S.orders.filter(o => o.status === 'pending').length;
+    const activeSubs = (S.subs || []).filter(s => s.status === 'active').length;
+    const pendingDel = (S.orders || []).filter(o => o.status === 'pending').length;
 
     return `
       <div class="card card-3d">
@@ -353,16 +384,14 @@ const VIEWS = {
             <div class="stat-box" style="background:linear-gradient(135deg, ${profit >= 0 ? '#10B981' : '#EF4444'}, ${profit >= 0 ? '#059669' : '#DC2626'})"><div class="val">${inr(profit)}</div><div class="lbl">Net Profit</div></div>
             <div class="stat-box purple"><div class="val">${activeSubs}</div><div class="lbl">Active Subs</div></div>
             <div class="stat-box" style="background:linear-gradient(135deg, #3B82F6, #1E40AF)"><div class="val">${pendingDel}</div><div class="lbl">Pending</div></div>
-            <div class="stat-box"><div class="val">${S.prod.length}</div><div class="lbl">Products</div></div>
+            <div class="stat-box"><div class="val">${(S.prod || []).length}</div><div class="lbl">Products</div></div>
           </div>
           
-          <h3 style="margin-top:20px">🎥 Daily Special Video</h3>
-          <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
-            <input id="dailyVideoUrl" placeholder="Paste MP4 Video URL here" value="${esc(S.dailyVideo)}">
-            <button class="btn b" data-a="updateVideo">🎬 Update Daily Video</button>
-          </div>
+          <h3 style="margin-top:20px">📹 Daily Menu Video</h3>
+          <input id="vidUrl" placeholder="Video URL (MP4 link)" value="${esc(S.dailyVideo || '')}">
+          <button class="btn sm g" data-a="updateVideo">💾 Update Video</button>
 
-          <h3>🛒 Manage Products</h3>
+          <h3 style="margin-top:20px">🛒 Manage Products</h3>
           <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
             <input id="newPName" placeholder="Product Name (e.g., Surf Excel)">
             <div style="display:flex;gap:8px">
@@ -375,7 +404,7 @@ const VIEWS = {
             </select>
             <button class="btn g" data-a="addProduct">➕ Add Product</button>
           </div>
-          ${S.prod.map(p => `
+          ${(S.prod || []).map(p => `
             <div class="item">
               <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} · ${inr(p.p)} ${p.nv ? '(Non-Veg)' : ''}</div></div>
               <button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button>
@@ -386,9 +415,9 @@ const VIEWS = {
           <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
             <input id="expName" placeholder="Expense Name (e.g., Petrol, Ration)">
             <input id="expAmount" type="number" placeholder="Amount ₹">
-            <button class="btn" style="background:#3B82F6" data-a="addExpense">➕ Add Expense</button>
+            <button class="btn" style="background:var(--info)" data-a="addExpense">➕ Add Expense</button>
           </div>
-          ${S.expenses.slice(-5).reverse().map(e => `
+          ${(S.expenses || []).slice(-5).reverse().map(e => `
             <div class="item">
               <div class="item-info"><b>${esc(e.name)}</b><div class="s">${e.date}</div></div>
               <div class="price">${inr(e.amount)}</div>
@@ -410,7 +439,6 @@ const render = () => {
   const navItems = [['plan', '🍱 Plan', IMAGES.thali], ['shop', '🛒 Shop', IMAGES.grocery], ['kitchen', '👨‍🍳 Kitchen', IMAGES.kitchen], ['delivery', '🛵 Delivery', IMAGES.scooter], ['owner', '👤 Admin', IMAGES.money]];
   $('#nav').innerHTML = navItems.filter(x => OK || x[0] === 'plan' || x[0] === 'shop').map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
     
-  // ✅ 3D Tilt Effect now works perfectly with $$
   $$('.card-3d').forEach(card => {
     card.addEventListener('mousemove', e => {
       const r = card.getBoundingClientRect();
@@ -435,14 +463,34 @@ const ACTIONS = {
   inc: (v, k, id) => { vibrate(); C[id] = (C[id] || 0) + 1; render(); },
   dec: (v, k, id) => { vibrate(); C[id] = Math.max(0, (C[id] || 0) - 1); if (C[id] === 0) delete C[id]; render(); },
   
+  getLocation: () => {
+    vibrate();
+    if (!navigator.geolocation) { showToast('❌ Browser GPS support nahi karta', 'error'); return; }
+    showToast('📍 Location dhoondh rahe hain...');
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        F.mapLink = `https://www.google.com/maps?q=${lat},${lng}`;
+        if (!F.area) F.area = 'Udala (GPS)';
+        showToast('✅ Location successfully save ho gayi!');
+        render();
+      },
+      (err) => {
+        showToast('❌ Kripya browser mein Location Permission allow karein', 'error');
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  },
+
   join: () => {
     vibrate();
     if (!F.name || F.phone.length !== 10) { showToast('❌ Naam aur 10 digit phone daalo', 'error'); return; }
     const price = PRICING[F.type][F.days] || 2899;
-    S.subs.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, type: F.type, days: +F.days, startDate: todayStr(), price: price, status: 'active', extraRoti: 0 });
+    S.subs.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, type: F.type, days: +F.days, start: todayStr(), startDate: todayStr(), price: price, status: 'active', extraRoti: 0, map: F.mapLink || '' });
     save(); showToast('✅ Plan ban gaya!');
-    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🍱 *Naya Plan*%0A👤 ${F.name}%0A📱 ${F.phone}%0A🍽️ ${F.type} · ${F.days} din%0A💰 ₹${price}`, '_blank');
-    F.name = ''; F.phone = ''; F.area = '';
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🍱 *Naya Plan*%0A👤 ${F.name}%0A📱 ${F.phone}%0A🍽️ ${F.type} · ${F.days} din%0A💰 ₹${price}%0A📍 Map: ${F.mapLink || 'N/A'}`, '_blank');
+    F.name = ''; F.phone = ''; F.area = ''; F.mapLink = '';
   },
   
   order: () => {
@@ -451,19 +499,19 @@ const ACTIONS = {
     const items = []; let total = 0;
     Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { items.push({ n: p.n, q, p: p.p }); total += p.p * q; } });
     if (!items.length) { showToast('❌ Cart khali hai', 'error'); return; }
-    S.orders.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, items, total, status: 'pending', date: todayStr() });
+    S.orders.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, items, total, status: 'pending', date: todayStr(), map: F.mapLink || '' });
     C = {}; save(); showToast('✅ Order ho gaya!');
-    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *Naya Order*%0A👤 ${F.name}%0A📱 ${F.phone}%0A📦 ${items.map(i=>`${i.n} x${i.q}`).join(', ')}%0A💰 ₹${total}`, '_blank');
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *Naya Order*%0A👤 ${F.name}%0A📱 ${F.phone}%0A📦 ${items.map(i=>`${i.n} x${i.q}`).join(', ')}%0A💰 ₹${total}%0A📍 Map: ${F.mapLink || 'N/A'}`, '_blank');
   },
 
-  addHulKit: () => {
+  updateVideo: () => {
     vibrate();
-    // Adds a pre-configured HUL bundle to cart
-    C[7] = (C[7] || 0) + 1; // Surf Excel
-    C[8] = (C[8] || 0) + 1; // Vim Bar
-    C[9] = (C[9] || 0) + 1; // Horlicks
-    showToast('🧺 Monthly HUL Kit added to cart!');
-    render();
+    const url = $('#vidUrl')?.value;
+    if(url) {
+      S.dailyVideo = url;
+      save();
+      showToast('✅ Daily video updated!');
+    }
   },
 
   addProduct: () => {
@@ -487,16 +535,6 @@ const ACTIONS = {
     save(); showToast('✅ Expense added!');
   },
 
-  updateVideo: () => {
-    vibrate();
-    const url = $('#dailyVideoUrl')?.value;
-    if (url) {
-      S.dailyVideo = url;
-      save();
-      showToast('🎬 Daily video updated!');
-    }
-  },
-
   markDelivered: (v, k, id) => {
     vibrate();
     const order = S.orders.find(o => o.id == id);
@@ -511,7 +549,7 @@ document.addEventListener('click', e => {
   if (!btn) return;
   vibrate();
   const action = ACTIONS[btn.dataset.a];
-  if (action) { try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } catch (err) { showToast('❌ Error', 'error'); } }
+  if (action) { try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } catch (err) { console.error(err); showToast('❌ Error', 'error'); } }
 });
 
 document.addEventListener('input', e => {
@@ -546,7 +584,7 @@ $('#themeToggle').addEventListener('click', () => {
 initTheme();
 init3D();
 render();
-console.log('🍱 Namaste Udala 6.0 Ultimate 3D PWA Loaded!');
+console.log('🍱 Namaste Udala 6.0 Ultimate 3D Loaded!');
 </script>
 </body>
 </html>
