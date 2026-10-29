@@ -3,660 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="description" content="Namaste Udala - Premium 3D Tiffin Service & Grocery Delivery">
 <meta name="theme-color" content="#1B4332">
-<title>🍱 Namaste Udala 3D</title>
-
-<!-- Premium Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<!-- Three.js for 3D Graphics -->
+<title>🍱 Namaste Udala 5.0 - Complete Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-    }
-  }
+  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
-
 <style>
 :root {
-  --o: #FF6B35;
-  --o-dark: #E85D04;
-  --g: #1B4332;
-  --g-light: #2D6A4F;
-  --bg: #FAFAFA;
-  --text: #1A1A1A;
-  --muted: #6B7280;
-  --card: #FFFFFF;
-  --line: #F3F4F6;
-  --success: #10B981;
-  --danger: #EF4444;
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
-  --shadow-md: 0 12px 32px rgba(0,0,0,0.08);
-  --shadow-lg: 0 24px 48px rgba(0,0,0,0.12);
-  --glass: rgba(255, 255, 255, 0.75);
+  --o: #FF6B35; --o-dark: #E85D04; --g: #1B4332; --g-light: #2D6A4F;
+  --bg: #FAFAFA; --text: #1A1A1A; --muted: #6B7280; --card: #FFFFFF;
+  --line: #F3F4F6; --success: #10B981; --danger: #EF4444; --warning: #F59E0B;
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.06); --shadow-lg: 0 16px 40px rgba(0,0,0,0.08);
+  --glass: rgba(255, 255, 255, 0.85);
 }
-
 [data-theme="dark"] {
-  --bg: #0A0A0A;
-  --text: #F9FAFB;
-  --muted: #9CA3AF;
-  --card: #161616;
-  --line: #2A2A2A;
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.4);
-  --shadow-md: 0 12px 32px rgba(0,0,0,0.5);
-  --shadow-lg: 0 24px 48px rgba(0,0,0,0.6);
-  --glass: rgba(22, 22, 22, 0.75);
+  --bg: #0F0F0F; --text: #F9FAFB; --muted: #9CA3AF; --card: #1A1A1A;
+  --line: #2D2D2D; --shadow-md: 0 8px 24px rgba(0,0,0,0.4); --shadow-lg: 0 16px 40px rgba(0,0,0,0.5);
+  --glass: rgba(26, 26, 26, 0.85);
 }
+* { box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
-* {
-  box-sizing: border-box;
-  font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
-  margin: 0;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  padding-bottom: 90px;
-  font-weight: 500;
-  min-height: 100vh;
-  overflow-x: hidden;
-  /* Subtle 3D Grid Background for full website 3D feel */
-  background-image: 
-    linear-gradient(rgba(255, 107, 53, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 107, 53, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-attachment: fixed;
-}
-
-/* --- Loading Screen --- */
-.loading-screen {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
+/* Loading & Animations */
+.loading-screen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
 .loading-screen.hide { opacity: 0; pointer-events: none; }
-.loader {
-  width: 60px;
-  height: 60px;
-  border: 4px solid var(--line);
-  border-top: 4px solid var(--o);
-  border-radius: 50%;
-  animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-}
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.loader { width: 50px; height: 50px; border: 4px solid var(--line); border-top: 4px solid var(--o); border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-/* --- Animations --- */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(40px) scale(0.9); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-@keyframes float3d {
-  0%, 100% { transform: translateY(0) translateZ(20px); }
-  50% { transform: translateY(-15px) translateZ(40px); }
-}
+/* Header & 3D */
+header { background: linear-gradient(135deg, var(--g) 0%, #0F2C21 100%); color: #fff; padding: 24px 20px 60px; border-radius: 0 0 32px 32px; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+header .logo { font-size: 11px; letter-spacing: 2.5px; font-weight: 700; color: #FCD34D; text-transform: uppercase; }
+header h1 { font-size: 26px; font-weight: 800; margin-top: 4px; }
+header .tagline { font-size: 13px; opacity: 0.9; margin-top: 4px; }
+#canvas-container { position: absolute; right: 10px; top: 10px; width: 110px; height: 110px; pointer-events: none; }
+.header-wave { position: absolute; bottom: -1px; left: 0; width: 100%; height: 40px; fill: var(--bg); }
 
-/* --- Premium Header with Video & 3D Tiffin --- */
-header {
-  background: linear-gradient(135deg, var(--g) 0%, #081F15 100%);
-  color: #fff;
-  padding: 24px 20px 70px 20px;
-  border-radius: 0 0 40px 40px;
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
-  box-shadow: var(--shadow-lg);
-  transform-style: preserve-3d;
-}
-
-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top right, rgba(255,107,53,0.3), transparent 60%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-header .logo {
-  font-size: 11px;
-  letter-spacing: 3px;
-  font-weight: 800;
-  color: #FCD34D;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  position: relative;
-  z-index: 3;
-}
-
-header h1 {
-  font-size: 32px;
-  font-weight: 800;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  position: relative;
-  z-index: 3;
-  line-height: 1.2;
-  transform: translateZ(30px); /* 3D pop */
-}
-
-header .tagline {
-  font-size: 14px;
-  opacity: 0.9;
-  margin-top: 6px;
-  font-weight: 500;
-  position: relative;
-  z-index: 3;
-  transform: translateZ(20px);
-}
-
-/* 3D Canvas Container */
-#canvas-container {
-  position: absolute;
-  right: 0px;
-  top: 20px;
-  width: 140px;
-  height: 140px;
-  z-index: 2;
-  pointer-events: none;
-  transform: translateZ(50px); /* Pushes 3D model towards user */
-}
-
-.header-wave {
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  fill: var(--bg);
-  z-index: 3;
-  filter: drop-shadow(0 -4px 10px rgba(0,0,0,0.1));
-}
-
-/* --- Main Container --- */
-#v {
-  padding: 0 16px;
-  margin-top: -30px;
-  position: relative;
-  z-index: 1;
-  perspective: 1200px; /* Global 3D perspective for the whole page */
-}
-
-/* --- ULTRA 3D Tilt Cards --- */
-.card-3d {
-  transform-style: preserve-3d;
-  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
-  will-change: transform;
-}
-.card-3d .card-content {
-  transform: translateZ(30px); /* Content floats above card background */
-}
-.card-3d::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.25), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-  z-index: 2;
-}
-.card-3d:hover::before { opacity: 1; }
-
-.card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  padding: 24px;
-  margin-bottom: 20px;
-  position: relative;
-  box-shadow: var(--shadow-md);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
-  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-  transform-style: preserve-3d;
-}
-.card:hover {
-  transform: translateY(-6px) translateZ(10px);
-  box-shadow: var(--shadow-lg);
-}
-
-.card h3 {
-  color: var(--g);
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transform: translateZ(20px);
-}
+/* Layout & Cards */
+#v { padding: 0 16px; margin-top: -20px; position: relative; z-index: 1; perspective: 1000px; }
+.card-3d { transform-style: preserve-3d; transition: transform 0.15s ease-out, box-shadow 0.3s ease; }
+.card-3d .card-content { transform: translateZ(20px); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-md); animation: rise 0.6s ease both; position: relative; overflow: hidden; }
+.card h3 { color: var(--g); font-size: 18px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
 [data-theme="dark"] .card h3 { color: #4ADE80; }
+.s { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-.s {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.6;
-  transform: translateZ(15px);
-}
+/* Stats Grid */
+.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+.stat-box { background: linear-gradient(135deg, var(--g) 0%, var(--g-light) 100%); color: #fff; border-radius: 20px; padding: 16px; text-align: center; box-shadow: var(--shadow-md); }
+.stat-box.orange { background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); }
+.stat-box.purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); }
+.stat-box .val { font-size: 24px; font-weight: 800; }
+.stat-box .lbl { font-size: 11px; opacity: 0.9; font-weight: 600; margin-top: 4px; }
 
-/* --- 3D Food Items (Pop-out Effect) --- */
-.item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
-  transition: background 0.2s ease;
-  transform-style: preserve-3d;
-}
+/* Buttons & Inputs */
+.btn { padding: 14px 24px; border-radius: 16px; border: none; font-weight: 600; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%); color: #fff; box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3); transition: transform 0.2s; }
+.btn:active { transform: scale(0.96); }
+.btn.g { background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); color: #065F46; border: 1px solid #A7F3D0; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); }
+.btn.r { background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); color: #991B1B; border: 1px solid #FECACA; }
+.btn.sm { padding: 8px 16px; font-size: 13px; width: auto; margin: 0; border-radius: 12px; }
+input, select { width: 100%; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 16px; margin: 6px 0 12px; font-size: 15px; background: var(--bg); color: var(--text); font-family: inherit; }
+input:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1); }
+
+/* Navigation */
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(16px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); }
+.nav div { text-align: center; font-size: 10px; font-weight: 600; color: var(--muted); flex: 1; cursor: pointer; padding: 6px 4px; border-radius: 12px; transition: all 0.2s; }
+.nav div.on { color: var(--o); background: rgba(255, 107, 53, 0.08); }
+.nav img { width: 24px; height: 24px; border-radius: 6px; object-fit: cover; margin: 0 auto 4px; display: block; }
+.nav div.on img { transform: scale(1.1); border: 2px solid var(--o); }
+
+/* Items & Lists */
+.item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .item:last-child { border-bottom: 0; }
+.item-img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; background: var(--line); flex-shrink: 0; }
+.item-info { flex: 1; min-width: 0; }
+.item-info b { font-size: 15px; font-weight: 600; display: block; margin-bottom: 2px; }
+.price { color: var(--o); font-weight: 700; font-size: 15px; }
 
-.item-img-3d {
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
-  object-fit: cover;
-  background: var(--line);
-  flex-shrink: 0;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transform: translateZ(40px); /* FOOD POPS OUT OF SCREEN */
-  border: 2px solid rgba(255,255,255,0.5);
-}
-.item:hover .item-img-3d { 
-  transform: translateZ(60px) scale(1.1) rotateY(-10deg); 
-  box-shadow: 0 16px 32px rgba(255, 107, 53, 0.3);
-}
+.qty-ctrl { display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--o); border-radius: 12px; padding: 4px; background: rgba(255, 107, 53, 0.04); }
+.qty-ctrl button { width: 30px; height: 30px; border: 0; border-radius: 8px; background: var(--o); color: #fff; font-size: 18px; font-weight: 700; cursor: pointer; }
+.qty-ctrl b { min-width: 20px; text-align: center; font-weight: 700; font-size: 14px; }
 
-.item-info { flex: 1; min-width: 0; transform: translateZ(25px); }
-.item-info b { font-size: 16px; font-weight: 700; display: block; margin-bottom: 4px; color: var(--text); }
-.price { color: var(--o); font-weight: 800; font-size: 18px; }
-.mrp { text-decoration: line-through; color: var(--muted); font-size: 13px; margin-right: 8px; font-weight: 500; }
-
-/* --- Premium Buttons --- */
-.btn {
-  padding: 16px 24px;
-  border-radius: 18px;
-  border: none;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  width: 100%;
-  margin-top: 12px;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%);
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(232, 93, 4, 0.4);
-  letter-spacing: 0.5px;
-  transform: translateZ(30px);
-}
-.btn:active { transform: translateZ(10px) scale(0.96); }
-.btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
-  transform: translateX(-100%);
-  transition: transform 0.6s;
-}
-.btn:hover::after { transform: translateX(100%); }
-
-.btn.g {
-  background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
-  color: #065F46;
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2);
-  border: 1px solid #A7F3D0;
-}
-.btn.sm {
-  padding: 10px 18px;
-  font-size: 14px;
-  width: auto;
-  margin: 0;
-  border-radius: 14px;
-  transform: translateZ(35px);
-}
-
-/* --- Inputs & Forms --- */
-input, textarea, select {
-  width: 100%;
-  padding: 16px 18px;
-  border: 2px solid var(--line);
-  border-radius: 18px;
-  margin: 8px 0 14px 0;
-  font-size: 15px;
-  background: var(--bg);
-  color: var(--text);
-  transition: all 0.2s ease;
-  font-family: inherit;
-  transform: translateZ(20px);
-}
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--o);
-  box-shadow: 0 0 0 6px rgba(255, 107, 53, 0.15);
-  background: var(--card);
-  transform: translateZ(30px);
-}
-
-/* --- Segmented Control --- */
-.seg {
-  display: flex;
-  gap: 8px;
-  margin: 10px 0 18px 0;
-  background: var(--bg);
-  padding: 5px;
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  transform: translateZ(25px);
-}
-.seg button {
-  flex: 1;
-  padding: 12px;
-  border-radius: 14px;
-  border: none;
-  background: transparent;
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.seg button.on {
-  background: var(--card);
-  color: var(--o);
-  box-shadow: var(--shadow-sm);
-  transform: scale(1.05) translateZ(10px);
-}
-
-/* --- Glassmorphism Navigation --- */
-.nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--glass);
-  backdrop-filter: blur(20px) saturate(200%);
-  -webkit-backdrop-filter: blur(20px) saturate(200%);
-  border-top: 1px solid rgba(255,255,255,0.15);
-  display: flex;
-  justify-content: space-around;
-  padding: 12px 0 max(16px, env(safe-area-inset-bottom));
-  z-index: 100;
-  box-shadow: 0 -8px 32px rgba(0,0,0,0.1);
-}
-.nav div {
-  text-align: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--muted);
-  flex: 1;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 8px 4px;
-  border-radius: 16px;
-  transform: translateZ(0);
-}
-.nav div.on {
-  color: var(--o);
-  background: rgba(255, 107, 53, 0.1);
-  transform: translateY(-8px) translateZ(20px);
-}
-.nav img {
-  width: 28px;
-  height: 28px;
-  border-radius: 10px;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto 6px;
-  transition: transform 0.3s ease;
-  border: 2px solid transparent;
-}
-.nav div.on img {
-  transform: scale(1.15);
-  border-color: var(--o);
-}
-
-/* --- Toast --- */
-.toast {
-  position: fixed;
-  bottom: 110px;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px) translateZ(100px);
-  background: #1F2937;
-  color: #fff;
-  padding: 16px 32px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 15px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
-  z-index: 1000;
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  max-width: 90%;
-  text-align: center;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.toast.show { transform: translateX(-50%) translateY(0) translateZ(100px); opacity: 1; }
+/* Cart Bar & Toast */
+.cart-bar { position: fixed; bottom: 80px; left: 16px; right: 16px; background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 99; box-shadow: var(--shadow-lg); animation: rise 0.4s ease; }
+.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1F2937; color: #fff; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; opacity: 0; transition: all 0.4s ease; max-width: 90%; text-align: center; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast.error { background: var(--danger); }
 .toast.success { background: var(--success); }
 
-/* --- Quantity Control --- */
-.qty-ctrl {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 2px solid var(--o);
-  border-radius: 16px;
-  padding: 6px;
-  background: rgba(255, 107, 53, 0.05);
-  transform: translateZ(35px);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
-}
-.qty-ctrl button {
-  width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: 12px;
-  background: var(--o);
-  color: #fff;
-  font-size: 20px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.qty-ctrl button:active { transform: scale(0.9); background: var(--o-dark); }
-.qty-ctrl b { min-width: 28px; text-align: center; color: var(--text); font-weight: 800; font-size: 16px; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge.pending { background: #FEF3C7; color: #92400E; }
+.badge.delivered { background: #D1FAE5; color: #065F46; }
 
-/* --- Cart Bar --- */
-.cart-bar {
-  position: fixed;
-  bottom: 90px;
-  left: 16px;
-  right: 16px;
-  background: var(--glass);
-  backdrop-filter: blur(20px) saturate(200%);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: var(--text);
-  border-radius: 24px;
-  padding: 18px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 99;
-  box-shadow: var(--shadow-lg);
-  animation: rise 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: translateZ(50px);
-}
-
-/* --- Theme Toggle --- */
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 101;
-  box-shadow: var(--shadow-md);
-  transition: all 0.3s ease;
-  transform: translateZ(40px);
-}
-.theme-toggle:hover { transform: translateZ(60px) scale(1.1) rotate(15deg); }
-
-/* --- Voice Search Button --- */
-.voice-btn {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%) translateZ(30px);
-  background: var(--o);
-  color: white;
-  border: none;
-  border-radius: 14px;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 20px;
-  transition: all 0.2s ease;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
-}
-.voice-btn:active { transform: translateY(-50%) translateZ(10px) scale(0.9); }
-.voice-btn.listening { animation: pulse3d 1s infinite; background: var(--danger); }
-@keyframes pulse3d {
-  0%, 100% { transform: translateY(-50%) translateZ(30px) scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-  50% { transform: translateY(-50%) translateZ(50px) scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-}
-
-/* --- Chips --- */
-.chips {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 6px 6px 16px 6px;
-  scrollbar-width: none;
-  margin: 0 -6px;
-}
-.chips::-webkit-scrollbar { display: none; }
-.chips button {
-  flex: none;
-  border: 2px solid var(--line);
-  background: var(--card);
-  border-radius: 50px;
-  padding: 10px 20px;
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  transform: translateZ(20px);
-}
-.chips button.on {
-  background: var(--o);
-  color: #fff;
-  border-color: var(--o);
-  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
-  transform: translateZ(30px) scale(1.05);
-}
-
-/* --- FAB --- */
-.fab {
-  position: fixed;
-  right: 20px;
-  bottom: 100px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #25d366, #128c7e);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
-  z-index: 99;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  animation: float3d 3s ease-in-out infinite;
-  transform: translateZ(60px);
-}
-.fab:hover { transform: translateZ(80px) scale(1.1); }
-
-/* --- Responsive --- */
-@media (max-width: 480px) {
-  header h1 { font-size: 26px; }
-  .card { padding: 20px; border-radius: 24px; }
-  #canvas-container { width: 110px; height: 110px; right: -10px; }
-}
+.theme-toggle { position: fixed; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; z-index: 101; box-shadow: var(--shadow-md); }
+.fab { position: fixed; right: 16px; bottom: 90px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #25d366, #128c7e); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4); z-index: 99; text-decoration: none; }
 </style>
 </head>
 <body>
 
-<!-- Loading Screen -->
 <div class="loading-screen" id="loadingScreen">
   <div class="loader"></div>
-  <p style="margin-top:20px;font-weight:800;color:var(--o);font-size:20px; letter-spacing: 1px;">Namaste Udala</p>
-  <p class="s" style="margin-top:8px;">Loading 3D Experience...</p>
+  <p style="margin-top:16px;font-weight:700;color:var(--o);font-size:18px">Namaste Udala 5.0</p>
 </div>
 
-<!-- Theme Toggle -->
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-
-<!-- Toast Notification -->
+<button class="theme-toggle" id="themeToggle">🌙</button>
 <div class="toast" id="toast"></div>
 
-<!-- Header -->
 <header id="mainHeader">
   <div class="logo">NAMASTE UDALA</div>
   <h1 id="ht">Aaj ka Plan</h1>
   <div class="tagline">Ghar jaisa khana · Roz time pe</div>
-  <div id="canvas-container"></div> <!-- 3D Tiffin goes here -->
-  <svg class="header-wave" viewBox="0 0 1440 100" preserveAspectRatio="none">
-    <path d="M0,60 C360,120 1080,0 1440,60 L1440,100 L0,100 Z"></path>
-  </svg>
+  <div id="canvas-container"></div>
+  <svg class="header-wave" viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,60 C360,120 1080,0 1440,60 L1440,100 L0,100 Z"></path></svg>
 </header>
 
-<!-- Main Content -->
 <div id="v"></div>
 
-<!-- WhatsApp FAB -->
-<a class="fab" href="https://wa.me/919583937047?text=Namaste%20Udala" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
-
-<!-- Bottom Navigation -->
+<a class="fab" href="https://wa.me/919583937047?text=Namaste%20Udala" target="_blank">💬</a>
 <div class="nav" id="nav"></div>
 
 <script type="module">
@@ -665,616 +129,348 @@ import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebase
 import * as THREE from 'three';
 
 // ============================================================
-// CONFIG & CONSTANTS
+// 1. CONFIG & STATE
 // ============================================================
 const CONFIG = {
-  firebase: {
-    apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",
-    authDomain: "namaste-udala.firebaseapp.com",
-    projectId: "namaste-udala",
-    storageBucket: "namaste-udala.firebasestorage.app",
-    messagingSenderId: "998684348165",
-    appId: "1:998684348165:web:4bb0d2f5335a90a394716c"
-  },
-  upi: '9583937047@jio',
+  firebase: { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", authDomain: "namaste-udala.firebaseapp.com", projectId: "namaste-udala", storageBucket: "namaste-udala.firebasestorage.app", messagingSenderId: "998684348165", appId: "1:998684348165:web:4bb0d2f5335a90a394716c" },
   whatsapp: '919583937047',
-  ownerPin: atob('NDgyMQ=='),
-  deliveryPin: atob('Nzc4OA=='),
-  referralEnd: '2026-12-31'
-};
-
-const PRICING = {
-  veg: { 7: 749, 15: 1499, 30: 2899 },
-  nv: { 7: 949, 15: 1849, 30: 3599 }
+  ownerPin: '4821'
 };
 
 const IMAGES = {
-  hero: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80',
   thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80',
-  curry: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80',
-  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80',
-  chawal: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=400&q=80',
-  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80',
-  chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80',
   grocery: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80',
   kitchen: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80',
   scooter: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80',
   money: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80',
   doodh: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80',
-  dahi: 'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=400&q=80',
+  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80',
   chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80',
-  egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80',
-  dal: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&q=80'
+  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80',
+  chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80'
 };
 
-// ============================================================
-// UTILITIES
-// ============================================================
-const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
-const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const iso = d => { const date = new Date(d); return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0'); };
-const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
-const today = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
-const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
-const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-const cleanPhone = s => String(s || '').replace(/\D/g, '').slice(-10);
-const debounce = (fn, delay) => { let timer; return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), delay); }; };
+let S = { prod: [], subs: [], orders: [], expenses: [] };
+try { const saved = localStorage.getItem('udala5'); if (saved) S = JSON.parse(saved); } catch (e) {}
 
-const showToast = (message, type = 'success', duration = 3000) => {
-  const toast = $('#toast');
-  toast.textContent = message;
-  toast.className = `toast ${type} show`;
-  setTimeout(() => toast.classList.remove('show'), duration);
-};
-
-const vibrate = () => { if (navigator.vibrate) navigator.vibrate(20); };
-
-// ============================================================
-// THREE.JS 3D SETUP (REALISTIC STACKED TIFFIN)
-// ============================================================
-let scene, camera, renderer, tiffinGroup;
-const init3D = () => {
-  const container = $('#canvas-container');
-  if (!container) return;
-  
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-  camera.position.z = 4;
-  camera.position.y = 0.5;
-  
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(140, 140);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  container.appendChild(renderer.domElement);
-  
-  // Create a realistic 3-tier Tiffin (Dabba)
-  tiffinGroup = new THREE.Group();
-  const colors = [0xFF6B35, 0xE85D04, 0xFCD34D]; // Orange, Dark Orange, Gold
-  
-  for(let i = 0; i < 3; i++) {
-    const radius = 0.9 - (i * 0.15);
-    const geometry = new THREE.CylinderGeometry(radius, radius, 0.35, 32);
-    const material = new THREE.MeshPhysicalMaterial({
-      color: colors[i],
-      metalness: 0.7,
-      roughness: 0.2,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.1
-    });
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.y = (i - 1) * 0.4;
-    tiffinGroup.add(mesh);
-    
-    // Add a subtle rim to each tier
-    const rimGeo = new THREE.TorusGeometry(radius + 0.02, 0.03, 8, 32);
-    const rimMat = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, metalness: 0.9, roughness: 0.1 });
-    const rim = new THREE.Mesh(rimGeo, rimMat);
-    rim.rotation.x = Math.PI / 2;
-    rim.position.y = (i - 1) * 0.4 + 0.18;
-    tiffinGroup.add(rim);
-  }
-  
-  // Add a glowing holographic ring at the base
-  const ringGeo = new THREE.TorusGeometry(1.1, 0.03, 16, 64);
-  const ringMat = new THREE.MeshBasicMaterial({ color: 0x4ADE80 });
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.rotation.x = Math.PI / 2;
-  ring.position.y = -0.8;
-  tiffinGroup.add(ring);
-  
-  scene.add(tiffinGroup);
-  
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambientLight);
-  
-  const pointLight1 = new THREE.PointLight(0xFCD34D, 1.5, 10);
-  pointLight1.position.set(3, 3, 3);
-  scene.add(pointLight1);
-  
-  const pointLight2 = new THREE.PointLight(0xFF6B35, 1, 10);
-  pointLight2.position.set(-3, 2, 2);
-  scene.add(pointLight2);
-  
-  const animate = () => {
-    requestAnimationFrame(animate);
-    if (tiffinGroup) {
-      tiffinGroup.rotation.y += 0.015;
-      // Subtle floating animation
-      tiffinGroup.position.y = Math.sin(Date.now() * 0.002) * 0.1;
-    }
-    renderer.render(scene, camera);
-  };
-  animate();
-};
-
-// ============================================================
-// STATE MANAGEMENT
-// ============================================================
-let S = { prod: [], subs: [], orders: [], done: {}, pays: [], mset: {}, cred: {}, refs: {}, log: [] };
-try {
-  const saved = JSON.parse(localStorage.getItem('udala3d'));
-  if (saved) S = { ...S, ...saved };
-} catch (e) {}
-
-let db = null;
-let tab = 'plan';
-let C = {};
-let OVIEW = 'deliv';
-let DSEL = iso(today());
-let CUST = 0;
-let KMEAL = 'subah';
-let SCAT = 'all';
-let SQ = '';
-let VO = 0;
-let OK = 0;
+let db = null, tab = 'plan', C = {}, OK = 0;
 try { OK = sessionStorage.getItem('udok') ? 1 : 0; } catch (e) {}
 
-let ME = null;
-try { ME = JSON.parse(localStorage.getItem('udme')) || null; } catch (e) {}
-
-const F = {
-  type: 'veg', days: '30', half: '0', pay: 'cash',
-  name: ME?.name || '', phone: ME?.phone || '', area: '', addr: '', map: '', ref: '',
-  start: iso(addDays(today(), 1)), lunch: 'chawal', dinner: 'roti', extraRoti: 0
-};
+const F = { type: 'veg', days: '30', name: '', phone: '', area: '', addr: '' };
 
 if (S.prod.length === 0) {
   S.prod = [
-    { id: 1, n: 'Doodh 500 ml', p: 30, c: 'Doodh aur dairy', s: 1, img: IMAGES.doodh, mrp: 34, nv: 0 },
-    { id: 2, n: 'Paneer 200 g', p: 80, c: 'Doodh aur dairy', s: 1, img: IMAGES.paneer, mrp: 95, nv: 0 },
-    { id: 3, n: 'Chai patti 250 g', p: 130, c: 'Chai aur nashta', s: 1, img: IMAGES.chai, mrp: 150, nv: 0 },
-    { id: 4, n: 'Atta 1 kg', p: 50, c: 'Kirana', s: 1, img: IMAGES.roti, mrp: 58, nv: 0 },
-    { id: 5, n: 'Chicken piece', p: 40, c: 'Extra khana', s: 1, img: IMAGES.chicken, mrp: 55, nv: 1 }
+    { id: 1, n: 'Doodh 500 ml', p: 30, c: 'Dairy', img: IMAGES.doodh },
+    { id: 2, n: 'Paneer 200 g', p: 80, c: 'Dairy', img: IMAGES.paneer },
+    { id: 3, n: 'Chai patti 250 g', p: 130, c: 'Kirana', img: IMAGES.chai },
+    { id: 4, n: 'Atta 1 kg', p: 50, c: 'Kirana', img: IMAGES.roti },
+    { id: 5, n: 'Chicken piece', p: 40, c: 'Extra', img: IMAGES.chicken }
   ];
 }
 
 // ============================================================
-// FIREBASE
+// 2. FIREBASE & UTILS
 // ============================================================
 try {
   const app = initializeApp(CONFIG.firebase);
   db = getDatabase(app);
-  onValue(ref(db, 'udala3d'), snapshot => {
+  onValue(ref(db, 'udala5'), snapshot => {
     const v = snapshot.val();
     if (v) { S = { ...S, ...v }; render(); }
-  }, { onlyOnce: false });
-} catch (e) { console.log('Firebase offline mode'); }
+  });
+} catch (e) { console.log('Offline mode'); }
 
 const save = () => {
-  try {
-    localStorage.setItem('udala3d', JSON.stringify(S));
-    if (db) set(ref(db, 'udala3d'), S);
-  } catch (e) { console.error('Save failed:', e); }
+  localStorage.setItem('udala5', JSON.stringify(S));
+  if (db) set(ref(db, 'udala5'), S);
   render();
 };
 
-// ============================================================
-// BUSINESS LOGIC
-// ============================================================
-const basePrice = (type, days) => PRICING[type][days] || Math.round(PRICING[type][30] / 30 * days);
-const calculatePrice = () => {
-  const dd = clamp(+F.days || 30, 1, 365);
-  let b = basePrice(F.type, dd);
-  let x = 0;
-  if (F.lunch === 'both') x += 10 * dd;
-  if (F.dinner === 'both') x += 10 * dd;
-  x += clamp(F.extraRoti || 0, 0, 4) * 5 * dd;
-  return +F.half ? Math.round((b + x) * 0.6) : (b + x);
+const $ = s => document.querySelector(s);
+const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const iso = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
+const todayStr = () => iso(new Date());
+const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const cleanPhone = s => String(s || '').replace(/\D/g, '').slice(-10);
+const showToast = (msg, type = 'success') => {
+  const t = $('#toast'); t.textContent = msg; t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
 };
-const getCredit = phone => (S.cred && S.cred[phone]) || 0;
-const isEligible = days => (+days === 15 || +days === 30);
-
-const getMenu = (date, type) => {
-  const w = date.getDay();
-  if (type === 'nv') {
-    if (w === 0) return '🍗 Chicken curry, roti, chawal';
-    if (w === 5) return '🥚 Egg curry, roti, chawal';
-  } else {
-    if (w === 0) return '🧀 Paneer butter masala, roti, chawal';
-    if (w === 5) return '🍮 Special veg thali + meetha';
-  }
-  return '🥘 Dal, sabzi, roti, chawal';
-};
+const vibrate = () => { if (navigator.vibrate) navigator.vibrate(15); };
 
 // ============================================================
-// RENDERING HELPERS
+// 3. THREE.JS 3D TIFFIN
 // ============================================================
-const productEmoji = p => {
-  const n = p.n.toLowerCase();
-  if (/doodh/.test(n)) return '🥛';
-  if (/paneer/.test(n)) return '🧀';
-  if (/chai/.test(n)) return '☕';
-  if (/chawal/.test(n)) return '🍚';
-  if (/chicken/.test(n)) return '🍗';
-  return '🍛';
-};
-
-const vegIcon = type => `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:2px solid ${type === 'nv' ? '#EF4444' : '#10B981'};border-radius:5px;position:relative;vertical-align:-3px;background:#fff;"><span style="width:10px;height:10px;border-radius:50%;background:${type === 'nv' ? '#EF4444' : '#10B981'};"></span></span>`;
-
-const renderProduct = p => {
-  const q = C[p.id] || 0;
-  const emoji = productEmoji(p);
-  return `<div class="item">
-    <img class="item-img-3d" src="${p.img || ''}" alt="${esc(p.n)}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22><text y=%2240%22 x=%2216%22 font-size=%2232%22>${emoji}</text></svg>'">
-    <div class="item-info">
-      <b>${esc(p.n)}</b>
-      <div class="s">${p.mrp ? `<span class="mrp">MRP ₹${p.mrp}</span>` : ''}<span class="price">${inr(p.p)}</span></div>
-    </div>
-    ${q > 0 
-      ? `<div class="qty-ctrl"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>`
-      : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`
-    }
-  </div>`;
+const init3D = () => {
+  const container = $('#canvas-container');
+  if (!container) return;
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+  camera.position.z = 3.5;
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(110, 110); renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+  
+  const group = new THREE.Group();
+  [0xFF6B35, 0xE85D04, 0xFCD34D].forEach((col, i) => {
+    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(0.8 - i*0.15, 0.8 - i*0.15, 0.3, 32), new THREE.MeshPhysicalMaterial({ color: col, metalness: 0.7, roughness: 0.2, clearcoat: 1 }));
+    mesh.position.y = (i - 1) * 0.35; group.add(mesh);
+  });
+  scene.add(group);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const pl = new THREE.PointLight(0xFCD34D, 1.5, 10); pl.position.set(2, 2, 2); scene.add(pl);
+  
+  const animate = () => { requestAnimationFrame(animate); group.rotation.y += 0.015; group.position.y = Math.sin(Date.now() * 0.002) * 0.1; renderer.render(scene, camera); };
+  animate();
 };
 
 // ============================================================
-// VIEWS
+// 4. VIEWS (FULLY FUNCTIONAL)
 // ============================================================
 const VIEWS = {
   plan: () => {
-    const t = today();
-    const hr = new Date().getHours();
-    const greet = hr < 12 ? '🌅 Suprabhat!' : hr < 17 ? '🙏 Namaste!' : '🌙 Shubh Sandhya!';
-    
-    let addonTotal = 0;
-    Object.entries(C).forEach(([k, q]) => {
-      const p = S.prod.find(x => x.id === parseInt(k, 10));
-      if (p && q > 0) addonTotal += p.p * q;
-    });
-    
-    const planPrice = calculatePrice();
-    const credit = getCredit(F.phone);
-    const discount = (isEligible(F.days) && credit > 0) ? Math.min(credit, planPrice) : 0;
-    const total = planPrice + addonTotal - discount;
-    
+    const price = F.type === 'veg' ? (F.days == 7 ? 749 : F.days == 15 ? 1499 : 2899) : (F.days == 7 ? 949 : F.days == 15 ? 1849 : 3599);
     return `
-      <div class="card card-3d" style="background:#000;color:#fff;border:none;overflow:hidden;padding:0;min-height:240px">
-        <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.5" poster="${IMAGES.hero}">
+      <div class="card" style="background:#000;color:#fff;padding:0;overflow:hidden">
+        <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.5">
           <source src="https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4" type="video/mp4">
         </video>
-        <div class="card-content" style="position:relative;z-index:2;padding:28px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent)">
-          <h3 style="color:#fff;margin:0;font-size:20px">${greet}</h3>
-          <p style="font-size:26px;font-weight:800;margin:10px 0;line-height:1.3; text-shadow: 0 4px 12px rgba(0,0,0,0.5);">Ghar jaisa khana,<br>Roz time pe 🍱</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
-            <span style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:8px 14px;border-radius:24px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,0.2)">⭐ 4.5 Rating</span>
-            <span style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:8px 14px;border-radius:24px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,0.2)">🛵 30-40 min</span>
-          </div>
+        <div style="position:relative;z-index:2;padding:24px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent)">
+          <h3 style="color:#fff;margin:0">🌅 Suprabhat Udala!</h3>
+          <p style="font-size:22px;font-weight:800;margin:8px 0">Ghar jaisa khana,<br>Roz time pe 🍱</p>
         </div>
       </div>
-      
       <div class="card card-3d">
         <div class="card-content">
-        <h3>🍽️ Aaj ka Menu</h3>
-        <div class="s" style="font-weight:700;color:var(--o);font-size:15px;margin:10px 0">${getMenu(t, F.type)}</div>
-        
-        <div class="s">Khana type:</div>
-        <div class="seg">
-          <button class="${F.type === 'veg' ? 'on' : ''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button>
-          <button class="${F.type === 'nv' ? 'on' : ''}" data-a="set" data-k="type" data-v="nv">🔴 Non-veg</button>
-        </div>
-        
-        <div class="s">Kitne din:</div>
-        <div class="seg">
-          <button class="${F.days == 7 ? 'on' : ''}" data-a="set" data-k="days" data-v="7">7 din</button>
-          <button class="${F.days == 15 ? 'on' : ''}" data-a="set" data-k="days" data-v="15">15 din</button>
-          <button class="${F.days == 30 ? 'on' : ''}" data-a="set" data-k="days" data-v="30">30 din</button>
-        </div>
-
-        <div class="s">Aapka naam:</div>
-        <input data-f="name" maxlength="40" placeholder="Naam" value="${esc(F.name)}">
-        <div class="s">Phone number:</div>
-        <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit mobile" value="${esc(F.phone)}">
-        
-        <button class="btn g" data-a="cust">${CUST ? '▲ Customize band karo' : '▼ Customize karo'}</button>
-        
-        ${CUST ? `
-          <div class="s" style="margin-top:14px">Area:</div>
-          <input data-f="area" maxlength="40" placeholder="Area/Locality" value="${esc(F.area)}">
-          <div class="s">Full address:</div>
-          <input data-f="addr" maxlength="120" placeholder="House no, Street, Landmark" value="${esc(F.addr)}">
-          <div class="s" style="margin-top:14px">Payment method:</div>
-          <div class="seg">
-            <button class="${F.pay === 'cash' ? 'on' : ''}" data-a="set" data-k="pay" data-v="cash">💵 Cash</button>
-            <button class="${F.pay === 'online' ? 'on' : ''}" data-a="set" data-k="pay" data-v="online">📲 UPI</button>
+          <h3>🍽️ Plan Chunein</h3>
+          <div class="s">Khana type:</div>
+          <div style="display:flex;gap:8px;margin:8px 0">
+            <button class="btn sm ${F.type==='veg'?'g':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button>
+            <button class="btn sm ${F.type==='nv'?'r':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-veg</button>
           </div>
-        ` : ''}
-        
-        <div style="margin-top:20px;padding-top:16px;border-top:2px dashed var(--line)">
-          <div style="display:flex;justify-content:space-between;font-size:24px;font-weight:800;">
-            <span>Total</span>
-            <span style="color:var(--o)">${inr(total)}</span>
+          <div class="s">Kitne din:</div>
+          <div style="display:flex;gap:8px;margin:8px 0">
+            <button class="btn sm ${F.days==7?'g':''}" data-a="set" data-k="days" data-v="7">7 din</button>
+            <button class="btn sm ${F.days==15?'g':''}" data-a="set" data-k="days" data-v="15">15 din</button>
+            <button class="btn sm ${F.days==30?'g':''}" data-a="set" data-k="days" data-v="30">30 din</button>
           </div>
+          <input data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
+          <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit Mobile" value="${esc(F.phone)}">
+          <input data-f="area" placeholder="Area / Locality" value="${esc(F.area)}">
+          <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:800;margin:16px 0">
+            <span>Total</span><span style="color:var(--o)">${inr(price)}</span>
+          </div>
+          <button class="btn" data-a="join">✅ Plan Shuru Karo</button>
         </div>
-        
-        <button class="btn" data-a="join" style="font-size:18px;padding:18px;margin-top:20px">✅ Plan shuru karo</button>
-        </div>
-      </div>
-    `;
+      </div>`;
   },
-  
+
   shop: () => {
     let total = 0, count = 0;
-    Object.entries(C).forEach(([k, q]) => {
-      const p = S.prod.find(x => x.id === parseInt(k, 10));
-      if (p && q > 0) { total += p.p * q; count += q; }
-    });
-    
-    const categories = [...new Set(S.prod.filter(p => p.s).map(p => p.c))];
-    let filtered = S.prod.filter(p => p.s);
-    if (VO) filtered = filtered.filter(p => !p.nv);
-    if (SCAT !== 'all') filtered = filtered.filter(p => p.c === SCAT);
-    if (SQ) {
-      const q = SQ.toLowerCase();
-      filtered = filtered.filter(p => p.n.toLowerCase().includes(q));
-    }
-    
-    const grouped = {};
-    filtered.forEach(p => { grouped[p.c] = grouped[p.c] || []; grouped[p.c].push(p); });
-    
-    const productList = Object.entries(grouped).map(([cat, prods]) => `
-      <div class="card card-3d"><div class="card-content"><h3>${esc(cat)}</h3>${prods.map(renderProduct).join('')}</div></div>
-    `).join('') || `<div class="card"><div style="text-align:center;padding:40px 20px;color:var(--muted)"><div style="font-size:56px;margin-bottom:16px; animation: float3d 3s infinite">🔍</div><h4>Kuch nahi mila</h4></div></div>`;
-    
+    Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { total += p.p * q; count += q; } });
     return `
-      <div class="card card-3d" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none">
-        <div class="card-content">
+      <div class="card" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none">
         <h3 style="color:#fff">🛒 Ghar ka Saaman</h3>
-        <p style="opacity:.9;font-size:15px">Khana, doodh, kirana, premium brands</p>
-        </div>
       </div>
-      
-      <div style="position:relative;margin-bottom:16px">
-        <input id="sq" maxlength="30" placeholder="🔍 Search products (e.g., Doodh)..." value="${esc(SQ)}" style="padding-right:60px">
-        <button class="voice-btn" id="voiceBtn" data-a="voice" title="Voice Search">🎤</button>
-      </div>
-      
-      <div class="chips">
-        <button class="${SCAT === 'all' ? 'on' : ''}" data-a="cat" data-v="all">📦 All</button>
-        ${categories.map(c => `<button class="${SCAT === c ? 'on' : ''}" data-a="cat" data-v="${esc(c)}">${esc(c)}</button>`).join('')}
-        <button class="${VO ? 'on' : ''}" data-a="vo">${vegIcon('veg')} Sirf Veg</button>
-      </div>
-      
-      <div id="pl">${productList}</div>
-      
-      ${count > 0 ? `
-        <div class="cart-bar">
-          <div>
-            <div style="font-size:13px;opacity:.8;font-weight:700">🛒 ${count} items</div>
-            <div style="font-size:22px;font-weight:800;color:var(--o)">${inr(total)}</div>
-          </div>
-          <button class="btn g" data-a="order" style="margin:0;width:auto;padding: 14px 24px;">Checkout ↓</button>
-        </div>
-      ` : ''}
-    `;
+      <div class="card card-3d"><div class="card-content">
+        ${S.prod.map(p => {
+          const q = C[p.id] || 0;
+          return `<div class="item">
+            <img class="item-img" src="${p.img}" onerror="this.style.display='none'">
+            <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)}</div><div class="price">${inr(p.p)}</div></div>
+            ${q > 0 ? `<div class="qty-ctrl"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}
+          </div>`;
+        }).join('')}
+      </div></div>
+      ${count > 0 ? `<div class="cart-bar"><div><div style="font-size:12px;font-weight:600">🛒 ${count} items</div><div style="font-size:20px;font-weight:800;color:var(--o)">${inr(total)}</div></div><button class="btn g" data-a="order" style="margin:0;width:auto">Checkout</button></div>` : ''}`;
   },
-  
-  kitchen: () => `<div class="card card-3d"><div class="card-content"><h3>👨‍🍳 Kitchen View</h3><p class="s">Owner access required for full 3D kitchen stats.</p></div></div>`,
-  delivery: () => `<div class="card card-3d"><div class="card-content"><h3>🛵 Delivery View</h3><p class="s">Owner access required.</p></div></div>`,
+
+  kitchen: () => {
+    if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
+    const tStr = todayStr();
+    let veg = 0, nv = 0, roti = 0;
+    S.subs.forEach(sub => {
+      const end = new Date(sub.startDate); end.setDate(end.getDate() + sub.days - 1);
+      if (tStr >= sub.startDate && tStr <= iso(end) && sub.status !== 'cancelled') {
+        if (sub.type === 'veg') veg++; else nv++;
+        roti += (sub.extraRoti || 0);
+      }
+    });
+    return `
+      <div class="card card-3d"><div class="card-content">
+        <h3>👨‍🍳 Aaj ki Kitchen List (${tStr})</h3>
+        <div class="stats-grid">
+          <div class="stat-box"><div class="val">${veg}</div><div class="lbl">Veg Thali</div></div>
+          <div class="stat-box orange"><div class="val">${nv}</div><div class="lbl">Non-Veg Thali</div></div>
+        </div>
+        <div class="s" style="font-size:16px;font-weight:700;color:var(--text);margin-top:10px">🫓 Extra Roti: ${roti}</div>
+        <div class="s" style="margin-top:16px;padding:12px;background:var(--bg);border-radius:12px">✅ Menu: Dal, Sabzi, Chawal, Roti, Salad</div>
+      </div></div>`;
+  },
+
+  delivery: () => {
+    if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
+    const pending = S.orders.filter(o => o.status === 'pending');
+    return `
+      <div class="card card-3d"><div class="card-content">
+        <h3>🛵 Pending Deliveries (${pending.length})</h3>
+        ${pending.length === 0 ? '<p class="s">Aaj koi pending delivery nahi hai! 🎉</p>' : 
+          pending.map(o => `
+            <div class="item" style="flex-direction:column;align-items:flex-start;gap:8px">
+              <div style="display:flex;justify-content:space-between;width:100%"><b>${esc(o.name)}</b><span class="badge pending">Pending</span></div>
+              <div class="s">📍 ${esc(o.area)} | 📱 ${o.phone}</div>
+              <div class="s">📦 ${o.items.map(i=>`${i.n} x${i.q}`).join(', ')}</div>
+              <div style="display:flex;gap:8px;width:100%;margin-top:8px">
+                <a href="https://wa.me/91${o.phone}" target="_blank" class="btn sm g" style="flex:1;text-align:center;text-decoration:none">WhatsApp</a>
+                <button class="btn sm" data-a="markDelivered" data-id="${o.id}" style="flex:1">Mark Delivered</button>
+              </div>
+            </div>
+          `).join('')}
+      </div></div>`;
+  },
+
   owner: () => {
-    if (!OK) return `<div class="card card-3d"><div class="card-content"><h3>🔒 Owner Access</h3><p class="s">Header par 5 baar tap karo PIN ke liye.</p></div></div>`;
-    return `<div class="card card-3d"><div class="card-content"><h3>📊 3D Dashboard</h3><p class="s">Welcome, Owner. Full analytics loaded.</p><button class="btn r" data-a="out" style="margin-top:16px">🚪 Logout</button></div></div>`;
+    if (!OK) return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
+    const revenue = S.orders.reduce((sum, o) => sum + (o.total || 0), 0) + S.subs.reduce((sum, s) => sum + (s.price || 0), 0);
+    const activeSubs = S.subs.filter(s => s.status !== 'cancelled').length;
+    const pendingDel = S.orders.filter(o => o.status === 'pending').length;
+
+    return `
+      <div class="card card-3d"><div class="card-content">
+        <h3>📊 Super Admin Dashboard</h3>
+        <div class="stats-grid">
+          <div class="stat-box"><div class="val">${inr(revenue)}</div><div class="lbl">Total Revenue</div></div>
+          <div class="stat-box orange"><div class="val">${activeSubs}</div><div class="lbl">Active Subs</div></div>
+          <div class="stat-box purple"><div class="val">${pendingDel}</div><div class="lbl">Pending Delivery</div></div>
+          <div class="stat-box" style="background:linear-gradient(135deg, #059669, #047857)"><div class="val">${S.prod.length}</div><div class="lbl">Products</div></div>
+        </div>
+        
+        <h3 style="margin-top:20px">🛒 Manage Products</h3>
+        <div style="background:var(--bg);padding:16px;border-radius:16px;margin-bottom:16px">
+          <input id="newPName" placeholder="Product Name (e.g., Surf Excel)">
+          <div style="display:flex;gap:8px">
+            <input id="newPPrice" type="number" placeholder="Price" style="flex:1">
+            <input id="newPCat" placeholder="Category" style="flex:1">
+          </div>
+          <button class="btn g" data-a="addProduct">➕ Add Product</button>
+        </div>
+
+        ${S.prod.map(p => `
+          <div class="item">
+            <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} · ${inr(p.p)}</div></div>
+            <button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button>
+          </div>
+        `).join('')}
+
+        <h3 style="margin-top:24px">📦 Recent Orders</h3>
+        ${S.orders.slice(-5).reverse().map(o => `
+          <div class="item">
+            <div class="item-info"><b>${esc(o.name)}</b><div class="s">${o.items.map(i=>`${i.n} x${i.q}`).join(', ')} · <span class="badge ${o.status==='pending'?'pending':'delivered'}">${o.status}</span></div></div>
+            <div class="price">${inr(o.total)}</div>
+          </div>
+        `).join('') || '<p class="s">No orders yet.</p>'}
+        
+        <button class="btn r" data-a="out" style="margin-top:24px">🚪 Logout Owner</button>
+      </div></div>`;
   }
 };
 
 // ============================================================
-// RENDER
+// 5. RENDER & ACTIONS
 // ============================================================
 const render = () => {
   if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
-  try {
-    $('#v').innerHTML = VIEWS[tab]();
-    $('#ht').textContent = { plan: 'Aaj ka Plan', shop: '3D Shop', kitchen: 'Kitchen', delivery: 'Delivery', owner: 'Owner Dashboard' }[tab];
+  $('#v').innerHTML = VIEWS[tab]();
+  $('#ht').textContent = { plan: 'Aaj ka Plan', shop: 'Shop', kitchen: 'Kitchen', delivery: 'Delivery', owner: 'Admin Panel' }[tab];
+  
+  const navItems = [
+    ['plan', '🍱 Plan', IMAGES.thali],
+    ['shop', '🛒 Shop', IMAGES.grocery],
+    ['kitchen', '👨‍🍳 Kitchen', IMAGES.kitchen],
+    ['delivery', '🛵 Delivery', IMAGES.scooter],
+    ['owner', '👤 Admin', IMAGES.money]
+  ];
+  
+  $('#nav').innerHTML = navItems.filter(x => OK || x[0] === 'plan' || x[0] === 'shop')
+    .map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
     
-    const navItems = [
-      ['plan', '🍱 Plan', IMAGES.thali],
-      ['shop', '🛒 Shop', IMAGES.grocery],
-      ['kitchen', '👨‍🍳 Kitchen', IMAGES.kitchen],
-      ['delivery', '🛵 Delivery', IMAGES.scooter],
-      ['owner', '👤 Owner', IMAGES.money]
-    ];
-    
-    $('#nav').innerHTML = navItems
-      .filter(x => OK || x[0] === 'plan' || x[0] === 'shop')
-      .map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" alt="${x[1]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
-      
-    attachTiltListeners();
-  } catch (e) {
-    console.error('Render error:', e);
-    $('#v').innerHTML = `<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(e.message)}</p></div>`;
-  }
-  setTimeout(() => $('#loadingScreen').classList.add('hide'), 800);
-};
-
-// ============================================================
-// 3D TILT EFFECT LOGIC (ENHANCED)
-// ============================================================
-const attachTiltListeners = () => {
   document.querySelectorAll('.card-3d').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -5;
-      const rotateY = ((x - centerX) / centerX) * 5;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.transform = `perspective(1000px) rotateX(${((e.clientY - r.top - r.height/2)/(r.height/2))*-4}deg) rotateY(${((e.clientX - r.left - r.width/2)/(r.width/2))*4}deg) scale3d(1.01, 1.01, 1.01)`;
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-    });
-    
-    // Mobile touch support for 3D tilt
-    card.addEventListener('touchmove', (e) => {
-      const touch = e.touches[0];
-      const rect = card.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -5;
-      const rotateY = ((x - centerX) / centerX) * 5;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    }, { passive: true });
-    
-    card.addEventListener('touchend', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-    });
+    card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'; });
   });
+  
+  setTimeout(() => $('#loadingScreen').classList.add('hide'), 600);
 };
 
-// ============================================================
-// ACTIONS
-// ============================================================
 const ACTIONS = {
   tab: v => {
     if (['kitchen', 'delivery', 'owner'].includes(v) && !OK) {
       const pin = prompt('Owner PIN:');
-      if (pin === CONFIG.ownerPin) {
-        OK = 1; sessionStorage.setItem('udok', '1');
-        showToast('🔓 Owner access granted!');
-      } else if (pin !== null) {
-        showToast('❌ Galat PIN!', 'error');
-        return;
-      }
+      if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); showToast('🔓 Admin Access Granted'); }
+      else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); return; }
     }
     tab = v; render(); window.scrollTo({ top: 0, behavior: 'smooth' });
   },
   set: (v, k) => { F[k] = v; render(); },
-  inc: (v, k, id) => { vibrate(); C[id] = clamp((C[id] || 0) + 1, 0, 99); render(); },
-  dec: (v, k, id) => { vibrate(); C[id] = clamp((C[id] || 0) - 1, 0, 99); if (C[id] === 0) delete C[id]; render(); },
-  cat: v => { SCAT = v; render(); },
-  vo: () => { VO = VO ? 0 : 1; render(); },
-  cust: () => { CUST = CUST ? 0 : 1; render(); },
-  
-  voice: () => {
-    vibrate();
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'hi-IN';
-      recognition.start();
-      
-      const btn = $('#voiceBtn');
-      if (btn) btn.classList.add('listening');
-      showToast('🎤 Bol rahe hain... (e.g., "Doodh")');
-      
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        SQ = transcript;
-        const input = $('#sq');
-        if (input) input.value = transcript;
-        render();
-        showToast(`🔍 Search: ${transcript}`);
-      };
-      
-      recognition.onerror = () => {
-        showToast('❌ Awaaz samajh nahi aayi', 'error');
-        if (btn) btn.classList.remove('listening');
-      };
-      
-      recognition.onend = () => {
-        if (btn) btn.classList.remove('listening');
-      };
-    } else {
-      showToast('❌ Voice search not supported', 'error');
-    }
-  },
+  inc: (v, k, id) => { vibrate(); C[id] = (C[id] || 0) + 1; render(); },
+  dec: (v, k, id) => { vibrate(); C[id] = Math.max(0, (C[id] || 0) - 1); if (C[id] === 0) delete C[id]; render(); },
   
   join: () => {
     vibrate();
-    if (!F.name || !F.phone || F.phone.length !== 10) {
-      showToast('❌ Naam aur 10 digit phone daalo', 'error');
-      return;
-    }
-    const price = calculatePrice();
-    const sub = {
-      id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, addr: F.addr,
-      type: F.type, days: +F.days, half: +F.half, start: F.start, price: price, pay: F.pay, skip: []
-    };
-    S.subs.push(sub);
-    save();
-    showToast('✅ Plan ban gaya: ' + inr(price));
-    
-    const waText = `🍱 *Naya Tiffin Plan*%0A👤 ${sub.name}%0A📱 ${sub.phone}%0A🍽️ ${sub.type} · ${sub.days} din%0A💰 ₹${sub.price}`;
-    setTimeout(() => window.open(`https://wa.me/${CONFIG.whatsapp}?text=${waText}`, '_blank'), 500);
-    
-    F.name = ''; F.phone = ''; F.area = ''; F.addr = '';
+    if (!F.name || F.phone.length !== 10) { showToast('❌ Naam aur 10 digit phone daalo', 'error'); return; }
+    const price = F.type === 'veg' ? (F.days == 7 ? 749 : F.days == 15 ? 1499 : 2899) : (F.days == 7 ? 949 : F.days == 15 ? 1849 : 3599);
+    S.subs.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, type: F.type, days: +F.days, startDate: todayStr(), price: price, status: 'active' });
+    save(); showToast('✅ Plan ban gaya!');
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🍱 *Naya Plan*%0A👤 ${F.name}%0A📱 ${F.phone}%0A🍽️ ${F.type} · ${F.days} din%0A💰 ₹${price}`, '_blank');
+    F.name = ''; F.phone = ''; F.area = '';
   },
   
   order: () => {
     vibrate();
-    if (!F.name || !F.phone) { showToast('❌ Naam aur phone daalo', 'error'); return; }
+    if (!F.name || F.phone.length !== 10) { showToast('❌ Naam aur phone daalo', 'error'); return; }
     const items = []; let total = 0;
-    Object.entries(C).forEach(([k, q]) => {
-      const p = S.prod.find(x => x.id === parseInt(k, 10));
-      if (p && q > 0) { items.push({ n: p.n, q, p: p.p }); total += p.p * q; }
-    });
+    Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { items.push({ n: p.n, q, p: p.p }); total += p.p * q; } });
     if (!items.length) { showToast('❌ Cart khali hai', 'error'); return; }
-    
-    S.orders.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), items, total, pay: F.pay, dlv: 0 });
-    C = {}; save();
-    showToast('✅ Order ho gaya: ' + inr(total));
-    
-    const waText = `🛒 *Naya Grocery Order*%0A👤 ${F.name}%0A📱 ${F.phone}%0A📦 ${items.map(i => `${i.n} x${i.q}`).join(', ')}%0A💰 Total: ₹${total}`;
-    setTimeout(() => window.open(`https://wa.me/${CONFIG.whatsapp}?text=${waText}`, '_blank'), 500);
+    S.orders.push({ id: Date.now(), name: F.name, phone: cleanPhone(F.phone), area: F.area, items, total, status: 'pending', date: todayStr() });
+    C = {}; save(); showToast('✅ Order ho gaya!');
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *Naya Order*%0A👤 ${F.name}%0A📱 ${F.phone}%0A📦 ${items.map(i=>`${i.n} x${i.q}`).join(', ')}%0A💰 ₹${total}`, '_blank');
+  },
+
+  addProduct: () => {
+    vibrate();
+    const name = $('#newPName')?.value, price = parseInt($('#newPPrice')?.value), cat = $('#newPCat')?.value || 'General';
+    if (!name || !price) { showToast('❌ Name aur Price daalo', 'error'); return; }
+    S.prod.push({ id: Date.now(), n: name, p: price, c: cat, img: IMAGES.grocery });
+    save(); showToast('✅ Product added!');
+  },
+  
+  delProd: (v, k, id) => {
+    vibrate();
+    if (confirm('Delete this product?')) { S.prod = S.prod.filter(p => p.id != id); save(); showToast('🗑️ Deleted'); }
+  },
+
+  markDelivered: (v, k, id) => {
+    vibrate();
+    const order = S.orders.find(o => o.id == id);
+    if (order) { order.status = 'delivered'; save(); showToast('✅ Marked Delivered!'); }
   },
   
   out: () => { OK = 0; sessionStorage.removeItem('udok'); tab = 'plan'; render(); showToast('🚪 Logged out'); }
 };
 
-// ============================================================
-// EVENT LISTENERS
-// ============================================================
 document.addEventListener('click', e => {
   const btn = e.target.closest('[data-a]');
   if (!btn) return;
   vibrate();
   const action = ACTIONS[btn.dataset.a];
-  if (action) {
-    try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } 
-    catch (err) { showToast('❌ Error: ' + err.message, 'error'); }
-  }
+  if (action) { try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } catch (err) { showToast('❌ Error', 'error'); } }
 });
-
-const handleSearch = debounce(e => {
-  if (e.target.id === 'sq') {
-    SQ = e.target.value;
-    if (tab === 'shop') render();
-  }
-}, 400);
 
 document.addEventListener('input', e => {
   const field = e.target.dataset?.f;
-  if (field) {
-    F[field] = e.target.value;
-    if (field === 'phone') F.phone = cleanPhone(F.phone);
-  }
-  handleSearch(e);
+  if (field) { F[field] = e.target.value; if (field === 'phone') F.phone = cleanPhone(F.phone); }
 });
 
 let tapCount = 0;
@@ -1283,38 +479,29 @@ $('#mainHeader').addEventListener('click', () => {
   if (tapCount >= 5) {
     tapCount = 0;
     const pin = prompt('Owner PIN:');
-    if (pin === CONFIG.ownerPin) {
-      OK = 1; sessionStorage.setItem('udok', '1'); tab = 'owner'; render(); showToast('🔓 Owner access granted!');
-    } else if (pin !== null) {
-      showToast('❌ Galat PIN!', 'error');
-    }
+    if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); tab = 'owner'; render(); showToast('🔓 Admin Access Granted'); }
+    else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); }
   }
 });
 
-// ============================================================
-// INIT
-// ============================================================
+// Theme
 const initTheme = () => {
   const saved = localStorage.getItem('ud_theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   $('#themeToggle').textContent = saved === 'dark' ? '☀️' : '🌙';
 };
-
 $('#themeToggle').addEventListener('click', () => {
   vibrate();
-  const current = document.documentElement.getAttribute('data-theme') || 'light';
-  const next = current === 'dark' ? 'light' : 'dark';
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('ud_theme', next);
   $('#themeToggle').textContent = next === 'dark' ? '☀️' : '🌙';
-  showToast(next === 'dark' ? '🌙 Dark mode ON' : '☀️ Light mode ON');
 });
 
 initTheme();
-init3D(); // Start 3D Tiffin animation
+init3D();
 render();
-
-console.log('🍱 Namaste Udala Full 3D Edition loaded!');
+console.log('🍱 Namaste Udala 5.0 Complete Suite Loaded!');
 </script>
 </body>
 </html>
