@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="description" content="Namaste Udala - Premium Tiffin Service & Grocery Delivery">
+<meta name="description" content="Namaste Udala - Premium 3D Tiffin Service & Grocery Delivery">
 <meta name="theme-color" content="#1B4332">
-<title>🍱 Namaste Udala - Tiffin & Grocery</title>
-<link rel="manifest" href="manifest.json">
+<title>🍱 Namaste Udala 3D</title>
 
 <!-- Premium Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,29 +34,27 @@
   --line: #F3F4F6;
   --success: #10B981;
   --danger: #EF4444;
-  --warning: #F59E0B;
-  --info: #3B82F6;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
-  --shadow-lg: 0 16px 40px rgba(0,0,0,0.08);
-  --glass: rgba(255, 255, 255, 0.85);
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-md: 0 12px 32px rgba(0,0,0,0.08);
+  --shadow-lg: 0 24px 48px rgba(0,0,0,0.12);
+  --glass: rgba(255, 255, 255, 0.75);
 }
 
 [data-theme="dark"] {
-  --bg: #0F0F0F;
+  --bg: #0A0A0A;
   --text: #F9FAFB;
   --muted: #9CA3AF;
-  --card: #1A1A1A;
-  --line: #2D2D2D;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
-  --shadow-lg: 0 16px 40px rgba(0,0,0,0.5);
-  --glass: rgba(26, 26, 26, 0.85);
+  --card: #161616;
+  --line: #2A2A2A;
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-md: 0 12px 32px rgba(0,0,0,0.5);
+  --shadow-lg: 0 24px 48px rgba(0,0,0,0.6);
+  --glass: rgba(22, 22, 22, 0.75);
 }
 
 * {
   box-sizing: border-box;
-  font-family: 'Poppins', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
@@ -68,11 +65,14 @@ body {
   color: var(--text);
   padding-bottom: 90px;
   font-weight: 500;
-  position: relative;
   min-height: 100vh;
-  transition: background 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  /* Subtle 3D Grid Background for full website 3D feel */
+  background-image: 
+    linear-gradient(rgba(255, 107, 53, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 107, 53, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-attachment: fixed;
 }
 
 /* --- Loading Screen --- */
@@ -100,47 +100,40 @@ body {
 
 /* --- Animations --- */
 @keyframes rise {
-  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  from { opacity: 0; transform: translateY(40px) scale(0.9); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-@keyframes shimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+@keyframes float3d {
+  0%, 100% { transform: translateY(0) translateZ(20px); }
+  50% { transform: translateY(-15px) translateZ(40px); }
 }
 
-/* --- Premium Header with Video & 3D --- */
+/* --- Premium Header with Video & 3D Tiffin --- */
 header {
-  background: linear-gradient(135deg, var(--g) 0%, #0F2C21 100%);
+  background: linear-gradient(135deg, var(--g) 0%, #081F15 100%);
   color: #fff;
-  padding: 24px 20px 60px 20px;
-  border-radius: 0 0 32px 32px;
+  padding: 24px 20px 70px 20px;
+  border-radius: 0 0 40px 40px;
   position: relative;
   overflow: hidden;
   z-index: 2;
   box-shadow: var(--shadow-lg);
+  transform-style: preserve-3d;
 }
 
 header::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(255,107,53,0.25), transparent 60%);
+  background: radial-gradient(circle at top right, rgba(255,107,53,0.3), transparent 60%);
   pointer-events: none;
   z-index: 1;
 }
 
 header .logo {
   font-size: 11px;
-  letter-spacing: 2.5px;
-  font-weight: 700;
+  letter-spacing: 3px;
+  font-weight: 800;
   color: #FCD34D;
   margin-bottom: 6px;
   text-transform: uppercase;
@@ -149,12 +142,13 @@ header .logo {
 }
 
 header h1 {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
   position: relative;
   z-index: 3;
   line-height: 1.2;
+  transform: translateZ(30px); /* 3D pop */
 }
 
 header .tagline {
@@ -164,17 +158,19 @@ header .tagline {
   font-weight: 500;
   position: relative;
   z-index: 3;
+  transform: translateZ(20px);
 }
 
 /* 3D Canvas Container */
 #canvas-container {
   position: absolute;
-  right: 10px;
-  top: 10px;
-  width: 120px;
-  height: 120px;
+  right: 0px;
+  top: 20px;
+  width: 140px;
+  height: 140px;
   z-index: 2;
   pointer-events: none;
+  transform: translateZ(50px); /* Pushes 3D model towards user */
 }
 
 .header-wave {
@@ -182,34 +178,36 @@ header .tagline {
   bottom: -1px;
   left: 0;
   width: 100%;
-  height: 40px;
+  height: 50px;
   fill: var(--bg);
   z-index: 3;
+  filter: drop-shadow(0 -4px 10px rgba(0,0,0,0.1));
 }
 
 /* --- Main Container --- */
 #v {
   padding: 0 16px;
-  margin-top: -20px;
+  margin-top: -30px;
   position: relative;
   z-index: 1;
+  perspective: 1200px; /* Global 3D perspective for the whole page */
 }
 
-/* --- 3D Tilt Cards --- */
+/* --- ULTRA 3D Tilt Cards --- */
 .card-3d {
   transform-style: preserve-3d;
-  transform: perspective(1000px);
-  transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+  will-change: transform;
 }
 .card-3d .card-content {
-  transform: translateZ(20px);
+  transform: translateZ(30px); /* Content floats above card background */
 }
 .card-3d::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 24px;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.2), transparent 60%);
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.25), transparent 60%);
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
@@ -220,60 +218,98 @@ header .tagline {
 .card {
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 24px;
-  padding: 20px;
-  margin-bottom: 16px;
+  border-radius: 28px;
+  padding: 24px;
+  margin-bottom: 20px;
   position: relative;
   box-shadow: var(--shadow-md);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-  animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-style: preserve-3d;
 }
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) translateZ(10px);
   box-shadow: var(--shadow-lg);
 }
 
 .card h3 {
   color: var(--g);
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 14px;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  transform: translateZ(20px);
 }
 [data-theme="dark"] .card h3 { color: #4ADE80; }
 
 .s {
   font-size: 13px;
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.6;
+  transform: translateZ(15px);
 }
+
+/* --- 3D Food Items (Pop-out Effect) --- */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.2s ease;
+  transform-style: preserve-3d;
+}
+.item:last-child { border-bottom: 0; }
+
+.item-img-3d {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  object-fit: cover;
+  background: var(--line);
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateZ(40px); /* FOOD POPS OUT OF SCREEN */
+  border: 2px solid rgba(255,255,255,0.5);
+}
+.item:hover .item-img-3d { 
+  transform: translateZ(60px) scale(1.1) rotateY(-10deg); 
+  box-shadow: 0 16px 32px rgba(255, 107, 53, 0.3);
+}
+
+.item-info { flex: 1; min-width: 0; transform: translateZ(25px); }
+.item-info b { font-size: 16px; font-weight: 700; display: block; margin-bottom: 4px; color: var(--text); }
+.price { color: var(--o); font-weight: 800; font-size: 18px; }
+.mrp { text-decoration: line-through; color: var(--muted); font-size: 13px; margin-right: 8px; font-weight: 500; }
 
 /* --- Premium Buttons --- */
 .btn {
-  padding: 14px 24px;
-  border-radius: 16px;
+  padding: 16px 24px;
+  border-radius: 18px;
   border: none;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 16px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   width: 100%;
-  margin-top: 10px;
+  margin-top: 12px;
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, var(--o) 0%, var(--o-dark) 100%);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3);
-  letter-spacing: 0.3px;
+  box-shadow: 0 6px 20px rgba(232, 93, 4, 0.4);
+  letter-spacing: 0.5px;
+  transform: translateZ(30px);
 }
-.btn:active { transform: scale(0.96); }
+.btn:active { transform: translateZ(10px) scale(0.96); }
 .btn::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+  background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
   transform: translateX(-100%);
   transition: transform 0.6s;
 }
@@ -282,67 +318,59 @@ header .tagline {
 .btn.g {
   background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
   color: #065F46;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2);
   border: 1px solid #A7F3D0;
 }
-.btn.r {
-  background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
-  color: #991B1B;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
-  border: 1px solid #FECACA;
-}
-.btn.b {
-  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
-  color: #1E40AF;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-  border: 1px solid #BFDBFE;
-}
 .btn.sm {
-  padding: 8px 16px;
-  font-size: 13px;
+  padding: 10px 18px;
+  font-size: 14px;
   width: auto;
   margin: 0;
-  border-radius: 12px;
+  border-radius: 14px;
+  transform: translateZ(35px);
 }
 
 /* --- Inputs & Forms --- */
 input, textarea, select {
   width: 100%;
-  padding: 14px 16px;
-  border: 1.5px solid var(--line);
-  border-radius: 16px;
-  margin: 6px 0 12px 0;
+  padding: 16px 18px;
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  margin: 8px 0 14px 0;
   font-size: 15px;
   background: var(--bg);
   color: var(--text);
   transition: all 0.2s ease;
   font-family: inherit;
+  transform: translateZ(20px);
 }
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--o);
-  box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+  box-shadow: 0 0 0 6px rgba(255, 107, 53, 0.15);
   background: var(--card);
+  transform: translateZ(30px);
 }
 
 /* --- Segmented Control --- */
 .seg {
   display: flex;
-  gap: 6px;
-  margin: 8px 0 16px 0;
+  gap: 8px;
+  margin: 10px 0 18px 0;
   background: var(--bg);
-  padding: 4px;
-  border-radius: 16px;
+  padding: 5px;
+  border-radius: 18px;
   border: 1px solid var(--line);
+  transform: translateZ(25px);
 }
 .seg button {
   flex: 1;
-  padding: 10px;
-  border-radius: 12px;
+  padding: 12px;
+  border-radius: 14px;
   border: none;
   background: transparent;
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: 700;
+  font-size: 14px;
   color: var(--muted);
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -351,7 +379,7 @@ input:focus, textarea:focus, select:focus {
   background: var(--card);
   color: var(--o);
   box-shadow: var(--shadow-sm);
-  transform: scale(1.02);
+  transform: scale(1.05) translateZ(10px);
 }
 
 /* --- Glassmorphism Navigation --- */
@@ -361,66 +389,69 @@ input:focus, textarea:focus, select:focus {
   left: 0;
   right: 0;
   background: var(--glass);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-top: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  border-top: 1px solid rgba(255,255,255,0.15);
   display: flex;
   justify-content: space-around;
-  padding: 10px 0 max(12px, env(safe-area-inset-bottom));
+  padding: 12px 0 max(16px, env(safe-area-inset-bottom));
   z-index: 100;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.1);
 }
 .nav div {
   text-align: center;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--muted);
   flex: 1;
   cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 6px 4px;
-  border-radius: 12px;
+  transition: all 0.3s ease;
+  padding: 8px 4px;
+  border-radius: 16px;
+  transform: translateZ(0);
 }
 .nav div.on {
   color: var(--o);
-  background: rgba(255, 107, 53, 0.08);
+  background: rgba(255, 107, 53, 0.1);
+  transform: translateY(-8px) translateZ(20px);
 }
 .nav img {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
   object-fit: cover;
   display: block;
-  margin: 0 auto 4px;
-  transition: transform 0.2s ease;
+  margin: 0 auto 6px;
+  transition: transform 0.3s ease;
   border: 2px solid transparent;
 }
 .nav div.on img {
-  transform: scale(1.1);
+  transform: scale(1.15);
   border-color: var(--o);
 }
 
 /* --- Toast --- */
 .toast {
   position: fixed;
-  bottom: 100px;
+  bottom: 110px;
   left: 50%;
-  transform: translateX(-50%) translateY(100px);
+  transform: translateX(-50%) translateY(100px) translateZ(100px);
   background: #1F2937;
   color: #fff;
-  padding: 14px 28px;
+  padding: 16px 32px;
   border-radius: 50px;
-  font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
   z-index: 1000;
   opacity: 0;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   max-width: 90%;
   text-align: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
 }
-.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.show { transform: translateX(-50%) translateY(0) translateZ(100px); opacity: 1; }
 .toast.error { background: var(--danger); }
 .toast.success { background: var(--success); }
 
@@ -429,20 +460,22 @@ input:focus, textarea:focus, select:focus {
   display: flex;
   align-items: center;
   gap: 12px;
-  border: 1.5px solid var(--o);
-  border-radius: 14px;
-  padding: 4px;
-  background: rgba(255, 107, 53, 0.04);
+  border: 2px solid var(--o);
+  border-radius: 16px;
+  padding: 6px;
+  background: rgba(255, 107, 53, 0.05);
+  transform: translateZ(35px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
 }
 .qty-ctrl button {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--o);
   color: #fff;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
   cursor: pointer;
   transition: all 0.15s ease;
   display: flex;
@@ -450,26 +483,27 @@ input:focus, textarea:focus, select:focus {
   justify-content: center;
 }
 .qty-ctrl button:active { transform: scale(0.9); background: var(--o-dark); }
-.qty-ctrl b { min-width: 24px; text-align: center; color: var(--text); font-weight: 700; font-size: 15px; }
+.qty-ctrl b { min-width: 28px; text-align: center; color: var(--text); font-weight: 800; font-size: 16px; }
 
 /* --- Cart Bar --- */
 .cart-bar {
   position: fixed;
-  bottom: 84px;
+  bottom: 90px;
   left: 16px;
   right: 16px;
   background: var(--glass);
-  backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(200%);
   border: 1px solid rgba(255,255,255,0.2);
   color: var(--text);
-  border-radius: 20px;
-  padding: 16px 20px;
+  border-radius: 24px;
+  padding: 18px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 99;
   box-shadow: var(--shadow-lg);
   animation: rise 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(50px);
 }
 
 /* --- Theme Toggle --- */
@@ -477,149 +511,116 @@ input:focus, textarea:focus, select:focus {
   position: fixed;
   top: 20px;
   right: 20px;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--glass);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
   z-index: 101;
   box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
+  transform: translateZ(40px);
 }
-.theme-toggle:hover { transform: scale(1.1) rotate(15deg); }
+.theme-toggle:hover { transform: translateZ(60px) scale(1.1) rotate(15deg); }
 
 /* --- Voice Search Button --- */
 .voice-btn {
   position: absolute;
-  right: 12px;
+  right: 14px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateZ(30px);
   background: var(--o);
   color: white;
   border: none;
-  border-radius: 12px;
-  width: 36px;
-  height: 36px;
+  border-radius: 14px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
   transition: all 0.2s ease;
   z-index: 10;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
 }
-.voice-btn:active { transform: translateY(-50%) scale(0.9); }
-.voice-btn.listening { animation: pulse 1s infinite; background: var(--danger); }
-
-/* --- Grid & Stats --- */
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.stat-card {
-  background: linear-gradient(135deg, var(--g) 0%, var(--g-light) 100%);
-  color: #fff;
-  border-radius: 20px;
-  padding: 18px;
-  text-align: center;
-  box-shadow: var(--shadow-md);
-  transition: transform 0.2s ease;
+.voice-btn:active { transform: translateY(-50%) translateZ(10px) scale(0.9); }
+.voice-btn.listening { animation: pulse3d 1s infinite; background: var(--danger); }
+@keyframes pulse3d {
+  0%, 100% { transform: translateY(-50%) translateZ(30px) scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  50% { transform: translateY(-50%) translateZ(50px) scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
 }
-.stat-card:hover { transform: translateY(-4px); }
-.stat-card .value { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
-.stat-card .label { font-size: 12px; opacity: 0.9; font-weight: 500; }
-
-/* --- Product Item --- */
-.item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-  transition: background 0.2s ease;
-}
-.item:last-child { border-bottom: 0; }
-.item-img {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  object-fit: cover;
-  background: var(--line);
-  flex-shrink: 0;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.3s ease;
-}
-.item:hover .item-img { transform: scale(1.05); }
-.item-info { flex: 1; min-width: 0; }
-.item-info b { font-size: 15px; font-weight: 600; display: block; margin-bottom: 4px; color: var(--text); }
-.price { color: var(--o); font-weight: 700; font-size: 16px; }
-.mrp { text-decoration: line-through; color: var(--muted); font-size: 12px; margin-right: 6px; font-weight: 500; }
 
 /* --- Chips --- */
 .chips {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   overflow-x: auto;
-  padding: 4px 4px 12px 4px;
+  padding: 6px 6px 16px 6px;
   scrollbar-width: none;
-  margin: 0 -4px;
+  margin: 0 -6px;
 }
 .chips::-webkit-scrollbar { display: none; }
 .chips button {
   flex: none;
-  border: 1.5px solid var(--line);
+  border: 2px solid var(--line);
   background: var(--card);
   border-radius: 50px;
-  padding: 8px 16px;
-  font-weight: 600;
-  font-size: 13px;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 14px;
   color: var(--text);
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   white-space: nowrap;
+  transform: translateZ(20px);
 }
 .chips button.on {
   background: var(--o);
   color: #fff;
   border-color: var(--o);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+  transform: translateZ(30px) scale(1.05);
 }
 
 /* --- FAB --- */
 .fab {
   position: fixed;
-  right: 16px;
-  bottom: 96px;
-  width: 56px;
-  height: 56px;
+  right: 20px;
+  bottom: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: linear-gradient(135deg, #25d366, #128c7e);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+  font-size: 30px;
+  box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
   z-index: 99;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  animation: float 3s ease-in-out infinite;
+  animation: float3d 3s ease-in-out infinite;
+  transform: translateZ(60px);
 }
-.fab:hover { transform: scale(1.1); }
+.fab:hover { transform: translateZ(80px) scale(1.1); }
 
 /* --- Responsive --- */
 @media (max-width: 480px) {
-  header h1 { font-size: 24px; }
-  .card { padding: 18px; border-radius: 20px; }
-  .grid-2, .grid-3 { grid-template-columns: 1fr 1fr; }
+  header h1 { font-size: 26px; }
+  .card { padding: 20px; border-radius: 24px; }
+  #canvas-container { width: 110px; height: 110px; right: -10px; }
 }
 </style>
 </head>
@@ -628,8 +629,8 @@ input:focus, textarea:focus, select:focus {
 <!-- Loading Screen -->
 <div class="loading-screen" id="loadingScreen">
   <div class="loader"></div>
-  <p style="margin-top:20px;font-weight:700;color:var(--o);font-size:18px">Namaste Udala</p>
-  <p class="s">Loading futuristic experience...</p>
+  <p style="margin-top:20px;font-weight:800;color:var(--o);font-size:20px; letter-spacing: 1px;">Namaste Udala</p>
+  <p class="s" style="margin-top:8px;">Loading 3D Experience...</p>
 </div>
 
 <!-- Theme Toggle -->
@@ -643,7 +644,7 @@ input:focus, textarea:focus, select:focus {
   <div class="logo">NAMASTE UDALA</div>
   <h1 id="ht">Aaj ka Plan</h1>
   <div class="tagline">Ghar jaisa khana · Roz time pe</div>
-  <div id="canvas-container"></div> <!-- 3D Element goes here -->
+  <div id="canvas-container"></div> <!-- 3D Tiffin goes here -->
   <svg class="header-wave" viewBox="0 0 1440 100" preserveAspectRatio="none">
     <path d="M0,60 C360,120 1080,0 1440,60 L1440,100 L0,100 Z"></path>
   </svg>
@@ -703,9 +704,7 @@ const IMAGES = {
   dahi: 'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=400&q=80',
   chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80',
   egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80',
-  dal: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&q=80',
-  clean: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80',
-  care: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80'
+  dal: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&q=80'
 };
 
 // ============================================================
@@ -729,51 +728,81 @@ const showToast = (message, type = 'success', duration = 3000) => {
   setTimeout(() => toast.classList.remove('show'), duration);
 };
 
-const vibrate = () => { if (navigator.vibrate) navigator.vibrate(15); };
+const vibrate = () => { if (navigator.vibrate) navigator.vibrate(20); };
 
 // ============================================================
-// THREE.JS 3D SETUP (Futuristic Tiffin Core)
+// THREE.JS 3D SETUP (REALISTIC STACKED TIFFIN)
 // ============================================================
-let scene, camera, renderer, mesh;
+let scene, camera, renderer, tiffinGroup;
 const init3D = () => {
   const container = $('#canvas-container');
   if (!container) return;
   
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-  camera.position.z = 3;
+  camera.position.z = 4;
+  camera.position.y = 0.5;
   
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(120, 120);
-  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(140, 140);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
   
-  // Futuristic glowing torus knot (represents a stylized tiffin/food core)
-  const geometry = new THREE.TorusKnotGeometry(0.8, 0.25, 64, 8);
-  const material = new THREE.MeshPhysicalMaterial({
-    color: 0xFF6B35,
-    metalness: 0.1,
-    roughness: 0.2,
-    transmission: 0.6, // Glass-like
-    thickness: 1.0,
-    emissive: 0xE85D04,
-    emissiveIntensity: 0.2
-  });
-  mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  // Create a realistic 3-tier Tiffin (Dabba)
+  tiffinGroup = new THREE.Group();
+  const colors = [0xFF6B35, 0xE85D04, 0xFCD34D]; // Orange, Dark Orange, Gold
+  
+  for(let i = 0; i < 3; i++) {
+    const radius = 0.9 - (i * 0.15);
+    const geometry = new THREE.CylinderGeometry(radius, radius, 0.35, 32);
+    const material = new THREE.MeshPhysicalMaterial({
+      color: colors[i],
+      metalness: 0.7,
+      roughness: 0.2,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.1
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.y = (i - 1) * 0.4;
+    tiffinGroup.add(mesh);
+    
+    // Add a subtle rim to each tier
+    const rimGeo = new THREE.TorusGeometry(radius + 0.02, 0.03, 8, 32);
+    const rimMat = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, metalness: 0.9, roughness: 0.1 });
+    const rim = new THREE.Mesh(rimGeo, rimMat);
+    rim.rotation.x = Math.PI / 2;
+    rim.position.y = (i - 1) * 0.4 + 0.18;
+    tiffinGroup.add(rim);
+  }
+  
+  // Add a glowing holographic ring at the base
+  const ringGeo = new THREE.TorusGeometry(1.1, 0.03, 16, 64);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x4ADE80 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI / 2;
+  ring.position.y = -0.8;
+  tiffinGroup.add(ring);
+  
+  scene.add(tiffinGroup);
   
   // Lighting
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
-  const pointLight = new THREE.PointLight(0xFCD34D, 1, 10);
-  pointLight.position.set(2, 2, 2);
-  scene.add(pointLight);
+  
+  const pointLight1 = new THREE.PointLight(0xFCD34D, 1.5, 10);
+  pointLight1.position.set(3, 3, 3);
+  scene.add(pointLight1);
+  
+  const pointLight2 = new THREE.PointLight(0xFF6B35, 1, 10);
+  pointLight2.position.set(-3, 2, 2);
+  scene.add(pointLight2);
   
   const animate = () => {
     requestAnimationFrame(animate);
-    if (mesh) {
-      mesh.rotation.x += 0.01;
-      mesh.rotation.y += 0.015;
+    if (tiffinGroup) {
+      tiffinGroup.rotation.y += 0.015;
+      // Subtle floating animation
+      tiffinGroup.position.y = Math.sin(Date.now() * 0.002) * 0.1;
     }
     renderer.render(scene, camera);
   };
@@ -785,7 +814,7 @@ const init3D = () => {
 // ============================================================
 let S = { prod: [], subs: [], orders: [], done: {}, pays: [], mset: {}, cred: {}, refs: {}, log: [] };
 try {
-  const saved = JSON.parse(localStorage.getItem('udala2'));
+  const saved = JSON.parse(localStorage.getItem('udala3d'));
   if (saved) S = { ...S, ...saved };
 } catch (e) {}
 
@@ -811,7 +840,6 @@ const F = {
   start: iso(addDays(today(), 1)), lunch: 'chawal', dinner: 'roti', extraRoti: 0
 };
 
-// Seed Products if empty
 if (S.prod.length === 0) {
   S.prod = [
     { id: 1, n: 'Doodh 500 ml', p: 30, c: 'Doodh aur dairy', s: 1, img: IMAGES.doodh, mrp: 34, nv: 0 },
@@ -828,7 +856,7 @@ if (S.prod.length === 0) {
 try {
   const app = initializeApp(CONFIG.firebase);
   db = getDatabase(app);
-  onValue(ref(db, 'udala2'), snapshot => {
+  onValue(ref(db, 'udala3d'), snapshot => {
     const v = snapshot.val();
     if (v) { S = { ...S, ...v }; render(); }
   }, { onlyOnce: false });
@@ -836,8 +864,8 @@ try {
 
 const save = () => {
   try {
-    localStorage.setItem('udala2', JSON.stringify(S));
-    if (db) set(ref(db, 'udala2'), S);
+    localStorage.setItem('udala3d', JSON.stringify(S));
+    if (db) set(ref(db, 'udala3d'), S);
   } catch (e) { console.error('Save failed:', e); }
   render();
 };
@@ -857,11 +885,6 @@ const calculatePrice = () => {
 };
 const getCredit = phone => (S.cred && S.cred[phone]) || 0;
 const isEligible = days => (+days === 15 || +days === 30);
-const isActive = (sub, date) => {
-  const k = iso(date);
-  const endDate = iso(addDays(new Date(sub.start + 'T12:00:00'), sub.days - 1));
-  return k >= sub.start && k <= endDate;
-};
 
 const getMenu = (date, type) => {
   const w = date.getDay();
@@ -888,13 +911,13 @@ const productEmoji = p => {
   return '🍛';
 };
 
-const vegIcon = type => `<span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border:2px solid ${type === 'nv' ? '#EF4444' : '#10B981'};border-radius:4px;position:relative;vertical-align:-2px;background:#fff;"><span style="width:8px;height:8px;border-radius:50%;background:${type === 'nv' ? '#EF4444' : '#10B981'};"></span></span>`;
+const vegIcon = type => `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:2px solid ${type === 'nv' ? '#EF4444' : '#10B981'};border-radius:5px;position:relative;vertical-align:-3px;background:#fff;"><span style="width:10px;height:10px;border-radius:50%;background:${type === 'nv' ? '#EF4444' : '#10B981'};"></span></span>`;
 
 const renderProduct = p => {
   const q = C[p.id] || 0;
   const emoji = productEmoji(p);
   return `<div class="item">
-    <img class="item-img" src="${p.img || ''}" alt="${esc(p.n)}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22><text y=%2232%22 x=%2216%22 font-size=%2224%22>${emoji}</text></svg>'">
+    <img class="item-img-3d" src="${p.img || ''}" alt="${esc(p.n)}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22><text y=%2240%22 x=%2216%22 font-size=%2232%22>${emoji}</text></svg>'">
     <div class="item-info">
       <b>${esc(p.n)}</b>
       <div class="s">${p.mrp ? `<span class="mrp">MRP ₹${p.mrp}</span>` : ''}<span class="price">${inr(p.p)}</span></div>
@@ -927,17 +950,16 @@ const VIEWS = {
     const total = planPrice + addonTotal - discount;
     
     return `
-      <div class="card card-3d" style="background:#000;color:#fff;border:none;overflow:hidden;padding:0;min-height:220px">
-        <!-- Cinematic Video Background -->
-        <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.6" poster="${IMAGES.hero}">
+      <div class="card card-3d" style="background:#000;color:#fff;border:none;overflow:hidden;padding:0;min-height:240px">
+        <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.5" poster="${IMAGES.hero}">
           <source src="https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4" type="video/mp4">
         </video>
-        <div class="card-content" style="position:relative;z-index:2;padding:24px;background:linear-gradient(to top, rgba(0,0,0,0.8), transparent)">
-          <h3 style="color:#fff;margin:0">${greet}</h3>
-          <p style="font-size:22px;font-weight:800;margin:8px 0;line-height:1.3">Ghar jaisa khana,<br>Roz time pe 🍱</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-            <span style="background:rgba(255,255,255,.2);backdrop-filter:blur(10px);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:600">⭐ 4.5 Rating</span>
-            <span style="background:rgba(255,255,255,.2);backdrop-filter:blur(10px);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:600">🛵 30-40 min</span>
+        <div class="card-content" style="position:relative;z-index:2;padding:28px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent)">
+          <h3 style="color:#fff;margin:0;font-size:20px">${greet}</h3>
+          <p style="font-size:26px;font-weight:800;margin:10px 0;line-height:1.3; text-shadow: 0 4px 12px rgba(0,0,0,0.5);">Ghar jaisa khana,<br>Roz time pe 🍱</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+            <span style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:8px 14px;border-radius:24px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,0.2)">⭐ 4.5 Rating</span>
+            <span style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:8px 14px;border-radius:24px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,0.2)">🛵 30-40 min</span>
           </div>
         </div>
       </div>
@@ -945,7 +967,7 @@ const VIEWS = {
       <div class="card card-3d">
         <div class="card-content">
         <h3>🍽️ Aaj ka Menu</h3>
-        <div class="s" style="font-weight:700;color:var(--o);font-size:14px;margin:8px 0">${getMenu(t, F.type)}</div>
+        <div class="s" style="font-weight:700;color:var(--o);font-size:15px;margin:10px 0">${getMenu(t, F.type)}</div>
         
         <div class="s">Khana type:</div>
         <div class="seg">
@@ -968,25 +990,25 @@ const VIEWS = {
         <button class="btn g" data-a="cust">${CUST ? '▲ Customize band karo' : '▼ Customize karo'}</button>
         
         ${CUST ? `
-          <div class="s" style="margin-top:12px">Area:</div>
+          <div class="s" style="margin-top:14px">Area:</div>
           <input data-f="area" maxlength="40" placeholder="Area/Locality" value="${esc(F.area)}">
           <div class="s">Full address:</div>
           <input data-f="addr" maxlength="120" placeholder="House no, Street, Landmark" value="${esc(F.addr)}">
-          <div class="s" style="margin-top:12px">Payment method:</div>
+          <div class="s" style="margin-top:14px">Payment method:</div>
           <div class="seg">
             <button class="${F.pay === 'cash' ? 'on' : ''}" data-a="set" data-k="pay" data-v="cash">💵 Cash</button>
             <button class="${F.pay === 'online' ? 'on' : ''}" data-a="set" data-k="pay" data-v="online">📲 UPI</button>
           </div>
         ` : ''}
         
-        <div style="margin-top:16px;padding-top:12px;border-top:2px solid var(--line)">
-          <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:800;margin-top:12px;">
+        <div style="margin-top:20px;padding-top:16px;border-top:2px dashed var(--line)">
+          <div style="display:flex;justify-content:space-between;font-size:24px;font-weight:800;">
             <span>Total</span>
             <span style="color:var(--o)">${inr(total)}</span>
           </div>
         </div>
         
-        <button class="btn" data-a="join" style="font-size:17px;padding:16px;margin-top:16px">✅ Plan shuru karo</button>
+        <button class="btn" data-a="join" style="font-size:18px;padding:18px;margin-top:20px">✅ Plan shuru karo</button>
         </div>
       </div>
     `;
@@ -1013,18 +1035,18 @@ const VIEWS = {
     
     const productList = Object.entries(grouped).map(([cat, prods]) => `
       <div class="card card-3d"><div class="card-content"><h3>${esc(cat)}</h3>${prods.map(renderProduct).join('')}</div></div>
-    `).join('') || `<div class="card"><div style="text-align:center;padding:40px 20px;color:var(--muted)"><div style="font-size:48px;margin-bottom:16px">🔍</div><h4>Kuch nahi mila</h4></div></div>`;
+    `).join('') || `<div class="card"><div style="text-align:center;padding:40px 20px;color:var(--muted)"><div style="font-size:56px;margin-bottom:16px; animation: float3d 3s infinite">🔍</div><h4>Kuch nahi mila</h4></div></div>`;
     
     return `
       <div class="card card-3d" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none">
         <div class="card-content">
         <h3 style="color:#fff">🛒 Ghar ka Saaman</h3>
-        <p style="opacity:.9;font-size:14px">Khana, doodh, kirana, premium brands</p>
+        <p style="opacity:.9;font-size:15px">Khana, doodh, kirana, premium brands</p>
         </div>
       </div>
       
-      <div style="position:relative;margin-bottom:12px">
-        <input id="sq" maxlength="30" placeholder="🔍 Search products..." value="${esc(SQ)}" style="padding-right:50px">
+      <div style="position:relative;margin-bottom:16px">
+        <input id="sq" maxlength="30" placeholder="🔍 Search products (e.g., Doodh)..." value="${esc(SQ)}" style="padding-right:60px">
         <button class="voice-btn" id="voiceBtn" data-a="voice" title="Voice Search">🎤</button>
       </div>
       
@@ -1039,20 +1061,20 @@ const VIEWS = {
       ${count > 0 ? `
         <div class="cart-bar">
           <div>
-            <div style="font-size:12px;opacity:.8;font-weight:600">🛒 ${count} items</div>
-            <div style="font-size:20px;font-weight:800;color:var(--o)">${inr(total)}</div>
+            <div style="font-size:13px;opacity:.8;font-weight:700">🛒 ${count} items</div>
+            <div style="font-size:22px;font-weight:800;color:var(--o)">${inr(total)}</div>
           </div>
-          <button class="btn g" data-a="order" style="margin:0;width:auto">Checkout ↓</button>
+          <button class="btn g" data-a="order" style="margin:0;width:auto;padding: 14px 24px;">Checkout ↓</button>
         </div>
       ` : ''}
     `;
   },
   
-  kitchen: () => `<div class="card"><h3>👨‍🍳 Kitchen View</h3><p class="s">Owner access required for full kitchen stats.</p></div>`,
-  delivery: () => `<div class="card"><h3>🛵 Delivery View</h3><p class="s">Owner access required.</p></div>`,
+  kitchen: () => `<div class="card card-3d"><div class="card-content"><h3>👨‍🍳 Kitchen View</h3><p class="s">Owner access required for full 3D kitchen stats.</p></div></div>`,
+  delivery: () => `<div class="card card-3d"><div class="card-content"><h3>🛵 Delivery View</h3><p class="s">Owner access required.</p></div></div>`,
   owner: () => {
-    if (!OK) return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 baar tap karo PIN ke liye.</p></div>`;
-    return `<div class="card"><h3>📊 Dashboard</h3><p class="s">Welcome, Owner. Full analytics loaded.</p><button class="btn r" data-a="out" style="margin-top:12px">🚪 Logout</button></div>`;
+    if (!OK) return `<div class="card card-3d"><div class="card-content"><h3>🔒 Owner Access</h3><p class="s">Header par 5 baar tap karo PIN ke liye.</p></div></div>`;
+    return `<div class="card card-3d"><div class="card-content"><h3>📊 3D Dashboard</h3><p class="s">Welcome, Owner. Full analytics loaded.</p><button class="btn r" data-a="out" style="margin-top:16px">🚪 Logout</button></div></div>`;
   }
 };
 
@@ -1063,7 +1085,7 @@ const render = () => {
   if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
   try {
     $('#v').innerHTML = VIEWS[tab]();
-    $('#ht').textContent = { plan: 'Aaj ka Plan', shop: 'Shop', kitchen: 'Kitchen', delivery: 'Delivery', owner: 'Owner Dashboard' }[tab];
+    $('#ht').textContent = { plan: 'Aaj ka Plan', shop: '3D Shop', kitchen: 'Kitchen', delivery: 'Delivery', owner: 'Owner Dashboard' }[tab];
     
     const navItems = [
       ['plan', '🍱 Plan', IMAGES.thali],
@@ -1077,17 +1099,16 @@ const render = () => {
       .filter(x => OK || x[0] === 'plan' || x[0] === 'shop')
       .map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" alt="${x[1]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
       
-    // Re-attach 3D tilt listeners after render
     attachTiltListeners();
   } catch (e) {
     console.error('Render error:', e);
     $('#v').innerHTML = `<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(e.message)}</p></div>`;
   }
-  setTimeout(() => $('#loadingScreen').classList.add('hide'), 600);
+  setTimeout(() => $('#loadingScreen').classList.add('hide'), 800);
 };
 
 // ============================================================
-// 3D TILT EFFECT LOGIC
+// 3D TILT EFFECT LOGIC (ENHANCED)
 // ============================================================
 const attachTiltListeners = () => {
   document.querySelectorAll('.card-3d').forEach(card => {
@@ -1099,11 +1120,28 @@ const attachTiltListeners = () => {
       card.style.setProperty('--mouse-y', `${y}px`);
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -4;
-      const rotateY = ((x - centerX) / centerX) * 4;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
     });
     card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+    });
+    
+    // Mobile touch support for 3D tilt
+    card.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      const rect = card.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    }, { passive: true });
+    
+    card.addEventListener('touchend', () => {
       card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
     });
   });
@@ -1124,7 +1162,7 @@ const ACTIONS = {
         return;
       }
     }
-    tab = v; render(); window.scrollTo(0, 0);
+    tab = v; render(); window.scrollTo({ top: 0, behavior: 'smooth' });
   },
   set: (v, k) => { F[k] = v; render(); },
   inc: (v, k, id) => { vibrate(); C[id] = clamp((C[id] || 0) + 1, 0, 99); render(); },
@@ -1138,7 +1176,7 @@ const ACTIONS = {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
-      recognition.lang = 'hi-IN'; // Supports Hindi and English
+      recognition.lang = 'hi-IN';
       recognition.start();
       
       const btn = $('#voiceBtn');
@@ -1163,7 +1201,7 @@ const ACTIONS = {
         if (btn) btn.classList.remove('listening');
       };
     } else {
-      showToast('❌ Voice search is not supported in this browser', 'error');
+      showToast('❌ Voice search not supported', 'error');
     }
   },
   
@@ -1215,7 +1253,7 @@ const ACTIONS = {
 document.addEventListener('click', e => {
   const btn = e.target.closest('[data-a]');
   if (!btn) return;
-  vibrate(); // Haptic feedback on all button clicks
+  vibrate();
   const action = ACTIONS[btn.dataset.a];
   if (action) {
     try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } 
@@ -1226,7 +1264,6 @@ document.addEventListener('click', e => {
 const handleSearch = debounce(e => {
   if (e.target.id === 'sq') {
     SQ = e.target.value;
-    // Re-render shop view to filter (simplified for performance)
     if (tab === 'shop') render();
   }
 }, 400);
@@ -1240,7 +1277,6 @@ document.addEventListener('input', e => {
   handleSearch(e);
 });
 
-// Header tap for owner access
 let tapCount = 0;
 $('#mainHeader').addEventListener('click', () => {
   tapCount++;
@@ -1275,10 +1311,10 @@ $('#themeToggle').addEventListener('click', () => {
 });
 
 initTheme();
-init3D(); // Start 3D animation
+init3D(); // Start 3D Tiffin animation
 render();
 
-console.log('🍱 Namaste Udala 3.0 Futuristic Edition loaded!');
+console.log('🍱 Namaste Udala Full 3D Edition loaded!');
 </script>
 </body>
 </html>
