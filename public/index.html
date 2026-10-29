@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#1B4332">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>🍱 Namaste Udala 6.0 - Ultimate 3D</title>
+<title>🍱 Namaste Udala 6.0 - Ultimate</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script type="importmap">
   { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
@@ -88,7 +88,11 @@ input:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(
 </head>
 <body>
 
-<div class="loading-screen" id="loadingScreen"><div class="loader"></div><p style="margin-top:16px;font-weight:800;color:var(--o);font-size:18px">Namaste Udala 6.0</p></div>
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader"></div>
+  <p style="margin-top:16px;font-weight:800;color:var(--o);font-size:18px">Namaste Udala 6.0</p>
+  <p class="s" style="margin-top:8px">Loading...</p>
+</div>
 <button class="theme-toggle" id="themeToggle">🌙</button>
 <div class="toast" id="toast"></div>
 
@@ -114,13 +118,13 @@ const PRICING = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 3
 const IMAGES = { thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80', grocery: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80', kitchen: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80', scooter: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80', money: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80', doodh: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80', paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80', chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80', roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80', chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80', hul: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&q=80' };
 
 let S = { prod: [], subs: [], orders: [], expenses: [], pays: [], kopt: {}, mset: {}, done: {}, dailyVideo: 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4' };
-try { const saved = localStorage.getItem('udala6'); if (saved) S = { ...S, ...JSON.parse(saved) }; } catch (e) {}
+try { const saved = localStorage.getItem('udala6'); if (saved) S = { ...S, ...JSON.parse(saved) }; } catch (e) { console.warn('Local storage parse error', e); }
 
 let db = null, tab = 'plan', C = {}, OK = 0;
 try { OK = sessionStorage.getItem('udok') ? 1 : 0; } catch (e) {}
 const F = { type: 'veg', days: '30', name: '', phone: '', area: '', addr: '', mapLink: '' };
 
-if (S.prod.length === 0) {
+if (!S.prod || S.prod.length === 0) {
   S.prod = [
     { id: 1, n: 'Doodh 500 ml', p: 30, c: 'Dairy', img: IMAGES.doodh, nv: 0 },
     { id: 2, n: 'Paneer 200 g', p: 80, c: 'Dairy', img: IMAGES.paneer, nv: 0 },
@@ -155,7 +159,7 @@ try {
       render(); 
     } 
   });
-} catch (e) { console.log('Offline mode'); }
+} catch (e) { console.log('Offline mode active'); }
 
 const save = () => { 
   localStorage.setItem('udala6', JSON.stringify(S)); 
@@ -163,71 +167,81 @@ const save = () => {
     update(ref(db, 'udala2'), {
       prod: S.prod, subs: S.subs, orders: S.orders, expenses: S.expenses || [], 
       pays: S.pays || [], kopt: S.kopt || {}, mset: S.mset || {}, done: S.done || {}, dailyVideo: S.dailyVideo || ''
-    });
+    }).catch(err => console.error("Firebase save error:", err));
   }
   render(); 
 };
 
 const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const iso = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
 const todayStr = () => iso(new Date());
 const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
 const cleanPhone = s => String(s || '').replace(/\D/g, '').slice(-10);
-const showToast = (msg, type = 'success') => { const t = $('#toast'); t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3000); };
+const showToast = (msg, type = 'success') => { const t = $('#toast'); if(t) { t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3000); } };
 const vibrate = () => { if (navigator.vibrate) navigator.vibrate(20); };
+
+const hideLoading = () => {
+  const ls = $('#loadingScreen');
+  if (ls) setTimeout(() => ls.classList.add('hide'), 600);
+};
 
 let scene, camera, renderer, vegModel, nvModel, currentModel;
 const init3D = () => {
-  const container = $('#canvas-container');
-  if (!container) return;
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-  camera.position.z = 4;
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(140, 140);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  container.appendChild(renderer.domElement);
-  
-  vegModel = new THREE.Group();
-  const plate = new THREE.Mesh(new THREE.CylinderGeometry(1, 0.8, 0.15, 32), new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.9, roughness: 0.3 }));
-  vegModel.add(plate);
-  const rice = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24), new THREE.MeshStandardMaterial({ color: 0xFFFDD0, roughness: 0.8 }));
-  rice.position.set(-0.35, 0.25, 0); vegModel.add(rice);
-  const dal = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24), new THREE.MeshStandardMaterial({ color: 0xFFA500, roughness: 0.6 }));
-  dal.position.set(0.35, 0.25, 0); vegModel.add(dal);
-  const roti = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.05, 16), new THREE.MeshStandardMaterial({ color: 0xD4A574, roughness: 0.9 }));
-  roti.position.set(0, 0.15, 0.4); roti.rotation.x = 0.2; vegModel.add(roti);
+  try {
+    const container = $('#canvas-container');
+    if (!container) return;
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.z = 4;
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(140, 140);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+    
+    vegModel = new THREE.Group();
+    const plate = new THREE.Mesh(new THREE.CylinderGeometry(1, 0.8, 0.15, 32), new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.9, roughness: 0.3 }));
+    vegModel.add(plate);
+    const rice = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24), new THREE.MeshStandardMaterial({ color: 0xFFFDD0, roughness: 0.8 }));
+    rice.position.set(-0.35, 0.25, 0); vegModel.add(rice);
+    const dal = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24), new THREE.MeshStandardMaterial({ color: 0xFFA500, roughness: 0.6 }));
+    dal.position.set(0.35, 0.25, 0); vegModel.add(dal);
+    const roti = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.05, 16), new THREE.MeshStandardMaterial({ color: 0xD4A574, roughness: 0.9 }));
+    roti.position.set(0, 0.15, 0.4); roti.rotation.x = 0.2; vegModel.add(roti);
 
-  nvModel = new THREE.Group();
-  const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 0.8, 8, 16), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.5, metalness: 0.1 }));
-  leg.rotation.z = Math.PI / 4; nvModel.add(leg);
-  const bone = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.4, 8), new THREE.MeshStandardMaterial({ color: 0xFFFFF0, roughness: 0.4 }));
-  bone.position.set(-0.35, -0.35, 0); bone.rotation.z = Math.PI / 4; nvModel.add(bone);
-  
-  currentModel = vegModel;
-  scene.add(currentModel);
-  
-  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-  const pl1 = new THREE.PointLight(0xFCD34D, 2, 10); pl1.position.set(3, 3, 3); scene.add(pl1);
-  const pl2 = new THREE.PointLight(0xFF6B35, 1, 10); pl2.position.set(-3, -2, 2); scene.add(pl2);
-  
-  container.addEventListener('mousemove', (e) => {
-    const rect = container.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    if(currentModel) { currentModel.rotation.y = x * 0.5; currentModel.rotation.x = y * 0.3; }
-  });
-  container.addEventListener('mouseleave', () => {
-    if(currentModel) { currentModel.rotation.x = 0; currentModel.rotation.y = 0; }
-  });
+    nvModel = new THREE.Group();
+    const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 0.8, 8, 16), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.5, metalness: 0.1 }));
+    leg.rotation.z = Math.PI / 4; nvModel.add(leg);
+    const bone = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.4, 8), new THREE.MeshStandardMaterial({ color: 0xFFFFF0, roughness: 0.4 }));
+    bone.position.set(-0.35, -0.35, 0); bone.rotation.z = Math.PI / 4; nvModel.add(bone);
+    
+    currentModel = vegModel;
+    scene.add(currentModel);
+    
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    const pl1 = new THREE.PointLight(0xFCD34D, 2, 10); pl1.position.set(3, 3, 3); scene.add(pl1);
+    const pl2 = new THREE.PointLight(0xFF6B35, 1, 10); pl2.position.set(-3, -2, 2); scene.add(pl2);
+    
+    container.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      if(currentModel) { currentModel.rotation.y = x * 0.5; currentModel.rotation.x = y * 0.3; }
+    });
+    container.addEventListener('mouseleave', () => {
+      if(currentModel) { currentModel.rotation.x = 0; currentModel.rotation.y = 0; }
+    });
 
-  const animate = () => {
-    requestAnimationFrame(animate);
-    if (currentModel) { currentModel.position.y = Math.sin(Date.now() * 0.002) * 0.1; }
-    renderer.render(scene, camera);
-  };
-  animate();
+    const animate = () => {
+      requestAnimationFrame(animate);
+      if (currentModel) { currentModel.position.y = Math.sin(Date.now() * 0.002) * 0.1; }
+      renderer.render(scene, camera);
+    };
+    animate();
+  } catch (err) {
+    console.error("3D Init Error:", err);
+  }
 };
 
 const switch3DModel = (type) => {
@@ -289,10 +303,10 @@ const VIEWS = {
       </div>
       <div class="card card-3d">
         <div class="card-content">
-          ${S.prod.map(p => {
+          ${(S.prod || []).map(p => {
             const q = C[p.id] || 0;
             return `<div class="item">
-              <img class="item-img" src="${p.img}" onerror="this.style.display='none'">
+              <img class="item-img" src="${p.img || ''}" onerror="this.style.display='none'">
               <div class="item-info"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} ${p.nv ? '· 🔴 Non-Veg' : ''}</div><div class="price">${inr(p.p)}</div></div>
               ${q > 0 ? `<div class="qty-ctrl"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}
             </div>`;
@@ -306,7 +320,7 @@ const VIEWS = {
     if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
     const tStr = todayStr();
     let veg = 0, nv = 0, roti = 0;
-    S.subs.forEach(sub => {
+    (S.subs || []).forEach(sub => {
       const end = new Date(sub.start || sub.startDate); end.setDate(end.getDate() + sub.days - 1);
       const startStr = sub.start || sub.startDate;
       if (tStr >= startStr && tStr <= iso(end) && sub.status === 'active') {
@@ -331,7 +345,7 @@ const VIEWS = {
 
   delivery: () => {
     if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
-    const pending = S.orders.filter(o => o.status === 'pending');
+    const pending = (S.orders || []).filter(o => o.status === 'pending');
     return `
       <div class="card card-3d">
         <div class="card-content">
@@ -341,7 +355,7 @@ const VIEWS = {
               <div class="item" style="flex-direction:column;align-items:flex-start;gap:10px">
                 <div style="display:flex;justify-content:space-between;width:100%"><b>${esc(o.name)}</b><span class="badge pending">Pending</span></div>
                 <div class="s">📍 ${esc(o.area || 'Udala')} | 📱 ${o.phone}</div>
-                <div class="s">📦 ${o.items.map(i=>`${i.n} x${i.q}`).join(', ')}</div>
+                <div class="s">📦 ${(o.items||[]).map(i=>`${i.n} x${i.q}`).join(', ')}</div>
                 <div class="s" style="font-weight:800;color:var(--o)">💰 ${inr(o.total)}</div>
                 <div style="display:flex;gap:8px;width:100%;margin-top:10px;flex-wrap:wrap">
                   ${o.map ? `<a href="${o.map}" target="_blank" class="btn sm b" style="flex:1;text-align:center;text-decoration:none">🗺️ Maps</a>` : ''}
@@ -419,22 +433,27 @@ const VIEWS = {
 };
 
 const render = () => {
-  if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
-  $('#v').innerHTML = VIEWS[tab]();
-  $('#ht').textContent = { plan: 'Aaj ka Plan', shop: 'Shop', kitchen: 'Kitchen', delivery: 'Delivery', owner: 'Admin Panel' }[tab];
-  
-  const navItems = [['plan', '🍱 Plan', IMAGES.thali], ['shop', '🛒 Shop', IMAGES.grocery], ['kitchen', '👨‍🍳 Kitchen', IMAGES.kitchen], ['delivery', '🛵 Delivery', IMAGES.scooter], ['owner', '👤 Admin', IMAGES.money]];
-  $('#nav').innerHTML = navItems.filter(x => OK || x[0] === 'plan' || x[0] === 'shop').map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
+  try {
+    if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
+    $('#v').innerHTML = VIEWS[tab]();
+    $('#ht').textContent = { plan: 'Aaj ka Plan', shop: 'Shop', kitchen: 'Kitchen', delivery: 'Delivery', owner: 'Admin Panel' }[tab];
     
-  $$('.card-3d').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const rx = ((e.clientY - r.top - r.height/2)/(r.height/2))*-5, ry = ((e.clientX - r.left - r.width/2)/(r.width/2))*5;
-      card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02, 1.02, 1.02)`;
+    const navItems = [['plan', '🍱 Plan', IMAGES.thali], ['shop', '🛒 Shop', IMAGES.grocery], ['kitchen', '👨‍🍳 Kitchen', IMAGES.kitchen], ['delivery', '🛵 Delivery', IMAGES.scooter], ['owner', '👤 Admin', IMAGES.money]];
+    $('#nav').innerHTML = navItems.filter(x => OK || x[0] === 'plan' || x[0] === 'shop').map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><img src="${x[2]}" onerror="this.style.opacity=0">${x[1]}</div>`).join('');
+      
+    $$('.card-3d').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const rx = ((e.clientY - r.top - r.height/2)/(r.height/2))*-5, ry = ((e.clientX - r.left - r.width/2)/(r.width/2))*5;
+        card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'; });
     });
-    card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'; });
-  });
-  setTimeout(() => $('#loadingScreen').classList.add('hide'), 600);
+  } catch (err) {
+    console.error("Render Error:", err);
+  } finally {
+    hideLoading();
+  }
 };
 
 const ACTIONS = {
@@ -534,7 +553,7 @@ const ACTIONS = {
   
   delProd: (v, k, id) => {
     vibrate();
-    if (confirm('Delete this product?')) { S.prod = S.prod.filter(p => p.id != id); save(); showToast('🗑️ Deleted'); }
+    if (confirm('Delete this product?')) { S.prod = (S.prod || []).filter(p => p.id != id); save(); showToast('🗑️ Deleted'); }
   },
 
   addExpense: () => {
@@ -550,7 +569,7 @@ const ACTIONS = {
 
   markDelivered: (v, k, id) => {
     vibrate();
-    const order = S.orders.find(o => o.id == id);
+    const order = (S.orders || []).find(o => o.id == id);
     if (order) { order.status = 'delivered'; save(); showToast('✅ Delivered!'); }
   },
   
@@ -571,33 +590,56 @@ document.addEventListener('input', e => {
 });
 
 let tapCount = 0;
-$('#mainHeader').addEventListener('click', () => {
-  tapCount++;
-  if (tapCount >= 5) {
-    tapCount = 0;
-    const pin = prompt('Owner PIN:');
-    if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); tab = 'owner'; render(); showToast('🔓 Admin Access Granted'); }
-    else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); }
-  }
-});
+const headerEl = $('#mainHeader');
+if(headerEl) {
+  headerEl.addEventListener('click', () => {
+    tapCount++;
+    if (tapCount >= 5) {
+      tapCount = 0;
+      const pin = prompt('Owner PIN:');
+      if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); tab = 'owner'; render(); showToast('🔓 Admin Access Granted'); }
+      else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); }
+    }
+  });
+}
 
 const initTheme = () => {
-  const saved = localStorage.getItem('ud_theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
-  $('#themeToggle').textContent = saved === 'dark' ? '☀️' : '🌙';
+  try {
+    const saved = localStorage.getItem('ud_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    const toggle = $('#themeToggle');
+    if(toggle) toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+  } catch(e) {}
 };
-$('#themeToggle').addEventListener('click', () => {
-  vibrate();
-  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('ud_theme', next);
-  $('#themeToggle').textContent = next === 'dark' ? '☀️' : '🌙';
-});
 
-initTheme();
-init3D();
-render();
-console.log('🍱 Namaste Udala 6.0 Ultimate 3D Loaded!');
+const themeToggle = $('#themeToggle');
+if(themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    vibrate();
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('ud_theme', next);
+    themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+}
+
+// 🛡️ BULLETPROOF INITIALIZATION
+try {
+  initTheme();
+  init3D();
+  render();
+  console.log('🍱 Namaste Udala 6.0 Loaded!');
+} catch (err) {
+  console.error("Fatal Initialization Error:", err);
+  hideLoading();
+  $('#v').innerHTML = `
+    <div class="card" style="border: 2px solid var(--danger); text-align: center; padding: 30px;">
+      <h3 style="color: var(--danger)">❌ App Load Nahi Ho Raha</h3>
+      <p class="s" style="margin: 15px 0; color: var(--text)">${err.message}</p>
+      <button class="btn r" onclick="localStorage.clear(); sessionStorage.clear(); location.reload();">🗑️ Data Clear Karke Refresh Karein</button>
+    </div>
+  `;
+}
 </script>
 </body>
 </html>
