@@ -12,7 +12,7 @@
   { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
 <style>
-:root { --o: #FF6B35; --o-dark: #E85D04; --g: #1B4332; --g-light: #2D6A4F; --bg: #FAFAFA; --text: #1A1A1A; --muted: #6B7280; --card: #FFFFFF; --line: #F3F4F6; --success: #10B981; --danger: #EF4444; --shadow-md: 0 8px 24px rgba(0,0,0,0.06); --shadow-lg: 0 16px 40px rgba(0,0,0,0.08); --glass: rgba(255, 255, 255, 0.85); }
+:root { --o: #FF6B35; --o-dark: #E85D04; --g: #1B4332; --g-light: #2D6A4F; --bg: #FAFAFA; --text: #1A1A1A; --muted: #6B7280; --card: #FFFFFF; --line: #F3F4F6; --success: #10B981; --danger: #EF4444; --info: #3B82F6; --shadow-md: 0 8px 24px rgba(0,0,0,0.06); --shadow-lg: 0 16px 40px rgba(0,0,0,0.08); --glass: rgba(255, 255, 255, 0.85); }
 [data-theme="dark"] { --bg: #0A0A0A; --text: #F9FAFB; --muted: #9CA3AF; --card: #161616; --line: #2A2A2A; --shadow-md: 0 8px 24px rgba(0,0,0,0.4); --shadow-lg: 0 16px 40px rgba(0,0,0,0.5); --glass: rgba(22, 22, 22, 0.85); }
 * { box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
@@ -106,15 +106,17 @@ input:focus { outline: none; border-color: var(--o); box-shadow: 0 0 0 4px rgba(
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+import { getDatabase, ref, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 import * as THREE from 'three';
 
 const CONFIG = { firebase: { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", authDomain: "namaste-udala.firebaseapp.com", projectId: "namaste-udala", storageBucket: "namaste-udala.firebasestorage.app", messagingSenderId: "998684348165", appId: "1:998684348165:web:4bb0d2f5335a90a394716c" }, whatsapp: '919583937047', ownerPin: '4821' };
 const PRICING = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
 const IMAGES = { thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80', grocery: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80', kitchen: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80', scooter: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80', money: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80', doodh: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80', paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80', chai: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80', roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80', chicken: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80', hul: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&q=80' };
 
-let S = { prod: [], subs: [], orders: [], expenses: [], pays: [], kopt: {}, mset: {}, done: {} };
+// ✅ FIX: Added dailyVideo to initial state
+let S = { prod: [], subs: [], orders: [], expenses: [], pays: [], kopt: {}, mset: {}, done: {}, dailyVideo: 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4' };
 try { const saved = localStorage.getItem('udala6'); if (saved) S = { ...S, ...JSON.parse(saved) }; } catch (e) {}
+
 let db = null, tab = 'plan', C = {}, OK = 0;
 try { OK = sessionStorage.getItem('udok') ? 1 : 0; } catch (e) {}
 const F = { type: 'veg', days: '30', name: '', phone: '', area: '', addr: '', mapLink: '' };
@@ -136,7 +138,6 @@ if (S.prod.length === 0) {
 try {
   const app = initializeApp(CONFIG.firebase);
   db = getDatabase(app);
-  // FIXED: Read from udala2 to preserve all your old data
   onValue(ref(db, 'udala2'), snapshot => { 
     const v = snapshot.val(); 
     if (v) { 
@@ -149,26 +150,35 @@ try {
         pays: v.pays || [],
         kopt: v.kopt || {},
         mset: v.mset || {},
-        done: v.done || {}
+        done: v.done || {},
+        dailyVideo: v.dailyVideo || S.dailyVideo
       }; 
       render(); 
     } 
   });
 } catch (e) { console.log('Offline mode'); }
 
+// ✅ FIX: Added all missing fields (kopt, mset, done, dailyVideo) to Firebase update
 const save = () => { 
   localStorage.setItem('udala6', JSON.stringify(S)); 
   if (db) {
-    // FIXED: Use update instead of set to preserve kitchen tracking data
     update(ref(db, 'udala2'), {
-      prod: S.prod, subs: S.subs, orders: S.orders, expenses: S.expenses || [], pays: S.pays || []
+      prod: S.prod, 
+      subs: S.subs, 
+      orders: S.orders, 
+      expenses: S.expenses || [], 
+      pays: S.pays || [],
+      kopt: S.kopt || {},
+      mset: S.mset || {},
+      done: S.done || {},
+      dailyVideo: S.dailyVideo || ''
     });
   }
   render(); 
 };
 
 const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s); // FIXED: Added missing $$ selector
+const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const iso = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
 const todayStr = () => iso(new Date());
@@ -190,7 +200,7 @@ const init3D = () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
   
-  // Advanced Veg Thali Model (Brass plate with realistic food domes)
+  // Advanced Veg Thali Model
   vegModel = new THREE.Group();
   const plate = new THREE.Mesh(new THREE.CylinderGeometry(1, 0.8, 0.15, 32), new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.9, roughness: 0.3 }));
   vegModel.add(plate);
@@ -201,7 +211,7 @@ const init3D = () => {
   const roti = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.05, 16), new THREE.MeshStandardMaterial({ color: 0xD4A574, roughness: 0.9 }));
   roti.position.set(0, 0.15, 0.4); roti.rotation.x = 0.2; vegModel.add(roti);
 
-  // Advanced Non-Veg Model (Chicken leg with bone)
+  // Advanced Non-Veg Model
   nvModel = new THREE.Group();
   const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 0.8, 8, 16), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.5, metalness: 0.1 }));
   leg.rotation.z = Math.PI / 4; nvModel.add(leg);
@@ -233,7 +243,6 @@ const init3D = () => {
   const animate = () => {
     requestAnimationFrame(animate);
     if (currentModel) { 
-      // Gentle idle float and rotation if not being hovered
       currentModel.position.y = Math.sin(Date.now() * 0.002) * 0.1; 
     }
     renderer.render(scene, camera);
@@ -243,7 +252,7 @@ const init3D = () => {
 
 const switch3DModel = (type) => {
   if (!scene || !currentModel) return;
-  currentModel.rotation.x = 0; currentModel.rotation.y = 0; // Reset rotation
+  currentModel.rotation.x = 0; currentModel.rotation.y = 0;
   scene.remove(currentModel);
   currentModel = type === 'nv' ? nvModel : vegModel;
   scene.add(currentModel);
@@ -254,7 +263,7 @@ const VIEWS = {
   plan: () => {
     switch3DModel(F.type);
     const price = PRICING[F.type][F.days] || 2899;
-    const vid = (S.dailyVideo || 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4');
+    const vid = S.dailyVideo || 'https://assets.mixkit.co/videos/preview/mixkit-steam-rising-from-a-hot-meal-4327-large.mp4';
     return `
       <div class="card" style="background:#000;color:#fff;padding:0;overflow:hidden;min-height:220px">
         <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.6">
