@@ -4,358 +4,444 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1B4332">
-<title>🍱 Namaste Udala - Business Logic Fixed</title>
+<title>🍱 Namaste Udala - FINAL</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root { --o: #FF6B35; --g: #1B4332; --bg: #FAFAFA; --text: #1A1A1A; --muted: #6B7280; --card: #FFFFFF; --line: #F3F4F6; --success: #10B981; --danger: #EF4444; --warning: #F59E0B; }
-* { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; }
-header { background: linear-gradient(135deg, var(--g) 0%, #0F2C21 100%); color: #fff; padding: 24px 20px 40px; border-radius: 0 0 32px 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-header .logo { font-size: 11px; letter-spacing: 3px; font-weight: 800; color: #FCD34D; text-transform: uppercase; }
-header h1 { font-size: 24px; font-weight: 900; margin-top: 6px; }
-header .tagline { font-size: 13px; opacity: 0.9; margin-top: 4px; }
-#v { padding: 0 16px; margin-top: -20px; position: relative; z-index: 1; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); animation: rise 0.4s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.card h3 { color: var(--g); font-size: 17px; font-weight: 800; margin-bottom: 14px; }
-.s { font-size: 13px; color: var(--muted); line-height: 1.5; }
-.btn { padding: 14px; border-radius: 14px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%; margin-top: 10px; background: var(--o); color: #fff; transition: transform 0.1s; }
-.btn:active { transform: scale(0.97); }
-.btn.g { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
-.btn.r { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
-.btn.b { background: #3B82F6; color: #fff; }
-.btn.sm { padding: 8px 14px; font-size: 12px; width: auto; margin: 0; border-radius: 10px; }
-input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid var(--line); border-radius: 14px; margin: 6px 0 12px; font-size: 15px; background: var(--bg); color: var(--text); font-family: inherit; }
-input:focus, textarea:focus { outline: none; border-color: var(--o); }
-.nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 10px 0 15px; z-index: 100; }
-.nav div { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); flex: 1; cursor: pointer; }
-.nav div.on { color: var(--o); }
-.nav div span { font-size: 22px; display: block; margin-bottom: 2px; }
-.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-.badge.pending { background: #FEF3C7; color: #92400E; }
-.badge.active { background: #D1FAE5; color: #065F46; }
-.badge.trial { background: #DBEAFE; color: #1E40AF; }
-.badge.expired { background: #F3F4F6; color: #4B5563; }
-.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1F2937; color: #fff; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; z-index: 1000; opacity: 0; transition: all 0.3s; }
-.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-.toast.error { background: var(--danger); }
-.progress-bar { width: 100%; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin: 10px 0; }
-.progress-fill { height: 100%; background: var(--success); transition: width 0.5s ease; }
-.fab { position: fixed; right: 16px; bottom: 90px; width: 50px; height: 50px; border-radius: 50%; background: #25d366; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; box-shadow: 0 4px 15px rgba(37,211,102,0.4); }
+:root{--o:#FF6B35;--g:#1B4332;--bg:#FAFAFA;--text:#1A1A1A;--muted:#6B7280;--card:#fff;--line:#F3F4F6;--ok:#10B981;--bad:#EF4444;--warn:#F59E0B}
+*{box-sizing:border-box;font-family:'Poppins',sans-serif;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);padding-bottom:90px;min-height:100vh}
+header{background:linear-gradient(135deg,var(--g),#0F2C21);color:#fff;padding:22px 20px 40px;border-radius:0 0 32px 32px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+header .logo{font-size:11px;letter-spacing:3px;font-weight:800;color:#FCD34D}
+header h1{font-size:24px;font-weight:900;margin-top:4px}
+header .tagline{font-size:13px;opacity:.9;margin-top:4px}
+#v{padding:0 16px;margin-top:-20px;position:relative;z-index:1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 4px 15px rgba(0,0,0,.05);animation:rise .4s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.card h3{color:var(--g);font-size:17px;font-weight:800;margin-bottom:12px}
+.s{font-size:12.5px;color:var(--muted);line-height:1.5}
+.btn{padding:13px;border-radius:14px;border:none;font-weight:700;font-size:15px;cursor:pointer;width:100%;margin-top:8px;background:var(--o);color:#fff}
+.btn:active{transform:scale(.97)}
+.btn.g{background:#ECFDF5;color:#065F46;border:1px solid #A7F3D0}
+.btn.r{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
+.btn.b{background:#3B82F6;color:#fff}
+.btn.sm{padding:7px 12px;font-size:12px;width:auto;margin:0;border-radius:10px}
+input,select,textarea{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:14px;margin:5px 0 10px;font-size:15px;background:var(--bg);color:var(--text);font-family:inherit}
+textarea{min-height:70px}
+input:focus,textarea:focus{outline:none;border-color:var(--o)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:8px}
+.row:last-child{border-bottom:0}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 0 14px;z-index:100}
+.nav div{text-align:center;font-size:10px;font-weight:700;color:var(--muted);flex:1;cursor:pointer}
+.nav div.on{color:var(--o)}
+.nav div span{font-size:21px;display:block;margin-bottom:2px}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:700}
+.badge.active{background:#D1FAE5;color:#065F46}
+.badge.pending{background:#FEF3C7;color:#92400E}
+.badge.trial{background:#DBEAFE;color:#1E40AF}
+.badge.expired,.badge.rejected{background:#F3F4F6;color:#6B7280}
+.badge.paused{background:#E0E7FF;color:#3730A3}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:#1F2937;color:#fff;padding:12px 24px;border-radius:50px;font-weight:700;font-size:13.5px;z-index:1000;opacity:0;transition:all .3s;max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.error{background:var(--bad)}
+.pbar{width:100%;height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:10px 0}
+.pfill{height:100%;background:var(--ok);transition:width .5s}
+.fab{position:fixed;right:16px;bottom:90px;width:52px;height:52px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;text-decoration:none;box-shadow:0 6px 18px rgba(37,211,102,.4)}
+.seg{display:flex;gap:6px;margin:6px 0}
+.seg button{flex:1;padding:11px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-weight:700;font-size:13px;cursor:pointer}
+.seg button.on{background:var(--o);color:#fff;border-color:var(--o)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{border-radius:16px;padding:14px;text-align:center;color:#fff}
+.stat .v{font-size:22px;font-weight:900}
+.stat .l{font-size:10.5px;opacity:.9;font-weight:600}
 </style>
 </head>
 <body>
-
 <header id="mainHeader">
   <div class="logo">NAMASTE UDALA</div>
   <h1 id="ht">Aaj ka Plan</h1>
   <div class="tagline">Ghar jaisa khana · Roz time pe</div>
 </header>
-
 <div id="v"></div>
 <a class="fab" href="https://wa.me/919583937047" target="_blank">💬</a>
 <div class="nav" id="nav"></div>
 <div class="toast" id="toast"></div>
+<input type="file" id="restoreFile" accept=".json" style="display:none">
 
 <script type="module">
-const CONFIG = { whatsapp: '919583937047', ownerPin: '4821' };
-const PRICING = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
+const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788',upi:'9583937047@jio',
+ firebase:{apiKey:"AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",authDomain:"namaste-udala.firebaseapp.com",projectId:"namaste-udala",storageBucket:"namaste-udala.firebasestorage.app",messagingSenderId:"998684348165",appId:"1:998684348165:web:4bb0d2f5335a90a394716c"}};
+const PRICING={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
+const STORAGE_KEY='udala_final_v1';
 
-let S = { prod: [], subs: [], orders: [], expenses: [] };
-try { const saved = localStorage.getItem('udala_logic'); if (saved) S = { ...S, ...JSON.parse(saved) }; } catch (e) {}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const iso=d=>{const x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')};
+const todayStr=()=>iso(new Date());
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const cleanPhone=s=>String(s||'').replace(/\D/g,'').slice(-10);
+const showToast=(m,t='success')=>{const e=$('#toast');e.textContent=m;e.className='toast '+t+' show';setTimeout(()=>e.classList.remove('show'),3200)};
 
-let tab = 'plan', C = {}, OK = 0;
-try { OK = sessionStorage.getItem('udok') ? 1 : 0; } catch (e) {}
-const F = { type: 'veg', days: '30', name: '', phone: '', area: '', utr: '' };
+const SEED=[
+{n:'Doodh 500 ml',p:30,c:'Dairy',nv:0},{n:'Dahi 400 g',p:40,c:'Dairy',nv:0},{n:'Paneer 200 g',p:80,c:'Dairy',nv:0},
+{n:'Chai patti 250 g',p:130,c:'Chai aur Nashta',nv:0},{n:'Bread',p:40,c:'Chai aur Nashta',nv:0},{n:'Ande (6)',p:72,c:'Chai aur Nashta',nv:1},
+{n:'Atta 1 kg',p:50,c:'Kirana',nv:0},{n:'Chawal 1 kg',p:70,c:'Kirana',nv:0},{n:'Dal 1 kg',p:150,c:'Kirana',nv:0},{n:'Tel 1 L',p:150,c:'Kirana',nv:0},
+{n:'Detergent 1 kg',p:130,c:'Ghar ki Safai',nv:0},{n:'Bartan gel 500 ml',p:110,c:'Ghar ki Safai',nv:0},{n:'Sabun',p:30,c:'Body Care',nv:0},
+{n:'Roti',p:5,c:'Extra Khana',nv:0},{n:'Chawal plate',p:20,c:'Extra Khana',nv:0},{n:'Paneer sabzi',p:50,c:'Extra Khana',nv:0},{n:'Egg curry',p:40,c:'Extra Khana',nv:1},{n:'Chicken piece',p:60,c:'Extra Khana',nv:1},
+{n:'Surf Excel 500 g',p:110,c:'HUL Best Sellers',nv:0},{n:'Vim Bar 200 g',p:20,c:'HUL Best Sellers',nv:0},{n:'Red Label 250 g',p:165,c:'HUL Best Sellers',nv:0},{n:'Horlicks 500 g',p:260,c:'HUL Best Sellers',nv:0}
+].map((a,i)=>({id:i+1,...a,s:1,mrp:0,brand:''}));
 
-if (!S.prod || S.prod.length === 0) {
-  S.prod = [
-    { id: 1, n: 'Doodh 500 ml', p: 30, c: 'Dairy', nv: 0 },
-    { id: 2, n: 'Paneer 200 g', p: 80, c: 'Dairy', nv: 0 },
-    { id: 3, n: 'Chicken piece', p: 40, c: 'Non-Veg', nv: 1 },
-    { id: 4, n: 'Atta 1 kg', p: 50, c: 'Kirana', nv: 0 }
-  ];
+const normalizeSub=s=>{if(!s||!s.id)return null;
+ s.name=String(s.name||'Customer');s.phone=cleanPhone(s.phone);s.type=s.type==='nv'?'nv':'veg';
+ s.days=clamp(+s.days||30,1,365);s.start=s.start||todayStr();s.price=Math.max(0,+s.price||0);
+ s.skip=Array.isArray(s.skip)?s.skip:[];s.pause=Array.isArray(s.pause)?s.pause:[];
+ s.lunch=['roti','chawal','both'].includes(s.lunch)?s.lunch:'chawal';
+ s.dinner=['roti','chawal','both'].includes(s.dinner)?s.dinner:'roti';
+ s.extraRoti=clamp(+s.extraRoti||0,0,4);
+ s.addr=s.addr||'';s.area=s.area||'Udala';s.map=s.map||'';s.notes=s.notes||'';s.utr=s.utr||'';
+ s.paid=s.paid?1:0;s.trial=s.trial?1:0;s.ts=s.ts||s.id;
+ if(!s.status)s.status=s.trial?'trial':(s.paid?'active':'pending');
+ return s};
+const normalizeOrder=o=>{if(!o||!o.id)return null;
+ o.name=String(o.name||'Customer');o.phone=cleanPhone(o.phone);
+ o.items=Array.isArray(o.items)?o.items.filter(i=>i&&i.n):[];
+ o.total=Math.max(0,+o.total||0);o.date=o.date||todayStr();
+ o.status=o.status==='delivered'?'delivered':'pending';o.paid=o.paid?1:0;
+ o.map=o.map||'';o.addr=o.addr||'';o.area=o.area||'Udala';o.notes=o.notes||'';o.partner=o.partner||'';
+ return o};
+
+function loadState(){
+ const out={prod:null,subs:[],orders:[],pays:[],expenses:[],meals:{},done:{},mset:{},cred:{},refs:{},wallet:{},feedback:{},dailyVideo:'',partners:['Raju Bhaiya']};
+ let recovered=0,sourceKey=null;
+ [STORAGE_KEY,'udala2','udala6','udala7','udala_logic'].forEach(k=>{
+  try{const raw=localStorage.getItem(k);if(!raw)return;const d=JSON.parse(raw);if(!d||typeof d!=='object')return;
+   if(!sourceKey)sourceKey=k;
+   if(!out.prod&&Array.isArray(d.prod)&&d.prod.length)out.prod=d.prod;
+   (d.subs||[]).forEach(s=>{const n=normalizeSub(s);if(n&&!out.subs.find(x=>x.id===n.id)){out.subs.push(n);if(k!==STORAGE_KEY)recovered++}});
+   (d.orders||[]).forEach(o=>{const n=normalizeOrder(o);if(n&&!out.orders.find(x=>x.id===n.id)){out.orders.push(n);if(k!==STORAGE_KEY)recovered++}});
+   (d.pays||[]).forEach(p=>{if(p&&p.id&&!out.pays.find(x=>x.id===p.id))out.pays.push(p)});
+   (d.expenses||[]).forEach(p=>{if(p&&p.id&&!out.expenses.find(x=>x.id===p.id))out.expenses.push(p)});
+   Object.assign(out.meals,d.meals||{});Object.assign(out.done,d.done||{});Object.assign(out.mset,d.mset||{});
+   Object.assign(out.cred,d.cred||{});Object.assign(out.refs,d.refs||{});Object.assign(out.wallet,d.wallet||{});Object.assign(out.feedback,d.feedback||{});
+   if(d.dailyVideo&&!out.dailyVideo)out.dailyVideo=d.dailyVideo;
+  }catch(e){}
+ });
+ out.prod=(out.prod&&out.prod.length)?out.prod.map((p,i)=>({id:p.id||i+1,n:p.n||'Item',p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,mrp:p.mrp||0,brand:p.brand||'',img:p.img||''})):SEED.slice();
+ out.subs.sort((a,b)=>a.id-b.id);out.orders.sort((a,b)=>a.id-b.id);
+ return {data:out,recovered,fromOld:sourceKey&&sourceKey!==STORAGE_KEY};
 }
+const loaded=loadState();
+let S=loaded.data;
 
-const save = () => { localStorage.setItem('udala_logic', JSON.stringify(S)); render(); };
-const $ = s => document.querySelector(s);
-const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const iso = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
-const todayStr = () => iso(new Date());
-const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
-const cleanPhone = s => String(s || '').replace(/\D/g, '').slice(-10);
-const showToast = (msg, type = 'success') => { const t = $('#toast'); t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3000); };
+let ME=null;try{ME=JSON.parse(localStorage.getItem('udme')||'null')}catch(e){}
+const saveME=()=>{try{localStorage.setItem('udme',JSON.stringify(ME))}catch(e){}};
 
-// --- CORE LOGIC HELPERS ---
-const getSubStatus = (sub) => {
-  if (!sub) return 'expired';
-  const start = new Date(sub.start + 'T12:00:00');
-  const end = new Date(start); end.setDate(end.getDate() + sub.days);
-  const today = new Date(); today.setHours(12,0,0,0);
-  
-  if (sub.status === 'pending') return 'pending';
-  if (today >= end) return 'expired';
-  if (sub.status === 'trial') return 'trial';
-  if (sub.status === 'paused') return 'paused';
-  return 'active';
+let tab='plan',C={},OK=0,OSEC='pay';
+try{OK=sessionStorage.getItem('udok')?1:0}catch(e){}
+const F={type:'veg',days:'30',name:ME?ME.name:'',phone:ME?ME.phone:'',area:'',addr:'',map:'',notes:''};
+
+let fbApi=null;
+(async()=>{try{
+ const [fa,fd]=await Promise.all([import("https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"),import("https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js")]);
+ const app=fa.initializeApp(CONFIG.firebase);const db=fd.getDatabase(app);const r=fd.ref(db,'udala_final_v1');
+ fbApi=v=>{try{fd.update(r,v)}catch(e){}};
+ fd.onValue(r,sn=>{const v=sn.val();if(v&&v.cloud===1){S=mergeStates(S,v);render()}});
+ fbApi({...S,cloud:1});
+}catch(e){console.log('Cloud off - local mode')}})();
+
+function mergeStates(a,b){
+ const union=(x,y)=>{const r=[...(x||[])];(y||[]).forEach(it=>{if(it&&it.id&&!r.find(z=>z.id===it.id))r.push(it)});return r};
+ return {...a,
+  prod:(b.prod&&b.prod.length)?b.prod:a.prod,
+  subs:union(a.subs,b.subs).map(normalizeSub).filter(Boolean),
+  orders:union(a.orders,b.orders).map(normalizeOrder).filter(Boolean),
+  pays:union(a.pays,b.pays),expenses:union(a.expenses,b.expenses),
+  meals:{...(a.meals||{}),...(b.meals||{})},done:{...(a.done||{}),...(b.done||{})},
+  mset:{...(a.mset||{}),...(b.mset||{})},cred:{...(a.cred||{}),...(b.cred||{})},
+  refs:{...(a.refs||{}),...(b.refs||{})},wallet:{...(a.wallet||{}),...(b.wallet||{})},
+  feedback:{...(a.feedback||{}),...(b.feedback||{})},
+  dailyVideo:b.dailyVideo||a.dailyVideo||''};
+}
+const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(S))}catch(e){}if(fbApi)fbApi({...S,cloud:1});render()};
+
+const mf=(d,t)=>{const k=iso(d);const o=S.mset[k];if(o){if(t==='nv'&&o.nv)return o.nv;if(t!=='nv'&&o.veg)return o.veg}
+ const w=d.getDay();
+ if(t==='nv'){if(w===0)return 'Chicken curry, roti, chawal';if(w===3)return 'Fish curry, roti, chawal';if(w===5)return '2 egg curry, roti, chawal';if(w===6)return 'Mutton special, roti, chawal'}
+ else{if(w===0)return 'Paneer butter masala, roti, chawal';if(w===3)return 'Mushroom curry, roti, chawal';if(w===5)return 'Special veg thali + meetha';if(w===6)return 'Dal makhani + paneer, roti, chawal'}
+ return 'Dal, sabzi, roti, chawal'};
+
+const subEnd=s=>addDays(new Date(s.start+'T12:00:00'),s.days);
+const getSubStatus=s=>{if(!s)return 'expired';
+ if(s.status==='rejected')return 'rejected';
+ if(s.status==='pending')return 'pending';
+ const today=new Date();today.setHours(12,0,0,0);
+ if(today>=subEnd(s))return 'expired';
+ const k=todayStr();
+ if(s.pause.includes(k))return 'paused';
+ if(s.status==='trial')return 'trial';
+ return 'active'};
+const isLive=s=>['active','trial'].includes(getSubStatus(s));
+const due=s=>s.price+(S.orders||[]).filter(o=>o.sid===s.id&&!o.paid).reduce((a,o)=>a+o.total,0);
+const badge=st=>`<span class="badge ${st}">${st==='active'?'✅ Active':st==='pending'?'⏳ Payment Pending':st==='trial'?'🎁 Trial':st==='paused'?'⏸ Paused':st==='rejected'?'❌ Rejected':' Expired'}</span>`;
+const mealKey=(sid,meal)=>todayStr()+'_'+sid+'_'+meal;
+const packItems=s=>{const meal=m=>m==='chawal'?'Chawal':m==='both'?'Roti x4 + Chawal':'Roti x4';
+ return ['Chai+nashta','Lunch: '+meal(s.lunch),'Dinner: '+meal(s.dinner),(s.extraRoti?'Extra roti x'+s.extraRoti:null),(s.type==='nv'?'NV curry x2':'Veg sabzi x2')].filter(Boolean)};
+
+const VIEWS={
+plan:()=>{
+ const price=PRICING[F.type][F.days]||2899;
+ let h=`<div class="card" style="background:linear-gradient(135deg,var(--g),#0F2C21);color:#fff;border:none">
+  <h3 style="color:#FCD34D"> NAMASTE UDALA</h3>
+  <p style="font-size:21px;font-weight:900;line-height:1.3">Ghar jaisa khana, roz time pe</p>
+  <p class="s" style="color:#D1FAE5;margin-top:6px">Aaj ka menu: <b>${esc(mf(new Date(),F.type))}</b></p></div>`;
+
+ if(ME){
+  const mine=(S.subs||[]).filter(s=>s.phone===ME.phone).sort((a,b)=>b.id-a.id);
+  const live=mine.find(isLive)||mine[0];
+  h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>👤 ${esc(ME.name)}</b><button class="btn sm r" data-a="logout">Logout</button></div>`;
+  if(live){
+   const st=getSubStatus(live);
+   const start=new Date(live.start+'T12:00:00'),end=subEnd(live),today=new Date();today.setHours(12,0,0,0);
+   const passed=clamp(Math.floor((today-start)/86400000),0,live.days),left=live.days-passed;
+   h+=`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:center"><b>${live.type==='veg'?'🟢 Veg':' Non-Veg'} · ${live.days} din</b>${badge(st)}</div>
+    <div class="s" style="margin-top:6px">📅 ${live.start} → ${iso(end)} · ⏳ Bache din: <b style="color:var(--o)">${left}</b></div>
+    <div class="pbar"><div class="pfill" style="width:${Math.round(passed/live.days*100)}%"></div></div>
+    ${st==='pending'?`<div class="s" style="color:var(--warn);font-weight:700">️ Payment verify hone ka intezar karein. UTR: ${esc(live.utr||'-')}</div>`:''}
+    ${st==='trial'?`<div class="s" style="color:#1E40AF;font-weight:700">🎁 Free trial chal raha hai. Pasand aaye to paid plan le lein!</div>`:''}</div>`;
+   if(st==='active'||st==='trial'){
+    h+=`<div style="margin-top:14px"><b class="s" style="font-weight:800;color:var(--g)">🍽️ AAJ KA KHANA — MARK KAREIN</b>`;
+    [['subah','🌅 Subah','7:30-8:15'],['lunch','☀️ Lunch','1:30-2:15'],['dinner','🌙 Dinner','8:00-9:00']].forEach(m=>{
+     const stt=S.meals[mealKey(live.id,m[0])]||'baki';
+     h+=`<div class="row"><div><b>${m[1]}</b><div class="s">${m[2]}</div></div>
+      <div style="display:flex;gap:6px;align-items:center"><span class="badge ${stt==='consumed'?'active':stt==='skipped'?'expired':'pending'}">${stt==='consumed'?'Khaya':stt==='skipped'?'Skip':'Baki'}</span>
+      <button class="btn sm g" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="consumed">✅</button>
+      <button class="btn sm r" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="skipped">❌</button></div></div>`;
+    });
+    h+=`</div><div style="margin-top:12px"><b class="s" style="font-weight:800;color:var(--g)">📅 LAST 14 DIN</b><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px">`;
+    for(let i=13;i>=0;i--){const d=addDays(new Date(),-i),k=iso(d);let c=0,sk=0;
+     ['subah','lunch','dinner'].forEach(m=>{const v=S.meals[k+'_'+live.id+'_'+m];if(v==='consumed')c++;if(v==='skipped')sk++});
+     const bg=c>0&&sk===0?'#D1FAE5':sk>0&&c===0?'#FEE2E2':c>0?'#FEF3C7':'#F3F4F6';
+     const fg=c>0&&sk===0?'#065F46':sk>0&&c===0?'#991B1B':c>0?'#92400E':'#9CA3AF';
+     h+=`<div style="aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:${bg};color:${fg}">${d.getDate()}</div>`}
+    h+=`</div></div>`;
+   }
+  } else h+=`<div class="s" style="margin-top:10px">Koi plan nahi mila. Neeche se plan lein.</div>`;
+  h+=`</div>`;
+ } else {
+  h+=`<div class="card"><h3>👤 Login (Tracking ke liye)</h3>
+   <div style="display:flex;gap:8px"><input id="lname" style="margin:0" placeholder="Naam"><input id="lphone" style="margin:0" type="tel" maxlength="10" placeholder="Phone"><button class="btn sm g" data-a="login" style="margin:0">Login</button></div></div>`;
+ }
+
+ h+=`<div class="card"><h3>🍽️ Naya Plan / Trial</h3>
+  <div class="s">Khana type</div><div class="seg"><button class="${F.type==='veg'?'on':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button><button class="${F.type==='nv'?'on':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-Veg</button></div>
+  <div class="s">Kitne din</div><div class="seg"><button class="${F.days=='7'?'on':''}" data-a="set" data-k="days" data-v="7">7</button><button class="${F.days=='15'?'on':''}" data-a="set" data-k="days" data-v="15">15</button><button class="${F.days=='30'?'on':''}" data-a="set" data-k="days" data-v="30">30</button></div>
+  <input data-f="name" placeholder="Naam *" value="${esc(F.name)}">
+  <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit phone *" value="${esc(F.phone)}">
+  <input data-f="area" placeholder="Area" value="${esc(F.area)}">
+  <input data-f="addr" placeholder="Pura address *" value="${esc(F.addr)}">
+  <textarea data-f="notes" placeholder="Special note (kam mirch, bell bajana...)">${esc(F.notes)}</textarea>
+  <button class="btn g" data-a="gps">📍 GPS Location Lo *</button>
+  ${F.map?`<div class="s" style="color:var(--ok);font-weight:700">✅ Location locked</div>`:`<div class="s" style="color:var(--bad);font-weight:700">⚠️ GPS ke bina plan/trial nahi banega</div>`}
+  <div style="display:flex;justify-content:space-between;font-size:21px;font-weight:900;margin:12px 0"><span>Total</span><span style="color:var(--o)">${inr(price)}</span></div>
+  <button class="btn" data-a="joinPaid">💳 UTR Dekar Plan Lo (Verify hoke active hoga)</button>
+  <button class="btn g" data-a="joinTrial">🎁 1 Din FREE Trial Shuru Karo</button></div>`;
+ return h},
+
+shop:()=>{
+ let tot=0,cnt=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0){tot+=p.p*q;cnt+=q}});
+ const cats=[...new Set(S.prod.filter(p=>p.s!==0).map(p=>p.c))];
+ let h=`<div class="card" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none"><h3 style="color:#fff">🛒 Ghar ka Saaman</h3><p class="s" style="color:#FFF7ED">Doodh, kirana, HUL — sab delivery par</p></div><div class="card">`;
+ cats.forEach(c=>{
+  h+=`<b class="s" style="font-weight:800;color:var(--g);display:block;margin:10px 0 4px">${esc(c)}</b>`;
+  S.prod.filter(p=>p.c===c&&p.s!==0).forEach(p=>{
+   const q=C[p.id]||0;
+   h+=`<div class="row"><div style="flex:1"><b>${p.nv?'🔴':'🟢'} ${esc(p.n)}</b><div class="s">${inr(p.p)}</div></div>
+    ${q>0?`<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:3px"><button data-a="dec" data-id="${p.id}" style="width:28px;height:28px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}" style="width:28px;height:28px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800">+</button></div>`:`<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}</div>`;
+  });
+ });
+ h+=`</div>`;
+ if(cnt>0)h+=`<div style="position:fixed;bottom:78px;left:16px;right:16px;background:#fff;border-radius:16px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.15);z-index:99"><div><b>🛒 ${cnt} items</b><div style="font-size:19px;font-weight:900;color:var(--o)">${inr(tot)}</div></div><button class="btn g" data-a="goc" style="margin:0;width:auto">Checkout ↓</button></div>`;
+ h+=`<div class="card" id="co"><h3>📦 Checkout</h3>
+  <input data-f="name" placeholder="Naam *" value="${esc(F.name)}"><input data-f="phone" type="tel" maxlength="10" placeholder="Phone *" value="${esc(F.phone)}">
+  <input data-f="addr" placeholder="Address *" value="${esc(F.addr)}"><button class="btn g" data-a="gps">📍 GPS Lo *</button>
+  <button class="btn" data-a="order">✅ Order Karein (${inr(tot)})</button></div>`;
+ return h},
+
+kitchen:()=>{
+ if(!OK)return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 tap → PIN</p></div>`;
+ const k=todayStr();
+ const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k)&&!s.pause.includes(k));
+ const veg=on.filter(s=>s.type==='veg').length,nv=on.filter(s=>s.type==='nv').length;
+ const roti=on.reduce((a,s)=>a+((s.lunch!=='chawal'?4:0)+(s.dinner!=='chawal'?4:0)+s.extraRoti),0);
+ const chawal=on.reduce((a,s)=>a+((s.lunch!=='roti'?1:0)+(s.dinner!=='roti'?1:0)),0);
+ let consumed=0,skipped=0;on.forEach(s=>['subah','lunch','dinner'].forEach(m=>{const v=S.meals[k+'_'+s.id+'_'+m];if(v==='consumed')consumed++;if(v==='skipped')skipped++}));
+ let h=`<div class="card"><h3>👨‍🍳 Kitchen · ${k}</h3><div class="grid2">
+  <div class="stat" style="background:var(--g)"><div class="v">${veg}</div><div class="l">Veg Thali</div></div>
+  <div class="stat" style="background:var(--o)"><div class="v">${nv}</div><div class="l">Non-Veg Thali</div></div>
+  <div class="stat" style="background:#7C3AED"><div class="v">${roti}</div><div class="l">Roti pcs</div></div>
+  <div class="stat" style="background:#3B82F6"><div class="v">${chawal}</div><div class="l">Chawal plate</div></div></div>
+  <div class="s" style="margin-top:10px">🍽️ Khaya: <b style="color:var(--ok)">${consumed}</b> · Skip: <b style="color:var(--bad)">${skipped}</b></div>
+  <button class="btn g" data-a="copyKitchen">📋 Summary Copy (WhatsApp)</button></div>`;
+ h+=`<div class="card"><h3>👥 Kis ko kya (${on.length})</h3>`;
+ on.forEach(s=>{h+=`<div class="row"><div><b>${esc(s.name)}</b> <span class="s">${s.type==='veg'?'🟢':''}</span><div class="s" style="color:var(--g);font-weight:700">${packItems(s).join(' · ')}</div></div><button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skipToday" data-id="${s.id}">${s.skip.includes(k)?'Wapas':'Skip'}</button></div>`});
+ if(!on.length)h+=`<p class="s">Aaj koi active tiffin nahi.</p>`;
+ return h+`</div>`},
+
+delivery:()=>{
+ if(!OK)return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 tap → PIN</p></div>`;
+ const k=todayStr();
+ const live=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k)&&!s.pause.includes(k));
+ const pend=live.filter(s=>!S.done[k+'_'+s.id]);
+ const done=live.filter(s=>S.done[k+'_'+s.id]);
+ const ords=(S.orders||[]).filter(o=>o.status==='pending');
+ let h=`<div class="card" style="background:linear-gradient(135deg,var(--g),#0F2C21);color:#fff;border:none;text-align:center">
+  <div class="s" style="color:#D1FAE5">AAJ KI DELIVERY</div><div style="font-size:36px;font-weight:900">${done.length} / ${live.length}</div>
+  <div class="pbar" style="background:rgba(255,255,255,.2)"><div class="pfill" style="width:${live.length?Math.round(done.length/live.length*100):0}%"></div></div></div>`;
+ h+=`<div class="card"><h3>⏳ Baaki (${pend.length})</h3>`;
+ pend.forEach((s,i)=>{h+=`<div class="row" style="align-items:flex-start"><div style="flex:1"><b>#${i+1} ${esc(s.name)}</b><div class="s">${esc(s.addr)}, ${esc(s.area)}</div><div class="s" style="color:var(--o);font-weight:700">${s.type==='veg'?'🟢 Veg':' NV'} · ${packItems(s).length} items</div>${s.notes?`<div class="s">📝 ${esc(s.notes)}</div>`:''}</div>
+  <div style="display:flex;flex-direction:column;gap:6px">${s.map?`<a class="btn sm b" href="${s.map}" target="_blank">🗺️</a>`:''}<a class="btn sm g" href="tel:+91${s.phone}">📞</a><button class="btn sm" data-a="done" data-id="${s.id}">✅</button></div></div>`});
+ if(!pend.length)h+=`<p class="s">Sab deliver ho gaya 🎉</p>`;
+ h+=`</div>`;
+ if(ords.length){h+=`<div class="card"><h3>🛒 Shop Orders (${ords.length})</h3>`;
+  ords.forEach(o=>{h+=`<div class="row" style="align-items:flex-start"><div style="flex:1"><b>${esc(o.name)}</b><div class="s">${o.items.map(i=>i.n+' x'+i.q).join(', ')}</div><div class="s" style="font-weight:800;color:var(--o)">${inr(o.total)} · ${o.paid?'Paid':'Cash baaki'}</div></div><button class="btn sm g" data-a="odone" data-id="${o.id}">✅ Diya</button></div>`});
+  h+=`</div>`}
+ if(done.length){h+=`<div class="card"><h3>✅ Ho gaya (${done.length})</h3>`+done.map(s=>`<div class="row"><b>${esc(s.name)}</b><span style="color:var(--ok);font-weight:800">✓</span></div>`).join('')+`</div>`}
+ return h},
+
+owner:()=>{
+ if(!OK)return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 tap → PIN 4821</p></div>`;
+ const pendPay=(S.subs||[]).filter(s=>s.status==='pending');
+ const act=(S.subs||[]).filter(isLive).length;
+ const rev=(S.pays||[]).reduce((a,p)=>a+(+p.amt||0),0);
+ const exp=(S.expenses||[]).reduce((a,e)=>a+(+e.amount||0),0);
+ let h=`<div class="card"><h3>📊 Dashboard</h3><div class="grid2">
+  <div class="stat" style="background:var(--g)"><div class="v">${act}</div><div class="l">Active Plans</div></div>
+  <div class="stat" style="background:var(--o)"><div class="v">${inr(rev)}</div><div class="l">Kamai</div></div>
+  <div class="stat" style="background:var(--bad)"><div class="v">${inr(exp)}</div><div class="l">Kharcha</div></div>
+  <div class="stat" style="background:${pendPay.length?'var(--warn)':'#3B82F6'}"><div class="v">${pendPay.length}</div><div class="l">Payment Pending</div></div></div>
+  <div style="display:flex;gap:8px;margin-top:12px"><button class="btn sm b" data-a="backup">💾 Backup</button><button class="btn sm g" data-a="restore">📂 Restore</button></div></div>`;
+
+ h+=`<div class="card"><h3>🧾 Sections</h3><div class="seg"><button class="${OSEC==='pay'?'on':''}" data-a="osec" data-v="pay">💳 Payments</button><button class="${OSEC==='subs'?'on':''}" data-a="osec" data-v="subs">🍱 Plans</button><button class="${OSEC==='prod'?'on':''}" data-a="osec" data-v="prod">🛒 Products</button><button class="${OSEC==='set'?'on':''}" data-a="osec" data-v="set">⚙️ Set</button></div>`;
+
+ if(OSEC==='pay'){
+  if(pendPay.length){h+=`<b class="s" style="font-weight:800;color:var(--warn)">⏳ VERIFY KAREIN:</b>`;
+   pendPay.forEach(s=>{h+=`<div style="background:var(--bg);border-radius:14px;padding:12px;margin-top:10px"><div style="display:flex;justify-content:space-between"><b>${esc(s.name)}</b>${badge('pending')}</div><div class="s">📱 ${s.phone} · ${s.type} ${s.days} din · ${inr(s.price)}</div><div class="s" style="font-weight:800">🔢 UTR: ${esc(s.utr||'-')}</div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn sm g" data-a="verifyPay" data-id="${s.id}" style="flex:1">✅ Verify</button><button class="btn sm r" data-a="rejectPay" data-id="${s.id}" style="flex:1">❌ Reject</button></div></div>`});
+  } else h+=`<p class="s">Koi payment pending nahi 🎉</p>`;
+  const unpaidOrd=(S.orders||[]).filter(o=>!o.paid);
+  if(unpaidOrd.length){h+=`<b class="s" style="font-weight:800;margin-top:14px;display:block">🛒 SHOP PAYMENT BAAKI:</b>`;
+   unpaidOrd.slice(-8).reverse().forEach(o=>{h+=`<div class="row"><div><b>${esc(o.name)}</b><div class="s">${inr(o.total)} · ${o.date}</div></div><button class="btn sm g" data-a="orderPaid" data-id="${o.id}">Paid ✓</button></div>`})}
+  h+=`<b class="s" style="font-weight:800;margin-top:14px;display:block">💰 PAYMENT HISTORY:</b>`;
+  (S.pays||[]).slice(-8).reverse().forEach(p=>{h+=`<div class="row"><div><b>${esc(p.name)}</b><div class="s">${p.d} · ${esc(p.kind||'')}</div></div><b>${inr(p.amt)}</b></div>`});
+ }
+ else if(OSEC==='subs'){
+  (S.subs||[]).slice().reverse().forEach(s=>{h+=`<div class="row"><div><b>${esc(s.name)}</b><div class="s">${s.phone} · ${s.type} ${s.days}din · ${inr(s.price)}</div></div>${badge(getSubStatus(s))}</div>`});
+  if(!(S.subs||[]).length)h+=`<p class="s">Koi plan nahi.</p>`;
+ }
+ else if(OSEC==='prod'){
+  h+=`<div style="background:var(--bg);border-radius:14px;padding:12px"><input id="pn" placeholder="Naam" style="margin:0 0 8px"><div style="display:flex;gap:8px"><input id="pp" type="number" placeholder="Price" style="margin:0"><input id="pc" placeholder="Category" style="margin:0"></div><button class="btn g" data-a="addProd">➕ Add Product</button></div>`;
+  (S.prod||[]).forEach(p=>{h+=`<div class="row"><div style="flex:1"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} · ${inr(p.p)}</div></div><button class="btn sm ${p.s===0?'r':'g'}" data-a="stock" data-id="${p.id}">${p.s===0?'Out':'Stock'}</button><button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button></div>`});
+ }
+ else{
+  h+=`<div class="s">Kal ka menu:</div><input id="mveg" placeholder="Veg menu" value="${esc(mf(addDays(new Date(),1),'veg'))}"><input id="mnv" placeholder="Non-veg menu" value="${esc(mf(addDays(new Date(),1),'nv'))}"><button class="btn sm g" data-a="setMenu">💾 Menu Save</button>
+   <div class="s" style="margin-top:12px">Delivery partners (comma se):</div><input id="partners" value="${esc((S.partners||[]).join(', '))}"><button class="btn sm g" data-a="setPartners">💾 Save</button>
+   <button class="btn r" data-a="out" style="margin-top:16px">🚪 Logout Owner</button>`;
+ }
+ return h+`</div>`}
 };
 
-const VIEWS = {
-  plan: () => {
-    const price = PRICING[F.type][F.days] || 2899;
-    let h = `<div class="card" style="background:linear-gradient(135deg, var(--g), #0F2C21); color:#fff; border:none;">
-      <h3 style="color:#fff">🍱 Namaste Udala</h3>
-      <p style="font-size:20px;font-weight:900;line-height:1.3">Ghar jaisa khana,<br>Roz time pe 🍱</p>
-    </div>`;
+const render=()=>{
+ try{
+  if(!OK&&!['plan','shop'].includes(tab))tab='plan';
+  $('#v').innerHTML=VIEWS[tab]();
+  $('#ht').textContent={plan:'Aaj ka Plan',shop:'Shop',kitchen:'Kitchen',delivery:'Delivery',owner:'Owner Panel'}[tab];
+  $('#nav').innerHTML=[['plan','🍱','Plan'],['shop','🛒','Shop'],['kitchen','👨🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','👤','Owner']].filter(x=>OK||x[0]==='plan'||x[0]==='shop').map(x=>`<div class="${x[0]===tab?'on':''}" data-a="tab" data-v="${x[0]}"><span>${x[1]}</span>${x[2]}</div>`).join('');
+ }catch(err){
+  $('#v').innerHTML=`<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(err.message)}</p><button class="btn g" onclick="location.reload()">🔄 Refresh</button></div>`;
+ }
+};
 
-    // Customer Tracking Section
-    if (F.phone && F.phone.length === 10) {
-      const mySubs = (S.subs || []).filter(s => s.phone === cleanPhone(F.phone)).sort((a,b) => b.id - a.id);
-      if (mySubs.length > 0) {
-        const latest = mySubs[0];
-        const status = getSubStatus(latest);
-        const start = new Date(latest.start + 'T12:00:00');
-        const end = new Date(start); end.setDate(end.getDate() + latest.days);
-        const today = new Date(); today.setHours(12,0,0,0);
-        const totalDays = latest.days;
-        const daysPassed = Math.floor((today - start) / 86400000);
-        const daysLeft = Math.max(0, totalDays - daysPassed);
-        const progress = Math.min(100, (daysPassed / totalDays) * 100);
+const needGPS=()=>{if(!F.map){showToast('❌ Pehle GPS location lein','error');return false}return true};
+const needUser=()=>{const n=(F.name||'').trim(),p=cleanPhone(F.phone);if(n.length<2){showToast('❌ Sahi naam likhein','error');return null}if(p.length!==10){showToast('❌ 10 digit phone daalein','error');return null}return {n,p}};
 
-        let statusBadge = '';
-        if (status === 'pending') statusBadge = `<span class="badge pending">⏳ Payment Pending</span>`;
-        else if (status === 'trial') statusBadge = `<span class="badge trial"> Free Trial</span>`;
-        else if (status === 'active') statusBadge = `<span class="badge active">✅ Active</span>`;
-        else statusBadge = `<span class="badge expired">❌ Expired</span>`;
-
-        h += `<div class="card" style="border-left: 4px solid ${status === 'active' ? 'var(--success)' : status === 'pending' ? 'var(--warning)' : 'var(--danger)'}">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <h3 style="margin:0"> Mera Plan Tracker</h3>
-            ${statusBadge}
-          </div>
-          <div class="s"><b>${latest.type === 'veg' ? ' Veg' : '🔴 Non-Veg'} Plan</b> · ${latest.days} Din</div>
-          <div class="s" style="margin-top:8px">📅 Start: ${latest.start} | End: ${iso(end)}</div>
-          <div class="s">⏳ Bache hue din: <b style="color:var(--o)">${daysLeft} din</b></div>
-          <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
-          ${status === 'pending' ? `<div class="s" style="color:var(--warning);font-weight:700;margin-top:10px">⚠️ Aapka plan abhi active nahi hai. Owner payment verify karega. UTR: ${latest.utr || 'N/A'}</div>` : ''}
-          ${status === 'trial' ? `<div class="s" style="color:var(--info);font-weight:700;margin-top:10px">🎁 Ye 1 din ka free trial hai. Kal expire ho jayega!</div>` : ''}
-        </div>`;
-      }
-    }
-
-    // Plan Form
-    h += `<div class="card">
-      <h3>️ Naya Plan Chunein</h3>
-      <div class="s">Khana type:</div>
-      <div style="display:flex;gap:8px;margin:8px 0">
-        <button class="btn sm ${F.type==='veg'?'g':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button>
-        <button class="btn sm ${F.type==='nv'?'r':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-veg</button>
-      </div>
-      <div class="s">Kitne din:</div>
-      <div style="display:flex;gap:8px;margin:8px 0">
-        <button class="btn sm ${F.days==7?'g':''}" data-a="set" data-k="days" data-v="7">7 din</button>
-        <button class="btn sm ${F.days==15?'g':''}" data-a="set" data-k="days" data-v="15">15 din</button>
-        <button class="btn sm ${F.days==30?'g':''}" data-a="set" data-k="days" data-v="30">30 din</button>
-      </div>
-      <input data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
-      <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit Mobile" value="${esc(F.phone)}">
-      <input data-f="area" placeholder="Area / Locality" value="${esc(F.area)}">
-      
-      <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:900;margin:16px 0">
-        <span>Total</span><span style="color:var(--o)">${inr(price)}</span>
-      </div>
-      
-      <button class="btn" data-a="joinPaid">💳 Pay & Join Plan</button>
-      <button class="btn g" data-a="joinTrial">🎁 Start 1 Din Free Trial</button>
-    </div>`;
-    return h;
-  },
-
-  shop: () => {
-    let total = 0, count = 0;
-    Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { total += p.p * q; count += q; } });
-    let h = `<div class="card" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none"><h3 style="color:#fff">🛒 Ghar ka Saaman</h3></div>
-      <div class="card">`;
-    (S.prod || []).forEach(p => {
-      const q = C[p.id] || 0;
-      h += `<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)">
-        <div style="flex:1"><b>${esc(p.n)}</b><div class="s">${esc(p.c)} ${p.nv ? '· 🔴' : ''}</div><div style="color:var(--o);font-weight:800">${inr(p.p)}</div></div>
-        ${q > 0 ? `<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:4px"><button data-a="dec" data-id="${p.id}" style="width:28px;height:28px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}" style="width:28px;height:28px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px">+</button></div>` : `<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}
-      </div>`;
-    });
-    h += `</div>`;
-    if (count > 0) {
-      h += `<div style="position:fixed;bottom:80px;left:16px;right:16px;background:var(--card);border-radius:16px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,0.1);z-index:99">
-        <div><div style="font-size:13px;font-weight:700"> ${count} items</div><div style="font-size:20px;font-weight:900;color:var(--o)">${inr(total)}</div></div>
-        <button class="btn g" data-a="order" style="margin:0;width:auto">Checkout</button>
-      </div>`;
-    }
-    return h;
-  },
-
-  kitchen: () => {
-    if (!OK) return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
-    const tStr = todayStr(); let veg = 0, nv = 0;
-    // Sirf Active aur Trial ko hi count karo
-    (S.subs || []).forEach(sub => {
-      const status = getSubStatus(sub);
-      if ((status === 'active' || status === 'trial') && sub.start <= tStr) {
-        if (sub.type === 'veg') veg++; else nv++;
-      }
-    });
-    return `<div class="card"><h3>👨‍ Aaj ki Kitchen List</h3><div class="s" style="margin-bottom:16px">📅 Date: ${tStr}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div style="background:var(--g);color:#fff;border-radius:16px;padding:16px;text-align:center"><div style="font-size:28px;font-weight:900">${veg}</div><div style="font-size:11px;opacity:0.9">Veg Thali</div></div>
-        <div style="background:var(--o);color:#fff;border-radius:16px;padding:16px;text-align:center"><div style="font-size:28px;font-weight:900">${nv}</div><div style="font-size:11px;opacity:0.9">Non-Veg Thali</div></div>
-      </div></div>`;
-  },
-
-  owner: () => {
-    if (!OK) return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 baar tap karo (PIN: 4821)</p></div>`;
-    
-    const pendingPayments = (S.subs || []).filter(s => s.status === 'pending');
-    const activeSubs = (S.subs || []).filter(s => getSubStatus(s) === 'active' || getSubStatus(s) === 'trial').length;
-    const revenue = (S.subs || []).filter(s => s.status === 'active').reduce((sum, s) => sum + (s.price || 0), 0);
-
-    let h = `<div class="card"><h3>📊 Owner Dashboard</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div style="background:var(--g);color:#fff;border-radius:16px;padding:16px;text-align:center"><div style="font-size:22px;font-weight:900">${activeSubs}</div><div style="font-size:11px;opacity:0.9">Active Plans</div></div>
-        <div style="background:var(--o);color:#fff;border-radius:16px;padding:16px;text-align:center"><div style="font-size:22px;font-weight:900">${inr(revenue)}</div><div style="font-size:11px;opacity:0.9">Revenue</div></div>
-      </div></div>`;
-
-    if (pendingPayments.length > 0) {
-      h += `<div class="card" style="border:2px solid var(--warning)"><h3>⏳ Payment Verify Karein (${pendingPayments.length})</h3>`;
-      pendingPayments.forEach(sub => {
-        h += `<div style="padding:12px;background:var(--bg);border-radius:12px;margin-bottom:10px">
-          <div style="display:flex;justify-content:space-between"><b>${esc(sub.name)}</b><span class="badge pending">Pending</span></div>
-          <div class="s">📱 ${sub.phone} | 🍽️ ${sub.type} ${sub.days} din</div>
-          <div class="s" style="font-weight:800;color:var(--o)">💰 Amount: ${inr(sub.price)} | UTR: ${sub.utr || 'Nahi diya'}</div>
-          <div style="display:flex;gap:8px;margin-top:10px">
-            <button class="btn g" data-a="verifyPayment" data-id="${sub.id}" style="flex:1">✅ Verify & Active Karo</button>
-            <button class="btn r" data-a="rejectPayment" data-id="${sub.id}" style="flex:1">❌ Reject</button>
-          </div>
-        </div>`;
-      });
-      h += `</div>`;
-    } else {
-      h += `<div class="card"><h3>✅ Sab Clear Hai</h3><p class="s">Koi payment pending nahi hai.</p></div>`;
-    }
-
-    h += `<div class="card"><h3>📋 Sabhi Subscriptions</h3>`;
-    (S.subs || []).slice().reverse().forEach(sub => {
-      const status = getSubStatus(sub);
-      h += `<div style="padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
-        <div><b>${esc(sub.name)}</b><div class="s">${sub.phone} · ${inr(sub.price)}</div></div>
-        <span class="badge ${status}">${status}</span>
-      </div>`;
-    });
-    h += `</div><button class="btn r" data-a="out">🚪 Logout Owner</button>`;
-    return h;
+const ACTIONS={
+ tab:v=>{
+  if(['kitchen','delivery','owner'].includes(v)&&!OK){
+   const x=prompt(v==='owner'?'Owner PIN:':'PIN (Delivery/Kitchen):');
+   if(x===null)return;
+   const ok=v==='owner'?(x===CONFIG.ownerPin):(x===CONFIG.delivPin||x===CONFIG.ownerPin);
+   if(!ok){showToast('❌ Galat PIN','error');return}
+   OK=1;sessionStorage.setItem('udok','1');showToast('🔓 Access granted');
   }
+  tab=v;render();window.scrollTo({top:0,behavior:'smooth'})},
+ osec:v=>{OSEC=v;render()},
+ set:(v,k)=>{F[k]=v;render()},
+ inc:(v,k,id)=>{C[id]=(C[id]||0)+1;render()},
+ dec:(v,k,id)=>{C[id]=Math.max(0,(C[id]||0)-1);if(!C[id])delete C[id];render()},
+ goc:()=>{const e=$('#co');if(e)e.scrollIntoView({behavior:'smooth'})},
+ gps:()=>{if(!navigator.geolocation){showToast('❌ GPS support nahi','error');return}
+  showToast('📍 Location dhoondh rahe hain...');
+  navigator.geolocation.getCurrentPosition(p=>{F.map=`https://www.google.com/maps?q=${p.coords.latitude.toFixed(6)},${p.coords.longitude.toFixed(6)}`;showToast('✅ Location lock ho gayi');render()},()=>showToast('❌ Location permission allow karein','error'),{enableHighAccuracy:true,timeout:10000})},
+ login:()=>{const n=($('#lname')?.value||'').trim(),p=cleanPhone($('#lphone')?.value);
+  if(n.length<2||p.length!==10){showToast('❌ Naam aur 10 digit phone daalo','error');return}
+  ME={name:n,phone:p};saveME();F.name=n;F.phone=p;render();showToast(' Login ho gaya')},
+ logout:()=>{ME=null;saveME();render();showToast('Logout ho gaya')},
+ mealMark:(v,k,id)=>{S.meals[mealKey(id,k)]=v;save();showToast(v==='consumed'?'✅ Khaya mark ho gaya':'❌ Skip mark ho gaya')},
+ skipToday:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;const k2=todayStr();const i=s.skip.indexOf(k2);if(i>=0)s.skip.splice(i,1);else s.skip.push(k2);save()},
+ joinTrial:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Pura address daalein','error');return}
+  const had=(S.subs||[]).find(s=>s.phone===u.p&&s.trial);
+  if(had){showToast('❌ Trial pehle hi le chuke hain','error');return}
+  S.subs.push({id:Date.now(),ts:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:1,start:todayStr(),price:0,status:'trial',trial:1,paid:1,utr:'FREE_TRIAL',skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0});
+  if(!ME){ME={name:u.n,phone:u.p};saveME()}
+  save();showToast('🎁 1 din ka FREE trial ACTIVE!');
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🎁 *FREE TRIAL*%0A👤 ${u.n}%0A📱 ${u.p}%0A📍 ${F.map}`,'_blank')},
+ joinPaid:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Pura address daalein','error');return}
+  const utr=prompt('💳 Payment karke UTR / Transaction ID likhein:');
+  if(!utr||utr.trim().length<4){showToast('❌ Bina UTR plan nahi banega','error');return}
+  const price=PRICING[F.type][F.days]||2899;
+  S.subs.push({id:Date.now(),ts:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:+F.days,start:todayStr(),price,status:'pending',trial:0,paid:0,utr:utr.trim(),skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0});
+  if(!ME){ME={name:u.n,phone:u.p};saveME()}
+  save();showToast('⏳ Plan bana! Owner verify karega tab active hoga');
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 *NAYA PLAN (PENDING)*%0A👤 ${u.n}%0A📱 ${u.p}%0A🍽️ ${F.type} ${F.days} din%0A💰 ${inr(price)}%0A🔢 UTR: ${utr}%0A📍 ${F.map}`,'_blank')},
+ order:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address daalein','error');return}
+  const items=[];let tot=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0){items.push({n:p.n,q,p:p.p});tot+=p.p*q}});
+  if(!items.length){showToast('❌ Cart khali hai','error');return}
+  S.orders.push({id:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:tot,status:'pending',paid:0,date:todayStr()});
+  C={};save();showToast('✅ Order mil gaya!');
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *ORDER*%0A👤 ${u.n}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A💰 ${inr(tot)}%0A📍 ${F.map}`,'_blank')},
+ verifyPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;s.status='active';s.paid=1;
+  S.pays.push({id:Date.now(),d:todayStr(),name:s.name,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});save();showToast('✅ Verified! Plan ACTIVE')},
+ rejectPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;if(confirm(s.name+' ka plan reject karein?')){s.status='rejected';save();showToast('❌ Reject ho gaya')}},
+ orderPaid:(v,k,id)=>{const o=S.orders.find(x=>x.id==id);if(!o)return;o.paid=1;o.status='delivered';
+  S.pays.push({id:Date.now(),d:todayStr(),name:o.name,amt:o.total,mode:'cash',kind:'Shop'});save();showToast('✅ Paid & delivered')},
+ done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done[key]=S.done[key]?0:1;save()},
+ odone:(v,k,id)=>{const o=S.orders.find(x=>x.id==id);if(o){o.status='delivered';save();showToast('✅ Delivered')}},
+ addProd:()=>{const n=($('#pn')?.value||'').trim(),p=parseInt($('#pp')?.value),c=($('#pc')?.value||'General').trim();
+  if(!n||!p||p<=0){showToast('❌ Naam aur price daalo','error');return}
+  S.prod.push({id:Date.now(),n,p,c,nv:0,s:1,mrp:0,brand:'',img:''});save();showToast('✅ Product add')},
+ stock:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
+ delProd:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save()}},
+ setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save();showToast('💾 Menu save')},
+ setPartners:()=>{S.partners=($('#partners')?.value||'').split(',').map(x=>x.trim()).filter(Boolean);save();showToast('💾 Partners save')},
+ copyKitchen:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));
+  const veg=on.filter(s=>s.type==='veg').length,nv=on.filter(s=>s.type==='nv').length;
+  const t=`🍱 KITCHEN ${k}\n👥 Total: ${on.length}\n🟢 Veg: ${veg}\n🔴 NV: ${nv}\n\n`+on.map(s=>`• ${s.name} (${s.type}) - ${packItems(s).join(', ')}`).join('\n');
+  navigator.clipboard.writeText(t).then(()=>showToast('📋 Copy ho gaya!')).catch(()=>showToast('❌ Copy nahi hua','error'))},
+ backup:()=>{const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='udala-backup-'+todayStr()+'.json';a.click();showToast('💾 Backup download ho gaya')},
+ restore:()=>{$('#restoreFile').click()},
+ out:()=>{OK=0;sessionStorage.removeItem('udok');tab='plan';render();showToast('🚪 Logout')}
 };
 
-const render = () => {
-  if (!OK && !['plan', 'shop'].includes(tab)) tab = 'plan';
-  $('#v').innerHTML = VIEWS[tab]();
-  $('#ht').textContent = { plan: 'Aaj ka Plan', shop: 'Shop', kitchen: 'Kitchen', owner: 'Owner Panel' }[tab];
-  $('#nav').innerHTML = [['plan','','Plan'],['shop','🛒','Shop'],['kitchen','👨‍🍳','Kitchen'],['owner','👤','Owner']].filter(x => OK || x[0] === 'plan' || x[0] === 'shop').map(x => `<div class="${x[0] === tab ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><span>${x[1]}</span>${x[2]}</div>`).join('');
-};
-
-const ACTIONS = {
-  tab: v => {
-    if (['kitchen', 'owner'].includes(v) && !OK) {
-      const pin = prompt('Owner PIN:');
-      if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); showToast('🔓 Admin Access Granted'); }
-      else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); return; }
-    }
-    tab = v; render();
-  },
-  set: (v, k) => { F[k] = v; render(); },
-  inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; render(); },
-  dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); if (C[id] === 0) delete C[id]; render(); },
-
-  joinTrial: () => {
-    const name = (F.name || '').trim(), phone = cleanPhone(F.phone);
-    if (name.length < 2 || phone.length !== 10) { showToast('❌ Naam aur 10 digit phone daalo', 'error'); return; }
-    
-    // Check if already has active trial
-    const existing = (S.subs || []).find(s => s.phone === phone && getSubStatus(s) !== 'expired');
-    if (existing) { showToast('❌ Aapka pehle se ek active plan/trial hai', 'error'); return; }
-
-    S.subs.push({ 
-      id: Date.now(), name, phone, area: (F.area || '').trim() || 'Udala', 
-      type: F.type, days: 1, start: todayStr(), price: 0, 
-      status: 'trial', utr: 'FREE_TRIAL' 
-    });
-    save(); showToast('🎁 1 Din Free Trial Active Ho Gaya!');
-    F.name = ''; F.phone = ''; F.area = '';
-  },
-
-  joinPaid: () => {
-    const name = (F.name || '').trim(), phone = cleanPhone(F.phone);
-    if (name.length < 2 || phone.length !== 10) { showToast('❌ Naam aur 10 digit phone daalo', 'error'); return; }
-    
-    const utr = prompt('Payment kar diya? Apna UTR / Transaction ID yahan likhein:');
-    if (!utr || utr.length < 5) { showToast('❌ Bina UTR ke plan nahi banega', 'error'); return; }
-
-    const price = PRICING[F.type][F.days] || 2899;
-    S.subs.push({ 
-      id: Date.now(), name, phone, area: (F.area || '').trim() || 'Udala', 
-      type: F.type, days: +F.days, start: todayStr(), price: price, 
-      status: 'pending', utr: utr 
-    });
-    save(); showToast('⏳ Plan ban gaya! Owner payment verify karega.');
-    window.open(`https://wa.me/${CONFIG.whatsapp}?text= *Naya Plan (Payment Pending)*%0A👤 ${name}%0A📱 ${phone}%0A🍽️ ${F.type} · ${F.days} din%0A💰 ₹${price}%0A UTR: ${utr}`, '_blank');
-    F.name = ''; F.phone = ''; F.area = ''; F.utr = '';
-  },
-
-  verifyPayment: (v, k, id) => {
-    const sub = (S.subs || []).find(s => s.id == id);
-    if (sub) { sub.status = 'active'; save(); showToast('✅ Payment Verified! Plan Active ho gaya.'); }
-  },
-
-  rejectPayment: (v, k, id) => {
-    const sub = (S.subs || []).find(s => s.id == id);
-    if (sub) { sub.status = 'rejected'; save(); showToast('❌ Payment Reject kar diya.'); }
-  },
-
-  order: () => {
-    const name = (F.name || '').trim(), phone = cleanPhone(F.phone);
-    if (name.length < 2 || phone.length !== 10) { showToast('❌ Naam aur phone daalo', 'error'); return; }
-    const items = []; let total = 0;
-    Object.entries(C).forEach(([k, q]) => { const p = S.prod.find(x => x.id == k); if (p && q > 0) { items.push({ n: p.n, q, p: p.p }); total += p.p * q; } });
-    if (!items.length) { showToast('❌ Cart khali hai', 'error'); return; }
-    S.orders.push({ id: Date.now(), name, phone, area: (F.area || '').trim() || 'Udala', items, total, status: 'pending', date: todayStr() });
-    C = {}; save(); showToast('✅ Order ho gaya!');
-  },
-
-  out: () => { OK = 0; sessionStorage.removeItem('udok'); tab = 'plan'; render(); showToast('🚪 Logged out'); }
-};
-
-document.addEventListener('click', e => {
-  const btn = e.target.closest('[data-a]'); if (!btn) return;
-  const action = ACTIONS[btn.dataset.a];
-  if (action) { try { action(btn.dataset.v, btn.dataset.k, btn.dataset.id); } catch (err) { console.error(err); showToast('❌ Error', 'error'); } }
-});
-
-document.addEventListener('input', e => {
-  const field = e.target.dataset?.f;
-  if (field) { F[field] = e.target.value; if (field === 'phone') F.phone = cleanPhone(F.phone); }
-});
-
-let tapCount = 0;
-$('#mainHeader').addEventListener('click', () => {
-  tapCount++;
-  if (tapCount >= 5) {
-    tapCount = 0;
-    const pin = prompt('Owner PIN:');
-    if (pin === CONFIG.ownerPin) { OK = 1; sessionStorage.setItem('udok', '1'); tab = 'owner'; render(); showToast('🔓 Admin Access Granted'); }
-    else if (pin !== null) { showToast('❌ Galat PIN!', 'error'); }
-  }
-});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const f=ACTIONS[b.dataset.a];if(f){try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(err){console.error(err);showToast('❌ Error','error')}}});
+document.addEventListener('input',e=>{const f=e.target.dataset?.f;if(f){F[f]=e.target.value;if(f==='phone')F.phone=cleanPhone(F.phone)}});
+$('#restoreFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const rd=new FileReader();
+ rd.onload=()=>{try{const d=JSON.parse(rd.result);S=mergeStates(S,d);save();showToast('✅ Backup restore ho gaya!')}catch(err){showToast('❌ Galat backup file','error')}};
+ rd.readAsText(file);e.target.value=''});
+let tap=0;$('#mainHeader').addEventListener('click',()=>{tap++;if(tap>=5){tap=0;const x=prompt('Owner PIN:');if(x===null)return;if(x===CONFIG.ownerPin){OK=1;sessionStorage.setItem('udok','1');tab='owner';render();showToast('🔓 Owner access')}else showToast('❌ Galat PIN','error')}});
 
 render();
-console.log('🍱 Namaste Udala Logic Fixed!');
+if(loaded.fromOld&&loaded.recovered>0)setTimeout(()=>showToast(`📦 Purana data recover hua: ${loaded.recovered} records!`),800);
+console.log('🍱 Namaste Udala FINAL loaded. Storage:',STORAGE_KEY);
 </script>
 </body>
 </html>
