@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#070B14">
-<title>🍱 Namaste Udala — Ultra 3D Cloud+</title>
+<title>🍱 Namaste Udala — Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{--o:#FF6B35;--o2:#E85D04;--neon:#06D6A0;--neon2:#22D3EE;--gold:#FCD34D;--bad:#EF4444;--warn:#F59E0B;--info:#3B82F6;--purple:#7C3AED;--pink:#EC4899}
@@ -66,8 +66,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 .nav div span{font-size:21px;display:block;margin-bottom:2px}
 .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:700;border:1px solid transparent;position:relative}
 .badge.active{background:rgba(6,214,160,.15);color:var(--neon);border-color:rgba(6,214,160,.5);box-shadow:0 0 14px rgba(6,214,160,.4)}
-.badge.active::after{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,var(--neon),var(--neon2),var(--purple),var(--neon));background-size:300% 300%;animation:holo 3s linear infinite;opacity:.3;z-index:-1}
-@keyframes holo{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .badge.pending{background:rgba(245,158,11,.15);color:var(--warn);border-color:rgba(245,158,11,.5);box-shadow:0 0 14px rgba(245,158,11,.3)}
 .badge.trial{background:rgba(59,130,246,.15);color:#93C5FD;border-color:rgba(59,130,246,.5);box-shadow:0 0 14px rgba(59,130,246,.3)}
 .badge.expired,.badge.rejected{background:rgba(255,255,255,.06);color:var(--muted);border-color:var(--line)}
@@ -92,13 +90,24 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 .stat:hover{transform:translateY(-3px) scale(1.02)}
 .stat .v{font-size:22px;font-weight:900;text-shadow:0 0 14px rgba(255,255,255,.6)}
 .stat .l{font-size:10.5px;opacity:.9;font-weight:600}
-.vd{display:inline-block;width:15px;height:15px;border:2px solid #16a34a;border-radius:3px;position:relative;background:#fff;vertical-align:-3px}
-.vd::after{content:'';position:absolute;inset:2px;border-radius:50%;background:#16a34a}
-.vd.nv{border-color:#dc2626}.vd.nv::after{background:#dc2626}
+.veg-indicator{width:16px;height:16px;border:2px solid #16a34a;border-radius:3px;display:flex;align-items:center;justify-content:center;background:#fff}
+.veg-indicator::after{content:'';width:8px;height:8px;background:#16a34a;border-radius:50%}
+.nv-indicator{width:16px;height:16px;border:2px solid #dc2626;border-radius:3px;display:flex;align-items:center;justify-content:center;background:#fff}
+.nv-indicator::after{content:'';width:8px;height:8px;background:#dc2626;border-radius:50%}
+.zomato-rating{background:#24963F;color:#fff;padding:2px 6px;border-radius:6px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:2px;box-shadow:0 2px 4px rgba(36,150,63,0.3)}
+.zomato-time{font-size:11px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:3px}
+.add-btn-zomato{width:100%;padding:8px;border:1px solid var(--o);background:rgba(255,107,53,0.1);color:var(--o);font-weight:800;font-size:13px;border-radius:8px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;transition:all 0.2s}
+.add-btn-zomato:hover{background:var(--o);color:#fff;box-shadow:0 4px 12px rgba(255,107,53,0.4)}
+[data-theme="light"] .add-btn-zomato{background:#fff}
+.category-pill{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 12px;border-radius:12px;background:var(--inp);border:1px solid var(--line);font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;min-width:70px}
+.category-pill.on{background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;border-color:var(--o);box-shadow:0 4px 12px rgba(255,107,53,0.3)}
+.category-pill .icon{font-size:20px}
+.cartbar-premium{background:linear-gradient(135deg,#1B4332,#0F2C21);color:#fff;border:1px solid rgba(6,214,160,0.3);box-shadow:0 -4px 20px rgba(0,0,0,0.3)}
+[data-theme="light"] .cartbar-premium{background:linear-gradient(135deg,#fff,#f8fafc);color:#0F172A;border:1px solid #E2E8F0}
 .pcard{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .15s,box-shadow .3s;transform-style:preserve-3d;cursor:pointer;position:relative}
 .pcard:hover{box-shadow:0 0 0 1px rgba(255,107,53,.6),0 14px 40px rgba(255,107,53,.3);transform:translateY(-4px)}
-.pcard .ph{height:110px;overflow:hidden;position:relative;background:var(--inp)}
-.pcard .ph img{width:100%;height:110px;object-fit:cover;display:block;transition:transform .5s}
+.pcard .ph{height:130px;overflow:hidden;position:relative;background:var(--inp)}
+.pcard .ph img{width:100%;height:130px;object-fit:cover;display:block;transition:transform .5s}
 .pcard:hover .ph img{transform:scale(1.16)}
 .pcard .ph .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;background:linear-gradient(135deg,rgba(252,211,77,.25),rgba(255,107,53,.25))}
 .avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--neon);box-shadow:0 0 12px rgba(6,214,160,.5)}
@@ -115,14 +124,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 @keyframes zoomIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
 .modal h3{color:var(--neon);margin-bottom:14px;font-size:20px;text-shadow:0 0 16px rgba(6,214,160,.5)}
 [data-theme="light"] .modal h3{text-shadow:none;color:var(--h3)}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;background:var(--inp);border:1.5px solid var(--line);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;margin:3px;transition:all .2s}
-.chip.on{background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;border-color:var(--o);box-shadow:0 0 16px rgba(255,107,53,.5)}
-.chip:hover:not(.on){border-color:var(--o);color:var(--o)}
-.compare-table{width:100%;border-collapse:collapse;margin-top:10px}
-.compare-table th,.compare-table td{padding:10px 6px;text-align:center;border:1px solid var(--line);font-size:13px;background:var(--inp)}
-.compare-table th{background:linear-gradient(135deg,#1B4332,#0F2C21);color:#fff;font-weight:700}
-.compare-table .best{background:rgba(6,214,160,.2);font-weight:800;color:var(--neon);text-shadow:0 0 12px rgba(6,214,160,.65)}
-[data-theme="light"] .compare-table .best{background:#D1FAE5;color:#065F46;text-shadow:none}
 .loader{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .alert-box{background:rgba(245,158,11,.12);border:1.5px solid rgba(245,158,11,.5);border-radius:14px;padding:12px;margin:10px 0}
@@ -131,7 +132,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 .tl-item{position:relative;padding:8px 0 8px 16px;font-size:12.5px}
 .tl-item::before{content:'';position:absolute;left:-17px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--neon);box-shadow:0 0 10px var(--neon)}
 .tl-item.bad::before{background:var(--bad);box-shadow:0 0 10px var(--bad)}
-.tl-item.neutral::before{background:var(--muted);box-shadow:none}
 .kids-banner{position:relative;border-radius:20px;overflow:hidden;margin-bottom:14px;height:180px}
 .kids-banner img{width:100%;height:100%;object-fit:cover;transition:transform 4s}
 .kids-banner:hover img{transform:scale(1.1)}
@@ -178,12 +178,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-const firebaseConfig = {
-  databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com"
-};
+const firebaseConfig = { databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com" };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const dbRef = ref(db, 'namaste_udala_data');
 
 const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788',upi:'9583937047@jio'};
 const PRICING={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
@@ -194,11 +191,6 @@ const KIRANA_PRESET=['Doodh 500 ml','Atta 1 kg','Chawal 1 kg','Dal 1 kg','Tel 1 
 
 const IMG={
   kids1:'https://images.unsplash.com/photo-1565538810699-0e7a7d433f66?w=800&q=80',
-  kids2:'https://images.unsplash.com/photo-1516402164833-c922fa2f8a7c?w=800&q=80',
-  kids3:'https://images.unsplash.com/photo-1607522502273-0fa0f08ab5d6?w=800&q=80',
-  kids4:'https://images.unsplash.com/photo-1584839404757-62d21a35ff27?w=800&q=80',
-  kids5:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb5?w=800&q=80',
-  family:'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80',
   thali:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80',
   curry:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80',
   roti:'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80',
@@ -222,7 +214,7 @@ const IMG={
   av5:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80'
 };
 const AVATARS=[IMG.av1,IMG.av2,IMG.av3,IMG.av4,IMG.av5];
-const KIDS_BANNERS=[IMG.kids1,IMG.kids2,IMG.kids3,IMG.kids4,IMG.kids5,IMG.family];
+const KIDS_BANNERS=[IMG.kids1,IMG.kids1,IMG.kids1,IMG.kids1,IMG.kids1];
 
 const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
@@ -258,13 +250,13 @@ const SEED=[
 {n:'Detergent 1 kg',p:130,c:'Ghar ki Safai',nv:0,img:IMG.clean},{n:'Sabun',p:30,c:'Body Care',nv:0,img:IMG.care}
 ].map((a,i)=>({id:generateId(),...a,kind:'grocery',s:1}));
 const FOOD_SEED=[
-{n:'Special Veg Thali',p:120,c:'Thali',nv:0,img:IMG.thali,rating:4.6,time:30,best:1,allergens:'Dairy'},
-{n:'Paneer Butter Masala',p:140,c:'Curry',nv:0,img:IMG.paneer,rating:4.5,time:25,allergens:'Dairy,Nuts'},
+{n:'Special Veg Thali',p:120,c:'Thali',nv:0,img:IMG.thali,rating:4.6,time:30,best:1},
+{n:'Paneer Butter Masala',p:140,c:'Curry',nv:0,img:IMG.paneer,rating:4.5,time:25},
 {n:'Dal Fry + Chawal',p:90,c:'Curry',nv:0,img:IMG.dal,rating:4.3,time:20},
 {n:'Chicken Curry',p:160,c:'Curry',nv:1,img:IMG.chicken,rating:4.7,time:30,best:1},
 {n:'Egg Curry',p:100,c:'Curry',nv:1,img:IMG.egg,rating:4.2,time:20},
 {n:'Chicken Biryani',p:150,c:'Biryani',nv:1,img:IMG.biryani,rating:4.8,time:35,best:1},
-{n:'Gulab Jamun (2pc)',p:40,c:'Sweets',nv:0,img:IMG.meetha,rating:4.7,time:10,allergens:'Dairy,Gluten'},
+{n:'Gulab Jamun (2pc)',p:40,c:'Sweets',nv:0,img:IMG.meetha,rating:4.7,time:10},
 {n:'Masala Chai',p:20,c:'Drinks',nv:0,img:IMG.chai,rating:4.5,time:10}
 ].map((a,i)=>({id:generateId(),...a,kind:'food',s:1}));
 
@@ -290,10 +282,10 @@ const normalizeOrder=o=>{if(!o||!o.id)return null;
  o.rating=o.rating||0;o.feedback=o.feedback||'';o.contactless=o.contactless?1:0;o.tip=+o.tip||0;
  return o};
 const normalizeProd=p=>{if(!p||!p.id)return null;
- return{id:p.id,n:String(p.n||'Item'),p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,img:p.img||'',kind:p.kind==='food'?'food':'grocery',rating:p.rating||0,time:p.time||0,best:p.best?1:0,allergens:p.allergens||''}};
+ return{id:p.id,n:String(p.n||'Item'),p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,img:p.img||'',kind:p.kind==='food'?'food':'grocery',rating:p.rating||0,time:p.time||0,best:p.best?1:0}};
 
 function migrate(d){
-  if(!d||typeof d!=='object')return d;
+  if(!d||typeof d!=='object')return {v:SCHEMA_V,prod:[],subs:[],orders:[],pays:[],meals:{},done:{},mset:{},coupons:COUPONS_DEFAULT,notifications:[],waste:[],lastOrderTime:0};
   const v=d.v||1;
   if(v<2)(d.orders||[]).forEach(o=>{o.slot=o.slot||'lunch';o.discount=o.discount||0;o.coupon=o.coupon||''});
   if(v<3){d.coupons=d.coupons||COUPONS_DEFAULT;d.walletLedger=d.walletLedger||[]}
@@ -303,7 +295,6 @@ function migrate(d){
     (d.subs||[]).forEach(s=>{s.rating=s.rating||0;s.feedback=s.feedback||''});
   }
   
-  // ✅ CRITICAL FIX: Initialize ALL missing fields
   d.prod=d.prod||[];
   d.subs=d.subs||[];
   d.orders=d.orders||[];
@@ -365,7 +356,7 @@ const save=(immediate=false)=>{
   const doSave = async () => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
-      await set(dbRef, S);
+      await set(ref(db, 'namaste_udala_data'), S);
       render();
     } catch (e) {
       console.error("Cloud save error:", e);
@@ -379,7 +370,6 @@ const save=(immediate=false)=>{
 
 const saveCart=()=>{try{localStorage.setItem('ud_cart',JSON.stringify(C))}catch(e){}};
 
-// ✅ SAFE mf function - handles undefined S.mset
 const mf=(d,t)=>{
   try{
     const k=iso(d);
@@ -405,7 +395,7 @@ const badge=st=>`<span class="badge ${st}">${st==='active'?'✅ Active':st==='pe
 const mealKey=(sid,meal,date)=>(date||todayStr())+'_'+sid+'_'+meal;
 const packItems=s=>{const meal=m=>m==='chawal'?'Chawal':m==='both'?'Roti x4 + Chawal':'Roti x4';
  return ['🌅 Chai+nashta','☀️ Lunch: '+meal(s.lunch),'🌙 Dinner: '+meal(s.dinner),(s.extraRoti?'🫓 Extra x'+s.extraRoti:null),(s.type==='nv'?'🍗 NV curry x2':'🥘 Veg sabzi x2')].filter(Boolean)};
-const vdot=nv=>`<span class="vd ${nv?'nv':''}"></span>`;
+const vdot=nv=>nv?'<div class="nv-indicator"></div>':'<div class="veg-indicator"></div>';
 const imgOrEmoji=(src,em)=>src?`<img src="${src}" loading="lazy" onerror="this.outerHTML='<div class=\\'placeholder\\'>${em||'🍛'}</div>'">`:`<div class="placeholder">${em||'🍛'}</div>`;
 const stepper=(id,q)=>`<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:3px;background:rgba(255,107,53,.08)"><button data-a="dec" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800" aria-label="Decrease">−</button><b style="min-width:20px;text-align:center">${q}</b><button data-a="inc" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800" aria-label="Increase">+</button></div>`;
 const calcCart=()=>{let sub=0,cnt=0;
@@ -561,7 +551,6 @@ const showProductDetail=(prodId)=>{
       <b style="font-size:22px;color:var(--o)">${inr(p.p)}</b>
     </div>
     ${p.kind==='food'?`<div class="s">⭐ ${p.rating||'4.3'} · 🕐 ${p.time||25} min ${p.best?'· ⭐ BESTSELLER':''}</div>`:`<div class="s">Stock mein ${p.s?'✅':'❌'}</div>`}
-    ${p.allergens?`<div class="s" style="color:var(--warn);margin-top:6px">⚠️ Allergens: ${esc(p.allergens)}</div>`:''}
   </div>
   <div style="display:flex;gap:8px">
     <button class="btn g" data-a="inc" data-id="${p.id}" data-a2="closeModal" style="flex:1;margin:0">➕ Cart mein daalo</button>
@@ -601,7 +590,6 @@ const showOrderDetail=(orderId)=>{
     <a class="btn g" href="tel:+91${o.phone}" style="flex:1;margin:0;text-decoration:none;text-align:center">📞 Call</a>
     ${o.map?`<a class="btn b" href="${o.map}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">🗺️ Map</a>`:''}
     ${o.status==='pending'?`<button class="btn" data-a="odone" data-id="${o.id}" data-a2="closeModal" style="flex:1;margin:0">✅ Mark Done</button>`:''}
-    ${o.status==='delivered'&&!o.rating?`<button class="btn g" data-a="rateOrder" data-id="${o.id}" style="flex:1;margin:0">⭐ Rate</button>`:''}
   </div>
   <button class="btn ghost" data-a="closeModal" style="margin-top:8px">Band</button>
  </div>`;
@@ -664,7 +652,6 @@ const showOrderHistory=()=>{
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
           <b style="color:var(--o)">${inr(o.total)}</b>
           <div style="display:flex;gap:6px">
-            ${o.status==='delivered'&&!o.rating?`<button class="btn sm g" data-a="rateOrder" data-id="${o.id}" style="margin:0">⭐ Rate</button>`:''}
             <button class="btn sm b" data-a="reorder" data-id="${o.id}" style="margin:0">🔁 Reorder</button>
           </div>
         </div>
@@ -674,50 +661,6 @@ const showOrderHistory=()=>{
   
   html+=`</div>`;
   showModal(html);
-};
-
-const showRatingModal=(orderId)=>{
- const o=(S.orders||[]).find(x=>x.id==orderId);
- if(!o)return;
- 
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
-  <h3>⭐ Rate Your Order</h3>
-  <div class="s" style="margin-bottom:14px">Order #${String(o.id).slice(-4)} - ${o.date}</div>
-  
-  <div style="text-align:center;margin:20px 0">
-    <div style="font-size:40px;cursor:pointer" id="starRating">
-      <span data-star="1">☆</span>
-      <span data-star="2">☆</span>
-      <span data-star="3">☆</span>
-      <span data-star="4">☆</span>
-      <span data-star="5">☆</span>
-    </div>
-    <input type="hidden" id="ratingValue" value="0">
-  </div>
-  
-  <textarea id="feedbackText" placeholder="Apna feedback dein (optional)..." style="min-height:100px"></textarea>
-  
-  <div style="display:flex;gap:8px;margin-top:14px">
-    <button class="btn g" data-a="submitRating" data-id="${o.id}" style="flex:1;margin:0">Submit</button>
-    <button class="btn ghost" data-a="closeModal" style="flex:1;margin:0">Cancel</button>
-  </div>
- </div>`;
- 
- showModal(html);
- 
- setTimeout(()=>{
-   const stars=$$('#starRating span');
-   stars.forEach(star=>{
-     star.addEventListener('click',()=>{
-       const val=parseInt(star.dataset.star);
-       $('#ratingValue').value=val;
-       stars.forEach((s,i)=>{
-         s.textContent=i<val?'★':'☆';
-         s.style.color=i<val?'var(--gold)':'var(--muted)';
-       });
-     });
-   });
- },100);
 };
 
 const VIEWS={
@@ -735,32 +678,45 @@ plan:()=>{
  </div>`;
 
  if(ME){
-  const mine=(S.subs||[]).filter(s=>s.phone===ME.phone).sort((a,b)=>b.id-a.id);
-  const live=mine.find(isLive)||mine[0];
-  h+=`<div class="card clickable" data-a="custDetail" data-id="${ME._subId||''}"><div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:10px;align-items:center"><img src="${ME.avatar||randAvatar(0)}" class="avatar" onerror="this.src='${IMG.av1}'" alt="Avatar"><div><b>👤 ${esc(ME.name)}</b><div class="s clickable-indicator">Tap for full details</div></div></div><div style="display:flex;gap:6px"><button class="btn sm b" data-a="showHistory" style="margin:0">📜 History</button><button class="btn sm r" data-a="logout" style="margin:0">Logout</button></div></div>`;
-  if(live){
-   const st=getSubStatus(live);
-   const start=new Date(live.start+'T12:00:00'),end=subEnd(live),today=new Date();today.setHours(12,0,0,0);
-   const passed=clamp(Math.floor((today-start)/86400000),0,live.days),left=Math.max(0,live.days-passed);
-   h+=`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:center"><b>${live.type==='veg'?'🟢 Veg':' NV'} · ${live.days} din</b>${badge(st)}</div>
-    <div class="s" style="margin-top:6px">📅 ${live.start} → ${iso(end)} · ⏳ Bache: <b style="color:var(--o)">${left}</b></div>
-    <div class="pbar"><div class="pfill" style="width:${Math.round(passed/live.days*100)}%"></div></div>
-    ${st==='pending'?`<div class="alert-box">⏳ Payment verify hone ka intezar. UTR: ${esc(live.utr||'-')}</div>`:''}
-    ${st==='trial'?`<div class="alert-box" style="background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.45)">🎁 Free trial chal raha hai!</div>`:''}
-    ${left<=3&&st==='active'?`<div class="urgency-bar">⚠️ Plan ${left} din mein khatam! Renew karein</div>`:''}</div>`;
-   if(st==='active'||st==='trial'){
-    h+=`<div style="margin-top:14px"><b class="s" style="font-weight:800;color:var(--neon)">🍽️ AAJ KA KHANA</b>`;
-    [['subah','🌅 Subah','7:30-8:15'],['lunch','☀️ Lunch','1:30-2:15'],['dinner','🌙 Dinner','8:00-9:00']].forEach(m=>{
-     const stt=(S.meals||{})[mealKey(live.id,m[0])]||'pending';
-     h+=`<div class="row"><div><b>${m[1]}</b><div class="s">${m[2]}</div></div>
-      <div style="display:flex;gap:6px;align-items:center"><span class="badge ${stt==='consumed'?'active':stt==='skipped'?'expired':'pending'}">${stt==='consumed'?'Khaya':stt==='skipped'?'Skip':'Baki'}</span>
-      <button class="btn sm g" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="consumed" aria-label="Mark consumed">✅</button>
-      <button class="btn sm r" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="skipped" aria-label="Mark skipped">❌</button></div></div>`});
-    h+=`<button class="btn ghost" data-a="openPause" style="margin-top:12px">⏸️ Plan Pause Karein</button></div>`;
-   }
-   ME._subId=live.id;
-  } else h+=`<div class="s" style="margin-top:10px">Koi plan nahi. Neeche se lein.</div>`;
-  h+=`</div>`;
+  const mine=(S.subs||[]).filter(s=>s.phone===ME.phone).sort((a,b)=>b.ts-a.ts);
+  h+=`<div class="card clickable"><div style="display:flex;justify-content:space-between;align-items:center">
+    <div style="display:flex;gap:10px;align-items:center">
+      <img src="${ME.avatar||randAvatar(0)}" class="avatar" onerror="this.src='${IMG.av1}'" alt="Avatar">
+      <div><b>👤 ${esc(ME.name)}</b><div class="s clickable-indicator">Tap for details</div></div>
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="btn sm b" data-a="showHistory" style="margin:0">📜 History</button>
+      <button class="btn sm r" data-a="logout" style="margin:0">Logout</button>
+    </div>
+  </div></div>`;
+
+  if(mine.length > 0){
+    h+=`<div class="card"><h3>📋 Aapke Saare Plans (${mine.length})</h3>`;
+    mine.forEach(live=>{
+      const st=getSubStatus(live);
+      const start=new Date(live.start+'T12:00:00');
+      const end=subEnd(live);
+      const today=new Date(); today.setHours(12,0,0,0);
+      const passed=clamp(Math.floor((today-start)/86400000),0,live.days);
+      const left=Math.max(0,live.days-passed);
+      const progress=Math.min(100, Math.round((passed/live.days)*100));
+      
+      h+=`<div class="grow" data-a="custDetail" data-id="${live.id}" style="padding:14px 10px;background:var(--inp);border-radius:14px;margin-bottom:12px">
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <b style="font-size:15px">${live.type==='veg'?'🟢 Veg':'🔴 NV'} · ${live.days} Din</b>
+            ${badge(st)}
+          </div>
+          <div class="s">📅 ${live.start} se ${iso(end)} tak</div>
+          <div class="s" style="margin-top:4px;color:var(--o);font-weight:700">⏳ Bache hue din: ${left}</div>
+          <div class="pbar" style="margin-top:8px"><div class="pfill" style="width:${progress}%"></div></div>
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+  } else {
+    h+=`<div class="card" style="text-align:center;padding:30px"><div style="font-size:30px;margin-bottom:10px">🍱</div><p class="s">Aapne abhi tak koi plan nahi liya hai.</p></div>`;
+  }
  } else {
   h+=`<div class="card"><h3>👤 Login</h3>
    <div style="display:flex;gap:8px"><input id="lname" style="margin:0" placeholder="Naam" aria-label="Name"><input id="lphone" style="margin:0" type="tel" maxlength="10" placeholder="Phone" aria-label="Phone"><button class="btn sm g" data-a="login" style="margin:0">Login</button></div></div>`;
@@ -791,28 +747,38 @@ plan:()=>{
 
 shop:()=>{
  const cart=calcCart();
- let h=`<div class="card" style="background:linear-gradient(135deg,rgba(245,158,11,.9),rgba(232,93,4,.9));color:#fff;border:none">
-   <h3 style="color:#fff;margin-bottom:8px">🛍️ Shop</h3>
-   <div class="seg" style="margin:0">
-     <button data-a="shopmode" data-v="food" style="border:none;background:${SHOPMODE==='food'?'#fff':'rgba(255,255,255,.18)'};color:${SHOPMODE==='food'?'#E85D04':'#fff'}">🍛 Food</button>
-     <button data-a="shopmode" data-v="grocery" style="border:none;background:${SHOPMODE==='grocery'?'#fff':'rgba(255,255,255,.18)'};color:${SHOPMODE==='grocery'?'#E85D04':'#fff'}">🛒 Grocery</button>
+ let h=`<div class="card" style="background:linear-gradient(135deg,rgba(245,158,11,.95),rgba(232,93,4,.95));color:#fff;border:none;border-radius:0 0 24px 24px;margin:-24px -16px 16px;padding:20px 16px">
+   <h3 style="color:#fff;margin-bottom:12px;font-size:20px">🛍️ Order Now</h3>
+   <div class="seg" style="margin:0;background:rgba(255,255,255,0.2);padding:4px;border-radius:14px">
+     <button data-a="shopmode" data-v="food" style="border:none;background:${SHOPMODE==='food'?'#fff':'transparent'};color:${SHOPMODE==='food'?'#E85D04':'#fff'};border-radius:10px;font-size:14px">🍛 Food</button>
+     <button data-a="shopmode" data-v="grocery" style="border:none;background:${SHOPMODE==='grocery'?'#fff':'transparent'};color:${SHOPMODE==='grocery'?'#E85D04':'#fff'};border-radius:10px;font-size:14px">🛒 Grocery</button>
    </div></div>`;
- h+=`<input id="sq" placeholder="🔍 Search..." value="${esc(SQ)}" aria-label="Search">`;
- if(SHOPMODE==='grocery')h+=`<div class="card" style="background:rgba(6,214,160,.1);border-color:rgba(6,214,160,.4)"><b style="color:var(--neon)">🛒 Weekly Kirana List</b><div class="s" style="margin-top:4px">1-tap mein sab add</div><button class="btn sm g" data-a="addPreset" style="margin-top:8px">➕ Sab Add Karein</button></div>`;
+   
+ h+=`<div style="position:sticky;top:0;z-index:10;background:var(--bg);padding-bottom:10px">
+   <input id="sq" placeholder="🔍 Search for dishes, groceries..." value="${esc(SQ)}" style="margin:0;border-radius:12px" aria-label="Search">
+ </div>`;
+
+ if(SHOPMODE==='grocery') {
+   h+=`<div class="card" style="background:rgba(6,214,160,.08);border-color:rgba(6,214,160,.3)"><div style="display:flex;justify-content:space-between;align-items:center"><div><b style="color:var(--neon)">🛒 Weekly Kirana</b><div class="s" style="margin-top:2px">1-tap mein pura ration add karein</div></div><button class="btn sm g" data-a="addPreset" style="margin:0;width:auto">➕ Add All</button></div></div>`;
+ }
+
  if(SHOPMODE==='food'){
   const foods=(S.prod||[]).filter(p=>p.kind==='food'&&p.s!==0);
   const cats=['Sab',...new Set(foods.map(p=>p.c))];
-  h+=`<div style="display:flex;gap:6px;overflow-x:auto;padding:2px 2px 12px">`+cats.map(c=>`<button data-a="fcat" data-v="${esc(c)}" class="chip ${FCAT===c?'on':''}" style="flex:none">${esc(c)}</button>`).join('')+`</div>`;
   
-  h+=`<div style="display:flex;gap:6px;margin-bottom:10px">
-    <select id="sortSelect" style="margin:0;padding:8px;font-size:12px" aria-label="Sort by">
-      <option value="default" ${SORT_BY==='default'?'selected':''}>Default</option>
+  h+=`<div style="display:flex;gap:10px;overflow-x:auto;padding:4px 2px 16px;scrollbar-width:none">`+cats.map(c=>{
+    const icons={'Sab':'🍽️','Thali':'🍱','Curry':'🍛','Biryani':'🥘','Sweets':'🍮','Drinks':'🥤','Chai aur Nashta':'☕'};
+    return `<button data-a="fcat" data-v="${esc(c)}" class="category-pill ${FCAT===c?'on':''}" style="flex:none"><span class="icon">${icons[c]||'🍴'}</span>${esc(c)}</button>`;
+  }).join('')+`</div>`;
+  
+  h+=`<div style="display:flex;gap:8px;margin-bottom:12px">
+    <select id="sortSelect" style="margin:0;padding:8px 12px;font-size:12px;border-radius:10px" aria-label="Sort by">
+      <option value="default" ${SORT_BY==='default'?'selected':''}>Relevance</option>
+      <option value="rating" ${SORT_BY==='rating'?'selected':''}>Rating 4.0+</option>
       <option value="price-low" ${SORT_BY==='price-low'?'selected':''}>Price: Low to High</option>
       <option value="price-high" ${SORT_BY==='price-high'?'selected':''}>Price: High to Low</option>
-      <option value="rating" ${SORT_BY==='rating'?'selected':''}>Rating</option>
-      <option value="name" ${SORT_BY==='name'?'selected':''}>Name A-Z</option>
     </select>
-    <button class="btn sm ghost" data-a="toggleView" style="margin:0;padding:8px 12px">${VIEW_MODE==='grid'?'📋 List':'🔲 Grid'}</button>
+    <button class="btn sm ghost" data-a="toggleView" style="margin:0;padding:8px 12px;border-radius:10px">${VIEW_MODE==='grid'?'📋 List':'🔲 Grid'}</button>
   </div>`;
   
   let list=foods;if(FCAT!=='Sab')list=list.filter(p=>p.c===FCAT);
@@ -821,86 +787,116 @@ shop:()=>{
   if(SORT_BY==='price-low')list.sort((a,b)=>a.p-b.p);
   else if(SORT_BY==='price-high')list.sort((a,b)=>b.p-a.p);
   else if(SORT_BY==='rating')list.sort((a,b)=>(b.rating||0)-(a.rating||0));
-  else if(SORT_BY==='name')list.sort((a,b)=>a.n.localeCompare(b.n));
   
   if(list.length){
     if(VIEW_MODE==='grid'){
-      h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">`;
-      list.forEach(p=>{const q=C[p.id]||0;
-        h+=`<div class="pcard" data-a="prodDetail" data-id="${p.id}"><div class="ph">${imgOrEmoji(p.img,'🍛')}
-          <span style="position:absolute;top:8px;left:8px;background:#fff;border-radius:4px;padding:2px 4px;line-height:0;z-index:2">${vdot(p.nv)}</span>
-          ${p.best?`<span style="position:absolute;bottom:8px;left:8px;background:var(--o);color:#fff;font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px;z-index:2;box-shadow:0 0 12px rgba(255,107,53,.7)">⭐ BEST</span>`:''}</div>
-          <div style="padding:10px"><b style="font-size:12.5px;display:block;line-height:1.35;min-height:34px">${esc(p.n)}</b>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><span class="s" style="font-weight:700;color:var(--neon)">★ ${p.rating||'4.3'}</span><b style="color:var(--o);font-size:14px;text-shadow:0 0 10px rgba(255,107,53,.5)">${inr(p.p)}</b></div>
-          ${q>0?stepper(p.id,q):`<button class="btn sm ghost" data-a="inc" data-id="${p.id}" style="width:100%;margin:2px 0 0" onclick="event.stopPropagation()">ADD +</button>`}</div></div>`});
+      h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">`;
+      list.forEach(p=>{
+        const q=C[p.id]||0;
+        h+=`<div class="pcard" data-a="prodDetail" data-id="${p.id}" style="border-radius:16px">
+          <div class="ph" style="height:130px;border-radius:16px 16px 0 0">
+            ${imgOrEmoji(p.img,'🍛')}
+            <span style="position:absolute;top:10px;left:10px;z-index:2">${p.nv?'<div class="nv-indicator"></div>':'<div class="veg-indicator"></div>'}</span>
+            ${p.best?`<span style="position:absolute;top:10px;right:10px;background:#DB7C26;color:#fff;font-size:9px;font-weight:800;padding:4px 8px;border-radius:6px;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.3)">⭐ BEST</span>`:''}
+          </div>
+          <div style="padding:12px">
+            <b style="font-size:14px;display:block;line-height:1.3;margin-bottom:6px;color:var(--text)">${esc(p.n)}</b>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+              <span class="zomato-rating">★ ${p.rating||'4.3'}</span>
+              <span class="zomato-time">🕐 ${p.time||25} mins</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <b style="color:var(--text);font-size:15px">${inr(p.p)}</b>
+              ${q>0?stepper(p.id,q):`<button class="add-btn-zomato" data-a="inc" data-id="${p.id}" onclick="event.stopPropagation()">ADD +</button>`}
+            </div>
+          </div>
+        </div>`;
+      });
       h+=`</div>`;
     } else {
-      h+=`<div class="card">`;
-      list.forEach(p=>{const q=C[p.id]||0;
-        h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}"><div style="width:48px;height:48px;flex:none">${imgOrEmoji(p.img,'🍛')}</div><div style="flex:1"><b>${vdot(p.nv)} ${esc(p.n)}</b><div class="s">★ ${p.rating||'4.3'} · ${inr(p.p)}</div></div><div onclick="event.stopPropagation()">${q>0?stepper(p.id,q):`<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}</div></div>`});
+      h+=`<div class="card" style="padding:8px">`;
+      list.forEach(p=>{
+        const q=C[p.id]||0;
+        h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)">
+          <div style="width:70px;height:70px;flex:none;border-radius:10px;overflow:hidden;position:relative">
+            ${imgOrEmoji(p.img,'🍛')}
+            <span style="position:absolute;top:4px;left:4px">${p.nv?'<div class="nv-indicator" style="width:12px;height:12px"></div>':'<div class="veg-indicator" style="width:12px;height:12px"></div>'}</span>
+          </div>
+          <div style="flex:1;padding:0 12px">
+            <b style="font-size:14px;color:var(--text)">${esc(p.n)}</b>
+            <div style="display:flex;align-items:center;gap:6px;margin:4px 0">
+              <span class="zomato-rating" style="font-size:10px;padding:1px 4px">★ ${p.rating||'4.3'}</span>
+              <span class="zomato-time" style="font-size:10px">🕐 ${p.time||25} mins</span>
+            </div>
+            <b style="color:var(--text);font-size:14px">${inr(p.p)}</b>
+          </div>
+          <div onclick="event.stopPropagation()" style="width:80px">
+            ${q>0?stepper(p.id,q):`<button class="add-btn-zomato" data-a="inc" data-id="${p.id}" style="padding:6px;font-size:12px">ADD +</button>`}
+          </div>
+        </div>`;
+      });
       h+=`</div>`;
     }
-  } else h+=`<div class="card"><p class="s">Kuch nahi mila 🔍</p></div>`;
+  } else {
+    h+=`<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:10px">🔍</div><p class="s">Kuch nahi mila. Search badal kar dekhein.</p></div>`;
+  }
  } else {
   const gro=(S.prod||[]).filter(p=>p.kind!=='food'&&p.s!==0);
   [...new Set(gro.map(p=>p.c))].forEach(c=>{
    let list=gro.filter(p=>p.c===c);
    if(SQ.trim())list=list.filter(p=>p.n.toLowerCase().includes(SQ.trim().toLowerCase()));
    if(!list.length)return;
-   h+=`<div class="card"><h3>${esc(c)}</h3>`;
-   list.forEach(p=>{const q=C[p.id]||0;
-    h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}"><div style="width:48px;height:48px;flex:none">${imgOrEmoji(p.img,'📦')}</div><div style="flex:1"><b>${vdot(p.nv)} ${esc(p.n)}</b><div class="s">${inr(p.p)}</div></div><div onclick="event.stopPropagation()">${q>0?stepper(p.id,q):`<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}</div></div>`});
-   h+=`</div>`});
+   h+=`<div class="card"><h3 style="font-size:16px;margin-bottom:12px">${esc(c)}</h3>`;
+   list.forEach(p=>{
+    const q=C[p.id]||0;
+    h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)">
+      <div style="width:60px;height:60px;flex:none;border-radius:10px;overflow:hidden">${imgOrEmoji(p.img,'📦')}</div>
+      <div style="flex:1;padding:0 12px"><b style="font-size:14px;color:var(--text)">${esc(p.n)}</b><div class="s" style="margin-top:2px">${inr(p.p)}</div></div>
+      <div onclick="event.stopPropagation()" style="width:80px">
+        ${q>0?stepper(p.id,q):`<button class="add-btn-zomato" data-a="inc" data-id="${p.id}" style="padding:6px;font-size:12px">ADD +</button>`}
+      </div>
+    </div>`;
+   });
+   h+=`</div>`;
+  });
  }
- if(cart.cnt>0)h+=`<div class="cartbar"><div style="flex:1"><b>🛒 ${cart.cnt} items</b>
-   <div style="font-size:11px;margin-top:2px;color:var(--muted)">${inr(cart.sub)}${cart.disc>0?' − '+inr(cart.disc)+' ('+cart.code+')':''}</div>
-   <div style="font-size:18px;font-weight:900;color:var(--o);text-shadow:0 0 12px rgba(255,107,53,.6)">${inr(cart.total)}</div></div>
-   <button class="btn g" data-a="goc" style="margin:0;width:auto">Checkout ↓</button></div>`;
- 
- const now=new Date();
- const hour=now.getHours();
- if(hour>=11&&hour<=13){
-   h+=`<div class="urgency-bar">⏰ Lunch rush! Order now before slots fill up</div>`;
+
+ if(cart.cnt>0) {
+   h+=`<div class="cartbar cartbar-premium">
+     <div style="flex:1">
+       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+         <b style="font-size:15px">${cart.cnt} Items</b>
+         ${cart.disc>0?`<span style="background:var(--neon);color:#000;font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px">-${inr(cart.disc)} OFF</span>`:''}
+       </div>
+       <div style="font-size:18px;font-weight:900">${inr(cart.total)}</div>
+     </div>
+     <button class="btn" data-a="goc" style="margin:0;width:auto;background:#fff;color:#E85D04;font-weight:800;box-shadow:0 4px 12px rgba(0,0,0,0.2)">View Cart ></button>
+   </div>`;
  }
  
- h+=`<div class="card" id="co" style="margin-top:${cart.cnt>0?'80':'0'}px"><h3>📦 Checkout</h3>
-  <div class="s" style="font-weight:800">🕐 Slot:</div>
-  <div class="seg"><button class="${F.slot==='lunch'?'on':''}" data-a="setSlot" data-v="lunch">☀️ Lunch (1:30)</button><button class="${F.slot==='dinner'?'on':''}" data-a="setSlot" data-v="dinner">🌙 Dinner (8:00)</button></div>
+ h+=`<div class="card" id="co" style="margin-top:${cart.cnt>0?'100':'20'}px;border-radius:20px">
+  <h3 style="font-size:18px;margin-bottom:16px">📦 Checkout Details</h3>
+  <div class="s" style="font-weight:800;margin-bottom:8px">🕐 Delivery Slot:</div>
+  <div class="seg" style="margin-bottom:16px"><button class="${F.slot==='lunch'?'on':''}" data-a="setSlot" data-v="lunch">☀️ Lunch (1:30 PM)</button><button class="${F.slot==='dinner'?'on':''}" data-a="setSlot" data-v="dinner">🌙 Dinner (8:00 PM)</button></div>
   
-  <div class="s" style="font-weight:800;margin-top:10px">📅 Schedule Date:</div>
-  <input type="date" data-f="scheduledDate" value="${F.scheduledDate}" min="${todayStr()}" aria-label="Schedule date">
+  <input data-f="name" placeholder="Full Name *" value="${esc(F.name)}" style="border-radius:12px">
+  <input data-f="phone" type="tel" maxlength="10" placeholder="10-digit Phone *" value="${esc(F.phone)}" style="border-radius:12px">
+  <input data-f="addr" placeholder="Complete Address (House No, Street) *" value="${esc(F.addr)}" style="border-radius:12px">
+  <button class="btn g" data-a="gps" style="border-radius:12px;margin-bottom:12px">📍 Detect GPS Location</button>
+  ${F.map?`<div class="s" style="color:var(--neon);font-weight:700;margin-bottom:12px">✅ Location locked successfully</div>`:`<div class="s" style="color:var(--bad);font-weight:700;margin-bottom:12px">⚠️ GPS location is required for delivery</div>`}
   
-  <input data-f="name" placeholder="Naam *" value="${esc(F.name)}" aria-label="Name">
-  <input data-f="phone" type="tel" maxlength="10" placeholder="Phone *" value="${esc(F.phone)}" aria-label="Phone">
-  <input data-f="addr" placeholder="Address *" value="${esc(F.addr)}" aria-label="Address">
-  <button class="btn g" data-a="gps">📍 GPS Lo *</button>
-  
-  <div style="margin:12px 0">
-    <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
-      <input type="checkbox" data-f="contactless" ${F.contactless?'checked':''} style="width:auto;margin:0">
-      <span>🚫👆 Contactless Delivery</span>
-    </label>
+  <div style="background:var(--inp);border-radius:14px;padding:14px;margin-top:16px">
+    <div class="row"><span>Item Total</span><b>${inr(cart.sub)}</b></div>
+    ${cart.disc>0?`<div class="row"><span>Coupon Discount</span><b style="color:var(--neon)">-${inr(cart.disc)}</b></div>`:''}
+    ${F.tip>0?`<div class="row"><span>Delivery Partner Tip</span><b>${inr(F.tip)}</b></div>`:''}
+    <div class="row"><span>Delivery Fee</span><b style="color:var(--neon)">FREE</b></div>
+    <div class="row" style="border-top:2px dashed var(--line);padding-top:12px;margin-top:8px"><b style="font-size:16px">To Pay</b><b style="color:var(--o);font-size:20px">${inr(cart.total)}</b></div>
   </div>
   
-  <div class="s" style="font-weight:800">💵 Tip for delivery boy (optional):</div>
-  <div class="seg">
-    <button class="${F.tip==0?'on':''}" data-a="setTip" data-v="0">₹0</button>
-    <button class="${F.tip==20?'on':''}" data-a="setTip" data-v="20">₹20</button>
-    <button class="${F.tip==50?'on':''}" data-a="setTip" data-v="50">₹50</button>
-    <button class="${F.tip==100?'on':''}" data-a="setTip" data-v="100">₹100</button>
-  </div>
-  
-  <div class="s" style="font-weight:800;margin-top:8px">🎟️ Coupon:</div>
-  <div style="display:flex;gap:8px"><input id="couponInput" placeholder="e.g. UDALA50" value="${esc(CART_COUPON)}" style="margin:0" aria-label="Coupon code"><button class="btn sm g" data-a="applyCoupon" style="margin:0">Apply</button></div>
-  ${cart.disc>0?`<div class="alert-box" style="background:rgba(6,214,160,.12);border-color:rgba(6,214,160,.45)">✅ ${esc(cart.code)} — ${inr(cart.disc)} bachat!</div>`:''}
-  <div style="background:var(--inp);border-radius:12px;padding:12px;margin-top:12px">
-    <div class="row"><span>Items</span><b>${inr(cart.sub)}</b></div>
-    ${cart.disc>0?`<div class="row"><span>Discount</span><b style="color:var(--neon)">-${inr(cart.disc)}</b></div>`:''}
-    ${F.tip>0?`<div class="row"><span>Tip</span><b>${inr(F.tip)}</b></div>`:''}
-    <div class="row"><span>Delivery</span><b style="color:var(--neon)">FREE</b></div>
-    <div class="row" style="border-top:2px solid var(--line);padding-top:10px;margin-top:4px"><b>Total</b><b style="color:var(--o);font-size:18px">${inr(cart.total)}</b></div></div>
-  <button class="btn" data-a="order">✅ Order Karein (${inr(cart.total)})</button></div>`;
- return h},
+  <button class="btn" data-a="order" style="margin-top:20px;border-radius:14px;font-size:16px;padding:16px;box-shadow:0 8px 24px rgba(255,107,53,0.4)">✅ Place Order (${inr(cart.total)})</button>
+ </div>`;
+ return h
+},
 
 kitchen:()=>{
  if(!OK)return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 tap → PIN</p></div>`;
@@ -1176,20 +1172,6 @@ const ACTIONS={
    render();
    showToast('✅ Items cart mein add ho gaye!');
  },
- rateOrder:(v,k,orderId)=>showRatingModal(orderId),
- submitRating:(v,k,orderId)=>{
-   const o=(S.orders||[]).find(x=>x.id==orderId);
-   if(!o)return;
-   const rating=parseInt($('#ratingValue')?.value||'0');
-   const feedback=($('#feedbackText')?.value||'').trim();
-   if(rating===0){showToast('❌ Rating dein','error');return}
-   o.rating=rating;
-   o.feedback=feedback;
-   save(true);
-   closeModal();
-   showToast('⭐ Thank you for feedback!');
-   showConfetti();
- },
  showNotifications:()=>showNotifications(),
  markRead:(v,k,notifId)=>{
    const n=(S.notifications||[]).find(x=>x.id===notifId);
@@ -1222,47 +1204,65 @@ const ACTIONS={
   addNotification('payment',`💳 ${u.n} ne ₹${price} ka plan liya`,{phone:u.p,utr:utr.trim()});
   save(true);showToast('⏳ Owner verify karega');
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 *PLAN*%0A👤 ${u.n}%0A💰 ${inr(price)}%0A🔢 ${utr}`,'_blank')},
- order:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
-  
-  const now=Date.now();
-  if(S.lastOrderTime&&(now-S.lastOrderTime<60000)){
-    showToast('⏳ Please wait 1 minute before ordering again','error');
-    return;
-  }
-  
-  const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
-  const items=[];Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
-  
-  const newOrder={id:generateId(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,status:'pending',paid:0,date:F.scheduledDate||todayStr(),slot:F.slot,contactless:F.contactless?1:0,tip:+F.tip||0};
-  
-  S.orders.push(newOrder);
-  S.lastOrderTime=now;
-  
-  if(CART_COUPON&&(S.coupons||{})[CART_COUPON]){
-    S.coupons[CART_COUPON].usedCount=(S.coupons[CART_COUPON].usedCount||0)+1;
-  }
-  
-  C={};CART_COUPON='';F.tip=0;F.contactless=0;
-  saveCart();save(true);showToast('✅ Order mil gaya!');showConfetti();
-  addNotification('order',`🛒 ${u.n} ne order kiya - ${inr(cart.total)}`,{orderId:newOrder.id});
-  
-  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *ORDER*%0A👤 ${u.n}%0A📱 ${u.p}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A🕐 ${F.slot}%0A📅 ${F.scheduledDate||todayStr()}%0A💰 ${inr(cart.total)}${F.tip>0?'%0A💵 Tip: '+inr(F.tip):''}${F.contactless?'%0A🚫👆 Contactless':''}`,'_blank')},
- verifyPay:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;s.status='active';s.paid=1;
-  S.pays.push({id:generateId(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});
-  addNotification('verified',`✅ ${s.name} ka payment verify hua`,{phone:s.phone,amount:s.price});
-  save(true);showToast('✅ Active!');showConfetti();closeModal();
-  
-  setTimeout(()=>{
-    const msg=`✅ *Payment Verified!*%0A%0ANamaste ${s.name} ji,%0AAapka ${s.days} din ka ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} plan ab **ACTIVE** ho gaya hai!%0A%0A📅 Start: ${s.start}%0A💰 Amount: ${inr(s.price)}%0A%0AAgar koi sawal ho toh reply karein. Dhanyavad! 🙏`;
-    window.open(`https://wa.me/91${s.phone}?text=${msg}`,'_blank');
-  },1000);
+ order:()=>{
+   const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
+   
+   const now=Date.now();
+   if(S.lastOrderTime&&(now-S.lastOrderTime<60000)){
+     showToast('⏳ Please wait 1 minute before ordering again','error');
+     return;
+   }
+   
+   const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
+   const items=[];Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
+   
+   const newOrder={id:generateId(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,status:'pending',paid:0,date:F.scheduledDate||todayStr(),slot:F.slot,contactless:F.contactless?1:0,tip:+F.tip||0};
+   
+   S.orders.push(newOrder);
+   S.lastOrderTime=now;
+   
+   if(CART_COUPON&&(S.coupons||{})[CART_COUPON]){
+     S.coupons[CART_COUPON].usedCount=(S.coupons[CART_COUPON].usedCount||0)+1;
+   }
+   
+   C={};CART_COUPON='';F.tip=0;F.contactless=0;
+   saveCart();save(true);showToast('✅ Order mil gaya!');showConfetti();
+   addNotification('order',`🛒 ${u.n} ne order kiya - ${inr(cart.total)}`,{orderId:newOrder.id});
+   
+   window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *ORDER*%0A👤 ${u.n}%0A📱 ${u.p}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A🕐 ${F.slot}%0A📅 ${F.scheduledDate||todayStr()}%0A💰 ${inr(cart.total)}${F.tip>0?'%0A💵 Tip: '+inr(F.tip):''}${F.contactless?'%0A🚫👆 Contactless':''}`,'_blank')
+ },
+ verifyPay:(v,k,id)=>{
+   const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;
+   s.status='active';s.paid=1;
+   S.pays.push({id:generateId(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});
+   addNotification('verified',`✅ ${s.name} ka payment verify hua`,{phone:s.phone,amount:s.price});
+   save(true);showToast('✅ Active!');showConfetti();closeModal();
+   
+   setTimeout(()=>{
+     const msg=`✅ *Payment Verified!*%0A%0ANamaste ${s.name} ji,%0AAapka ${s.days} din ka ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} plan ab **ACTIVE** ho gaya hai!%0A%0A📅 Start: ${s.start}%0A💰 Amount: ${inr(s.price)}%0A%0AAgar koi sawal ho toh reply karein. Dhanyavad! 🙏`;
+     window.open(`https://wa.me/91${s.phone}?text=${msg}`,'_blank');
+   },1000);
  },
  rejectPay:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;if(confirm('Reject karna hai?')){s.status='rejected';addNotification('rejected',`❌ ${s.name} ka payment reject hua`,{phone:s.phone});save(true)}},
  done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done=S.done||{};S.done[key]=S.done[key]?0:1;save(true)},
  odone:(v,k,id)=>{const o=(S.orders||[]).find(x=>x.id==id);if(o){o.status='delivered';addNotification('delivered',`✅ ${o.name} ka order deliver hua`,{orderId:o.id});save(true);showToast('✅ Delivered');closeModal()}},
- addProd:()=>{const n=($('#pn')?.value||'').trim(),p=parseInt($('#pp')?.value),c=($('#pc')?.value||'General').trim(),kind=($('#pkind')?.value)||'grocery',allergens=($('#pallergens')?.value||'').trim();
-  if(!n||!p||p<=0){showToast('❌ Naam + price','error');return}
-  S.prod.push({id:generateId(),n,p,c,nv:0,s:1,img:kind==='food'?IMG.thali:IMG.grocery,kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0,allergens});save(true);showToast('✅ Add')},
+ addProd:()=>{
+   const n=($('#pn')?.value||'').trim();
+   const p=parseInt($('#pp')?.value);
+   const c=($('#pc')?.value||'General').trim();
+   const kind=($('#pkind')?.value)||'grocery';
+   const allergens=($('#pallergens')?.value||'').trim();
+   
+   if(!n||!p||p<=0){showToast('❌ Naam + price sahi daalein','error');return}
+   
+   S.prod=S.prod||[];
+   S.prod.push({id:generateId(),n,p,c,nv:0,s:1,img:kind==='food'?IMG.thali:IMG.grocery,kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0,allergens});
+   save(true);
+   showToast('✅ Product Add Ho Gaya!');
+   
+   // Clear inputs
+   $('#pn').value='';$('#pp').value='';$('#pc').value='';$('#pallergens').value='';
+ },
  stock:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
  delProd:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
  setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset=S.mset||{};S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾 Save')},
@@ -1327,51 +1327,56 @@ const initParticles=()=>{const c=$('#particles');if(!c)return;
 
 let S=null;
 let isLoading=true;
-let unsubscribe=null;
 
-async function initCloudState(){
-  try{
-    unsubscribe=onValue(dbRef,(snapshot)=>{
-      if(snapshot.exists()){
-        S=migrate(snapshot.val());
-        
-        // ✅ Extra safety checks
-        if(!S.mset) S.mset={};
-        if(!S.meals) S.meals={};
-        if(!S.done) S.done={};
-        if(!S.prod) S.prod=[];
-        if(!S.subs) S.subs=[];
-        if(!S.orders) S.orders=[];
-        if(!S.pays) S.pays=[];
-        if(!S.notifications) S.notifications=[];
-        if(!S.coupons) S.coupons=COUPONS_DEFAULT;
-        
-        isLoading=false;
-        render();
-      } else {
-        S=loadState().data;
-        set(dbRef,S);
-        isLoading=false;
-        render();
-      }
-    },(error)=>{
-      console.warn("Cloud sync error, using local fallback",error);
-      S=loadState().data;
-      if(!S.mset) S.mset={};
-      if(!S.meals) S.meals={};
-      if(!S.done) S.done={};
-      isLoading=false;
+async function initCloudState() {
+  const safetyTimeout = setTimeout(() => {
+    if (isLoading) {
+      console.warn("Cloud timeout! Using local phone data.");
+      S = loadState().data;
+      isLoading = false;
       render();
-    });
-  } catch(e){
-    console.error("Init error:",e);
-    S=loadState().data;
-    if(!S.mset) S.mset={};
-    if(!S.meals) S.meals={};
-    if(!S.done) S.done={};
-    isLoading=false;
-    render();
+    }
+  }, 5000);
+
+  try {
+    const pathsToCheck = ['namaste_udala_data', 'udala_state', 'udala_final_v1', '/'];
+    let dataFound = false;
+
+    for (let path of pathsToCheck) {
+      try {
+        const testRef = ref(db, path);
+        const snapshot = await get(testRef);
+        
+        if (snapshot.exists()) {
+          console.log("✅ Purana data mil gaya path par:", path);
+          S = migrate(snapshot.val());
+          dataFound = true;
+          
+          onValue(testRef, (snap) => {
+            if (snap.exists()) {
+              S = migrate(snap.val());
+              render();
+            }
+          });
+          break;
+        }
+      } catch (err) {
+        console.log("Path check failed:", path);
+      }
+    }
+
+    if (!dataFound) {
+      console.log("☁️ Cloud mein data nahi mila. Phone ka local backup use kar rahe hain.");
+      S = loadState().data;
+    }
+  } catch (error) {
+    console.error("Firebase connection error:", error);
+    S = loadState().data;
   }
+
+  clearTimeout(safetyTimeout);
+  isLoading = false;
+  render();
 }
 
 document.addEventListener('keydown',e=>{
@@ -1389,7 +1394,7 @@ initTheme();
 initParticles();
 initCloudState();
 
-setTimeout(()=>showToast('✨ Ultra 3D Cloud+ ready · 100+ features!'),600);
+setTimeout(()=>showToast('✨ Premium App Ready!'),600);
 </script>
 </body>
 </html>
