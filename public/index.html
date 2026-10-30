@@ -55,7 +55,7 @@ header .tagline{font-size:13px;opacity:.9;margin-top:4px}
 [data-theme="light"] .btn.r{background:#FEF2F2;color:#991B1B}
 [data-theme="light"] .btn.b{background:var(--info);color:#fff}
 .btn.sm{padding:8px 14px;font-size:12px;width:auto;margin:0;border-radius:10px;min-height:36px}
-input,select,textarea{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:14px;margin:5px 0 10px;font-size:15px;background:var(--inp);color:var(--text);font-family:inherit;min-height:44px;transition:border .2s,box-shadow .2s}
+input,select,textarea{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:14px;margin:5px 0 10px;font-size:16px;background:var(--inp);color:var(--text);font-family:inherit;min-height:44px;transition:border .2s,box-shadow .2s}
 textarea{min-height:70px}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-shadow:0 0 0 3px rgba(255,107,53,.2),0 0 20px rgba(255,107,53,.25)}
 .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:8px}
@@ -126,11 +126,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 .loader{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .alert-box{background:rgba(245,158,11,.12);border:1.5px solid rgba(245,158,11,.5);border-radius:14px;padding:12px;margin:10px 0}
-.hero3d{position:absolute;right:10px;top:8px;width:110px;height:110px;perspective:500px}
-.hero3d .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,var(--o),var(--neon),var(--purple),var(--pink),var(--o));animation:spin 5s linear infinite;filter:blur(8px);opacity:.85}
-.hero3d .plate{position:absolute;inset:10px;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.32),rgba(255,255,255,.07));backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:48px;animation:floaty 4s ease-in-out infinite;box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.3);overflow:hidden}
-.hero3d .plate img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-@keyframes floaty{50%{transform:translateY(-10px) rotateY(25deg)}}
 .timeline{position:relative;padding-left:20px;margin-top:10px}
 .timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--line)}
 .tl-item{position:relative;padding:8px 0 8px 16px;font-size:12.5px}
@@ -156,7 +151,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 .confetti{position:fixed;width:10px;height:10px;background:var(--neon);animation:confettiFall 3s linear forwards;z-index:9999;pointer-events:none}
 @keyframes confettiFall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
 .notification-badge{position:absolute;top:-5px;right:-5px;background:var(--bad);color:#fff;border-radius:50%;width:20px;height:20px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(239,68,68,.5)}
-.countdown{background:linear-gradient(135deg,var(--bad),#B91C1C);color:#fff;padding:8px 16px;border-radius:12px;font-weight:800;text-align:center;margin:10px 0;box-shadow:0 0 20px rgba(239,68,68,.4)}
 .urgency-bar{background:linear-gradient(90deg,var(--warn),var(--bad));color:#fff;padding:10px;border-radius:12px;text-align:center;font-weight:800;margin:10px 0;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
 </style>
@@ -195,7 +189,7 @@ const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788',upi:'95839
 const PRICING={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
 const STORAGE_KEY='udala_final_v1';
 const SCHEMA_V=5;
-const COUPONS_DEFAULT={'UDALA50':{type:'flat',value:50,min:299,expiry:'2026-12-31',maxUses:100}};
+const COUPONS_DEFAULT={'UDALA50':{type:'flat',value:50,min:299,expiry:'2026-12-31',maxUses:100,usedCount:0}};
 const KIRANA_PRESET=['Doodh 500 ml','Atta 1 kg','Chawal 1 kg','Dal 1 kg','Tel 1 L','Sabun'];
 
 const IMG={
@@ -245,7 +239,6 @@ const randAvatar=(id)=>AVATARS[(id||0)%AVATARS.length];
 const randBanner=()=>KIDS_BANNERS[Math.floor(Math.random()*KIDS_BANNERS.length)];
 const generateId=()=>Date.now()+'_'+Math.random().toString(36).slice(2,8);
 
-// 🎉 Confetti animation
 const showConfetti=()=>{
   for(let i=0;i<50;i++){
     const c=document.createElement('div');
@@ -299,19 +292,42 @@ const normalizeOrder=o=>{if(!o||!o.id)return null;
 const normalizeProd=p=>{if(!p||!p.id)return null;
  return{id:p.id,n:String(p.n||'Item'),p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,img:p.img||'',kind:p.kind==='food'?'food':'grocery',rating:p.rating||0,time:p.time||0,best:p.best?1:0,allergens:p.allergens||''}};
 
-function migrate(d){if(!d||typeof d!=='object')return d;
- const v=d.v||1;
- if(v<2)(d.orders||[]).forEach(o=>{o.slot=o.slot||'lunch';o.discount=o.discount||0;o.coupon=o.coupon||''});
- if(v<3){d.coupons=d.coupons||COUPONS_DEFAULT;d.walletLedger=d.walletLedger||[]}
- if(v<4)(d.subs||[]).forEach(s=>{if(!s.avatar)s.avatar=randAvatar(s.id)});
- if(v<5){
-   (d.orders||[]).forEach(o=>{o.rating=o.rating||0;o.feedback=o.feedback||'';o.contactless=o.contactless?1:0;o.tip=+o.tip||0});
-   (d.subs||[]).forEach(s=>{s.rating=s.rating||0;s.feedback=s.feedback||''});
-   d.notifications=d.notifications||[];
-   d.referrals=d.referrals||{};
-   d.waste=d.waste||[];
- }
- d.v=SCHEMA_V;return d}
+function migrate(d){
+  if(!d||typeof d!=='object')return d;
+  const v=d.v||1;
+  if(v<2)(d.orders||[]).forEach(o=>{o.slot=o.slot||'lunch';o.discount=o.discount||0;o.coupon=o.coupon||''});
+  if(v<3){d.coupons=d.coupons||COUPONS_DEFAULT;d.walletLedger=d.walletLedger||[]}
+  if(v<4)(d.subs||[]).forEach(s=>{if(!s.avatar)s.avatar=randAvatar(s.id)});
+  if(v<5){
+    (d.orders||[]).forEach(o=>{o.rating=o.rating||0;o.feedback=o.feedback||'';o.contactless=o.contactless?1:0;o.tip=+o.tip||0});
+    (d.subs||[]).forEach(s=>{s.rating=s.rating||0;s.feedback=s.feedback||''});
+  }
+  
+  // ✅ CRITICAL FIX: Initialize ALL missing fields
+  d.prod=d.prod||[];
+  d.subs=d.subs||[];
+  d.orders=d.orders||[];
+  d.pays=d.pays||[];
+  d.expenses=d.expenses||[];
+  d.meals=d.meals||{};
+  d.done=d.done||{};
+  d.mset=d.mset||{};
+  d.cred=d.cred||{};
+  d.refs=d.refs||{};
+  d.wallet=d.wallet||{};
+  d.walletLedger=d.walletLedger||[];
+  d.feedback=d.feedback||{};
+  d.coupons=d.coupons||COUPONS_DEFAULT;
+  d.notifications=d.notifications||[];
+  d.referrals=d.referrals||{};
+  d.waste=d.waste||[];
+  d.lastOrderTime=d.lastOrderTime||0;
+  d.partners=d.partners||['Raju Bhaiya'];
+  d.dailyVideo=d.dailyVideo||'';
+  
+  d.v=SCHEMA_V;
+  return d;
+}
 
 function loadState(){
  const out={v:SCHEMA_V,prod:[],subs:[],orders:[],pays:[],expenses:[],meals:{},done:{},mset:{},cred:{},refs:{},wallet:{},walletLedger:[],feedback:{},dailyVideo:'',partners:['Raju Bhaiya'],coupons:COUPONS_DEFAULT,notifications:[],referrals:{},waste:[],lastOrderTime:0};
@@ -333,7 +349,7 @@ function loadState(){
   }catch(e){}
  });
  if(!out.prod.length)out.prod=SEED.slice();
- if(!out.prod.some(p=>p.kind==='food')){let m=out.prod.reduce((a,p)=>Math.max(a,p.id),0);FOOD_SEED.forEach(f=>{out.prod.push({...f,id:generateId()})})}
+ if(!out.prod.some(p=>p.kind==='food')){FOOD_SEED.forEach(f=>{out.prod.push({...f,id:generateId()})})}
  return {data:out,recovered};
 }
 
@@ -363,11 +379,19 @@ const save=(immediate=false)=>{
 
 const saveCart=()=>{try{localStorage.setItem('ud_cart',JSON.stringify(C))}catch(e){}};
 
-const mf=(d,t)=>{const k=iso(d);const o=S.mset[k];if(o){if(t==='nv'&&o.nv)return o.nv;if(t!=='nv'&&o.veg)return o.veg}
- const w=d.getDay();
- if(t==='nv'){if(w===0)return 'Chicken curry, roti, chawal';if(w===3)return 'Fish curry, roti, chawal';if(w===5)return '2 egg curry, roti, chawal';if(w===6)return 'Mutton special, roti, chawal'}
- else{if(w===0)return 'Paneer butter masala, roti, chawal';if(w===3)return 'Mushroom curry, roti, chawal';if(w===5)return 'Special veg thali + meetha';if(w===6)return 'Dal makhani + paneer, roti, chawal'}
- return 'Dal, sabzi, roti, chawal'};
+// ✅ SAFE mf function - handles undefined S.mset
+const mf=(d,t)=>{
+  try{
+    const k=iso(d);
+    const mset=(S&&S.mset)||{};
+    const o=mset[k];
+    if(o){if(t==='nv'&&o.nv)return o.nv;if(t!=='nv'&&o.veg)return o.veg}
+    const w=d.getDay();
+    if(t==='nv'){if(w===0)return 'Chicken curry, roti, chawal';if(w===3)return 'Fish curry, roti, chawal';if(w===5)return '2 egg curry, roti, chawal';if(w===6)return 'Mutton special, roti, chawal'}
+    else{if(w===0)return 'Paneer butter masala, roti, chawal';if(w===3)return 'Mushroom curry, roti, chawal';if(w===5)return 'Special veg thali + meetha';if(w===6)return 'Dal makhani + paneer, roti, chawal'}
+    return 'Dal, sabzi, roti, chawal';
+  }catch(e){return 'Dal, sabzi, roti, chawal'}
+};
 
 const subEnd=s=>addDays(new Date(s.start+'T12:00:00'),s.days+(s.pause||[]).length);
 const getSubStatus=s=>{if(!s)return 'expired';
@@ -385,9 +409,9 @@ const vdot=nv=>`<span class="vd ${nv?'nv':''}"></span>`;
 const imgOrEmoji=(src,em)=>src?`<img src="${src}" loading="lazy" onerror="this.outerHTML='<div class=\\'placeholder\\'>${em||'🍛'}</div>'">`:`<div class="placeholder">${em||'🍛'}</div>`;
 const stepper=(id,q)=>`<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:3px;background:rgba(255,107,53,.08)"><button data-a="dec" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800" aria-label="Decrease">−</button><b style="min-width:20px;text-align:center">${q}</b><button data-a="inc" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800" aria-label="Increase">+</button></div>`;
 const calcCart=()=>{let sub=0,cnt=0;
- Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0){sub+=p.p*q;cnt+=q}});
+ Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0){sub+=p.p*q;cnt+=q}});
  let disc=0,code='';
- if(CART_COUPON&&S.coupons[CART_COUPON]){
+ if(CART_COUPON&&(S.coupons||{})[CART_COUPON]){
    const cp=S.coupons[CART_COUPON];
    const expiry=cp.expiry?new Date(cp.expiry):new Date('2099-12-31');
    const uses=cp.usedCount||0;
@@ -407,10 +431,10 @@ const getMealHistory=(subId,days=7)=>{
    const d=iso(addDays(new Date(),-i));
    history.push({
      date:d,
-     subah:S.meals[mealKey(subId,'subah',d)]||'pending',
-     lunch:S.meals[mealKey(subId,'lunch',d)]||'pending',
-     dinner:S.meals[mealKey(subId,'dinner',d)]||'pending',
-     skipped:(S.subs.find(s=>s.id===subId)?.skip||[]).includes(d)
+     subah:(S.meals||{})[mealKey(subId,'subah',d)]||'pending',
+     lunch:(S.meals||{})[mealKey(subId,'lunch',d)]||'pending',
+     dinner:(S.meals||{})[mealKey(subId,'dinner',d)]||'pending',
+     skipped:((S.subs||[]).find(s=>s.id===subId)?.skip||[]).includes(d)
    });
  }
  return history;
@@ -418,7 +442,7 @@ const getMealHistory=(subId,days=7)=>{
 
 const addNotification=(type,message,data={})=>{
   S.notifications=S.notifications||[];
-  S.notifications.unshift({id:generateId(),type,message,data,timestamp:Date.now(),read:0});
+  S.notifications.unshift({id:generateId(),type,message,data:data||{},timestamp:Date.now(),read:0});
   if(S.notifications.length>100)S.notifications=S.notifications.slice(0,100);
 };
 
@@ -428,7 +452,7 @@ const showModal=(html)=>{$('#modalRoot').innerHTML=`<div class="modal" data-a="c
 const closeModal=()=>{$('#modalRoot').innerHTML=''};
 
 const showCustomerDetail=(subId)=>{
- const s=(S.subs||[]).find(x=>x.id===subId);
+ const s=(S.subs||[]).find(x=>x.id==subId);
  if(!s)return;
  const st=getSubStatus(s);
  const start=new Date(s.start+'T12:00:00'),end=subEnd(s),today=new Date();today.setHours(12,0,0,0);
@@ -473,20 +497,20 @@ const showCustomerDetail=(subId)=>{
   <div class="grid3" style="margin:8px 0 14px">
     <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
       <div style="font-size:11px;color:var(--muted)">🌅 Subah</div>
-      <div class="meal-dot ${(S.meals[mealKey(s.id,'subah')]||'')==='consumed'?'ok':(S.meals[mealKey(s.id,'subah')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${S.meals[mealKey(s.id,'subah')]==='consumed'?'✓':S.meals[mealKey(s.id,'subah')]==='skipped'?'✕':'?'}
+      <div class="meal-dot ${((S.meals||{})[mealKey(s.id,'subah')]||'')==='consumed'?'ok':((S.meals||{})[mealKey(s.id,'subah')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
+        ${(S.meals||{})[mealKey(s.id,'subah')]==='consumed'?'✓':(S.meals||{})[mealKey(s.id,'subah')]==='skipped'?'✕':'?'}
       </div>
     </div>
     <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
       <div style="font-size:11px;color:var(--muted)">☀️ Lunch</div>
-      <div class="meal-dot ${(S.meals[mealKey(s.id,'lunch')]||'')==='consumed'?'ok':(S.meals[mealKey(s.id,'lunch')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${S.meals[mealKey(s.id,'lunch')]==='consumed'?'✓':S.meals[mealKey(s.id,'lunch')]==='skipped'?'✕':'?'}
+      <div class="meal-dot ${((S.meals||{})[mealKey(s.id,'lunch')]||'')==='consumed'?'ok':((S.meals||{})[mealKey(s.id,'lunch')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
+        ${(S.meals||{})[mealKey(s.id,'lunch')]==='consumed'?'✓':(S.meals||{})[mealKey(s.id,'lunch')]==='skipped'?'✕':'?'}
       </div>
     </div>
     <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
       <div style="font-size:11px;color:var(--muted)">🌙 Dinner</div>
-      <div class="meal-dot ${(S.meals[mealKey(s.id,'dinner')]||'')==='consumed'?'ok':(S.meals[mealKey(s.id,'dinner')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${S.meals[mealKey(s.id,'dinner')]==='consumed'?'✓':S.meals[mealKey(s.id,'dinner')]==='skipped'?'✕':'?'}
+      <div class="meal-dot ${((S.meals||{})[mealKey(s.id,'dinner')]||'')==='consumed'?'ok':((S.meals||{})[mealKey(s.id,'dinner')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
+        ${(S.meals||{})[mealKey(s.id,'dinner')]==='consumed'?'✓':(S.meals||{})[mealKey(s.id,'dinner')]==='skipped'?'✕':'?'}
       </div>
     </div>
   </div>
@@ -520,7 +544,7 @@ const showCustomerDetail=(subId)=>{
 };
 
 const showProductDetail=(prodId)=>{
- const p=(S.prod||[]).find(x=>x.id===prodId);
+ const p=(S.prod||[]).find(x=>x.id==prodId);
  if(!p)return;
  const imgs=[p.img,IMG.thali,IMG.curry,IMG.roti].filter(Boolean);
  let html=`<div class="modal-content" onclick="event.stopPropagation()">
@@ -548,7 +572,7 @@ const showProductDetail=(prodId)=>{
 };
 
 const showOrderDetail=(orderId)=>{
- const o=(S.orders||[]).find(x=>x.id===orderId);
+ const o=(S.orders||[]).find(x=>x.id==orderId);
  if(!o)return;
  let html=`<div class="modal-content" onclick="event.stopPropagation()">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
@@ -653,7 +677,7 @@ const showOrderHistory=()=>{
 };
 
 const showRatingModal=(orderId)=>{
- const o=(S.orders||[]).find(x=>x.id===orderId);
+ const o=(S.orders||[]).find(x=>x.id==orderId);
  if(!o)return;
  
  let html=`<div class="modal-content" onclick="event.stopPropagation()">
@@ -727,7 +751,7 @@ plan:()=>{
    if(st==='active'||st==='trial'){
     h+=`<div style="margin-top:14px"><b class="s" style="font-weight:800;color:var(--neon)">🍽️ AAJ KA KHANA</b>`;
     [['subah','🌅 Subah','7:30-8:15'],['lunch','☀️ Lunch','1:30-2:15'],['dinner','🌙 Dinner','8:00-9:00']].forEach(m=>{
-     const stt=S.meals[mealKey(live.id,m[0])]||'pending';
+     const stt=(S.meals||{})[mealKey(live.id,m[0])]||'pending';
      h+=`<div class="row"><div><b>${m[1]}</b><div class="s">${m[2]}</div></div>
       <div style="display:flex;gap:6px;align-items:center"><span class="badge ${stt==='consumed'?'active':stt==='skipped'?'expired':'pending'}">${stt==='consumed'?'Khaya':stt==='skipped'?'Skip':'Baki'}</span>
       <button class="btn sm g" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="consumed" aria-label="Mark consumed">✅</button>
@@ -776,11 +800,10 @@ shop:()=>{
  h+=`<input id="sq" placeholder="🔍 Search..." value="${esc(SQ)}" aria-label="Search">`;
  if(SHOPMODE==='grocery')h+=`<div class="card" style="background:rgba(6,214,160,.1);border-color:rgba(6,214,160,.4)"><b style="color:var(--neon)">🛒 Weekly Kirana List</b><div class="s" style="margin-top:4px">1-tap mein sab add</div><button class="btn sm g" data-a="addPreset" style="margin-top:8px">➕ Sab Add Karein</button></div>`;
  if(SHOPMODE==='food'){
-  const foods=S.prod.filter(p=>p.kind==='food'&&p.s!==0);
+  const foods=(S.prod||[]).filter(p=>p.kind==='food'&&p.s!==0);
   const cats=['Sab',...new Set(foods.map(p=>p.c))];
   h+=`<div style="display:flex;gap:6px;overflow-x:auto;padding:2px 2px 12px">`+cats.map(c=>`<button data-a="fcat" data-v="${esc(c)}" class="chip ${FCAT===c?'on':''}" style="flex:none">${esc(c)}</button>`).join('')+`</div>`;
   
-  // Sort options
   h+=`<div style="display:flex;gap:6px;margin-bottom:10px">
     <select id="sortSelect" style="margin:0;padding:8px;font-size:12px" aria-label="Sort by">
       <option value="default" ${SORT_BY==='default'?'selected':''}>Default</option>
@@ -795,7 +818,6 @@ shop:()=>{
   let list=foods;if(FCAT!=='Sab')list=list.filter(p=>p.c===FCAT);
   if(SQ.trim())list=list.filter(p=>p.n.toLowerCase().includes(SQ.trim().toLowerCase()));
   
-  // Apply sorting
   if(SORT_BY==='price-low')list.sort((a,b)=>a.p-b.p);
   else if(SORT_BY==='price-high')list.sort((a,b)=>b.p-a.p);
   else if(SORT_BY==='rating')list.sort((a,b)=>(b.rating||0)-(a.rating||0));
@@ -820,7 +842,7 @@ shop:()=>{
     }
   } else h+=`<div class="card"><p class="s">Kuch nahi mila 🔍</p></div>`;
  } else {
-  const gro=S.prod.filter(p=>p.kind!=='food'&&p.s!==0);
+  const gro=(S.prod||[]).filter(p=>p.kind!=='food'&&p.s!==0);
   [...new Set(gro.map(p=>p.c))].forEach(c=>{
    let list=gro.filter(p=>p.c===c);
    if(SQ.trim())list=list.filter(p=>p.n.toLowerCase().includes(SQ.trim().toLowerCase()));
@@ -835,7 +857,6 @@ shop:()=>{
    <div style="font-size:18px;font-weight:900;color:var(--o);text-shadow:0 0 12px rgba(255,107,53,.6)">${inr(cart.total)}</div></div>
    <button class="btn g" data-a="goc" style="margin:0;width:auto">Checkout ↓</button></div>`;
  
- // Urgency/FOMO
  const now=new Date();
  const hour=now.getHours();
  if(hour>=11&&hour<=13){
@@ -903,9 +924,9 @@ kitchen:()=>{
    filtered=on.filter(s=>s.name.toLowerCase().includes(KITCHEN_SEARCH.trim().toLowerCase())||s.phone.includes(KITCHEN_SEARCH.trim()));
  }
  filtered.forEach(s=>{
-  const subah=S.meals[mealKey(s.id,'subah')]||'pending';
-  const lunch=S.meals[mealKey(s.id,'lunch')]||'pending';
-  const dinner=S.meals[mealKey(s.id,'dinner')]||'pending';
+  const subah=(S.meals||{})[mealKey(s.id,'subah')]||'pending';
+  const lunch=(S.meals||{})[mealKey(s.id,'lunch')]||'pending';
+  const dinner=(S.meals||{})[mealKey(s.id,'dinner')]||'pending';
   h+=`<div class="grow" data-a="custDetail" data-id="${s.id}" style="align-items:flex-start;padding:12px 6px">
     <img src="${s.avatar||randAvatar(s.id)}" style="width:44px;height:44px;border-radius:50%;border:2px solid var(--neon);box-shadow:0 0 10px rgba(6,214,160,.4)" onerror="this.src='${IMG.av1}'" alt="Avatar">
     <div style="flex:1"><b>${esc(s.name)}</b> <span class="s">${s.type==='veg'?'🟢':'🔴'}</span>
@@ -926,8 +947,8 @@ delivery:()=>{
  if(!OK)return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 tap → PIN</p></div>`;
  const k=todayStr();
  const live=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k)&&!(s.pause||[]).includes(k));
- const pend=live.filter(s=>!S.done[k+'_'+s.id]);
- const done=live.filter(s=>S.done[k+'_'+s.id]);
+ const pend=live.filter(s=>!(S.done||{})[k+'_'+s.id]);
+ const done=live.filter(s=>(S.done||{})[k+'_'+s.id]);
  const ords=(S.orders||[]).filter(o=>o.status==='pending');
  let h=`<div class="card" style="background:linear-gradient(135deg,rgba(27,67,50,.9),rgba(7,11,20,.85));color:#fff;border:1px solid rgba(6,214,160,.3);text-align:center">
   <div class="s" style="color:#A7F3D0">AAJ KI DELIVERY</div><div style="font-size:36px;font-weight:900;text-shadow:0 0 20px rgba(6,214,160,.7)">${done.length} / ${live.length}</div>
@@ -940,7 +961,6 @@ delivery:()=>{
  if(DELIVERY_SEARCH.trim()){
    filtered=pend.filter(s=>s.name.toLowerCase().includes(DELIVERY_SEARCH.trim().toLowerCase())||s.phone.includes(DELIVERY_SEARCH.trim())||s.area.toLowerCase().includes(DELIVERY_SEARCH.trim().toLowerCase()));
  }
- // Sort by area for route optimization
  filtered.sort((a,b)=>(a.area||'').localeCompare(b.area||''));
  
  filtered.forEach((s,i)=>{h+=`<div class="grow" style="flex-direction:column;align-items:stretch;padding:12px 6px" data-a="custDetail" data-id="${s.id}">
@@ -971,7 +991,6 @@ owner:()=>{
  const act=(S.subs||[]).filter(isLive).length;
  const rev=(S.pays||[]).reduce((a,p)=>a+(+p.amt||0),0);
  const todayOrders=(S.orders||[]).filter(o=>o.date===todayStr()).length;
- const pendingOrders=(S.orders||[]).filter(o=>o.status==='pending').length;
  
  let h=`<div class="card"><h3>📊 Dashboard</h3><div class="grid2">
   <div class="stat" style="background:linear-gradient(135deg,#1B4332,#2D6A4F)"><div class="v">${act}</div><div class="l">Active</div></div>
@@ -1052,7 +1071,6 @@ const render=()=>{
   
   bindTilt();
   
-  // Bind sort select
   const sortSelect=$('#sortSelect');
   if(sortSelect){
     sortSelect.addEventListener('change',e=>{
@@ -1061,7 +1079,6 @@ const render=()=>{
     });
   }
   
-  // Bind kitchen search
   const kitchenSearch=$('#kitchenSearch');
   if(kitchenSearch){
     kitchenSearch.addEventListener('input',e=>{
@@ -1074,7 +1091,6 @@ const render=()=>{
     });
   }
   
-  // Bind delivery search
   const deliverySearch=$('#deliverySearch');
   if(deliverySearch){
     deliverySearch.addEventListener('input',e=>{
@@ -1087,7 +1103,10 @@ const render=()=>{
     });
   }
   
- }catch(err){$('#v').innerHTML=`<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(err.message)}</p><button class="btn g" onclick="location.reload()">🔄 Refresh</button></div>`}
+ }catch(err){
+   console.error(err);
+   $('#v').innerHTML=`<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(err.message)}</p><button class="btn g" onclick="location.reload()">🔄 Refresh</button></div>`;
+ }
 };
 
 const needGPS=()=>{if(!F.map){showToast('❌ Pehle GPS lein','error');return false}return true};
@@ -1108,10 +1127,10 @@ const ACTIONS={
  inc:(v,k,id)=>{C[id]=(C[id]||0)+1;saveCart();render()},
  dec:(v,k,id)=>{C[id]=Math.max(0,(C[id]||0)-1);if(!C[id])delete C[id];saveCart();render()},
  goc:()=>{const e=$('#co');if(e)e.scrollIntoView({behavior:'smooth'})},
- addPreset:()=>{let n=0;KIRANA_PRESET.forEach(name=>{const p=S.prod.find(x=>x.n===name);if(p&&p.s!==0){C[p.id]=(C[p.id]||0)+1;n++}});saveCart();render();showToast(`✅ ${n} items add`)},
+ addPreset:()=>{let n=0;KIRANA_PRESET.forEach(name=>{const p=(S.prod||[]).find(x=>x.n===name);if(p&&p.s!==0){C[p.id]=(C[p.id]||0)+1;n++}});saveCart();render();showToast(`✅ ${n} items add`)},
  applyCoupon:()=>{const code=($('#couponInput')?.value||'').trim().toUpperCase();
   if(!code){CART_COUPON='';render();return}
-  if(!S.coupons[code]){showToast('❌ Galat coupon','error');return}
+  if(!(S.coupons||{})[code]){showToast('❌ Galat coupon','error');return}
   const cp=S.coupons[code];
   const expiry=cp.expiry?new Date(cp.expiry):new Date('2099-12-31');
   if(new Date()>expiry){showToast('❌ Coupon expired','error');return}
@@ -1126,8 +1145,9 @@ const ACTIONS={
   ME={name:n,phone:p,avatar:randAvatar(p.charCodeAt(0))};saveME();F.name=n;F.phone=p;render();showToast('👤 Login!')},
  logout:()=>{if(!confirm('Logout karna hai?'))return;ME=null;saveME();render()},
  mealMark:(v,k,id)=>{if(k!=='subah'&&!checkCutoff(k)){showToast(`⚠️ Cutoff: ${k==='lunch'?'9 AM':'4 PM'} ke baad skip nahi`,'error');return}
+  S.meals=S.meals||{};
   S.meals[mealKey(id,k)]=v;save(true);showToast(v==='consumed'?'✅ Khaya':'❌ Skip')},
- skipToday:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;const k2=todayStr();const i=s.skip.indexOf(k2);if(i>=0)s.skip.splice(i,1);else s.skip.push(k2);save(true)},
+ skipToday:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;const k2=todayStr();const i=s.skip.indexOf(k2);if(i>=0)s.skip.splice(i,1);else s.skip.push(k2);save(true)},
  openPause:()=>{$('#v').insertAdjacentHTML('beforeend',PAUSE_MODAL())},
  closeModal:()=>closeModal(),
  applyPause:()=>{if(!ME)return;const live=(S.subs||[]).filter(s=>s.phone===ME.phone).find(isLive);
@@ -1142,10 +1162,10 @@ const ACTIONS={
  ordDetail:(v,k,id)=>showOrderDetail(id),
  showHistory:()=>showOrderHistory(),
  reorder:(v,k,orderId)=>{
-   const order=(S.orders||[]).find(o=>o.id===orderId);
+   const order=(S.orders||[]).find(o=>o.id==orderId);
    if(!order)return;
    order.items.forEach(item=>{
-     const prod=S.prod.find(p=>p.n===item.n);
+     const prod=(S.prod||[]).find(p=>p.n===item.n);
      if(prod){
        C[prod.id]=(C[prod.id]||0)+item.q;
      }
@@ -1158,7 +1178,7 @@ const ACTIONS={
  },
  rateOrder:(v,k,orderId)=>showRatingModal(orderId),
  submitRating:(v,k,orderId)=>{
-   const o=(S.orders||[]).find(x=>x.id===orderId);
+   const o=(S.orders||[]).find(x=>x.id==orderId);
    if(!o)return;
    const rating=parseInt($('#ratingValue')?.value||'0');
    const feedback=($('#feedbackText')?.value||'').trim();
@@ -1185,7 +1205,6 @@ const ACTIONS={
   const fp=deviceFp();
   if((S.subs||[]).find(s=>s.phone===u.p&&s.trial)){showToast('❌ Phone par trial ho chuka','error');return}
   if((S.subs||[]).find(s=>s.deviceFp===fp&&s.trial)){showToast('❌ Device par trial ho chuka','error');return}
-  // Check if already has active plan
   if((S.subs||[]).find(s=>s.phone===u.p&&isLive(s))){showToast('❌ Already active plan hai','error');return}
   const av=randAvatar(u.p.charCodeAt(0));
   S.subs.push({id:generateId(),ts:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:1,start:todayStr(),price:0,status:'trial',trial:1,paid:1,utr:'FREE_TRIAL',skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0,deviceFp:fp,avatar:av});
@@ -1194,7 +1213,6 @@ const ACTIONS={
   save(true);showToast('🎁 Trial ACTIVE!');showConfetti();
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=🎁 *TRIAL*%0A👤 ${u.n}%0A📱 ${u.p}`,'_blank')},
  joinPaid:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address daalein','error');return}
-  // Check if already has active plan
   if((S.subs||[]).find(s=>s.phone===u.p&&isLive(s))){showToast('❌ Already active plan hai','error');return}
   const utr=prompt('💳 UTR likhein:');if(!utr||utr.trim().length<4){showToast('❌ Bina UTR nahi','error');return}
   const price=PRICING[F.type][F.days]||2899;
@@ -1206,7 +1224,6 @@ const ACTIONS={
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 *PLAN*%0A👤 ${u.n}%0A💰 ${inr(price)}%0A🔢 ${utr}`,'_blank')},
  order:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
   
-  // 🛡️ DUPLICATE PREVENTION
   const now=Date.now();
   if(S.lastOrderTime&&(now-S.lastOrderTime<60000)){
     showToast('⏳ Please wait 1 minute before ordering again','error');
@@ -1214,15 +1231,14 @@ const ACTIONS={
   }
   
   const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
-  const items=[];Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
+  const items=[];Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
   
   const newOrder={id:generateId(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,status:'pending',paid:0,date:F.scheduledDate||todayStr(),slot:F.slot,contactless:F.contactless?1:0,tip:+F.tip||0};
   
   S.orders.push(newOrder);
   S.lastOrderTime=now;
   
-  // Update coupon usage
-  if(CART_COUPON&&S.coupons[CART_COUPON]){
+  if(CART_COUPON&&(S.coupons||{})[CART_COUPON]){
     S.coupons[CART_COUPON].usedCount=(S.coupons[CART_COUPON].usedCount||0)+1;
   }
   
@@ -1231,26 +1247,25 @@ const ACTIONS={
   addNotification('order',`🛒 ${u.n} ne order kiya - ${inr(cart.total)}`,{orderId:newOrder.id});
   
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *ORDER*%0A👤 ${u.n}%0A📱 ${u.p}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A🕐 ${F.slot}%0A📅 ${F.scheduledDate||todayStr()}%0A💰 ${inr(cart.total)}${F.tip>0?'%0A💵 Tip: '+inr(F.tip):''}${F.contactless?'%0A🚫👆 Contactless':''}`,'_blank')},
- verifyPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;s.status='active';s.paid=1;
+ verifyPay:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;s.status='active';s.paid=1;
   S.pays.push({id:generateId(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});
   addNotification('verified',`✅ ${s.name} ka payment verify hua`,{phone:s.phone,amount:s.price});
   save(true);showToast('✅ Active!');showConfetti();closeModal();
   
-  // Auto WhatsApp notification
   setTimeout(()=>{
     const msg=`✅ *Payment Verified!*%0A%0ANamaste ${s.name} ji,%0AAapka ${s.days} din ka ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} plan ab **ACTIVE** ho gaya hai!%0A%0A📅 Start: ${s.start}%0A💰 Amount: ${inr(s.price)}%0A%0AAgar koi sawal ho toh reply karein. Dhanyavad! 🙏`;
     window.open(`https://wa.me/91${s.phone}?text=${msg}`,'_blank');
   },1000);
  },
- rejectPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;if(confirm('Reject karna hai?')){s.status='rejected';addNotification('rejected',`❌ ${s.name} ka payment reject hua`,{phone:s.phone});save(true)}},
- done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done[key]=S.done[key]?0:1;save(true)},
- odone:(v,k,id)=>{const o=S.orders.find(x=>x.id==id);if(o){o.status='delivered';addNotification('delivered',`✅ ${o.name} ka order deliver hua`,{orderId:o.id});save(true);showToast('✅ Delivered');closeModal()}},
+ rejectPay:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;if(confirm('Reject karna hai?')){s.status='rejected';addNotification('rejected',`❌ ${s.name} ka payment reject hua`,{phone:s.phone});save(true)}},
+ done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done=S.done||{};S.done[key]=S.done[key]?0:1;save(true)},
+ odone:(v,k,id)=>{const o=(S.orders||[]).find(x=>x.id==id);if(o){o.status='delivered';addNotification('delivered',`✅ ${o.name} ka order deliver hua`,{orderId:o.id});save(true);showToast('✅ Delivered');closeModal()}},
  addProd:()=>{const n=($('#pn')?.value||'').trim(),p=parseInt($('#pp')?.value),c=($('#pc')?.value||'General').trim(),kind=($('#pkind')?.value)||'grocery',allergens=($('#pallergens')?.value||'').trim();
   if(!n||!p||p<=0){showToast('❌ Naam + price','error');return}
   S.prod.push({id:generateId(),n,p,c,nv:0,s:1,img:kind==='food'?IMG.thali:IMG.grocery,kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0,allergens});save(true);showToast('✅ Add')},
- stock:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
- delProd:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
- setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾 Save')},
+ stock:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
+ delProd:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
+ setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset=S.mset||{};S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾 Save')},
  addWaste:()=>{const item=($('#wasteItem')?.value||'').trim(),qty=parseInt($('#wasteQty')?.value)||0,reason=($('#wasteReason')?.value||'').trim();
   if(!item||!qty){showToast('❌ Item + quantity','error');return}
   S.waste=S.waste||[];
@@ -1279,13 +1294,12 @@ const ACTIONS={
 document.addEventListener('click',e=>{
  if(e.target.classList.contains('modal')){closeModal();return}
  const b=e.target.closest('[data-a]');if(!b)return;
- const f=ACTIONS[b.dataset.a];if(f){try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(err){showToast('❌ Error','error')}}
+ const f=ACTIONS[b.dataset.a];if(f){try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(err){console.error(err);showToast('❌ Error','error')}}
 });
 document.addEventListener('input',e=>{const f=e.target.dataset?.f;
  if(f){
-   F[f]=e.target.value;
+   F[f]=e.target.type==='checkbox'?e.target.checked:e.target.value;
    if(f==='phone')F.phone=cleanPhone(F.phone);
-   if(f==='contactless')F.contactless=e.target.checked?1:0;
  }
  if(e.target.id==='sq'){clearTimeout(window._t);window._t=setTimeout(()=>{SQ=e.target.value;render();const el=$('#sq');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}},250)}});
 $('#restoreFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
@@ -1294,7 +1308,6 @@ $('#restoreFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)
 let tap=0;$('#mainHeader').addEventListener('click',()=>{tap++;if(tap>=5){tap=0;const x=prompt('Owner PIN:');if(x===null)return;if(x===CONFIG.ownerPin){OK=1;sessionStorage.setItem('udok','1');tab='owner';render();showToast('🔓 Owner')}else showToast('❌ PIN','error')}});
 
 const initTheme=()=>{
-  // Auto dark mode based on system preference
   const saved=localStorage.getItem('ud_theme');
   let t=saved;
   if(!t){
@@ -1312,7 +1325,6 @@ const initParticles=()=>{const c=$('#particles');if(!c)return;
   p.style.opacity=Math.random()*0.6+0.2;
   c.appendChild(p)}};
 
-// ☁️ INIT CLOUD STATE WITH REAL-TIME SYNC
 let S=null;
 let isLoading=true;
 let unsubscribe=null;
@@ -1322,6 +1334,18 @@ async function initCloudState(){
     unsubscribe=onValue(dbRef,(snapshot)=>{
       if(snapshot.exists()){
         S=migrate(snapshot.val());
+        
+        // ✅ Extra safety checks
+        if(!S.mset) S.mset={};
+        if(!S.meals) S.meals={};
+        if(!S.done) S.done={};
+        if(!S.prod) S.prod=[];
+        if(!S.subs) S.subs=[];
+        if(!S.orders) S.orders=[];
+        if(!S.pays) S.pays=[];
+        if(!S.notifications) S.notifications=[];
+        if(!S.coupons) S.coupons=COUPONS_DEFAULT;
+        
         isLoading=false;
         render();
       } else {
@@ -1333,17 +1357,23 @@ async function initCloudState(){
     },(error)=>{
       console.warn("Cloud sync error, using local fallback",error);
       S=loadState().data;
+      if(!S.mset) S.mset={};
+      if(!S.meals) S.meals={};
+      if(!S.done) S.done={};
       isLoading=false;
       render();
     });
   } catch(e){
+    console.error("Init error:",e);
     S=loadState().data;
+    if(!S.mset) S.mset={};
+    if(!S.meals) S.meals={};
+    if(!S.done) S.done={};
     isLoading=false;
     render();
   }
 }
 
-// Keyboard shortcuts
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey||e.metaKey){
     if(e.key==='1'){e.preventDefault();tab='plan';render()}
