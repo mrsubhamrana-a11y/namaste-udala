@@ -4,217 +4,128 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#070B14">
-<title>🍱 Namaste Udala — Ultra 3D</title>
+<title>🍱 Namaste Udala — MEGA v5</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{--o:#FF6B35;--o2:#E85D04;--neon:#06D6A0;--neon2:#22D3EE;--gold:#FCD34D;--bad:#EF4444;--warn:#F59E0B;--info:#3B82F6;--purple:#7C3AED;--pink:#EC4899}
 [data-theme="dark"]{--bg:#050812;--text:#E8ECF4;--muted:#8B93A7;--card:rgba(15,20,35,.65);--line:rgba(255,255,255,.08);--glass:rgba(10,14,25,.78);--inp:rgba(255,255,255,.05);--h3:var(--neon)}
 [data-theme="light"]{--bg:#F8FAFC;--text:#0F172A;--muted:#64748B;--card:#fff;--line:#E2E8F0;--glass:rgba(255,255,255,.92);--inp:#fff;--h3:#065F46}
 *{box-sizing:border-box;font-family:'Poppins',sans-serif;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);padding-bottom:100px;min-height:100vh;overflow-x:hidden;transition:background .4s,color .4s;position:relative}
+body{background:var(--bg);color:var(--text);padding-bottom:100px;min-height:100vh;overflow-x:hidden}
 .bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.4;animation:drift 18s ease-in-out infinite}
-[data-theme="light"] .blob{opacity:.18}
-.b1{width:480px;height:480px;background:var(--o);top:-180px;left:-180px}
-.b2{width:420px;height:420px;background:var(--neon);bottom:-150px;right:-150px;animation-delay:-6s}
-.b3{width:360px;height:360px;background:var(--purple);top:40%;left:55%;animation-delay:-12s;opacity:.28}
-.b4{width:280px;height:280px;background:var(--pink);bottom:30%;left:20%;animation-delay:-4s;opacity:.22}
+[data-theme="light"] .blob{opacity:.16}
+.b1{width:480px;height:480px;background:var(--o);top:-180px;left:-180px}.b2{width:420px;height:420px;background:var(--neon);bottom:-150px;right:-150px;animation-delay:-6s}.b3{width:360px;height:360px;background:var(--purple);top:40%;left:55%;animation-delay:-12s;opacity:.28}
 @keyframes drift{50%{transform:translate(50px,-40px) scale(1.15)}}
-.gridfloor{position:absolute;left:-25%;right:-25%;bottom:-30px;height:46vh;background:repeating-linear-gradient(90deg,rgba(34,211,238,.18) 0 1px,transparent 1px 56px),repeating-linear-gradient(0deg,rgba(34,211,238,.18) 0 1px,transparent 1px 56px);transform:perspective(600px) rotateX(58deg);transform-origin:bottom;mask-image:linear-gradient(transparent,#000 40%);animation:gridPulse 6s ease-in-out infinite}
-[data-theme="light"] .gridfloor{opacity:.3}
-@keyframes gridPulse{50%{opacity:.55}}
-.particles{position:absolute;inset:0}
+.gridfloor{position:absolute;left:-25%;right:-25%;bottom:-30px;height:46vh;background:repeating-linear-gradient(90deg,rgba(34,211,238,.16) 0 1px,transparent 1px 56px),repeating-linear-gradient(0deg,rgba(34,211,238,.16) 0 1px,transparent 1px 56px);transform:perspective(600px) rotateX(58deg);transform-origin:bottom;mask-image:linear-gradient(transparent,#000 40%)}
 .particle{position:absolute;width:3px;height:3px;background:var(--neon);border-radius:50%;box-shadow:0 0 8px var(--neon);animation:floatUp 12s linear infinite}
 @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
-header{position:relative;z-index:2;background:linear-gradient(135deg,rgba(27,67,50,.94),rgba(7,11,20,.92));backdrop-filter:blur(24px);color:#fff;padding:22px 20px 48px;border-radius:0 0 32px 32px;border-bottom:1px solid rgba(6,214,160,.3);box-shadow:0 10px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08)}
-[data-theme="light"] header{background:linear-gradient(135deg,#1B4332,#0F2C21)}
-header .logo{font-size:11px;letter-spacing:3px;font-weight:800;color:var(--gold);text-shadow:0 0 12px rgba(252,211,77,.7)}
-header h1{font-size:26px;font-weight:900;margin-top:4px;background:linear-gradient(90deg,#fff,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradShift 6s ease-in-out infinite;background-size:200% 100%}
-@keyframes gradShift{50%{background-position:100% 50%}}
-header .tagline{font-size:13px;opacity:.9;margin-top:4px}
-#v{padding:0 16px;margin-top:-24px;position:relative;z-index:1}
-.card{background:var(--card);backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);animation:rise .5s ease both;transition:transform .15s ease,box-shadow .3s;transform-style:preserve-3d;cursor:pointer;position:relative;overflow:hidden}
-.card.clickable::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(6,214,160,.04),transparent);opacity:0;transition:opacity .3s}
-.card.clickable:hover::before{opacity:1}
-[data-theme="light"] .card{box-shadow:0 4px 15px rgba(0,0,0,.08)}
-@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.card h3{color:var(--h3);font-size:17px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;text-shadow:0 0 14px rgba(6,214,160,.4)}
-[data-theme="light"] .card h3{text-shadow:none}
-.s{font-size:12.5px;color:var(--muted);line-height:1.5}
-.btn{padding:13px;border-radius:14px;border:none;font-weight:700;font-size:15px;cursor:pointer;width:100%;margin-top:8px;background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;transition:transform .1s,box-shadow .2s;min-height:44px;box-shadow:0 0 20px rgba(255,107,53,.45),0 4px 0 rgba(0,0,0,.3);position:relative;overflow:hidden}
-.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-100%);transition:transform .6s}
-.btn:hover::before{transform:translateX(100%)}
-.btn:active{transform:translateY(2px) scale(.98);box-shadow:0 0 8px rgba(255,107,53,.4)}
-.btn.g{background:rgba(6,214,160,.14);color:var(--neon);border:1px solid rgba(6,214,160,.45);box-shadow:0 0 16px rgba(6,214,160,.25)}
-.btn.r{background:rgba(239,68,68,.14);color:#F87171;border:1px solid rgba(239,68,68,.45);box-shadow:0 0 16px rgba(239,68,68,.25)}
-.btn.b{background:rgba(59,130,246,.16);color:#93C5FD;border:1px solid rgba(59,130,246,.5);box-shadow:0 0 16px rgba(59,130,246,.3)}
-.btn.p{background:rgba(124,58,237,.16);color:#C4B5FD;border:1px solid rgba(124,58,237,.45);box-shadow:0 0 16px rgba(124,58,237,.3)}
+header{position:relative;z-index:2;background:linear-gradient(135deg,rgba(27,67,50,.94),rgba(7,11,20,.92));backdrop-filter:blur(24px);color:#fff;padding:20px 20px 46px;border-radius:0 0 32px 32px;border-bottom:1px solid rgba(6,214,160,.3);box-shadow:0 10px 40px rgba(0,0,0,.55)}
+header .logo{font-size:11px;letter-spacing:3px;font-weight:800;color:var(--gold)}
+header h1{font-size:25px;font-weight:900;margin-top:4px;background:linear-gradient(90deg,#fff,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+header .tagline{font-size:12.5px;opacity:.9;margin-top:4px}
+#v{padding:0 14px;margin-top:-24px;position:relative;z-index:1}
+.card{background:var(--card);backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:13px;box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);animation:rise .45s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.card h3{color:var(--h3);font-size:16px;font-weight:800;margin-bottom:10px}
+.s{font-size:12px;color:var(--muted);line-height:1.5}
+.btn{padding:12px;border-radius:14px;border:none;font-weight:700;font-size:14px;cursor:pointer;width:100%;margin-top:8px;background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;min-height:44px;box-shadow:0 0 18px rgba(255,107,53,.4)}
+.btn:active{transform:scale(.97)}
+.btn.g{background:rgba(6,214,160,.14);color:var(--neon);border:1px solid rgba(6,214,160,.45)}
+.btn.r{background:rgba(239,68,68,.14);color:#F87171;border:1px solid rgba(239,68,68,.45)}
+.btn.b{background:rgba(59,130,246,.16);color:#93C5FD;border:1px solid rgba(59,130,246,.5)}
+.btn.p{background:rgba(124,58,237,.16);color:#C4B5FD;border:1px solid rgba(124,58,237,.45)}
 .btn.ghost{background:transparent;color:var(--o);border:1.5px solid var(--o);box-shadow:none}
-[data-theme="light"] .btn.g{background:#ECFDF5;color:#065F46}
-[data-theme="light"] .btn.r{background:#FEF2F2;color:#991B1B}
-[data-theme="light"] .btn.b{background:var(--info);color:#fff}
-.btn.sm{padding:8px 14px;font-size:12px;width:auto;margin:0;border-radius:10px;min-height:36px}
-input,select,textarea{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:14px;margin:5px 0 10px;font-size:15px;background:var(--inp);color:var(--text);font-family:inherit;min-height:44px;transition:border .2s,box-shadow .2s}
-textarea{min-height:70px}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-shadow:0 0 0 3px rgba(255,107,53,.2),0 0 20px rgba(255,107,53,.25)}
-.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:8px}
+[data-theme="light"] .btn.g{background:#ECFDF5;color:#065F46}[data-theme="light"] .btn.r{background:#FEF2F2;color:#991B1B}[data-theme="light"] .btn.b{background:var(--info);color:#fff}
+.btn.sm{padding:7px 12px;font-size:11.5px;width:auto;margin:0;border-radius:10px;min-height:34px}
+input,select,textarea{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:12px;margin:4px 0 8px;font-size:14px;background:var(--inp);color:var(--text);font-family:inherit;min-height:42px}
+textarea{min-height:64px}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--o)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);gap:8px}
 .row:last-child{border-bottom:0}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:1.5px solid var(--line);background:var(--inp);color:var(--text);border-radius:20px;padding:8px 14px;font-weight:700;font-size:12px;cursor:pointer}
+.tabs button.on{background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;border-color:var(--o);box-shadow:0 0 14px rgba(255,107,53,.5)}
 .nav{position:fixed;bottom:10px;left:10px;right:10px;background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--line);border-radius:22px;display:flex;justify-content:space-around;padding:8px 4px;z-index:100;box-shadow:0 10px 40px rgba(0,0,0,.55)}
-.nav div{text-align:center;font-size:10px;font-weight:700;color:var(--muted);flex:1;cursor:pointer;padding:6px 4px;min-height:50px;border-radius:14px;transition:all .3s}
-.nav div.on{color:var(--o);background:rgba(255,107,53,.12);text-shadow:0 0 12px rgba(255,107,53,.9);box-shadow:inset 0 0 20px rgba(255,107,53,.15)}
-.nav div span{font-size:21px;display:block;margin-bottom:2px}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:700;border:1px solid transparent;position:relative}
-.badge.active{background:rgba(6,214,160,.15);color:var(--neon);border-color:rgba(6,214,160,.5);box-shadow:0 0 14px rgba(6,214,160,.4)}
-.badge.active::after{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,var(--neon),var(--neon2),var(--purple),var(--neon));background-size:300% 300%;animation:holo 3s linear infinite;opacity:.3;z-index:-1}
-@keyframes holo{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-.badge.pending{background:rgba(245,158,11,.15);color:var(--warn);border-color:rgba(245,158,11,.5);box-shadow:0 0 14px rgba(245,158,11,.3)}
-.badge.trial{background:rgba(59,130,246,.15);color:#93C5FD;border-color:rgba(59,130,246,.5);box-shadow:0 0 14px rgba(59,130,246,.3)}
+.nav div{text-align:center;font-size:10px;font-weight:700;color:var(--muted);flex:1;cursor:pointer;padding:6px 4px;border-radius:14px}
+.nav div.on{color:var(--o);background:rgba(255,107,53,.12);text-shadow:0 0 12px rgba(255,107,53,.9)}
+.nav div span{font-size:20px;display:block;margin-bottom:2px}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid transparent}
+.badge.active{background:rgba(6,214,160,.15);color:var(--neon);border-color:rgba(6,214,160,.5)}
+.badge.pending{background:rgba(245,158,11,.15);color:var(--warn);border-color:rgba(245,158,11,.5)}
+.badge.trial{background:rgba(59,130,246,.15);color:#93C5FD;border-color:rgba(59,130,246,.5)}
 .badge.expired,.badge.rejected{background:rgba(255,255,255,.06);color:var(--muted);border-color:var(--line)}
-.badge.paused{background:rgba(124,58,237,.15);color:#C4B5FD;border-color:rgba(124,58,237,.5);box-shadow:0 0 14px rgba(124,58,237,.3)}
-[data-theme="light"] .badge.active{background:#D1FAE5;color:#065F46}
-[data-theme="light"] .badge.pending{background:#FEF3C7;color:#92400E}
-[data-theme="light"] .badge.trial{background:#DBEAFE;color:#1E40AF}
-[data-theme="light"] .badge.paused{background:#E0E7FF;color:#3730A3}
-.toast{position:fixed;bottom:170px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(15,20,35,.95);backdrop-filter:blur(14px);border:1px solid rgba(6,214,160,.5);color:#fff;padding:12px 24px;border-radius:50px;font-weight:700;font-size:13.5px;z-index:1000;opacity:0;transition:all .3s;max-width:90%;text-align:center;box-shadow:0 0 28px rgba(6,214,160,.45)}
+.badge.paused{background:rgba(124,58,237,.15);color:#C4B5FD;border-color:rgba(124,58,237,.5)}
+.toast{position:fixed;bottom:170px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(15,20,35,.95);backdrop-filter:blur(14px);border:1px solid rgba(6,214,160,.5);color:#fff;padding:12px 22px;border-radius:50px;font-weight:700;font-size:13px;z-index:1000;opacity:0;transition:all .3s;max-width:90%;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-.toast.error{border-color:rgba(239,68,68,.6);box-shadow:0 0 28px rgba(239,68,68,.4)}
-.pbar{width:100%;height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:10px 0}
-.pfill{height:100%;background:linear-gradient(90deg,var(--neon),var(--o),var(--pink));background-size:200% 100%;box-shadow:0 0 14px rgba(6,214,160,.75);transition:width .5s;animation:gradShift 4s ease-in-out infinite}
-.fab{position:fixed;right:16px;bottom:160px;width:52px;height:52px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;text-decoration:none;box-shadow:0 0 28px rgba(37,211,102,.6);z-index:99}
-.theme-toggle{position:fixed;top:16px;right:16px;width:42px;height:42px;border-radius:50%;background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;z-index:101;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.toast.error{border-color:rgba(239,68,68,.6)}
+.pbar{width:100%;height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:8px 0}
+.pfill{height:100%;background:linear-gradient(90deg,var(--neon),var(--o),var(--pink));background-size:200% 100%;box-shadow:0 0 12px rgba(6,214,160,.7);animation:gs 4s ease-in-out infinite}
+@keyframes gs{50%{background-position:100% 50%}}
+.fab{position:fixed;right:14px;bottom:160px;width:50px;height:50px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;text-decoration:none;box-shadow:0 0 24px rgba(37,211,102,.6);z-index:99}
+.theme-toggle{position:fixed;top:14px;right:14px;width:40px;height:40px;border-radius:50%;background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;z-index:101}
 .seg{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
-.seg button{flex:1;padding:11px;border-radius:12px;border:1.5px solid var(--line);background:var(--inp);color:var(--text);font-weight:700;font-size:13px;cursor:pointer;min-height:44px;transition:all .2s}
-.seg button.on{background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;border-color:var(--o);box-shadow:0 0 18px rgba(255,107,53,.5)}
+.seg button{flex:1;padding:10px;border-radius:12px;border:1.5px solid var(--line);background:var(--inp);color:var(--text);font-weight:700;font-size:12.5px;cursor:pointer;min-height:42px}
+.seg button.on{background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;border-color:var(--o)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.stat{border-radius:16px;padding:14px;text-align:center;color:#fff;box-shadow:0 0 22px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .2s}
-.stat:hover{transform:translateY(-3px) scale(1.02)}
-.stat .v{font-size:22px;font-weight:900;text-shadow:0 0 14px rgba(255,255,255,.6)}
-.stat .l{font-size:10.5px;opacity:.9;font-weight:600}
-.vd{display:inline-block;width:15px;height:15px;border:2px solid #16a34a;border-radius:3px;position:relative;background:#fff;vertical-align:-3px}
+.stat{border-radius:16px;padding:12px;text-align:center;color:#fff;box-shadow:0 0 20px rgba(0,0,0,.35)}
+.stat .v{font-size:20px;font-weight:900;text-shadow:0 0 12px rgba(255,255,255,.6)}
+.stat .l{font-size:10px;opacity:.9;font-weight:600}
+.vd{display:inline-block;width:14px;height:14px;border:2px solid #16a34a;border-radius:3px;position:relative;background:#fff;vertical-align:-3px}
 .vd::after{content:'';position:absolute;inset:2px;border-radius:50%;background:#16a34a}
 .vd.nv{border-color:#dc2626}.vd.nv::after{background:#dc2626}
-.pcard{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .15s,box-shadow .3s;transform-style:preserve-3d;cursor:pointer;position:relative}
-.pcard:hover{box-shadow:0 0 0 1px rgba(255,107,53,.6),0 14px 40px rgba(255,107,53,.3);transform:translateY(-4px)}
-.pcard .ph{height:110px;overflow:hidden;position:relative;background:var(--inp)}
-.pcard .ph img{width:100%;height:110px;object-fit:cover;display:block;transition:transform .5s}
-.pcard:hover .ph img{transform:scale(1.16)}
-.pcard .ph .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;background:linear-gradient(135deg,rgba(252,211,77,.25),rgba(255,107,53,.25))}
-.avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--neon);box-shadow:0 0 12px rgba(6,214,160,.5)}
-.avatar.lg{width:64px;height:64px}
-.grow{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:background .2s;border-radius:8px}
-.grow:hover{background:rgba(6,214,160,.05)}
+.pcard{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .3s}
+.pcard:hover{box-shadow:0 0 0 1px rgba(255,107,53,.6),0 12px 36px rgba(255,107,53,.3);transform:translateY(-3px)}
+.pcard .ph{height:100px;overflow:hidden;position:relative}
+.pcard .ph img{width:100%;height:100px;object-fit:cover;transition:transform .5s}
+.pcard:hover .ph img{transform:scale(1.15)}
+.pcard .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,rgba(252,211,77,.25),rgba(255,107,53,.25))}
+.avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--neon);box-shadow:0 0 10px rgba(6,214,160,.5)}
+.grow{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
 .grow:last-child{border-bottom:0}
-.grow img{width:48px;height:48px;border-radius:12px;object-fit:cover;background:var(--inp);box-shadow:0 4px 14px rgba(0,0,0,.3)}
-.grow .placeholder{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;background:linear-gradient(135deg,rgba(252,211,77,.25),rgba(255,107,53,.25))}
-.cartbar{position:fixed;bottom:80px;left:12px;right:12px;background:var(--glass);backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:18px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 40px rgba(0,0,0,.55);z-index:99}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn .2s}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-content{background:var(--glass);backdrop-filter:blur(26px);border:1px solid var(--line);border-radius:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:24px;animation:zoomIn .3s;color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(6,214,160,.2)}
-@keyframes zoomIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-.modal h3{color:var(--neon);margin-bottom:14px;font-size:20px;text-shadow:0 0 16px rgba(6,214,160,.5)}
-[data-theme="light"] .modal h3{text-shadow:none;color:var(--h3)}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;background:var(--inp);border:1.5px solid var(--line);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;margin:3px;transition:all .2s}
-.chip.on{background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;border-color:var(--o);box-shadow:0 0 16px rgba(255,107,53,.5)}
-.chip:hover:not(.on){border-color:var(--o);color:var(--o)}
-.compare-table{width:100%;border-collapse:collapse;margin-top:10px}
-.compare-table th,.compare-table td{padding:10px 6px;text-align:center;border:1px solid var(--line);font-size:13px;background:var(--inp)}
-.compare-table th{background:linear-gradient(135deg,#1B4332,#0F2C21);color:#fff;font-weight:700}
-.compare-table .best{background:rgba(6,214,160,.2);font-weight:800;color:var(--neon);text-shadow:0 0 12px rgba(6,214,160,.65)}
-[data-theme="light"] .compare-table .best{background:#D1FAE5;color:#065F46;text-shadow:none}
-.loader{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.alert-box{background:rgba(245,158,11,.12);border:1.5px solid rgba(245,158,11,.5);border-radius:14px;padding:12px;margin:10px 0}
-.hero3d{position:absolute;right:10px;top:8px;width:110px;height:110px;perspective:500px}
-.hero3d .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,var(--o),var(--neon),var(--purple),var(--pink),var(--o));animation:spin 5s linear infinite;filter:blur(8px);opacity:.85}
-.hero3d .plate{position:absolute;inset:10px;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.32),rgba(255,255,255,.07));backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:48px;animation:floaty 4s ease-in-out infinite;box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.3);overflow:hidden}
-.hero3d .plate img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-@keyframes floaty{50%{transform:translateY(-10px) rotateY(25deg)}}
-.timeline{position:relative;padding-left:20px;margin-top:10px}
-.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--line)}
-.tl-item{position:relative;padding:8px 0 8px 16px;font-size:12.5px}
-.tl-item::before{content:'';position:absolute;left:-17px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--neon);box-shadow:0 0 10px var(--neon)}
-.tl-item.bad::before{background:var(--bad);box-shadow:0 0 10px var(--bad)}
-.tl-item.neutral::before{background:var(--muted);box-shadow:none}
-.kids-banner{position:relative;border-radius:20px;overflow:hidden;margin-bottom:14px;height:180px}
-.kids-banner img{width:100%;height:100%;object-fit:cover;transition:transform 4s}
-.kids-banner:hover img{transform:scale(1.1)}
-.kids-banner .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,11,20,.95) 0%,rgba(7,11,20,.3) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;color:#fff}
-.kids-banner h2{font-size:22px;font-weight:900;background:linear-gradient(90deg,#fff,var(--neon));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
-.kids-banner p{font-size:13px;opacity:.9}
-.clickable-indicator{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--muted);font-weight:700}
-.clickable-indicator::after{content:'→';color:var(--o);animation:arrowBounce 1.5s ease-in-out infinite}
-@keyframes arrowBounce{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
-.meal-dot{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;font-size:10px;font-weight:800;cursor:pointer;transition:transform .2s}
-.meal-dot:hover{transform:scale(1.15)}
+.grow img{width:46px;height:46px;border-radius:12px;object-fit:cover;background:var(--inp)}
+.cartbar{position:fixed;bottom:78px;left:12px;right:12px;background:var(--glass);backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:18px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 40px rgba(0,0,0,.55);z-index:99}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:14px}
+.modal-content{background:var(--glass);backdrop-filter:blur(26px);border:1px solid var(--line);border-radius:22px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:20px;color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.modal h3{color:var(--neon);margin-bottom:12px;font-size:18px}
+.compare-table{width:100%;border-collapse:collapse;margin-top:8px}
+.compare-table th,.compare-table td{padding:9px 4px;text-align:center;border:1px solid var(--line);font-size:12px;background:var(--inp)}
+.compare-table th{background:linear-gradient(135deg,#1B4332,#0F2C21);color:#fff}
+.compare-table .best{background:rgba(6,214,160,.2);font-weight:800;color:var(--neon)}
+.alert-box{background:rgba(245,158,11,.12);border:1.5px solid rgba(245,158,11,.5);border-radius:12px;padding:10px;margin:8px 0}
+.kids-banner{position:relative;border-radius:20px;overflow:hidden;margin-bottom:13px;height:170px}
+.kids-banner img{width:100%;height:100%;object-fit:cover}
+.kids-banner .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,11,20,.95),transparent 70%);display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:#fff}
+.kids-banner h2{font-size:20px;font-weight:900;background:linear-gradient(90deg,#fff,var(--neon));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bar{height:22px;border-radius:6px;background:linear-gradient(90deg,var(--neon),var(--o));position:relative;margin:3px 0}
+.bar span{position:absolute;right:6px;top:2px;font-size:10px;font-weight:800;color:#fff}
+.meal-dot{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;font-size:10px;font-weight:800}
 .meal-dot.ok{background:rgba(6,214,160,.2);color:var(--neon)}
 .meal-dot.no{background:rgba(239,68,68,.2);color:#F87171}
 .meal-dot.pending{background:rgba(255,255,255,.08);color:var(--muted)}
 </style>
 </head>
 <body>
-<div class="bg">
-  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
-  <div class="gridfloor"></div>
-  <div class="particles" id="particles"></div>
-</div>
+<div class="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="gridfloor"></div><div id="particles"></div></div>
 <button class="theme-toggle" id="themeToggle">☀️</button>
-<header id="mainHeader">
-  <div class="logo">NAMASTE UDALA</div>
-  <h1 id="ht">Aaj ka Plan</h1>
-  <div class="tagline">Ghar jaisa khana · Roz time pe</div>
-</header>
+<header id="mainHeader"><div class="logo">NAMASTE UDALA</div><h1 id="ht">Aaj ka Plan</h1><div class="tagline">Ghar jaisa khana · Roz time pe</div></header>
 <div id="v"></div>
 <a class="fab" href="https://wa.me/919583937047" target="_blank">💬</a>
 <div class="nav" id="nav"></div>
 <div class="toast" id="toast"></div>
 <input type="file" id="restoreFile" accept=".json" style="display:none">
+<input type="file" id="foodPhotoFile" accept="image/*" style="display:none">
+<input type="file" id="podFile" accept="image/*" style="display:none">
 <div id="modalRoot"></div>
-
 <script type="module">
 const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788',upi:'9583937047@jio'};
 const PRICING={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
-const STORAGE_KEY='udala_final_v1';
-const SCHEMA_V=4;
-const COUPONS_DEFAULT={'UDALA50':{type:'flat',value:50,min:299}};
-const KIRANA_PRESET=['Doodh 500 ml','Atta 1 kg','Chawal 1 kg','Dal 1 kg','Tel 1 L','Sabun'];
-
-// 🖼️ Real kids + meal images (Unsplash CDN)
-const IMG={
-  kids1:'https://images.unsplash.com/photo-1565538810699-0e7a7d433f66?w=800&q=80',
-  kids2:'https://images.unsplash.com/photo-1516402164833-c922fa2f8a7c?w=800&q=80',
-  kids3:'https://images.unsplash.com/photo-1607522502273-0fa0f08ab5d6?w=800&q=80',
-  kids4:'https://images.unsplash.com/photo-1584839404757-62d21a35ff27?w=800&q=80',
-  kids5:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb5?w=800&q=80',
-  family:'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80',
-  thali:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80',
-  curry:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80',
-  roti:'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80',
-  chawal:'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=400&q=80',
-  paneer:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80',
-  chicken:'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80',
-  egg:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80',
-  meetha:'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&q=80',
-  dal:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&q=80',
-  chai:'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80',
-  doodh:'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80',
-  dahi:'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=400&q=80',
-  grocery:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80',
-  clean:'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80',
-  care:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80',
-  biryani:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80',
-  // Avatars (kids / families)
-  av1:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80',
-  av2:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80',
-  av3:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-  av4:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
-  av5:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80'
-};
-const AVATARS=[IMG.av1,IMG.av2,IMG.av3,IMG.av4,IMG.av5];
-const KIDS_BANNERS=[IMG.kids1,IMG.kids2,IMG.kids3,IMG.kids4,IMG.kids5,IMG.family];
-
-const $=s=>document.querySelector(s);
-const $$=s=>document.querySelectorAll(s);
+const STORAGE_KEY='udala_final_v1',SCHEMA_V=5;
+const COUPONS_DEFAULT={'UDALA50':{type:'flat',value:50,min:299,expiry:'2027-12-31',uses:0,max:999}};
+const KIRANA=['Doodh 500 ml','Atta 1 kg','Chawal 1 kg','Dal 1 kg','Tel 1 L','Sabun'];
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const iso=d=>{const x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')};
 const todayStr=()=>iso(new Date());
@@ -222,653 +133,364 @@ const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
 const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const cleanPhone=s=>String(s||'').replace(/\D/g,'').slice(-10);
-const deviceFp=()=>{try{let fp=localStorage.getItem('ud_fp');if(!fp){fp=Math.random().toString(36).slice(2)+Date.now();localStorage.setItem('ud_fp',fp)}return fp}catch(e){return 'x'}};
+const deviceFp=()=>{try{let f=localStorage.getItem('ud_fp');if(!f){f=Math.random().toString(36).slice(2);localStorage.setItem('ud_fp',f)}return f}catch(e){return 'x'}};
 const showToast=(m,t='success')=>{const e=$('#toast');e.textContent=m;e.className='toast '+t+' show';setTimeout(()=>e.classList.remove('show'),2800)};
-const randAvatar=(id)=>AVATARS[(id||0)%AVATARS.length];
-const randBanner=()=>KIDS_BANNERS[Math.floor(Math.random()*KIDS_BANNERS.length)];
-
-const SEED=[
-{n:'Doodh 500 ml',p:30,c:'Dairy',nv:0,img:IMG.doodh},{n:'Dahi 400 g',p:40,c:'Dairy',nv:0,img:IMG.dahi},{n:'Paneer 200 g',p:80,c:'Dairy',nv:0,img:IMG.paneer},
-{n:'Chai patti 250 g',p:130,c:'Chai aur Nashta',nv:0,img:IMG.chai},{n:'Bread',p:40,c:'Chai aur Nashta',nv:0,img:IMG.roti},{n:'Ande (6)',p:72,c:'Chai aur Nashta',nv:1,img:IMG.egg},
-{n:'Atta 1 kg',p:50,c:'Kirana',nv:0,img:IMG.roti},{n:'Chawal 1 kg',p:70,c:'Kirana',nv:0,img:IMG.chawal},{n:'Dal 1 kg',p:150,c:'Kirana',nv:0,img:IMG.dal},{n:'Tel 1 L',p:150,c:'Kirana',nv:0,img:IMG.grocery},
-{n:'Detergent 1 kg',p:130,c:'Ghar ki Safai',nv:0,img:IMG.clean},{n:'Sabun',p:30,c:'Body Care',nv:0,img:IMG.care}
-].map((a,i)=>({id:i+1,...a,kind:'grocery',s:1}));
-const FOOD_SEED=[
-{n:'Special Veg Thali',p:120,c:'Thali',nv:0,img:IMG.thali,rating:4.6,time:30,best:1},
-{n:'Paneer Butter Masala',p:140,c:'Curry',nv:0,img:IMG.paneer,rating:4.5,time:25},
-{n:'Dal Fry + Chawal',p:90,c:'Curry',nv:0,img:IMG.dal,rating:4.3,time:20},
-{n:'Chicken Curry',p:160,c:'Curry',nv:1,img:IMG.chicken,rating:4.7,time:30,best:1},
-{n:'Egg Curry',p:100,c:'Curry',nv:1,img:IMG.egg,rating:4.2,time:20},
-{n:'Chicken Biryani',p:150,c:'Biryani',nv:1,img:IMG.biryani,rating:4.8,time:35,best:1},
-{n:'Gulab Jamun (2pc)',p:40,c:'Sweets',nv:0,img:IMG.meetha,rating:4.7,time:10},
-{n:'Masala Chai',p:20,c:'Drinks',nv:0,img:IMG.chai,rating:4.5,time:10}
-].map((a,i)=>({id:1000+i,...a,kind:'food',s:1}));
-
-const normalizeSub=s=>{if(!s||!s.id)return null;
- s.name=String(s.name||'Customer');s.phone=cleanPhone(s.phone);s.type=s.type==='nv'?'nv':'veg';
- s.days=clamp(+s.days||30,1,365);s.start=s.start||todayStr();s.price=Math.max(0,+s.price||0);
- s.skip=Array.isArray(s.skip)?s.skip:[];s.pause=Array.isArray(s.pause)?s.pause:[];
- s.lunch=['roti','chawal','both'].includes(s.lunch)?s.lunch:'chawal';
- s.dinner=['roti','chawal','both'].includes(s.dinner)?s.dinner:'roti';
- s.extraRoti=clamp(+s.extraRoti||0,0,4);
- s.addr=s.addr||'';s.area=s.area||'Udala';s.map=s.map||'';s.notes=s.notes||'';s.utr=s.utr||'';
- s.paid=s.paid?1:0;s.trial=s.trial?1:0;s.ts=s.ts||s.id;s.deviceFp=s.deviceFp||'';s.avatar=s.avatar||randAvatar(s.id);
- if(!s.status)s.status=s.trial?'trial':(s.paid?'active':'pending');
- return s};
-const normalizeOrder=o=>{if(!o||!o.id)return null;
- o.name=String(o.name||'Customer');o.phone=cleanPhone(o.phone);
- o.items=Array.isArray(o.items)?o.items.filter(i=>i&&i.n):[];
- o.total=Math.max(0,+o.total||0);o.date=o.date||todayStr();
- o.status=o.status==='delivered'?'delivered':'pending';o.paid=o.paid?1:0;
- o.map=o.map||'';o.addr=o.addr||'';o.area=o.area||'Udala';o.notes=o.notes||'';
- o.slot=o.slot||'lunch';o.coupon=o.coupon||'';o.discount=+o.discount||0;
- return o};
-const normalizeProd=p=>{if(!p||!p.id)return null;
- return{id:p.id,n:String(p.n||'Item'),p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,img:p.img||'',kind:p.kind==='food'?'food':'grocery',rating:p.rating||0,time:p.time||0,best:p.best?1:0}};
-
-function migrate(d){if(!d||typeof d!=='object')return d;
- const v=d.v||1;
- if(v<2)(d.orders||[]).forEach(o=>{o.slot=o.slot||'lunch';o.discount=o.discount||0;o.coupon=o.coupon||''});
- if(v<3){d.coupons=d.coupons||COUPONS_DEFAULT;d.walletLedger=d.walletLedger||[]}
- if(v<4)(d.subs||[]).forEach(s=>{if(!s.avatar)s.avatar=randAvatar(s.id)});
- d.v=SCHEMA_V;return d}
-
-function loadState(){
- const out={v:SCHEMA_V,prod:[],subs:[],orders:[],pays:[],expenses:[],meals:{},done:{},mset:{},cred:{},refs:{},wallet:{},walletLedger:[],feedback:{},dailyVideo:'',partners:['Raju Bhaiya'],coupons:COUPONS_DEFAULT};
- let recovered=0;
- [STORAGE_KEY,'udala2','udala6','udala7','udala_logic'].forEach(k=>{
-  try{const raw=localStorage.getItem(k);if(!raw)return;let d=migrate(JSON.parse(raw));if(!d||typeof d!=='object')return;
-   (d.prod||[]).forEach(p=>{const n=normalizeProd(p);if(n&&!out.prod.find(x=>x.id===n.id))out.prod.push(n)});
-   (d.subs||[]).forEach(s=>{const n=normalizeSub(s);if(n&&!out.subs.find(x=>x.id===n.id)){out.subs.push(n);if(k!==STORAGE_KEY)recovered++}});
-   (d.orders||[]).forEach(o=>{const n=normalizeOrder(o);if(n&&!out.orders.find(x=>x.id===n.id)){out.orders.push(n);if(k!==STORAGE_KEY)recovered++}});
-   (d.pays||[]).forEach(p=>{if(p&&p.id&&!out.pays.find(x=>x.id===p.id))out.pays.push(p)});
-   (d.expenses||[]).forEach(p=>{if(p&&p.id&&!out.expenses.find(x=>x.id===p.id))out.expenses.push(p)});
-   Object.assign(out.meals,d.meals||{});Object.assign(out.done,d.done||{});Object.assign(out.mset,d.mset||{});
-   Object.assign(out.cred,d.cred||{});Object.assign(out.refs,d.refs||{});Object.assign(out.wallet,d.wallet||{});
-   Object.assign(out.walletLedger,d.walletLedger||[]);Object.assign(out.feedback,d.feedback||{});
-   Object.assign(out.coupons,d.coupons||COUPONS_DEFAULT);
-   if(d.dailyVideo&&!out.dailyVideo)out.dailyVideo=d.dailyVideo;
-  }catch(e){}
- });
- if(!out.prod.length)out.prod=SEED.slice();
- if(!out.prod.some(p=>p.kind==='food')){let m=out.prod.reduce((a,p)=>Math.max(a,p.id),0);FOOD_SEED.forEach(f=>{m++;out.prod.push({...f,id:m})})}
- return {data:out,recovered};
-}
-const loaded=loadState();
-let S=loaded.data;
-
+const IMG={kids1:'https://images.unsplash.com/photo-1565538810699-0e7a7d433f66?w=800&q=80',kids2:'https://images.unsplash.com/photo-1516402164833-c922fa2f8a7c?w=800&q=80',kids3:'https://images.unsplash.com/photo-1607522502273-0fa0f08ab5d6?w=800&q=80',family:'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80',thali:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80',curry:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80',roti:'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80',chawal:'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=400&q=80',paneer:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80',chicken:'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80',egg:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80',meetha:'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&q=80',dal:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&q=80',chai:'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80',doodh:'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80',dahi:'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=400&q=80',grocery:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80',clean:'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80',care:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80',biryani:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80',av1:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80',av2:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80',av3:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',av4:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80'};
+const AVS=[IMG.av1,IMG.av2,IMG.av3,IMG.av4];const BANS=[IMG.kids1,IMG.kids2,IMG.kids3,IMG.family];
+const randAv=id=>AVS[(id||0)%AVS.length];
+const SEED=[{n:'Doodh 500 ml',p:30,c:'Dairy',img:IMG.doodh},{n:'Dahi 400 g',p:40,c:'Dairy',img:IMG.dahi},{n:'Paneer 200 g',p:80,c:'Dairy',img:IMG.paneer},{n:'Chai patti 250 g',p:130,c:'Nashta',img:IMG.chai},{n:'Bread',p:40,c:'Nashta',img:IMG.roti},{n:'Ande (6)',p:72,c:'Nashta',nv:1,img:IMG.egg},{n:'Atta 1 kg',p:50,c:'Kirana',img:IMG.roti},{n:'Chawal 1 kg',p:70,c:'Kirana',img:IMG.chawal},{n:'Dal 1 kg',p:150,c:'Kirana',img:IMG.dal},{n:'Tel 1 L',p:150,c:'Kirana',img:IMG.grocery},{n:'Detergent 1 kg',p:130,c:'Safai',img:IMG.clean},{n:'Sabun',p:30,c:'Body Care',img:IMG.care}].map((a,i)=>({id:i+1,...a,kind:'grocery',s:1,nv:a.nv||0}));
+const FOOD=[{n:'Special Veg Thali',p:120,c:'Thali',img:IMG.thali,rating:4.6,best:1},{n:'Paneer Butter Masala',p:140,c:'Curry',img:IMG.paneer,rating:4.5},{n:'Chicken Curry',p:160,c:'Curry',nv:1,img:IMG.chicken,rating:4.7,best:1},{n:'Chicken Biryani',p:150,c:'Biryani',nv:1,img:IMG.biryani,rating:4.8,best:1},{n:'Egg Curry',p:100,c:'Curry',nv:1,img:IMG.egg,rating:4.2},{n:'Gulab Jamun (2pc)',p:40,c:'Sweets',img:IMG.meetha,rating:4.7},{n:'Masala Chai',p:20,c:'Drinks',img:IMG.chai,rating:4.5}].map((a,i)=>({id:1000+i,...a,kind:'food',s:1,time:25}));
+const normSub=s=>{if(!s||!s.id)return null;s.name=String(s.name||'Cust');s.phone=cleanPhone(s.phone);s.type=s.type==='nv'?'nv':'veg';s.days=clamp(+s.days||30,1,365);s.start=s.start||todayStr();s.price=Math.max(0,+s.price||0);s.skip=Array.isArray(s.skip)?s.skip:[];s.pause=Array.isArray(s.pause)?s.pause:[];s.lunch=['roti','chawal','both'].includes(s.lunch)?s.lunch:'chawal';s.dinner=['roti','chawal','both'].includes(s.dinner)?s.dinner:'roti';s.extraRoti=clamp(+s.extraRoti||0,0,4);s.addr=s.addr||'';s.area=s.area||'Udala';s.map=s.map||'';s.notes=s.notes||'';s.utr=s.utr||'';s.paid=s.paid?1:0;s.trial=s.trial?1:0;s.due=+s.due||0;s.autoPay=s.autoPay?1:0;s.avatar=s.avatar||randAv(s.id);s.deviceFp=s.deviceFp||'';if(!s.status)s.status=s.trial?'trial':(s.paid?'active':'pending');return s};
+const normOrd=o=>{if(!o||!o.id)return null;o.name=String(o.name||'Cust');o.phone=cleanPhone(o.phone);o.items=Array.isArray(o.items)?o.items.filter(i=>i&&i.n):[];o.total=Math.max(0,+o.total||0);o.date=o.date||todayStr();o.status=o.status==='delivered'?'delivered':'pending';o.paid=o.paid?1:0;o.map=o.map||'';o.addr=o.addr||'';o.area=o.area||'Udala';o.notes=o.notes||'';o.slot=o.slot||'lunch';o.coupon=o.coupon||'';o.discount=+o.discount||0;o.tip=+o.tip||0;o.payMode=o.payMode||'cash';return o};
+const normProd=p=>p&&p.id?{id:p.id,n:String(p.n||'Item'),p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,img:p.img||'',kind:p.kind==='food'?'food':'grocery',rating:p.rating||0,time:p.time||25,best:p.best?1:0,stock:+p.stock||99}:null;
+function migrate(d){if(!d||typeof d!=='object')return d;const v=d.v||1;if(v<2)(d.orders||[]).forEach(o=>{o.slot=o.slot||'lunch'});if(v<3){d.coupons=d.coupons||COUPONS_DEFAULT;d.walletLedger=d.walletLedger||[]}if(v<4)(d.subs||[]).forEach(s=>{s.avatar=s.avatar||randAv(s.id)});if(v<5){d.saveSubs=d.saveSubs||[];d.foodPhotos=d.foodPhotos||{};d.pod=d.pod||{};d.loyalSpend=d.loyalSpend||{};d.costInputs=d.costInputs||{atta:42,dal:110,sabzi:40,gas:15,labour:20}}d.v=SCHEMA_V;return d}
+function loadState(){const out={v:SCHEMA_V,prod:[],subs:[],orders:[],pays:[],expenses:[],meals:{},done:{},na:{},mset:{},cred:{},refs:{},wallet:{},walletLedger:[],feedback:{},partners:['Raju Bhaiya'],coupons:COUPONS_DEFAULT,saveSubs:[],foodPhotos:{},pod:{},loyalSpend:{},costInputs:{atta:42,dal:110,sabzi:40,gas:15,labour:20},autoPayLog:{}};let rec=0;
+[STORAGE_KEY,'udala2','udala6','udala7','udala_logic'].forEach(k=>{try{const raw=localStorage.getItem(k);if(!raw)return;const d=migrate(JSON.parse(raw));if(!d)return;
+(d.prod||[]).forEach(p=>{const n=normProd(p);if(n&&!out.prod.find(x=>x.id===n.id))out.prod.push(n)});
+(d.subs||[]).forEach(s=>{const n=normSub(s);if(n&&!out.subs.find(x=>x.id===n.id)){out.subs.push(n);if(k!==STORAGE_KEY)rec++}});
+(d.orders||[]).forEach(o=>{const n=normOrd(o);if(n&&!out.orders.find(x=>x.id===n.id)){out.orders.push(n);if(k!==STORAGE_KEY)rec++}});
+(d.pays||[]).forEach(p=>{if(p&&p.id&&!out.pays.find(x=>x.id===p.id))out.pays.push(p)});
+(d.expenses||[]).forEach(p=>{if(p&&p.id&&!out.expenses.find(x=>x.id===p.id))out.expenses.push(p)});
+Object.assign(out.meals,d.meals||{});Object.assign(out.done,d.done||{});Object.assign(out.na,d.na||{});Object.assign(out.mset,d.mset||{});Object.assign(out.wallet,d.wallet||{});Object.assign(out.walletLedger,d.walletLedger||[]);Object.assign(out.coupons,d.coupons||{});Object.assign(out.foodPhotos,d.foodPhotos||{});Object.assign(out.pod,d.pod||{});Object.assign(out.loyalSpend,d.loyalSpend||{});Object.assign(out.costInputs,d.costInputs||{});Object.assign(out.autoPayLog,d.autoPayLog||{});
+out.saveSubs=out.saveSubs.concat((d.saveSubs||[]).filter(x=>x&&!out.saveSubs.find(y=>y.id===x.id)));
+}catch(e){}});
+if(!out.prod.length)out.prod=SEED.slice();
+if(!out.prod.some(p=>p.kind==='food')){let m=out.prod.reduce((a,p)=>Math.max(a,p.id),0);FOOD.forEach(f=>{m++;out.prod.push({...f,id:m})})}
+return{data:out,rec}}
+const loaded=loadState();let S=loaded.data;
 let ME=null;try{ME=JSON.parse(localStorage.getItem('udme')||'null')}catch(e){}
 const saveME=()=>{try{localStorage.setItem('udme',JSON.stringify(ME))}catch(e){}};
-
-let tab='plan',C={},OK=0,OSEC='pay',SHOPMODE='food',FCAT='Sab',SQ='',CART_COUPON='';
-try{C=JSON.parse(localStorage.getItem('ud_cart')||'{}');OK=sessionStorage.getItem('udok')?1:0}catch(e){}
-const F={type:'veg',days:'30',name:ME?ME.name:'',phone:ME?ME.phone:'',area:'',addr:'',map:'',notes:'',slot:'lunch'};
-
-let saveTimer=null;
-const save=(immediate=false)=>{const doSave=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(S))}catch(e){}};
- if(immediate){doSave();render();return}
- clearTimeout(saveTimer);saveTimer=setTimeout(()=>{doSave();render()},300)};
-const saveCart=()=>{try{localStorage.setItem('ud_cart',JSON.stringify(C))}catch(e){}};
-
-const mf=(d,t)=>{const k=iso(d);const o=S.mset[k];if(o){if(t==='nv'&&o.nv)return o.nv;if(t!=='nv'&&o.veg)return o.veg}
- const w=d.getDay();
- if(t==='nv'){if(w===0)return 'Chicken curry, roti, chawal';if(w===3)return 'Fish curry, roti, chawal';if(w===5)return '2 egg curry, roti, chawal';if(w===6)return 'Mutton special, roti, chawal'}
- else{if(w===0)return 'Paneer butter masala, roti, chawal';if(w===3)return 'Mushroom curry, roti, chawal';if(w===5)return 'Special veg thali + meetha';if(w===6)return 'Dal makhani + paneer, roti, chawal'}
- return 'Dal, sabzi, roti, chawal'};
-
+let tab='plan',OK=0,OKR=0,C={},CC=[],CART_COUPON='';
+try{const c=JSON.parse(localStorage.getItem('ud_cart')||'null');if(c){C=c.ids||{};CC=c.custom||[]}OK=sessionStorage.getItem('udok')?1:0;OKR=sessionStorage.getItem('udokr')?1:0}catch(e){}
+let SHOPTAB='food',KITTAB='today',DELTAB='stops',OWNTAB='dash',PLANTAB='my',OSEC='pay',FCAT='Sab',SQ='';
+const F={type:'veg',days:'30',name:ME?ME.name:'',phone:ME?ME.phone:'',area:'',addr:'',map:'',notes:'',slot:'lunch',tip:0,payMode:'cash'};
+const TB={s1:0,s2:1,carb:'roti',sweet:-1};
+let saveT=null;const save=(imm=false)=>{const d=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(S))}catch(e){}};if(imm){d();render();return}clearTimeout(saveT);saveT=setTimeout(()=>{d();render()},300)};
+const saveCart=()=>{try{localStorage.setItem('ud_cart',JSON.stringify({ids:C,custom:CC}))}catch(e){}};
+const mf=(d,t)=>{const k=iso(d),o=S.mset[k];if(o){if(t==='nv'&&o.nv)return o.nv;if(t!=='nv'&&o.veg)return o.veg}const w=d.getDay();if(t==='nv'){if(w===0)return'Chicken curry, roti, chawal';if(w===3)return'Fish curry';if(w===5)return'2 egg curry';if(w===6)return'Mutton special'}else{if(w===0)return'Paneer butter masala';if(w===3)return'Mushroom curry';if(w===5)return'Special thali + meetha';if(w===6)return'Dal makhani + paneer'}return'Dal, sabzi, roti, chawal'};
 const subEnd=s=>addDays(new Date(s.start+'T12:00:00'),s.days+(s.pause||[]).length);
-const getSubStatus=s=>{if(!s)return 'expired';
- if(s.status==='rejected')return 'rejected';if(s.status==='pending')return 'pending';
- const today=new Date();today.setHours(12,0,0,0);
- if(today>=subEnd(s))return 'expired';
- if((s.pause||[]).includes(todayStr()))return 'paused';
- if(s.status==='trial')return 'trial';return 'active'};
+const getSubStatus=s=>{if(!s)return'expired';if(s.status==='rejected')return'rejected';if(s.status==='pending')return'pending';const t=new Date();t.setHours(12,0,0,0);if(t>=subEnd(s))return'expired';if((s.pause||[]).includes(todayStr()))return'paused';if(s.status==='trial')return'trial';return'active'};
 const isLive=s=>['active','trial'].includes(getSubStatus(s));
-const badge=st=>`<span class="badge ${st}">${st==='active'?'✅ Active':st==='pending'?'⏳ Payment Pending':st==='trial'?'🎁 Trial':st==='paused'?'⏸ Paused':st==='rejected'?'❌ Rejected':' Expired'}</span>`;
-const mealKey=(sid,meal,date)=>(date||todayStr())+'_'+sid+'_'+meal;
-const packItems=s=>{const meal=m=>m==='chawal'?'Chawal':m==='both'?'Roti x4 + Chawal':'Roti x4';
- return ['🌅 Chai+nashta','☀️ Lunch: '+meal(s.lunch),'🌙 Dinner: '+meal(s.dinner),(s.extraRoti?'🫓 Extra x'+s.extraRoti:null),(s.type==='nv'?'🍗 NV curry x2':'🥘 Veg sabzi x2')].filter(Boolean)};
+const badge=st=>`<span class="badge ${st}">${st==='active'?'✅ Active':st==='pending'?'⏳ Pay Pending':st==='trial'?'🎁 Trial':st==='paused'?'⏸ Paused':st==='rejected'?'❌ Rejected':' Expired'}</span>`;
+const mk=(sid,m,d)=>(d||todayStr())+'_'+sid+'_'+m;
+const packItems=s=>{const meal=m=>m==='chawal'?'Chawal':m==='both'?'Roti x4+Chawal':'Roti x4';return['🌅 Chai','☀️ '+meal(s.lunch),'🌙 '+meal(s.dinner),(s.extraRoti?'🫓x'+s.extraRoti:null),(s.type==='nv'?'🍗 NV x2':'🥘 Veg x2')].filter(Boolean)};
 const vdot=nv=>`<span class="vd ${nv?'nv':''}"></span>`;
-const imgOrEmoji=(src,em)=>src?`<img src="${src}" loading="lazy" onerror="this.outerHTML='<div class=\\'placeholder\\'>${em||'🍛'}</div>'">`:`<div class="placeholder">${em||'🍛'}</div>`;
-const stepper=(id,q)=>`<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:3px;background:rgba(255,107,53,.08)"><button data-a="dec" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800">−</button><b style="min-width:20px;text-align:center">${q}</b><button data-a="inc" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800">+</button></div>`;
-const calcCart=()=>{let sub=0,cnt=0;
- Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0){sub+=p.p*q;cnt+=q}});
- let disc=0,code='';
- if(CART_COUPON&&S.coupons[CART_COUPON]){const cp=S.coupons[CART_COUPON];if(sub>=cp.min){disc=cp.type==='flat'?cp.value:Math.round(sub*cp.value/100);code=CART_COUPON}}
- return {sub,disc,deliv:0,total:sub-disc,cnt,code}};
-const checkCutoff=slot=>{const n=new Date(),h=n.getHours();
- if(slot==='lunch'&&h>=9)return false;
- if(slot==='dinner'&&h>=16)return false;return true};
-
-// 🔍 Get customer meal history for last N days
-const getMealHistory=(subId,days=7)=>{
- const history=[];
- for(let i=days-1;i>=0;i--){
-   const d=iso(addDays(new Date(),-i));
-   history.push({
-     date:d,
-     subah:S.meals[mealKey(subId,'subah',d)]||'pending',
-     lunch:S.meals[mealKey(subId,'lunch',d)]||'pending',
-     dinner:S.meals[mealKey(subId,'dinner',d)]||'pending',
-     skipped:(S.subs.find(s=>s.id===subId)?.skip||[]).includes(d)
-   });
- }
- return history;
-};
-
-// 🪟 MODAL SYSTEM
-const showModal=(html)=>{$('#modalRoot').innerHTML=`<div class="modal" data-a="closeModal">${html}</div>`};
+const imgOr=(src,em)=>src?`<img src="${src}" loading="lazy" onerror="this.outerHTML='<div class=\\'placeholder\\'>${em||'🍛'}</div>'">`:`<div class="placeholder">${em||'🍛'}</div>`;
+const stepper=(id,q)=>`<div style="display:flex;align-items:center;gap:7px;border:2px solid var(--o);border-radius:10px;padding:3px"><button data-a="dec" data-id="${id}" style="width:28px;height:28px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:15px;font-weight:800">−</button><b style="min-width:18px;text-align:center">${q}</b><button data-a="inc" data-id="${id}" style="width:28px;height:28px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:15px;font-weight:800">+</button></div>`;
+const validCp=c=>c&&(!c.expiry||c.expiry>=todayStr())&&(c.uses||0)<(c.max||999);
+const calcCart=()=>{let sub=0,cnt=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0){sub+=p.p*q;cnt+=q}});CC.forEach(c=>{sub+=c.price*c.qty;cnt+=c.qty});
+let disc=0,code=CART_COUPON;
+if(!code){let bestV=0;Object.entries(S.coupons||{}).forEach(([k,c])=>{if(validCp(c)&&sub>=c.min){const d=c.type==='flat'?c.value:Math.round(sub*c.value/100);if(d>bestV){bestV=d;code=k}}})}
+if(code&&S.coupons[code]&&validCp(S.coupons[code])&&sub>=S.coupons[code].min){const c=S.coupons[code];disc=c.type==='flat'?c.value:Math.round(sub*c.value/100)}else{code='';disc=0}
+return{sub,disc,total:sub-disc,cnt,code,auto:!CART_COUPON&&code}};
+const cutoffOk=slot=>{const h=new Date().getHours();return slot==='lunch'?h<9:h<16};
+const loyaltyPts=ph=>{const earned=Math.floor((S.pays||[]).filter(p=>p.phone===ph).reduce((a,p)=>a+(+p.amt||0),0)/10);return earned-(S.loyalSpend[ph]||0)};
+const readImg=(file,cb)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');const sc=480/Math.max(im.width,im.height);c.width=im.width*sc;c.height=im.height*sc;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',0.72))};im.src=r.result};r.readAsDataURL(file)};
+const showModal=h=>{$('#modalRoot').innerHTML=`<div class="modal" data-a="closeModal">${h}</div>`};
 const closeModal=()=>{$('#modalRoot').innerHTML=''};
-
-// 👤 CUSTOMER DETAIL MODAL (the "click se pata chale" feature)
-const showCustomerDetail=(subId)=>{
- const s=(S.subs||[]).find(x=>x.id===subId);
- if(!s)return;
- const st=getSubStatus(s);
- const start=new Date(s.start+'T12:00:00'),end=subEnd(s),today=new Date();today.setHours(12,0,0,0);
- const passed=clamp(Math.floor((today-start)/86400000),0,s.days);
- const mealHist=getMealHistory(s.id,14);
- let consumed=0,skipped=0;
- mealHist.forEach(d=>{['subah','lunch','dinner'].forEach(m=>{if(d[m]==='consumed')consumed++;if(d[m]==='skipped')skipped++})});
- const totalMeals=mealHist.length*3;
- const rate=totalMeals>0?Math.round(consumed/totalMeals*100):0;
- 
- const orders=(S.orders||[]).filter(o=>o.sid===s.id||o.phone===s.phone);
- const payments=(S.pays||[]).filter(p=>p.phone===s.phone||p.name===s.name);
- 
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
-  <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px">
-    <img src="${s.avatar||randAvatar(s.id)}" class="avatar lg" onerror="this.src='${IMG.av1}'">
-    <div style="flex:1">
-      <h3 style="margin:0">${esc(s.name)}</h3>
-      <div class="s">📱 ${s.phone} · ${esc(s.area||'Udala')}</div>
-      ${badge(st)}
-    </div>
-    <button class="btn sm r" data-a="closeModal" style="width:auto">✕</button>
-  </div>
-  
-  <div style="background:var(--inp);border-radius:14px;padding:14px;margin-bottom:14px">
-    <div style="display:flex;justify-content:space-between;align-items:center"><b>🍽️ ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} Plan</b><b style="color:var(--o)">${inr(s.price)}</b></div>
-    <div class="s" style="margin-top:6px">📅 ${s.start} → ${iso(end)}</div>
-    <div class="s">⏳ ${passed} / ${s.days} din</div>
-    <div class="pbar"><div class="pfill" style="width:${Math.round(passed/s.days*100)}%"></div></div>
-    <div class="s">📍 ${esc(s.addr||'Address nahi hai')}</div>
-    ${s.notes?`<div class="s" style="color:var(--warn)">📝 ${esc(s.notes)}</div>`:''}
-    ${s.utr?`<div class="s" style="margin-top:4px">🔢 UTR: <b>${esc(s.utr)}</b></div>`:''}
-  </div>
-  
-  <div style="display:flex;gap:8px;margin-bottom:14px">
-    <div class="stat" style="flex:1;background:linear-gradient(135deg,#1B4332,#2D6A4F)"><div class="v">${consumed}</div><div class="l">Khaya</div></div>
-    <div class="stat" style="flex:1;background:linear-gradient(135deg,#FF6B35,#E85D04)"><div class="v">${skipped}</div><div class="l">Skip</div></div>
-    <div class="stat" style="flex:1;background:linear-gradient(135deg,#7C3AED,#5B21B6)"><div class="v">${rate}%</div><div class="l">Rate</div></div>
-  </div>
-  
-  <h3 style="font-size:15px;margin-top:4px">🍽️ Aaj Ka Khana</h3>
-  <div class="grid3" style="margin:8px 0 14px">
-    <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
-      <div style="font-size:11px;color:var(--muted)">🌅 Subah</div>
-      <div class="meal-dot ${(S.meals[mealKey(s.id,'subah')]||'')==='consumed'?'ok':(S.meals[mealKey(s.id,'subah')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${S.meals[mealKey(s.id,'subah')]==='consumed'?'✓':S.meals[mealKey(s.id,'subah')]==='skipped'?'✕':'?'}
-      </div>
-    </div>
-    <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
-      <div style="font-size:11px;color:var(--muted)">☀️ Lunch</div>
-      <div class="meal-dot ${(S.meals[mealKey(s.id,'lunch')]||'')==='consumed'?'ok':(S.meals[mealKey(s.id,'lunch')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${S.meals[mealKey(s.id,'lunch')]==='consumed'?'✓':S.meals[mealKey(s.id,'lunch')]==='skipped'?'✕':'?'}
-      </div>
-    </div>
-    <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
-      <div style="font-size:11px;color:var(--muted)">🌙 Dinner</div>
-      <div class="meal-dot ${(S.meals[mealKey(s.id,'dinner')]||'')==='consumed'?'ok':(S.meals[mealKey(s.id,'dinner')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${S.meals[mealKey(s.id,'dinner')]==='consumed'?'✓':S.meals[mealKey(s.id,'dinner')]==='skipped'?'✕':'?'}
-      </div>
-    </div>
-  </div>
-  
-  <h3 style="font-size:15px">📅 Last 7 Din Meal History</h3>
-  <div class="timeline">
-    ${mealHist.slice(-7).reverse().map(d=>{
-      const marks=['subah','lunch','dinner'].map(m=>{
-        if(d[m]==='consumed')return '✓';if(d[m]==='skipped')return '✕';return '?';
-      }).join(' ');
-      const cls=d.skipped?'bad':(['subah','lunch','dinner'].every(m=>d[m]==='consumed')?'':'neutral');
-      return `<div class="tl-item ${cls}"><b>${d.date}</b> · ${d.skipped?'⏸ Skipped':marks}${d.skipped?'':''}  </div>`;
-    }).join('')}
-  </div>
-  
-  ${orders.length?`<h3 style="font-size:15px;margin-top:14px">🛒 Shop Orders (${orders.length})</h3>
-    ${orders.slice(-5).reverse().map(o=>`<div class="row" style="padding:8px 0"><div><b>${o.date}</b><div class="s">${o.items.slice(0,3).map(i=>i.n+' x'+i.q).join(', ')}${o.items.length>3?'...':''}</div></div><b>${inr(o.total)}</b></div>`).join('')}`:''}
-  
-  ${payments.length?`<h3 style="font-size:15px;margin-top:14px">💰 Payments</h3>
-    ${payments.slice(-5).reverse().map(p=>`<div class="row" style="padding:8px 0"><div><b>${p.d}</b><div class="s">${p.kind||'Plan'}</div></div><b>${inr(p.amt)}</b></div>`).join('')}`:''}
-  
-  <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
-    <a class="btn g" href="tel:+91${s.phone}" style="flex:1;margin:0;text-decoration:none;text-align:center">📞 Call</a>
-    <a class="btn b" href="https://wa.me/91${s.phone}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">💬 WA</a>
-    ${s.map?`<a class="btn p" href="${s.map}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">🗺️ Map</a>`:''}
-  </div>
-  
-  <button class="btn r" data-a="closeModal" style="margin-top:12px">Band Karein</button>
- </div>`;
- showModal(html);
-};
-
-// 📦 PRODUCT DETAIL MODAL
-const showProductDetail=(prodId)=>{
- const p=(S.prod||[]).find(x=>x.id===prodId);
- if(!p)return;
- const imgs=[p.img,IMG.thali,IMG.curry,IMG.roti].filter(Boolean);
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
-    <h3 style="margin:0">${esc(p.n)}</h3>
-    <button class="btn sm r" data-a="closeModal" style="width:auto">✕</button>
-  </div>
-  <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:10px">
-    ${imgs.map(src=>`<img src="${src}" style="width:180px;height:180px;object-fit:cover;border-radius:14px;flex:none" onerror="this.style.display='none'">`).join('')}
-  </div>
-  <div style="background:var(--inp);border-radius:14px;padding:14px;margin:14px 0">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <b>${vdot(p.nv)} ${esc(p.c)}</b>
-      <b style="font-size:22px;color:var(--o)">${inr(p.p)}</b>
-    </div>
-    ${p.kind==='food'?`<div class="s">⭐ ${p.rating||'4.3'} · 🕐 ${p.time||25} min ${p.best?'· ⭐ BESTSELLER':''}</div>`:`<div class="s">Stock mein ${p.s?'✅':'❌'}</div>`}
-  </div>
-  <div style="display:flex;gap:8px">
-    <button class="btn g" data-a="inc" data-id="${p.id}" data-a2="closeModal" style="flex:1;margin:0">➕ Cart mein daalo</button>
-    <button class="btn ghost" data-a="closeModal" style="flex:1;margin:0">Band</button>
-  </div>
- </div>`;
- showModal(html);
-};
-
-// 📦 ORDER DETAIL MODAL
-const showOrderDetail=(orderId)=>{
- const o=(S.orders||[]).find(x=>x.id===orderId);
- if(!o)return;
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
-    <h3 style="margin:0">Order #${String(o.id).slice(-4)}</h3>
-    <button class="btn sm r" data-a="closeModal" style="width:auto">✕</button>
-  </div>
-  <div style="background:var(--inp);border-radius:14px;padding:14px;margin-bottom:14px">
-    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
-      <img src="${randAvatar(o.id)}" class="avatar">
-      <div style="flex:1"><b>${esc(o.name)}</b><div class="s">📱 ${o.phone}</div></div>
-      ${badge(o.status)}
-    </div>
-    <div class="s">📍 ${esc(o.addr)}, ${esc(o.area)}</div>
-    <div class="s">🕐 ${o.slot==='dinner'?'Dinner (8:00)':'Lunch (1:30)'} · 📅 ${o.date}</div>
-    ${o.notes?`<div class="s" style="color:var(--warn);margin-top:4px">📝 ${esc(o.notes)}</div>`:''}
-  </div>
-  <h3 style="font-size:15px">📦 Items</h3>
-  ${o.items.map(i=>`<div class="row"><span>${esc(i.n)} × ${i.q}</span><b>${inr(i.p*i.q)}</b></div>`).join('')}
-  <div class="row" style="border-top:2px solid var(--line);padding-top:10px;margin-top:6px"><b>Total</b><b style="color:var(--o);font-size:18px">${inr(o.total)}</b></div>
-  ${o.discount>0?`<div class="row"><span>Discount (${o.coupon})</span><b style="color:var(--neon)">-${inr(o.discount)}</b></div>`:''}
-  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-    <a class="btn g" href="tel:+91${o.phone}" style="flex:1;margin:0;text-decoration:none;text-align:center">📞 Call</a>
-    ${o.map?`<a class="btn b" href="${o.map}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">🗺️ Map</a>`:''}
-    ${o.status==='pending'?`<button class="btn" data-a="odone" data-id="${o.id}" data-a2="closeModal" style="flex:1;margin:0">✅ Mark Done</button>`:''}
-  </div>
-  <button class="btn ghost" data-a="closeModal" style="margin-top:8px">Band</button>
- </div>`;
- showModal(html);
-};
+const showCust=id=>{const s=(S.subs||[]).find(x=>x.id===id);if(!s)return;const st=getSubStatus(s);const end=subEnd(s);const hist=[];for(let i=6;i>=0;i--){const d=iso(addDays(new Date(),-i));hist.push({d,marks:['subah','lunch','dinner'].map(m=>S.meals[mk(s.id,m,d)]||'pending'),skip:(s.skip||[]).includes(d)})}
+showModal(`<div class="modal-content" onclick="event.stopPropagation()"><div style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><img src="${s.avatar}" class="avatar" style="width:56px;height:56px"><div style="flex:1"><h3 style="margin:0">${esc(s.name)}</h3><div class="s">📱 ${s.phone} · ${esc(s.area)}</div>${badge(st)}</div><button class="btn sm r" data-a="closeModal">✕</button></div>
+<div style="background:var(--inp);border-radius:12px;padding:12px"><div style="display:flex;justify-content:space-between"><b>${s.type==='veg'?'🟢':'🔴'} ${s.days} din</b><b style="color:var(--o)">${inr(s.price)}</b></div><div class="s">📅 ${s.start} → ${iso(end)} · ${s.paid?'Paid':'Due '+inr(s.due||0)}</div><div class="s">📍 ${esc(s.addr)}</div>${s.utr?`<div class="s">🔢 ${esc(s.utr)}</div>`:''}</div>
+<h3 style="font-size:14px;margin-top:12px">📅 7-Din Meal History</h3>${hist.map(h=>`<div class="row" style="padding:6px 0"><span>${h.d}${h.skip?' ⏸':''}</span><span>${h.marks.map(m=>m==='consumed'?'✅':m==='skipped'?'❌':'⬜').join(' ')}</span></div>`).join('')}
+<div style="display:flex;gap:8px;margin-top:12px"><a class="btn g" href="tel:+91${s.phone}" style="flex:1;margin:0;text-decoration:none;text-align:center">📞</a><a class="btn b" href="https://wa.me/91${s.phone}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">💬</a>${s.map?`<a class="btn p" href="${s.map}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">🗺️</a>`:''}</div>
+${OK?`<div style="display:flex;gap:8px;margin-top:8px"><button class="btn sm g" data-a="autoPayToggle" data-id="${s.id}" style="flex:1">${s.autoPay?' AutoPay ON':'🔁 AutoPay OFF'}</button><button class="btn sm b" data-a="walletTop" data-id="${s.id}" style="flex:1">💰 Top-up</button></div>`:''}
+<button class="btn ghost" data-a="closeModal" style="margin-top:8px">Band</button></div>`)};
+const showOrd=id=>{const o=(S.orders||[]).find(x=>x.id===id);if(!o)return;
+showModal(`<div class="modal-content" onclick="event.stopPropagation()"><div style="display:flex;justify-content:space-between"><h3 style="margin:0">Order #${String(o.id).slice(-4)}</h3><button class="btn sm r" data-a="closeModal">✕</button></div>
+<div style="background:var(--inp);border-radius:12px;padding:12px;margin:10px 0"><b>${esc(o.name)}</b> · 📱 ${o.phone}<div class="s">📍 ${esc(o.addr)}, ${esc(o.area)}</div><div class="s">🕐 ${o.slot} · 📅 ${o.date} · 💳 ${o.payMode}${o.tip?' · Tip '+inr(o.tip):''}</div>${o.notes?`<div class="s" style="color:var(--warn)">📝 ${esc(o.notes)}</div>`:''}</div>
+${o.items.map(i=>`<div class="row"><span>${esc(i.n)} × ${i.q}</span><b>${inr(i.p*i.q)}</b></div>`).join('')}
+${o.discount?`<div class="row"><span>Coupon ${esc(o.coupon)}</span><b style="color:var(--neon)">-${inr(o.discount)}</b></div>`:''}
+<div class="row"><b>Total</b><b style="color:var(--o)">${inr(o.total)}</b></div>
+<div style="display:flex;gap:8px;margin-top:12px"><button class="btn b" data-a="invoice" data-id="${o.id}" style="flex:1;margin:0">🧾 Invoice</button>${o.status==='pending'?`<button class="btn g" data-a="odone" data-id="${o.id}" style="flex:1;margin:0">✅ Done</button>`:''}</div>
+<button class="btn ghost" data-a="closeModal" style="margin-top:8px">Band</button></div>`)};
+const printInvoice=id=>{const o=(S.orders||[]).find(x=>x.id===id)|| (S.subs||[]).find(x=>x.id===id&&'__sub');if(!o)return;const w=window.open('','_blank');const items=o.items?o.items.map(i=>`<tr><td>${esc(i.n)}</td><td>${i.q}</td><td>₹${i.p*i.q}</td></tr>`).join(''):`<tr><td>Tiffin Plan ${o.days} din</td><td>1</td><td>₹${o.price}</td></tr>`;
+w.document.write(`<html><head><title>Invoice</title><style>body{font-family:sans-serif;padding:24px}h1{color:#1B4332}table{width:100%;border-collapse:collapse;margin:16px 0}td,th{border:1px solid #ddd;padding:8px;text-align:left}</style></head><body><h1>🍱 Namaste Udala</h1><p>Udala, Odisha · GSTIN: N/A</p><p><b>Invoice #</b> NU-${String(o.id).slice(-6)} · <b>Date:</b> ${o.date||todayStr()}</p><p><b>Bill To:</b> ${esc(o.name)} · ${o.phone}<br>${esc(o.addr||'')} ${esc(o.area||'')}</p><table><tr><th>Item</th><th>Qty</th><th>Amount</th></tr>${items}</table><p style="font-size:18px"><b>Total: ₹${o.total||o.price}</b></p><p>Payment: ${o.payMode||'plan'} · Status: ${o.paid?'PAID':'PENDING'}</p><p style="margin-top:24px">_________________<br>Signature</p><script>window.print()<\/script></body></html>`);w.document.close()};
 
 const VIEWS={
 plan:()=>{
  const price=PRICING[F.type][F.days]||2899;
- const bannerImg=randBanner();
- 
- let h=`<div class="kids-banner">
-  <img src="${bannerImg}" onerror="this.src='${IMG.kids1}'">
-  <div class="overlay">
-    <h2>🍱 Ghar jaisa khana</h2>
-    <p>Apne baccho ko do roz ka ghar ka swaad</p>
-    <p style="margin-top:6px;font-size:12px">Aaj: <b>${esc(mf(new Date(),F.type))}</b></p>
-  </div>
- </div>`;
-
- if(ME){
-  const mine=(S.subs||[]).filter(s=>s.phone===ME.phone).sort((a,b)=>b.id-a.id);
-  const live=mine.find(isLive)||mine[0];
-  h+=`<div class="card clickable" data-a="custDetail" data-id="${ME._subId||''}"><div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:10px;align-items:center"><img src="${ME.avatar||randAvatar(0)}" class="avatar" onerror="this.src='${IMG.av1}'"><div><b>👤 ${esc(ME.name)}</b><div class="s clickable-indicator">Tap for full details</div></div></div><button class="btn sm r" data-a="logout">Logout</button></div>`;
-  if(live){
-   const st=getSubStatus(live);
-   const start=new Date(live.start+'T12:00:00'),end=subEnd(live),today=new Date();today.setHours(12,0,0,0);
-   const passed=clamp(Math.floor((today-start)/86400000),0,live.days),left=Math.max(0,live.days-passed);
-   h+=`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:center"><b>${live.type==='veg'?'🟢 Veg':' NV'} · ${live.days} din</b>${badge(st)}</div>
-    <div class="s" style="margin-top:6px">📅 ${live.start} → ${iso(end)} · ⏳ Bache: <b style="color:var(--o)">${left}</b></div>
-    <div class="pbar"><div class="pfill" style="width:${Math.round(passed/live.days*100)}%"></div></div>
-    ${st==='pending'?`<div class="alert-box">⏳ Payment verify hone ka intezar. UTR: ${esc(live.utr||'-')}</div>`:''}
-    ${st==='trial'?`<div class="alert-box" style="background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.45)">🎁 Free trial chal raha hai!</div>`:''}</div>`;
-   if(st==='active'||st==='trial'){
-    h+=`<div style="margin-top:14px"><b class="s" style="font-weight:800;color:var(--neon)">🍽️ AAJ KA KHANA</b>`;
-    [['subah','🌅 Subah','7:30-8:15'],['lunch','☀️ Lunch','1:30-2:15'],['dinner','🌙 Dinner','8:00-9:00']].forEach(m=>{
-     const stt=S.meals[mealKey(live.id,m[0])]||'pending';
-     h+=`<div class="row"><div><b>${m[1]}</b><div class="s">${m[2]}</div></div>
-      <div style="display:flex;gap:6px;align-items:center"><span class="badge ${stt==='consumed'?'active':stt==='skipped'?'expired':'pending'}">${stt==='consumed'?'Khaya':stt==='skipped'?'Skip':'Baki'}</span>
-      <button class="btn sm g" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="consumed">✅</button>
-      <button class="btn sm r" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="skipped">❌</button></div></div>`});
-    h+=`<button class="btn ghost" data-a="openPause" style="margin-top:12px">⏸️ Plan Pause Karein</button></div>`;
-   }
-   ME._subId=live.id;
-  } else h+=`<div class="s" style="margin-top:10px">Koi plan nahi. Neeche se lein.</div>`;
-  h+=`</div>`;
- } else {
-  h+=`<div class="card"><h3>👤 Login</h3>
-   <div style="display:flex;gap:8px"><input id="lname" style="margin:0" placeholder="Naam"><input id="lphone" style="margin:0" type="tel" maxlength="10" placeholder="Phone"><button class="btn sm g" data-a="login" style="margin:0">Login</button></div></div>`;
+ let h=`<div class="tabs">${[['my','🍱 My Plan'],['ext','➕ Extend'],['loy','⭐ Loyalty'],['ref','🎁 Refer']].map(t=>`<button class="${PLANTAB===t[0]?'on':''}" data-a="ptab" data-v="${t[0]}">${t[1]}</button>`).join('')}</div>`;
+ if(PLANTAB==='my'){
+  h+=`<div class="kids-banner"><img src="${BANS[new Date().getDate()%BANS.length]}"><div class="overlay"><h2>Ghar jaisa khana 🍱</h2><p style="font-size:12px">Aaj: <b>${esc(mf(new Date(),F.type))}</b></p>${S.foodPhotos[todayStr()]?`<img src="${S.foodPhotos[todayStr()]}" style="width:64px;height:64px;object-fit:cover;border-radius:12px;margin-top:8px;border:2px solid var(--neon)">`:''}</div></div>`;
+  if(ME){const mine=(S.subs||[]).filter(s=>s.phone===ME.phone).sort((a,b)=>b.id-a.id);const live=mine.find(isLive)||mine[0];
+   h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:10px;align-items:center"><img src="${ME.avatar||randAv(0)}" class="avatar"><div><b>${esc(ME.name)}</b><div class="s">⭐ ${loyaltyPts(ME.phone)} pts · 💰 ${inr(S.wallet[ME.phone]||0)}</div></div></div><button class="btn sm r" data-a="logout">Out</button></div>`;
+   if(live){const st=getSubStatus(live);const start=new Date(live.start+'T12:00:00'),end=subEnd(live),t=new Date();t.setHours(12,0,0,0);const passed=clamp(Math.floor((t-start)/86400000),0,live.days);
+    h+=`<div style="margin-top:10px"><div style="display:flex;justify-content:space-between"><b>${live.type==='veg'?'🟢':'🔴'} ${live.days} din</b>${badge(st)}</div><div class="s">📅 ${live.start} → ${iso(end)} · ⏳ ${Math.max(0,live.days-passed)} bache</div><div class="pbar"><div class="pfill" style="width:${Math.round(passed/live.days*100)}%"></div></div>${live.due>0?`<div class="alert-box">💰 Due: ${inr(live.due)} — Wallet se pay karein</div>`:''}${st==='pending'?`<div class="alert-box">⏳ UTR: ${esc(live.utr||'-')} verify hone ka wait</div>`:''}</div>`;
+    if(st==='active'||st==='trial'){h+=`<b class="s" style="font-weight:800;color:var(--neon)">🍽️ AAJ KA KHANA</b>`;[['subah','🌅 Subah'],['lunch','☀️ Lunch'],['dinner','🌙 Dinner']].forEach(m=>{const stt=S.meals[mk(live.id,m[0])]||'pending';h+=`<div class="row"><b>${m[1]}</b><div style="display:flex;gap:6px;align-items:center"><span class="badge ${stt==='consumed'?'active':stt==='skipped'?'expired':'pending'}">${stt==='consumed'?'Khaya':stt==='skipped'?'Skip':'Baki'}</span><button class="btn sm g" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="consumed">✅</button><button class="btn sm r" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="skipped">❌</button></div></div>`});
+    h+=`<button class="btn ghost" data-a="openPause">⏸️ Pause Karein</button>`}
+   }else h+=`<div class="s" style="margin-top:8px">Koi plan nahi.</div>`;
+   h+=`</div>`;
+  }else h+=`<div class="card"><h3>👤 Login</h3><div style="display:flex;gap:8px"><input id="lname" style="margin:0" placeholder="Naam"><input id="lphone" style="margin:0" type="tel" maxlength="10" placeholder="Phone"><button class="btn sm g" data-a="login" style="margin:0">OK</button></div></div>`;
+  const pm=[7,15,30].map(d=>PRICING[F.type][d]/(d*3));const best=Math.min(...pm);
+  h+=`<div class="card"><h3>📊 Compare</h3><table class="compare-table"><tr><th>Din</th><th>7</th><th>15</th><th>30</th></tr><tr><td>Total</td><td>${inr(PRICING[F.type][7])}</td><td>${inr(PRICING[F.type][15])}</td><td>${inr(PRICING[F.type][30])}</td></tr><tr><td>/meal</td><td class="${best===pm[0]?'best':''}">${inr(pm[0])}</td><td class="${best===pm[1]?'best':''}">${inr(pm[1])}</td><td class="${best===pm[2]?'best':''}">${inr(pm[2])}</td></tr></table></div>`;
+  h+=`<div class="card"><h3>🍽️ Naya Plan</h3><div class="seg"><button class="${F.type==='veg'?'on':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button><button class="${F.type==='nv'?'on':''}" data-a="set" data-k="type" data-v="nv">🔴 NV</button></div><div class="seg"><button class="${F.days=='7'?'on':''}" data-a="set" data-k="days" data-v="7">7</button><button class="${F.days=='15'?'on':''}" data-a="set" data-k="days" data-v="15">15</button><button class="${F.days=='30'?'on':''}" data-a="set" data-k="days" data-v="30">30</button></div>
+  <input data-f="name" placeholder="Naam *" value="${esc(F.name)}"><input data-f="phone" type="tel" maxlength="10" placeholder="Phone *" value="${esc(F.phone)}"><input data-f="addr" placeholder="Address *" value="${esc(F.addr)}"><textarea data-f="notes" placeholder="Note...">${esc(F.notes)}</textarea>
+  <button class="btn g" data-a="gps" id="gpsBtn">📍 GPS Lo *</button>${F.map?'<div class="s" style="color:var(--neon);font-weight:700">✅ Locked</div>':'<div class="s" style="color:var(--bad);font-weight:700">⚠️ GPS zaroori</div>'}
+  <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin:10px 0"><span>Total</span><span style="color:var(--o)">${inr(price)}</span></div>
+  <button class="btn" data-a="joinPaid">💳 UTR se Plan</button><button class="btn g" data-a="joinTrial">🎁 1 Din FREE Trial</button></div>`;
+ }else if(PLANTAB==='ext'){
+  const live=ME?(S.subs||[]).filter(s=>s.phone===ME.phone).find(isLive):null;
+  h+=`<div class="card"><h3>➕ Plan Extend</h3>${live?`<div class="s">Current: ${live.days} din · ${badge(getSubStatus(live))}</div><div class="grid2" style="margin-top:10px"><button class="btn g" data-a="extend" data-v="7">+7 din<br><span class="s">${inr(Math.round(PRICING[live.type][30]/30*7))}</span></button><button class="btn g" data-a="extend" data-v="15">+15 din<br><span class="s">${inr(Math.round(PRICING[live.type][30]/30*15))}</span></button></div><div class="s" style="margin-top:8px">💰 Wallet balance: <b>${inr(S.wallet[live.phone]||0)}</b> — autoPay ON ho to wahin se katega.</div>`:'<div class="s">Koi active plan nahi.</div>'}</div>`;
+ }else if(PLANTAB==='loy'){
+  const ph=ME?ME.phone:'';const pts=ph?loyaltyPts(ph):0;
+  h+=`<div class="card"><h3>⭐ Loyalty Points</h3><div class="stat" style="background:linear-gradient(135deg,var(--purple),var(--pink));margin-bottom:10px"><div class="v">${pts}</div><div class="l">Points (₹10 = 1 pt)</div></div>${pts>=100?`<button class="btn" data-a="redeem">🎁 100 pts = ₹100 Coupon</button>`:`<div class="s">100 pts par ₹100 coupon milega. Abhi ${100-pts} aur chahiye.</div>`}</div>`;
+ }else{
+  const code=ME?'NU'+ME.phone.slice(-4):'—';
+  h+=`<div class="card"><h3>🎁 Refer & Earn</h3><div class="s">Aapka code: <b style="color:var(--o);font-size:18px">${code}</b></div><div class="s" style="margin:6px 0">Friend plan lega → dono ko ₹100 credit!</div><button class="btn g" data-a="shareRef">📤 Share on WhatsApp</button></div>`;
  }
-
- const pm7=PRICING[F.type][7]/21,pm15=PRICING[F.type][15]/45,pm30=PRICING[F.type][30]/90;
- const best=Math.min(pm7,pm15,pm30);
- h+=`<div class="card"><h3>📊 Plan Compare</h3>
-  <table class="compare-table"><tr><th>Din</th><th>7</th><th>15</th><th>30</th></tr>
-  <tr><td>Total</td><td>${inr(PRICING[F.type][7])}</td><td>${inr(PRICING[F.type][15])}</td><td>${inr(PRICING[F.type][30])}</td></tr>
-  <tr><td>Per meal</td><td class="${best===pm7?'best':''}">${inr(pm7)}</td><td class="${best===pm15?'best':''}">${inr(pm15)}</td><td class="${best===pm30?'best':''}">${inr(pm30)}</td></tr></table>
-  <div class="s" style="margin-top:8px;text-align:center">💡 30 din = sabse sasta!</div></div>`;
-
- h+=`<div class="card"><h3>🍽️ Naya Plan / Trial</h3>
-  <div class="s">Khana type</div><div class="seg"><button class="${F.type==='veg'?'on':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button><button class="${F.type==='nv'?'on':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-Veg</button></div>
-  <div class="s">Kitne din</div><div class="seg"><button class="${F.days=='7'?'on':''}" data-a="set" data-k="days" data-v="7">7</button><button class="${F.days=='15'?'on':''}" data-a="set" data-k="days" data-v="15">15</button><button class="${F.days=='30'?'on':''}" data-a="set" data-k="days" data-v="30">30</button></div>
-  <input data-f="name" placeholder="Naam *" value="${esc(F.name)}">
-  <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit phone *" value="${esc(F.phone)}">
-  <input data-f="area" placeholder="Area" value="${esc(F.area)}">
-  <input data-f="addr" placeholder="Pura address *" value="${esc(F.addr)}">
-  <textarea data-f="notes" placeholder="Special note...">${esc(F.notes)}</textarea>
-  <button class="btn g" data-a="gps" id="gpsBtn">📍 GPS Location Lo *</button>
-  ${F.map?`<div class="s" style="color:var(--neon);font-weight:700">✅ Location locked</div>`:`<div class="s" style="color:var(--bad);font-weight:700">⚠️ GPS ke bina plan nahi banega</div>`}
-  <div style="display:flex;justify-content:space-between;font-size:21px;font-weight:900;margin:12px 0"><span>Total</span><span style="color:var(--o);text-shadow:0 0 14px rgba(255,107,53,.6)">${inr(price)}</span></div>
-  <button class="btn" data-a="joinPaid">💳 UTR Dekar Plan Lo</button>
-  <button class="btn g" data-a="joinTrial">🎁 1 Din FREE Trial</button></div>`;
  return h},
 
 shop:()=>{
  const cart=calcCart();
- let h=`<div class="card" style="background:linear-gradient(135deg,rgba(245,158,11,.9),rgba(232,93,4,.9));color:#fff;border:none">
-   <h3 style="color:#fff;margin-bottom:8px">🛍️ Shop</h3>
-   <div class="seg" style="margin:0">
-     <button data-a="shopmode" data-v="food" style="border:none;background:${SHOPMODE==='food'?'#fff':'rgba(255,255,255,.18)'};color:${SHOPMODE==='food'?'#E85D04':'#fff'}">🍛 Food</button>
-     <button data-a="shopmode" data-v="grocery" style="border:none;background:${SHOPMODE==='grocery'?'#fff':'rgba(255,255,255,.18)'};color:${SHOPMODE==='grocery'?'#E85D04':'#fff'}">🛒 Grocery</button>
-   </div></div>`;
- h+=`<input id="sq" placeholder="🔍 Search..." value="${esc(SQ)}">`;
- if(SHOPMODE==='grocery')h+=`<div class="card" style="background:rgba(6,214,160,.1);border-color:rgba(6,214,160,.4)"><b style="color:var(--neon)">🛒 Weekly Kirana List</b><div class="s" style="margin-top:4px">1-tap mein sab add</div><button class="btn sm g" data-a="addPreset" style="margin-top:8px">➕ Sab Add Karein</button></div>`;
- if(SHOPMODE==='food'){
-  const foods=S.prod.filter(p=>p.kind==='food'&&p.s!==0);
-  const cats=['Sab',...new Set(foods.map(p=>p.c))];
-  h+=`<div style="display:flex;gap:6px;overflow-x:auto;padding:2px 2px 12px">`+cats.map(c=>`<button data-a="fcat" data-v="${esc(c)}" class="chip ${FCAT===c?'on':''}" style="flex:none">${esc(c)}</button>`).join('')+`</div>`;
-  let list=foods;if(FCAT!=='Sab')list=list.filter(p=>p.c===FCAT);
+ let h=`<div class="tabs">${[['food','🍛 Food'],['grocery','🛒 Grocery'],['thali','🥘 Thali Builder'],['subs','🔁 Subscribe'],['orders','📦 My Orders'],['deals','🏷️ Deals']].map(t=>`<button class="${SHOPTAB===t[0]?'on':''}" data-a="stab" data-v="${t[0]}">${t[1]}</button>`).join('')}</div>`;
+ if(SHOPTAB==='food'||SHOPTAB==='grocery'){
+  const isFood=SHOPTAB==='food';
+  h+=`<input id="sq" placeholder="🔍 Search..." value="${esc(SQ)}">`;
+  if(!isFood)h+=`<div class="card" style="background:rgba(6,214,160,.1);border-color:rgba(6,214,160,.4)"><b style="color:var(--neon)">🛒 Weekly Kirana 1-tap</b><button class="btn sm g" data-a="addPreset" style="margin-top:6px">➕ Sab Add</button></div>`;
+  let list=S.prod.filter(p=>p.s!==0&&((isFood&&p.kind==='food')||(!isFood&&p.kind!=='food')));
+  if(isFood){const cats=['Sab',...new Set(list.map(p=>p.c))];h+=`<div class="tabs">`+cats.map(c=>`<button class="${FCAT===c?'on':''}" data-a="fcat" data-v="${esc(c)}">${esc(c)}</button>`).join('')+`</div>`;if(FCAT!=='Sab')list=list.filter(p=>p.c===FCAT)}
   if(SQ.trim())list=list.filter(p=>p.n.toLowerCase().includes(SQ.trim().toLowerCase()));
-  if(list.length){h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">`;
-   list.forEach(p=>{const q=C[p.id]||0;
-    h+=`<div class="pcard" data-a="prodDetail" data-id="${p.id}"><div class="ph">${imgOrEmoji(p.img,'🍛')}
-      <span style="position:absolute;top:8px;left:8px;background:#fff;border-radius:4px;padding:2px 4px;line-height:0;z-index:2">${vdot(p.nv)}</span>
-      ${p.best?`<span style="position:absolute;bottom:8px;left:8px;background:var(--o);color:#fff;font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px;z-index:2;box-shadow:0 0 12px rgba(255,107,53,.7)">⭐ BEST</span>`:''}</div>
-      <div style="padding:10px"><b style="font-size:12.5px;display:block;line-height:1.35;min-height:34px">${esc(p.n)}</b>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><span class="s" style="font-weight:700;color:var(--neon)">★ ${p.rating||'4.3'}</span><b style="color:var(--o);font-size:14px;text-shadow:0 0 10px rgba(255,107,53,.5)">${inr(p.p)}</b></div>
-      ${q>0?stepper(p.id,q):`<button class="btn sm ghost" data-a="inc" data-id="${p.id}" style="width:100%;margin:2px 0 0" onclick="event.stopPropagation()">ADD +</button>`}</div></div>`});
-   h+=`</div>`}else h+=`<div class="card"><p class="s">Kuch nahi mila 🔍</p></div>`;
- } else {
-  const gro=S.prod.filter(p=>p.kind!=='food'&&p.s!==0);
-  [...new Set(gro.map(p=>p.c))].forEach(c=>{
-   let list=gro.filter(p=>p.c===c);
-   if(SQ.trim())list=list.filter(p=>p.n.toLowerCase().includes(SQ.trim().toLowerCase()));
-   if(!list.length)return;
-   h+=`<div class="card"><h3>${esc(c)}</h3>`;
-   list.forEach(p=>{const q=C[p.id]||0;
-    h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}"><div style="width:48px;height:48px;flex:none">${imgOrEmoji(p.img,'📦')}</div><div style="flex:1"><b>${vdot(p.nv)} ${esc(p.n)}</b><div class="s">${inr(p.p)}</div></div><div onclick="event.stopPropagation()">${q>0?stepper(p.id,q):`<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}</div></div>`});
-   h+=`</div>`});
+  if(isFood){h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">`;list.forEach(p=>{const q=C[p.id]||0;const low=p.stock<=5;h+=`<div class="pcard" data-a="ordDetailP" data-id="${p.id}"><div class="ph">${imgOr(p.img)}${p.best?'<span style="position:absolute;top:6px;right:6px;background:var(--o);color:#fff;font-size:9px;font-weight:800;padding:3px 7px;border-radius:8px">⭐ BEST</span>':''}${low?'<span style="position:absolute;bottom:6px;right:6px;background:var(--bad);color:#fff;font-size:9px;font-weight:800;padding:3px 7px;border-radius:8px">⚠️ '+p.stock+' left</span>':''}</div><div style="padding:9px"><b style="font-size:12px;display:block;min-height:32px">${vdot(p.nv)} ${esc(p.n)}</b><div style="display:flex;justify-content:space-between;margin:5px 0"><span class="s" style="color:var(--neon);font-weight:700">★${p.rating||'4.3'}</span><b style="color:var(--o)">${inr(p.p)}</b></div>${q?stepper(p.id,q):`<button class="btn sm ghost" data-a="inc" data-id="${p.id}" style="width:100%" onclick="event.stopPropagation()">ADD +</button>`}</div></div>`});h+=`</div>`}
+  else{h+=`<div class="card">`;list.forEach(p=>{const q=C[p.id]||0;h+=`<div class="grow"><div style="width:46px;height:46px;flex:none">${imgOr(p.img,'📦')}</div><div style="flex:1"><b>${vdot(p.nv)} ${esc(p.n)}</b><div class="s">${inr(p.p)}${p.stock<=5?' · <span style="color:var(--bad)">⚠️ low</span>':''}</div></div><div onclick="event.stopPropagation()">${q?stepper(p.id,q):`<button class="btn sm" data-a="inc" data-id="${p.id}">ADD</button>`}</div></div>`});h+=`</div>`}
+ }else if(SHOPTAB==='thali'){
+  const sabs=S.prod.filter(p=>p.kind==='food'&&p.c==='Curry');
+  h+=`<div class="card"><h3>🥘 Apni Thali Banao</h3><div class="s">2 sabzi + carb + meetha chuno</div>
+  <div class="s" style="font-weight:800;margin-top:8px">Sabzi 1</div><select id="tbs1">${sabs.map((p,i)=>`<option value="${i}" ${TB.s1===i?'selected':''}>${esc(p.n)} ₹${p.p}</option>`).join('')}</select>
+  <div class="s" style="font-weight:800">Sabzi 2</div><select id="tbs2">${sabs.map((p,i)=>`<option value="${i}" ${TB.s2===i?'selected':''}>${esc(p.n)} ₹${p.p}</option>`).join('')}</select>
+  <div class="seg"><button class="${TB.carb==='roti'?'on':''}" data-a="tb" data-k="carb" data-v="roti">🫓 4 Roti ₹20</button><button class="${TB.carb==='chawal'?'on':''}" data-a="tb" data-k="carb" data-v="chawal">🍚 Chawal ₹50</button></div>
+  <div class="seg"><button class="${TB.sweet===-1?'on':''}" data-a="tb" data-k="sweet" data-v="-1">No sweet</button><button class="${TB.sweet===0?'on':''}" data-a="tb" data-k="sweet" data-v="0">🍮 +₹40</button></div>
+  <div class="row" style="margin-top:8px"><b>Thali Price</b><b style="color:var(--o);font-size:20px">${inr(thaliPrice())}</b></div>
+  <button class="btn" data-a="addThali">🥘 Cart Mein Daalo</button></div>`;
+ }else if(SHOPTAB==='subs'){
+  const subProds=S.prod.filter(p=>KIRANA.includes(p.n));
+  h+=`<div class="card"><h3>🔁 Subscribe & Save (5% off)</h3><div class="s">Monthly auto-delivery har mahine</div>`;
+  subProds.forEach(p=>{const active=(S.saveSubs||[]).find(x=>x.prodId===p.id&&x.phone===(ME?ME.phone:'')&&x.active);h+=`<div class="row"><div><b>${esc(p.n)}</b><div class="s">Monthly: <b style="color:var(--neon)">${inr(Math.round(p.p*30*0.95))}</b> <span style="text-decoration:line-through">${inr(p.p*30)}</span></div></div>${active?`<button class="btn sm r" data-a="unsub" data-id="${active.id}">Cancel</button>`:`<button class="btn sm g" data-a="subSave" data-id="${p.id}">Subscribe</button>`}</div>`});
+  const mine=(S.saveSubs||[]).filter(x=>x.phone===(ME?ME.phone:''));
+  if(mine.length)h+=`<b class="s" style="font-weight:800;margin-top:10px;display:block">Active: ${mine.filter(m=>m.active).length}</b>`;
+  h+=`</div>`;
+ }else if(SHOPTAB==='orders'){
+  const mine=(S.orders||[]).filter(o=>o.phone===(ME?ME.phone:'')).slice().reverse();
+  h+=`<div class="card"><h3>📦 My Orders (${mine.length})</h3>${mine.length?mine.map(o=>`<div class="grow"><div style="flex:1"><b>${o.date}</b> <span class="badge ${o.status==='delivered'?'active':'pending'}">${o.status}</span><div class="s">${o.items.slice(0,3).map(i=>i.n+' x'+i.q).join(', ')}</div><div class="s" style="color:var(--o);font-weight:800">${inr(o.total)}</div></div><div style="display:flex;flex-direction:column;gap:6px"><button class="btn sm g" data-a="reorder" data-id="${o.id}">🔁 Reorder</button><button class="btn sm b" data-a="invoice" data-id="${o.id}">🧾</button></div></div>`).join(''):'<div class="s">Koi order nahi.</div>'}</div>`;
+ }else{
+  h+=`<div class="card"><h3>🏷️ Deals & Coupons</h3>${Object.entries(S.coupons||{}).filter(([k,c])=>validCp(c)).map(([k,c])=>`<div class="row"><div><b style="color:var(--o)">${k}</b><div class="s">${c.type==='flat'?inr(c.value):c.value+'%'} off · min ${inr(c.min)}</div></div><button class="btn sm" data-a="useCoupon" data-v="${k}">Use</button></div>`).join('')||'<div class="s">Koi coupon nahi.</div>'}</div>
+  <div class="card"><h3>⚡ Combo Deals</h3><div class="row"><div><b>Thali + Chai</b><div class="s">₹140 → ₹125</div></div><button class="btn sm g" data-a="combo" data-v="thali_chai">Add</button></div><div class="row"><div><b>Biryani + Gulab Jamun</b><div class="s">₹190 → ₹170</div></div><button class="btn sm g" data-a="combo" data-v="bir_jam">Add</button></div></div>`;
  }
- if(cart.cnt>0)h+=`<div class="cartbar"><div style="flex:1"><b>🛒 ${cart.cnt} items</b>
-   <div style="font-size:11px;margin-top:2px;color:var(--muted)">${inr(cart.sub)}${cart.disc>0?' − '+inr(cart.disc)+' ('+cart.code+')':''}</div>
-   <div style="font-size:18px;font-weight:900;color:var(--o);text-shadow:0 0 12px rgba(255,107,53,.6)">${inr(cart.total)}</div></div>
-   <button class="btn g" data-a="goc" style="margin:0;width:auto">Checkout ↓</button></div>`;
- h+=`<div class="card" id="co" style="margin-top:${cart.cnt>0?'80':'0'}px"><h3>📦 Checkout</h3>
-  <div class="s" style="font-weight:800">🕐 Slot:</div>
-  <div class="seg"><button class="${F.slot==='lunch'?'on':''}" data-a="setSlot" data-v="lunch">☀️ Lunch (1:30)</button><button class="${F.slot==='dinner'?'on':''}" data-a="setSlot" data-v="dinner">🌙 Dinner (8:00)</button></div>
-  <input data-f="name" placeholder="Naam *" value="${esc(F.name)}">
-  <input data-f="phone" type="tel" maxlength="10" placeholder="Phone *" value="${esc(F.phone)}">
-  <input data-f="addr" placeholder="Address *" value="${esc(F.addr)}">
-  <button class="btn g" data-a="gps">📍 GPS Lo *</button>
-  <div class="s" style="font-weight:800;margin-top:8px">🎟️ Coupon:</div>
-  <div style="display:flex;gap:8px"><input id="couponInput" placeholder="e.g. UDALA50" value="${esc(CART_COUPON)}" style="margin:0"><button class="btn sm g" data-a="applyCoupon" style="margin:0">Apply</button></div>
-  ${cart.disc>0?`<div class="alert-box" style="background:rgba(6,214,160,.12);border-color:rgba(6,214,160,.45)">✅ ${esc(cart.code)} — ${inr(cart.disc)} bachat!</div>`:''}
-  <div style="background:var(--inp);border-radius:12px;padding:12px;margin-top:12px">
-    <div class="row"><span>Items</span><b>${inr(cart.sub)}</b></div>
-    ${cart.disc>0?`<div class="row"><span>Discount</span><b style="color:var(--neon)">-${inr(cart.disc)}</b></div>`:''}
-    <div class="row"><span>Delivery</span><b style="color:var(--neon)">FREE</b></div>
-    <div class="row" style="border-top:2px solid var(--line);padding-top:10px;margin-top:4px"><b>Total</b><b style="color:var(--o);font-size:18px">${inr(cart.total)}</b></div></div>
-  <button class="btn" data-a="order">✅ Order Karein (${inr(cart.total)})</button></div>`;
+ if(cart.cnt>0)h+=`<div class="cartbar"><div><b>🛒 ${cart.cnt} items</b><div style="font-size:11px;color:var(--muted)">${inr(cart.sub)}${cart.disc?' −'+inr(cart.disc)+' ('+cart.code+(cart.auto?' auto':'')+')':''}</div><div style="font-size:17px;font-weight:900;color:var(--o)">${inr(cart.total)}</div></div><button class="btn g" data-a="goc" style="margin:0;width:auto">Checkout ↓</button></div>`;
+ h+=`<div class="card" id="co" style="margin-top:${cart.cnt>0?'76':'0'}px"><h3>📦 Checkout</h3>
+ <div class="seg"><button class="${F.slot==='lunch'?'on':''}" data-a="setSlot" data-v="lunch">☀️ Lunch</button><button class="${F.slot==='dinner'?'on':''}" data-a="setSlot" data-v="dinner">🌙 Dinner</button></div>
+ <input data-f="name" placeholder="Naam *" value="${esc(F.name)}"><input data-f="phone" type="tel" maxlength="10" placeholder="Phone *" value="${esc(F.phone)}"><input data-f="addr" placeholder="Address *" value="${esc(F.addr)}">
+ <button class="btn g" data-a="gps">📍 GPS *</button>
+ <div class="s" style="font-weight:800;margin-top:6px">🎟️ Coupon (auto-apply ON)</div><div style="display:flex;gap:8px"><input id="couponInput" placeholder="Code" value="${esc(CART_COUPON)}" style="margin:0"><button class="btn sm g" data-a="applyCoupon" style="margin:0">Apply</button></div>
+ <div class="s" style="font-weight:800;margin-top:6px">🤑 Rider Tip</div><div class="seg">${[0,5,10,20].map(t=>`<button class="${F.tip===t?'on':''}" data-a="setTip" data-v="${t}">₹${t}</button>`).join('')}</div>
+ <div class="s" style="font-weight:800;margin-top:6px">💳 Payment</div><div class="seg">${['cash','upi','wallet','card'].map(p=>`<button class="${F.payMode===p?'on':''}" data-a="setPay" data-v="${p}">${p.toUpperCase()}</button>`).join('')}</div>
+ <div style="background:var(--inp);border-radius:12px;padding:10px;margin-top:8px"><div class="row"><span>Items</span><b>${inr(cart.sub)}</b></div>${cart.disc?`<div class="row"><span>Coupon</span><b style="color:var(--neon)">-${inr(cart.disc)}</b></div>`:''}<div class="row"><span>Tip</span><b>${inr(F.tip)}</b></div><div class="row"><span>Delivery</span><b style="color:var(--neon)">FREE</b></div><div class="row" style="border-top:2px solid var(--line)"><b>Total</b><b style="color:var(--o);font-size:17px">${inr(cart.total+F.tip)}</b></div></div>
+ <button class="btn" data-a="order">✅ Order (${inr(cart.total+F.tip)})</button></div>`;
  return h},
 
 kitchen:()=>{
- if(!OK)return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 tap → PIN</p></div>`;
- const k=todayStr();
- const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k)&&!(s.pause||[]).includes(k));
+ if(!OK)return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header 5 tap → PIN</p></div>`;
+ const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k)&&!(s.pause||[]).includes(k));
+ let h=`<div class="tabs">${[['today','👥 Today'],['raw','🧮 Raw Material'],['meal','🍽️ Meal-wise'],['cost','💰 Cost/Thali'],['photo','📸 Food Photo']].map(t=>`<button class="${KITTAB===t[0]?'on':''}" data-a="ktab" data-v="${t[0]}">${t[1]}</button>`).join('')}</div>`;
  const veg=on.filter(s=>s.type==='veg').length,nv=on.filter(s=>s.type==='nv').length;
- const roti=on.reduce((a,s)=>a+((s.lunch!=='chawal'?4:0)+(s.dinner!=='chawal'?4:0)+s.extraRoti),0);
- const chawal=on.reduce((a,s)=>a+((s.lunch!=='roti'?1:0)+(s.dinner!=='roti'?1:0)),0);
- let h=`<div class="card"><h3>👨‍🍳 Kitchen · ${k}</h3><div class="grid2">
-  <div class="stat" style="background:linear-gradient(135deg,#1B4332,#2D6A4F)"><div class="v">${veg}</div><div class="l">Veg</div></div>
-  <div class="stat" style="background:linear-gradient(135deg,#FF6B35,#E85D04)"><div class="v">${nv}</div><div class="l">Non-Veg</div></div>
-  <div class="stat" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)"><div class="v">${roti}</div><div class="l">Roti</div></div>
-  <div class="stat" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><div class="v">${chawal}</div><div class="l">Chawal</div></div></div>
-  <button class="btn g" data-a="copyKitchen">📋 Summary Copy</button></div>`;
- h+=`<div class="card"><h3>👥 List (${on.length}) <span class="s clickable-indicator">Tap any customer</span></h3>`;
- on.forEach(s=>{
-  const subah=S.meals[mealKey(s.id,'subah')]||'pending';
-  const lunch=S.meals[mealKey(s.id,'lunch')]||'pending';
-  const dinner=S.meals[mealKey(s.id,'dinner')]||'pending';
-  h+=`<div class="grow" data-a="custDetail" data-id="${s.id}" style="align-items:flex-start;padding:12px 6px">
-    <img src="${s.avatar||randAvatar(s.id)}" style="width:44px;height:44px;border-radius:50%;border:2px solid var(--neon);box-shadow:0 0 10px rgba(6,214,160,.4)" onerror="this.src='${IMG.av1}'">
-    <div style="flex:1"><b>${esc(s.name)}</b> <span class="s">${s.type==='veg'?'🟢':'🔴'}</span>
-      <div class="s" style="color:var(--neon);font-weight:700;font-size:11px">${packItems(s).join(' · ')}</div>
-      <div style="display:flex;gap:4px;margin-top:6px">
-        <div class="meal-dot ${subah==='consumed'?'ok':subah==='skipped'?'no':'pending'}">S</div>
-        <div class="meal-dot ${lunch==='consumed'?'ok':lunch==='skipped'?'no':'pending'}">L</div>
-        <div class="meal-dot ${dinner==='consumed'?'ok':dinner==='skipped'?'no':'pending'}">D</div>
-      </div>
-    </div>
-    <button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skipToday" data-id="${s.id}" onclick="event.stopPropagation()">${s.skip.includes(k)?'Wapas':'Skip'}</button>
-  </div>`});
- if(!on.length)h+=`<p class="s">Koi nahi.</p>`;
- return h+`</div>`},
+ if(KITTAB==='today'){
+  const roti=on.reduce((a,s)=>a+((s.lunch!=='chawal'?4:0)+(s.dinner!=='chawal'?4:0)+s.extraRoti),0);
+  h+=`<div class="card"><div class="grid2"><div class="stat" style="background:linear-gradient(135deg,#1B4332,#2D6A4F)"><div class="v">${veg}</div><div class="l">Veg</div></div><div class="stat" style="background:linear-gradient(135deg,#FF6B35,#E85D04)"><div class="v">${nv}</div><div class="l">NV</div></div><div class="stat" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)"><div class="v">${roti}</div><div class="l">Roti</div></div><div class="stat" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><div class="v">${on.length}</div><div class="l">Total</div></div></div><button class="btn g" data-a="copyKitchen">📋 Copy</button></div>`;
+  h+=`<div class="card"><h3>👥 List (${on.length})</h3>${on.map(s=>`<div class="grow" data-a="custDetail" data-id="${s.id}"><img src="${s.avatar}" class="avatar"><div style="flex:1"><b>${esc(s.name)}</b><div class="s" style="color:var(--neon);font-weight:700">${packItems(s).join(' · ')}</div></div><button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skipToday" data-id="${s.id}" onclick="event.stopPropagation()">${s.skip.includes(k)?'↩️':'⏭️'}</button></div>`).join('')||'<div class="s">Koi nahi</div>'}</div>`;
+ }else if(KITTAB==='raw'){
+  const roti=on.reduce((a,s)=>a+((s.lunch!=='chawal'?4:0)+(s.dinner!=='chawal'?4:0)+s.extraRoti),0);
+  const chawal=on.reduce((a,s)=>a+((s.lunch!=='roti'?1:0)+(s.dinner!=='roti'?1:0)),0);
+  const ci=S.costInputs;
+  const raw=[['Atta',(roti*0.04).toFixed(1)+' kg'],['Chawal',(chawal*0.15).toFixed(1)+' kg'],['Dal',(on.length*0.1).toFixed(1)+' kg'],['Sabzi',(on.length*0.4).toFixed(1)+' kg'],['Doodh',(on.length*0.25).toFixed(1)+' L'],['Tel',(roti*0.01+on.length*0.02).toFixed(1)+' L']];
+  h+=`<div class="card"><h3>🧮 Raw Material (${on.length} tiffin)</h3>${raw.map(r=>`<div class="row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}<button class="btn g" data-a="copyRaw">📋 Purchase List Copy</button></div>`;
+ }else if(KITTAB==='meal'){
+  const L=on.filter(s=>s.lunch!=='roti').length,D=on.filter(s=>s.dinner!=='roti').length,Su=on.length;
+  h+=`<div class="card"><h3>🍽️ Meal-wise Breakdown</h3><div class="grid3"><div class="stat" style="background:linear-gradient(135deg,#F59E0B,#B45309)"><div class="v">${Su}</div><div class="l">Subah</div></div><div class="stat" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><div class="v">${L}</div><div class="l">Lunch</div></div><div class="stat" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)"><div class="v">${D}</div><div class="l">Dinner</div></div></div>
+  <div class="s" style="margin-top:10px">Lunch: ${on.filter(s=>s.lunch==='chawal').length} chawal · ${on.filter(s=>s.lunch==='roti').length} roti · ${on.filter(s=>s.lunch==='both').length} both</div>
+  <div class="s">Dinner: ${on.filter(s=>s.dinner==='chawal').length} chawal · ${on.filter(s=>s.dinner==='roti').length} roti · ${on.filter(s=>s.dinner==='both').length} both</div></div>`;
+ }else if(KITTAB==='cost'){
+  const ci=S.costInputs;const per=on.length||1;
+  const roti=on.reduce((a,s)=>a+((s.lunch!=='chawal'?4:0)+(s.dinner!=='chawal'?4:0)+s.extraRoti),0);
+  const cost=(roti*0.04*ci.atta)+(on.length*0.1*ci.dal)+(on.length*0.4*ci.sabzi)+(on.length*ci.gas)+(on.length*ci.labour);
+  const cpt=cost/per;const priceAvg=2899/30/3*3;
+  h+=`<div class="card"><h3>💰 Cost Per Thali</h3><div class="grid2"><input id="ci_atta" type="number" value="${ci.atta}" placeholder="Atta ₹/kg"><input id="ci_dal" type="number" value="${ci.dal}" placeholder="Dal ₹/kg"><input id="ci_sabzi" type="number" value="${ci.sabzi}" placeholder="Sabzi ₹/kg"><input id="ci_gas" type="number" value="${ci.gas}" placeholder="Gas ₹/thali"><input id="ci_labour" type="number" value="${ci.labour}" placeholder="Labour ₹/thali"></div><button class="btn sm g" data-a="saveCost">💾 Save</button>
+  <div class="stat" style="background:linear-gradient(135deg,${cpt<60?'#10B981,#059669':'#EF4444,#DC2626'});margin-top:12px"><div class="v">${inr(cpt)}</div><div class="l">Cost / thali (avg sell ₹96)</div></div>
+  <div class="s" style="margin-top:6px">${cpt<60?'✅ Margin theek hai ('+Math.round((96-cpt)/96*100)+'%)':'⚠️ Margin kam hai! Price badhao'}</div></div>`;
+ }else{
+  const ph=S.foodPhotos[k];
+  h+=`<div class="card"><h3>📸 Aaj Ka Khana Photo</h3>${ph?`<img src="${ph}" style="width:100%;border-radius:14px;margin-bottom:8px"><button class="btn sm r" data-a="delPhoto">🗑️ Remove</button>`:'<div class="s">Photo upload karo — sab customers ko plan page par dikhega.</div>'}<button class="btn g" data-a="pickPhoto">📸 Upload Photo</button></div>`;
+ }
+ return h},
 
 delivery:()=>{
- if(!OK)return `<div class="card"><h3>🔒 Locked</h3><p class="s">Header par 5 tap → PIN</p></div>`;
+ if(DELTAB==='rider'&&!OKR){const x=prompt('Rider PIN (7788):');if(x===CONFIG.delivPin){OKR=1;sessionStorage.setItem('udokr','1')}else{showToast('❌ Galat PIN','error');DELTAB='stops'}}
  const k=todayStr();
  const live=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k)&&!(s.pause||[]).includes(k));
- const pend=live.filter(s=>!S.done[k+'_'+s.id]);
+ const pend=live.filter(s=>!S.done[k+'_'+s.id]&&!S.na[k+'_'+s.id]);
  const done=live.filter(s=>S.done[k+'_'+s.id]);
  const ords=(S.orders||[]).filter(o=>o.status==='pending');
- let h=`<div class="card" style="background:linear-gradient(135deg,rgba(27,67,50,.9),rgba(7,11,20,.85));color:#fff;border:1px solid rgba(6,214,160,.3);text-align:center">
-  <div class="s" style="color:#A7F3D0">AAJ KI DELIVERY</div><div style="font-size:36px;font-weight:900;text-shadow:0 0 20px rgba(6,214,160,.7)">${done.length} / ${live.length}</div>
-  <div class="pbar" style="background:rgba(255,255,255,.15)"><div class="pfill" style="width:${live.length?Math.round(done.length/live.length*100):0}%"></div></div></div>`;
- h+=`<div class="card"><h3>⏳ Baaki (${pend.length}) <span class="s clickable-indicator">Tap for full address</span></h3>`;
- pend.forEach((s,i)=>{h+=`<div class="grow" style="flex-direction:column;align-items:stretch;padding:12px 6px" data-a="custDetail" data-id="${s.id}">
-  <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
-    <img src="${s.avatar||randAvatar(s.id)}" class="avatar" onerror="this.src='${IMG.av1}'">
-    <div style="flex:1"><b>#${i+1} ${esc(s.name)}</b><div class="s">${s.type==='veg'?'🟢':'🔴'} · ${packItems(s).length} items</div></div>
-  </div>
-  <div class="s">📍 ${esc(s.addr)}, ${esc(s.area)}</div>
-  ${s.notes?`<div class="s" style="color:var(--warn);margin-top:4px">📝 ${esc(s.notes)}</div>`:''}
-  <div style="display:flex;gap:6px;margin-top:8px" onclick="event.stopPropagation()">
-    ${s.map?`<a class="btn sm b" href="${s.map}" target="_blank" style="flex:1;text-decoration:none;text-align:center">🗺️ Map</a>`:''}
-    <a class="btn sm g" href="tel:+91${s.phone}" style="flex:1;text-decoration:none;text-align:center">📞</a>
-    <button class="btn sm" data-a="done" data-id="${s.id}" style="flex:1">✅ Done</button>
-  </div></div>`});
- if(!pend.length)h+=`<p class="s">Sab ho gaya 🎉</p>`;
- h+=`</div>`;
- if(ords.length){h+=`<div class="card"><h3>🛒 Shop Orders (${ords.length})</h3>`;
-  ords.forEach(o=>{h+=`<div class="grow" style="padding:12px 6px" data-a="ordDetail" data-id="${o.id}">
-    <img src="${randAvatar(o.id)}" class="avatar" onerror="this.src='${IMG.av1}'">
-    <div style="flex:1"><b>${esc(o.name)}</b><div class="s">${o.items.slice(0,2).map(i=>i.n+' x'+i.q).join(', ')}${o.items.length>2?'...':''}</div><div class="s">🕐 ${o.slot==='dinner'?'Dinner':'Lunch'} · <b style="color:var(--o)">${inr(o.total)}</b></div></div>
-    <button class="btn sm g" data-a="odone" data-id="${o.id}" onclick="event.stopPropagation()">✅</button></div>`});
-  h+=`</div>`}
+ let h=`<div class="tabs">${[['stops','🛵 Stops'],['pod','📸 POD'],['rider','🤝 Rider'],['hist','📜 History']].map(t=>`<button class="${DELTAB===t[0]?'on':''}" data-a="dtab" data-v="${t[0]}">${t[1]}</button>`).join('')}</div>`;
+ if(DELTAB==='stops'||DELTAB==='rider'){
+  const big=DELTAB==='rider';
+  h+=`<div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(27,67,50,.9),rgba(7,11,20,.85));color:#fff"><div class="s" style="color:#A7F3D0">${big?'🤝 RIDER MODE':'AAJ KI DELIVERY'}</div><div style="font-size:34px;font-weight:900">${done.length}/${live.length}</div><div class="pbar" style="background:rgba(255,255,255,.15)"><div class="pfill" style="width:${live.length?Math.round(done.length/live.length*100):0}%"></div></div>${!big?`<button class="btn g" data-a="waAllOFD">📢 Sabko "Out for Delivery" WA</button>`:''}</div>`;
+  h+=`<div class="card"><h3>⏳ Stops (${pend.length})</h3>${pend.map((s,i)=>`<div class="grow" style="align-items:flex-start;padding:12px 4px" ${big?'':`data-a="custDetail" data-id="${s.id}"`}><img src="${s.avatar}" class="avatar"><div style="flex:1"><b>#${i+1} ${esc(s.name)}</b><div class="s">📍 ${esc(s.addr)}</div>${s.notes?`<div class="s" style="color:var(--warn)">📝 ${esc(s.notes)}</div>`:''}</div><div style="display:flex;flex-direction:column;gap:6px" onclick="event.stopPropagation()"><a class="btn sm b" href="tel:+91${s.phone}" style="text-decoration:none">📞</a><button class="btn sm g" data-a="done" data-id="${s.id}">✅</button>${big?`<button class="btn sm r" data-a="naMark" data-id="${s.id}">🚫</button>`:''}</div></div>`).join('')||'<div class="s">Sab done 🎉</div>'}</div>`;
+  if(ords.length)h+=`<div class="card"><h3>🛒 Shop (${ords.length})</h3>${ords.map(o=>`<div class="grow" data-a="ordDetail" data-id="${o.id}"><img src="${randAv(o.id)}" class="avatar"><div style="flex:1"><b>${esc(o.name)}</b><div class="s">${inr(o.total)} · ${o.slot}</div></div><button class="btn sm g" data-a="odone" data-id="${o.id}" onclick="event.stopPropagation()">✅</button></div>`).join('')}</div>`;
+ }else if(DELTAB==='pod'){
+  h+=`<div class="card"><h3>📸 Proof of Delivery</h3>${done.map(s=>`<div class="row"><div style="flex:1"><b>${esc(s.name)}</b><div class="s">${S.pod['s'+s.id+'_'+k]?'📸 Photo saved':'Photo baaki'}</div></div>${S.pod['s'+s.id+'_'+k]?`<img src="${S.pod['s'+s.id+'_'+k]}" style="width:44px;height:44px;border-radius:8px;object-fit:cover">`:`<button class="btn sm b" data-a="pickPod" data-id="${s.id}">📸</button>`}</div>`).join('')||'<div class="s">Pehle delivery done karo.</div>'}</div>`;
+ }else{
+  const hist=[...done.map(s=>({t:'Tiffin',n:s.name,ok:1})),...Object.entries(S.na).filter(([key,v])=>v&&key.startsWith(k)).map(([key])=>({t:'NA',n:(S.subs||[]).find(s=>key.includes(s.id))?.name||'?',ok:0})),...(S.orders||[]).filter(o=>o.status==='delivered'&&o.date===k).map(o=>({t:'Shop',n:o.name,ok:1}))];
+  h+=`<div class="card"><h3>📜 Aaj History</h3>${hist.map(x=>`<div class="row"><span>${x.ok?'✅':'🚫'} ${x.t} · ${esc(x.n)}</span></div>`).join('')||'<div class="s">Khali.</div>'}</div>`;
+ }
  return h},
 
 owner:()=>{
- if(!OK)return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 tap → PIN 4821</p></div>`;
+ if(!OK)return `<div class="card"><h3>🔒 Owner</h3><p class="s">Header 5 tap → 4821</p></div>`;
+ let h=`<div class="tabs">${[['dash','📊 Dash'],['pay','💳 Pay'],['plans','🍱 Plans'],['prod','🛒 Prod'],['wallet','💰 Wallet'],['coup','🎟️ Coupon'],['alert','🚨 Alerts'],['bcast','📢 Broadcast'],['rep','🧾 Reports'],['set','⚙️ Set']].map(t=>`<button class="${OWNTAB===t[0]?'on':''}" data-a="otab" data-v="${t[0]}">${t[1]}</button>`).join('')}</div>`;
  const pendPay=(S.subs||[]).filter(s=>s.status==='pending');
- const act=(S.subs||[]).filter(isLive).length;
+ const act=(S.subs||[]).filter(isLive);
  const rev=(S.pays||[]).reduce((a,p)=>a+(+p.amt||0),0);
- let h=`<div class="card"><h3>📊 Dashboard</h3><div class="grid2">
-  <div class="stat" style="background:linear-gradient(135deg,#1B4332,#2D6A4F)"><div class="v">${act}</div><div class="l">Active</div></div>
-  <div class="stat" style="background:linear-gradient(135deg,#FF6B35,#E85D04)"><div class="v">${inr(rev)}</div><div class="l">Kamai</div></div>
-  <div class="stat" style="background:linear-gradient(135deg,${pendPay.length?'#F59E0B,#B45309':'#10B981,#059669'})"><div class="v">${pendPay.length}</div><div class="l">Pending</div></div>
-  <div class="stat" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><div class="v">${(S.orders||[]).length}</div><div class="l">Orders</div></div></div>
-  <div style="display:flex;gap:8px;margin-top:12px"><button class="btn sm b" data-a="backup">💾 Backup</button><button class="btn sm g" data-a="restore">📂 Restore</button></div></div>`;
- h+=`<div class="card"><h3>🧾 Sections</h3><div class="seg"><button class="${OSEC==='pay'?'on':''}" data-a="osec" data-v="pay">💳 Pay</button><button class="${OSEC==='subs'?'on':''}" data-a="osec" data-v="subs">🍱 Plans</button><button class="${OSEC==='prod'?'on':''}" data-a="osec" data-v="prod">🛒 Prod</button><button class="${OSEC==='set'?'on':''}" data-a="osec" data-v="set">⚙️ Set</button></div>`;
- if(OSEC==='pay'){
-  if(pendPay.length){pendPay.forEach(s=>{h+=`<div class="grow" data-a="custDetail" data-id="${s.id}" style="align-items:flex-start;background:rgba(245,158,11,.06);padding:12px;border-radius:12px;margin-top:8px"><img src="${s.avatar||randAvatar(s.id)}" class="avatar" onerror="this.src='${IMG.av1}'"><div style="flex:1"><b>${esc(s.name)}</b> ${badge('pending')}<div class="s">📱 ${s.phone} · ${inr(s.price)}</div><div class="s" style="font-weight:800">🔢 UTR: ${esc(s.utr||'-')}</div><div style="display:flex;gap:8px;margin-top:8px" onclick="event.stopPropagation()"><button class="btn sm g" data-a="verifyPay" data-id="${s.id}" style="flex:1">✅ Verify</button><button class="btn sm r" data-a="rejectPay" data-id="${s.id}" style="flex:1">❌</button></div></div></div>`})}
-  else h+=`<p class="s">Koi pending nahi 🎉</p>`;
- } else if(OSEC==='subs'){
-  h+=`<div class="s clickable-indicator" style="margin-bottom:8px">Tap kisi bhi customer par → full details dekho</div>`;
-  (S.subs||[]).slice().reverse().forEach(s=>{h+=`<div class="grow" data-a="custDetail" data-id="${s.id}"><img src="${s.avatar||randAvatar(s.id)}" class="avatar" onerror="this.src='${IMG.av1}'"><div style="flex:1"><b>${esc(s.name)}</b><div class="s">${s.phone} · ${inr(s.price)}</div></div>${badge(getSubStatus(s))}</div>`});
- } else if(OSEC==='prod'){
-  h+=`<div style="background:var(--inp);border-radius:14px;padding:12px"><input id="pn" placeholder="Naam" style="margin:0 0 8px"><div style="display:flex;gap:8px"><input id="pp" type="number" placeholder="Price" style="margin:0"><input id="pc" placeholder="Cat" style="margin:0"></div>
-   <select id="pkind" style="margin:8px 0 0"><option value="grocery">🛒 Grocery</option><option value="food">🍛 Food</option></select>
-   <button class="btn g" data-a="addProd">➕ Add</button></div>`;
-  (S.prod||[]).forEach(p=>{h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}"><div style="width:48px;height:48px;flex:none">${imgOrEmoji(p.img,'📦')}</div><div style="flex:1"><b>${p.kind==='food'?'🍛':''} ${esc(p.n)}</b><div class="s">${inr(p.p)}</div></div><div onclick="event.stopPropagation()"><button class="btn sm ${p.s===0?'r':'g'}" data-a="stock" data-id="${p.id}">${p.s===0?'Out':'Stock'}</button><button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button></div></div>`});
- } else {
-  h+=`<div class="s">Kal ka menu:</div><input id="mveg" placeholder="Veg" value="${esc(mf(addDays(new Date(),1),'veg'))}"><input id="mnv" placeholder="NV" value="${esc(mf(addDays(new Date(),1),'nv'))}"><button class="btn sm g" data-a="setMenu">💾 Save</button>
-   <button class="btn r" data-a="out" style="margin-top:16px">🚪 Logout</button>`;
+ const exp=(S.expenses||[]).reduce((a,e)=>a+(+e.amount||0),0);
+ if(OWNTAB==='dash'){
+  h+=`<div class="card"><div class="grid2"><div class="stat" style="background:linear-gradient(135deg,#1B4332,#2D6A4F)"><div class="v">${act.length}</div><div class="l">Active</div></div><div class="stat" style="background:linear-gradient(135deg,#FF6B35,#E85D04)"><div class="v">${inr(rev)}</div><div class="l">Kamai</div></div><div class="stat" style="background:linear-gradient(135deg,#EF4444,#B91C1C)"><div class="v">${inr(exp)}</div><div class="l">Kharcha</div></div><div class="stat" style="background:linear-gradient(135deg,${rev-exp>=0?'#10B981,#059669':'#7C3AED,#5B21B6'})"><div class="v">${inr(rev-exp)}</div><div class="l">Profit</div></div></div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn sm b" data-a="backup">💾 Backup</button><button class="btn sm g" data-a="restore">📂 Restore</button></div></div>`;
+  h+=`<div class="card"><h3>📈 7-Din Revenue</h3>${[6,5,4,3,2,1,0].map(i=>{const d=iso(addDays(new Date(),-i));const v=(S.pays||[]).filter(p=>p.d===d).reduce((a,p)=>a+(+p.amt||0),0);const mx=Math.max(1,...[6,5,4,3,2,1,0].map(j=>(S.pays||[]).filter(p=>p.d===iso(addDays(new Date(),-j))).reduce((a,p)=>a+(+p.amt||0),0)));return `<div style="display:flex;align-items:center;gap:8px"><span class="s" style="width:52px">${d.slice(5)}</span><div style="flex:1;background:var(--line);border-radius:6px;height:18px;overflow:hidden"><div class="bar" style="width:${Math.round(v/mx*100)}%;height:18px;margin:0"><span>${v?inr(v):''}</span></div></div></div>`}).join('')}</div>`;
+ }else if(OWNTAB==='pay'){
+  h+=`<div class="card"><h3>⏳ Verify (${pendPay.length})</h3>${pendPay.map(s=>`<div class="grow" style="background:rgba(245,158,11,.06);padding:10px;border-radius:12px;margin-bottom:8px" data-a="custDetail" data-id="${s.id}"><img src="${s.avatar}" class="avatar"><div style="flex:1"><b>${esc(s.name)}</b><div class="s">${inr(s.price)} · UTR: ${esc(s.utr||'-')}</div><div style="display:flex;gap:6px;margin-top:6px" onclick="event.stopPropagation()"><button class="btn sm g" data-a="verifyPay" data-id="${s.id}">✅</button><button class="btn sm r" data-a="rejectPay" data-id="${s.id}">❌</button></div></div></div>`).join('')||'<div class="s">Koi pending nahi 🎉</div>'}</div>`;
+  h+=`<div class="card"><h3>💰 History</h3>${(S.pays||[]).slice(-10).reverse().map(p=>`<div class="row"><div><b>${esc(p.name)}</b><div class="s">${p.d} · ${p.kind||''}</div></div><b>${inr(p.amt)}</b></div>`).join('')||'<div class="s">Khali</div>'}</div>`;
+ }else if(OWNTAB==='plans'){
+  h+=`<div class="card"><h3>🍱 Plans (${(S.subs||[]).length})</h3>${(S.subs||[]).slice().reverse().map(s=>`<div class="grow" data-a="custDetail" data-id="${s.id}"><img src="${s.avatar}" class="avatar"><div style="flex:1"><b>${esc(s.name)}</b><div class="s">${s.phone} · ${inr(s.price)}${s.due>0?' · Due '+inr(s.due):''}</div></div>${badge(getSubStatus(s))}</div>`).join('')||'<div class="s">Khali</div>'}</div>`;
+ }else if(OWNTAB==='prod'){
+  h+=`<div class="card"><div style="background:var(--inp);border-radius:12px;padding:10px"><input id="pn" placeholder="Naam" style="margin:0 0 6px"><div style="display:flex;gap:6px"><input id="pp" type="number" placeholder="₹" style="margin:0"><input id="pc" placeholder="Cat" style="margin:0"></div><select id="pkind" style="margin:6px 0 0"><option value="grocery">Grocery</option><option value="food">Food</option></select><button class="btn g" data-a="addProd">➕ Add</button></div></div>`;
+  h+=`<div class="card">${(S.prod||[]).map(p=>`<div class="row"><div style="flex:1"><b>${p.kind==='food'?'🍛':'🛒'} ${esc(p.n)}</b><div class="s">${inr(p.p)} · stock ${p.stock}</div></div><button class="btn sm ${p.s===0?'r':'g'}" data-a="stock" data-id="${p.id}">${p.s===0?'Out':'In'}</button><button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button></div>`).join('')}</div>`;
+ }else if(OWNTAB==='wallet'){
+  h+=`<div class="card"><h3>💰 Wallets</h3>${(S.subs||[]).filter(s=>isLive(s)).map(s=>`<div class="row"><div><b>${esc(s.name)}</b><div class="s">${s.autoPay?'🔁 AutoPay ON':'AutoPay off'} · due ${inr(s.due||0)}</div></div><div style="display:flex;gap:6px"><b style="color:var(--neon)">${inr(S.wallet[s.phone]||0)}</b><button class="btn sm g" data-a="autoPayToggle" data-id="${s.id}">${s.autoPay?'OFF':'ON'}</button><button class="btn sm b" data-a="walletTop" data-id="${s.id}">+</button></div></div>`).join('')||'<div class="s">Koi active nahi</div>'}</div>
+  <div class="card"><h3>📒 Ledger</h3>${(S.walletLedger||[]).slice(-10).reverse().map(l=>`<div class="row"><div><b>${esc(l.name)}</b><div class="s">${l.d} · ${l.note||''}</div></div><b style="color:${l.amt>0?'var(--neon)':'var(--bad)'}">${l.amt>0?'+':''}${inr(l.amt)}</b></div>`).join('')||'<div class="s">Khali</div>'}</div>`;
+ }else if(OWNTAB==='coup'){
+  h+=`<div class="card"><h3>🎟️ Coupon Engine</h3><div style="background:var(--inp);border-radius:12px;padding:10px"><input id="cpCode" placeholder="CODE (e.g. DIWALI100)" style="margin:0 0 6px"><div style="display:flex;gap:6px"><select id="cpType" style="margin:0"><option value="flat">₹ Flat</option><option value="pct">% Percent</option></select><input id="cpVal" type="number" placeholder="Value" style="margin:0"></div><div style="display:flex;gap:6px"><input id="cpMin" type="number" placeholder="Min ₹" style="margin:0"><input id="cpMax" type="number" placeholder="Max uses" style="margin:0"></div><input id="cpExp" type="date" style="margin:6px 0 0"><button class="btn g" data-a="addCoupon">➕ Create</button></div></div>
+  <div class="card">${Object.entries(S.coupons||{}).map(([k,c])=>`<div class="row"><div><b style="color:var(--o)">${k}</b><div class="s">${c.type==='flat'?inr(c.value):c.value+'%'} · min ${inr(c.min||0)} · used ${c.uses||0}/${c.max||'∞'} · exp ${c.expiry||'-'}</div></div><button class="btn sm r" data-a="delCoupon" data-v="${k}">🗑️</button></div>`).join('')}</div>`;
+ }else if(OWNTAB==='alert'){
+  const alerts=[];
+  (S.prod||[]).forEach(p=>{if(p.s===0)alerts.push(['🔴','Stock out: '+p.n]);else if(p.stock<=5)alerts.push(['🟠','Low stock: '+p.n+' ('+p.stock+')')]});
+  pendPay.forEach(s=>alerts.push(['🟡','Payment pending: '+s.name+' ('+inr(s.price)+')']));
+  (S.subs||[]).filter(isLive).forEach(s=>{const left=Math.round((subEnd(s)-new Date())/86400000);if(left<=3)alerts.push(['🟣','Plan expiring: '+s.name+' ('+left+' din)')]});
+  (S.subs||[]).filter(s=>getSubStatus(s)==='active').forEach(s=>{const last=(S.orders||[]).filter(o=>o.phone===s.phone).pop();const lastMeal=Object.keys(S.meals).filter(k=>k.includes(s.id)&&S.meals[k]==='consumed').pop();if(!lastMeal&&!last)alerts.push(['⚪','New customer silent: '+s.name])});
+  h+=`<div class="card"><h3>🚨 Alert Centre (${alerts.length})</h3>${alerts.map(a=>`<div class="row"><span>${a[0]} ${esc(a[1])}</span></div>`).join('')||'<div class="s">Sab theek hai 🎉</div>'}</div>`;
+ }else if(OWNTAB==='bcast'){
+  h+=`<div class="card"><h3>📢 WhatsApp Broadcast</h3><textarea id="bcMsg" placeholder="Message likhein..."></textarea><button class="btn b" data-a="broadcast">🚀 ${act.length} Active Customers ko bhejein</button><div class="s" style="margin-top:6px">1.2s gap se khulega — block nahi hoga.</div></div>`;
+ }else if(OWNTAB==='rep'){
+  const t=todayStr();const dayRev=(S.pays||[]).filter(p=>p.d===t).reduce((a,p)=>a+(+p.amt||0),0);
+  h+=`<div class="card"><h3>🧾 Daily Report (${t})</h3><div class="grid2"><div class="stat" style="background:linear-gradient(135deg,#10B981,#059669)"><div class="v">${inr(dayRev)}</div><div class="l">Aaj kamai</div></div><div class="stat" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><div class="v">${(S.orders||[]).filter(o=>o.date===t).length}</div><div class="l">Orders</div></div></div><button class="btn g" data-a="waReport">📤 WA par Report</button><button class="btn b" data-a="expCSV">📊 Excel Export</button></div>
+  <div class="card"><h3>🧾 Invoices</h3>${(S.orders||[]).slice(-8).reverse().map(o=>`<div class="row"><div><b>${esc(o.name)}</b><div class="s">${o.date} · ${inr(o.total)}</div></div><button class="btn sm b" data-a="invoice" data-id="${o.id}">🧾</button></div>`).join('')}</div>`;
+ }else{
+  h+=`<div class="card"><h3>⚙️ Settings</h3><div class="s">Kal ka menu:</div><input id="mveg" placeholder="Veg" value="${esc(mf(addDays(new Date(),1),'veg'))}"><input id="mnv" placeholder="NV" value="${esc(mf(addDays(new Date(),1),'nv'))}"><button class="btn sm g" data-a="setMenu">💾 Save</button><button class="btn r" data-a="out" style="margin-top:12px">🚪 Logout</button></div>`;
  }
- return h+`</div>`}
+ return h}
 };
 
-const PAUSE_MODAL=()=>{if(!ME)return '';
- const live=(S.subs||[]).filter(s=>s.phone===ME.phone).find(isLive);if(!live)return '';
- return `<div class="modal" data-a="closeModal"><div class="modal-content" onclick="event.stopPropagation()">
-  <h3>⏸️ Plan Pause</h3><div class="s">Dates chunein — plan auto-extend hoga.</div>
-  <div style="display:flex;gap:8px;margin-top:12px"><input type="date" id="pauseStart" value="${todayStr()}" min="${todayStr()}"><input type="date" id="pauseEnd" value="${iso(addDays(new Date(),3))}" min="${todayStr()}"></div>
-  <div style="display:flex;gap:8px;margin-top:12px"><button class="btn g" data-a="applyPause" style="flex:1">✅ Apply</button><button class="btn r" data-a="closeModal" style="flex:1">Cancel</button></div></div></div>`};
+const thaliPrice=()=>{const sabs=S.prod.filter(p=>p.kind==='food'&&p.c==='Curry');const a=sabs[TB.s1]||sabs[0],b=sabs[TB.s2]||sabs[0];return (a?a.p:0)+(b?b.p:0)+(TB.carb==='roti'?20:50)+(TB.sweet===0?40:0)};
 
-const bindTilt=()=>{$$('.card,.pcard').forEach(el=>{
- el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(900px) rotateY(${x*5}deg) rotateX(${-y*5}deg) translateZ(4px)`});
- el.addEventListener('mouseleave',()=>{el.style.transform=''})})};
+const render=()=>{try{
+ if(!OK&&!OKR&&!['plan','shop'].includes(tab))tab='plan';
+ $('#v').innerHTML=VIEWS[tab]();
+ $('#ht').textContent={plan:'Aaj ka Plan',shop:'Shop',kitchen:'Kitchen',delivery:'Delivery',owner:'Owner'}[tab];
+ $('#nav').innerHTML=[['plan','🍱','Plan'],['shop','🛍️','Shop'],['kitchen','👨‍🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','👤','Owner']].filter(x=>OK||OKR||x[0]==='plan'||x[0]==='shop').map(x=>`<div class="${x[0]===tab?'on':''}" data-a="tab" data-v="${x[0]}"><span>${x[1]}</span>${x[2]}</div>`).join('');
+}catch(e){$('#v').innerHTML=`<div class="card"><h3>⚠️</h3><p class="s">${esc(e.message)}</p><button class="btn g" onclick="location.reload()">🔄</button></div>`}};
 
-const render=()=>{
- try{
-  if(!OK&&!['plan','shop'].includes(tab))tab='plan';
-  $('#v').innerHTML=VIEWS[tab]();
-  $('#ht').textContent={plan:'Aaj ka Plan',shop:'Shop',kitchen:'Kitchen',delivery:'Delivery',owner:'Owner Panel'}[tab];
-  $('#nav').innerHTML=[['plan','🍱','Plan'],['shop','🛍️','Shop'],['kitchen','👨‍🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','👤','Owner']].filter(x=>OK||x[0]==='plan'||x[0]==='shop').map(x=>`<div class="${x[0]===tab?'on':''}" data-a="tab" data-v="${x[0]}"><span>${x[1]}</span>${x[2]}</div>`).join('');
-  bindTilt();
- }catch(err){$('#v').innerHTML=`<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(err.message)}</p><button class="btn g" onclick="location.reload()">🔄 Refresh</button></div>`}
-};
-
-const needGPS=()=>{if(!F.map){showToast('❌ Pehle GPS lein','error');return false}return true};
-const needUser=()=>{const n=(F.name||'').trim(),p=cleanPhone(F.phone);if(n.length<2){showToast('❌ Sahi naam','error');return null}if(p.length!==10){showToast('❌ 10 digit phone','error');return null}return {n,p}};
+const needU=()=>{const n=(F.name||'').trim(),p=cleanPhone(F.phone);if(n.length<2){showToast('❌ Naam','error');return null}if(p.length!==10){showToast('❌ 10-digit phone','error');return null}return{n,p}};
+const needG=()=>{if(!F.map){showToast('❌ GPS lein','error');return false}return true};
 
 const ACTIONS={
- tab:v=>{if(['kitchen','delivery','owner'].includes(v)&&!OK){const x=prompt(v==='owner'?'Owner PIN:':'PIN:');if(x===null)return;
-   const ok=v==='owner'?(x===CONFIG.ownerPin):(x===CONFIG.delivPin||x===CONFIG.ownerPin);
-   if(!ok){showToast('❌ Galat PIN','error');return}OK=1;sessionStorage.setItem('udok','1')}
-  tab=v;render();window.scrollTo({top:0,behavior:'smooth'})},
- osec:v=>{OSEC=v;render()},
- shopmode:v=>{SHOPMODE=v;SQ='';FCAT='Sab';render()},
- fcat:v=>{FCAT=v;render()},
- set:(v,k)=>{F[k]=v;render()},
- setSlot:v=>{F.slot=v;render()},
+ tab:v=>{if(['kitchen','owner'].includes(v)&&!OK){const x=prompt('Owner PIN:');if(x!==CONFIG.ownerPin){showToast('❌','error');return}OK=1;sessionStorage.setItem('udok','1')}
+  if(v==='delivery'&&!OK&&!OKR){const x=prompt('PIN (7788 rider / 4821 owner):');if(x===CONFIG.delivPin){OKR=1;sessionStorage.setItem('udokr','1')}else if(x===CONFIG.ownerPin){OK=1;sessionStorage.setItem('udok','1')}else{showToast('❌','error');return}}
+  tab=v;render();window.scrollTo({top:0})},
+ ptab:v=>{PLANTAB=v;render()},stab:v=>{SHOPTAB=v;SQ='';render()},ktab:v=>{KITTAB=v;render()},dtab:v=>{DELTAB=v;render()},otab:v=>{OWNTAB=v;render()},
+ set:(v,k)=>{F[k]=v;render()},setSlot:v=>{F.slot=v;render()},setTip:v=>{F.tip=+v;render()},setPay:v=>{F.payMode=v;render()},
+ tb:(v,k)=>{TB[k]=k==='sweet'?+v:v;render()},
  inc:(v,k,id)=>{C[id]=(C[id]||0)+1;saveCart();render()},
  dec:(v,k,id)=>{C[id]=Math.max(0,(C[id]||0)-1);if(!C[id])delete C[id];saveCart();render()},
  goc:()=>{const e=$('#co');if(e)e.scrollIntoView({behavior:'smooth'})},
- addPreset:()=>{let n=0;KIRANA_PRESET.forEach(name=>{const p=S.prod.find(x=>x.n===name);if(p&&p.s!==0){C[p.id]=(C[p.id]||0)+1;n++}});saveCart();render();showToast(`✅ ${n} items add`)},
- applyCoupon:()=>{const code=($('#couponInput')?.value||'').trim().toUpperCase();
-  if(!code){CART_COUPON='';render();return}
-  if(!S.coupons[code]){showToast('❌ Galat coupon','error');return}
-  if(calcCart().sub<S.coupons[code].min){showToast(`❌ Min ₹${S.coupons[code].min} chahiye`,'error');return}
-  CART_COUPON=code;render();showToast('✅ Coupon applied!')},
- gps:()=>{const b=$('#gpsBtn');if(!navigator.geolocation){showToast('❌ GPS nahi','error');return}
-  if(b)b.innerHTML='<span class="loader"></span> Dhundh rahe hain...';
-  navigator.geolocation.getCurrentPosition(p=>{F.map=`https://www.google.com/maps?q=${p.coords.latitude.toFixed(6)},${p.coords.longitude.toFixed(6)}`;showToast('✅ Location lock');render()},()=>showToast('❌ Permission allow karein','error'),{enableHighAccuracy:true,timeout:10000})},
- login:()=>{const n=($('#lname')?.value||'').trim(),p=cleanPhone($('#lphone')?.value);
-  if(n.length<2||p.length!==10){showToast('❌ Naam + 10 digit phone','error');return}
-  ME={name:n,phone:p,avatar:randAvatar(p.charCodeAt(0))};saveME();F.name=n;F.phone=p;render();showToast('👤 Login!')},
+ addPreset:()=>{let n=0;KIRANA.forEach(name=>{const p=S.prod.find(x=>x.n===name);if(p&&p.s!==0){C[p.id]=(C[p.id]||0)+1;n++}});saveCart();render();showToast(`✅ ${n} added`)},
+ fcat:v=>{FCAT=v;render()},
+ applyCoupon:()=>{const c=($('#couponInput')?.value||'').trim().toUpperCase();CART_COUPON=c;render();if(c&&!S.coupons[c])showToast('❌ Galat code','error');else if(c)showToast('✅ Applied')},
+ useCoupon:v=>{CART_COUPON=v;SHOPTAB='food';render();showToast('✅ '+v+' applied')},
+ combo:v=>{if(v==='thali_chai'){const t=S.prod.find(p=>p.n==='Special Veg Thali'),c=S.prod.find(p=>p.n==='Masala Chai');if(t)C[t.id]=(C[t.id]||0)+1;if(c)C[c.id]=(C[c.id]||0)+1;CC.push({name:'Combo Discount',price:-15,qty:1})}else{const b=S.prod.find(p=>p.n==='Chicken Biryani'),g=S.prod.find(p=>p.n==='Gulab Jamun (2pc)');if(b)C[b.id]=(C[b.id]||0)+1;if(g)C[g.id]=(C[g.id]||0)+1;CC.push({name:'Combo Discount',price:-20,qty:1})}saveCart();render();showToast('✅ Combo added')},
+ addThali:()=>{const sabs=S.prod.filter(p=>p.kind==='food'&&p.c==='Curry');const a=sabs[TB.s1],b=sabs[TB.s2];CC.push({name:`Custom Thali (${a.n} + ${b.n} + ${TB.carb==='roti'?'4 Roti':'Chawal'}${TB.sweet===0?' + Sweet':''})`,price:thaliPrice(),qty:1});saveCart();render();showToast('🥘 Thali cart mein!')},
+ subSave:(v,k,id)=>{if(!ME){showToast('❌ Login karo','error');return}S.saveSubs.push({id:Date.now(),phone:ME.phone,name:ME.name,prodId:+id,active:1,started:todayStr()});save(true);showToast('🔁 Subscribed! 5% off')},
+ unsub:(v,k,id)=>{const x=S.saveSubs.find(s=>s.id==id);if(x){x.active=0;save(true);showToast('Cancelled')}},
+ reorder:(v,k,id)=>{const o=(S.orders||[]).find(x=>x.id===+id);if(!o)return;o.items.forEach(i=>{const p=S.prod.find(x=>x.n===i.n);if(p)C[p.id]=(C[p.id]||0)+i.q});F.name=o.name;F.phone=o.phone;F.addr=o.addr;saveCart();SHOPTAB='food';render();showToast('🔁 Cart mein aa gaya')},
+ gps:()=>{if(!navigator.geolocation){showToast('❌','error');return}showToast('📍 ...');navigator.geolocation.getCurrentPosition(p=>{F.map=`https://www.google.com/maps?q=${p.coords.latitude.toFixed(6)},${p.coords.longitude.toFixed(6)}`;showToast('✅ Locked');render()},()=>showToast('❌ Permission','error'),{enableHighAccuracy:true,timeout:10000})},
+ login:()=>{const n=($('#lname')?.value||'').trim(),p=cleanPhone($('#lphone')?.value);if(n.length<2||p.length!==10){showToast('❌','error');return}ME={name:n,phone:p,avatar:randAv(p.charCodeAt(0))};saveME();F.name=n;F.phone=p;render();showToast('👤 Login!')},
  logout:()=>{ME=null;saveME();render()},
- mealMark:(v,k,id)=>{if(k!=='subah'&&!checkCutoff(k)){showToast(`⚠️ Cutoff: ${k==='lunch'?'9 AM':'4 PM'} ke baad skip nahi`,'error');return}
-  S.meals[mealKey(id,k)]=v;save(true);showToast(v==='consumed'?'✅ Khaya':'❌ Skip')},
- skipToday:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;const k2=todayStr();const i=s.skip.indexOf(k2);if(i>=0)s.skip.splice(i,1);else s.skip.push(k2);save(true)},
- openPause:()=>{$('#v').insertAdjacentHTML('beforeend',PAUSE_MODAL())},
+ mealMark:(v,k,id)=>{if(k!=='subah'&&!cutoffOk(k)){showToast(`⚠️ Cutoff: ${k==='lunch'?'9AM':'4PM'}`,'error');return}S.meals[mk(id,k)]=v;save(true);showToast(v==='consumed'?'✅':'❌')},
+ skipToday:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;const k2=todayStr();const i=s.skip.indexOf(k2);i>=0?s.skip.splice(i,1):s.skip.push(k2);save(true)},
+ openPause:()=>{showModal(`<div class="modal-content" onclick="event.stopPropagation()"><h3>⏸️ Pause</h3><div style="display:flex;gap:8px"><input type="date" id="ps" value="${todayStr()}" min="${todayStr()}"><input type="date" id="pe" value="${iso(addDays(new Date(),3))}" min="${todayStr()}"></div><div style="display:flex;gap:8px"><button class="btn g" data-a="applyPause" style="flex:1">✅</button><button class="btn r" data-a="closeModal" style="flex:1">✕</button></div></div>`)},
+ applyPause:()=>{if(!ME)return;const live=(S.subs||[]).filter(s=>s.phone===ME.phone).find(isLive);if(!live)return;const st=$('#ps').value,en=$('#pe').value;if(!st||!en||en<st){showToast('❌ Dates','error');return}const pa=live.pause||(live.pause=[]);let n=0;for(let d=new Date(st);d<=new Date(en);d=addDays(d,1)){const k=iso(d);if(!pa.includes(k)){pa.push(k);n++}}save(true);closeModal();showToast(`✅ ${n} din pause`)},
  closeModal:()=>closeModal(),
- applyPause:()=>{if(!ME)return;const live=(S.subs||[]).filter(s=>s.phone===ME.phone).find(isLive);
-  if(!live){showToast('❌ Koi plan nahi','error');return}
-  const st=$('#pauseStart')?.value,en=$('#pauseEnd')?.value;
-  if(!st||!en||en<st||st<todayStr()){showToast('❌ Sahi dates chunein','error');return}
-  const pa=live.pause||(live.pause=[]);let n=0;
-  for(let d=new Date(st);d<=new Date(en);d=addDays(d,1)){const k=iso(d);if(!pa.includes(k)){pa.push(k);n++}}
-  save(true);closeModal();showToast(`✅ ${n} din pause — plan extend hoga`)},
- custDetail:(v,k,id)=>showCustomerDetail(parseInt(id)),
- prodDetail:(v,k,id)=>showProductDetail(parseInt(id)),
- ordDetail:(v,k,id)=>showOrderDetail(parseInt(id)),
- joinTrial:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address daalein','error');return}
-  const fp=deviceFp();
-  if((S.subs||[]).find(s=>s.phone===u.p&&s.trial)){showToast('❌ Phone par trial ho chuka','error');return}
-  if((S.subs||[]).find(s=>s.deviceFp===fp&&s.trial)){showToast('❌ Device par trial ho chuka','error');return}
-  const av=randAvatar(u.p.charCodeAt(0));
-  S.subs.push({id:Date.now(),ts:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:1,start:todayStr(),price:0,status:'trial',trial:1,paid:1,utr:'FREE_TRIAL',skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0,deviceFp:fp,avatar:av});
-  if(!ME){ME={name:u.n,phone:u.p,avatar:av};saveME()}
-  save(true);showToast('🎁 Trial ACTIVE!');
-  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🎁 *TRIAL*%0A👤 ${u.n}%0A📱 ${u.p}`,'_blank')},
- joinPaid:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address daalein','error');return}
-  const utr=prompt('💳 UTR likhein:');if(!utr||utr.trim().length<4){showToast('❌ Bina UTR nahi','error');return}
-  const price=PRICING[F.type][F.days]||2899;
-  const av=randAvatar(u.p.charCodeAt(0));
-  S.subs.push({id:Date.now(),ts:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:+F.days,start:todayStr(),price,status:'pending',trial:0,paid:0,utr:utr.trim(),skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0,deviceFp:deviceFp(),avatar:av});
-  if(!ME){ME={name:u.n,phone:u.p,avatar:av};saveME()}
-  save(true);showToast('⏳ Owner verify karega');
-  window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 *PLAN*%0A👤 ${u.n}%0A💰 ${inr(price)}%0A🔢 ${utr}`,'_blank')},
- order:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
+ custDetail:(v,k,id)=>showCust(+id),ordDetail:(v,k,id)=>showOrd(+id),ordDetailP:(v,k,id)=>showOrd?0:0,
+ extend:(v,k,n)=>{if(!ME)return;const live=(S.subs||[]).filter(s=>s.phone===ME.phone).find(isLive);if(!live){showToast('❌','error');return}const days=+n;const cost=Math.round(PRICING[live.type][30]/30*days);live.days+=days;
+  const wal=S.wallet[live.phone]||0;
+  if(live.autoPay&&wal>=cost){S.wallet[live.phone]=wal-cost;S.walletLedger.push({id:Date.now(),d:todayStr(),name:live.name,phone:live.phone,amt:-cost,note:'Plan extend'});showToast('✅ Wallet se extend ho gaya')}else{live.due=(live.due||0)+cost;showToast('➕ Due add: '+inr(cost));window.open(`https://wa.me/${CONFIG.whatsapp}?text=➕ *EXTEND* ${live.name} +${days} din = ${inr(cost)}`,'_blank')}
+  save(true)},
+ redeem:()=>{if(!ME)return;const pts=loyaltyPts(ME.phone);if(pts<100){showToast('❌ 100 pts chahiye','error');return}S.loyalSpend[ME.phone]=(S.loyalSpend[ME.phone]||0)+100;const code='PTS'+ME.phone.slice(-4);S.coupons[code]={type:'flat',value:100,min:0,expiry:iso(addDays(new Date(),30)),uses:0,max:1};save(true);showToast('🎁 Coupon '+code+' mila!')},
+ shareRef:()=>{if(!ME)return;window.open(`https://wa.me/?text=${encodeURIComponent('🍱 Namaste Udala! Mera code NU'+ME.phone.slice(-4)+' use karo — dono ko ₹100 credit!')}`,'_blank')},
+ joinTrial:()=>{const u=needU();if(!u||!needG())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}const fp=deviceFp();
+  if((S.subs||[]).find(s=>s.phone===u.p&&s.trial)||(S.subs||[]).find(s=>s.deviceFp===fp&&s.trial)){showToast('❌ Trial already','error');return}
+  const av=randAv(u.p.charCodeAt(0));S.subs.push({id:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:1,start:todayStr(),price:0,status:'trial',trial:1,paid:1,utr:'FREE',skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0,deviceFp:fp,avatar:av,due:0,autoPay:0});
+  if(!ME){ME={name:u.n,phone:u.p,avatar:av};saveME()}save(true);showToast('🎁 Trial ACTIVE!');window.open(`https://wa.me/${CONFIG.whatsapp}?text=🎁 TRIAL ${u.n} ${u.p}`,'_blank')},
+ joinPaid:()=>{const u=needU();if(!u||!needG())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
+  const utr=prompt('💳 UTR:');if(!utr||utr.trim().length<4){showToast('❌ UTR zaroori','error');return}
+  const price=PRICING[F.type][F.days]||2899;const av=randAv(u.p.charCodeAt(0));
+  S.subs.push({id:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:+F.days,start:todayStr(),price,status:'pending',trial:0,paid:0,utr:utr.trim(),skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0,deviceFp:deviceFp(),avatar:av,due:0,autoPay:0});
+  if(!ME){ME={name:u.n,phone:u.p,avatar:av};saveME()}save(true);showToast('⏳ Verify hoga tab active');window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 PLAN ${u.n} ${u.p} ${F.type} ${F.days}d ${inr(price)} UTR:${utr}`,'_blank')},
+ order:()=>{const u=needU();if(!u||!needG())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
   const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
-  const items=[];Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
-  S.orders.push({id:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,status:'pending',paid:0,date:todayStr(),slot:F.slot});
-  C={};CART_COUPON='';saveCart();save(true);showToast('✅ Order mil gaya!');
-  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *ORDER*%0A👤 ${u.n}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A🕐 ${F.slot}%0A💰 ${inr(cart.total)}`,'_blank')},
- verifyPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;s.status='active';s.paid=1;
-  S.pays.push({id:Date.now(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});save(true);showToast('✅ Active!');closeModal()},
- rejectPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;if(confirm('Reject?')){s.status='rejected';save(true)}},
- done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done[key]=S.done[key]?0:1;save(true)},
- odone:(v,k,id)=>{const o=S.orders.find(x=>x.id==id);if(o){o.status='delivered';save(true);showToast('✅ Delivered');closeModal()}},
- addProd:()=>{const n=($('#pn')?.value||'').trim(),p=parseInt($('#pp')?.value),c=($('#pc')?.value||'General').trim(),kind=($('#pkind')?.value)||'grocery';
-  if(!n||!p||p<=0){showToast('❌ Naam + price','error');return}
-  S.prod.push({id:Date.now(),n,p,c,nv:0,s:1,img:kind==='food'?IMG.thali:IMG.grocery,kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0});save(true);showToast('✅ Add')},
+  if(F.payMode==='wallet'){const wal=S.wallet[u.p]||0;if(wal<cart.total+F.tip){showToast('❌ Wallet balance kam','error');return}S.wallet[u.p]=wal-(cart.total+F.tip);S.walletLedger.push({id:Date.now(),d:todayStr(),name:u.n,phone:u.p,amt:-(cart.total+F.tip),note:'Shop order'})}
+  const items=[];Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0){items.push({n:p.n,q,p:p.p});p.stock=Math.max(0,(p.stock||99)-q)}});CC.forEach(c=>items.push({n:c.name,q:c.qty,p:c.price}));
+  if(CART_COUPON&&S.coupons[CART_COUPON])S.coupons[CART_COUPON].uses=(S.coupons[CART_COUPON].uses||0)+1;
+  S.orders.push({id:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:cart.total+F.tip,sub:cart.sub,discount:cart.disc,coupon:cart.code,tip:F.tip,payMode:F.payMode,status:'pending',paid:F.payMode==='wallet'?1:0,date:todayStr(),slot:F.slot});
+  C={};CC=[];CART_COUPON='';saveCart();save(true);showToast('✅ Order!');window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 ORDER ${u.n} ${items.map(i=>i.n+'x'+i.q).join(',')} ₹${cart.total+F.tip} ${F.slot}`,'_blank')},
+ verifyPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;s.status='active';s.paid=1;S.pays.push({id:Date.now(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});save(true);showToast('✅ Active!');closeModal()},
+ rejectPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(s&&confirm('Reject?')){s.status='rejected';save(true)}},
+ autoPayToggle:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(s){s.autoPay=s.autoPay?0:1;save(true);showToast(s.autoPay?'🔁 AutoPay ON':'AutoPay OFF')}},
+ walletTop:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;const amt=parseInt(prompt('Top-up amount ₹:'));if(!amt||amt<=0)return;S.wallet[s.phone]=(S.wallet[s.phone]||0)+amt;S.walletLedger.push({id:Date.now(),d:todayStr(),name:s.name,phone:s.phone,amt:amt,note:'Top-up'});S.pays.push({id:Date.now(),d:todayStr(),name:s.name,phone:s.phone,amt:amt,mode:'cash',kind:'Wallet'});save(true);showToast('💰 +'+inr(amt))},
+ done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done[key]=1;const s=S.subs.find(x=>x.id==id);save(true);showToast('✅ Delivered');if(s)window.open(`https://wa.me/91${s.phone}?text=${encodeURIComponent('✅ Aapka tiffin deliver ho gaya! Dhanyavad 🙏')}`,'_blank')},
+ naMark:(v,k,id)=>{S.na[todayStr()+'_'+id]=1;save(true);showToast('🚫 Not available marked')},
+ odone:(v,k,id)=>{const o=S.orders.find(x=>x.id==id);if(o){o.status='delivered';save(true);showToast('✅');window.open(`https://wa.me/91${o.phone}?text=${encodeURIComponent('✅ Order delivered! '+inr(o.total))}`,'_blank');closeModal()}},
+ pickPod:(v,k,id)=>{const inp=$('#podFile');inp.dataset.id=id;inp.click()},
+ pickPhoto:()=>{$('#foodPhotoFile').click()},
+ delPhoto:()=>{delete S.foodPhotos[todayStr()];save(true)},
+ copyKitchen:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));navigator.clipboard.writeText(`🍱 KITCHEN ${k}\n`+on.map(s=>`• ${s.name}: ${packItems(s).join(', ')}`).join('\n')).then(()=>showToast('📋 Copied'))},
+ copyRaw:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));const roti=on.reduce((a,s)=>a+((s.lunch!=='chawal'?4:0)+(s.dinner!=='chawal'?4:0)+s.extraRoti),0);const chawal=on.reduce((a,s)=>a+((s.lunch!=='roti'?1:0)+(s.dinner!=='roti'?1:0)),0);navigator.clipboard.writeText(`🧮 PURCHASE LIST\nAtta ${(roti*0.04).toFixed(1)}kg\nChawal ${(chawal*0.15).toFixed(1)}kg\nDal ${(on.length*0.1).toFixed(1)}kg\nSabzi ${(on.length*0.4).toFixed(1)}kg\nDoodh ${(on.length*0.25).toFixed(1)}L`).then(()=>showToast('📋 Copied'))},
+ saveCost:()=>{S.costInputs={atta:+$('#ci_atta').value||42,dal:+$('#ci_dal').value||110,sabzi:+$('#ci_sabzi').value||40,gas:+$('#ci_gas').value||15,labour:+$('#ci_labour').value||20};save(true);showToast('💾 Saved')},
+ addProd:()=>{const n=($('#pn')?.value||'').trim(),p=parseInt($('#pp')?.value),c=($('#pc')?.value||'General').trim(),kind=($('#pkind')?.value)||'grocery';if(!n||!p){showToast('❌','error');return}S.prod.push({id:Date.now(),n,p,c,nv:0,s:1,img:kind==='food'?IMG.thali:IMG.grocery,kind,rating:4.3,time:25,best:0,stock:99});save(true);showToast('✅')},
  stock:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
- delProd:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
- setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾 Save')},
- copyKitchen:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));
-  navigator.clipboard.writeText(`🍱 KITCHEN ${k}\n👥 ${on.length}\n\n`+on.map(s=>`• ${s.name} - ${packItems(s).join(', ')}`).join('\n')).then(()=>showToast('📋 Copy!')).catch(()=>showToast('❌ Copy fail','error'))},
- backup:()=>{const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='udala-backup-'+todayStr()+'.json';a.click();showToast('💾 Backup')},
+ delProd:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p&&confirm('Delete?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
+ addCoupon:()=>{const code=($('#cpCode')?.value||'').trim().toUpperCase(),type=$('#cpType').value,val=+$('#cpVal').value,min=+$('#cpMin').value||0,max=+$('#cpMax').value||999,exp=$('#cpExp').value||'';if(!code||!val){showToast('❌','error');return}S.coupons[code]={type,value:val,min,expiry:exp,uses:0,max};save(true);showToast('🎟️ Created')},
+ delCoupon:v=>{if(confirm('Delete '+v+'?')){delete S.coupons[v];save(true)}},
+ broadcast:()=>{const msg=($('#bcMsg')?.value||'').trim();if(!msg){showToast('❌ Message','error');return}const phs=[...new Set((S.subs||[]).filter(isLive).map(s=>s.phone))];if(!phs.length){showToast('❌ Koi active nahi','error');return}phs.forEach((p,i)=>setTimeout(()=>window.open(`https://wa.me/91${p}?text=${encodeURIComponent(msg)}`,'_blank'),i*1200));showToast(`📢 ${phs.length} ko ja raha hai`)},
+ waAllOFD:()=>{const k=todayStr();const pend=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k)&&!S.done[k+'_'+s.id]);pend.forEach((s,i)=>setTimeout(()=>window.open(`https://wa.me/91${s.phone}?text=${encodeURIComponent('🛵 Aapka tiffin out for delivery hai! ETA 20 min')}`,'_blank'),i*1200));showToast(`📢 ${pend.length} ko OFD msg`)},
+ waReport:()=>{const t=todayStr();const rev=(S.pays||[]).filter(p=>p.d===t).reduce((a,p)=>a+(+p.amt||0),0);const act=(S.subs||[]).filter(isLive).length;const ord=(S.orders||[]).filter(o=>o.date===t).length;window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(`📊 DAILY REPORT ${t}\n💰 Kamai: ${inr(rev)}\n🍱 Active: ${act}\n🛒 Orders: ${ord}\n⏳ Pending: ${(S.subs||[]).filter(s=>s.status==='pending').length}`)}`,'_blank')},
+ expCSV:()=>{const rows=[['Date','Name','Phone','Total','Status','PayMode'],...(S.orders||[]).map(o=>[o.date,o.name,o.phone,o.total,o.status,o.payMode])];const csv=rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='orders.csv';a.click();showToast('📊 Exported')},
+ invoice:(v,k,id)=>{printInvoice(+id);closeModal()},
+ setMenu:()=>{S.mset[iso(addDays(new Date(),1))]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾')},
+ backup:()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.download='udala-backup-'+todayStr()+'.json';a.click();showToast('💾')},
  restore:()=>{$('#restoreFile').click()},
- out:()=>{OK=0;sessionStorage.removeItem('udok');tab='plan';render()}
+ out:()=>{OK=0;OKR=0;sessionStorage.removeItem('udok');sessionStorage.removeItem('udokr');tab='plan';render()}
 };
 
-document.addEventListener('click',e=>{
- // Handle modal close on backdrop click
- if(e.target.classList.contains('modal')){closeModal();return}
- const b=e.target.closest('[data-a]');if(!b)return;
- const f=ACTIONS[b.dataset.a];if(f){try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(err){showToast('❌ Error','error')}}
-});
-document.addEventListener('input',e=>{const f=e.target.dataset?.f;
- if(f){F[f]=e.target.value;if(f==='phone')F.phone=cleanPhone(F.phone)}
- if(e.target.id==='sq'){clearTimeout(window._t);window._t=setTimeout(()=>{SQ=e.target.value;render();const el=$('#sq');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}},250)}});
-$('#restoreFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
- r.onload=()=>{try{S=migrate(JSON.parse(r.result));save(true);showToast('✅ Restore!')}catch(err){showToast('❌ Galat file','error')}};
- r.readAsText(f);e.target.value=''});
-let tap=0;$('#mainHeader').addEventListener('click',()=>{tap++;if(tap>=5){tap=0;const x=prompt('Owner PIN:');if(x===null)return;if(x===CONFIG.ownerPin){OK=1;sessionStorage.setItem('udok','1');tab='owner';render();showToast('🔓 Owner')}else showToast('❌ PIN','error')}});
-
-const initTheme=()=>{const t=localStorage.getItem('ud_theme')||'dark';document.documentElement.setAttribute('data-theme',t);$('#themeToggle').textContent=t==='dark'?'☀️':'🌙'};
-$('#themeToggle').addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ud_theme',n);$('#themeToggle').textContent=n==='dark'?'☀️':'🌙'});
-
-// ✨ Floating particles background
-const initParticles=()=>{const c=$('#particles');if(!c)return;
- for(let i=0;i<25;i++){const p=document.createElement('div');p.className='particle';
-  p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*12+'s';
-  p.style.animationDuration=(10+Math.random()*6)+'s';
-  p.style.opacity=Math.random()*0.6+0.2;
-  c.appendChild(p)}};
-
-initTheme();initParticles();render();
-setTimeout(()=>showToast('✨ Ultra 3D ready · Schema v'+SCHEMA_V),600);
+document.addEventListener('click',e=>{if(e.target.classList.contains('modal')){closeModal();return}const b=e.target.closest('[data-a]');if(!b)return;const f=ACTIONS[b.dataset.a];if(f){try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(err){console.error(err);showToast('❌ Error','error')}}});
+document.addEventListener('input',e=>{const f=e.target.dataset?.f;if(f){F[f]=e.target.value;if(f==='phone')F.phone=cleanPhone(F.phone)}
+ if(e.target.id==='sq'){clearTimeout(window._t);window._t=setTimeout(()=>{SQ=e.target.value;render();const el=$('#sq');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}},250)}
+ if(e.target.id==='tbs1')TB.s1=+e.target.value;if(e.target.id==='tbs2')TB.s2=+e.target.value});
+$('#foodPhotoFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;readImg(f,d=>{S.foodPhotos[todayStr()]=d;save(true);showToast('📸 Photo live!')});e.target.value=''});
+$('#podFile').addEventListener('change',e=>{const f=e.target.files[0];const id=e.target.dataset.id;if(!f||!id)return;readImg(f,d=>{S.pod['s'+id+'_'+todayStr()]=d;save(true);showToast('📸 POD saved')});e.target.value=''});
+$('#restoreFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{S=migrate(JSON.parse(r.result));save(true);showToast('✅ Restored')}catch(err){showToast('❌','error')}};r.readAsText(f);e.target.value=''});
+let tap=0;$('#mainHeader').addEventListener('click',()=>{tap++;if(tap>=5){tap=0;const x=prompt('Owner PIN:');if(x===CONFIG.ownerPin){OK=1;sessionStorage.setItem('udok','1');tab='owner';render();showToast('🔓')}else showToast('❌','error')}});
+const initTheme=()=>{const t=localStorage.getItem('ud_theme')||'dark';document.documentElement.setAttribute('data-theme',t);$('#themeToggle').textContent=t==='dark'?'☀️':''};
+$('#themeToggle').addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ud_theme',n);$('#themeToggle').textContent=n==='dark'?'☀️':''});
+const initP=()=>{const c=$('#particles');for(let i=0;i<20;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*12+'s';p.style.animationDuration=(10+Math.random()*6)+'s';c.appendChild(p)}};
+// AutoPay daily deduction on load
+(()=>{const k=todayStr();(S.subs||[]).filter(s=>isLive(s)&&s.autoPay).forEach(s=>{const key=k+'_'+s.id;if(S.autoPayLog[key])return;const daily=Math.round(s.price/s.days);const wal=S.wallet[s.phone]||0;if(wal>=daily){S.wallet[s.phone]=wal-daily;S.walletLedger.push({id:Date.now()+Math.random(),d:k,name:s.name,phone:s.phone,amt:-daily,note:'AutoPay daily'});S.autoPayLog[key]=1;save()}})})();
+initTheme();initP();render();
+setTimeout(()=>showToast('🚀 MEGA v5 · 29 pages ready'),600);
 </script>
 </body>
 </html>
