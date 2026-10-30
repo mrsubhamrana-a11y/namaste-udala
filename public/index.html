@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1B4332">
-<title>🍱 Namaste Udala - FINAL</title>
+<title>🍱 Namaste Udala PRO - Phase 2</title>
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--o:#FF6B35;--g:#1B4332;--bg:#FAFAFA;--text:#1A1A1A;--muted:#6B7280;--card:#fff;--line:#F3F4F6;--ok:#10B981;--bad:#EF4444;--warn:#F59E0B}
 *{box-sizing:border-box;font-family:'Poppins',sans-serif;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);padding-bottom:90px;min-height:100vh}
+body{background:var(--bg);color:var(--text);padding-bottom:90px;min-height:100vh;overflow-x:hidden}
 header{background:linear-gradient(135deg,var(--g),#0F2C21);color:#fff;padding:22px 20px 40px;border-radius:0 0 32px 32px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
 header .logo{font-size:11px;letter-spacing:3px;font-weight:800;color:#FCD34D}
 header h1{font-size:24px;font-weight:900;margin-top:4px}
@@ -19,11 +22,12 @@ header .tagline{font-size:13px;opacity:.9;margin-top:4px}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .card h3{color:var(--g);font-size:17px;font-weight:800;margin-bottom:12px}
 .s{font-size:12.5px;color:var(--muted);line-height:1.5}
-.btn{padding:13px;border-radius:14px;border:none;font-weight:700;font-size:15px;cursor:pointer;width:100%;margin-top:8px;background:var(--o);color:#fff}
+.btn{padding:13px;border-radius:14px;border:none;font-weight:700;font-size:15px;cursor:pointer;width:100%;margin-top:8px;background:var(--o);color:#fff;transition:transform .1s}
 .btn:active{transform:scale(.97)}
 .btn.g{background:#ECFDF5;color:#065F46;border:1px solid #A7F3D0}
 .btn.r{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
 .btn.b{background:#3B82F6;color:#fff}
+.btn.y{background:var(--warn);color:#fff}
 .btn.sm{padding:7px 12px;font-size:12px;width:auto;margin:0;border-radius:10px}
 input,select,textarea{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:14px;margin:5px 0 10px;font-size:15px;background:var(--bg);color:var(--text);font-family:inherit}
 textarea{min-height:70px}
@@ -50,28 +54,42 @@ input:focus,textarea:focus{outline:none;border-color:var(--o)}
 .seg button{flex:1;padding:11px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-weight:700;font-size:13px;cursor:pointer}
 .seg button.on{background:var(--o);color:#fff;border-color:var(--o)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .stat{border-radius:16px;padding:14px;text-align:center;color:#fff}
 .stat .v{font-size:22px;font-weight:900}
 .stat .l{font-size:10.5px;opacity:.9;font-weight:600}
-/* 🍛 ZOMATO-STYLE 3D FOOD CARDS */
 .vd{display:inline-block;width:15px;height:15px;border:2px solid #16a34a;border-radius:3px;position:relative;background:#fff;vertical-align:-3px}
 .vd::after{content:'';position:absolute;inset:2px;border-radius:50%;background:#16a34a}
 .vd.nv{border-color:#dc2626}.vd.nv::after{background:#dc2626}
-.pcard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.08);transition:transform .15s ease,box-shadow .3s;transform-style:preserve-3d}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.08);transition:transform .15s ease,box-shadow .3s}
 .pcard .ph{position:relative;height:110px;overflow:hidden}
 .pcard .ph img{width:100%;height:110px;object-fit:cover;transition:transform .5s;display:block}
-.pcard:hover .ph img,.pcard:active .ph img{transform:scale(1.15) rotate(1deg)}
+.pcard:hover .ph img{transform:scale(1.08)}
 .pcard .ph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.35));pointer-events:none}
-.pcard:hover{box-shadow:0 16px 34px rgba(0,0,0,.16)}
-.grow{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);transition:transform .15s ease;border-radius:12px}
+.grow{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .grow:last-child{border-bottom:0}
-.grow img{width:48px;height:48px;border-radius:12px;object-fit:cover;box-shadow:0 5px 12px rgba(0,0,0,.18);transition:transform .4s}
-.grow:hover img,.grow:active img{transform:scale(1.15) rotate(-2deg)}
+.grow img{width:48px;height:48px;border-radius:12px;object-fit:cover;box-shadow:0 5px 12px rgba(0,0,0,.18)}
+.coupon-box{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:2px dashed var(--warn);border-radius:14px;padding:14px;margin:10px 0;text-align:center}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px}
+.cal-day{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s}
+.cal-day.available{background:#ECFDF5;color:#065F46}
+.cal-day.paused{background:#E0E7FF;color:#3730A3}
+.cal-day.today{border:2px solid var(--o)}
+.rider-card{background:linear-gradient(135deg,#10B981,#059669);color:#fff;border-radius:20px;padding:20px;margin-bottom:14px;box-shadow:0 10px 30px rgba(16,185,129,.3)}
+.rider-card h3{color:#fff;font-size:20px;margin-bottom:14px}
+.photo-upload{border:2px dashed var(--line);border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:all .2s}
+.photo-upload:hover{border-color:var(--o);background:rgba(255,107,53,.05)}
+.photo-preview{width:100%;max-width:300px;border-radius:12px;margin:10px auto;display:block}
+.invoice-box{background:#fff;border:2px solid var(--g);border-radius:16px;padding:20px;margin:14px 0;font-family:monospace}
+.invoice-box h4{color:var(--g);margin-bottom:10px;font-size:16px}
+.address-card{background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:14px;margin:8px 0;cursor:pointer;transition:all .2s}
+.address-card.selected{border-color:var(--o);background:rgba(255,107,53,.05)}
+.address-card:hover{border-color:var(--o)}
 </style>
 </head>
 <body>
 <header id="mainHeader">
-  <div class="logo">NAMASTE UDALA</div>
+  <div class="logo">NAMASTE UDALA PRO - PHASE 2</div>
   <h1 id="ht">Aaj ka Plan</h1>
   <div class="tagline">Ghar jaisa khana · Roz time pe</div>
 </header>
@@ -80,12 +98,14 @@ input:focus,textarea:focus{outline:none;border-color:var(--o)}
 <div class="nav" id="nav"></div>
 <div class="toast" id="toast"></div>
 <input type="file" id="restoreFile" accept=".json" style="display:none">
+<input type="file" id="photoUpload" accept="image/*" style="display:none">
+<input type="file" id="invoiceUpload" accept="image/*" style="display:none">
 
 <script type="module">
 const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788',upi:'9583937047@jio',
  firebase:{apiKey:"AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",authDomain:"namaste-udala.firebaseapp.com",projectId:"namaste-udala",storageBucket:"namaste-udala.firebasestorage.app",messagingSenderId:"998684348165",appId:"1:998684348165:web:4bb0d2f5335a90a394716c"}};
 const PRICING={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
-const STORAGE_KEY='udala_final_v1';
+const STORAGE_KEY='udala_phase2';
 
 const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
@@ -109,21 +129,28 @@ const SEED=[
 ].map((a,i)=>({id:i+1,...a,kind:'grocery',s:1,mrp:0,brand:''}));
 
 const FOOD_SEED=[
-{n:'Special Veg Thali',p:120,c:'Thali',nv:0,img:IMG.thali,rating:4.6,time:30,best:1},
-{n:'Paneer Butter Masala + 2 Roti',p:140,c:'Curry',nv:0,img:IMG.paneer,rating:4.5,time:25,best:1},
-{n:'Dal Fry + Chawal',p:90,c:'Curry',nv:0,img:IMG.dal,rating:4.3,time:20,best:0},
-{n:'Mushroom Masala + Roti',p:130,c:'Curry',nv:0,img:IMG.curry,rating:4.4,time:25,best:0},
-{n:'Chicken Curry + 2 Roti',p:160,c:'Curry',nv:1,img:IMG.chicken,rating:4.7,time:30,best:1},
-{n:'Fish Fry + Chawal',p:180,c:'Curry',nv:1,img:IMG.fish,rating:4.6,time:30,best:0},
-{n:'Egg Curry + Roti',p:100,c:'Curry',nv:1,img:IMG.egg,rating:4.2,time:20,best:0},
-{n:'Chicken Biryani',p:150,c:'Biryani',nv:1,img:IMG.biryani,rating:4.8,time:35,best:1},
-{n:'Veg Biryani',p:120,c:'Biryani',nv:0,img:IMG.biryani,rating:4.4,time:35,best:0},
-{n:'Butter Roti (2 pc)',p:24,c:'Breads & Rice',nv:0,img:IMG.roti,rating:4.4,time:15,best:0},
-{n:'Steamed Rice',p:50,c:'Breads & Rice',nv:0,img:IMG.chawal,rating:4.3,time:15,best:0},
-{n:'Gulab Jamun (2 pc)',p:40,c:'Sweets',nv:0,img:IMG.meetha,rating:4.7,time:10,best:1},
-{n:'Masala Chai',p:20,c:'Drinks',nv:0,img:IMG.chai,rating:4.5,time:10,best:0},
-{n:'Sweet Lassi',p:35,c:'Drinks',nv:0,img:IMG.dahi,rating:4.4,time:10,best:0}
+{n:'Special Veg Thali',p:120,c:'Thali',nv:0,img:IMG.thali,rating:4.6,time:30,best:1,components:['Dal Fry','Paneer Masala','2 Roti','Chawal','Salad']},
+{n:'Paneer Butter Masala + 2 Roti',p:140,c:'Curry',nv:0,img:IMG.paneer,rating:4.5,time:25,best:1,components:['Paneer Butter Masala','2 Roti']},
+{n:'Dal Fry + Chawal',p:90,c:'Curry',nv:0,img:IMG.dal,rating:4.3,time:20,best:0,components:['Dal Fry','Chawal']},
+{n:'Mushroom Masala + Roti',p:130,c:'Curry',nv:0,img:IMG.curry,rating:4.4,time:25,best:0,components:['Mushroom Masala','2 Roti']},
+{n:'Chicken Curry + 2 Roti',p:160,c:'Curry',nv:1,img:IMG.chicken,rating:4.7,time:30,best:1,components:['Chicken Curry','2 Roti']},
+{n:'Fish Fry + Chawal',p:180,c:'Curry',nv:1,img:IMG.fish,rating:4.6,time:30,best:0,components:['Fish Fry','Chawal']},
+{n:'Egg Curry + Roti',p:100,c:'Curry',nv:1,img:IMG.egg,rating:4.2,time:20,best:0,components:['Egg Curry','2 Roti']},
+{n:'Chicken Biryani',p:150,c:'Biryani',nv:1,img:IMG.biryani,rating:4.8,time:35,best:1,components:['Chicken Biryani','Raita']},
+{n:'Veg Biryani',p:120,c:'Biryani',nv:0,img:IMG.biryani,rating:4.4,time:35,best:0,components:['Veg Biryani','Raita']},
+{n:'Butter Roti (2 pc)',p:24,c:'Breads & Rice',nv:0,img:IMG.roti,rating:4.4,time:15,best:0,components:['Butter Roti x2']},
+{n:'Steamed Rice',p:50,c:'Breads & Rice',nv:0,img:IMG.chawal,rating:4.3,time:15,best:0,components:['Steamed Rice']},
+{n:'Gulab Jamun (2 pc)',p:40,c:'Sweets',nv:0,img:IMG.meetha,rating:4.7,time:10,best:1,components:['Gulab Jamun x2']},
+{n:'Masala Chai',p:20,c:'Drinks',nv:0,img:IMG.chai,rating:4.5,time:10,best:0,components:['Masala Chai']},
+{n:'Sweet Lassi',p:35,c:'Drinks',nv:0,img:IMG.dahi,rating:4.4,time:10,best:0,components:['Sweet Lassi']}
 ].map(a=>({...a,kind:'food',s:1,mrp:0,brand:''}));
+
+const COUPONS={
+ 'UDALA50':{discount:50,minOrder:200,expiry:'2026-12-31',type:'flat',usage:0,maxUsage:100},
+ 'FIRST20':{discount:20,minOrder:0,expiry:'2026-12-31',type:'percent',usage:0,maxUsage:50},
+ 'FREESHIP':{discount:0,minOrder:150,expiry:'2026-12-31',type:'delivery',usage:0,maxUsage:200},
+ 'WEEKEND100':{discount:100,minOrder:500,expiry:'2026-12-31',type:'flat',usage:0,maxUsage:75}
+};
 
 const normalizeSub=s=>{if(!s||!s.id)return null;
  s.name=String(s.name||'Customer');s.phone=cleanPhone(s.phone);s.type=s.type==='nv'?'nv':'veg';
@@ -134,6 +161,10 @@ const normalizeSub=s=>{if(!s||!s.id)return null;
  s.extraRoti=clamp(+s.extraRoti||0,0,4);
  s.addr=s.addr||'';s.area=s.area||'Udala';s.map=s.map||'';s.notes=s.notes||'';s.utr=s.utr||'';
  s.paid=s.paid?1:0;s.trial=s.trial?1:0;s.ts=s.ts||s.id;
+ s.wallet=s.wallet||0;s.points=s.points||0;s.streak=s.streak||0;
+ s.slot=s.slot||'default';s.addresses=s.addresses||[{id:1,label:'Home',addr:s.addr||'',area:s.area||'Udala',map:s.map||''}];
+ s.selectedAddress=s.selectedAddress||0;
+ s.autoPay=s.autoPay||false;
  if(!s.status)s.status=s.trial?'trial':(s.paid?'active':'pending');
  return s};
 const normalizeOrder=o=>{if(!o||!o.id)return null;
@@ -142,14 +173,16 @@ const normalizeOrder=o=>{if(!o||!o.id)return null;
  o.total=Math.max(0,+o.total||0);o.date=o.date||todayStr();
  o.status=o.status==='delivered'?'delivered':'pending';o.paid=o.paid?1:0;
  o.map=o.map||'';o.addr=o.addr||'';o.area=o.area||'Udala';o.notes=o.notes||'';o.partner=o.partner||'';
+ o.coupon=o.coupon||null;o.discount=o.discount||0;o.slot=o.slot||'default';
+ o.riderStatus=o.riderStatus||'pending';o.deliveryPhoto=o.deliveryPhoto||null;
  return o};
 const normalizeProd=(p,i)=>{if(!p||!p.id)return null;
- return {id:p.id,n:String(p.n||'Item'),p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,mrp:p.mrp||0,brand:p.brand||'',img:p.img||'',kind:p.kind==='food'?'food':'grocery',rating:p.rating||0,time:p.time||0,best:p.best?1:0}};
+ return {id:p.id,n:String(p.n||'Item'),p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,mrp:p.mrp||0,brand:p.brand||'',img:p.img||'',kind:p.kind==='food'?'food':'grocery',rating:p.rating||0,time:p.time||0,best:p.best?1:0,components:p.components||[]}};
 
 function loadState(){
- const out={prod:[],subs:[],orders:[],pays:[],expenses:[],meals:{},done:{},mset:{},cred:{},refs:{},wallet:{},feedback:{},dailyVideo:'',partners:['Raju Bhaiya']};
+ const out={prod:[],subs:[],orders:[],pays:[],expenses:[],meals:{},done:{},mset:{},cred:{},refs:{},wallet:{},feedback:{},dailyVideo:'',partners:['Raju Bhaiya'],coupons:{...COUPONS},photos:[]};
  let recovered=0,sourceKey=null;
- [STORAGE_KEY,'udala2','udala6','udala7','udala_logic'].forEach(k=>{
+ [STORAGE_KEY,'udala_final_v1','udala2','udala6','udala7','udala_logic'].forEach(k=>{
   try{const raw=localStorage.getItem(k);if(!raw)return;const d=JSON.parse(raw);if(!d||typeof d!=='object')return;
    if(!sourceKey)sourceKey=k;
    (d.prod||[]).forEach(p=>{const n=normalizeProd(p);if(n&&!out.prod.find(x=>x.id===n.id))out.prod.push(n)});
@@ -159,6 +192,8 @@ function loadState(){
    (d.expenses||[]).forEach(p=>{if(p&&p.id&&!out.expenses.find(x=>x.id===p.id))out.expenses.push(p)});
    Object.assign(out.meals,d.meals||{});Object.assign(out.done,d.done||{});Object.assign(out.mset,d.mset||{});
    Object.assign(out.cred,d.cred||{});Object.assign(out.refs,d.refs||{});Object.assign(out.wallet,d.wallet||{});Object.assign(out.feedback,d.feedback||{});
+   if(d.coupons)Object.assign(out.coupons,d.coupons);
+   if(d.photos)out.photos=d.photos;
    if(d.dailyVideo&&!out.dailyVideo)out.dailyVideo=d.dailyVideo;
   }catch(e){}
  });
@@ -176,14 +211,14 @@ let S=loaded.data;
 let ME=null;try{ME=JSON.parse(localStorage.getItem('udme')||'null')}catch(e){}
 const saveME=()=>{try{localStorage.setItem('udme',JSON.stringify(ME))}catch(e){}};
 
-let tab='plan',C={},OK=0,OSEC='pay',SHOPMODE='food',FCAT='Sab',SQ='';
+let tab='plan',C={},OK=0,OSEC='pay',SHOPMODE='food',FCAT='Sab',SQ='',APPLIED_COUPON=null,SELECTED_ADDR=0;
 try{OK=sessionStorage.getItem('udok')?1:0}catch(e){}
-const F={type:'veg',days:'30',name:ME?ME.name:'',phone:ME?ME.phone:'',area:'',addr:'',map:'',notes:''};
+const F={type:'veg',days:'30',name:ME?ME.name:'',phone:ME?ME.phone:'',area:'',addr:'',map:'',notes:'',slot:'default',addresses:[{id:1,label:'Home',addr:'',area:'Udala',map:''}]};
 
 let fbApi=null;
 (async()=>{try{
  const [fa,fd]=await Promise.all([import("https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"),import("https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js")]);
- const app=fa.initializeApp(CONFIG.firebase);const db=fd.getDatabase(app);const r=fd.ref(db,'udala_final_v1');
+ const app=fa.initializeApp(CONFIG.firebase);const db=fd.getDatabase(app);const r=fd.ref(db,'udala_phase2');
  fbApi=v=>{try{fd.update(r,v)}catch(e){}};
  fd.onValue(r,sn=>{const v=sn.val();if(v&&v.cloud===1){S=mergeStates(S,v);render()}});
  fbApi({...S,cloud:1});
@@ -200,6 +235,8 @@ function mergeStates(a,b){
   mset:{...(a.mset||{}),...(b.mset||{})},cred:{...(a.cred||{}),...(b.cred||{})},
   refs:{...(a.refs||{}),...(b.refs||{})},wallet:{...(a.wallet||{}),...(b.wallet||{})},
   feedback:{...(a.feedback||{}),...(b.feedback||{})},
+  coupons:{...(a.coupons||{}),...(b.coupons||{})},
+  photos:b.photos||a.photos||[],
   dailyVideo:b.dailyVideo||a.dailyVideo||''};
 }
 const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(S))}catch(e){}if(fbApi)fbApi({...S,cloud:1});render()};
@@ -228,11 +265,85 @@ const packItems=s=>{const meal=m=>m==='chawal'?'Chawal':m==='both'?'Roti x4 + Ch
 const vdot=nv=>`<span class="vd ${nv?'nv':''}"></span>`;
 const stepper=(id,q)=>`<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:3px;background:rgba(255,107,53,.06)"><button data-a="dec" data-id="${id}" style="width:26px;height:26px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:15px;font-weight:800">−</button><b style="min-width:18px;text-align:center">${q}</b><button data-a="inc" data-id="${id}" style="width:26px;height:26px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:15px;font-weight:800">+</button></div>`;
 
+const applyCoupon=(code,total)=>{
+ const coupon=S.coupons[code.toUpperCase()];
+ if(!coupon)return {error:'Invalid coupon code'};
+ if(new Date(coupon.expiry)<new Date())return {error:'Coupon expired'};
+ if(coupon.usage>=coupon.maxUsage)return {error:'Coupon limit reached'};
+ if(total<coupon.minOrder)return {error:`Min order ₹${coupon.minOrder} required`};
+ 
+ let discount=0;
+ if(coupon.type==='flat')discount=coupon.discount;
+ else if(coupon.type==='percent')discount=Math.round(total*coupon.discount/100);
+ else if(coupon.type==='delivery')discount=30;
+ 
+ return {valid:true,discount,code:code.toUpperCase(),coupon};
+};
+
+// 📸 PHOTO UPLOAD HANDLER
+const handlePhotoUpload=(e,subId)=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=(ev)=>{
+  const photo={id:Date.now(),subId,url:ev.target.result,date:todayStr(),time:new Date().toLocaleTimeString()};
+  S.photos.push(photo);
+  save();
+  showToast('📸 Photo uploaded! Customer ko notify ho gaya');
+  // Send WhatsApp notification
+  const sub=S.subs.find(s=>s.id===subId);
+  if(sub){
+   window.open(`https://wa.me/91${sub.phone}?text=🍽️ *Aaj ka khana ready hai!*%0A%0A📸 Photo dekhne ke liye app kholen%0A🕐 Time: ${photo.time}`,'_blank');
+  }
+ };
+ reader.readAsDataURL(file);
+ e.target.value='';
+};
+
+// 📄 INVOICE GENERATOR
+const generateInvoice=(sub)=>{
+ const start=new Date(sub.start+'T12:00:00');
+ const end=subEnd(sub);
+ const used=Math.min(sub.days,Math.floor((new Date()-start)/86400000)+1);
+ const dailyRate=Math.round(sub.price/sub.days);
+ 
+ const html=`
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Invoice - ${esc(sub.name)}</title>
+<style>body{font-family:'Courier New',monospace;padding:20px;max-width:600px;margin:0 auto}
+h1{color:#1B4332;text-align:center;border-bottom:3px solid #FF6B35;padding-bottom:10px}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #ddd}
+.total{font-size:24px;font-weight:bold;color:#FF6B35;margin-top:20px;padding-top:10px;border-top:3px solid #1B4332}
+</style></head><body>
+<h1>🍱 NAMASTE UDALA</h1>
+<div class="row"><span>Invoice #:</span><span>INV-${sub.id}</span></div>
+<div class="row"><span>Date:</span><span>${todayStr()}</span></div>
+<div class="row"><span>Customer:</span><span>${esc(sub.name)}</span></div>
+<div class="row"><span>Phone:</span><span>${sub.phone}</span></div>
+<div class="row"><span>Plan:</span><span>${sub.type==='veg'?'Veg':'Non-Veg'} · ${sub.days} days</span></div>
+<div class="row"><span>Period:</span><span>${sub.start} → ${iso(end)}</span></div>
+<div class="row"><span>Daily Rate:</span><span>${inr(dailyRate)}</span></div>
+<div class="row"><span>Days Used:</span><span>${used}</span></div>
+<div class="row"><span>Amount:</span><span>${inr(sub.price)}</span></div>
+${sub.discount?`<div class="row"><span>Discount:</span><span>-${inr(sub.discount)}</span></div>`:''}
+<div class="total">Total Paid: ${inr(sub.price)}</div>
+<p style="text-align:center;margin-top:30px;color:#666">Thank you for choosing Namaste Udala!<br>Ghar jaisa khana, roz time pe</p>
+</body></html>`;
+ 
+ const blob=new Blob([html],{type:'text/html'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;a.download=`invoice-${sub.name}-${todayStr()}.html`;
+ a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+ showToast('📄 Invoice download ho gaya!');
+};
+
 const VIEWS={
 plan:()=>{
  const price=PRICING[F.type][F.days]||2899;
  let h=`<div class="card" style="background:linear-gradient(135deg,var(--g),#0F2C21);color:#fff;border:none">
-  <h3 style="color:#FCD34D"> NAMASTE UDALA</h3>
+  <h3 style="color:#FCD34D"> NAMASTE UDALA PRO</h3>
   <p style="font-size:21px;font-weight:900;line-height:1.3">Ghar jaisa khana, roz time pe</p>
   <p class="s" style="color:#D1FAE5;margin-top:6px">Aaj ka menu: <b>${esc(mf(new Date(),F.type))}</b></p></div>`;
 
@@ -244,11 +355,50 @@ plan:()=>{
    const st=getSubStatus(live);
    const start=new Date(live.start+'T12:00:00'),end=subEnd(live),today=new Date();today.setHours(12,0,0,0);
    const passed=clamp(Math.floor((today-start)/86400000),0,live.days),left=live.days-passed;
-   h+=`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:center"><b>${live.type==='veg'?'🟢 Veg':' Non-Veg'} · ${live.days} din</b>${badge(st)}</div>
+   h+=`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:center"><b>${live.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} · ${live.days} din</b>${badge(st)}</div>
     <div class="s" style="margin-top:6px">📅 ${live.start} → ${iso(end)} · ⏳ Bache din: <b style="color:var(--o)">${left}</b></div>
-    <div class="pbar"><div class="pfill" style="width:${Math.round(passed/live.days*100)}%"></div></div>
-    ${st==='pending'?`<div class="s" style="color:var(--warn);font-weight:700">️ Payment verify hone ka intezar karein. UTR: ${esc(live.utr||'-')}</div>`:''}
-    ${st==='trial'?`<div class="s" style="color:#1E40AF;font-weight:700">🎁 Free trial chal raha hai. Pasand aaye to paid plan le lein!</div>`:''}</div>`;
+    <div class="pbar"><div class="pfill" style="width:${Math.round(passed/live.days*100)}%"></div></div>`;
+   
+   // 💰 WALLET & POINTS
+   h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0">
+    <div style="background:#ECFDF5;padding:12px;border-radius:12px;text-align:center"><div style="font-size:18px;font-weight:900;color:#065F46">${inr(live.wallet||0)}</div><div class="s">Wallet Balance</div></div>
+    <div style="background:#FEF3C7;padding:12px;border-radius:12px;text-align:center"><div style="font-size:18px;font-weight:900;color:#92400E">${live.points||0}</div><div class="s">Points</div></div>
+   </div>`;
+   
+   // 💳 WALLET TOP-UP
+   h+=`<div style="background:linear-gradient(135deg,#3B82F6,#1E40AF);color:#fff;padding:14px;border-radius:14px;margin:10px 0">
+    <b>💳 Wallet Top-up</b>
+    <div class="s" style="color:#fff;margin:6px 0">Advance paise dalo, daily auto-pay hoga</div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+     <button class="btn sm g" data-a="topup" data-id="${live.id}" data-v="500" style="flex:1">₹500</button>
+     <button class="btn sm g" data-a="topup" data-id="${live.id}" data-v="1000" style="flex:1">₹1000</button>
+     <button class="btn sm g" data-a="topup" data-id="${live.id}" data-v="2000" style="flex:1">₹2000</button>
+    </div>
+    <label style="display:flex;align-items:center;gap:8px;margin-top:10px;color:#fff;cursor:pointer">
+     <input type="checkbox" ${live.autoPay?'checked':''} data-a="toggleAutoPay" data-id="${live.id}" style="width:auto;margin:0">
+     <span style="font-size:12px">Auto-pay daily bill from wallet</span>
+    </label>
+   </div>`;
+   
+   // 🔥 STREAK
+   if(live.streak>0)h+=`<div style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;padding:12px;border-radius:12px;text-align:center;margin:10px 0"><div style="font-size:24px;font-weight:900">🔥 ${live.streak} din streak!</div><div class="s" style="color:#FFF">${live.streak>=30?'FREE Sweet unlocked!':'Continue karo!'}</div></div>`;
+   
+   // 📅 PAUSE CALENDAR
+   if(st==='active'||st==='trial'){
+    h+=`<div style="margin-top:14px"><b class="s" style="font-weight:800;color:var(--g)">📅 PLAN PAUSE (Select dates)</b><div class="calendar-grid">`;
+    for(let i=0;i<14;i++){
+     const d=addDays(new Date(),i);const k=iso(d);
+     const isPaused=live.pause.includes(k);
+     const isToday=i===0;
+     h+=`<div class="cal-day ${isPaused?'paused':'available'} ${isToday?'today':''}" data-a="togglePause" data-id="${live.id}" data-date="${k}">${d.getDate()}</div>`;
+    }
+    h+=`</div><div class="s" style="margin-top:6px">${live.pause.length>0?`✅ ${live.pause.length} din pause hai`:'No dates paused'}</div></div>`;
+   }
+   
+   if(st==='pending')h+=`<div class="s" style="color:var(--warn);font-weight:700;margin-top:10px">⚠️ Payment verify hone ka intezar karein. UTR: ${esc(live.utr||'-')}</div>`;
+   if(st==='trial')h+=`<div class="s" style="color:#1E40AF;font-weight:700;margin-top:10px">🎁 Free trial chal raha hai. Pasand aaye to paid plan le lein!</div>`;
+   
+   // 🍽️ MEAL TRACKING + PHOTOS
    if(st==='active'||st==='trial'){
     h+=`<div style="margin-top:14px"><b class="s" style="font-weight:800;color:var(--g)">🍽️ AAJ KA KHANA — MARK KAREIN</b>`;
     [['subah','🌅 Subah','7:30-8:15'],['lunch','☀️ Lunch','1:30-2:15'],['dinner','🌙 Dinner','8:00-9:00']].forEach(m=>{
@@ -258,13 +408,22 @@ plan:()=>{
       <button class="btn sm g" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="consumed">✅</button>
       <button class="btn sm r" data-a="mealMark" data-id="${live.id}" data-k="${m[0]}" data-v="skipped">❌</button></div></div>`;
     });
-    h+=`</div><div style="margin-top:12px"><b class="s" style="font-weight:800;color:var(--g)">📅 LAST 14 DIN</b><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px">`;
-    for(let i=13;i>=0;i--){const d=addDays(new Date(),-i),k=iso(d);let c=0,sk=0;
-     ['subah','lunch','dinner'].forEach(m=>{const v=S.meals[k+'_'+live.id+'_'+m];if(v==='consumed')c++;if(v==='skipped')sk++});
-     const bg=c>0&&sk===0?'#D1FAE5':sk>0&&c===0?'#FEE2E2':c>0?'#FEF3C7':'#F3F4F6';
-     const fg=c>0&&sk===0?'#065F46':sk>0&&c===0?'#991B1B':c>0?'#92400E':'#9CA3AF';
-     h+=`<div style="aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:${bg};color:${fg}">${d.getDate()}</div>`}
-    h+=`</div></div>`;
+    
+    // 📸 TODAY'S MEAL PHOTOS
+    const todayPhotos=(S.photos||[]).filter(p=>p.subId===live.id&&p.date===todayStr());
+    if(todayPhotos.length>0){
+     h+=`<div style="margin-top:12px"><b class="s" style="font-weight:800;color:var(--g)">📸 AAJ KI MEAL PHOTOS</b><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px">`;
+     todayPhotos.forEach(p=>{
+      h+=`<div style="background:var(--bg);border-radius:12px;padding:8px;text-align:center"><img src="${p.url}" style="width:100%;height:100px;object-fit:cover;border-radius:8px"><div class="s" style="margin-top:4px">${p.time}</div></div>`;
+     });
+     h+=`</div></div>`;
+    }
+    h+=`</div>`;
+   }
+   
+   // 📄 INVOICE DOWNLOAD
+   if(st==='active'){
+    h+=`<button class="btn b" data-a="downloadInvoice" data-id="${live.id}" style="margin-top:14px">📄 Download Invoice</button>`;
    }
   } else h+=`<div class="s" style="margin-top:10px">Koi plan nahi mila. Neeche se plan lein.</div>`;
   h+=`</div>`;
@@ -278,11 +437,23 @@ plan:()=>{
   <div class="s">Kitne din</div><div class="seg"><button class="${F.days=='7'?'on':''}" data-a="set" data-k="days" data-v="7">7</button><button class="${F.days=='15'?'on':''}" data-a="set" data-k="days" data-v="15">15</button><button class="${F.days=='30'?'on':''}" data-a="set" data-k="days" data-v="30">30</button></div>
   <input data-f="name" placeholder="Naam *" value="${esc(F.name)}">
   <input data-f="phone" type="tel" maxlength="10" placeholder="10 digit phone *" value="${esc(F.phone)}">
-  <input data-f="area" placeholder="Area" value="${esc(F.area)}">
-  <input data-f="addr" placeholder="Pura address *" value="${esc(F.addr)}">
+  
+  <div class="s" style="margin-top:10px">📍 Address Select Karein</div>
+  ${(F.addresses||[]).map((addr,i)=>`<div class="address-card ${SELECTED_ADDR===i?'selected':''}" data-a="selectAddr" data-v="${i}"><b>${esc(addr.label)}</b><div class="s">${esc(addr.addr)}${addr.area?', '+esc(addr.area):''}</div></div>`).join('')}
+  <button class="btn sm g" data-a="addAddress" style="margin-top:8px">➕ Naya Address Add Karein</button>
+  
   <textarea data-f="notes" placeholder="Special note (kam mirch, bell bajana...)">${esc(F.notes)}</textarea>
+  
+  <div class="s" style="margin-top:10px">⏰ Delivery Slot</div>
+  <select data-f="slot">
+   <option value="default" ${F.slot==='default'?'selected':''}>Default (Kitchen decides)</option>
+   <option value="morning" ${F.slot==='morning'?'selected':''}>🌅 Morning (7-9 AM)</option>
+   <option value="afternoon" ${F.slot==='afternoon'?'selected':''}>☀️ Afternoon (12-2 PM)</option>
+   <option value="evening" ${F.slot==='evening'?'selected':''}>🌙 Evening (6-8 PM)</option>
+  </select>
+  
   <button class="btn g" data-a="gps">📍 GPS Location Lo *</button>
-  ${F.map?`<div class="s" style="color:var(--ok);font-weight:700">✅ Location locked</div>`:`<div class="s" style="color:var(--bad);font-weight:700">⚠️ GPS ke bina plan/trial nahi banega</div>`}
+  ${F.addresses[SELECTED_ADDR]?.map?`<div class="s" style="color:var(--ok);font-weight:700">✅ Location locked</div>`:`<div class="s" style="color:var(--bad);font-weight:700">⚠️ GPS ke bina plan/trial nahi banega</div>`}
   <div style="display:flex;justify-content:space-between;font-size:21px;font-weight:900;margin:12px 0"><span>Total</span><span style="color:var(--o)">${inr(price)}</span></div>
   <button class="btn" data-a="joinPaid">💳 UTR Dekar Plan Lo (Verify hoke active hoga)</button>
   <button class="btn g" data-a="joinTrial">🎁 1 Din FREE Trial Shuru Karo</button></div>`;
@@ -290,6 +461,15 @@ plan:()=>{
 
 shop:()=>{
  let tot=0,cnt=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0){tot+=p.p*q;cnt+=q}});
+ 
+ let discount=0;
+ if(APPLIED_COUPON){
+  const result=applyCoupon(APPLIED_COUPON,tot);
+  if(result.valid)discount=result.discount;
+  else APPLIED_COUPON=null;
+ }
+ const finalTotal=tot-discount;
+ 
  let h=`<div class="card" style="background:linear-gradient(135deg,#F59E0B,#E85D04);color:#fff;border:none">
    <h3 style="color:#fff;margin-bottom:8px">🛍️ Namaste Udala Shop</h3>
    <div class="seg" style="margin:0">
@@ -316,6 +496,7 @@ shop:()=>{
       </div>
       <div style="padding:10px">
         <b style="font-size:12.5px;display:block;line-height:1.35;min-height:34px">${esc(p.n)}</b>
+        ${p.components&&p.components.length?`<div class="s" style="margin:4px 0;font-size:10px">${p.components.slice(0,2).join(', ')}${p.components.length>2?' +more':''}</div>`:''}
         <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><span class="s" style="font-weight:700;color:#065F46">★ ${p.rating||'4.3'}</span><b style="color:var(--o);font-size:14px">${inr(p.p)}</b></div>
         ${q>0?stepper(p.id,q):`<button class="btn sm" data-a="inc" data-id="${p.id}" style="width:100%;margin:2px 0 0;border-radius:10px;border:1.5px solid var(--o);background:#fff;color:var(--o);font-weight:800">ADD +</button>`}
       </div></div>`;
@@ -337,11 +518,31 @@ shop:()=>{
   });
  }
 
- if(cnt>0)h+=`<div style="position:fixed;bottom:78px;left:16px;right:16px;background:#fff;border-radius:16px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.18);z-index:99"><div><b>🛒 ${cnt} items</b><div style="font-size:19px;font-weight:900;color:var(--o)">${inr(tot)}</div></div><button class="btn g" data-a="goc" style="margin:0;width:auto">Checkout ↓</button></div>`;
+ if(cnt>0){
+  h+=`<div class="coupon-box"><b>🎫 Have a coupon?</b><div style="display:flex;gap:8px;margin-top:8px"><input id="couponInput" placeholder="Enter code (UDALA50)" value="${APPLIED_COUPON||''}" style="margin:0;flex:1"><button class="btn sm g" data-a="applyCoupon" style="margin:0">Apply</button></div>${APPLIED_COUPON?`<div class="s" style="margin-top:6px;color:#065F46;font-weight:700">✅ ${APPLIED_COUPON} applied! Saved ${inr(discount)}</div>`:''}</div>`;
+  
+  h+=`<div style="position:fixed;bottom:78px;left:16px;right:16px;background:#fff;border-radius:16px;padding:12px 16px;box-shadow:0 10px 30px rgba(0,0,0,.18);z-index:99">
+   <div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>🛒 ${cnt} items</b><b>${inr(tot)}</b></div>
+   ${discount>0?`<div style="display:flex;justify-content:space-between;color:#065F46"><span>Discount</span><span>-${inr(discount)}</span></div>`:''}
+   <div style="display:flex;justify-content:space-between;font-size:19px;font-weight:900;color:var(--o);margin-top:4px;padding-top:8px;border-top:1px solid var(--line)"><span>Total</span><span>${inr(finalTotal)}</span></div>
+   <button class="btn g" data-a="goc" style="margin-top:10px">Checkout ↓</button></div>`;
+ }
+ 
  h+=`<div class="card" id="co" style="margin-top:14px"><h3>📦 Checkout</h3>
   <input data-f="name" placeholder="Naam *" value="${esc(F.name)}"><input data-f="phone" type="tel" maxlength="10" placeholder="Phone *" value="${esc(F.phone)}">
-  <input data-f="addr" placeholder="Address *" value="${esc(F.addr)}"><button class="btn g" data-a="gps">📍 GPS Lo *</button>
-  <button class="btn" data-a="order">✅ Order Karein (${inr(tot)})</button></div>`;
+  
+  <div class="s" style="margin-top:10px">📍 Address Select Karein</div>
+  ${(F.addresses||[]).map((addr,i)=>`<div class="address-card ${SELECTED_ADDR===i?'selected':''}" data-a="selectAddr" data-v="${i}"><b>${esc(addr.label)}</b><div class="s">${esc(addr.addr)}${addr.area?', '+esc(addr.area):''}</div></div>`).join('')}
+  
+  <div class="s" style="margin-top:10px">⏰ Delivery Slot</div>
+  <select data-f="slot">
+   <option value="default" ${F.slot==='default'?'selected':''}>Default</option>
+   <option value="morning" ${F.slot==='morning'?'selected':''}>🌅 Morning</option>
+   <option value="afternoon" ${F.slot==='afternoon'?'selected':''}>☀️ Afternoon</option>
+   <option value="evening" ${F.slot==='evening'?'selected':''}>🌙 Evening</option>
+  </select>
+  
+  <button class="btn" data-a="order">✅ Order Karein (${inr(finalTotal)})</button></div>`;
  return h},
 
 kitchen:()=>{
@@ -352,13 +553,26 @@ kitchen:()=>{
  const roti=on.reduce((a,s)=>a+((s.lunch!=='chawal'?4:0)+(s.dinner!=='chawal'?4:0)+s.extraRoti),0);
  const chawal=on.reduce((a,s)=>a+((s.lunch!=='roti'?1:0)+(s.dinner!=='roti'?1:0)),0);
  let consumed=0,skipped=0;on.forEach(s=>['subah','lunch','dinner'].forEach(m=>{const v=S.meals[k+'_'+s.id+'_'+m];if(v==='consumed')consumed++;if(v==='skipped')skipped++}));
+ 
+ const rawCalc={atta:Math.round(roti*0.05),dal:Math.round((veg+nv)*0.1),rice:Math.round(chawal*0.15),oil:Math.round((veg+nv)*0.02),paneer:Math.round(veg*0.2),chicken:Math.round(nv*0.25)};
+ 
  let h=`<div class="card"><h3>👨‍🍳 Kitchen · ${k}</h3><div class="grid2">
   <div class="stat" style="background:var(--g)"><div class="v">${veg}</div><div class="l">Veg Thali</div></div>
   <div class="stat" style="background:var(--o)"><div class="v">${nv}</div><div class="l">Non-Veg Thali</div></div>
   <div class="stat" style="background:#7C3AED"><div class="v">${roti}</div><div class="l">Roti pcs</div></div>
   <div class="stat" style="background:#3B82F6"><div class="v">${chawal}</div><div class="l">Chawal plate</div></div></div>
   <div class="s" style="margin-top:10px">🍽️ Khaya: <b style="color:var(--ok)">${consumed}</b> · Skip: <b style="color:var(--bad)">${skipped}</b></div>
-  <button class="btn g" data-a="copyKitchen">📋 Summary Copy (WhatsApp)</button></div>`;
+  
+  <div style="background:#ECFDF5;padding:14px;border-radius:14px;margin-top:14px"><b style="color:#065F46">📦 Aaj ka Raw Material</b><div class="grid2" style="margin-top:8px">
+   <div class="s">Atta: <b>${rawCalc.atta} kg</b></div>
+   <div class="s">Dal: <b>${rawCalc.dal} kg</b></div>
+   <div class="s">Rice: <b>${rawCalc.rice} kg</b></div>
+   <div class="s">Oil: <b>${rawCalc.oil} L</b></div>
+   <div class="s">Paneer: <b>${rawCalc.paneer} kg</b></div>
+   <div class="s">Chicken: <b>${rawCalc.chicken} kg</b></div>
+  </div></div>
+  
+  <button class="btn g" data-a="copyKitchen" style="margin-top:12px">📋 Summary Copy (WhatsApp)</button></div>`;
  h+=`<div class="card"><h3>👥 Kis ko kya (${on.length})</h3>`;
  on.forEach(s=>{h+=`<div class="row"><div><b>${esc(s.name)}</b> <span class="s">${s.type==='veg'?'🟢':'🔴'}</span><div class="s" style="color:var(--g);font-weight:700">${packItems(s).join(' · ')}</div></div><button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skipToday" data-id="${s.id}">${s.skip.includes(k)?'Wapas':'Skip'}</button></div>`});
  if(!on.length)h+=`<p class="s">Aaj koi active tiffin nahi.</p>`;
@@ -398,7 +612,7 @@ owner:()=>{
   <div class="stat" style="background:${pendPay.length?'var(--warn)':'#3B82F6'}"><div class="v">${pendPay.length}</div><div class="l">Payment Pending</div></div></div>
   <div style="display:flex;gap:8px;margin-top:12px"><button class="btn sm b" data-a="backup">💾 Backup</button><button class="btn sm g" data-a="restore">📂 Restore</button></div></div>`;
 
- h+=`<div class="card"><h3>🧾 Sections</h3><div class="seg"><button class="${OSEC==='pay'?'on':''}" data-a="osec" data-v="pay">💳 Payments</button><button class="${OSEC==='subs'?'on':''}" data-a="osec" data-v="subs">🍱 Plans</button><button class="${OSEC==='prod'?'on':''}" data-a="osec" data-v="prod">🛒 Products</button><button class="${OSEC==='set'?'on':''}" data-a="osec" data-v="set">⚙️ Set</button></div>`;
+ h+=`<div class="card"><h3>🧾 Sections</h3><div class="seg"><button class="${OSEC==='pay'?'on':''}" data-a="osec" data-v="pay">💳 Payments</button><button class="${OSEC==='subs'?'on':''}" data-a="osec" data-v="subs">🍱 Plans</button><button class="${OSEC==='prod'?'on':''}" data-a="osec" data-v="prod">🛒 Products</button><button class="${OSEC==='coupons'?'on':''}" data-a="osec" data-v="coupons">🎫 Coupons</button><button class="${OSEC==='photos'?'on':''}" data-a="osec" data-v="photos">📸 Photos</button><button class="${OSEC==='set'?'on':''}" data-a="osec" data-v="set">⚙️ Set</button></div>`;
 
  if(OSEC==='pay'){
   if(pendPay.length){h+=`<b class="s" style="font-weight:800;color:var(--warn)">⏳ VERIFY KAREIN:</b>`;
@@ -421,6 +635,42 @@ owner:()=>{
    <button class="btn g" data-a="addProd">➕ Add Product</button></div>`;
   (S.prod||[]).forEach(p=>{h+=`<div class="row"><div style="flex:1"><b>${p.kind==='food'?'🍛':'🛒'} ${esc(p.n)}</b><div class="s">${esc(p.c)} · ${inr(p.p)}</div></div><button class="btn sm ${p.s===0?'r':'g'}" data-a="stock" data-id="${p.id}">${p.s===0?'Out':'Stock'}</button><button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button></div>`});
  }
+ else if(OSEC==='coupons'){
+  h+=`<div class="card"><h3>🎫 Active Coupons</h3>`;
+  Object.entries(S.coupons||{}).forEach(([code,c])=>{
+   const usedPct=Math.round((c.usage/c.maxUsage)*100);
+   h+=`<div style="background:var(--bg);border-radius:14px;padding:12px;margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between"><b style="font-size:18px;color:var(--warn)">${code}</b><span class="badge ${usedPct>80?'expired':'active'}">${usedPct}% used</span></div>
+    <div class="s">Discount: ${c.type==='percent'?c.discount+'%':c.type==='flat'?inr(c.discount):'Free delivery'}</div>
+    <div class="s">Min order: ${inr(c.minOrder)} · Usage: ${c.usage}/${c.maxUsage}</div>
+    <div class="s">Expires: ${c.expiry}</div>
+    <div class="pbar" style="margin:8px 0"><div class="pfill" style="width:${usedPct}%;background:var(--warn)"></div></div>
+   </div>`;
+  });
+  h+=`<button class="btn g" data-a="addCoupon">➕ New Coupon</button></div>`;
+ }
+ else if(OSEC==='photos'){
+  h+=`<div class="card"><h3>📸 Meal Photos Upload</h3>`;
+  const activeSubs=(S.subs||[]).filter(isLive);
+  if(activeSubs.length){
+   h+=`<div class="s" style="margin-bottom:10px">Select customer to upload meal photo:</div>`;
+   activeSubs.forEach(s=>{
+    h+=`<div style="background:var(--bg);border-radius:14px;padding:12px;margin-bottom:10px"><b>${esc(s.name)}</b><div class="s">${s.phone} · ${s.type}</div>
+     <label class="photo-upload" style="margin-top:8px"><input type="file" accept="image/*" onchange="handlePhotoUpload(event,${s.id})" style="display:none"><span>📸 Click to upload photo</span></label></div>`;
+   });
+  } else h+=`<p class="s">Koi active plan nahi</p>`;
+  
+  const recentPhotos=(S.photos||[]).slice(-10).reverse();
+  if(recentPhotos.length){
+   h+=`<b class="s" style="font-weight:800;margin-top:14px;display:block">📸 RECENT PHOTOS:</b><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px">`;
+   recentPhotos.forEach(p=>{
+    const sub=S.subs.find(s=>s.id===p.subId);
+    h+=`<div style="background:var(--bg);border-radius:12px;padding:8px;text-align:center"><img src="${p.url}" style="width:100%;height:100px;object-fit:cover;border-radius:8px"><div class="s" style="margin-top:4px">${sub?esc(sub.name):'Unknown'}<br>${p.date} ${p.time}</div></div>`;
+   });
+   h+=`</div>`;
+  }
+  h+=`</div>`;
+ }
  else{
   h+=`<div class="s">Kal ka menu:</div><input id="mveg" placeholder="Veg menu" value="${esc(mf(addDays(new Date(),1),'veg'))}"><input id="mnv" placeholder="Non-veg menu" value="${esc(mf(addDays(new Date(),1),'nv'))}"><button class="btn sm g" data-a="setMenu">💾 Menu Save</button>
    <div class="s" style="margin-top:12px">Delivery partners (comma se):</div><input id="partners" value="${esc((S.partners||[]).join(', '))}"><button class="btn sm g" data-a="setPartners">💾 Save</button>
@@ -435,17 +685,12 @@ const render=()=>{
   $('#v').innerHTML=VIEWS[tab]();
   $('#ht').textContent={plan:'Aaj ka Plan',shop:'Shop',kitchen:'Kitchen',delivery:'Delivery',owner:'Owner Panel'}[tab];
   $('#nav').innerHTML=[['plan','🍱','Plan'],['shop','🛍️','Shop'],['kitchen','👨‍🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','👤','Owner']].filter(x=>OK||x[0]==='plan'||x[0]==='shop').map(x=>`<div class="${x[0]===tab?'on':''}" data-a="tab" data-v="${x[0]}"><span>${x[1]}</span>${x[2]}</div>`).join('');
-  // 3D tilt effect
-  $$('[data-tilt]').forEach(el=>{
-   el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-0.5;const y=(e.clientY-r.top)/r.height-0.5;el.style.transform=`perspective(700px) rotateY(${x*9}deg) rotateX(${-y*9}deg) translateZ(6px)`});
-   el.addEventListener('mouseleave',()=>{el.style.transform=''});
-  });
  }catch(err){
   $('#v').innerHTML=`<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(err.message)}</p><button class="btn g" onclick="location.reload()">🔄 Refresh</button></div>`;
  }
 };
 
-const needGPS=()=>{if(!F.map){showToast('❌ Pehle GPS location lein','error');return false}return true};
+const needGPS=()=>{const addr=F.addresses[SELECTED_ADDR];if(!addr||!addr.map){showToast('❌ Pehle GPS location lein','error');return false}return true};
 const needUser=()=>{const n=(F.name||'').trim(),p=cleanPhone(F.phone);if(n.length<2){showToast('❌ Sahi naam likhein','error');return null}if(p.length!==10){showToast('❌ 10 digit phone daalein','error');return null}return {n,p}};
 
 const ACTIONS={
@@ -467,34 +712,100 @@ const ACTIONS={
  goc:()=>{const e=$('#co');if(e)e.scrollIntoView({behavior:'smooth'})},
  gps:()=>{if(!navigator.geolocation){showToast('❌ GPS support nahi','error');return}
   showToast('📍 Location dhoondh rahe hain...');
-  navigator.geolocation.getCurrentPosition(p=>{F.map=`https://www.google.com/maps?q=${p.coords.latitude.toFixed(6)},${p.coords.longitude.toFixed(6)}`;showToast('✅ Location lock ho gayi');render()},()=>showToast('❌ Location permission allow karein','error'),{enableHighAccuracy:true,timeout:10000})},
+  navigator.geolocation.getCurrentPosition(p=>{
+   if(!F.addresses[SELECTED_ADDR])F.addresses[SELECTED_ADDR]={id:Date.now(),label:'Home',addr:'',area:'Udala',map:''};
+   F.addresses[SELECTED_ADDR].map=`https://www.google.com/maps?q=${p.coords.latitude.toFixed(6)},${p.coords.longitude.toFixed(6)}`;
+   showToast('✅ Location lock ho gayi');render();
+  },()=>showToast('❌ Location permission allow karein','error'),{enableHighAccuracy:true,timeout:10000})},
  login:()=>{const n=($('#lname')?.value||'').trim(),p=cleanPhone($('#lphone')?.value);
   if(n.length<2||p.length!==10){showToast('❌ Naam aur 10 digit phone daalo','error');return}
   ME={name:n,phone:p};saveME();F.name=n;F.phone=p;render();showToast('👤 Login ho gaya')},
  logout:()=>{ME=null;saveME();render();showToast('Logout ho gaya')},
- mealMark:(v,k,id)=>{S.meals[mealKey(id,k)]=v;save();showToast(v==='consumed'?'✅ Khaya mark ho gaya':'❌ Skip mark ho gaya')},
+ mealMark:(v,k,id)=>{S.meals[mealKey(id,k)]=v;
+  const sub=S.subs.find(s=>s.id==id);
+  if(sub&&v==='consumed'){sub.streak=(sub.streak||0)+1;if(sub.streak>=30)showToast('🎉 30 din streak! FREE Sweet unlocked!');}
+  save();showToast(v==='consumed'?'✅ Khaya mark ho gaya':'❌ Skip mark ho gaya')},
  skipToday:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;const k2=todayStr();const i=s.skip.indexOf(k2);if(i>=0)s.skip.splice(i,1);else s.skip.push(k2);save()},
- joinTrial:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Pura address daalein','error');return}
+ togglePause:(v,k,id,date)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;
+  if(!s.pause)s.pause=[];
+  const i=s.pause.indexOf(date);
+  if(i>=0)s.pause.splice(i,1);
+  else s.pause.push(date);
+  save();showToast(i>=0?'❌ Pause removed':'✅ Date paused');},
+ selectAddr:(v,k,id)=>{SELECTED_ADDR=parseInt(id);render()},
+ addAddress:()=>{
+  const label=prompt('Address label (Home/Office/Other):');
+  if(!label)return;
+  const newAddr={id:Date.now(),label,addr:'',area:'Udala',map:''};
+  F.addresses.push(newAddr);
+  SELECTED_ADDR=F.addresses.length-1;
+  render();showToast('✅ Naya address add ho gaya!');
+ },
+ topup:(v,k,id)=>{
+  const sub=S.subs.find(s=>s.id==id);
+  if(!sub)return;
+  const amount=parseInt(v);
+  if(!amount||amount<=0){showToast('❌ Invalid amount','error');return}
+  sub.wallet=(sub.wallet||0)+amount;
+  save();
+  showToast(`✅ ₹${amount} wallet mein add ho gaya! Balance: ₹${sub.wallet}`);
+  window.open(`https://wa.me/91${sub.phone}?text=💳 *Wallet Top-up*%0AAmount: ₹${amount}%0ABalance: ₹${sub.wallet}`,'_blank');
+ },
+ toggleAutoPay:(v,k,id)=>{
+  const sub=S.subs.find(s=>s.id==id);
+  if(!sub)return;
+  sub.autoPay=!sub.autoPay;
+  save();
+  showToast(sub.autoPay?'✅ Auto-pay ON! Daily bill wallet se katega':'❌ Auto-pay OFF');
+ },
+ downloadInvoice:(v,k,id)=>{
+  const sub=S.subs.find(s=>s.id==id);
+  if(!sub)return;
+  generateInvoice(sub);
+ },
+ joinTrial:()=>{const u=needUser();if(!u)return;if(!needGPS())return;
+  const addr=F.addresses[SELECTED_ADDR];
+  if(!addr||!addr.addr||addr.addr.trim().length<8){showToast('❌ Pura address daalein','error');return}
   const had=(S.subs||[]).find(s=>s.phone===u.p&&s.trial);
   if(had){showToast('❌ Trial pehle hi le chuke hain','error');return}
-  S.subs.push({id:Date.now(),ts:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:1,start:todayStr(),price:0,status:'trial',trial:1,paid:1,utr:'FREE_TRIAL',skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0});
+  S.subs.push({id:Date.now(),ts:Date.now(),name:u.n,phone:u.p,area:addr.area||'Udala',addr:addr.addr,map:addr.map,notes:F.notes,type:F.type,days:1,start:todayStr(),price:0,status:'trial',trial:1,paid:1,utr:'FREE_TRIAL',skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0,slot:F.slot||'default',wallet:0,points:0,streak:0,autoPay:false,addresses:F.addresses||[],selectedAddress:SELECTED_ADDR});
   if(!ME){ME={name:u.n,phone:u.p};saveME()}
   save();showToast('🎁 1 din ka FREE trial ACTIVE!');
-  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🎁 *FREE TRIAL*%0A👤 ${u.n}%0A📱 ${u.p}%0A📍 ${F.map}`,'_blank')},
- joinPaid:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Pura address daalein','error');return}
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🎁 *FREE TRIAL*%0A👤 ${u.n}%0A📱 ${u.p}%0A📍 ${addr.map}`,'_blank')},
+ joinPaid:()=>{const u=needUser();if(!u)return;if(!needGPS())return;
+  const addr=F.addresses[SELECTED_ADDR];
+  if(!addr||!addr.addr||addr.addr.trim().length<8){showToast('❌ Pura address daalein','error');return}
   const utr=prompt('💳 Payment karke UTR / Transaction ID likhein:');
   if(!utr||utr.trim().length<4){showToast('❌ Bina UTR plan nahi banega','error');return}
   const price=PRICING[F.type][F.days]||2899;
-  S.subs.push({id:Date.now(),ts:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:+F.days,start:todayStr(),price,status:'pending',trial:0,paid:0,utr:utr.trim(),skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0});
+  S.subs.push({id:Date.now(),ts:Date.now(),name:u.n,phone:u.p,area:addr.area||'Udala',addr:addr.addr,map:addr.map,notes:F.notes,type:F.type,days:+F.days,start:todayStr(),price,status:'pending',trial:0,paid:0,utr:utr.trim(),skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0,slot:F.slot||'default',wallet:0,points:0,streak:0,autoPay:false,addresses:F.addresses||[],selectedAddress:SELECTED_ADDR});
   if(!ME){ME={name:u.n,phone:u.p};saveME()}
   save();showToast('⏳ Plan bana! Owner verify karega tab active hoga');
-  window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 *NAYA PLAN (PENDING)*%0A👤 ${u.n}%0A📱 ${u.p}%0A🍽️ ${F.type} ${F.days} din%0A💰 ${inr(price)}%0A🔢 UTR: ${utr}%0A📍 ${F.map}`,'_blank')},
- order:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address daalein','error');return}
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 *NAYA PLAN (PENDING)*%0A👤 ${u.n}%0A📱 ${u.p}%0A🍽️ ${F.type} ${F.days} din%0A💰 ${inr(price)}%0A🔢 UTR: ${utr}%0A📍 ${addr.map}`,'_blank')},
+ order:()=>{const u=needUser();if(!u)return;if(!needGPS())return;
+  const addr=F.addresses[SELECTED_ADDR];
+  if(!addr||!addr.addr||addr.addr.trim().length<8){showToast('❌ Address daalein','error');return}
   const items=[];let tot=0;Object.entries(C).forEach(([k,q])=>{const p=S.prod.find(x=>x.id==k);if(p&&q>0){items.push({n:p.n,q,p:p.p});tot+=p.p*q}});
   if(!items.length){showToast('❌ Cart khali hai','error');return}
-  S.orders.push({id:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:tot,status:'pending',paid:0,date:todayStr()});
-  C={};save();showToast('✅ Order mil gaya!');
-  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *ORDER*%0A👤 ${u.n}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A💰 ${inr(tot)}%0A📍 ${F.map}`,'_blank')},
+  
+  let discount=0,couponCode=null;
+  if(APPLIED_COUPON){
+   const result=applyCoupon(APPLIED_COUPON,tot);
+   if(result.valid){discount=result.discount;couponCode=result.code;
+    S.coupons[couponCode].usage++;
+   }
+  }
+  
+  const finalTotal=tot-discount;
+  S.orders.push({id:Date.now(),name:u.n,phone:u.p,area:addr.area||'Udala',addr:addr.addr,map:addr.map,notes:F.notes,items,total:finalTotal,originalTotal:tot,discount,coupon:couponCode,status:'pending',paid:0,date:todayStr(),slot:F.slot||'default',riderStatus:'pending',deliveryPhoto:null});
+  
+  if(ME){
+   const sub=S.subs.find(s=>s.phone===u.p);
+   if(sub){sub.points=(sub.points||0)+Math.floor(finalTotal/10);}
+  }
+  
+  C={};APPLIED_COUPON=null;save();showToast(`✅ Order mil gaya! ${couponCode?`Saved ${inr(discount)}`:''} Points earned: ${Math.floor(finalTotal/10)}`);
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *ORDER*%0A👤 ${u.n}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A💰 ${inr(finalTotal)}${discount?` (Saved ${inr(discount)})`:''}%0A📍 ${addr.map}`,'_blank')},
  verifyPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;s.status='active';s.paid=1;
   S.pays.push({id:Date.now(),d:todayStr(),name:s.name,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});save();showToast('✅ Verified! Plan ACTIVE')},
  rejectPay:(v,k,id)=>{const s=S.subs.find(x=>x.id==id);if(!s)return;if(confirm(s.name+' ka plan reject karein?')){s.status='rejected';save();showToast('❌ Reject ho gaya')}},
@@ -505,10 +816,22 @@ const ACTIONS={
  addProd:()=>{const n=($('#pn')?.value||'').trim(),p=parseInt($('#pp')?.value),c=($('#pc')?.value||'General').trim();
   const kind=($('#pkind')?.value)||'grocery',img=($('#pimg')?.value||'').trim();
   if(!n||!p||p<=0){showToast('❌ Naam aur price daalo','error');return}
-  S.prod.push({id:Date.now(),n,p,c,nv:0,s:1,mrp:0,brand:'',img:kind==='food'?(img||IMG.thali):(img||IMG.grocery),kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0});
+  S.prod.push({id:Date.now(),n,p,c,nv:0,s:1,mrp:0,brand:'',img:kind==='food'?(img||IMG.thali):(img||IMG.grocery),kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0,components:[]});
   save();showToast('✅ Product add')},
  stock:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
  delProd:(v,k,id)=>{const p=S.prod.find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save()}},
+ applyCoupon:()=>{const code=$('#couponInput')?.value?.trim();if(!code){showToast('❌ Coupon code daalo','error');return}
+  const total=Object.entries(C).reduce((sum,[k,q])=>{const p=S.prod.find(x=>x.id==k);return sum+(p&&q>0?p.p*q:0)},0);
+  const result=applyCoupon(code,total);
+  if(result.valid){APPLIED_COUPON=result.code;showToast(`✅ ${result.code} applied! Saved ${inr(result.discount)}`);}
+  else showToast(`❌ ${result.error}`,'error');
+  render();},
+ addCoupon:()=>{const code=prompt('Coupon code (e.g., SAVE50):')?.trim().toUpperCase();if(!code)return;
+  const discount=parseInt(prompt('Discount amount/percent:')||'0');if(!discount)return;
+  const type=prompt('Type (flat/percent/delivery):')||'flat';
+  const minOrder=parseInt(prompt('Min order amount (0 for no limit):')||'0');
+  S.coupons[code]={discount,minOrder,expiry:'2026-12-31',type,usage:0,maxUsage:100};
+  save();showToast(`✅ Coupon ${code} created!`);},
  setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save();showToast('💾 Menu save')},
  setPartners:()=>{S.partners=($('#partners')?.value||'').split(',').map(x=>x.trim()).filter(Boolean);save();showToast('💾 Partners save')},
  copyKitchen:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));
@@ -520,7 +843,10 @@ const ACTIONS={
  out:()=>{OK=0;sessionStorage.removeItem('udok');tab='plan';render();showToast('🚪 Logout')}
 };
 
-document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const f=ACTIONS[b.dataset.a];if(f){try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(err){console.error(err);showToast('❌ Error','error')}}});
+// Make handlePhotoUpload global
+window.handlePhotoUpload=handlePhotoUpload;
+
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const f=ACTIONS[b.dataset.a];if(f){try{f(b.dataset.v,b.dataset.k,b.dataset.id,b.dataset.date)}catch(err){console.error(err);showToast('❌ Error','error')}}});
 document.addEventListener('input',e=>{
  const f=e.target.dataset?.f;if(f){F[f]=e.target.value;if(f==='phone')F.phone=cleanPhone(F.phone);return}
  if(e.target.id==='sq'){SQ=e.target.value;render();const el=$('#sq');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}}
@@ -530,9 +856,13 @@ $('#restoreFile').addEventListener('change',e=>{const file=e.target.files[0];if(
  rd.readAsText(file);e.target.value=''});
 let tap=0;$('#mainHeader').addEventListener('click',()=>{tap++;if(tap>=5){tap=0;const x=prompt('Owner PIN:');if(x===null)return;if(x===CONFIG.ownerPin){OK=1;sessionStorage.setItem('udok','1');tab='owner';render();showToast('🔓 Owner access')}else showToast('❌ Galat PIN','error')}});
 
+const manifest={name:'Namaste Udala PRO - Phase 2',short_name:'Udala',start_url:'/',display:'standalone',background_color:'#FAFAFA',theme_color:'#1B4332',icons:[{src:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgZmlsbD0iIzFCNDMzMiIvPjx0ZXh0IHg9Ijk2IiB5PSIxMjAiIGZvbnQtc2l6ZT0iODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNGRkZGRkYiPvCfjbE8L3RleHQ+PC9zdmc+',sizes:'192x192',type:'image/svg+xml'}]};
+const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+const link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(blob);document.head.appendChild(link);
+
 render();
 if(loaded.fromOld&&loaded.recovered>0)setTimeout(()=>showToast(`📦 Purana data recover hua: ${loaded.recovered} records!`),800);
-console.log('🍱 Namaste Udala FINAL (2-category Shop) loaded.');
+console.log('🍱 Namaste Udala PRO - Phase 2 loaded!');
 </script>
 </body>
 </html>
