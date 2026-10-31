@@ -60,8 +60,8 @@ textarea{min-height:70px}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-shadow:0 0 0 3px rgba(255,107,53,.2),0 0 20px rgba(255,107,53,.25)}
 .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:8px}
 .row:last-child{border-bottom:0}
-.nav{position:fixed;bottom:10px;left:10px;right:10px;background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--line);border-radius:22px;display:flex;justify-content:space-around;padding:8px 4px;z-index:100;box-shadow:0 10px 40px rgba(0,0,0,.55)}
-.nav div{text-align:center;font-size:10px;font-weight:700;color:var(--muted);flex:1;cursor:pointer;padding:6px 4px;min-height:50px;border-radius:14px;transition:all .3s}
+.nav{position:fixed;bottom:10px;left:10px;right:10px;background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--line);border-radius:22px;display:flex;justify-content:space-around;padding:8px 4px;z-index:100;box-shadow:0 10px 40px rgba(0,0,0,.55);overflow-x:auto}
+.nav div{text-align:center;font-size:10px;font-weight:700;color:var(--muted);flex:1;cursor:pointer;padding:6px 4px;min-height:50px;border-radius:14px;transition:all .3s;min-width:60px}
 .nav div.on{color:var(--o);background:rgba(255,107,53,.12);text-shadow:0 0 12px rgba(255,107,53,.9);box-shadow:inset 0 0 20px rgba(255,107,53,.15)}
 .nav div span{font-size:21px;display:block;margin-bottom:2px}
 .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:700;border:1px solid transparent;position:relative}
@@ -104,7 +104,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 .category-pill .icon{font-size:20px}
 .cartbar-premium{background:linear-gradient(135deg,#1B4332,#0F2C21);color:#fff;border:1px solid rgba(6,214,160,0.3);box-shadow:0 -4px 20px rgba(0,0,0,0.3)}
 [data-theme="light"] .cartbar-premium{background:linear-gradient(135deg,#fff,#f8fafc);color:#0F172A;border:1px solid #E2E8F0}
-.pcard{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .15s,box-shadow .3s;transform-style:preserve-3d;cursor:pointer;position:relative}
+.pcard{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .15s,box-shadow .3s;transform-style:preserve-3d;cursor:default;position:relative}
 .pcard:hover{box-shadow:0 0 0 1px rgba(255,107,53,.6),0 14px 40px rgba(255,107,53,.3);transform:translateY(-4px)}
 .pcard .ph{height:130px;overflow:hidden;position:relative;background:var(--inp)}
 .pcard .ph img{width:100%;height:130px;object-fit:cover;display:block;transition:transform .5s}
@@ -185,7 +185,7 @@ const db = getDatabase(app);
 const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788',upi:'9583937047@jio'};
 const PRICING={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
 const STORAGE_KEY='udala_final_v1';
-const SCHEMA_V=5;
+const SCHEMA_V=6;
 const COUPONS_DEFAULT={'UDALA50':{type:'flat',value:50,min:299,expiry:'2026-12-31',maxUses:100,usedCount:0}};
 const KIRANA_PRESET=['Doodh 500 ml','Atta 1 kg','Chawal 1 kg','Dal 1 kg','Tel 1 L','Sabun'];
 
@@ -285,7 +285,7 @@ const normalizeProd=p=>{if(!p||!p.id)return null;
  return{id:p.id,n:String(p.n||'Item'),p:+p.p||0,c:p.c||'General',nv:p.nv?1:0,s:p.s===0?0:1,img:p.img||'',kind:p.kind==='food'?'food':'grocery',rating:p.rating||0,time:p.time||0,best:p.best?1:0}};
 
 function migrate(d){
-  if(!d||typeof d!=='object')return {v:SCHEMA_V,prod:[],subs:[],orders:[],pays:[],meals:{},done:{},mset:{},coupons:COUPONS_DEFAULT,notifications:[],waste:[],lastOrderTime:0};
+  if(!d||typeof d!=='object')return {v:SCHEMA_V,prod:[],subs:[],orders:[],pays:[],meals:{},done:{},mset:{},coupons:COUPONS_DEFAULT,notifications:[],waste:[],lastOrderTime:0,wallet:{},walletLedger:[]};
   const v=d.v||1;
   if(v<2)(d.orders||[]).forEach(o=>{o.slot=o.slot||'lunch';o.discount=o.discount||0;o.coupon=o.coupon||''});
   if(v<3){d.coupons=d.coupons||COUPONS_DEFAULT;d.walletLedger=d.walletLedger||[]}
@@ -294,6 +294,7 @@ function migrate(d){
     (d.orders||[]).forEach(o=>{o.rating=o.rating||0;o.feedback=o.feedback||'';o.contactless=o.contactless?1:0;o.tip=+o.tip||0});
     (d.subs||[]).forEach(s=>{s.rating=s.rating||0;s.feedback=s.feedback||''});
   }
+  if(v<6){d.wallet=d.wallet||{};d.walletLedger=d.walletLedger||[];}
   
   d.prod=d.prod||[];
   d.subs=d.subs||[];
@@ -357,16 +358,9 @@ const save=(immediate=false)=>{
   const doSave = async () => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
-      try {
-        await set(ref(db, 'namaste_udala_data'), S);
-      } catch (fbErr) {
-        console.warn("Firebase save skipped/failed (check rules):", fbErr);
-      }
+      try { await set(ref(db, 'namaste_udala_data'), S); } catch (fbErr) { console.warn("FB save skipped:", fbErr); }
       render();
-    } catch (e) {
-      console.error("Local save error:", e);
-      showToast('⚠️ Save Failed', 'error');
-    }
+    } catch (e) { console.error("Save error:", e); }
   };
   if(immediate){doSave();return}
   clearTimeout(saveTimer);
@@ -396,13 +390,13 @@ const getSubStatus=s=>{if(!s)return 'expired';
  if((s.pause||[]).includes(todayStr()))return 'paused';
  if(s.status==='trial')return 'trial';return 'active'};
 const isLive=s=>['active','trial'].includes(getSubStatus(s));
-const badge=st=>`<span class="badge ${st}">${st==='active'?'✅ Active':st==='pending'?'⏳ Payment Pending':st==='trial'?'🎁 Trial':st==='paused'?'⏸ Paused':st==='rejected'?'❌ Rejected':' Expired'}</span>`;
+const badge=st=>`<span class="badge ${st}">${st==='active'?'✅ Active':st==='pending'?'⏳ Pending':st==='trial'?'🎁 Trial':st==='paused'?'⏸ Paused':st==='rejected'?'❌ Rejected':' Expired'}</span>`;
 const mealKey=(sid,meal,date)=>(date||todayStr())+'_'+sid+'_'+meal;
 const packItems=s=>{const meal=m=>m==='chawal'?'Chawal':m==='both'?'Roti x4 + Chawal':'Roti x4';
  return ['🌅 Chai+nashta','☀️ Lunch: '+meal(s.lunch),'🌙 Dinner: '+meal(s.dinner),(s.extraRoti?'🫓 Extra x'+s.extraRoti:null),(s.type==='nv'?'🍗 NV curry x2':'🥘 Veg sabzi x2')].filter(Boolean)};
 const vdot=nv=>nv?'<div class="nv-indicator"></div>':'<div class="veg-indicator"></div>';
 const imgOrEmoji=(src,em)=>src?`<img src="${src}" loading="lazy" onerror="this.outerHTML='<div class=\\'placeholder\\'>${em||'🍛'}</div>'">`:`<div class="placeholder">${em||'🍛'}</div>`;
-const stepper=(id,q)=>`<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:3px;background:rgba(255,107,53,.08)"><button data-a="dec" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800" aria-label="Decrease">−</button><b style="min-width:20px;text-align:center">${q}</b><button data-a="inc" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800" aria-label="Increase">+</button></div>`;
+const stepper=(id,q)=>`<div style="display:flex;align-items:center;gap:8px;border:2px solid var(--o);border-radius:10px;padding:3px;background:rgba(255,107,53,.08)"><button data-a="dec" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800">−</button><b style="min-width:20px;text-align:center">${q}</b><button data-a="inc" data-id="${id}" style="width:30px;height:30px;border:0;border-radius:8px;background:var(--o);color:#fff;font-size:16px;font-weight:800">+</button></div>`;
 const calcCart=()=>{let sub=0,cnt=0;
  Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0){sub+=p.p*q;cnt+=q}});
  let disc=0,code='';
@@ -424,13 +418,7 @@ const getMealHistory=(subId,days=7)=>{
  const history=[];
  for(let i=days-1;i>=0;i--){
    const d=iso(addDays(new Date(),-i));
-   history.push({
-     date:d,
-     subah:(S.meals||{})[mealKey(subId,'subah',d)]||'pending',
-     lunch:(S.meals||{})[mealKey(subId,'lunch',d)]||'pending',
-     dinner:(S.meals||{})[mealKey(subId,'dinner',d)]||'pending',
-     skipped:((S.subs||[]).find(s=>s.id===subId)?.skip||[]).includes(d)
-   });
+   history.push({date:d,subah:(S.meals||{})[mealKey(subId,'subah',d)]||'pending',lunch:(S.meals||{})[mealKey(subId,'lunch',d)]||'pending',dinner:(S.meals||{})[mealKey(subId,'dinner',d)]||'pending',skipped:((S.subs||[]).find(s=>s.id===subId)?.skip||[]).includes(d)});
  }
  return history;
 };
@@ -440,7 +428,6 @@ const addNotification=(type,message,data={})=>{
   S.notifications.unshift({id:generateId(),type,message,data:data||{},timestamp:Date.now(),read:0});
   if(S.notifications.length>100)S.notifications=S.notifications.slice(0,100);
 };
-
 const getUnreadCount=()=>(S.notifications||[]).filter(n=>!n.read).length;
 
 const showModal=(html)=>{$('#modalRoot').innerHTML=`<div class="modal" data-a="closeModal">${html}</div>`};
@@ -457,21 +444,15 @@ const showCustomerDetail=(subId)=>{
  mealHist.forEach(d=>{['subah','lunch','dinner'].forEach(m=>{if(d[m]==='consumed')consumed++;if(d[m]==='skipped')skipped++})});
  const totalMeals=mealHist.length*3;
  const rate=totalMeals>0?Math.round(consumed/totalMeals*100):0;
- 
  const orders=(S.orders||[]).filter(o=>o.sid===s.id||o.phone===s.phone);
  const payments=(S.pays||[]).filter(p=>p.phone===s.phone||p.name===s.name);
  
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
+ let html=`<div class="modal-content">
   <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px">
     <img src="${s.avatar||randAvatar(s.id)}" class="avatar lg" onerror="this.src='${IMG.av1}'" alt="Avatar">
-    <div style="flex:1">
-      <h3 style="margin:0">${esc(s.name)}</h3>
-      <div class="s">📱 ${s.phone} · ${esc(s.area||'Udala')}</div>
-      ${badge(st)}
-    </div>
-    <button class="btn sm r" data-a="closeModal" style="width:auto" aria-label="Close">✕</button>
+    <div style="flex:1"><h3 style="margin:0">${esc(s.name)}</h3><div class="s">📱 ${s.phone} · ${esc(s.area||'Udala')}</div>${badge(st)}</div>
+    <button class="btn sm r" data-a="closeModal" style="width:auto">✕</button>
   </div>
-  
   <div style="background:var(--inp);border-radius:14px;padding:14px;margin-bottom:14px">
     <div style="display:flex;justify-content:space-between;align-items:center"><b>🍽️ ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} Plan</b><b style="color:var(--o)">${inr(s.price)}</b></div>
     <div class="s" style="margin-top:6px">📅 ${s.start} → ${iso(end)}</div>
@@ -481,86 +462,26 @@ const showCustomerDetail=(subId)=>{
     ${s.notes?`<div class="s" style="color:var(--warn)">📝 ${esc(s.notes)}</div>`:''}
     ${s.utr?`<div class="s" style="margin-top:4px">🔢 UTR: <b>${esc(s.utr)}</b></div>`:''}
   </div>
-  
   <div style="display:flex;gap:8px;margin-bottom:14px">
     <div class="stat" style="flex:1;background:linear-gradient(135deg,#1B4332,#2D6A4F)"><div class="v">${consumed}</div><div class="l">Khaya</div></div>
     <div class="stat" style="flex:1;background:linear-gradient(135deg,#FF6B35,#E85D04)"><div class="v">${skipped}</div><div class="l">Skip</div></div>
     <div class="stat" style="flex:1;background:linear-gradient(135deg,#7C3AED,#5B21B6)"><div class="v">${rate}%</div><div class="l">Rate</div></div>
   </div>
-  
   <h3 style="font-size:15px;margin-top:4px">🍽️ Aaj Ka Khana</h3>
   <div class="grid3" style="margin:8px 0 14px">
-    <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
-      <div style="font-size:11px;color:var(--muted)">🌅 Subah</div>
-      <div class="meal-dot ${((S.meals||{})[mealKey(s.id,'subah')]||'')==='consumed'?'ok':((S.meals||{})[mealKey(s.id,'subah')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${(S.meals||{})[mealKey(s.id,'subah')]==='consumed'?'✓':(S.meals||{})[mealKey(s.id,'subah')]==='skipped'?'✕':'?'}
+    ${['subah','lunch','dinner'].map(m=>`<div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
+      <div style="font-size:11px;color:var(--muted)">${m==='subah'?'🌅 Subah':m==='lunch'?'☀️ Lunch':'🌙 Dinner'}</div>
+      <div class="meal-dot ${((S.meals||{})[mealKey(s.id,m)]||'')==='consumed'?'ok':((S.meals||{})[mealKey(s.id,m)]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
+        ${(S.meals||{})[mealKey(s.id,m)]==='consumed'?'✓':(S.meals||{})[mealKey(s.id,m)]==='skipped'?'✕':'?'}
       </div>
-    </div>
-    <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
-      <div style="font-size:11px;color:var(--muted)">☀️ Lunch</div>
-      <div class="meal-dot ${((S.meals||{})[mealKey(s.id,'lunch')]||'')==='consumed'?'ok':((S.meals||{})[mealKey(s.id,'lunch')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${(S.meals||{})[mealKey(s.id,'lunch')]==='consumed'?'✓':(S.meals||{})[mealKey(s.id,'lunch')]==='skipped'?'✕':'?'}
-      </div>
-    </div>
-    <div style="text-align:center;padding:10px;background:var(--inp);border-radius:10px">
-      <div style="font-size:11px;color:var(--muted)">🌙 Dinner</div>
-      <div class="meal-dot ${((S.meals||{})[mealKey(s.id,'dinner')]||'')==='consumed'?'ok':((S.meals||{})[mealKey(s.id,'dinner')]||'')==='skipped'?'no':'pending'}" style="margin:6px auto;width:36px;height:36px">
-        ${(S.meals||{})[mealKey(s.id,'dinner')]==='consumed'?'✓':(S.meals||{})[mealKey(s.id,'dinner')]==='skipped'?'✕':'?'}
-      </div>
-    </div>
+    </div>`).join('')}
   </div>
-  
-  <h3 style="font-size:15px">📅 Last 7 Din Meal History</h3>
-  <div class="timeline">
-    ${mealHist.slice(-7).reverse().map(d=>{
-      const marks=['subah','lunch','dinner'].map(m=>{
-        if(d[m]==='consumed')return '✓';if(d[m]==='skipped')return '✕';return '?';
-      }).join(' ');
-      const cls=d.skipped?'bad':(['subah','lunch','dinner'].every(m=>d[m]==='consumed')?'':'neutral');
-      return `<div class="tl-item ${cls}"><b>${d.date}</b> · ${d.skipped?'⏸ Skipped':marks}</div>`;
-    }).join('')}
-  </div>
-  
-  ${orders.length?`<h3 style="font-size:15px;margin-top:14px">🛒 Shop Orders (${orders.length})</h3>
-    ${orders.slice(-5).reverse().map(o=>`<div class="row" style="padding:8px 0"><div><b>${o.date}</b><div class="s">${o.items.slice(0,3).map(i=>i.n+' x'+i.q).join(', ')}${o.items.length>3?'...':''}</div></div><b>${inr(o.total)}</b></div>`).join('')}`:''}
-  
-  ${payments.length?`<h3 style="font-size:15px;margin-top:14px">💰 Payments</h3>
-    ${payments.slice(-5).reverse().map(p=>`<div class="row" style="padding:8px 0"><div><b>${p.d}</b><div class="s">${p.kind||'Plan'}</div></div><b>${inr(p.amt)}</b></div>`).join('')}`:''}
-  
   <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
     <a class="btn g" href="tel:+91${s.phone}" style="flex:1;margin:0;text-decoration:none;text-align:center">📞 Call</a>
     <a class="btn b" href="https://wa.me/91${s.phone}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">💬 WA</a>
     ${s.map?`<a class="btn p" href="${s.map}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">🗺️ Map</a>`:''}
   </div>
-  
   <button class="btn r" data-a="closeModal" style="margin-top:12px">Band Karein</button>
- </div>`;
- showModal(html);
-};
-
-const showProductDetail=(prodId)=>{
- const p=(S.prod||[]).find(x=>x.id==prodId);
- if(!p)return;
- const imgs=[p.img,IMG.thali,IMG.curry,IMG.roti].filter(Boolean);
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
-    <h3 style="margin:0">${esc(p.n)}</h3>
-    <button class="btn sm r" data-a="closeModal" style="width:auto" aria-label="Close">✕</button>
-  </div>
-  <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:10px">
-    ${imgs.map(src=>`<img src="${src}" style="width:180px;height:180px;object-fit:cover;border-radius:14px;flex:none" onerror="this.style.display='none'" alt="${esc(p.n)}">`).join('')}
-  </div>
-  <div style="background:var(--inp);border-radius:14px;padding:14px;margin:14px 0">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <b>${vdot(p.nv)} ${esc(p.c)}</b>
-      <b style="font-size:22px;color:var(--o)">${inr(p.p)}</b>
-    </div>
-    ${p.kind==='food'?`<div class="s">⭐ ${p.rating||'4.3'} · 🕐 ${p.time||25} min ${p.best?'· ⭐ BESTSELLER':''}</div>`:`<div class="s">Stock mein ${p.s?'✅':'❌'}</div>`}
-  </div>
-  <div style="display:flex;gap:8px">
-    <button class="btn g" data-a="inc" data-id="${p.id}" data-a2="closeModal" style="flex:1;margin:0">➕ Cart mein daalo</button>
-    <button class="btn ghost" data-a="closeModal" style="flex:1;margin:0">Band</button>
-  </div>
  </div>`;
  showModal(html);
 };
@@ -568,10 +489,10 @@ const showProductDetail=(prodId)=>{
 const showOrderDetail=(orderId)=>{
  const o=(S.orders||[]).find(x=>x.id==orderId);
  if(!o)return;
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
+ let html=`<div class="modal-content">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
     <h3 style="margin:0">Order #${String(o.id).slice(-4)}</h3>
-    <button class="btn sm r" data-a="closeModal" style="width:auto" aria-label="Close">✕</button>
+    <button class="btn sm r" data-a="closeModal" style="width:auto">✕</button>
   </div>
   <div style="background:var(--inp);border-radius:14px;padding:14px;margin-bottom:14px">
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
@@ -581,16 +502,12 @@ const showOrderDetail=(orderId)=>{
     </div>
     <div class="s">📍 ${esc(o.addr)}, ${esc(o.area)}</div>
     <div class="s">🕐 ${o.slot==='dinner'?'Dinner (8:00)':'Lunch (1:30)'} · 📅 ${o.date}</div>
+    <div class="s" style="color:var(--neon);font-weight:700">💳 Payment: ${o.paymentMode||'N/A'} ${o.utr&&o.utr!=='COD'&&o.utr!=='WALLET_DEBIT'?`<br>🔢 UTR: ${esc(o.utr)}`:''}</div>
     ${o.notes?`<div class="s" style="color:var(--warn);margin-top:4px">📝 ${esc(o.notes)}</div>`:''}
-    ${o.contactless?`<div class="s" style="color:var(--neon);margin-top:4px">🚫👆 Contactless Delivery</div>`:''}
-    ${o.tip>0?`<div class="s" style="margin-top:4px">💵 Tip: ${inr(o.tip)}</div>`:''}
   </div>
   <h3 style="font-size:15px">📦 Items</h3>
   ${o.items.map(i=>`<div class="row"><span>${esc(i.n)} × ${i.q}</span><b>${inr(i.p*i.q)}</b></div>`).join('')}
   <div class="row" style="border-top:2px solid var(--line);padding-top:10px;margin-top:6px"><b>Total</b><b style="color:var(--o);font-size:18px">${inr(o.total)}</b></div>
-  ${o.discount>0?`<div class="row"><span>Discount (${o.coupon})</span><b style="color:var(--neon)">-${inr(o.discount)}</b></div>`:''}
-  ${o.rating>0?`<div class="row"><span>Rating</span><b>${'⭐'.repeat(o.rating)}</b></div>`:''}
-  ${o.feedback?`<div class="s" style="margin-top:8px;padding:10px;background:var(--inp);border-radius:10px">💬 ${esc(o.feedback)}</div>`:''}
   <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
     <a class="btn g" href="tel:+91${o.phone}" style="flex:1;margin:0;text-decoration:none;text-align:center">📞 Call</a>
     ${o.map?`<a class="btn b" href="${o.map}" target="_blank" style="flex:1;margin:0;text-decoration:none;text-align:center">🗺️ Map</a>`:''}
@@ -603,56 +520,47 @@ const showOrderDetail=(orderId)=>{
 
 const showNotifications=()=>{
  const notifs=(S.notifications||[]).slice(0,20);
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
+ let html=`<div class="modal-content">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
     <h3 style="margin:0">🔔 Notifications</h3>
     <div style="display:flex;gap:8px">
-      <button class="btn sm g" data-a="markAllRead" style="margin:0">✅ Mark All Read</button>
-      <button class="btn sm r" data-a="closeModal" style="margin:0;width:auto" aria-label="Close">✕</button>
+      <button class="btn sm g" data-a="markAllRead" style="margin:0">✅ All Read</button>
+      <button class="btn sm r" data-a="closeModal" style="margin:0;width:auto">✕</button>
     </div>
   </div>`;
-  
-  if(notifs.length===0){
-    html+=`<p class="s" style="text-align:center;padding:20px">Koi notifications nahi hain 🔕</p>`;
-  } else {
+  if(notifs.length===0){html+=`<p class="s" style="text-align:center;padding:20px">Koi notifications nahi hain 🔕</p>`;} 
+  else {
     notifs.forEach(n=>{
       const time=new Date(n.timestamp).toLocaleString('en-IN');
       html+=`<div style="background:${n.read?'var(--inp)':'rgba(6,214,160,.1)'};border-radius:12px;padding:12px;margin-bottom:10px;border-left:3px solid ${n.read?'var(--muted)':'var(--neon)'}">
         <div style="display:flex;justify-content:space-between;align-items:start">
-          <div style="flex:1">
-            <div style="font-weight:700;margin-bottom:4px">${esc(n.message)}</div>
-            <div class="s">${time}</div>
-          </div>
+          <div style="flex:1"><div style="font-weight:700;margin-bottom:4px">${esc(n.message)}</div><div class="s">${time}</div></div>
           ${!n.read?`<button class="btn sm g" data-a="markRead" data-id="${n.id}" style="margin:0;padding:4px 8px;font-size:10px">✓</button>`:''}
         </div>
       </div>`;
     });
   }
-  
   html+=`</div>`;
-  showModal(html);
+ showModal(html);
 };
 
 const showOrderHistory=()=>{
  if(!ME)return;
  const myOrders=(S.orders||[]).filter(o=>o.phone===ME.phone).reverse();
- 
- let html=`<div class="modal-content" onclick="event.stopPropagation()">
+ let html=`<div class="modal-content">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
     <h3 style="margin:0">📜 My Order History</h3>
-    <button class="btn sm r" data-a="closeModal" style="width:auto" aria-label="Close">✕</button>
+    <button class="btn sm r" data-a="closeModal" style="width:auto">✕</button>
   </div>`;
-  
-  if(myOrders.length===0){
-    html+=`<p class="s" style="text-align:center;padding:20px">Abhi tak koi order nahi hai 🍽️<br><br><button class="btn g" data-a="closeModal" style="margin-top:10px">Shop Now</button></p>`;
-  } else {
+  if(myOrders.length===0){html+=`<p class="s" style="text-align:center;padding:20px">Abhi tak koi order nahi hai 🍽️</p>`;} 
+  else {
     myOrders.forEach(o=>{
       html+=`<div style="background:var(--inp);border-radius:12px;padding:12px;margin-bottom:10px">
         <div style="display:flex;justify-content:space-between;margin-bottom:6px">
           <b>#${String(o.id).slice(-4)}</b>
           <span class="badge ${o.status==='delivered'?'active':'pending'}">${o.status}</span>
         </div>
-        <div class="s">${o.date} · ${o.slot}</div>
+        <div class="s">${o.date} · ${o.slot} · ${o.paymentMode||''}</div>
         <div class="s" style="margin:6px 0">${o.items.map(i=>`${i.n} x${i.q}`).join(', ')}</div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
           <b style="color:var(--o)">${inr(o.total)}</b>
@@ -663,25 +571,18 @@ const showOrderHistory=()=>{
       </div>`;
     });
   }
-  
   html+=`</div>`;
-  showModal(html);
+ showModal(html);
 };
 
 const VIEWS={
 plan:()=>{
  const price=PRICING[F.type][F.days]||2899;
  const bannerImg=randBanner();
- 
  let h=`<div class="kids-banner">
   <img src="${bannerImg}" onerror="this.src='${IMG.kids1}'" alt="Banner">
-  <div class="overlay">
-    <h2>🍱 Ghar jaisa khana</h2>
-    <p>Apne baccho ko do roz ka ghar ka swaad</p>
-    <p style="margin-top:6px;font-size:12px">Aaj: <b>${esc(mf(new Date(),F.type))}</b></p>
-  </div>
+  <div class="overlay"><h2>🍱 Ghar jaisa khana</h2><p>Apne baccho ko do roz ka ghar ka swaad</p><p style="margin-top:6px;font-size:12px">Aaj: <b>${esc(mf(new Date(),F.type))}</b></p></div>
  </div>`;
-
  if(ME){
   const mine=(S.subs||[]).filter(s=>s.phone===ME.phone).sort((a,b)=>b.ts-a.ts);
   h+=`<div class="card clickable"><div style="display:flex;justify-content:space-between;align-items:center">
@@ -694,7 +595,6 @@ plan:()=>{
       <button class="btn sm r" data-a="logout" style="margin:0">Logout</button>
     </div>
   </div></div>`;
-
   if(mine.length > 0){
     h+=`<div class="card"><h3>📋 Aapke Saare Plans (${mine.length})</h3>`;
     mine.forEach(live=>{
@@ -705,12 +605,10 @@ plan:()=>{
       const passed=clamp(Math.floor((today-start)/86400000),0,live.days);
       const left=Math.max(0,live.days-passed);
       const progress=Math.min(100, Math.round((passed/live.days)*100));
-      
       h+=`<div class="grow" data-a="custDetail" data-id="${live.id}" style="padding:14px 10px;background:var(--inp);border-radius:14px;margin-bottom:12px">
         <div style="flex:1">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <b style="font-size:15px">${live.type==='veg'?'🟢 Veg':'🔴 NV'} · ${live.days} Din</b>
-            ${badge(st)}
+            <b style="font-size:15px">${live.type==='veg'?'🟢 Veg':'🔴 NV'} · ${live.days} Din</b>${badge(st)}
           </div>
           <div class="s">📅 ${live.start} se ${iso(end)} tak</div>
           <div class="s" style="margin-top:4px;color:var(--o);font-weight:700">⏳ Bache hue din: ${left}</div>
@@ -719,22 +617,18 @@ plan:()=>{
       </div>`;
     });
     h+=`</div>`;
-  } else {
-    h+=`<div class="card" style="text-align:center;padding:30px"><div style="font-size:30px;margin-bottom:10px">🍱</div><p class="s">Aapne abhi tak koi plan nahi liya hai.</p></div>`;
-  }
+  } else {h+=`<div class="card" style="text-align:center;padding:30px"><div style="font-size:30px;margin-bottom:10px">🍱</div><p class="s">Aapne abhi tak koi plan nahi liya hai.</p></div>`;}
  } else {
   h+=`<div class="card"><h3>👤 Login</h3>
    <div style="display:flex;gap:8px"><input id="lname" style="margin:0" placeholder="Naam" aria-label="Name"><input id="lphone" style="margin:0" type="tel" maxlength="10" placeholder="Phone" aria-label="Phone"><button class="btn sm g" data-a="login" style="margin:0">Login</button></div></div>`;
  }
-
  const pm7=PRICING[F.type][7]/21,pm15=PRICING[F.type][15]/45,pm30=PRICING[F.type][30]/90;
  const best=Math.min(pm7,pm15,pm30);
  h+=`<div class="card"><h3>📊 Plan Compare</h3>
-  <table class="compare-table"><tr><th>Din</th><th>7</th><th>15</th><th>30</th></tr>
-  <tr><td>Total</td><td>${inr(PRICING[F.type][7])}</td><td>${inr(PRICING[F.type][15])}</td><td>${inr(PRICING[F.type][30])}</td></tr>
-  <tr><td>Per meal</td><td class="${best===pm7?'best':''}">${inr(pm7)}</td><td class="${best===pm15?'best':''}">${inr(pm15)}</td><td class="${best===pm30?'best':''}">${inr(pm30)}</td></tr></table>
+  <table class="compare-table" style="width:100%;text-align:center;border-collapse:collapse"><tr><th style="padding:8px">Din</th><th style="padding:8px">7</th><th style="padding:8px">15</th><th style="padding:8px">30</th></tr>
+  <tr><td style="padding:8px">Total</td><td style="padding:8px">${inr(PRICING[F.type][7])}</td><td style="padding:8px">${inr(PRICING[F.type][15])}</td><td style="padding:8px">${inr(PRICING[F.type][30])}</td></tr>
+  <tr><td style="padding:8px">Per meal</td><td style="padding:8px" class="${best===pm7?'best':''}">${inr(pm7)}</td><td style="padding:8px" class="${best===pm15?'best':''}">${inr(pm15)}</td><td style="padding:8px" class="${best===pm30?'best':''}">${inr(pm30)}</td></tr></table>
   <div class="s" style="margin-top:8px;text-align:center">💡 30 din = sabse sasta!</div></div>`;
-
  h+=`<div class="card"><h3>🍽️ Naya Plan / Trial</h3>
   <div class="s">Khana type</div><div class="seg"><button class="${F.type==='veg'?'on':''}" data-a="set" data-k="type" data-v="veg">🟢 Veg</button><button class="${F.type==='nv'?'on':''}" data-a="set" data-k="type" data-v="nv">🔴 Non-Veg</button></div>
   <div class="s">Kitne din</div><div class="seg"><button class="${F.days=='7'?'on':''}" data-a="set" data-k="days" data-v="7">7</button><button class="${F.days=='15'?'on':''}" data-a="set" data-k="days" data-v="15">15</button><button class="${F.days=='30'?'on':''}" data-a="set" data-k="days" data-v="30">30</button></div>
@@ -758,24 +652,19 @@ shop:()=>{
      <button data-a="shopmode" data-v="food" style="border:none;background:${SHOPMODE==='food'?'#fff':'transparent'};color:${SHOPMODE==='food'?'#E85D04':'#fff'};border-radius:10px;font-size:14px">🍛 Food</button>
      <button data-a="shopmode" data-v="grocery" style="border:none;background:${SHOPMODE==='grocery'?'#fff':'transparent'};color:${SHOPMODE==='grocery'?'#E85D04':'#fff'};border-radius:10px;font-size:14px">🛒 Grocery</button>
    </div></div>`;
-   
  h+=`<div style="position:sticky;top:0;z-index:10;background:var(--bg);padding-bottom:10px">
    <input id="sq" placeholder="🔍 Search for dishes, groceries..." value="${esc(SQ)}" style="margin:0;border-radius:12px" aria-label="Search">
  </div>`;
-
  if(SHOPMODE==='grocery') {
    h+=`<div class="card" style="background:rgba(6,214,160,.08);border-color:rgba(6,214,160,.3)"><div style="display:flex;justify-content:space-between;align-items:center"><div><b style="color:var(--neon)">🛒 Weekly Kirana</b><div class="s" style="margin-top:2px">1-tap mein pura ration add karein</div></div><button class="btn sm g" data-a="addPreset" style="margin:0;width:auto">➕ Add All</button></div></div>`;
  }
-
  if(SHOPMODE==='food'){
   const foods=(S.prod||[]).filter(p=>p.kind==='food'&&p.s!==0);
   const cats=['Sab',...new Set(foods.map(p=>p.c))];
-  
   h+=`<div style="display:flex;gap:10px;overflow-x:auto;padding:4px 2px 16px;scrollbar-width:none">`+cats.map(c=>{
     const icons={'Sab':'🍽️','Thali':'🍱','Curry':'🍛','Biryani':'🥘','Sweets':'🍮','Drinks':'🥤','Chai aur Nashta':'☕'};
     return `<button data-a="fcat" data-v="${esc(c)}" class="category-pill ${FCAT===c?'on':''}" style="flex:none"><span class="icon">${icons[c]||'🍴'}</span>${esc(c)}</button>`;
   }).join('')+`</div>`;
-  
   h+=`<div style="display:flex;gap:8px;margin-bottom:12px">
     <select id="sortSelect" style="margin:0;padding:8px 12px;font-size:12px;border-radius:10px" aria-label="Sort by">
       <option value="default" ${SORT_BY==='default'?'selected':''}>Relevance</option>
@@ -785,20 +674,17 @@ shop:()=>{
     </select>
     <button class="btn sm ghost" data-a="toggleView" style="margin:0;padding:8px 12px;border-radius:10px">${VIEW_MODE==='grid'?'📋 List':'🔲 Grid'}</button>
   </div>`;
-  
   let list=foods;if(FCAT!=='Sab')list=list.filter(p=>p.c===FCAT);
   if(SQ.trim())list=list.filter(p=>p.n.toLowerCase().includes(SQ.trim().toLowerCase()));
-  
   if(SORT_BY==='price-low')list.sort((a,b)=>a.p-b.p);
   else if(SORT_BY==='price-high')list.sort((a,b)=>b.p-a.p);
   else if(SORT_BY==='rating')list.sort((a,b)=>(b.rating||0)-(a.rating||0));
-  
   if(list.length){
     if(VIEW_MODE==='grid'){
       h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">`;
       list.forEach(p=>{
         const q=C[p.id]||0;
-        h+=`<div class="pcard" data-a="prodDetail" data-id="${p.id}" style="border-radius:16px">
+        h+=`<div class="pcard" style="border-radius:16px">
           <div class="ph" style="height:130px;border-radius:16px 16px 0 0">
             ${imgOrEmoji(p.img,'🍛')}
             <span style="position:absolute;top:10px;left:10px;z-index:2">${p.nv?'<div class="nv-indicator"></div>':'<div class="veg-indicator"></div>'}</span>
@@ -822,7 +708,7 @@ shop:()=>{
       h+=`<div class="card" style="padding:8px">`;
       list.forEach(p=>{
         const q=C[p.id]||0;
-        h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)">
+        h+=`<div class="grow" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)">
           <div style="width:70px;height:70px;flex:none;border-radius:10px;overflow:hidden;position:relative">
             ${imgOrEmoji(p.img,'🍛')}
             <span style="position:absolute;top:4px;left:4px">${p.nv?'<div class="nv-indicator" style="width:12px;height:12px"></div>':'<div class="veg-indicator" style="width:12px;height:12px"></div>'}</span>
@@ -842,9 +728,7 @@ shop:()=>{
       });
       h+=`</div>`;
     }
-  } else {
-    h+=`<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:10px">🔍</div><p class="s">Kuch nahi mila. Search badal kar dekhein.</p></div>`;
-  }
+  } else {h+=`<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:10px">🔍</div><p class="s">Kuch nahi mila. Search badal kar dekhein.</p></div>`;}
  } else {
   const gro=(S.prod||[]).filter(p=>p.kind!=='food'&&p.s!==0);
   [...new Set(gro.map(p=>p.c))].forEach(c=>{
@@ -854,7 +738,7 @@ shop:()=>{
    h+=`<div class="card"><h3 style="font-size:16px;margin-bottom:12px">${esc(c)}</h3>`;
    list.forEach(p=>{
     const q=C[p.id]||0;
-    h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)">
+    h+=`<div class="grow" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)">
       <div style="width:60px;height:60px;flex:none;border-radius:10px;overflow:hidden">${imgOrEmoji(p.img,'📦')}</div>
       <div style="flex:1;padding:0 12px"><b style="font-size:14px;color:var(--text)">${esc(p.n)}</b><div class="s" style="margin-top:2px">${inr(p.p)}</div></div>
       <div style="width:80px">
@@ -865,7 +749,6 @@ shop:()=>{
    h+=`</div>`;
   });
  }
-
  if(cart.cnt>0) {
    h+=`<div class="cartbar cartbar-premium">
      <div style="flex:1">
@@ -878,18 +761,15 @@ shop:()=>{
      <button class="btn" data-a="goc" style="margin:0;width:auto;background:#fff;color:#E85D04;font-weight:800;box-shadow:0 4px 12px rgba(0,0,0,0.2)">View Cart ></button>
    </div>`;
  }
- 
  h+=`<div class="card" id="co" style="margin-top:${cart.cnt>0?'100':'20'}px;border-radius:20px">
   <h3 style="font-size:18px;margin-bottom:16px">📦 Checkout Details</h3>
   <div class="s" style="font-weight:800;margin-bottom:8px">🕐 Delivery Slot:</div>
   <div class="seg" style="margin-bottom:16px"><button class="${F.slot==='lunch'?'on':''}" data-a="setSlot" data-v="lunch">☀️ Lunch (1:30 PM)</button><button class="${F.slot==='dinner'?'on':''}" data-a="setSlot" data-v="dinner">🌙 Dinner (8:00 PM)</button></div>
-  
   <input data-f="name" placeholder="Full Name *" value="${esc(F.name)}" style="border-radius:12px">
   <input data-f="phone" type="tel" maxlength="10" placeholder="10-digit Phone *" value="${esc(F.phone)}" style="border-radius:12px">
   <input data-f="addr" placeholder="Complete Address (House No, Street) *" value="${esc(F.addr)}" style="border-radius:12px">
   <button class="btn g" data-a="gps" style="border-radius:12px;margin-bottom:12px">📍 Detect GPS Location</button>
   ${F.map?`<div class="s" style="color:var(--neon);font-weight:700;margin-bottom:12px">✅ Location locked successfully</div>`:`<div class="s" style="color:var(--bad);font-weight:700;margin-bottom:12px">⚠️ GPS location is required for delivery</div>`}
-  
   <div style="background:var(--inp);border-radius:14px;padding:14px;margin-top:16px">
     <div class="row"><span>Item Total</span><b>${inr(cart.sub)}</b></div>
     ${cart.disc>0?`<div class="row"><span>Coupon Discount</span><b style="color:var(--neon)">-${inr(cart.disc)}</b></div>`:''}
@@ -897,10 +777,104 @@ shop:()=>{
     <div class="row"><span>Delivery Fee</span><b style="color:var(--neon)">FREE</b></div>
     <div class="row" style="border-top:2px dashed var(--line);padding-top:12px;margin-top:8px"><b style="font-size:16px">To Pay</b><b style="color:var(--o);font-size:20px">${inr(cart.total)}</b></div>
   </div>
-  
   <button class="btn" data-a="order" style="margin-top:20px;border-radius:14px;font-size:16px;padding:16px;box-shadow:0 8px 24px rgba(255,107,53,0.4)">✅ Place Order (${inr(cart.total)})</button>
  </div>`;
  return h
+},
+
+kirana:()=>{
+  const walletBal=(S.wallet||{})[ME?.phone]||0;
+  const cart=calcCart();
+  const gro=(S.prod||[]).filter(p=>p.kind==='grocery'&&p.s!==0);
+  const cats=['Sab',...new Set(gro.map(p=>p.c))];
+  const filtered=FCAT==='Sab'?gro:gro.filter(p=>p.c===FCAT);
+  const searched=SQ.trim()?filtered.filter(p=>p.n.toLowerCase().includes(SQ.toLowerCase())):filtered;
+  
+  let h=`<div class="card" style="background:linear-gradient(135deg,#06D6A0,#059669);color:#fff;border:none;border-radius:0 0 24px 24px;margin:-24px -16px 16px;padding:20px 16px">
+    <h3 style="color:#fff;margin-bottom:12px;font-size:20px">🛒 Kirana Store</h3>
+    <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.2);padding:12px;border-radius:14px">
+      <div>
+        <div style="font-size:11px;opacity:0.9">💰 Wallet Balance</div>
+        <div style="font-size:22px;font-weight:900">₹${walletBal}</div>
+      </div>
+      <button class="btn sm" data-a="rechargeWallet" style="margin:0;background:#fff;color:#059669;font-weight:800">+ Recharge</button>
+    </div>
+  </div>`;
+  
+  h+=`<div style="position:sticky;top:0;z-index:10;background:var(--bg);padding-bottom:10px">
+    <input id="sq" placeholder="🔍 Kirana search..." value="${esc(SQ)}" style="margin:0;border-radius:12px">
+  </div>`;
+  
+  h+=`<div style="display:flex;gap:8px;overflow-x:auto;padding:4px 2px 16px;scrollbar-width:none">`;
+  const catIcons={'Sab':'🛒','Dairy':'🥛','Kirana':'🌾','Chai aur Nashta':'☕','Ghar ki Safai':'🧹','Body Care':'🧼','Snacks':'🍪','Drinks':'🥤'};
+  cats.forEach(c=>{
+    h+=`<button data-a="fcat" data-v="${esc(c)}" class="category-pill ${FCAT===c?'on':''}" style="flex:none">
+      <span class="icon">${catIcons[c]||'📦'}</span>${esc(c)}
+    </button>`;
+  });
+  h+=`</div>`;
+  
+  if(searched.length){
+    h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">`;
+    searched.forEach(p=>{
+      const q=C[p.id]||0;
+      h+=`<div class="pcard" style="border-radius:16px">
+        <div class="ph" style="height:120px;border-radius:16px 16px 0 0">
+          ${imgOrEmoji(p.img,'📦')}
+          <span style="position:absolute;top:8px;left:8px">${p.nv?'<div class="nv-indicator" style="width:14px;height:14px"></div>':'<div class="veg-indicator" style="width:14px;height:14px"></div>'}</span>
+        </div>
+        <div style="padding:10px">
+          <b style="font-size:13px;display:block;line-height:1.3;margin-bottom:4px;color:var(--text)">${esc(p.n)}</b>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+            <b style="color:var(--text);font-size:14px">${inr(p.p)}</b>
+            ${q>0?`<div style="display:flex;align-items:center;gap:4px">
+              <button data-a="dec" data-id="${p.id}" style="width:26px;height:26px;border:0;border-radius:6px;background:var(--bad);color:#fff;font-weight:800">−</button>
+              <b style="min-width:18px;text-align:center;font-size:13px">${q}</b>
+              <button data-a="inc" data-id="${p.id}" style="width:26px;height:26px;border:0;border-radius:6px;background:var(--neon);color:#000;font-weight:800">+</button>
+            </div>`:`<button data-a="inc" data-id="${p.id}" class="add-btn-zomato" style="padding:5px 10px;font-size:11px">ADD +</button>`}
+          </div>
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+  } else {h+=`<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px">🔍</div><p class="s">Kuch nahi mila</p></div>`;}
+  
+  if(cart.cnt>0){
+    h+=`<div class="cartbar cartbar-premium" style="bottom:90px">
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <b style="font-size:14px">${cart.cnt} Items</b>
+          ${cart.disc>0?`<span style="background:var(--neon);color:#000;font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px">-${inr(cart.disc)} OFF</span>`:''}
+        </div>
+        <div style="font-size:16px;font-weight:900">${inr(cart.total)}</div>
+      </div>
+      <button class="btn sm" data-a="goc" style="margin:0;background:#fff;color:#059669;font-weight:800">View Cart</button>
+    </div>`;
+  }
+  
+  h+=`<div class="card" id="co" style="margin-top:${cart.cnt>0?'100':'20'}px;border-radius:20px">
+    <h3 style="font-size:18px;margin-bottom:16px">📦 Checkout</h3>
+    <div style="background:var(--inp);border-radius:14px;padding:14px;margin-bottom:14px">
+      <div class="row"><span>💰 Wallet Balance</span><b style="color:var(--neon)">₹${walletBal}</b></div>
+      <div class="row"><span>🛒 Cart Total</span><b>${inr(cart.sub)}</b></div>
+      ${cart.disc>0?`<div class="row"><span>🎟️ Discount</span><b style="color:var(--neon)">-${inr(cart.disc)}</b></div>`:''}
+      <div class="row" style="border-top:2px dashed var(--line);padding-top:10px;margin-top:6px"><b style="font-size:16px">Final</b><b style="color:var(--o);font-size:20px">${inr(cart.total)}</b></div>
+    </div>
+    <div class="s" style="margin-bottom:8px">🎟️ Coupon Code:</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input id="kiranaCoupon" placeholder="Coupon code" value="${esc(CART_COUPON)}" style="margin:0;flex:1">
+      <button class="btn sm g" data-a="applyKiranaCoupon" style="margin:0;width:auto">Apply</button>
+    </div>
+    <input data-f="addr" placeholder="Complete Address *" value="${esc(F.addr)}" style="border-radius:12px">
+    <button class="btn g" data-a="gps" style="border-radius:12px;margin-bottom:12px">📍 GPS Location</button>
+    ${F.map?`<div class="s" style="color:var(--neon);font-weight:700;margin-bottom:12px">✅ Location locked</div>`:`<div class="s" style="color:var(--bad);font-weight:700;margin-bottom:12px">⚠️ GPS required</div>`}
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn r" data-a="clearCart" style="flex:1">🗑️ Clear</button>
+      <button class="btn g" data-a="checkoutKirana" style="flex:1;font-size:16px">✅ Order (₹${cart.total})</button>
+    </div>
+    <div class="s" style="margin-top:12px;text-align:center;color:var(--warn)">⚠️ Order wallet se deduct hoga. Balance kam ho toh pehle recharge karo.</div>
+  </div>`;
+  return h;
 },
 
 kitchen:()=>{
@@ -916,14 +890,10 @@ kitchen:()=>{
   <div class="stat" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)"><div class="v">${roti}</div><div class="l">Roti</div></div>
   <div class="stat" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><div class="v">${chawal}</div><div class="l">Chawal</div></div></div>
   <button class="btn g" data-a="copyKitchen">📋 Summary Copy</button></div>`;
- 
  h+=`<input id="kitchenSearch" placeholder="🔍 Search customer..." value="${esc(KITCHEN_SEARCH)}" aria-label="Search kitchen">`;
- 
  h+=`<div class="card"><h3>👥 List (${on.length}) <span class="s clickable-indicator">Tap any customer</span></h3>`;
  let filtered=on;
- if(KITCHEN_SEARCH.trim()){
-   filtered=on.filter(s=>s.name.toLowerCase().includes(KITCHEN_SEARCH.trim().toLowerCase())||s.phone.includes(KITCHEN_SEARCH.trim()));
- }
+ if(KITCHEN_SEARCH.trim()){filtered=on.filter(s=>s.name.toLowerCase().includes(KITCHEN_SEARCH.trim().toLowerCase())||s.phone.includes(KITCHEN_SEARCH.trim()));}
  filtered.forEach(s=>{
   const subah=(S.meals||{})[mealKey(s.id,'subah')]||'pending';
   const lunch=(S.meals||{})[mealKey(s.id,'lunch')]||'pending';
@@ -939,7 +909,7 @@ kitchen:()=>{
         <div class="meal-dot ${dinner==='consumed'?'ok':dinner==='skipped'?'no':'pending'}">D</div>
       </div>
     </div>
-    <button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skipToday" data-id="${s.id}">${s.skip.includes(k)?'Wapas':'Skip'}</button>
+    <button class="btn sm ${s.skip.includes(k)?'g':'r'}" data-a="skipToday" data-id="${s.id}" onclick="event.stopPropagation()">${s.skip.includes(k)?'Wapas':'Skip'}</button>
   </div>`});
  if(!filtered.length)h+=`<p class="s">Koi nahi.</p>`;
  return h+`</div>`},
@@ -954,16 +924,11 @@ delivery:()=>{
  let h=`<div class="card" style="background:linear-gradient(135deg,rgba(27,67,50,.9),rgba(7,11,20,.85));color:#fff;border:1px solid rgba(6,214,160,.3);text-align:center">
   <div class="s" style="color:#A7F3D0">AAJ KI DELIVERY</div><div style="font-size:36px;font-weight:900;text-shadow:0 0 20px rgba(6,214,160,.7)">${done.length} / ${live.length}</div>
   <div class="pbar" style="background:rgba(255,255,255,.15)"><div class="pfill" style="width:${live.length?Math.round(done.length/live.length*100):0}%"></div></div></div>`;
- 
  h+=`<input id="deliverySearch" placeholder="🔍 Search customer..." value="${esc(DELIVERY_SEARCH)}" aria-label="Search delivery">`;
- 
  h+=`<div class="card"><h3>⏳ Baaki (${pend.length}) <span class="s clickable-indicator">Tap for full address</span></h3>`;
  let filtered=pend;
- if(DELIVERY_SEARCH.trim()){
-   filtered=pend.filter(s=>s.name.toLowerCase().includes(DELIVERY_SEARCH.trim().toLowerCase())||s.phone.includes(DELIVERY_SEARCH.trim())||s.area.toLowerCase().includes(DELIVERY_SEARCH.trim().toLowerCase()));
- }
+ if(DELIVERY_SEARCH.trim()){filtered=pend.filter(s=>s.name.toLowerCase().includes(DELIVERY_SEARCH.trim().toLowerCase())||s.phone.includes(DELIVERY_SEARCH.trim())||s.area.toLowerCase().includes(DELIVERY_SEARCH.trim().toLowerCase()));}
  filtered.sort((a,b)=>(a.area||'').localeCompare(b.area||''));
- 
  filtered.forEach((s,i)=>{h+=`<div class="grow" style="flex-direction:column;align-items:stretch;padding:12px 6px" data-a="custDetail" data-id="${s.id}">
   <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
     <img src="${s.avatar||randAvatar(s.id)}" class="avatar" onerror="this.src='${IMG.av1}'" alt="Avatar">
@@ -989,6 +954,7 @@ delivery:()=>{
 owner:()=>{
  if(!OK)return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 tap → PIN 4821</p></div>`;
  const pendPay=(S.subs||[]).filter(s=>s.status==='pending');
+ const pendWallet=(S.walletLedger||[]).filter(w=>w.status==='pending');
  const act=(S.subs||[]).filter(isLive).length;
  const rev=(S.pays||[]).reduce((a,p)=>a+(+p.amt||0),0);
  const todayOrders=(S.orders||[]).filter(o=>o.date===todayStr()).length;
@@ -996,7 +962,7 @@ owner:()=>{
  let h=`<div class="card"><h3>📊 Dashboard</h3><div class="grid2">
   <div class="stat" style="background:linear-gradient(135deg,#1B4332,#2D6A4F)"><div class="v">${act}</div><div class="l">Active</div></div>
   <div class="stat" style="background:linear-gradient(135deg,#FF6B35,#E85D04)"><div class="v">${inr(rev)}</div><div class="l">Kamai</div></div>
-  <div class="stat" style="background:linear-gradient(135deg,${pendPay.length?'#F59E0B,#B45309':'#10B981,#059669'})"><div class="v">${pendPay.length}</div><div class="l">Pending</div></div>
+  <div class="stat" style="background:linear-gradient(135deg,${pendPay.length?'#F59E0B,#B45309':'#10B981,#059669'})"><div class="v">${pendPay.length}</div><div class="l">Pending Plans</div></div>
   <div class="stat" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><div class="v">${todayOrders}</div><div class="l">Today Orders</div></div></div>
   <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
     <button class="btn sm b" data-a="backup">💾 Backup</button>
@@ -1005,10 +971,24 @@ owner:()=>{
     <button class="btn sm" data-a="showNotifications" style="position:relative">🔔 Notifications<span class="notification-badge">${getUnreadCount()}</span></button>
   </div></div>`;
  
- h+=`<div class="card"><h3>🧾 Sections</h3><div class="seg"><button class="${OSEC==='pay'?'on':''}" data-a="osec" data-v="pay">💳 Pay</button><button class="${OSEC==='subs'?'on':''}" data-a="osec" data-v="subs">🍱 Plans</button><button class="${OSEC==='prod'?'on':''}" data-a="osec" data-v="prod">🛒 Prod</button><button class="${OSEC==='set'?'on':''}" data-a="osec" data-v="set">⚙️ Set</button></div>`;
+ h+=`<div class="card"><h3>🧾 Sections</h3><div class="seg"><button class="${OSEC==='pay'?'on':''}" data-a="osec" data-v="pay">💳 Pay</button><button class="${OSEC==='wallet'?'on':''}" data-a="osec" data-v="wallet">💰 Wallet</button><button class="${OSEC==='subs'?'on':''}" data-a="osec" data-v="subs">🍱 Plans</button><button class="${OSEC==='prod'?'on':''}" data-a="osec" data-v="prod">🛒 Prod</button><button class="${OSEC==='set'?'on':''}" data-a="osec" data-v="set">⚙️ Set</button></div>`;
  if(OSEC==='pay'){
   if(pendPay.length){pendPay.forEach(s=>{h+=`<div class="grow" data-a="custDetail" data-id="${s.id}" style="align-items:flex-start;background:rgba(245,158,11,.06);padding:12px;border-radius:12px;margin-top:8px"><img src="${s.avatar||randAvatar(s.id)}" class="avatar" onerror="this.src='${IMG.av1}'" alt="Avatar"><div style="flex:1"><b>${esc(s.name)}</b> ${badge('pending')}<div class="s">📱 ${s.phone} · ${inr(s.price)}</div><div class="s" style="font-weight:800">🔢 UTR: ${esc(s.utr||'-')}</div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn sm g" data-a="verifyPay" data-id="${s.id}" style="flex:1">✅ Verify</button><button class="btn sm r" data-a="rejectPay" data-id="${s.id}" style="flex:1">❌</button></div></div></div>`})}
   else h+=`<p class="s">Koi pending nahi 🎉</p>`;
+ } else if(OSEC==='wallet'){
+   if(pendWallet.length){pendWallet.forEach(w=>{
+     h+=`<div class="grow" style="align-items:flex-start;background:rgba(6,214,160,.06);padding:12px;border-radius:12px;margin-top:8px">
+       <div style="flex:1">
+         <b>${esc(w.name)}</b> <span class="badge pending">Pending</span>
+         <div class="s">📱 ${w.phone} · 💰 ${inr(w.amt)}</div>
+         <div class="s" style="font-weight:800">🔢 UTR: ${esc(w.utr||'-')}</div>
+         <div style="display:flex;gap:8px;margin-top:8px">
+           <button class="btn sm g" data-a="verifyWallet" data-id="${w.id}" style="flex:1">✅ Verify & Add</button>
+           <button class="btn sm r" data-a="rejectWallet" data-id="${w.id}" style="flex:1">❌ Reject</button>
+         </div>
+       </div>
+     </div>`;
+   })} else {h+=`<p class="s">Koi wallet recharge pending nahi 🎉</p>`;}
  } else if(OSEC==='subs'){
   h+=`<div class="s clickable-indicator" style="margin-bottom:8px">Tap kisi bhi customer par → full details dekho</div>`;
   (S.subs||[]).slice().reverse().forEach(s=>{h+=`<div class="grow" data-a="custDetail" data-id="${s.id}"><img src="${s.avatar||randAvatar(s.id)}" class="avatar" onerror="this.src='${IMG.av1}'" alt="Avatar"><div style="flex:1"><b>${esc(s.name)}</b><div class="s">${s.phone} · ${inr(s.price)}</div></div>${badge(getSubStatus(s))}</div>`});
@@ -1017,20 +997,15 @@ owner:()=>{
    <select id="pkind" style="margin:8px 0 0" aria-label="Product type"><option value="grocery">🛒 Grocery</option><option value="food">🍛 Food</option></select>
    <input id="pallergens" placeholder="Allergens (optional)" style="margin:8px 0 0" aria-label="Allergens">
    <button class="btn g" data-a="addProd">➕ Add</button></div>`;
-  (S.prod||[]).forEach(p=>{h+=`<div class="grow" data-a="prodDetail" data-id="${p.id}"><div style="width:48px;height:48px;flex:none">${imgOrEmoji(p.img,'📦')}</div><div style="flex:1"><b>${p.kind==='food'?'🍛':''} ${esc(p.n)}</b><div class="s">${inr(p.p)}</div></div><div><button class="btn sm ${p.s===0?'r':'g'}" data-a="stock" data-id="${p.id}">${p.s===0?'Out':'Stock'}</button><button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button></div></div>`});
+  (S.prod||[]).forEach(p=>{h+=`<div class="grow" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)"><div style="width:48px;height:48px;flex:none">${imgOrEmoji(p.img,'📦')}</div><div style="flex:1"><b>${p.kind==='food'?'🍛':''} ${esc(p.n)}</b><div class="s">${inr(p.p)}</div></div><div><button class="btn sm ${p.s===0?'r':'g'}" data-a="stock" data-id="${p.id}">${p.s===0?'Out':'Stock'}</button><button class="btn sm r" data-a="delProd" data-id="${p.id}">🗑️</button></div></div>`});
  } else {
   h+=`<div class="s">Kal ka menu:</div><input id="mveg" placeholder="Veg" value="${esc(mf(addDays(new Date(),1),'veg'))}" aria-label="Veg menu"><input id="mnv" placeholder="NV" value="${esc(mf(addDays(new Date(),1),'nv'))}" aria-label="Non-veg menu"><button class="btn sm g" data-a="setMenu">💾 Save</button>
-   
    <h3 style="margin-top:20px">🗑️ Waste Tracking</h3>
    <div style="background:var(--inp);border-radius:14px;padding:12px">
      <input id="wasteItem" placeholder="Item name" style="margin:0 0 8px" aria-label="Waste item">
-     <div style="display:flex;gap:8px">
-       <input id="wasteQty" type="number" placeholder="Quantity" style="margin:0" aria-label="Waste quantity">
-       <input id="wasteReason" placeholder="Reason" style="margin:0" aria-label="Waste reason">
-     </div>
+     <div style="display:flex;gap:8px"><input id="wasteQty" type="number" placeholder="Quantity" style="margin:0" aria-label="Waste quantity"><input id="wasteReason" placeholder="Reason" style="margin:0" aria-label="Waste reason"></div>
      <button class="btn r" data-a="addWaste" style="margin-top:8px">➕ Add Waste</button>
    </div>
-   
    <button class="btn r" data-a="out" style="margin-top:16px">🚪 Logout</button>`;
  }
  return h+`</div>`}
@@ -1038,7 +1013,7 @@ owner:()=>{
 
 const PAUSE_MODAL=()=>{if(!ME)return '';
  const live=(S.subs||[]).filter(s=>s.phone===ME.phone).find(isLive);if(!live)return '';
- return `<div class="modal" data-a="closeModal"><div class="modal-content" onclick="event.stopPropagation()">
+ return `<div class="modal" data-a="closeModal"><div class="modal-content">
   <h3>⏸️ Plan Pause</h3><div class="s">Dates chunein — plan auto-extend hoga.</div>
   <div style="display:flex;gap:8px;margin-top:12px"><input type="date" id="pauseStart" value="${todayStr()}" min="${todayStr()}" aria-label="Start date"><input type="date" id="pauseEnd" value="${iso(addDays(new Date(),3))}" min="${todayStr()}" aria-label="End date"></div>
   <div style="display:flex;gap:8px;margin-top:12px"><button class="btn g" data-a="applyPause" style="flex:1">✅ Apply</button><button class="btn r" data-a="closeModal" style="flex:1">Cancel</button></div></div></div>`};
@@ -1058,56 +1033,30 @@ const render=()=>{
    </div>`;
    return;
  }
-
  try{
-  if(!OK&&!['plan','shop'].includes(tab))tab='plan';
+  if(!OK&&!['plan','shop','kirana'].includes(tab))tab='plan';
   $('#v').innerHTML=VIEWS[tab]();
-  $('#ht').textContent={plan:'Aaj ka Plan',shop:'Shop',kitchen:'Kitchen',delivery:'Delivery',owner:'Owner Panel'}[tab];
+  $('#ht').textContent={plan:'Aaj ka Plan',shop:'Shop',kirana:'Kirana Store',kitchen:'Kitchen',delivery:'Delivery',owner:'Owner Panel'}[tab];
   
   const unread=getUnreadCount();
-  $('#nav').innerHTML=[['plan','🍱','Plan'],['shop','🛍️','Shop'],['kitchen','👨‍🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','👤','Owner']].filter(x=>OK||x[0]==='plan'||x[0]==='shop').map(x=>{
+  const navItems = OK 
+    ? [['plan','🍱','Plan'],['shop','🛍️','Shop'],['kirana','🛒','Kirana'],['kitchen','👨‍🍳','Kitchen'],['delivery','🛵','Delivery'],['owner','👤','Owner']]
+    : [['plan','🍱','Plan'],['shop','🛍️','Shop'],['kirana','🛒','Kirana']];
+    
+  $('#nav').innerHTML=navItems.map(x=>{
     const badge=x[0]==='owner'&&unread>0?`<span class="notification-badge">${unread}</span>`:'';
     return `<div class="${x[0]===tab?'on':''}" data-a="tab" data-v="${x[0]}"><span>${x[1]}</span>${x[2]}${badge}</div>`;
   }).join('');
   
   bindTilt();
-  
   const sortSelect=$('#sortSelect');
-  if(sortSelect){
-    sortSelect.addEventListener('change',e=>{
-      SORT_BY=e.target.value;
-      render();
-    });
-  }
+  if(sortSelect){sortSelect.addEventListener('change',e=>{SORT_BY=e.target.value;render();});}
   
   const kitchenSearch=$('#kitchenSearch');
-  if(kitchenSearch){
-    kitchenSearch.addEventListener('input',e=>{
-      clearTimeout(window._ks);
-      window._ks=setTimeout(()=>{
-        KITCHEN_SEARCH=e.target.value;
-        render();
-        kitchenSearch.focus();
-      },250);
-    });
-  }
-  
+  if(kitchenSearch){kitchenSearch.addEventListener('input',e=>{clearTimeout(window._ks);window._ks=setTimeout(()=>{KITCHEN_SEARCH=e.target.value;render();kitchenSearch.focus();},250);});}
   const deliverySearch=$('#deliverySearch');
-  if(deliverySearch){
-    deliverySearch.addEventListener('input',e=>{
-      clearTimeout(window._ds);
-      window._ds=setTimeout(()=>{
-        DELIVERY_SEARCH=e.target.value;
-        render();
-        deliverySearch.focus();
-      },250);
-    });
-  }
-  
- }catch(err){
-   console.error(err);
-   $('#v').innerHTML=`<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(err.message)}</p><button class="btn g" onclick="location.reload()">🔄 Refresh</button></div>`;
- }
+  if(deliverySearch){deliverySearch.addEventListener('input',e=>{clearTimeout(window._ds);window._ds=setTimeout(()=>{DELIVERY_SEARCH=e.target.value;render();deliverySearch.focus();},250);});}
+ }catch(err){console.error(err);$('#v').innerHTML=`<div class="card"><h3>⚠️ Error</h3><p class="s">${esc(err.message)}</p><button class="btn g" onclick="location.reload()">🔄 Refresh</button></div>`;}
 };
 
 const needGPS=()=>{if(!F.map){showToast('❌ Pehle GPS lein','error');return false}return true};
@@ -1125,15 +1074,14 @@ const ACTIONS={
  setSlot:v=>{F.slot=v;render()},
  setTip:v=>{F.tip=+v||0;render()},
  toggleView:()=>{VIEW_MODE=VIEW_MODE==='grid'?'list':'grid';render()},
- inc:(v,k,id)=>{if(!S||!S.prod)return;C[id]=(C[id]||0)+1;saveCart();render()},
- dec:(v,k,id)=>{if(!S||!S.prod)return;C[id]=Math.max(0,(C[id]||0)-1);if(!C[id])delete C[id];saveCart();render()},
+ inc:(v,k,id)=>{if(!S||!S.prod)return;C[id]=(C[id]||0)+1;saveCart();render();},
+ dec:(v,k,id)=>{if(!S||!S.prod)return;C[id]=Math.max(0,(C[id]||0)-1);if(!C[id])delete C[id];saveCart();render();},
  goc:()=>{const e=$('#co');if(e)e.scrollIntoView({behavior:'smooth'})},
  addPreset:()=>{let n=0;KIRANA_PRESET.forEach(name=>{const p=(S.prod||[]).find(x=>x.n===name);if(p&&p.s!==0){C[p.id]=(C[p.id]||0)+1;n++}});saveCart();render();showToast(`✅ ${n} items add`)},
  applyCoupon:()=>{const code=($('#couponInput')?.value||'').trim().toUpperCase();
   if(!code){CART_COUPON='';render();return}
   if(!(S.coupons||{})[code]){showToast('❌ Galat coupon','error');return}
-  const cp=S.coupons[code];
-  const expiry=cp.expiry?new Date(cp.expiry):new Date('2099-12-31');
+  const cp=S.coupons[code];const expiry=cp.expiry?new Date(cp.expiry):new Date('2099-12-31');
   if(new Date()>expiry){showToast('❌ Coupon expired','error');return}
   if((cp.usedCount||0)>=(cp.maxUses||999999)){showToast('❌ Coupon usage limit reached','error');return}
   if(calcCart().sub<cp.min){showToast(`❌ Min ₹${cp.min} chahiye`,'error');return}
@@ -1146,8 +1094,7 @@ const ACTIONS={
   ME={name:n,phone:p,avatar:randAvatar(p.charCodeAt(0))};saveME();F.name=n;F.phone=p;render();showToast('👤 Login!')},
  logout:()=>{if(!confirm('Logout karna hai?'))return;ME=null;saveME();render()},
  mealMark:(v,k,id)=>{if(k!=='subah'&&!checkCutoff(k)){showToast(`⚠️ Cutoff: ${k==='lunch'?'9 AM':'4 PM'} ke baad skip nahi`,'error');return}
-  S.meals=S.meals||{};
-  S.meals[mealKey(id,k)]=v;save(true);showToast(v==='consumed'?'✅ Khaya':'❌ Skip')},
+  S.meals=S.meals||{};S.meals[mealKey(id,k)]=v;save(true);showToast(v==='consumed'?'✅ Khaya':'❌ Skip')},
  skipToday:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;const k2=todayStr();const i=s.skip.indexOf(k2);if(i>=0)s.skip.splice(i,1);else s.skip.push(k2);save(true)},
  openPause:()=>{$('#v').insertAdjacentHTML('beforeend',PAUSE_MODAL())},
  closeModal:()=>closeModal(),
@@ -1159,16 +1106,11 @@ const ACTIONS={
   for(let d=new Date(st);d<=new Date(en);d=addDays(d,1)){const k=iso(d);if(!pa.includes(k)){pa.push(k);n++}}
   save(true);closeModal();showToast(`✅ ${n} din pause — plan extend hoga`)},
  custDetail:(v,k,id)=>showCustomerDetail(id),
- prodDetail:(v,k,id)=>showProductDetail(id),
  ordDetail:(v,k,id)=>showOrderDetail(id),
  showHistory:()=>showOrderHistory(),
  reorder:(v,k,orderId)=>{
-   const order=(S.orders||[]).find(o=>o.id==orderId);
-   if(!order)return;
-   order.items.forEach(item=>{
-     const prod=(S.prod||[]).find(p=>p.n===item.n);
-     if(prod){C[prod.id]=(C[prod.id]||0)+item.q;}
-   });
+   const order=(S.orders||[]).find(o=>o.id==orderId);if(!order)return;
+   order.items.forEach(item=>{const prod=(S.prod||[]).find(p=>p.n===item.n);if(prod){C[prod.id]=(C[prod.id]||0)+item.q;}});
    saveCart();closeModal();tab='shop';render();showToast('✅ Items cart mein add ho gaye!');
  },
  showNotifications:()=>showNotifications(),
@@ -1188,148 +1130,144 @@ const ACTIONS={
  joinPaid:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address daalein','error');return}
   if((S.subs||[]).find(s=>s.phone===u.p&&isLive(s))){showToast('❌ Already active plan hai','error');return}
   const utr=prompt('💳 UTR likhein:');if(!utr||utr.trim().length<4){showToast('❌ Bina UTR nahi','error');return}
-  const price=PRICING[F.type][F.days]||2899;
-  const av=randAvatar(u.p.charCodeAt(0));
+  const price=PRICING[F.type][F.days]||2899;const av=randAvatar(u.p.charCodeAt(0));
   S.subs.push({id:generateId(),ts:Date.now(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,type:F.type,days:+F.days,start:todayStr(),price,status:'pending',trial:0,paid:0,utr:utr.trim(),skip:[],pause:[],lunch:'chawal',dinner:'roti',extraRoti:0,deviceFp:deviceFp(),avatar:av});
   if(!ME){ME={name:u.n,phone:u.p,avatar:av};saveME()}
   addNotification('payment',`💳 ${u.n} ne ₹${price} ka plan liya`,{phone:u.p,utr:utr.trim()});
   save(true);showToast('⏳ Owner verify karega');
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 *PLAN*%0A👤 ${u.n}%0A💰 ${inr(price)}%0A🔢 ${utr}`,'_blank')},
-  
-  // --- NEW SHOP ORDER ACTIONS WITH PAYMENT VERIFICATION ---
-  order:()=>{
-    const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
-    const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
-    
-    showModal(`<div class="modal-content" onclick="event.stopPropagation()">
-      <h3>💳 Payment Details</h3>
-      <p class="s" style="margin-bottom:12px">Total Amount: <b style="color:var(--o);font-size:18px">${inr(cart.total)}</b></p>
-      
-      <div class="s" style="margin-bottom:8px">Payment Method:</div>
-      <div class="seg" style="margin-bottom:16px">
-        <button id="btnUpi" class="on" data-a="togglePay" data-v="upi">📱 UPI / QR</button>
-        <button id="btnCod" data-a="togglePay" data-v="cod">💵 Cash on Delivery</button>
-      </div>
+ order:()=>{
+   const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
+   const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
+   showModal(`<div class="modal-content">
+     <h3>💳 Payment Details</h3>
+     <p class="s" style="margin-bottom:12px">Total Amount: <b style="color:var(--o);font-size:18px">${inr(cart.total)}</b></p>
+     <div class="s" style="margin-bottom:8px">Payment Method:</div>
+     <div class="seg" style="margin-bottom:16px">
+       <button id="btnUpi" class="on" data-a="togglePay" data-v="upi">📱 UPI / QR</button>
+       <button id="btnCod" data-a="togglePay" data-v="cod">💵 Cash on Delivery</button>
+     </div>
+     <div id="utrBox">
+       <div class="s" style="margin-bottom:4px">🔢 UTR / Transaction ID likhein:</div>
+       <input id="shopUtr" placeholder="e.g., 123456789012" style="margin-bottom:12px">
+       <div class="s" style="color:var(--warn);font-size:11px;margin-bottom:12px">⚠️ Pehle payment karein, fir UTR daalein. Fake UTR se order cancel ho jayega.</div>
+     </div>
+     <div style="display:flex;gap:8px;margin-top:16px">
+       <button class="btn r" data-a="closeModal" style="flex:1">Cancel</button>
+       <button class="btn g" data-a="confirmShopOrder" style="flex:1">✅ Confirm Order</button>
+     </div>
+   </div>`);
+ },
+ togglePay:(v,k,mode)=>{
+   const btnUpi = document.getElementById('btnUpi');const btnCod = document.getElementById('btnCod');const utrBox = document.getElementById('utrBox');
+   if(mode === 'upi'){if(btnUpi) btnUpi.classList.add('on');if(btnCod) btnCod.classList.remove('on');if(utrBox) utrBox.style.display = 'block';} 
+   else {if(btnCod) btnCod.classList.add('on');if(btnUpi) btnUpi.classList.remove('on');if(utrBox) utrBox.style.display = 'none';}
+ },
+ confirmShopOrder:()=>{
+   if(!S) return;const u=needUser();if(!u)return;const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
+   const isCod = document.getElementById('btnCod')?.classList.contains('on');
+   const utr = (document.getElementById('shopUtr')?.value||'').trim();
+   if(!isCod && utr.length < 8){showToast('❌ Sahi UTR number daalein (min 8 digits)','error');return;}
+   const now=Date.now();
+   if(S.lastOrderTime&&(now-S.lastOrderTime<60000)){showToast('⏳ Please wait 1 minute before ordering again','error');return;}
+   const items=[];Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
+   const newOrder={id:generateId(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,status:'pending',paid:0,paymentMode:isCod?'COD':'UPI',utr:isCod?'COD':utr,date:F.scheduledDate||todayStr(),slot:F.slot,contactless:F.contactless?1:0,tip:+F.tip||0};
+   S.orders.push(newOrder);S.lastOrderTime=now;
+   if(CART_COUPON&&(S.coupons||{})[CART_COUPON]){S.coupons[CART_COUPON].usedCount=(S.coupons[CART_COUPON].usedCount||0)+1;}
+   C={};CART_COUPON='';F.tip=0;F.contactless=0;
+   saveCart();save(true);closeModal();showToast('✅ Order mil gaya!');showConfetti();
+   addNotification('order',`🛒 ${u.n} ne order kiya - ${inr(cart.total)} (${isCod?'COD':'UPI'})`,{orderId:newOrder.id});
+   const payText = isCod ? '%0A💵 Payment: Cash on Delivery' : `%0A💳 UPI Paid%0A🔢 UTR: ${utr}`;
+   window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *NEW SHOP ORDER*%0A👤 ${u.n}%0A📱 ${u.p}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A🕐 ${F.slot}%0A📅 ${F.scheduledDate||todayStr()}%0A💰 Total: ${inr(cart.total)}${payText}${F.tip>0?'%0A💵 Tip: '+inr(F.tip):''}${F.contactless?'%0A🚫👆 Contactless':''}`,'_blank');
+ },
+ 
+ // --- WALLET & KIRANA ACTIONS ---
+ rechargeWallet:()=>{
+   if(!ME){showToast('❌ Pehle login karo','error');return}
+   const amt=prompt('💰 Recharge amount (₹):');
+   if(!amt||isNaN(amt)||+amt<10){showToast('❌ Minimum ₹10','error');return}
+   const utr=prompt('💳 UTR number daalein:');
+   if(!utr||utr.length<6){showToast('❌ Sahi UTR daalein','error');return}
+   S.wallet=S.wallet||{};S.walletLedger=S.walletLedger||[];
+   const entry={id:generateId(),phone:ME.phone,name:ME.name,amt:+amt,utr:utr.trim(),status:'pending',date:todayStr(),ts:Date.now()};
+   S.walletLedger.push(entry);save(true);showToast('⏳ Owner verify karega');
+   window.open(`https://wa.me/${CONFIG.whatsapp}?text=💰 *WALLET RECHARGE*%0A👤 ${ME.name}%0A📱 ${ME.phone}%0A💵 ₹${amt}%0A🔢 UTR: ${utr}`,'_blank');
+ },
+ verifyWallet:(v,k,id)=>{
+   const w=(S.walletLedger||[]).find(x=>x.id==id);if(!w)return;
+   w.status='verified';
+   S.wallet=S.wallet||{};
+   S.wallet[w.phone]=(S.wallet[w.phone]||0)+w.amt;
+   addNotification('wallet',`✅ ${w.name} ka ₹${w.amt} wallet add hua`,{phone:w.phone});
+   save(true);showToast('✅ Wallet Updated!');showConfetti();
+ },
+ rejectWallet:(v,k,id)=>{
+   const w=(S.walletLedger||[]).find(x=>x.id==id);if(!w)return;
+   if(confirm('Reject karna hai?')){w.status='rejected';save(true);showToast('❌ Rejected')}
+ },
+ applyKiranaCoupon:()=>{
+   const code=(document.getElementById('kiranaCoupon')?.value||'').trim().toUpperCase();
+   if(!code){CART_COUPON='';render();return}
+   if(!(S.coupons||{})[code]){showToast('❌ Galat coupon','error');return}
+   const cp=S.coupons[code];const cart=calcCart();
+   if(cart.sub<cp.min){showToast(`❌ Min ₹${cp.min} chahiye`,'error');return}
+   CART_COUPON=code;render();showToast('✅ Coupon applied: '+code);
+ },
+ checkoutKirana:()=>{
+   if(!ME){showToast('❌ Pehle login karo','error');return}
+   const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali hai','error');return}
+   if(!F.addr||F.addr.length<8){showToast('❌ Address daalo','error');return}
+   if(!F.map){showToast('❌ GPS location chahiye','error');return}
+   const walletBal=(S.wallet||{})[ME.phone]||0;
+   if(walletBal<cart.total){showToast(`❌ Wallet mein ₹${cart.total} chahiye (Balance: ₹${walletBal})`,'error');return;}
+   S.wallet[ME.phone]=walletBal-cart.total;
+   const items=[];Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
+   const order={id:generateId(),name:ME.name,phone:ME.phone,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,status:'pending',paid:1,paymentMode:'WALLET',utr:'WALLET_DEBIT',date:todayStr(),slot:F.slot||'lunch',contactless:0,tip:0,kind:'kirana'};
+   S.orders.push(order);C={};CART_COUPON='';
+   saveCart();save(true);showConfetti();showToast('✅ Kirana order ho gaya!');
+   window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *KIRANA ORDER*%0A👤 ${ME.name}%0A📱 ${ME.phone}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A💰 Total: ₹${cart.total}%0A💳 Wallet se deduct`,'_blank');
+ },
+ clearCart:()=>{if(!confirm('Cart khaali karna hai?'))return;C={};saveCart();render();showToast('🗑️ Cart clear');},
+ // --------------------------------
 
-      <div id="utrBox">
-        <div class="s" style="margin-bottom:4px">🔢 UTR / Transaction ID likhein:</div>
-        <input id="shopUtr" placeholder="e.g., 123456789012" style="margin-bottom:12px">
-        <div class="s" style="color:var(--warn);font-size:11px;margin-bottom:12px">⚠️ Pehle payment karein, fir UTR daalein. Fake UTR se order cancel ho jayega.</div>
-      </div>
-
-      <div style="display:flex;gap:8px;margin-top:16px">
-        <button class="btn r" data-a="closeModal" style="flex:1">Cancel</button>
-        <button class="btn g" data-a="confirmShopOrder" style="flex:1">✅ Confirm Order</button>
-      </div>
-    </div>`);
-  },
-  togglePay:(v,k,mode)=>{
-    const btnUpi = document.getElementById('btnUpi');
-    const btnCod = document.getElementById('btnCod');
-    const utrBox = document.getElementById('utrBox');
-    if(mode === 'upi'){
-      if(btnUpi) btnUpi.classList.add('on');
-      if(btnCod) btnCod.classList.remove('on');
-      if(utrBox) utrBox.style.display = 'block';
-    } else {
-      if(btnCod) btnCod.classList.add('on');
-      if(btnUpi) btnUpi.classList.remove('on');
-      if(utrBox) utrBox.style.display = 'none';
-    }
-  },
-  confirmShopOrder:()=>{
-    if(!S) return;
-    const u=needUser();if(!u)return;
-    const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
-    
-    const isCod = document.getElementById('btnCod')?.classList.contains('on');
-    const utr = (document.getElementById('shopUtr')?.value||'').trim();
-    
-    if(!isCod && utr.length < 8){
-      showToast('❌ Sahi UTR number daalein (min 8 digits)','error');
-      return;
-    }
-    
-    const now=Date.now();
-    if(S.lastOrderTime&&(now-S.lastOrderTime<60000)){
-      showToast('⏳ Please wait 1 minute before ordering again','error');
-      return;
-    }
-    
-    const items=[];Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
-    
-    const newOrder={
-      id:generateId(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,
-      items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,
-      status:'pending', paid: 0, 
-      paymentMode: isCod ? 'COD' : 'UPI',
-      utr: isCod ? 'COD' : utr,
-      date:F.scheduledDate||todayStr(),slot:F.slot,contactless:F.contactless?1:0,tip:+F.tip||0
-    };
-    
-    S.orders.push(newOrder);
-    S.lastOrderTime=now;
-    
-    if(CART_COUPON&&(S.coupons||{})[CART_COUPON]){
-      S.coupons[CART_COUPON].usedCount=(S.coupons[CART_COUPON].usedCount||0)+1;
-    }
-    
-    C={};CART_COUPON='';F.tip=0;F.contactless=0;
-    saveCart();save(true);closeModal();showToast('✅ Order mil gaya!');showConfetti();
-    addNotification('order',`🛒 ${u.n} ne order kiya - ${inr(cart.total)} (${isCod?'COD':'UPI'})`,{orderId:newOrder.id});
-    
-    const payText = isCod ? '%0A💵 Payment: Cash on Delivery' : `%0A💳 UPI Paid%0A🔢 UTR: ${utr}`;
-    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *NEW SHOP ORDER*%0A👤 ${u.n}%0A📱 ${u.p}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A🕐 ${F.slot}%0A📅 ${F.scheduledDate||todayStr()}%0A💰 Total: ${inr(cart.total)}${payText}${F.tip>0?'%0A💵 Tip: '+inr(F.tip):''}${F.contactless?'%0A🚫👆 Contactless':''}`,'_blank');
-  },
-  // --------------------------------------------------------
-
-  verifyPay:(v,k,id)=>{
-    const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;
-    s.status='active';s.paid=1;
-    S.pays.push({id:generateId(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});
-    addNotification('verified',`✅ ${s.name} ka payment verify hua`,{phone:s.phone,amount:s.price});
-    save(true);showToast('✅ Active!');showConfetti();closeModal();
-    setTimeout(()=>{
-      const msg=`✅ *Payment Verified!*%0A%0ANamaste ${s.name} ji,%0AAapka ${s.days} din ka ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} plan ab **ACTIVE** ho gaya hai!%0A%0A📅 Start: ${s.start}%0A💰 Amount: ${inr(s.price)}%0A%0AAgar koi sawal ho toh reply karein. Dhanyavad! 🙏`;
-      window.open(`https://wa.me/91${s.phone}?text=${msg}`,'_blank');
-    },1000);
-  },
-  rejectPay:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;if(confirm('Reject karna hai?')){s.status='rejected';addNotification('rejected',`❌ ${s.name} ka payment reject hua`,{phone:s.phone});save(true)}},
-  done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done=S.done||{};S.done[key]=S.done[key]?0:1;save(true)},
-  odone:(v,k,id)=>{const o=(S.orders||[]).find(x=>x.id==id);if(o){o.status='delivered';addNotification('delivered',`✅ ${o.name} ka order deliver hua`,{orderId:o.id});save(true);showToast('✅ Delivered');closeModal()}},
-  addProd:()=>{
-    if(!S||!S.prod){showToast('❌ Data abhi load ho raha hai','error');return}
-    const n=($('#pn')?.value||'').trim();
-    const p=Number($('#pp')?.value);
-    const c=($('#pc')?.value||'General').trim();
-    const kind=($('#pkind')?.value)||'grocery';
-    const allergens=($('#pallergens')?.value||'').trim();
-    if(!n||!p||p<=0){showToast('❌ Sahi Naam aur Price daalein','error');return}
-    S.prod.push({id:generateId(),n,p,c,nv:0,s:1,img:kind==='food'?IMG.thali:IMG.grocery,kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0,allergens:allergens||''});
-    save(true);showToast('✅ Product Add Ho Gaya!');
-    ['#pn','#pp','#pc','#pallergens'].forEach(id=>{const el=$(id);if(el)el.value='';});
-  },
-  stock:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
-  delProd:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
-  setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset=S.mset||{};S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾 Save')},
-  addWaste:()=>{const item=($('#wasteItem')?.value||'').trim(),qty=parseInt($('#wasteQty')?.value)||0,reason=($('#wasteReason')?.value||'').trim();
-   if(!item||!qty){showToast('❌ Item + quantity','error');return}
-   S.waste=S.waste||[];S.waste.push({id:generateId(),date:todayStr(),item,qty,reason});
-   save(true);showToast('🗑️ Waste recorded');
-   $('#wasteItem').value='';$('#wasteQty').value='';$('#wasteReason').value='';
-  },
-  copyKitchen:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));
-   navigator.clipboard.writeText(`🍱 KITCHEN ${k}\n👥 ${on.length}\n\n`+on.map(s=>`• ${s.name} - ${packItems(s).join(', ')}`).join('\n')).then(()=>showToast('📋 Copy!')).catch(()=>showToast('❌ Copy fail','error'))},
-  backup:()=>{const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='udala-backup-'+todayStr()+'.json';a.click();showToast('💾 Backup')},
-  restore:()=>{$('#restoreFile').click()},
-  exportData:()=>{
-    const csv=['Type,Date,Name,Phone,Amount,Status'];
-    (S.orders||[]).forEach(o=>csv.push(`Order,${o.date},${o.name},${o.phone},${o.total},${o.status}`));
-    (S.pays||[]).forEach(p=>csv.push(`Payment,${p.d},${p.name},${p.phone},${p.amt},verified`));
-    const blob=new Blob([csv.join('\n')],{type:'text/csv'});
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='udala-export-'+todayStr()+'.csv';a.click();showToast('📤 Exported!');
-  },
-  out:()=>{OK=0;sessionStorage.removeItem('udok');tab='plan';render()}
+ verifyPay:(v,k,id)=>{
+   const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;
+   s.status='active';s.paid=1;
+   S.pays.push({id:generateId(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});
+   addNotification('verified',`✅ ${s.name} ka payment verify hua`,{phone:s.phone,amount:s.price});
+   save(true);showToast('✅ Active!');showConfetti();closeModal();
+   setTimeout(()=>{const msg=`✅ *Payment Verified!*%0A%0ANamaste ${s.name} ji,%0AAapka ${s.days} din ka ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} plan ab **ACTIVE** ho gaya hai!%0A%0A📅 Start: ${s.start}%0A💰 Amount: ${inr(s.price)}%0A%0AAgar koi sawal ho toh reply karein. Dhanyavad! 🙏`;window.open(`https://wa.me/91${s.phone}?text=${msg}`,'_blank');},1000);
+ },
+ rejectPay:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;if(confirm('Reject karna hai?')){s.status='rejected';addNotification('rejected',`❌ ${s.name} ka payment reject hua`,{phone:s.phone});save(true)}},
+ done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done=S.done||{};S.done[key]=S.done[key]?0:1;save(true)},
+ odone:(v,k,id)=>{const o=(S.orders||[]).find(x=>x.id==id);if(o){o.status='delivered';addNotification('delivered',`✅ ${o.name} ka order deliver hua`,{orderId:o.id});save(true);showToast('✅ Delivered');closeModal()}},
+ addProd:()=>{
+   if(!S||!S.prod){showToast('❌ Data abhi load ho raha hai','error');return}
+   const n=($('#pn')?.value||'').trim();const p=Number($('#pp')?.value);const c=($('#pc')?.value||'General').trim();const kind=($('#pkind')?.value)||'grocery';const allergens=($('#pallergens')?.value||'').trim();
+   if(!n||!p||p<=0){showToast('❌ Sahi Naam aur Price daalein','error');return}
+   S.prod.push({id:generateId(),n,p,c,nv:0,s:1,img:kind==='food'?IMG.thali:IMG.grocery,kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0,allergens:allergens||''});
+   save(true);showToast('✅ Product Add Ho Gaya!');
+   ['#pn','#pp','#pc','#pallergens'].forEach(id=>{const el=$(id);if(el)el.value='';});
+ },
+ stock:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
+ delProd:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
+ setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset=S.mset||{};S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾 Save')},
+ addWaste:()=>{const item=($('#wasteItem')?.value||'').trim(),qty=parseInt($('#wasteQty')?.value)||0,reason=($('#wasteReason')?.value||'').trim();
+  if(!item||!qty){showToast('❌ Item + quantity','error');return}
+  S.waste=S.waste||[];S.waste.push({id:generateId(),date:todayStr(),item,qty,reason});
+  save(true);showToast('🗑️ Waste recorded');$('#wasteItem').value='';$('#wasteQty').value='';$('#wasteReason').value='';
+ },
+ copyKitchen:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));
+  navigator.clipboard.writeText(`🍱 KITCHEN ${k}\n👥 ${on.length}\n\n`+on.map(s=>`• ${s.name} - ${packItems(s).join(', ')}`).join('\n')).then(()=>showToast('📋 Copy!')).catch(()=>showToast('❌ Copy fail','error'))},
+ backup:()=>{const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='udala-backup-'+todayStr()+'.json';a.click();showToast('💾 Backup')},
+ restore:()=>{$('#restoreFile').click()},
+ exportData:()=>{
+   const csv=['Type,Date,Name,Phone,Amount,Status'];
+   (S.orders||[]).forEach(o=>csv.push(`Order,${o.date},${o.name},${o.phone},${o.total},${o.status}`));
+   (S.pays||[]).forEach(p=>csv.push(`Payment,${p.d},${p.name},${p.phone},${p.amt},verified`));
+   const blob=new Blob([csv.join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='udala-export-'+todayStr()+'.csv';a.click();showToast('📤 Exported!');
+ },
+ out:()=>{OK=0;sessionStorage.removeItem('udok');tab='plan';render()}
 };
 
 document.addEventListener('click',e=>{
@@ -1338,82 +1276,42 @@ document.addEventListener('click',e=>{
  const f=ACTIONS[b.dataset.a];if(f){try{f(b.dataset.v,b.dataset.k,b.dataset.id)}catch(err){console.error(err);showToast('❌ Action Error: '+err.message,'error')}}
 });
 document.addEventListener('input',e=>{const f=e.target.dataset?.f;
- if(f){
-   F[f]=e.target.type==='checkbox'?e.target.checked:e.target.value;
-   if(f==='phone')F.phone=cleanPhone(F.phone);
- }
- if(e.target.id==='sq'){clearTimeout(window._t);window._t=setTimeout(()=>{SQ=e.target.value;render();const el=$('#sq');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}},250)}});
+ if(f){F[f]=e.target.type==='checkbox'?e.target.checked:e.target.value;if(f==='phone')F.phone=cleanPhone(F.phone);}
+ if(e.target.id==='sq'){clearTimeout(window._t);window._t=setTimeout(()=>{SQ=e.target.value;render();const el=$('#sq');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}},250)}
+});
 $('#restoreFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
  r.onload=()=>{try{S=migrate(JSON.parse(r.result));save(true);showToast('✅ Restore!')}catch(err){showToast('❌ Galat file','error')}};
  r.readAsText(f);e.target.value=''});
 let tap=0;$('#mainHeader').addEventListener('click',()=>{tap++;if(tap>=5){tap=0;const x=prompt('Owner PIN:');if(x===null)return;if(x===CONFIG.ownerPin){OK=1;sessionStorage.setItem('udok','1');tab='owner';render();showToast('🔓 Owner')}else showToast('❌ PIN','error')}});
 
 const initTheme=()=>{
-  const saved=localStorage.getItem('ud_theme');
-  let t=saved;
+  const saved=localStorage.getItem('ud_theme');let t=saved;
   if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
-  document.documentElement.setAttribute('data-theme',t);
-  $('#themeToggle').textContent=t==='dark'?'☀️':'🌙';
+  document.documentElement.setAttribute('data-theme',t);$('#themeToggle').textContent=t==='dark'?'☀️':'🌙';
 };
 $('#themeToggle').addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ud_theme',n);$('#themeToggle').textContent=n==='dark'?'☀️':'🌙'});
 
 const initParticles=()=>{const c=$('#particles');if(!c)return;
  for(let i=0;i<25;i++){const p=document.createElement('div');p.className='particle';
   p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*12+'s';
-  p.style.animationDuration=(10+Math.random()*6)+'s';
-  p.style.opacity=Math.random()*0.6+0.2;
-  c.appendChild(p)}};
+  p.style.animationDuration=(10+Math.random()*6)+'s';p.style.opacity=Math.random()*0.6+0.2;c.appendChild(p)}};
 
-let S=null;
-let isLoading=true;
+let S=null;let isLoading=true;
 
 async function initCloudState() {
-  const safetyTimeout = setTimeout(() => {
-    if (isLoading) {
-      console.warn("Cloud timeout! Using local phone data.");
-      S = loadState().data;
-      isLoading = false;
-      render();
-    }
-  }, 5000);
-
+  const safetyTimeout = setTimeout(() => {if (isLoading) {console.warn("Cloud timeout! Using local phone data.");S = loadState().data;isLoading = false;render();}}, 5000);
   try {
-    const pathsToCheck = ['namaste_udala_data', 'udala_state', 'udala_final_v1', '/'];
-    let dataFound = false;
-
+    const pathsToCheck = ['namaste_udala_data', 'udala_state', 'udala_final_v1', '/'];let dataFound = false;
     for (let path of pathsToCheck) {
       try {
-        const testRef = ref(db, path);
-        const snapshot = await get(testRef);
-        if (snapshot.exists()) {
-          console.log("✅ Purana data mil gaya path par:", path);
-          S = migrate(snapshot.val());
-          dataFound = true;
-          onValue(testRef, (snap) => {
-            if (snap.exists()) {
-              S = migrate(snap.val());
-              render();
-            }
-          });
-          break;
-        }
-      } catch (err) {
-        console.log("Path check failed:", path);
-      }
+        const testRef = ref(db, path);const snapshot = await get(testRef);
+        if (snapshot.exists()) {console.log("✅ Purana data mil gaya path par:", path);S = migrate(snapshot.val());dataFound = true;
+          onValue(testRef, (snap) => {if (snap.exists()) {S = migrate(snap.val());render();}});break;}
+      } catch (err) {console.log("Path check failed:", path);}
     }
-
-    if (!dataFound) {
-      console.log("☁️ Cloud mein data nahi mila. Phone ka local backup use kar rahe hain.");
-      S = loadState().data;
-    }
-  } catch (error) {
-    console.error("Firebase connection error:", error);
-    S = loadState().data;
-  }
-
-  clearTimeout(safetyTimeout);
-  isLoading = false;
-  render();
+    if (!dataFound) {console.log("☁️ Cloud mein data nahi mila. Phone ka local backup use kar rahe hain.");S = loadState().data;}
+  } catch (error) {console.error("Firebase connection error:", error);S = loadState().data;}
+  clearTimeout(safetyTimeout);isLoading = false;render();
 }
 
 document.addEventListener('keydown',e=>{
@@ -1427,10 +1325,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closeModal()}
 });
 
-initTheme();
-initParticles();
-initCloudState();
-
+initTheme();initParticles();initCloudState();
 setTimeout(()=>showToast('✨ Premium App Ready!'),600);
 </script>
 </body>
