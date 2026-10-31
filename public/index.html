@@ -6,7 +6,6 @@
 <meta name="theme-color" content="#070B14">
 <title>🍱 Namaste Udala — Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<!-- DOMPurify for XSS Protection -->
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
 <style>
 :root{--o:#FF6B35;--o2:#E85D04;--neon:#06D6A0;--neon2:#22D3EE;--gold:#FCD34D;--bad:#EF4444;--warn:#F59E0B;--info:#3B82F6;--purple:#7C3AED;--pink:#EC4899}
@@ -188,7 +187,6 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-// Silent Anonymous Auth for Firebase Security Rules
 signInAnonymously(auth).catch((error) => console.warn("Auth warning:", error));
 
 const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788'};
