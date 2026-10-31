@@ -353,7 +353,7 @@ const F={type:'veg',days:'30',name:ME?ME.name:'',phone:ME?ME.phone:'',area:'',ad
 
 let saveTimer=null;
 const save=(immediate=false)=>{
-  if(!S) return; // FIX: Prevent saving null data
+  if(!S) return;
   const doSave = async () => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
@@ -370,7 +370,7 @@ const save=(immediate=false)=>{
   };
   if(immediate){doSave();return}
   clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{doSave();}, 600);
+  saveTimer=setTimeout(()=>{doSave();}, 800);
 };
 
 const saveCart=()=>{try{localStorage.setItem('ud_cart',JSON.stringify(C))}catch(e){}};
@@ -1048,7 +1048,6 @@ const bindTilt=()=>{$$('.card,.pcard').forEach(el=>{
  el.addEventListener('mouseleave',()=>{el.style.transform=''})})};
 
 const render=()=>{
- // FIX: Added !S check to prevent rendering with null data
  if(isLoading || !S){
    $('#v').innerHTML=`<div class="card" style="text-align:center;padding:40px;margin-top:40px">
      <div class="skeleton" style="width:80px;height:80px;margin:0 auto 16px;border-radius:50%"></div>
@@ -1126,19 +1125,8 @@ const ACTIONS={
  setSlot:v=>{F.slot=v;render()},
  setTip:v=>{F.tip=+v||0;render()},
  toggleView:()=>{VIEW_MODE=VIEW_MODE==='grid'?'list':'grid';render()},
- inc:(v,k,id)=>{
-   if(!S || !S.prod) return;
-   C[id]=(C[id]||0)+1;
-   saveCart();
-   render();
- },
- dec:(v,k,id)=>{
-   if(!S || !S.prod) return;
-   C[id]=Math.max(0,(C[id]||0)-1);
-   if(!C[id])delete C[id];
-   saveCart();
-   render();
- },
+ inc:(v,k,id)=>{if(!S||!S.prod)return;C[id]=(C[id]||0)+1;saveCart();render()},
+ dec:(v,k,id)=>{if(!S||!S.prod)return;C[id]=Math.max(0,(C[id]||0)-1);if(!C[id])delete C[id];saveCart();render()},
  goc:()=>{const e=$('#co');if(e)e.scrollIntoView({behavior:'smooth'})},
  addPreset:()=>{let n=0;KIRANA_PRESET.forEach(name=>{const p=(S.prod||[]).find(x=>x.n===name);if(p&&p.s!==0){C[p.id]=(C[p.id]||0)+1;n++}});saveCart();render();showToast(`✅ ${n} items add`)},
  applyCoupon:()=>{const code=($('#couponInput')?.value||'').trim().toUpperCase();
@@ -1179,27 +1167,13 @@ const ACTIONS={
    if(!order)return;
    order.items.forEach(item=>{
      const prod=(S.prod||[]).find(p=>p.n===item.n);
-     if(prod){
-       C[prod.id]=(C[prod.id]||0)+item.q;
-     }
+     if(prod){C[prod.id]=(C[prod.id]||0)+item.q;}
    });
-   saveCart();
-   closeModal();
-   tab='shop';
-   render();
-   showToast('✅ Items cart mein add ho gaye!');
+   saveCart();closeModal();tab='shop';render();showToast('✅ Items cart mein add ho gaye!');
  },
  showNotifications:()=>showNotifications(),
- markRead:(v,k,notifId)=>{
-   const n=(S.notifications||[]).find(x=>x.id===notifId);
-   if(n){n.read=1;save(true);showNotifications()}
- },
- markAllRead:()=>{
-   (S.notifications||[]).forEach(n=>n.read=1);
-   save(true);
-   showNotifications();
-   showToast('✅ All marked as read');
- },
+ markRead:(v,k,notifId)=>{const n=(S.notifications||[]).find(x=>x.id===notifId);if(n){n.read=1;save(true);showNotifications()}},
+ markAllRead:()=>{(S.notifications||[]).forEach(n=>n.read=1);save(true);showNotifications();showToast('✅ All marked as read');},
  joinTrial:()=>{const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address daalein','error');return}
   const fp=deviceFp();
   if((S.subs||[]).find(s=>s.phone===u.p&&s.trial)){showToast('❌ Phone par trial ho chuka','error');return}
@@ -1221,92 +1195,141 @@ const ACTIONS={
   addNotification('payment',`💳 ${u.n} ne ₹${price} ka plan liya`,{phone:u.p,utr:utr.trim()});
   save(true);showToast('⏳ Owner verify karega');
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=💳 *PLAN*%0A👤 ${u.n}%0A💰 ${inr(price)}%0A🔢 ${utr}`,'_blank')},
- order:()=>{
-   const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
-   
-   const now=Date.now();
-   if(S.lastOrderTime&&(now-S.lastOrderTime<60000)){
-     showToast('⏳ Please wait 1 minute before ordering again','error');
-     return;
-   }
-   
-   const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
-   const items=[];Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
-   
-   const newOrder={id:generateId(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,status:'pending',paid:0,date:F.scheduledDate||todayStr(),slot:F.slot,contactless:F.contactless?1:0,tip:+F.tip||0};
-   
-   S.orders.push(newOrder);
-   S.lastOrderTime=now;
-   
-   if(CART_COUPON&&(S.coupons||{})[CART_COUPON]){
-     S.coupons[CART_COUPON].usedCount=(S.coupons[CART_COUPON].usedCount||0)+1;
-   }
-   
-   C={};CART_COUPON='';F.tip=0;F.contactless=0;
-   saveCart();save(true);showToast('✅ Order mil gaya!');showConfetti();
-   addNotification('order',`🛒 ${u.n} ne order kiya - ${inr(cart.total)}`,{orderId:newOrder.id});
-   
-   window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *ORDER*%0A👤 ${u.n}%0A📱 ${u.p}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A🕐 ${F.slot}%0A📅 ${F.scheduledDate||todayStr()}%0A💰 ${inr(cart.total)}${F.tip>0?'%0A💵 Tip: '+inr(F.tip):''}${F.contactless?'%0A🚫👆 Contactless':''}`,'_blank')
- },
- verifyPay:(v,k,id)=>{
-   const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;
-   s.status='active';s.paid=1;
-   S.pays.push({id:generateId(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});
-   addNotification('verified',`✅ ${s.name} ka payment verify hua`,{phone:s.phone,amount:s.price});
-   save(true);showToast('✅ Active!');showConfetti();closeModal();
-   
-   setTimeout(()=>{
-     const msg=`✅ *Payment Verified!*%0A%0ANamaste ${s.name} ji,%0AAapka ${s.days} din ka ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} plan ab **ACTIVE** ho gaya hai!%0A%0A📅 Start: ${s.start}%0A💰 Amount: ${inr(s.price)}%0A%0AAgar koi sawal ho toh reply karein. Dhanyavad! 🙏`;
-     window.open(`https://wa.me/91${s.phone}?text=${msg}`,'_blank');
-   },1000);
- },
- rejectPay:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;if(confirm('Reject karna hai?')){s.status='rejected';addNotification('rejected',`❌ ${s.name} ka payment reject hua`,{phone:s.phone});save(true)}},
- done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done=S.done||{};S.done[key]=S.done[key]?0:1;save(true)},
- odone:(v,k,id)=>{const o=(S.orders||[]).find(x=>x.id==id);if(o){o.status='delivered';addNotification('delivered',`✅ ${o.name} ka order deliver hua`,{orderId:o.id});save(true);showToast('✅ Delivered');closeModal()}},
- addProd:()=>{
-   // FIX: Added null check and better validation
-   if(!S || !S.prod) { showToast('❌ Data abhi load ho raha hai','error'); return; }
-   const n=($('#pn')?.value||'').trim();
-   const p=Number($('#pp')?.value); // FIX: Changed from parseInt to Number to support decimals
-   const c=($('#pc')?.value||'General').trim();
-   const kind=($('#pkind')?.value)||'grocery';
-   const allergens=($('#pallergens')?.value||'').trim();
-   
-   if(!n || !p || p<=0){showToast('❌ Sahi Naam aur Price daalein','error');return}
-   
-   S.prod.push({id:generateId(), n, p, c, nv:0, s:1, img:kind==='food'?IMG.thali:IMG.grocery, kind, rating:kind==='food'?4.3:0, time:kind==='food'?25:0, best:0, allergens:allergens||''});
-   save(true);
-   showToast('✅ Product Add Ho Gaya!');
-   
-   // FIX: Safe clear inputs
-   ['#pn','#pp','#pc','#pallergens'].forEach(id=>{const el=$(id); if(el) el.value='';});
- },
- stock:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
- delProd:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
- setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset=S.mset||{};S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾 Save')},
- addWaste:()=>{const item=($('#wasteItem')?.value||'').trim(),qty=parseInt($('#wasteQty')?.value)||0,reason=($('#wasteReason')?.value||'').trim();
-  if(!item||!qty){showToast('❌ Item + quantity','error');return}
-  S.waste=S.waste||[];
-  S.waste.push({id:generateId(),date:todayStr(),item,qty,reason});
-  save(true);showToast('🗑️ Waste recorded');
-  $('#wasteItem').value='';$('#wasteQty').value='';$('#wasteReason').value='';
- },
- copyKitchen:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));
-  navigator.clipboard.writeText(`🍱 KITCHEN ${k}\n👥 ${on.length}\n\n`+on.map(s=>`• ${s.name} - ${packItems(s).join(', ')}`).join('\n')).then(()=>showToast('📋 Copy!')).catch(()=>showToast('❌ Copy fail','error'))},
- backup:()=>{const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='udala-backup-'+todayStr()+'.json';a.click();showToast('💾 Backup')},
- restore:()=>{$('#restoreFile').click()},
- exportData:()=>{
-   const csv=['Type,Date,Name,Phone,Amount,Status'];
-   (S.orders||[]).forEach(o=>csv.push(`Order,${o.date},${o.name},${o.phone},${o.total},${o.status}`));
-   (S.pays||[]).forEach(p=>csv.push(`Payment,${p.d},${p.name},${p.phone},${p.amt},verified`));
-   const blob=new Blob([csv.join('\n')],{type:'text/csv'});
-   const a=document.createElement('a');
-   a.href=URL.createObjectURL(blob);
-   a.download='udala-export-'+todayStr()+'.csv';
-   a.click();
-   showToast('📤 Exported!');
- },
- out:()=>{OK=0;sessionStorage.removeItem('udok');tab='plan';render()}
+  
+  // --- NEW SHOP ORDER ACTIONS WITH PAYMENT VERIFICATION ---
+  order:()=>{
+    const u=needUser();if(!u)return;if(!needGPS())return;if(!F.addr||F.addr.trim().length<8){showToast('❌ Address','error');return}
+    const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
+    
+    showModal(`<div class="modal-content" onclick="event.stopPropagation()">
+      <h3>💳 Payment Details</h3>
+      <p class="s" style="margin-bottom:12px">Total Amount: <b style="color:var(--o);font-size:18px">${inr(cart.total)}</b></p>
+      
+      <div class="s" style="margin-bottom:8px">Payment Method:</div>
+      <div class="seg" style="margin-bottom:16px">
+        <button id="btnUpi" class="on" data-a="togglePay" data-v="upi">📱 UPI / QR</button>
+        <button id="btnCod" data-a="togglePay" data-v="cod">💵 Cash on Delivery</button>
+      </div>
+
+      <div id="utrBox">
+        <div class="s" style="margin-bottom:4px">🔢 UTR / Transaction ID likhein:</div>
+        <input id="shopUtr" placeholder="e.g., 123456789012" style="margin-bottom:12px">
+        <div class="s" style="color:var(--warn);font-size:11px;margin-bottom:12px">⚠️ Pehle payment karein, fir UTR daalein. Fake UTR se order cancel ho jayega.</div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn r" data-a="closeModal" style="flex:1">Cancel</button>
+        <button class="btn g" data-a="confirmShopOrder" style="flex:1">✅ Confirm Order</button>
+      </div>
+    </div>`);
+  },
+  togglePay:(v,k,mode)=>{
+    const btnUpi = document.getElementById('btnUpi');
+    const btnCod = document.getElementById('btnCod');
+    const utrBox = document.getElementById('utrBox');
+    if(mode === 'upi'){
+      if(btnUpi) btnUpi.classList.add('on');
+      if(btnCod) btnCod.classList.remove('on');
+      if(utrBox) utrBox.style.display = 'block';
+    } else {
+      if(btnCod) btnCod.classList.add('on');
+      if(btnUpi) btnUpi.classList.remove('on');
+      if(utrBox) utrBox.style.display = 'none';
+    }
+  },
+  confirmShopOrder:()=>{
+    if(!S) return;
+    const u=needUser();if(!u)return;
+    const cart=calcCart();if(!cart.cnt){showToast('❌ Cart khali','error');return}
+    
+    const isCod = document.getElementById('btnCod')?.classList.contains('on');
+    const utr = (document.getElementById('shopUtr')?.value||'').trim();
+    
+    if(!isCod && utr.length < 8){
+      showToast('❌ Sahi UTR number daalein (min 8 digits)','error');
+      return;
+    }
+    
+    const now=Date.now();
+    if(S.lastOrderTime&&(now-S.lastOrderTime<60000)){
+      showToast('⏳ Please wait 1 minute before ordering again','error');
+      return;
+    }
+    
+    const items=[];Object.entries(C).forEach(([k,q])=>{const p=(S.prod||[]).find(x=>x.id==k);if(p&&q>0)items.push({n:p.n,q,p:p.p})});
+    
+    const newOrder={
+      id:generateId(),name:u.n,phone:u.p,area:F.area||'Udala',addr:F.addr,map:F.map,notes:F.notes,
+      items,total:cart.total,sub:cart.sub,discount:cart.disc,coupon:cart.code,
+      status:'pending', paid: 0, 
+      paymentMode: isCod ? 'COD' : 'UPI',
+      utr: isCod ? 'COD' : utr,
+      date:F.scheduledDate||todayStr(),slot:F.slot,contactless:F.contactless?1:0,tip:+F.tip||0
+    };
+    
+    S.orders.push(newOrder);
+    S.lastOrderTime=now;
+    
+    if(CART_COUPON&&(S.coupons||{})[CART_COUPON]){
+      S.coupons[CART_COUPON].usedCount=(S.coupons[CART_COUPON].usedCount||0)+1;
+    }
+    
+    C={};CART_COUPON='';F.tip=0;F.contactless=0;
+    saveCart();save(true);closeModal();showToast('✅ Order mil gaya!');showConfetti();
+    addNotification('order',`🛒 ${u.n} ne order kiya - ${inr(cart.total)} (${isCod?'COD':'UPI'})`,{orderId:newOrder.id});
+    
+    const payText = isCod ? '%0A💵 Payment: Cash on Delivery' : `%0A💳 UPI Paid%0A🔢 UTR: ${utr}`;
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=🛒 *NEW SHOP ORDER*%0A👤 ${u.n}%0A📱 ${u.p}%0A📦 ${items.map(i=>i.n+' x'+i.q).join(', ')}%0A🕐 ${F.slot}%0A📅 ${F.scheduledDate||todayStr()}%0A💰 Total: ${inr(cart.total)}${payText}${F.tip>0?'%0A💵 Tip: '+inr(F.tip):''}${F.contactless?'%0A🚫👆 Contactless':''}`,'_blank');
+  },
+  // --------------------------------------------------------
+
+  verifyPay:(v,k,id)=>{
+    const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;
+    s.status='active';s.paid=1;
+    S.pays.push({id:generateId(),d:todayStr(),name:s.name,phone:s.phone,amt:s.price,mode:'online',utr:s.utr,kind:'Plan'});
+    addNotification('verified',`✅ ${s.name} ka payment verify hua`,{phone:s.phone,amount:s.price});
+    save(true);showToast('✅ Active!');showConfetti();closeModal();
+    setTimeout(()=>{
+      const msg=`✅ *Payment Verified!*%0A%0ANamaste ${s.name} ji,%0AAapka ${s.days} din ka ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} plan ab **ACTIVE** ho gaya hai!%0A%0A📅 Start: ${s.start}%0A💰 Amount: ${inr(s.price)}%0A%0AAgar koi sawal ho toh reply karein. Dhanyavad! 🙏`;
+      window.open(`https://wa.me/91${s.phone}?text=${msg}`,'_blank');
+    },1000);
+  },
+  rejectPay:(v,k,id)=>{const s=(S.subs||[]).find(x=>x.id==id);if(!s)return;if(confirm('Reject karna hai?')){s.status='rejected';addNotification('rejected',`❌ ${s.name} ka payment reject hua`,{phone:s.phone});save(true)}},
+  done:(v,k,id)=>{const key=todayStr()+'_'+id;S.done=S.done||{};S.done[key]=S.done[key]?0:1;save(true)},
+  odone:(v,k,id)=>{const o=(S.orders||[]).find(x=>x.id==id);if(o){o.status='delivered';addNotification('delivered',`✅ ${o.name} ka order deliver hua`,{orderId:o.id});save(true);showToast('✅ Delivered');closeModal()}},
+  addProd:()=>{
+    if(!S||!S.prod){showToast('❌ Data abhi load ho raha hai','error');return}
+    const n=($('#pn')?.value||'').trim();
+    const p=Number($('#pp')?.value);
+    const c=($('#pc')?.value||'General').trim();
+    const kind=($('#pkind')?.value)||'grocery';
+    const allergens=($('#pallergens')?.value||'').trim();
+    if(!n||!p||p<=0){showToast('❌ Sahi Naam aur Price daalein','error');return}
+    S.prod.push({id:generateId(),n,p,c,nv:0,s:1,img:kind==='food'?IMG.thali:IMG.grocery,kind,rating:kind==='food'?4.3:0,time:kind==='food'?25:0,best:0,allergens:allergens||''});
+    save(true);showToast('✅ Product Add Ho Gaya!');
+    ['#pn','#pp','#pc','#pallergens'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  },
+  stock:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p){p.s=p.s===0?1:0;save()}},
+  delProd:(v,k,id)=>{const p=(S.prod||[]).find(x=>x.id==id);if(p&&confirm('Delete '+p.n+'?')){S.prod=S.prod.filter(x=>x.id!=id);save(true)}},
+  setMenu:()=>{const k=iso(addDays(new Date(),1));S.mset=S.mset||{};S.mset[k]={veg:($('#mveg')?.value||'').trim(),nv:($('#mnv')?.value||'').trim()};save(true);showToast('💾 Save')},
+  addWaste:()=>{const item=($('#wasteItem')?.value||'').trim(),qty=parseInt($('#wasteQty')?.value)||0,reason=($('#wasteReason')?.value||'').trim();
+   if(!item||!qty){showToast('❌ Item + quantity','error');return}
+   S.waste=S.waste||[];S.waste.push({id:generateId(),date:todayStr(),item,qty,reason});
+   save(true);showToast('🗑️ Waste recorded');
+   $('#wasteItem').value='';$('#wasteQty').value='';$('#wasteReason').value='';
+  },
+  copyKitchen:()=>{const k=todayStr();const on=(S.subs||[]).filter(s=>isLive(s)&&s.start<=k&&!s.skip.includes(k));
+   navigator.clipboard.writeText(`🍱 KITCHEN ${k}\n👥 ${on.length}\n\n`+on.map(s=>`• ${s.name} - ${packItems(s).join(', ')}`).join('\n')).then(()=>showToast('📋 Copy!')).catch(()=>showToast('❌ Copy fail','error'))},
+  backup:()=>{const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='udala-backup-'+todayStr()+'.json';a.click();showToast('💾 Backup')},
+  restore:()=>{$('#restoreFile').click()},
+  exportData:()=>{
+    const csv=['Type,Date,Name,Phone,Amount,Status'];
+    (S.orders||[]).forEach(o=>csv.push(`Order,${o.date},${o.name},${o.phone},${o.total},${o.status}`));
+    (S.pays||[]).forEach(p=>csv.push(`Payment,${p.d},${p.name},${p.phone},${p.amt},verified`));
+    const blob=new Blob([csv.join('\n')],{type:'text/csv'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='udala-export-'+todayStr()+'.csv';a.click();showToast('📤 Exported!');
+  },
+  out:()=>{OK=0;sessionStorage.removeItem('udok');tab='plan';render()}
 };
 
 document.addEventListener('click',e=>{
@@ -1328,9 +1351,7 @@ let tap=0;$('#mainHeader').addEventListener('click',()=>{tap++;if(tap>=5){tap=0;
 const initTheme=()=>{
   const saved=localStorage.getItem('ud_theme');
   let t=saved;
-  if(!t){
-    t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-  }
+  if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
   document.documentElement.setAttribute('data-theme',t);
   $('#themeToggle').textContent=t==='dark'?'☀️':'🌙';
 };
@@ -1364,12 +1385,10 @@ async function initCloudState() {
       try {
         const testRef = ref(db, path);
         const snapshot = await get(testRef);
-        
         if (snapshot.exists()) {
           console.log("✅ Purana data mil gaya path par:", path);
           S = migrate(snapshot.val());
           dataFound = true;
-          
           onValue(testRef, (snap) => {
             if (snap.exists()) {
               S = migrate(snap.val());
