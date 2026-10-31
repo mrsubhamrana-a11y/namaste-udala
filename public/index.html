@@ -150,7 +150,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 .confetti{position:fixed;width:10px;height:10px;background:var(--neon);animation:confettiFall 3s linear forwards;z-index:9999;pointer-events:none}
 @keyframes confettiFall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
 .notification-badge{position:absolute;top:-5px;right:-5px;background:var(--bad);color:#fff;border-radius:50%;width:20px;height:20px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(239,68,68,.5)}
-/* Print Styles for Invoices */
 @media print {
     body * { visibility: hidden; }
     #printable-area, #printable-area * { visibility: visible; }
@@ -181,20 +180,24 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, get, set, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
 const firebaseConfig = { databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com" };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
+
+// Silent Anonymous Auth for Firebase Security Rules
+signInAnonymously(auth).catch((error) => console.warn("Auth warning:", error));
 
 const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788'};
 const PRICING={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
 const STORAGE_KEY='udala_final_v1';
-const SCHEMA_V=7; // Updated for new features
+const SCHEMA_V=7;
 const COUPONS_DEFAULT={'UDALA50':{type:'flat',value:50,min:299,expiry:'2026-12-31',maxUses:100,usedCount:0}};
 const KIRANA_PRESET=['Doodh 500 ml','Atta 1 kg','Chawal 1 kg','Dal 1 kg','Tel 1 L','Sabun'];
 
-// Safe HTML Escaping using DOMPurify if available, else fallback
 const esc = (s) => {
     const clean = String(s==null?'':s);
     return window.DOMPurify ? DOMPurify.sanitize(clean) : clean.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -361,7 +364,6 @@ const getUnreadCount=()=>(S.notifications||[]).filter(n=>!n.read).length;
 const showModal=(html)=>{$('#modalRoot').innerHTML=`<div class="modal" data-a="closeModal">${html}</div>`};
 const closeModal=()=>{$('#modalRoot').innerHTML=''};
 
-// --- MODALS ---
 const showCustomerDetail=(subId)=>{const s=(S.subs||[]).find(x=>x.id==subId);if(!s)return;const st=getSubStatus(s);const start=new Date(s.start+'T12:00:00'),end=subEnd(s),today=new Date();today.setHours(12,0,0,0);const passed=clamp(Math.floor((today-start)/86400000),0,s.days);const mealHist=getMealHistory(s.id,14);let consumed=0,skipped=0;mealHist.forEach(d=>{['subah','lunch','dinner'].forEach(m=>{if(d[m]==='consumed')consumed++;if(d[m]==='skipped')skipped++})});const totalMeals=mealHist.length*3;const rate=totalMeals>0?Math.round(consumed/totalMeals*100):0;
  let html=`<div class="modal-content"><div style="display:flex;gap:14px;align-items:center;margin-bottom:16px"><img src="${s.avatar||randAvatar(s.id)}" class="avatar lg" onerror="this.src='${IMG.av1}'" alt="Avatar"><div style="flex:1"><h3 style="margin:0">${esc(s.name)}</h3><div class="s">📱 ${s.phone} · ${esc(s.area||'Udala')}</div>${badge(st)}</div><button class="btn sm r" data-a="closeModal" style="width:auto">✕</button></div>
  <div style="background:var(--inp);border-radius:14px;padding:14px;margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center"><b>🍽️ ${s.type==='veg'?'🟢 Veg':'🔴 Non-Veg'} Plan</b><b style="color:var(--o)">${inr(s.price)}</b></div><div class="s" style="margin-top:6px">📅 ${s.start} → ${iso(end)}</div><div class="s">⏳ ${passed} / ${s.days} din</div><div class="pbar"><div class="pfill" style="width:${Math.round(passed/s.days*100)}%"></div></div><div class="s">📍 ${esc(s.addr||'Address nahi hai')}</div>${s.notes?`<div class="s" style="color:var(--warn)">📝 ${esc(s.notes)}</div>`:''}${s.utr?`<div class="s" style="margin-top:4px">🔢 UTR: <b>${esc(s.utr)}</b></div>`:''}</div>
@@ -393,7 +395,6 @@ const showProfileModal=()=>{if(!ME)return;const walletBal=(S.wallet||{})[ME.phon
  </div>
  <div style="display:flex;gap:8px"><button class="btn b" data-a="shareReferral" style="flex:1">🔗 Refer Friend</button><button class="btn r" data-a="logout" style="flex:1">🚪 Logout</button></div></div>`;showModal(html)};
 
-// --- VIEWS ---
 const VIEWS={
 plan:()=>{const price=PRICING[F.type][F.days]||2899;const bannerImg=randBanner();let h=`<div class="kids-banner"><img src="${bannerImg}" onerror="this.src='${IMG.kids1}'" alt="Banner"><div class="overlay"><h2>🍱 Ghar jaisa khana</h2><p>Apne baccho ko do roz ka ghar ka swaad</p><p style="margin-top:6px;font-size:12px">Aaj: <b>${esc(mf(new Date(),F.type))}</b></p></div></div>`;
  if(ME){const mine=(S.subs||[]).filter(s=>s.phone===ME.phone).sort((a,b)=>b.ts-a.ts);h+=`<div class="card clickable" data-a="showProfile"><div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:10px;align-items:center"><img src="${ME.avatar||randAvatar(0)}" class="avatar" onerror="this.src='${IMG.av1}'" alt="Avatar"><div><b>👤 ${esc(ME.name)}</b><div class="s clickable-indicator">Tap for profile</div></div></div><div style="display:flex;gap:6px"><button class="btn sm b" data-a="showHistory" style="margin:0">📜 History</button><button class="btn sm r" data-a="logout" style="margin:0">Logout</button></div></div></div>`;
@@ -412,10 +413,8 @@ shop:()=>{const cart=calcCart();let h=`<div class="card" style="background:linea
   if(list.length){if(VIEW_MODE==='grid'){h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">`;list.forEach(p=>{const q=C[p.id]||0;h+=`<div class="pcard" style="border-radius:16px"><div class="ph" style="height:130px;border-radius:16px 16px 0 0">${imgOrEmoji(p.img,'🍛')}<span style="position:absolute;top:10px;left:10px;z-index:2">${p.nv?'<div class="nv-indicator"></div>':'<div class="veg-indicator"></div>'}</span>${p.best?`<span style="position:absolute;top:10px;right:10px;background:#DB7C26;color:#fff;font-size:9px;font-weight:800;padding:4px 8px;border-radius:6px;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.3)">⭐ BEST</span>`:''}</div><div style="padding:12px"><b style="font-size:14px;display:block;line-height:1.3;margin-bottom:6px;color:var(--text)">${esc(p.n)}</b><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span class="zomato-rating">★ ${p.rating||'4.3'}</span></div><div style="display:flex;justify-content:space-between;align-items:center"><b style="color:var(--text);font-size:15px">${inr(p.p)}</b>${q>0?stepper(p.id,q):`<button class="add-btn-zomato" data-a="inc" data-id="${p.id}">ADD +</button>`}</div></div></div>`});h+=`</div>`;}else{h+=`<div class="card" style="padding:8px">`;list.forEach(p=>{const q=C[p.id]||0;h+=`<div class="grow" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)"><div style="width:70px;height:70px;flex:none;border-radius:10px;overflow:hidden;position:relative">${imgOrEmoji(p.img,'🍛')}<span style="position:absolute;top:4px;left:4px">${p.nv?'<div class="nv-indicator" style="width:12px;height:12px"></div>':'<div class="veg-indicator" style="width:12px;height:12px"></div>'}</span></div><div style="flex:1;padding:0 12px"><b style="font-size:14px;color:var(--text)">${esc(p.n)}</b><div style="display:flex;align-items:center;gap:6px;margin:4px 0"><span class="zomato-rating" style="font-size:10px;padding:1px 4px">★ ${p.rating||'4.3'}</span></div><b style="color:var(--text);font-size:14px">${inr(p.p)}</b></div><div style="width:80px">${q>0?stepper(p.id,q):`<button class="add-btn-zomato" data-a="inc" data-id="${p.id}" style="padding:6px;font-size:12px">ADD +</button>`}</div></div>`});h+=`</div>`;}}else{h+=`<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:10px">🔍</div><p class="s">Kuch nahi mila. Search badal kar dekhein.</p></div>`;}
  }else{const gro=(S.prod||[]).filter(p=>p.kind!=='food'&&p.s!==0);[...new Set(gro.map(p=>p.c))].forEach(c=>{let list=gro.filter(p=>p.c===c);if(SQ.trim())list=list.filter(p=>p.n.toLowerCase().includes(SQ.trim().toLowerCase()));if(!list.length)return;h+=`<div class="card"><h3 style="font-size:16px;margin-bottom:12px">${esc(c)}</h3>`;list.forEach(p=>{const q=C[p.id]||0;h+=`<div class="grow" style="padding:12px 8px;border-radius:12px;margin-bottom:8px;background:var(--inp)"><div style="width:60px;height:60px;flex:none;border-radius:10px;overflow:hidden">${imgOrEmoji(p.img,'📦')}</div><div style="flex:1;padding:0 12px"><b style="font-size:14px;color:var(--text)">${esc(p.n)}</b><div class="s" style="margin-top:2px">${inr(p.p)}</div></div><div style="width:80px">${q>0?stepper(p.id,q):`<button class="add-btn-zomato" data-a="inc" data-id="${p.id}" style="padding:6px;font-size:12px">ADD +</button>`}</div></div>`});h+=`</div>`})}
  
- // CHECKOUT SECTION WITH ITEM LIST
  if(cart.cnt>0){h+=`<div class="cartbar cartbar-premium"><div style="flex:1"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><b style="font-size:15px">${cart.cnt} Items</b>${cart.disc>0?`<span style="background:var(--neon);color:#000;font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px">-${inr(cart.disc)} OFF</span>`:''}</div><div style="font-size:18px;font-weight:900">${inr(cart.total)}</div></div><button class="btn" data-a="goc" style="margin:0;width:auto;background:#fff;color:#E85D04;font-weight:800;box-shadow:0 4px 12px rgba(0,0,0,0.2)">View Cart ></button></div>`;}
  
- // Generate Item List HTML
  let itemsHtml = '';
  Object.entries(C).forEach(([id, qty]) => {
      const prod = (S.prod || []).find(p => p.id === id);
@@ -425,7 +424,6 @@ shop:()=>{const cart=calcCart();let h=`<div class="card" style="background:linea
  });
 
  h+=`<div class="card" id="co" style="margin-top:${cart.cnt>0?'100':'20'}px;border-radius:20px"><h3 style="font-size:18px;margin-bottom:16px">📦 Checkout Details</h3>
- <!-- NEW: Item Summary Section -->
  <div style="background:var(--inp);border-radius:14px;padding:14px;margin-bottom:16px;max-height:200px;overflow-y:auto">
     <h4 style="font-size:14px;margin-bottom:8px;color:var(--muted)">🛒 Aapke Items:</h4>
     ${itemsHtml}
@@ -442,7 +440,6 @@ kirana:()=>{const walletBal=(S.wallet||{})[ME?.phone]||0;const cart=calcCart();c
  if(searched.length){h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">`;searched.forEach(p=>{const q=C[p.id]||0;h+=`<div class="pcard" style="border-radius:16px"><div class="ph" style="height:120px;border-radius:16px 16px 0 0">${imgOrEmoji(p.img,'📦')}<span style="position:absolute;top:8px;left:8px">${p.nv?'<div class="nv-indicator" style="width:14px;height:14px"></div>':'<div class="veg-indicator" style="width:14px;height:14px"></div>'}</span></div><div style="padding:10px"><b style="font-size:13px;display:block;line-height:1.3;margin-bottom:4px;color:var(--text)">${esc(p.n)}</b><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><b style="color:var(--text);font-size:14px">${inr(p.p)}</b>${q>0?`<div style="display:flex;align-items:center;gap:4px"><button data-a="dec" data-id="${p.id}" style="width:26px;height:26px;border:0;border-radius:6px;background:var(--bad);color:#fff;font-weight:800">−</button><b style="min-width:18px;text-align:center;font-size:13px">${q}</b><button data-a="inc" data-id="${p.id}" style="width:26px;height:26px;border:0;border-radius:6px;background:var(--neon);color:#000;font-weight:800">+</button></div>`:`<button data-a="inc" data-id="${p.id}" class="add-btn-zomato" style="padding:5px 10px;font-size:11px">ADD +</button>`}</div></div></div>`});h+=`</div>`;}else{h+=`<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px">🔍</div><p class="s">Kuch nahi mila</p></div>`;}
  if(cart.cnt>0){h+=`<div class="cartbar cartbar-premium" style="bottom:90px"><div style="flex:1"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><b style="font-size:14px">${cart.cnt} Items</b>${cart.disc>0?`<span style="background:var(--neon);color:#000;font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px">-${inr(cart.disc)} OFF</span>`:''}</div><div style="font-size:16px;font-weight:900">${inr(cart.total)}</div></div><button class="btn sm" data-a="goc" style="margin:0;background:#fff;color:#059669;font-weight:800">View Cart</button></div>`;}
  
- // Kirana Checkout with Item List
  let kiranaItemsHtml = '';
  Object.entries(C).forEach(([id, qty]) => {
      const prod = (S.prod || []).find(p => p.id === id);
@@ -473,7 +470,6 @@ delivery:()=>{if(!OK)return `<div class="card"><h3>🔒 Locked</h3><p class="s">
  if(ords.length){h+=`<div class="card"><h3>🛒 Shop Orders (${ords.length})</h3>`;ords.forEach(o=>{h+=`<div class="grow" style="padding:12px 6px" data-a="ordDetail" data-id="${o.id}"><img src="${randAvatar(o.id)}" class="avatar" onerror="this.src='${IMG.av1}'" alt="Avatar"><div style="flex:1"><b>${esc(o.name)}</b><div class="s">${o.items.slice(0,2).map(i=>i.n+' x'+i.q).join(', ')}${o.items.length>2?'...':''}</div><div class="s">🕐 ${o.slot==='dinner'?'Dinner':'Lunch'} · <b style="color:var(--o)">${inr(o.total)}</b></div></div><button class="btn sm g" data-a="odone" data-id="${o.id}">✅</button></div>`});h+=`</div>`}return h},
 
 owner:()=>{if(!OK)return `<div class="card"><h3>🔒 Owner Access</h3><p class="s">Header par 5 tap → PIN 4821</p></div>`;const pendPay=(S.subs||[]).filter(s=>s.status==='pending');const pendWallet=(S.walletLedger||[]).filter(w=>w.status==='pending');const act=(S.subs||[]).filter(isLive).length;const rev=(S.pays||[]).reduce((a,p)=>a+(+p.amt||0),0);const todayOrders=(S.orders||[]).filter(o=>o.date===todayStr()).length;
- // Menu Engineering Basic Logic
  const foodSales={};(S.orders||[]).forEach(o=>{if(o.kind!=='kirana')o.items.forEach(i=>{if(!foodSales[i.n])foodSales[i.n]={qty:0,rev:0};foodSales[i.n].qty+=i.q;foodSales[i.n].rev+=(i.p*i.q)})});
  const menuMatrix=Object.entries(foodSales).map(([n,d])=>{const avgRev=d.rev/d.qty;return {name:n,...d,avgRev,type:avgRev>120&&d.qty>10?'Star':avgRev<80&&d.qty<5?'Dog':avgRev>120?'Plowhorse':'Puzzle'}}).sort((a,b)=>b.rev-a.rev);
  
@@ -488,7 +484,6 @@ owner:()=>{if(!OK)return `<div class="card"><h3>🔒 Owner Access</h3><p class="
  return h+`</div>`}
 };
 
-// --- ACTIONS ---
 const ACTIONS={
  tab:v=>{if(['kitchen','delivery','owner'].includes(v)&&!OK){const x=prompt(v==='owner'?'Owner PIN:':'PIN:');if(x===null)return;const ok=v==='owner'?(x===CONFIG.ownerPin):(x===CONFIG.delivPin||x===CONFIG.ownerPin);if(!ok){showToast('❌ Galat PIN','error');return}OK=1;sessionStorage.setItem('udok','1')}tab=v;render();window.scrollTo({top:0,behavior:'smooth'})},
  osec:v=>{OSEC=v;render()},shopmode:v=>{SHOPMODE=v;SQ='';FCAT='Sab';render()},fcat:v=>{FCAT=v;render()},set:(v,k)=>{F[k]=v;render()},setSlot:v=>{F.slot=v;render()},setTip:v=>{F.tip=+v||0;render()},toggleView:()=>{VIEW_MODE=VIEW_MODE==='grid'?'list':'grid';render()},
@@ -553,7 +548,6 @@ const initParticles=()=>{const c=$('#particles');if(!c)return;for(let i=0;i<25;i
 let S=null;let isLoading=true;
 async function initCloudState(){const safetyTimeout=setTimeout(()=>{if(isLoading){console.warn("Cloud timeout! Using local phone data.");S=loadState().data;isLoading=false;render()}},5000);try{const pathsToCheck=['namaste_udala_data','udala_state','udala_final_v1','/'];let dataFound=false;for(let path of pathsToCheck){try{const testRef=ref(db,path);const snapshot=await get(testRef);if(snapshot.exists()){console.log("✅ Purana data mil gaya path par:",path);S=migrate(snapshot.val());dataFound=true;onValue(testRef,(snap)=>{if(snap.exists()){S=migrate(snap.val());render()}});break}}catch(err){console.log("Path check failed:",path)}}if(!dataFound){console.log("☁️ Cloud mein data nahi mila. Phone ka local backup use kar rahe hain.");S=loadState().data}}catch(error){console.error("Firebase connection error:",error);S=loadState().data}clearTimeout(safetyTimeout);isLoading=false;render()}
 
-// Global Error Handler for Stability
 window.onerror = function(message, source, lineno, colno, error) {
   console.error("Global Error:", error);
   showToast("⚠️ Kuch gadbad hui. App refresh ho raha hai...", "error");
