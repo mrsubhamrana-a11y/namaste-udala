@@ -6,8 +6,13 @@
 <meta name="theme-color" content="#070B14">
 <title>🍱 Namaste Udala — Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<!-- DOMPurify for 100% XSS Protection -->
+<!-- DOMPurify for Security -->
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+<!-- Firebase Compat (Works without local server / double-click friendly) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
 <style>
 :root{--o:#FF6B35;--o2:#E85D04;--neon:#06D6A0;--neon2:#22D3EE;--gold:#FCD34D;--bad:#EF4444;--warn:#F59E0B;--info:#3B82F6;--purple:#7C3AED;--pink:#EC4899}
 [data-theme="dark"]{--bg:#050812;--text:#E8ECF4;--muted:#8B93A7;--card:rgba(15,20,35,.65);--line:rgba(255,255,255,.08);--glass:rgba(10,14,25,.78);--inp:rgba(255,255,255,.05);--h3:var(--neon)}
@@ -179,18 +184,15 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-s
 <div id="modalRoot"></div>
 <div id="printable-area" style="display:none;"></div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-
+<script>
+// ✅ Firebase Compat Initialization (No CORS issues on local open)
 const firebaseConfig = { databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com" };
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const auth = getAuth(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const auth = firebase.auth();
 
-// Silent Anonymous Auth for Firebase Security Rules
-signInAnonymously(auth).catch((error) => console.warn("Auth warning:", error));
+// Silent Anonymous Auth for Security Rules
+auth.signInAnonymously().catch((error) => console.warn("Auth warning:", error));
 
 const CONFIG={whatsapp:'919583937047',ownerPin:'4821',delivPin:'7788'};
 const PRICING={veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}};
@@ -333,10 +335,10 @@ const F={type:'veg',days:'30',name:ME?ME.name:'',phone:ME?ME.phone:'',area:'',ad
 let saveTimer=null;
 const save=(immediate=false)=>{
   if(!S) return;
-  const doSave = async () => {
+  const doSave = () => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
-      try { await set(ref(db, 'namaste_udala_data'), S); } catch (fbErr) { console.warn("FB save skipped:", fbErr); }
+      try { db.ref('namaste_udala_data').set(S).catch(fbErr => console.warn("FB save skipped:", fbErr)); } catch (fbErr) { console.warn("FB save skipped:", fbErr); }
       render();
     } catch (e) { console.error("Save error:", e); }
   };
@@ -544,7 +546,49 @@ $('#themeToggle').addEventListener('click',()=>{const n=document.documentElement
 const initParticles=()=>{const c=$('#particles');if(!c)return;for(let i=0;i<25;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*12+'s';p.style.animationDuration=(10+Math.random()*6)+'s';p.style.opacity=Math.random()*0.6+0.2;c.appendChild(p)}};
 
 let S=null;let isLoading=true;
-async function initCloudState(){const safetyTimeout=setTimeout(()=>{if(isLoading){console.warn("Cloud timeout! Using local phone data.");S=loadState().data;isLoading=false;render()}},5000);try{const pathsToCheck=['namaste_udala_data','udala_state','udala_final_v1','/'];let dataFound=false;for(let path of pathsToCheck){try{const testRef=ref(db,path);const snapshot=await get(testRef);if(snapshot.exists()){console.log("✅ Purana data mil gaya path par:",path);S=migrate(snapshot.val());dataFound=true;onValue(testRef,(snap)=>{if(snap.exists()){S=migrate(snap.val());render()}});break}}catch(err){console.log("Path check failed:",path)}}if(!dataFound){console.log("☁️ Cloud mein data nahi mila. Phone ka local backup use kar rahe hain.");S=loadState().data}}catch(error){console.error("Firebase connection error:",error);S=loadState().data}clearTimeout(safetyTimeout);isLoading=false;render()}
+function initCloudState(){
+  const safetyTimeout=setTimeout(()=>{
+    if(isLoading){
+      console.warn("Cloud timeout! Using local phone data.");
+      S=loadState().data;
+      isLoading=false;
+      render();
+    }
+  },5000);
+  try{
+    const pathsToCheck=['namaste_udala_data','udala_state','udala_final_v1','/'];
+    let dataFound=false;
+    for(let path of pathsToCheck){
+      try{
+        const testRef=db.ref(path);
+        testRef.once('value').then(snapshot=>{
+          if(snapshot.exists()){
+            console.log("✅ Purana data mil gaya path par:",path);
+            S=migrate(snapshot.val());
+            dataFound=true;
+            testRef.on('value',(snap)=>{
+              if(snap.exists()){
+                S=migrate(snap.val());
+                render();
+              }
+            });
+          }
+        }).catch(()=>{});
+        if(dataFound) break;
+      }catch(err){console.log("Path check failed:",path)}
+    }
+    if(!dataFound){
+      console.log("☁️ Cloud mein data nahi mila. Phone ka local backup use kar rahe hain.");
+      S=loadState().data;
+    }
+  }catch(error){
+    console.error("Firebase connection error:",error);
+    S=loadState().data;
+  }
+  clearTimeout(safetyTimeout);
+  isLoading=false;
+  render();
+}
 
 window.onerror = function(message, source, lineno, colno, error) {
   console.error("Global Error:", error);
