@@ -1,15 +1,15 @@
 {
-  "name": "Namaste Udala",
-  "short_name": "UdalaApp",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#0f172a",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3143/3143666.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+  "name":"Namaste Udala — Ghar jaisa khana",
+  "short_name":"NamasteUdala",
+  "start_url":"./index.html",
+  "scope":"./",
+  "display":"standalone",
+  "orientation":"portrait",
+  "background_color":"#f6f3ec",
+  "theme_color":"#0e5c3f",
+  "description":"Daily tiffin, kirana aur HUL brands — Udala, Odisha.",
+  "icons":[
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
+    {"src":"icon.svg","sizes":"512x512","type":"image/svg+xml","purpose":"maskable"}
   ]
 }
