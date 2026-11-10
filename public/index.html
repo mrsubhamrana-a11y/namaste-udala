@@ -9,7 +9,6 @@
 <meta name="apple-mobile-web-app-title" content="NamasteUdala">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root{--o:#ff5a1f;--o2:#ff8a3d;--g:#0e5c3f;--g2:#127a52;--bg:#f6f3ec;--ink:#1c1917;--muted:#7d7468;--card:#fffdf9;--line:#ece2d0;--gold:#f5b301;--r:22px;--shadow:0 4px 12px rgba(0,0,0,.08)}
 *{box-sizing:border-box;font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -96,12 +95,21 @@ input:focus,select:focus,textarea:focus{border-color:var(--o);box-shadow:0 0 0 3
 .status-pill{font-size:10px;padding:2px 8px;border-radius:99px;font-weight:700}
 .status-delivered{background:#dcfce7;color:#166534}
 .status-pending{background:#fef3c7;color:#92400e}
+/* --- TIFFIN PLAN CARD --- */
+.plan-card{background:linear-gradient(135deg,#fff,#fffbeb);border:2px solid var(--gold);border-radius:20px;padding:20px;position:relative;overflow:hidden}
+.plan-badge{position:absolute;top:10px;right:10px;background:var(--o);color:#fff;font-size:10px;font-weight:800;padding:4px 8px;border-radius:8px}
+.plan-title{font-size:18px;font-weight:800;color:var(--g);margin-bottom:8px}
+.plan-price{font-size:24px;font-weight:800;color:var(--ink)}
+.plan-per-day{font-size:12px;color:var(--muted)}
+.plan-features{list-style:none;padding:0;margin:12px 0;font-size:13px;color:#555}
+.plan-features li{margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.plan-features li::before{content:"✅";color:#16a34a;font-size:12px}
 /* --- DARK MODE --- */
 [data-theme=dark]{--bg:#0f172a;--ink:#f1f5f9;--muted:#94a3b8;--card:#1e293b;--line:#334155}
 [data-theme=dark] body{background:var(--bg);color:var(--ink)}
 [data-theme=dark] header{background:linear-gradient(135deg,#0f172a,#1e293b)}
 [data-theme=dark] .nav{background:rgba(30,41,59,.95);border-color:#334155}
-[data-theme=dark] .card,[data-theme=dark] .prod-card,[data-theme=dark] .modal-content{background:var(--card);border-color:#334155}
+[data-theme=dark] .card,[data-theme=dark] .prod-card,[data-theme=dark] .modal-content,[data-theme=dark] .plan-card{background:var(--card);border-color:#334155}
 [data-theme=dark] input,[data-theme=dark] select{background:#0f172a;border-color:#334155;color:#f1f5f9}
 [data-theme=dark] .chip{background:#334155;color:#cbd5e1;border-color:#475569}
 [data-theme=dark] .chip.on{background:var(--o);color:#fff;border-color:var(--o)}
@@ -159,7 +167,7 @@ const firebaseConfig={apiKey:"AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",authDomai
 const UPI='9583937047@jio';
 const OPIN='4821'; // Owner PIN
 
-// Initial Products (Flipkart Style Data Structure)
+// Products Data (Grocery/Shop)
 let PRODUCTS=[
 {id:1,n:'Veg Special Thali',p:120,mrp:150,c:'Food',img:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80',disc:20,rating:4.5},
 {id:2,n:'Chicken Curry Pack',p:180,mrp:220,c:'Food',img:'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80',disc:18,rating:4.7},
@@ -173,7 +181,7 @@ let PRODUCTS=[
 
 // State Management
 let STATE={
-user:null, // {name, phone, addr, pincode, wishlist:[], orders:[]}
+user:null, // {name, phone, addr, pincode, wishlist:[], orders:[], activePlan:null}
 cart:{},   // {productId: qty}
 view:'home',
 searchQuery:'',
@@ -296,9 +304,45 @@ if(p)total+=p.p*qty;
 return total;
 }
 
-// === VIEW: HOME ===
+// === VIEW: HOME (TIFFIN + SHOP HUB) ===
 function renderHome(){
 const greeting=STATE.user?`Hello, ${STATE.user.name.split(' ')[0]}!`:'Welcome to Udala';
+const hasActivePlan=STATE.user&&STATE.user.activePlan;
+
+let planSection='';
+if(hasActivePlan){
+planSection=`
+<div class="card" style="background:#e3f4e8;border:1px solid #16a34a">
+<h3 style="color:#166534;font-size:16px">🍱 Active Tiffin Plan</h3>
+<p style="font-size:13px;color:#166534;margin-top:4px">${esc(STATE.user.activePlan.type)} · ${STATE.user.activePlan.days} Days Left</p>
+<button class="btn sm g" style="margin-top:8px" data-a="viewPlanDetail">View Details</button>
+</div>`;
+}else{
+planSection=`
+<div class="plan-card">
+<span class="plan-badge">BEST VALUE</span>
+<div class="plan-title">Monthly Tiffin Subscription</div>
+<div class="plan-price">₹2,899 <span class="plan-per-day">(₹96/day)</span></div>
+<ul class="plan-features">
+<li>Veg/Non-Veg Choice</li>
+<li>Lunch + Dinner Included</li>
+<li>Free Delivery in Udala</li>
+<li>Pause/Skip Option Available</li>
+</ul>
+<button class="btn" data-a="openPlanModal">Join Now ➜</button>
+</div>
+<div class="grid-2" style="margin-top:12px">
+<div class="card" style="text-align:center;padding:12px;cursor:pointer" data-a="openWeeklyPlan">
+<b style="font-size:14px">Weekly Plan</b>
+<div style="font-size:12px;color:var(--muted)">₹749 / 7 Days</div>
+</div>
+<div class="card" style="text-align:center;padding:12px;cursor:pointer" data-a="openFortnightlyPlan">
+<b style="font-size:14px">Bi-Weekly</b>
+<div style="font-size:12px;color:var(--muted)">₹1,499 / 15 Days</div>
+</div>
+</div>`;
+}
+
 return `
 <div class="card" style="background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;border:0">
 <h2 style="font-size:20px;margin-bottom:8px">${greeting}</h2>
@@ -309,16 +353,14 @@ return `
 </div>
 </div>
 
-<div class="chip-row">
-${['All','Food','Grocery','Services'].map(c=>`<div class="chip ${STATE.category===c?'on':''}" data-a="filterCat" data-v="${c}">${c}</div>`).join('')}
-</div>
+${planSection}
 
-<h3 style="margin:16px 0 12px;font-size:16px;font-weight:800">Featured Deals 🔥</h3>
+<h3 style="margin:24px 0 12px;font-size:16px;font-weight:800">Featured Deals 🔥</h3>
 <div class="grid-2">
 ${PRODUCTS.filter(p=>p.disc>15).slice(0,4).map(p=>productCard(p)).join('')}
 </div>
 
-<h3 style="margin:24px 0 12px;font-size:16px;font-weight:800">Popular Categories</h3>
+<h3 style="margin:24px 0 12px;font-size:16px;font-weight:800">Categories</h3>
 <div class="grid-3">
 ${[{n:'Tiffin',i:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=100&q=80'},{n:'Kirana',i:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=100&q=80'},{n:'Photo',i:'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=100&q=80'},{n:'Decor',i:'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=100&q=80'},{n:'Books',i:'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=100&q=80'},{n:'More',i:'➕'}].map(c=>`
 <div class="card" style="text-align:center;padding:12px;cursor:pointer" data-a="quickNav" data-v="${c.n.toLowerCase()}">
@@ -344,6 +386,9 @@ return `
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
 <h2 style="font-size:20px;font-weight:800">Shop</h2>
 <div style="font-size:12px;color:var(--muted)">${filtered.length} items found</div>
+</div>
+<div class="chip-row">
+${['All','Food','Grocery','Services'].map(c=>`<div class="chip ${STATE.category===c?'on':''}" data-a="filterCat" data-v="${c}">${c}</div>`).join('')}
 </div>
 <div class="grid-2">
 ${filtered.map(p=>productCard(p)).join('')||'<div class="card" style="grid-column:span 2;text-align:center">No items found</div>'}
@@ -550,6 +595,23 @@ order.status=status;
 if(STATE.db)set(ref(STATE.db,'orders/'+id),order);
 render();
 }
+},
+openPlanModal:()=>{
+if(!STATE.user){alert('Please login first');openModal(loginForm());return}
+openModal(planSelectionForm('monthly'));
+},
+openWeeklyPlan:()=>{
+if(!STATE.user){alert('Please login first');openModal(loginForm());return}
+openModal(planSelectionForm('weekly'));
+},
+openFortnightlyPlan:()=>{
+if(!STATE.user){alert('Please login first');openModal(loginForm());return}
+openModal(planSelectionForm('fortnightly'));
+},
+viewPlanDetail:()=>{
+if(STATE.user&&STATE.user.activePlan){
+alert(`Your ${STATE.user.activePlan.type} plan is active.\nDays Left: ${STATE.user.activePlan.daysLeft}\nStart Date: ${STATE.user.activePlan.startDate}`);
+}
 }
 };
 
@@ -579,7 +641,7 @@ const n=$('#lname').value.trim();
 const p=$('#lphone').value.replace(/\D/g,'');
 const a=$('#laddr').value.trim();
 if(!n||p.length!==10){alert('Valid Name & 10-digit Phone required');return}
-STATE.user={name:n,phone:p,addr:a,wishlist:[],orders:[]};
+STATE.user={name:n,phone:p,addr:a,wishlist:[],orders:[],activePlan:null};
 saveState();
 closeModal();
 alert('Welcome '+n+'!');
@@ -595,6 +657,47 @@ return `
 }
 window.submitAddr=()=>{
 if(STATE.user){STATE.user.addr=$('#eaddr').value.trim();saveState();closeModal();alert('Address Updated')}
+};
+
+function planSelectionForm(type){
+const titles={weekly:'Weekly Plan (7 Days)',fortnightly:'Bi-Weekly Plan (15 Days)',monthly:'Monthly Plan (30 Days)'};
+const prices={weekly:749,fortnightly:1499,monthly:2899};
+return `
+<h3 style="margin-bottom:16px">${titles[type]}</h3>
+<div class="form-group"><label>Type</label>
+<select id="ptype"><option value="veg">🟢 Veg</option><option value="nv">🔴 Non-Veg</option></select>
+</div>
+<div class="form-group"><label>Meal Preference</label>
+<select id="pmeal"><option value="both">Lunch + Dinner</option><option value="lunch">Only Lunch</option><option value="dinner">Only Dinner</option></select>
+</div>
+<div style="background:#f9fafb;padding:12px;border-radius:12px;margin-bottom:16px">
+<div style="display:flex;justify-content:space-between;font-weight:800;font-size:16px">
+<span>Total:</span><span>${inr(prices[type])}</span>
+</div>
+<div style="font-size:12px;color:var(--muted);margin-top:4px">Includes Free Delivery & Hygiene Guarantee</div>
+</div>
+<button class="btn" onclick="confirmPlan('${type}',${prices[type]})">Proceed to Pay 💳</button>
+<button class="btn outline" onclick="closeModal()" style="margin-top:8px">Cancel</button>
+`;
+}
+
+window.confirmPlan=(type,price)=>{
+const pType=$('#ptype').value;
+const pMeal=$('#pMeal').value;
+const orderId=uid();
+const newOrder={
+id:orderId,ts:Date.now(),total:price,status:'pending',method:'upi',userName:STATE.user.name,userPhone:STATE.user.phone,items:[{n:`${type} Tiffin Plan`,q:1,p:price}],
+planDetails:{type:type,days:type==='weekly'?7:type==='fortnightly'?15:30,foodType:pType,meal:pMeal}
+};
+STATE.user.orders=STATE.user.orders||[];
+STATE.user.orders.push(newOrder);
+STATE.user.activePlan={type:pType,days:newOrder.planDetails.days,daysLeft:newOrder.planDetails.days,startDate:new Date().toISOString().split('T')[0]};
+STATE.user.lastOrder=newOrder;
+saveState();
+closeModal();
+// Redirect to UPI
+const note=`Plan#${orderId}`;
+window.location.href=`upi://pay?pa=${UPI}&pn=NamasteUdala&cu=INR&am=${price}&tn=${encodeURIComponent(note)}`;
 };
 
 function openCheckoutModal(){
