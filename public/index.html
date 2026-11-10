@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Namaste Udala - Premium Tiffin & Services</title>
+    <title>Namaste Udala - Smart Tiffin & Shop</title>
     
     <!-- PWA Essentials -->
     <link rel="manifest" href="./manifest.json">
@@ -15,28 +15,27 @@
     <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
     <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
-    <!-- Fonts: Plus Jakarta Sans for Modern Look -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- DESIGN SYSTEM VARIABLES --- */
+        /* --- DESIGN SYSTEM --- */
         :root {
             --primary: #ff5a1f;       /* Appetite Orange */
             --primary-dark: #e8480c;
             --secondary: #0f766e;     /* Trustworthy Teal/Green */
-            --bg-body: #f8fafc;       /* Very light grey-blue */
+            --bg-body: #f8fafc;       
             --surface: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
             --radius-lg: 24px;
             --radius-md: 16px;
-            --radius-sm: 12px;
             --nav-height: 70px;
         }
 
@@ -49,12 +48,11 @@
             overflow-x: hidden;
         }
 
-        /* --- HEADER (GLASS EFFECT) --- */
+        /* --- HEADER --- */
         header {
             position: sticky; top: 0; z-index: 100;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(226, 232, 240, 0.5);
             padding: 12px 20px;
             display: flex; justify-content: space-between; align-items: center;
@@ -75,10 +73,8 @@
             width: 40px; height: 40px; border-radius: 50%;
             background: #f1f5f9; border: none; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            font-size: 18px; transition: all 0.2s ease;
-            position: relative;
+            font-size: 18px; transition: all 0.2s ease; position: relative;
         }
-        .icon-btn:hover { background: #e2e8f0; transform: scale(1.05); }
         .badge-dot {
             position: absolute; top: 8px; right: 8px;
             width: 8px; height: 8px; background: var(--primary);
@@ -88,24 +84,14 @@
         /* --- CONTAINER --- */
         .container { padding: 16px; max-width: 600px; margin: 0 auto; }
 
-        /* --- HERO SECTION (PREMIUM CARD) --- */
+        /* --- HERO CARD --- */
         .hero-card {
             background: linear-gradient(135deg, var(--secondary), #14b8a6);
             border-radius: var(--radius-lg);
-            padding: 24px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 24px;
+            padding: 24px; color: white;
+            position: relative; overflow: hidden;
+            box-shadow: var(--shadow-lg); margin-bottom: 24px;
         }
-        .hero-card::after {
-            content: ''; position: absolute; top: -50%; right: -20%;
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        .hero-content { position: relative; z-index: 2; }
         .hero-tag {
             display: inline-block; background: rgba(255,255,255,0.2);
             padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;
@@ -117,12 +103,11 @@
             background: white; color: var(--secondary);
             border: none; padding: 12px 24px; border-radius: 12px;
             font-weight: 800; font-size: 14px; cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s;
         }
         .hero-btn:active { transform: scale(0.95); }
 
-        /* --- QUICK ACTIONS GRID --- */
+        /* --- QUICK ACTIONS --- */
         .quick-grid {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
             margin-bottom: 24px;
@@ -145,12 +130,12 @@
         .section-title { font-size: 18px; font-weight: 800; color: var(--text-main); }
         .see-all { font-size: 13px; color: var(--primary); font-weight: 700; text-decoration: none; }
 
-        /* --- PRODUCT CARDS (MODERN E-COMMERCE) --- */
+        /* --- PRODUCT CARDS --- */
         .product-scroll {
             display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
-        .product-scroll::-webkit-scrollbar { display: none; } /* Chrome */
+        .product-scroll::-webkit-scrollbar { display: none; }
         
         .prod-card {
             min-width: 160px; background: var(--surface);
@@ -193,7 +178,7 @@
         .add-btn:active { background: #0d9488; }
         .add-btn.in-cart { background: var(--primary); }
 
-        /* --- BOTTOM NAVIGATION (FLOATING BAR) --- */
+        /* --- BOTTOM NAVIGATION --- */
         .bottom-nav {
             position: fixed; bottom: 16px; left: 16px; right: 16px;
             height: var(--nav-height);
@@ -213,7 +198,7 @@
         .nav-icon { font-size: 20px; margin-bottom: 2px; transition: transform 0.2s; }
         .nav-item.active .nav-icon { transform: scale(1.1); }
 
-        /* --- MODALS & OVERLAYS --- */
+        /* --- MODALS (SHEET STYLE) --- */
         .overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.4);
             z-index: 300; display: none; align-items: flex-end; justify-content: center;
@@ -222,7 +207,7 @@
         .sheet {
             background: white; width: 100%; max-width: 500px;
             border-radius: 24px 24px 0 0; padding: 24px;
-            max-height: 85vh; overflow-y: auto;
+            max-height: 90vh; overflow-y: auto;
             animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -249,7 +234,34 @@
             font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 10px;
         }
 
-        /* --- TOAST NOTIFICATION --- */
+        /* --- PLAN BUILDER SPECIFIC STYLES --- */
+        .plan-option {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px; border: 1.5px solid var(--border); border-radius: 12px;
+            margin-bottom: 8px; cursor: pointer; transition: 0.2s;
+        }
+        .plan-option.selected { border-color: var(--primary); background: #fff7ed; }
+        .plan-option span { font-weight: 700; font-size: 14px; }
+        
+        .stepper {
+            display: flex; align-items: center; gap: 12px;
+            background: #f1f5f9; padding: 4px; border-radius: 10px;
+        }
+        .step-btn {
+            width: 32px; height: 32px; border-radius: 8px; border: none;
+            background: white; font-weight: 800; font-size: 16px;
+            cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .step-val { font-weight: 800; font-size: 16px; min-width: 20px; text-align: center; }
+
+        .summary-box {
+            background: #f8fafc; border: 1px dashed var(--border);
+            border-radius: 12px; padding: 16px; margin-top: 16px;
+        }
+        .sum-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; color: var(--text-muted); }
+        .sum-total { font-size: 18px; font-weight: 800; color: var(--text-main); border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; }
+
+        /* --- TOAST --- */
         #toast {
             position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
             background: var(--text-main); color: white;
@@ -270,6 +282,10 @@
         [data-theme='dark'] .bottom-nav { background: rgba(30, 41, 59, 0.95); border-color: #334155; }
         [data-theme='dark'] .sheet { background: #1e293b; }
         [data-theme='dark'] .input-field { background: #0f172a; border-color: #334155; color: #f1f5f9; }
+        [data-theme='dark'] .plan-option.selected { background: #2d1b4e; border-color: var(--primary); }
+        [data-theme='dark'] .stepper { background: #334155; }
+        [data-theme='dark'] .step-btn { background: #1e293b; color: white; }
+        [data-theme='dark'] .summary-box { background: #0f172a; border-color: #334155; }
     </style>
 </head>
 <body>
@@ -299,7 +315,7 @@
             <span class="hero-tag">✨ New Launch</span>
             <h2 class="hero-title">Ghar Jaisa Swad,<br>Ab Apke Darwaze Par</h2>
             <p class="hero-sub">Hygienic, Fresh & On-Time Delivery in Udala.<br>Start your monthly plan today!</p>
-            <button class="hero-btn" onclick="openPlans()">View Plans ➜</button>
+            <button class="hero-btn" onclick="openPlanBuilder()">Build Your Plan ➜</button>
         </div>
     </div>
 
@@ -361,7 +377,7 @@
     </div>
 </nav>
 
-<!-- Cart Modal -->
+<!-- CART MODAL -->
 <div class="overlay" id="cartModal">
     <div class="sheet">
         <div class="handle"></div>
@@ -378,7 +394,7 @@
     </div>
 </div>
 
-<!-- Login Modal -->
+<!-- LOGIN MODAL -->
 <div class="overlay" id="loginModal">
     <div class="sheet">
         <div class="handle"></div>
@@ -400,11 +416,94 @@
     </div>
 </div>
 
+<!-- PLAN BUILDER MODAL (THE NEW FEATURE) -->
+<div class="overlay" id="planModal">
+    <div class="sheet">
+        <div class="handle"></div>
+        <h2 style="font-size:20px;font-weight:800;margin-bottom:20px;">Customize Your Tiffin Plan 🍱</h2>
+        
+        <!-- Step 1: Food Type -->
+        <div class="form-group">
+            <label class="label">1. Choose Food Type</label>
+            <div class="plan-option selected" onclick="selectPlanType('veg')" id="opt-veg">
+                <span>🟢 Pure Vegetarian</span>
+                <span style="color:#16a34a;font-size:12px;">Best Seller</span>
+            </div>
+            <div class="plan-option" onclick="selectPlanType('nv')" id="opt-nv">
+                <span>🔴 Non-Vegetarian</span>
+                <span style="color:#dc2626;font-size:12px;">Chicken/Egg/Fish</span>
+            </div>
+        </div>
+
+        <!-- Step 2: Duration -->
+        <div class="form-group">
+            <label class="label">2. Select Duration</label>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+                <div class="plan-option" onclick="selectDays(7)" id="day-7"><span>7 Days</span></div>
+                <div class="plan-option" onclick="selectDays(15)" id="day-15"><span>15 Days</span></div>
+                <div class="plan-option selected" onclick="selectDays(30)" id="day-30"><span>30 Days</span></div>
+            </div>
+        </div>
+
+        <!-- Step 3: Meal Preferences -->
+        <div class="form-group">
+            <label class="label">3. Lunch Preference</label>
+            <div style="display:flex;gap:8px;">
+                <button class="btn-secondary" style="flex:1;padding:10px;font-size:12px;" onclick="setMeal('lunch','rice')" id="m-lunch-rice">🍚 Rice</button>
+                <button class="btn-secondary" style="flex:1;padding:10px;font-size:12px;" onclick="setMeal('lunch','roti')" id="m-lunch-roti">🫓 Roti</button>
+                <button class="btn-secondary" style="flex:1;padding:10px;font-size:12px;background:#e2e8f0;color:var(--text-main);" onclick="setMeal('lunch','both')" id="m-lunch-both">🍱 Both (+₹10)</button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="label">4. Dinner Preference</label>
+            <div style="display:flex;gap:8px;">
+                <button class="btn-secondary" style="flex:1;padding:10px;font-size:12px;" onclick="setMeal('dinner','rice')" id="m-dinner-rice">🍚 Rice</button>
+                <button class="btn-secondary" style="flex:1;padding:10px;font-size:12px;background:#e2e8f0;color:var(--text-main);" onclick="setMeal('dinner','roti')" id="m-dinner-roti">🫓 Roti</button>
+                <button class="btn-secondary" style="flex:1;padding:10px;font-size:12px;" onclick="setMeal('dinner','both')" id="m-dinner-both">🍱 Both (+₹10)</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Add-ons (Extra Roti) -->
+        <div class="form-group">
+            <label class="label">5. Extra Roti Per Day? (₹5/roti)</label>
+            <div class="stepper">
+                <button class="step-btn" onclick="adjustExtraRoti(-1)">−</button>
+                <span class="step-val" id="val-extraRoti">0</span>
+                <button class="step-btn" onclick="adjustExtraRoti(1)">+</button>
+            </div>
+        </div>
+
+        <!-- Summary Box -->
+        <div class="summary-box">
+            <div class="sum-row"><span>Base Plan (<span id="sum-type">Veg</span>)</span><span id="sum-base">₹0</span></div>
+            <div class="sum-row"><span>Lunch Upgrade</span><span id="sum-lunch">₹0</span></div>
+            <div class="sum-row"><span>Dinner Upgrade</span><span id="sum-dinner">₹0</span></div>
+            <div class="sum-row"><span>Extra Roti (<span id="sum-roti-count">0</span>x)</span><span id="sum-roti-cost">₹0</span></div>
+            <div class="sum-total">TOTAL PAYABLE: <span id="sum-final">₹0</span></div>
+        </div>
+
+        <button class="btn-primary" onclick="confirmPlan()">Confirm & Pay 💳</button>
+        <button class="btn-secondary" onclick="closeModal('planModal')">Cancel</button>
+    </div>
+</div>
+
 <!-- Toast Notification -->
 <div id="toast">Message</div>
 
 <script>
-    // --- DATA ---
+    // --- DATA CONFIGURATION ---
+    const BASE_PRICES = {
+        veg: { 7: 749, 15: 1499, 30: 2899 },
+        nv: { 7: 949, 15: 1849, 30: 3599 }
+    };
+    
+    const ADD_ON_COSTS = {
+        lunchBoth: 10, // per day
+        dinnerBoth: 10, // per day
+        extraRoti: 5   // per roti per day
+    };
+
     const PRODUCTS = [
         { id: 1, name: "Veg Special Thali", price: 120, mrp: 150, cat: "Food", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80", rating: 4.8 },
         { id: 2, name: "Chicken Curry Pack", price: 180, mrp: 220, cat: "Food", img: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80", rating: 4.9 },
@@ -414,11 +513,19 @@
         { id: 6, name: "Paneer Masala", price: 140, mrp: 160, cat: "Food", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80", rating: 4.6 },
     ];
 
-    // --- STATE ---
+    // --- STATE MANAGEMENT ---
     let state = {
         user: JSON.parse(localStorage.getItem('nu_user')) || null,
         cart: {}, // { productId: quantity }
-        view: 'home'
+        view: 'home',
+        // Plan Builder State
+        planConfig: {
+            type: 'veg', // veg or nv
+            days: 30,    // 7, 15, 30
+            lunch: 'rice', // rice, roti, both
+            dinner: 'roti', // rice, roti, both
+            extraRoti: 0   // 0 to 4
+        }
     };
 
     // --- HELPERS ---
@@ -426,18 +533,26 @@
     const fmt = n => '₹' + Math.round(n).toLocaleString('en-IN');
     const getDisc = (mrp, p) => Math.round(((mrp - p) / mrp) * 100);
 
-    // --- INIT ---
+    // --- INITIALIZATION ---
     function init() {
         renderProducts();
         updateCartUI();
         checkTheme();
+        loadCart();
     }
 
-    // --- RENDERING ---
+    function loadCart() {
+        try { state.cart = JSON.parse(localStorage.getItem('nu_cart')) || {}; } catch(e){}
+    }
+
+    function saveState() {
+        localStorage.setItem('nu_cart', JSON.stringify(state.cart));
+        if(state.user) localStorage.setItem('nu_user', JSON.stringify(state.user));
+    }
+
+    // --- RENDERING FUNCTIONS ---
     function renderProducts(filterCat = 'All') {
         const list = filterCat === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.cat === filterCat);
-        
-        // Split into two sections for demo purposes
         const featured = list.slice(0, 4);
         const essentials = list.slice(4);
 
@@ -473,7 +588,7 @@
     window.addToCart = (id) => {
         state.cart[id] = (state.cart[id] || 0) + 1;
         saveState();
-        renderProducts(); // Re-render to update button text
+        renderProducts(); 
         updateCartUI();
         showToast("Added to cart!");
     };
@@ -536,7 +651,6 @@
         const upiLink = `upi://pay?pa=9583937047@jio&pn=NamasteUdala&cu=INR&am=${Math.round(total)}&tn=Order#${Date.now()}`;
         window.location.href = upiLink;
         
-        // Clear cart after redirect simulation
         setTimeout(() => {
             state.cart = {};
             saveState();
@@ -558,17 +672,139 @@
         }
         
         state.user = { name, phone, addr };
-        localStorage.setItem('nu_user', JSON.stringify(state.user));
+        saveState();
         closeModal('loginModal');
         showToast("Welcome " + name.split(' ')[0] + "!");
     };
 
-    // --- UTILS ---
-    function saveState() {
-        localStorage.setItem('nu_cart', JSON.stringify(state.cart));
-        // In real app, sync with Firebase here
+    // --- PLAN BUILDER LOGIC ---
+    window.openPlanBuilder = () => {
+        if(!state.user) {
+            openModal('loginModal');
+            showToast("Login to customize plan");
+            return;
+        }
+        resetPlanUI();
+        openModal('planModal');
+    };
+
+    function resetPlanUI() {
+        // Reset defaults visually
+        selectPlanType('veg');
+        selectDays(30);
+        setMeal('lunch', 'rice');
+        setMeal('dinner', 'roti');
+        adjustExtraRoti(0, true); // Force set to 0
+        calculatePlanPrice();
     }
 
+    window.selectPlanType = (type) => {
+        state.planConfig.type = type;
+        // Update UI classes
+        $('#opt-veg').classList.toggle('selected', type === 'veg');
+        $('#opt-nv').classList.toggle('selected', type === 'nv');
+        calculatePlanPrice();
+    };
+
+    window.selectDays = (days) => {
+        state.planConfig.days = days;
+        ['7','15','30'].forEach(d => {
+            $(`#day-${d}`).classList.toggle('selected', parseInt(d) === days);
+        });
+        calculatePlanPrice();
+    };
+
+    window.setMeal = (mealSlot, choice) => {
+        state.planConfig[mealSlot] = choice;
+        // Update buttons visual state
+        const slots = ['rice', 'roti', 'both'];
+        slots.forEach(s => {
+            const btn = $(`#m-${mealSlot}-${s}`);
+            if(btn) {
+                if(s === choice) {
+                    btn.style.background = '#e2e8f0';
+                    btn.style.color = 'var(--text-main)';
+                    btn.style.border = '1px solid var(--border)';
+                } else {
+                    btn.style.background = 'transparent';
+                    btn.style.color = 'var(--text-muted)';
+                    btn.style.border = 'none';
+                }
+            }
+        });
+        calculatePlanPrice();
+    };
+
+    window.adjustExtraRoti = (delta, forceZero = false) => {
+        if(forceZero) {
+            state.planConfig.extraRoti = 0;
+        } else {
+            state.planConfig.extraRoti = Math.max(0, Math.min(4, state.planConfig.extraRoti + delta));
+        }
+        $('#val-extraRoti').innerText = state.planConfig.extraRoti;
+        calculatePlanPrice();
+    };
+
+    function calculatePlanPrice() {
+        const cfg = state.planConfig;
+        const base = BASE_PRICES[cfg.type][cfg.days];
+        
+        let lunchCost = 0;
+        if(cfg.lunch === 'both') lunchCost = ADD_ON_COSTS.lunchBoth * cfg.days;
+        
+        let dinnerCost = 0;
+        if(cfg.dinner === 'both') dinnerCost = ADD_ON_COSTS.dinnerBoth * cfg.days;
+        
+        let rotiCost = cfg.extraRoti * ADD_ON_COSTS.extraRoti * cfg.days;
+        
+        const total = base + lunchCost + dinnerCost + rotiCost;
+
+        // Update Summary UI
+        $('#sum-type').innerText = cfg.type === 'veg' ? 'Vegetarian' : 'Non-Veg';
+        $('#sum-base').innerText = fmt(base);
+        $('#sum-lunch').innerText = fmt(lunchCost);
+        $('#sum-dinner').innerText = fmt(dinnerCost);
+        $('#sum-roti-count').innerText = cfg.extraRoti;
+        $('#sum-roti-cost').innerText = fmt(rotiCost);
+        $('#sum-final').innerText = fmt(total);
+    }
+
+    window.confirmPlan = () => {
+        const total = parseFloat($('#sum-final').innerText.replace(/[^0-9]/g, ''));
+        const orderId = Date.now();
+        
+        // Create Order Object
+        const newOrder = {
+            id: orderId,
+            ts: Date.now(),
+            type: 'subscription',
+            details: state.planConfig,
+            total: total,
+            status: 'pending',
+            userName: state.user.name,
+            userPhone: state.user.phone
+        };
+
+        // Save locally (Simulating backend)
+        let orders = JSON.parse(localStorage.getItem('nu_orders')) || [];
+        orders.push(newOrder);
+        localStorage.setItem('nu_orders', JSON.stringify(orders));
+
+        // Redirect to UPI
+        const note = `Plan#${orderId}`;
+        const upiLink = `upi://pay?pa=9583937047@jio&pn=NamasteUdala&cu=INR&am=${Math.round(total)}&tn=${encodeURIComponent(note)}`;
+        
+        window.location.href = upiLink;
+        
+        setTimeout(() => {
+            closeModal('planModal');
+            showToast("Plan Created! Checking payment...");
+            // Optional: Switch to Orders tab
+            switchTab('orders');
+        }, 2000);
+    };
+
+    // --- UTILS ---
     function showToast(msg) {
         const t = $('#toast');
         t.innerText = msg;
@@ -580,13 +816,16 @@
     function closeModal(id) { $('#' + id).classList.remove('open'); }
     
     window.switchTab = (tab) => {
-        // Update nav active state visually
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         event.currentTarget.classList.add('active');
         
         if(tab === 'home') renderProducts('All');
-        else if(tab === 'shop') renderProducts('All'); // Same for now
-        else if(tab === 'orders') showToast("Order History Coming Soon");
+        else if(tab === 'shop') renderProducts('All'); 
+        else if(tab === 'orders') {
+            const orders = JSON.parse(localStorage.getItem('nu_orders')) || [];
+            if(orders.length === 0) showToast("No orders yet.");
+            else showToast(`${orders.length} Active Orders Found.`);
+        }
         else if(tab === 'profile') {
             if(!state.user) openModal('loginModal');
             else showToast("Profile: " + state.user.name);
@@ -597,8 +836,6 @@
         renderProducts(cat);
         switchTab('shop');
     };
-
-    window.openPlans = () => showToast("Subscription Plans Page Loading...");
 
     function toggleTheme() {
         const root = document.documentElement;
@@ -617,9 +854,6 @@
             document.documentElement.setAttribute('data-theme', 'dark');
         }
     }
-
-    // Load saved cart
-    try { state.cart = JSON.parse(localStorage.getItem('nu_cart')) || {}; } catch(e){}
 
     init();
 </script>
