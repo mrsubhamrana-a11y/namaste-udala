@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Namaste Udala - Smart Super App</title>
+    <title>Namaste Udala - Super App</title>
     
     <!-- PWA Essentials -->
     <link rel="manifest" href="./manifest.json">
@@ -120,78 +120,28 @@
             background: linear-gradient(180deg, var(--primary), var(--gold));
         }
 
-        /* --- HERO PLAN BUILDER (FRONT PAGE STAR) --- */
-        .hero-plan {
-            background: linear-gradient(135deg, #fff, #fffbeb);
-            border: 2px solid var(--gold);
-            position: relative; overflow: hidden;
+        /* --- FILTER CHIPS --- */
+        .filter-chips {
+            display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 12px; scrollbar-width: none;
         }
-        .hero-tag {
-            position: absolute; top: 12px; right: 12px;
-            background: var(--primary); color: white;
-            font-size: 10px; font-weight: 800; padding: 4px 8px;
-            border-radius: 6px; transform: rotate(3deg);
+        .filter-chips::-webkit-scrollbar { display: none; }
+        .chip {
+            flex: none; padding: 8px 16px; border-radius: 99px;
+            background: #f3ede2; font-size: 12px; font-weight: 700; color: var(--text-muted);
+            cursor: pointer; transition: 0.2s; border: 1px solid transparent;
         }
-        
-        .plan-controls {
-            display: grid; gap: 12px; margin-top: 12px;
-        }
-        
-        .control-group label {
-            display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;
-        }
-        
-        .seg-control {
-            display: flex; background: #f3ede2; padding: 4px; border-radius: 12px;
-        }
-        .seg-btn {
-            flex: 1; border: none; background: transparent;
-            padding: 10px 6px; border-radius: 8px;
-            font-size: 12px; font-weight: 700; color: var(--text-muted);
-            cursor: pointer; transition: 0.2s;
-        }
-        .seg-btn.active {
-            background: white; color: var(--primary);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        .chip.active {
+            background: var(--primary); color: white; border-color: var(--primary);
         }
 
-        .stepper-row {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #f8fafc; padding: 10px 14px; border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-        .stepper-label { font-size: 13px; font-weight: 600; color: var(--text-main); }
-        .stepper-val { font-size: 16px; font-weight: 800; color: var(--primary); min-width: 30px; text-align: center; }
-        .step-btn {
-            width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border);
-            background: white; font-weight: 800; cursor: pointer; color: var(--text-main);
-        }
-        .step-btn:active { background: #eee; }
-
-        .price-summary {
-            margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--border);
-        }
-        .sum-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
-        .sum-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 800; color: var(--text-main); margin-top: 8px; }
-
-        .btn-pay {
-            width: 100%; margin-top: 16px; padding: 14px;
-            background: linear-gradient(180deg, var(--primary), var(--primary-dark));
-            color: white; border: none; border-radius: 14px;
-            font-weight: 800; font-size: 15px; cursor: pointer;
-            box-shadow: 0 4px 12px rgba(255,90,31,0.3);
-            transition: transform 0.1s;
-        }
-        .btn-pay:active { transform: scale(0.98); }
-
-        /* --- SHOP GRID (FLIPKART STYLE) --- */
+        /* --- UNIFIED SHOP GRID --- */
         .shop-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
         }
         .prod-card {
             background: white; border-radius: 16px; overflow: hidden;
             box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-            transition: 0.2s; position: relative;
+            transition: 0.2s; position: relative; display: flex; flex-direction: column;
         }
         .prod-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
         .prod-img-wrap { height: 120px; background: #f1f5f9; position: relative; }
@@ -201,14 +151,19 @@
             background: var(--success); color: white;
             font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
         }
-        .wish-heart {
+        .cat-badge {
             position: absolute; top: 8px; right: 8px;
+            background: rgba(0,0,0,0.6); color: white;
+            font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; backdrop-filter: blur(4px);
+        }
+        .wish-heart {
+            position: absolute; bottom: 8px; right: 8px;
             width: 28px; height: 28px; border-radius: 50%;
             background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center;
             font-size: 14px; color: #ccc; cursor: pointer; z-index: 2;
         }
         .wish-heart.active { color: var(--danger); }
-        .prod-body { padding: 12px; }
+        .prod-body { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .prod-name { font-size: 13px; font-weight: 700; line-height: 1.3; margin-bottom: 4px; height: 34px; overflow: hidden; }
         .prod-rating { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
         .prod-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px; }
@@ -220,6 +175,7 @@
             cursor: pointer; transition: 0.2s;
         }
         .add-cart-btn.in-cart { background: var(--primary); }
+        .add-cart-btn.plan-btn { background: var(--info); }
 
         /* --- BOTTOM NAVIGATION --- */
         .bottom-nav {
@@ -299,11 +255,8 @@
         [data-theme='dark'] .sheet { background: #1e293b; }
         [data-theme='dark'] .input-field { background: #0f172a; border-color: #334155; color: #f1f5f9; }
         [data-theme='dark'] .prod-card { background: #1e293b; border-color: #334155; }
-        [data-theme='dark'] .hero-plan { background: #1e293b; border-color: #334155; }
-        [data-theme='dark'] .seg-control { background: #334155; }
-        [data-theme='dark'] .seg-btn.active { background: #1e293b; color: var(--primary); }
-        [data-theme='dark'] .stepper-row { background: #0f172a; border-color: #334155; }
-        [data-theme='dark'] .step-btn { background: #1e293b; color: #f1f5f9; border-color: #334155; }
+        [data-theme='dark'] .chip { background: #334155; color: #cbd5e1; }
+        [data-theme='dark'] .chip.active { background: var(--primary); color: white; }
     </style>
 </head>
 <body>
@@ -314,7 +267,7 @@
         <div class="logo-circle">NU</div>
         <div class="brand-text">
             <h1 id="pageTitle">Namaste Udala</h1>
-            <p id="pageSubtitle">Smart Tiffin & Services</p>
+            <p id="pageSubtitle">Super App for Udala</p>
         </div>
     </div>
     <div class="header-actions">
@@ -420,7 +373,7 @@ const firebaseConfig = {
 };
 
 const UPI_ID = '9583937047@jio';
-const OWNER_PIN = '4821'; // Default PIN
+const OWNER_PIN = '4821';
 
 // Pricing Engine Data
 const BASE_PRICES = {
@@ -428,48 +381,48 @@ const BASE_PRICES = {
     nv: { 7: 949, 15: 1849, 30: 3599 }
 };
 const ADD_ONS = {
-    lunchBoth: 10, // per day extra if both roti+rice
-    dinnerBoth: 10, // per day extra if both roti+rice
-    extraRoti: 5   // per roti per day
+    lunchBoth: 10, dinnerBoth: 10, extraRoti: 5
 };
 
-// Shop Products Data (Static Seed - Can be dynamic later)
-const PRODUCTS = [
-    { id: 1, name: "Veg Special Thali", price: 120, mrp: 150, cat: "Food", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80", rating: 4.8 },
-    { id: 2, name: "Chicken Curry Pack", price: 180, mrp: 220, cat: "Food", img: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80", rating: 4.9 },
-    { id: 3, name: "Fresh Milk 500ml", price: 30, mrp: 35, cat: "Grocery", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80", rating: 4.7 },
-    { id: 4, name: "Atta 1kg Bag", price: 50, mrp: 60, cat: "Grocery", img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80", rating: 4.5 },
-    { id: 5, name: "Wedding Photography", price: 15000, mrp: 20000, cat: "Services", img: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&q=80", rating: 5.0 },
-    { id: 6, name: "Paneer Masala", price: 140, mrp: 160, cat: "Food", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80", rating: 4.6 },
+// Unified Catalog: Plans + Products + Services + Bulk
+const CATALOG = [
+    // --- PLANS (Rendered as special cards) ---
+    { id: 'plan_veg_30', type: 'plan', name: 'Monthly Veg Plan', price: 2899, cat: 'Plans', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80', rating: 4.9, desc: '30 Days • Lunch+Dinner' },
+    { id: 'plan_nv_30', type: 'plan', name: 'Monthly Non-Veg Plan', price: 3599, cat: 'Plans', img: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80', rating: 4.8, desc: '30 Days • Chicken/Fish' },
+    
+    // --- GROCERY ---
+    { id: 1, type: 'product', name: 'Fresh Milk 500ml', price: 30, mrp: 35, cat: 'Grocery', img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80', rating: 4.7 },
+    { id: 2, type: 'product', name: 'Atta 1kg Bag', price: 50, mrp: 60, cat: 'Grocery', img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80', rating: 4.5 },
+    { id: 3, type: 'product', name: 'Paneer 200g', price: 80, mrp: 95, cat: 'Grocery', img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80', rating: 4.6 },
+    
+    // --- SERVICES ---
+    { id: 4, type: 'service', name: 'Wedding Photography', price: 15000, cat: 'Services', img: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&q=80', rating: 5.0, desc: 'Full Day Coverage' },
+    { id: 5, type: 'service', name: 'Birthday Decoration', price: 3500, cat: 'Services', img: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80', rating: 4.8, desc: 'Balloon + Lights' },
+    { id: 6, type: 'service', name: 'Maths Tuition (Month)', price: 800, cat: 'Services', img: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&q=80', rating: 4.7, desc: 'Class 6-10' },
+    
+    // --- BULK CATERING ---
+    { id: 7, type: 'bulk', name: 'Bulk Veg Thali (50+)', price: 100, cat: 'Bulk', img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80', rating: 4.9, desc: 'Per Plate • Min 50 Qty' },
+    { id: 8, type: 'bulk', name: 'Bulk Chicken Curry', price: 140, cat: 'Bulk', img: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80', rating: 4.8, desc: 'Per Plate • Min 30 Qty' },
 ];
 
 // === 2. STATE MANAGEMENT ===
 let state = {
     user: JSON.parse(localStorage.getItem('nu_user')) || null,
     cart: {}, 
-    view: 'home', // home, shop, profile, owner
+    view: 'home',
     ownerMode: false,
     db: null,
-    allOrders: [], // Fetched from Firebase
-    // Plan Builder State
-    plan: {
-        type: 'veg', // veg or nv
-        days: 30,    // 7, 15, 30
-        lunch: 'rice', // rice, roti, both
-        dinner: 'roti', // rice, roti, both
-        extraRoti: 0   // count 0-4
-    }
+    allOrders: [],
+    shopFilter: 'All', // All, Plans, Grocery, Services, Bulk
+    planConfig: { type: 'veg', days: 30, lunch: 'rice', dinner: 'roti', extraRoti: 0 }
 };
 
-// Load Cart from LocalStorage
 try { state.cart = JSON.parse(localStorage.getItem('nu_cart')) || {}; } catch(e){}
 
 // === 3. FIREBASE INITIALIZATION ===
 try {
     const app = initializeApp(firebaseConfig);
     state.db = getDatabase(app);
-    
-    // Listen to global orders for Owner Dashboard
     onValue(ref(state.db, 'orders'), snap => {
         const val = snap.val();
         state.allOrders = val ? Object.values(val) : [];
@@ -477,209 +430,110 @@ try {
     });
 } catch(e) { console.log('Cloud off', e); }
 
-// === 4. HELPER FUNCTIONS ===
+// === 4. HELPERS ===
 const $ = s => document.querySelector(s);
 const fmt = n => '₹' + Math.round(n).toLocaleString('en-IN');
 const getDisc = (mrp, p) => Math.round(((mrp - p) / mrp) * 100);
-const cleanPh = s => String(s||'').replace(/\D/g,'').slice(-10);
 const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 function saveState() {
     localStorage.setItem('nu_cart', JSON.stringify(state.cart));
     if(state.user) localStorage.setItem('nu_user', JSON.stringify(state.user));
-    render(); // Trigger UI update
+    render();
 }
 
 // === 5. SMART ALGORITHMS ===
-
-/**
- * Calculates total plan price based on current configuration
- */
-function calculatePlanPrice(cfg = state.plan) {
+function calculatePlanPrice(cfg = state.planConfig) {
     const base = BASE_PRICES[cfg.type][cfg.days] || 0;
     const lunchCost = cfg.lunch === 'both' ? ADD_ONS.lunchBoth * cfg.days : 0;
     const dinnerCost = cfg.dinner === 'both' ? ADD_ONS.dinnerBoth * cfg.days : 0;
     const rotiCost = cfg.extraRoti * ADD_ONS.extraRoti * cfg.days;
-    
     const total = base + lunchCost + dinnerCost + rotiCost;
-    const perDay = cfg.days > 0 ? Math.round(total / cfg.days) : 0;
-    
-    return { total, perDay, base, lunchCost, dinnerCost, rotiCost };
+    return { total, perDay: cfg.days > 0 ? Math.round(total / cfg.days) : 0, base, lunchCost, dinnerCost, rotiCost };
 }
 
-/**
- * Optimizes delivery route using Nearest Neighbor Algorithm
- * Input: Array of stops with lat/lng
- * Output: Ordered array of stops for minimum distance
- */
 function optimizeRoute(stops) {
     if (!stops.length) return [];
     if (stops.length <= 2) return stops;
-
-    let unvisited = [...stops];
-    let visited = [];
-    let current = unvisited.shift(); // Start with first stop
+    let unvisited = [...stops], visited = [], current = unvisited.shift();
     visited.push(current);
-
     while (unvisited.length) {
-        let nearestIdx = 0;
-        let minDist = Infinity;
-        
-        // Find closest neighbor
+        let nearestIdx = 0, minDist = Infinity;
         for (let i = 0; i < unvisited.length; i++) {
             const dist = havDistance(current.lat, current.lng, unvisited[i].lat, unvisited[i].lng);
-            if (dist < minDist) {
-                minDist = dist;
-                nearestIdx = i;
-            }
+            if (dist < minDist) { minDist = dist; nearestIdx = i; }
         }
-        
         current = unvisited.splice(nearestIdx, 1)[0];
         visited.push(current);
     }
-    
     return visited;
 }
 
-// Haversine formula for distance in km
 function havDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Earth radius in km
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
+    const R = 6371, dLat = (lat2 - lat1) * Math.PI / 180, dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-/**
- * Generates Revenue Breakdown by Category for Owner Analytics
- */
 function getRevenueBreakdown() {
-    const breakdown = { Food: 0, Grocery: 0, Services: 0, Subscription: 0 };
-    
+    const breakdown = { Plans: 0, Grocery: 0, Services: 0, Bulk: 0 };
     state.allOrders.forEach(o => {
-        if (o.type === 'subscription') {
-            breakdown.Subscription += o.total;
-        } else if (o.items) {
+        if (o.type === 'subscription') breakdown.Plans += o.total;
+        else if (o.items) {
             o.items.forEach(item => {
-                const prod = PRODUCTS.find(p => p.id == item.id);
+                const prod = CATALOG.find(p => p.id == item.id);
                 if (prod) {
                     const rev = prod.price * item.qty;
-                    if (breakdown[prod.cat] !== undefined) {
-                        breakdown[prod.cat] += rev;
-                    }
+                    if (breakdown[prod.cat]) breakdown[prod.cat] += rev;
                 }
             });
         }
     });
-    
     return breakdown;
 }
 
-/**
- * Predicts Churn Risk for subscribers
- * Based on: Skip frequency, Payment delay, Tenure
- */
-function predictChurnRisk(subscriber) {
-    let riskScore = 0;
-    const reasons = [];
-    
-    // Factor 1: Recent Skips
-    const recentSkips = subscriber.skips?.filter(s => new Date(s) > new Date(Date.now() - 7*86400000)).length || 0;
-    if (recentSkips >= 2) {
-        riskScore += 30;
-        reasons.push(`${recentSkips} skips last week`);
-    }
-    
-    // Factor 2: Payment Status
-    if (!subscriber.paid) {
-        riskScore += 40;
-        reasons.push("Payment pending");
-    }
-    
-    // Factor 3: Expiry Soon
-    const daysLeft = subscriber.daysLeft || 0;
-    if (daysLeft <= 3 && daysLeft > 0) {
-        riskScore += 20;
-        reasons.push("Expiring soon");
-    }
-    
-    return { score: Math.min(100, riskScore), reasons };
-}
-
-// === 6. GLOBAL WINDOW FUNCTIONS (For HTML onclick handlers) ===
+// === 6. GLOBAL FUNCTIONS ===
 window.toggleTheme = () => {
     const root = document.documentElement;
     const isDark = root.getAttribute('data-theme') === 'dark';
-    if (isDark) {
-        root.removeAttribute('data-theme');
-        localStorage.setItem('nu_theme', 'light');
-    } else {
-        root.setAttribute('data-theme', 'dark');
-        localStorage.setItem('nu_theme', 'dark');
-    }
+    if (isDark) { root.removeAttribute('data-theme'); localStorage.setItem('nu_theme', 'light'); }
+    else { root.setAttribute('data-theme', 'dark'); localStorage.setItem('nu_theme', 'dark'); }
 };
 
-window.switchTab = (tab) => {
-    state.view = tab;
-    render();
-};
+window.switchTab = (tab) => { state.view = tab; render(); };
+
+window.setShopFilter = (cat) => { state.shopFilter = cat; render(); };
 
 window.openCart = () => {
-    if (!state.user) {
-        openModal('loginModal');
-        showToast("Please login first");
-        return;
-    }
-    renderCartItems();
-    openModal('cartModal');
+    if (!state.user) { openModal('loginModal'); showToast("Please login first"); return; }
+    renderCartItems(); openModal('cartModal');
 };
 
 window.saveUser = () => {
-    const name = $('#regName').value.trim();
-    const phone = $('#regPhone').value.replace(/\D/g,'');
-    const addr = $('#regAddr').value.trim();
-    
-    if (!name || phone.length !== 10 || !addr) {
-        alert("Fill all fields correctly");
-        return;
-    }
-    
+    const name = $('#regName').value.trim(), phone = $('#regPhone').value.replace(/\D/g,''), addr = $('#regAddr').value.trim();
+    if (!name || phone.length !== 10 || !addr) { alert("Fill all fields correctly"); return; }
     state.user = { name, phone, addr, wishlist: [] };
-    saveState();
-    closeModal('loginModal');
-    showToast("Welcome " + name.split(' ')[0] + "!");
+    saveState(); closeModal('loginModal'); showToast("Welcome " + name.split(' ')[0] + "!");
 };
 
 window.verifyOwnerPin = () => {
     const pin = $('#ownerPinInput').value;
-    if(pin === OWNER_PIN) {
-        state.ownerMode = true;
-        closeModal('ownerPinModal');
-        render();
-    } else {
-        alert("Wrong PIN");
-    }
+    if(pin === OWNER_PIN) { state.ownerMode = true; closeModal('ownerPinModal'); render(); }
+    else alert("Wrong PIN");
 };
 
 window.showToast = (msg) => {
-    const t = $('#toast');
-    t.innerText = msg;
-    t.classList.add('show');
+    const t = $('#toast'); t.innerText = msg; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2000);
 };
 
 window.openModal = (id) => $('#' + id).classList.add('open');
 window.closeModal = (id) => $('#' + id).classList.remove('open');
 
-// === 7. UI RENDERING FUNCTIONS ===
-
+// === 7. RENDER ENGINE ===
 function render() {
     const container = $('#mainView');
     let html = '';
-
     switch(state.view) {
         case 'home': html = renderHome(); break;
         case 'shop': html = renderShop(); break;
@@ -687,7 +541,6 @@ function render() {
         case 'owner': html = renderOwner(); break;
         default: html = renderHome();
     }
-
     container.innerHTML = html;
     updateNavActive();
     updateCartBadge();
@@ -696,203 +549,135 @@ function render() {
 function updateNavActive() {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     const map = { home: 0, shop: 1, profile: 2, owner: 3 };
-    if(map[state.view] !== undefined) {
-        document.querySelectorAll('.nav-item')[map[state.view]].classList.add('active');
-    }
-    
-    // Update Header Title/Subtitle dynamically
-    const titles = {
-        home: ['Namaste Udala', 'Smart Tiffin Builder'],
-        shop: ['Shop', 'Grocery & Services'],
-        profile: ['My Profile', 'Orders & Wishlist'],
-        owner: ['Admin Panel', 'Analytics & Control']
-    };
-    if(titles[state.view]) {
-        $('#pageTitle').innerText = titles[state.view][0];
-        $('#pageSubtitle').innerText = titles[state.view][1];
-    }
+    if(map[state.view] !== undefined) document.querySelectorAll('.nav-item')[map[state.view]].classList.add('active');
+    const titles = { home: ['Namaste Udala', 'Smart Tiffin Builder'], shop: ['Shop', 'All-in-One Marketplace'], profile: ['My Profile', 'Orders & Wishlist'], owner: ['Admin Panel', 'Analytics & Control'] };
+    if(titles[state.view]) { $('#pageTitle').innerText = titles[state.view][0]; $('#pageSubtitle').innerText = titles[state.view][1]; }
 }
 
 function updateCartBadge() {
     const count = Object.values(state.cart).reduce((a, b) => a + b, 0);
-    const badge = $('#cartBadge');
-    badge.style.display = count > 0 ? 'block' : 'none';
+    $('#cartBadge').style.display = count > 0 ? 'block' : 'none';
 }
 
 // --- VIEW: HOME (SMART PLAN BUILDER) ---
 function renderHome() {
-    const cfg = state.plan;
+    const cfg = state.planConfig;
     const pricing = calculatePlanPrice(cfg);
-
     return `
-        <div class="card hero-plan">
-            <span class="hero-tag">BEST VALUE</span>
+        <div class="card hero-plan" style="background:linear-gradient(135deg,#fff,#fffbeb);border:2px solid var(--gold);position:relative;overflow:hidden;">
+            <span style="position:absolute;top:12px;right:12px;background:var(--primary);color:white;font-size:10px;font-weight:800;padding:4px 8px;border-radius:6px;transform:rotate(3deg);">BEST VALUE</span>
             <h3 style="color:var(--secondary);margin-bottom:4px;">Customize Your Tiffin Plan 🍱</h3>
             <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">Ghar jaisa swad, roz time pe.</p>
-            
-            <div class="plan-controls">
-                <!-- Type Selector -->
-                <div class="control-group">
-                    <label>Food Type</label>
-                    <div class="seg-control">
-                        <button class="seg-btn ${cfg.type==='veg'?'active':''}" onclick="setPlanType('veg')">🟢 Veg</button>
-                        <button class="seg-btn ${cfg.type==='nv'?'active':''}" onclick="setPlanType('nv')">🔴 Non-Veg</button>
+            <div style="display:grid;gap:12px;margin-top:12px;">
+                <div><label style="display:block;font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">Food Type</label>
+                    <div style="display:flex;background:#f3ede2;padding:4px;border-radius:12px;">
+                        <button style="flex:1;border:none;background:${cfg.type==='veg'?'white':'transparent'};padding:10px 6px;border-radius:8px;font-size:12px;font-weight:700;color:${cfg.type==='veg'?'var(--primary)':'var(--text-muted)'};cursor:pointer;" onclick="setPlanType('veg')">🟢 Veg</button>
+                        <button style="flex:1;border:none;background:${cfg.type==='nv'?'white':'transparent'};padding:10px 6px;border-radius:8px;font-size:12px;font-weight:700;color:${cfg.type==='nv'?'var(--primary)':'var(--text-muted)'};cursor:pointer;" onclick="setPlanType('nv')">🔴 Non-Veg</button>
                     </div>
                 </div>
-
-                <!-- Duration Selector -->
-                <div class="control-group">
-                    <label>Duration</label>
-                    <div class="seg-control">
-                        <button class="seg-btn ${cfg.days===7?'active':''}" onclick="setPlanDays(7)">7 Days</button>
-                        <button class="seg-btn ${cfg.days===15?'active':''}" onclick="setPlanDays(15)">15 Days</button>
-                        <button class="seg-btn ${cfg.days===30?'active':''}" onclick="setPlanDays(30)">30 Days</button>
+                <div><label style="display:block;font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">Duration</label>
+                    <div style="display:flex;background:#f3ede2;padding:4px;border-radius:12px;">
+                        ${[7,15,30].map(d => `<button style="flex:1;border:none;background:${cfg.days===d?'white':'transparent'};padding:10px 6px;border-radius:8px;font-size:12px;font-weight:700;color:${cfg.days===d?'var(--primary)':'var(--text-muted)'};cursor:pointer;" onclick="setPlanDays(${d})">${d} Days</button>`).join('')}
                     </div>
                 </div>
-
-                <!-- Meal Preferences -->
-                <div class="control-group">
-                    <label>Lunch Preference</label>
-                    <div class="seg-control">
-                        <button class="seg-btn ${cfg.lunch==='rice'?'active':''}" onclick="setPlanMeal('lunch','rice')">🍚 Rice</button>
-                        <button class="seg-btn ${cfg.lunch==='roti'?'active':''}" onclick="setPlanMeal('lunch','roti')">🫓 Roti</button>
-                        <button class="seg-btn ${cfg.lunch==='both'?'active':''}" onclick="setPlanMeal('lunch','both')">🍱 Both (+₹10)</button>
+                <div><label style="display:block;font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">Lunch Preference</label>
+                    <div style="display:flex;gap:6px;">
+                        ${['rice','roti','both'].map(m => `<button style="flex:1;padding:8px;border-radius:8px;border:1px solid ${cfg.lunch===m?'var(--primary)':'var(--border)'};background:${cfg.lunch===m?'#fff7ed':'white'};color:${cfg.lunch===m?'var(--primary)':'var(--text-muted)'};font-size:11px;font-weight:700;cursor:pointer;" onclick="setPlanMeal('lunch','${m}')">${m==='rice'?'🍚 Rice':m==='roti'?'🫓 Roti':'🍱 Both (+₹10)'}</button>`).join('')}
                     </div>
                 </div>
-                
-                <div class="control-group">
-                    <label>Dinner Preference</label>
-                    <div class="seg-control">
-                        <button class="seg-btn ${cfg.dinner==='rice'?'active':''}" onclick="setPlanMeal('dinner','rice')">🍚 Rice</button>
-                        <button class="seg-btn ${cfg.dinner==='roti'?'active':''}" onclick="setPlanMeal('dinner','roti')">🫓 Roti</button>
-                        <button class="seg-btn ${cfg.dinner==='both'?'active':''}" onclick="setPlanMeal('dinner','both')">🍱 Both (+₹10)</button>
+                <div><label style="display:block;font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">Dinner Preference</label>
+                    <div style="display:flex;gap:6px;">
+                        ${['rice','roti','both'].map(m => `<button style="flex:1;padding:8px;border-radius:8px;border:1px solid ${cfg.dinner===m?'var(--primary)':'var(--border)'};background:${cfg.dinner===m?'#fff7ed':'white'};color:${cfg.dinner===m?'var(--primary)':'var(--text-muted)'};font-size:11px;font-weight:700;cursor:pointer;" onclick="setPlanMeal('dinner','${m}')">${m==='rice'?'🍚 Rice':m==='roti'?'🫓 Roti':'🍱 Both (+₹10)'}</button>`).join('')}
                     </div>
                 </div>
-
-                <!-- Extra Roti Stepper -->
-                <div class="stepper-row">
-                    <span class="stepper-label">Extra Roti / Day (+₹5)</span>
+                <div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;padding:10px 14px;border-radius:12px;border:1px solid var(--border);">
+                    <span style="font-size:13px;font-weight:600;">Extra Roti / Day (+₹5)</span>
                     <div style="display:flex;align-items:center;gap:10px;">
-                        <button class="step-btn" onclick="adjustPlanRoti(-1)">−</button>
-                        <span class="stepper-val">${cfg.extraRoti}</span>
-                        <button class="step-btn" onclick="adjustPlanRoti(1)">+</button>
+                        <button style="width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:white;font-weight:800;cursor:pointer;" onclick="adjustPlanRoti(-1)">−</button>
+                        <span style="font-size:16px;font-weight:800;color:var(--primary);min-width:20px;text-align:center;">${cfg.extraRoti}</span>
+                        <button style="width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:white;font-weight:800;cursor:pointer;" onclick="adjustPlanRoti(1)">+</button>
                     </div>
                 </div>
             </div>
-
-            <div class="price-summary">
-                <div class="sum-line"><span>Base Plan (${cfg.type.toUpperCase()})</span><span>${fmt(pricing.base)}</span></div>
-                <div class="sum-line"><span>Lunch Upgrade</span><span>${fmt(pricing.lunchCost)}</span></div>
-                <div class="sum-line"><span>Dinner Upgrade</span><span>${fmt(pricing.dinnerCost)}</span></div>
-                <div class="sum-line"><span>Extra Roti (${cfg.extraRoti}x)</span><span>${fmt(pricing.rotiCost)}</span></div>
-                <div class="sum-total">
-                    <span>Total Payable</span>
-                    <span>${fmt(pricing.total)}</span>
-                </div>
+            <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);">
+                <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:4px;"><span>Base Plan (${cfg.type.toUpperCase()})</span><span>${fmt(pricing.base)}</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:4px;"><span>Lunch Upgrade</span><span>${fmt(pricing.lunchCost)}</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:4px;"><span>Dinner Upgrade</span><span>${fmt(pricing.dinnerCost)}</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:4px;"><span>Extra Roti (${cfg.extraRoti}x)</span><span>${fmt(pricing.rotiCost)}</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:800;color:var(--text-main);margin-top:8px;"><span>Total Payable</span><span>${fmt(pricing.total)}</span></div>
                 <div style="font-size:11px;color:var(--text-muted);text-align:right;margin-top:4px;">(~${fmt(pricing.perDay)}/day)</div>
             </div>
-
-            <button class="btn-pay" onclick="startPlanCheckout()">Join Now & Pay 💳</button>
-            <p style="font-size:10px; color:var(--text-muted); text-align:center; margin-top:8px;">
-                🔒 Secure UPI Payment • Free Delivery • Skip Facility
-            </p>
+            <button style="width:100%;margin-top:16px;padding:14px;background:linear-gradient(180deg,var(--primary),var(--primary-dark));color:white;border:none;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 4px 12px rgba(255,90,31,0.3);" onclick="startPlanCheckout()">Join Now & Pay 💳</button>
+            <p style="font-size:10px;color:var(--text-muted);text-align:center;margin-top:8px;">🔒 Secure UPI Payment • Free Delivery • Skip Facility</p>
         </div>
-
-        <!-- Quick Links -->
         <div class="card" style="background:#f8fafc;border:1px solid var(--border);box-shadow:none;">
             <h3 style="font-size:14px;margin-bottom:10px;">Why Namaste Udala?</h3>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:12px;color:var(--text-main);">
-                <div>✅ Hygienic Kitchen</div>
-                <div>✅ Fresh Ingredients</div>
-                <div>✅ On-Time Delivery</div>
-                <div>✅ Flexible Plans</div>
+                <div>✅ Hygienic Kitchen</div><div>✅ Fresh Ingredients</div><div>✅ On-Time Delivery</div><div>✅ Flexible Plans</div>
             </div>
         </div>
     `;
 }
 
-// Plan Actions
-window.setPlanType = (type) => { state.plan.type = type; render(); };
-window.setPlanDays = (days) => { state.plan.days = days; render(); };
-window.setPlanMeal = (slot, choice) => { state.plan[slot] = choice; render(); };
-window.adjustPlanRoti = (delta) => {
-    state.plan.extraRoti = Math.max(0, Math.min(4, state.plan.extraRoti + delta));
-    render();
-};
+window.setPlanType = (type) => { state.planConfig.type = type; render(); };
+window.setPlanDays = (days) => { state.planConfig.days = days; render(); };
+window.setPlanMeal = (slot, choice) => { state.planConfig[slot] = choice; render(); };
+window.adjustPlanRoti = (delta) => { state.planConfig.extraRoti = Math.max(0, Math.min(4, state.planConfig.extraRoti + delta)); render(); };
 
 window.startPlanCheckout = () => {
-    if(!state.user) {
-        openModal('loginModal');
-        showToast("Please login first");
-        return;
-    }
-    
-    const pricing = calculatePlanPrice(state.plan);
+    if(!state.user) { openModal('loginModal'); showToast("Please login first"); return; }
+    const pricing = calculatePlanPrice(state.planConfig);
     const orderId = Date.now();
-    const newOrder = {
-        id: orderId,
-        ts: Date.now(),
-        type: 'subscription',
-        details: {...state.plan},
-        total: pricing.total,
-        status: 'pending',
-        userName: state.user.name,
-        userPhone: state.user.phone,
-        address: state.user.addr
-    };
-
-    // Save to LocalStorage & Firebase
+    const newOrder = { id: orderId, ts: Date.now(), type: 'subscription', details: {...state.planConfig}, total: pricing.total, status: 'pending', userName: state.user.name, userPhone: state.user.phone, address: state.user.addr };
     let orders = JSON.parse(localStorage.getItem('nu_orders')) || [];
-    orders.push(newOrder);
-    localStorage.setItem('nu_orders', JSON.stringify(orders));
-    
+    orders.push(newOrder); localStorage.setItem('nu_orders', JSON.stringify(orders));
     if(state.db) set(ref(state.db, 'orders/' + orderId), newOrder);
-
-    // Redirect to UPI
-    const note = `Plan#${orderId}`;
-    const upiLink = `upi://pay?pa=${UPI_ID}&pn=NamasteUdala&cu=INR&am=${Math.round(pricing.total)}&tn=${encodeURIComponent(note)}`;
+    const upiLink = `upi://pay?pa=${UPI_ID}&pn=NamasteUdala&cu=INR&am=${Math.round(pricing.total)}&tn=Plan#${orderId}`;
     window.location.href = upiLink;
-    
-    setTimeout(() => {
-        showToast("Redirecting to UPI...");
-        switchTab('profile'); 
-    }, 1000);
+    setTimeout(() => { showToast("Redirecting to UPI..."); switchTab('profile'); }, 1000);
 };
 
-// --- VIEW: SHOP (GRID) ---
+// --- VIEW: SHOP (UNIFIED GRID) ---
 function renderShop() {
+    const filtered = state.shopFilter === 'All' ? CATALOG : CATALOG.filter(p => p.cat === state.shopFilter);
     return `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
             <h2 style="font-size:20px;font-weight:800;">Shop</h2>
-            <div style="font-size:12px;color:var(--text-muted);">${PRODUCTS.length} items</div>
+            <div style="font-size:12px;color:var(--text-muted);">${filtered.length} items</div>
+        </div>
+        <div class="filter-chips">
+            ${['All','Plans','Grocery','Services','Bulk'].map(c => `<div class="chip ${state.shopFilter===c?'active':''}" onclick="setShopFilter('${c}')">${c}</div>`).join('')}
         </div>
         <div class="shop-grid">
-            ${PRODUCTS.map(p => createProductCard(p)).join('')}
+            ${filtered.map(p => createProductCard(p)).join('')}
         </div>
     `;
 }
 
 function createProductCard(p) {
-    const disc = getDisc(p.mrp, p.price);
+    const disc = p.mrp ? getDisc(p.mrp, p.price) : 0;
     const inCart = state.cart[p.id] > 0;
     const isWished = state.user?.wishlist?.includes(p.id);
+    const isPlan = p.type === 'plan';
     
     return `
         <div class="prod-card">
             <div class="prod-img-wrap">
                 ${disc > 0 ? `<span class="discount-badge">${disc}% OFF</span>` : ''}
-                <div class="wish-heart ${isWished ? 'active' : ''}" onclick="toggleWish(${p.id})">❤</div>
+                <span class="cat-badge">${p.cat}</span>
+                <div class="wish-heart ${isWished ? 'active' : ''}" onclick="toggleWish('${p.id}')">❤</div>
                 <img src="${p.img}" alt="${p.name}" class="prod-img" loading="lazy">
             </div>
             <div class="prod-body">
                 <div class="prod-name">${p.name}</div>
+                ${p.desc ? `<div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">${p.desc}</div>` : ''}
                 <div class="prod-rating">⭐ ${p.rating}</div>
                 <div class="prod-price-row">
                     <span class="curr-price">${fmt(p.price)}</span>
-                    ${p.mrp > p.price ? `<span class="old-price">${fmt(p.mrp)}</span>` : ''}
+                    ${p.mrp ? `<span class="old-price">${fmt(p.mrp)}</span>` : ''}
                 </div>
-                <button class="add-cart-btn ${inCart ? 'in-cart' : ''}" onclick="addToCart(${p.id})">
-                    ${inCart ? `In Cart (${state.cart[p.id]})` : 'Add to Cart'}
+                <button class="add-cart-btn ${inCart ? 'in-cart' : ''} ${isPlan ? 'plan-btn' : ''}" onclick="${isPlan ? `openPlanBuilder()` : `addToCart('${p.id}')`}">
+                    ${isPlan ? 'Customize Plan' : (inCart ? `In Cart (${state.cart[p.id]})` : 'Add to Cart')}
                 </button>
             </div>
         </div>
@@ -901,297 +686,106 @@ function createProductCard(p) {
 
 window.addToCart = (id) => {
     state.cart[id] = (state.cart[id] || 0) + 1;
-    saveState();
-    showToast("Added to cart!");
+    saveState(); showToast("Added to cart!");
 };
 
 window.toggleWish = (id) => {
-    if(!state.user) {
-        openModal('loginModal');
-        return;
-    }
+    if(!state.user) { openModal('loginModal'); return; }
     state.user.wishlist = state.user.wishlist || [];
     const idx = state.user.wishlist.indexOf(id);
-    if(idx > -1) state.user.wishlist.splice(idx, 1);
-    else state.user.wishlist.push(id);
+    if(idx > -1) state.user.wishlist.splice(idx, 1); else state.user.wishlist.push(id);
     saveState();
 };
 
+window.openPlanBuilder = () => { switchTab('home'); };
+
 // --- VIEW: PROFILE ---
 function renderProfile() {
-    if(!state.user) {
-        return `
-            <div class="card" style="text-align:center;padding:40px 20px;">
-                <div style="width:64px;height:64px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;color:#9ca3af;">?</div>
-                <h3 style="margin-bottom:8px;">Login Required</h3>
-                <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">Track orders, save wishlist, and get exclusive discounts.</p>
-                <button class="btn-primary" onclick="openModal('loginModal')">Login / Register</button>
-            </div>
-        `;
-    }
-    
-    const u = state.user;
-    const myOrders = JSON.parse(localStorage.getItem('nu_orders')) || [];
-    const activeOrders = myOrders.filter(o => o.status === 'pending');
-    
+    if(!state.user) return `<div class="card" style="text-align:center;padding:40px 20px;"><div style="width:64px;height:64px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;color:#9ca3af;">?</div><h3 style="margin-bottom:8px;">Login Required</h3><p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">Track orders, save wishlist, and get exclusive discounts.</p><button class="btn-primary" onclick="openModal('loginModal')">Login / Register</button></div>`;
+    const u = state.user, myOrders = JSON.parse(localStorage.getItem('nu_orders')) || [];
     return `
         <div class="card" style="background:linear-gradient(135deg,var(--secondary),#127a52);color:white;text-align:center;">
             <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:0 auto 12px;">${u.name.charAt(0).toUpperCase()}</div>
             <h2 style="font-size:18px;font-weight:800;">${esc(u.name)}</h2>
             <p style="opacity:0.9;font-size:12px;">${esc(u.phone)}</p>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;">
-                <div style="background:rgba(255,255,255,0.1);padding:8px;border-radius:10px;">
-                    <b style="display:block;font-size:16px;">${myOrders.length}</b>
-                    <span style="font-size:10px;opacity:0.8;">Orders</span>
-                </div>
-                <div style="background:rgba(255,255,255,0.1);padding:8px;border-radius:10px;">
-                    <b style="display:block;font-size:16px;">${u.wishlist?.length || 0}</b>
-                    <span style="font-size:10px;opacity:0.8;">Wishlist</span>
-                </div>
-                <div style="background:rgba(255,255,255,0.1);padding:8px;border-radius:10px;">
-                    <b style="display:block;font-size:16px;">₹${Math.floor(myOrders.reduce((a,o)=>a+o.total,0)/10)}</b>
-                    <span style="font-size:10px;opacity:0.8;">Points</span>
-                </div>
+                <div style="background:rgba(255,255,255,0.1);padding:8px;border-radius:10px;"><b style="display:block;font-size:16px;">${myOrders.length}</b><span style="font-size:10px;opacity:0.8;">Orders</span></div>
+                <div style="background:rgba(255,255,255,0.1);padding:8px;border-radius:10px;"><b style="display:block;font-size:16px;">${u.wishlist?.length || 0}</b><span style="font-size:10px;opacity:0.8;">Wishlist</span></div>
+                <div style="background:rgba(255,255,255,0.1);padding:8px;border-radius:10px;"><b style="display:block;font-size:16px;">₹${Math.floor(myOrders.reduce((a,o)=>a+o.total,0)/10)}</b><span style="font-size:10px;opacity:0.8;">Points</span></div>
             </div>
         </div>
-
-        <div class="card">
-            <h3>Saved Address</h3>
-            <div style="background:#f8fafc;padding:12px;border-radius:12px;font-size:13px;color:var(--text-muted);">
-                ${esc(u.addr || 'No address saved')}
-            </div>
-            <button class="btn-secondary" style="margin-top:10px;" onclick="editAddress()">Change Address</button>
-        </div>
-
-        <div class="card">
-            <h3>Recent Orders</h3>
-            ${myOrders.length ? myOrders.slice(-5).reverse().map(o => `
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6;">
-                    <div>
-                        <div style="font-weight:700;font-size:14px;">#${String(o.id).slice(-4)}</div>
-                        <div style="font-size:11px;color:var(--text-muted);">${new Date(o.ts).toLocaleDateString()}</div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="font-weight:800;">${fmt(o.total)}</div>
-                        <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:${o.status==='delivered'?'#dcfce7':'#fef3c7'};color:${o.status==='delivered'?'#166534':'#92400e'};">${o.status.toUpperCase()}</span>
-                    </div>
-                </div>
-            `).join('') : '<p style="color:var(--text-muted);font-size:13px;text-align:center;">No orders yet.</p>'}
-        </div>
-
+        <div class="card"><h3>Saved Address</h3><div style="background:#f8fafc;padding:12px;border-radius:12px;font-size:13px;color:var(--text-muted);">${esc(u.addr || 'No address saved')}</div><button class="btn-secondary" style="margin-top:10px;" onclick="editAddress()">Change Address</button></div>
+        <div class="card"><h3>Recent Orders</h3>${myOrders.length ? myOrders.slice(-5).reverse().map(o => `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6;"><div><div style="font-weight:700;font-size:14px;">#${String(o.id).slice(-4)}</div><div style="font-size:11px;color:var(--text-muted);">${new Date(o.ts).toLocaleDateString()}</div></div><div style="text-align:right;"><div style="font-weight:800;">${fmt(o.total)}</div><span style="font-size:10px;padding:2px 6px;border-radius:4px;background:${o.status==='delivered'?'#dcfce7':'#fef3c7'};color:${o.status==='delivered'?'#166534':'#92400e'};">${o.status.toUpperCase()}</span></div></div>`).join('') : '<p style="color:var(--text-muted);font-size:13px;text-align:center;">No orders yet.</p>'}</div>
         <button class="btn-primary" style="background:var(--danger);" onclick="logout()">Logout</button>
     `;
 }
 
-window.editAddress = () => {
-    const newAddr = prompt("Enter New Address:", state.user.addr);
-    if(newAddr) {
-        state.user.addr = newAddr;
-        saveState();
-        showToast("Address Updated");
-    }
-};
+window.editAddress = () => { const newAddr = prompt("Enter New Address:", state.user.addr); if(newAddr) { state.user.addr = newAddr; saveState(); showToast("Address Updated"); } };
+window.logout = () => { state.user = null; localStorage.removeItem('nu_user'); render(); showToast("Logged Out"); };
 
-window.logout = () => {
-    state.user = null;
-    localStorage.removeItem('nu_user');
-    render();
-    showToast("Logged Out");
-};
-
-// --- VIEW: OWNER DASHBOARD (CATEGORY-WISE ANALYTICS) ---
+// --- VIEW: OWNER DASHBOARD ---
 function renderOwner() {
-    if(!state.ownerMode) {
-        return `
-            <div class="card" style="text-align:center;padding:40px 20px;">
-                <h3 style="margin-bottom:16px;">Owner Access 🔐</h3>
-                <input type="password" id="opin" class="input-field" placeholder="Enter PIN" style="margin-bottom:12px;">
-                <button class="btn-primary" onclick="verifyOwnerPinInline()">Unlock Dashboard</button>
-            </div>
-        `;
-    }
-    
+    if(!state.ownerMode) return `<div class="card" style="text-align:center;padding:40px 20px;"><h3 style="margin-bottom:16px;">Owner Access 🔐</h3><input type="password" id="opin" class="input-field" placeholder="Enter PIN" style="margin-bottom:12px;"><button class="btn-primary" onclick="verifyOwnerPinInline()">Unlock Dashboard</button></div>`;
     const sales = state.allOrders.reduce((a, o) => a + o.total, 0);
     const pending = state.allOrders.filter(o => o.status === 'pending').length;
     const breakdown = getRevenueBreakdown();
     const totalRev = Object.values(breakdown).reduce((a,b)=>a+b,0) || 1;
-
-    // Generate CSS Bars for Analytics
     const bars = Object.entries(breakdown).map(([cat, val]) => {
         const pct = Math.round((val / totalRev) * 100);
-        const colors = { Food:'#ff5a1f', Grocery:'#0e5c3f', Services:'#2563eb', Subscription:'#f5b301' };
-        return `
-            <div style="margin-bottom:12px;">
-                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
-                    <span>${cat}</span>
-                    <span>${fmt(val)} (${pct}%)</span>
-                </div>
-                <div style="height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;">
-                    <div style="height:100%;width:${pct}%;background:${colors[cat]||'#ccc'};"></div>
-                </div>
-            </div>
-        `;
+        const colors = { Plans:'#f5b301', Grocery:'#0e5c3f', Services:'#2563eb', Bulk:'#ff5a1f' };
+        return `<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;"><span>${cat}</span><span>${fmt(val)} (${pct}%)</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${colors[cat]||'#ccc'};"></div></div></div>`;
     }).join('');
 
     return `
         <div class="card" style="background:var(--secondary);color:white;">
             <h3 style="color:white;">Admin Dashboard</h3>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px;">
-                <div style="background:rgba(255,255,255,0.1);padding:10px;border-radius:10px;text-align:center;">
-                    <b style="font-size:18px;display:block;">${fmt(sales)}</b>
-                    <small>Total Sales</small>
-                </div>
-                <div style="background:rgba(255,255,255,0.1);padding:10px;border-radius:10px;text-align:center;">
-                    <b style="font-size:18px;display:block;">${pending}</b>
-                    <small>Pending</small>
-                </div>
+                <div style="background:rgba(255,255,255,0.1);padding:10px;border-radius:10px;text-align:center;"><b style="font-size:18px;display:block;">${fmt(sales)}</b><small>Total Sales</small></div>
+                <div style="background:rgba(255,255,255,0.1);padding:10px;border-radius:10px;text-align:center;"><b style="font-size:18px;display:block;">${pending}</b><small>Pending</small></div>
             </div>
         </div>
-
-        <div class="card">
-            <h3>📊 Revenue Breakdown (AI Analysis)</h3>
-            ${bars}
-        </div>
-
-        <div class="card">
-            <h3>Live Orders</h3>
-            ${state.allOrders.length ? state.allOrders.slice().reverse().map(o => `
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6;">
-                    <div>
-                        <div style="font-weight:700;font-size:14px;">${esc(o.userName)}</div>
-                        <div style="font-size:11px;color:var(--text-muted);">${new Date(o.ts).toLocaleTimeString()} · ${o.items?.length || 1} items</div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="font-weight:800;">${fmt(o.total)}</div>
-                        <select onchange="updateOrderStatus('${o.id}', this.value)" style="font-size:11px;padding:4px;border-radius:6px;border:1px solid #ddd;">
-                            <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
-                            <option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option>
-                        </select>
-                    </div>
-                </div>
-            `).join('') : '<p style="color:var(--text-muted);font-size:13px;text-align:center;">No orders yet.</p>'}
-        </div>
-
+        <div class="card"><h3>📊 Revenue Breakdown (AI Analysis)</h3>${bars}</div>
+        <div class="card"><h3>Live Orders</h3>${state.allOrders.length ? state.allOrders.slice().reverse().map(o => `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6;"><div><div style="font-weight:700;font-size:14px;">${esc(o.userName)}</div><div style="font-size:11px;color:var(--text-muted);">${new Date(o.ts).toLocaleTimeString()} · ${o.items?.length || 1} items</div></div><div style="text-align:right;"><div style="font-weight:800;">${fmt(o.total)}</div><select onchange="updateOrderStatus('${o.id}', this.value)" style="font-size:11px;padding:4px;border-radius:6px;border:1px solid #ddd;"><option value="pending" ${o.status==='pending'?'selected':''}>Pending</option><option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option></select></div></div>`).join('') : '<p style="color:var(--text-muted);font-size:13px;text-align:center;">No orders yet.</p>'}</div>
         <button class="btn-primary" style="background:var(--danger);" onclick="lockOwner()">Lock Dashboard</button>
     `;
 }
 
-window.verifyOwnerPinInline = () => {
-    const pin = $('#opin').value;
-    if(pin === OWNER_PIN) {
-        state.ownerMode = true;
-        render();
-    } else {
-        alert("Wrong PIN");
-    }
-};
-
-window.lockOwner = () => {
-    state.ownerMode = false;
-    state.view = 'home';
-    render();
-};
-
-window.updateOrderStatus = (id, status) => {
-    const order = state.allOrders.find(o => o.id == id);
-    if(order) {
-        order.status = status;
-        if(state.db) set(ref(state.db, 'orders/' + id), order);
-        renderOwner(); // Re-render owner view
-        showToast("Status Updated");
-    }
-};
+window.verifyOwnerPinInline = () => { const pin = $('#opin').value; if(pin === OWNER_PIN) { state.ownerMode = true; render(); } else alert("Wrong PIN"); };
+window.lockOwner = () => { state.ownerMode = false; state.view = 'home'; render(); };
+window.updateOrderStatus = (id, status) => { const order = state.allOrders.find(o => o.id == id); if(order) { order.status = status; if(state.db) set(ref(state.db, 'orders/' + id), order); renderOwner(); showToast("Status Updated"); } };
 
 // === 8. CART LOGIC ===
-window.openCart = () => {
-    if (!state.user) {
-        openModal('loginModal');
-        showToast("Please login first");
-        return;
-    }
-    renderCartItems();
-    openModal('cartModal');
-};
-
 function renderCartItems() {
-    const container = $('#cartItemsList');
-    let total = 0;
-    let html = '';
-    
+    const container = $('#cartItemsList'); let total = 0, html = '';
     for (const [id, qty] of Object.entries(state.cart)) {
-        const p = PRODUCTS.find(x => x.id == id);
+        const p = CATALOG.find(x => x.id == id);
         if (p) {
-            const itemTotal = p.price * qty;
-            total += itemTotal;
-            html += `
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;">
-                    <div>
-                        <div style="font-weight:700;font-size:14px;">${p.name}</div>
-                        <div style="font-size:12px;color:#666;">${qty} x ${fmt(p.price)}</div>
-                    </div>
-                    <div style="font-weight:800;">${fmt(itemTotal)}</div>
-                </div>
-            `;
+            const itemTotal = p.price * qty; total += itemTotal;
+            html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;"><div><div style="font-weight:700;font-size:14px;">${p.name}</div><div style="font-size:12px;color:#666;">${qty} x ${fmt(p.price)}</div></div><div style="font-weight:800;">${fmt(itemTotal)}</div></div>`;
         }
     }
-    
     container.innerHTML = html || '<p style="text-align:center;color:#999;">Cart is empty</p>';
     $('#cartTotalDisplay').innerText = fmt(total);
 }
 
 window.checkoutCart = () => {
-    const total = Object.entries(state.cart).reduce((acc, [id, qty]) => {
-        const p = PRODUCTS.find(x => x.id == id);
-        return acc + (p ? p.price * qty : 0);
-    }, 0);
-    
+    const total = Object.entries(state.cart).reduce((acc, [id, qty]) => { const p = CATALOG.find(x => x.id == id); return acc + (p ? p.price * qty : 0); }, 0);
     if (total === 0) return alert("Empty Cart");
-    
     const orderId = Date.now();
-    const newOrder = {
-        id: orderId,
-        ts: Date.now(),
-        type: 'shop',
-        items: Object.entries(state.cart).map(([id, q]) => ({ id: +id, qty: q })),
-        total: total,
-        status: 'pending',
-        userName: state.user.name,
-        userPhone: state.user.phone,
-        address: state.user.addr
-    };
-
+    const newOrder = { id: orderId, ts: Date.now(), type: 'shop', items: Object.entries(state.cart).map(([id, q]) => ({ id, qty: q })), total, status: 'pending', userName: state.user.name, userPhone: state.user.phone, address: state.user.addr };
     let orders = JSON.parse(localStorage.getItem('nu_orders')) || [];
-    orders.push(newOrder);
-    localStorage.setItem('nu_orders', JSON.stringify(orders));
+    orders.push(newOrder); localStorage.setItem('nu_orders', JSON.stringify(orders));
     if(state.db) set(ref(state.db, 'orders/' + orderId), newOrder);
-
     const upiLink = `upi://pay?pa=${UPI_ID}&pn=NamasteUdala&cu=INR&am=${Math.round(total)}&tn=Order#${orderId}`;
     window.location.href = upiLink;
-    
-    setTimeout(() => {
-        state.cart = {};
-        saveState();
-        closeModal('cartModal');
-        showToast("Order Placed! Check Profile.");
-        switchTab('profile');
-    }, 2000);
+    setTimeout(() => { state.cart = {}; saveState(); closeModal('cartModal'); showToast("Order Placed! Check Profile."); switchTab('profile'); }, 2000);
 };
 
 // === 9. INITIALIZATION ===
 function init() {
-    checkTheme();
-    loadCart();
-    render();
-}
-
-function loadCart() {
+    if (localStorage.getItem('nu_theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     try { state.cart = JSON.parse(localStorage.getItem('nu_cart')) || {}; } catch(e){}
-}
-
-function checkTheme() {
-    if (localStorage.getItem('nu_theme') === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
+    render();
 }
 
 init();
