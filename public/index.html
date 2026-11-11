@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Namaste Udala - Super App</title>
+    <title>Namaste Udala - Smart Super App</title>
     
     <!-- PWA Essentials -->
     <link rel="manifest" href="./manifest.json">
@@ -22,7 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <style>
-        /* --- DESIGN SYSTEM --- */
+        /* --- DESIGN SYSTEM VARIABLES --- */
         :root {
             --primary: #ff5a1f;       /* Appetite Orange */
             --primary-dark: #e8480c;
@@ -35,6 +35,7 @@
             --gold: #f5b301;
             --danger: #dc2626;
             --success: #16a34a;
+            --info: #2563eb;
             --radius-lg: 22px;
             --nav-height: 70px;
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
@@ -50,12 +51,16 @@
             padding-bottom: calc(var(--nav-height) + 20px); 
             overflow-x: hidden;
             position: relative;
+            -webkit-font-smoothing: antialiased;
         }
-        body::before {
-            content:''; position:fixed; top:-10%; left:-10%; width:50vw; height:50vh;
-            background: radial-gradient(circle, rgba(255,90,31,0.1) 0%, transparent 70%);
-            z-index: -1; pointer-events: none;
+        
+        /* Ambient Background Blobs */
+        body::before, body::after {
+            content:''; position:fixed; width:400px; height:400px; border-radius:50%; filter:blur(80px); opacity:.4; z-index:-1; pointer-events:none;
         }
+        body::before { left:-100px; top:10%; background:#ffb37a; animation:blobMove 15s infinite alternate; }
+        body::after { right:-100px; bottom:10%; background:#9ed8b5; animation:blobMove 18s infinite alternate-reverse; }
+        @keyframes blobMove { 0%{transform:translate(0,0)} 100%{transform:translate(30px,-30px)} }
 
         /* --- HEADER --- */
         header {
@@ -66,7 +71,7 @@
             box-shadow: 0 8px 20px rgba(11,61,44,0.3);
             display: flex; justify-content: space-between; align-items: center;
         }
-        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand { display: flex; align-items: center; gap: 12px; }
         .logo-circle {
             width: 42px; height: 42px; border-radius: 12px;
             background: conic-gradient(from 210deg, var(--gold), var(--primary), var(--gold));
@@ -74,7 +79,7 @@
             font-weight: 800; font-size: 15px; color: white;
             box-shadow: 0 4px 10px rgba(255,90,31,0.4);
         }
-        .brand-text h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+        .brand-text h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; }
         .brand-text p { font-size: 10px; opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         
         .header-actions { display: flex; gap: 10px; }
@@ -284,7 +289,7 @@
         }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(10px); }
 
-        /* Dark Mode */
+        /* Dark Mode Support */
         [data-theme='dark'] {
             --bg-body: #0f172a; --surface: #1e293b; --text-main: #f1f5f9;
             --text-muted: #94a3b8; --border: #334155;
@@ -295,6 +300,10 @@
         [data-theme='dark'] .input-field { background: #0f172a; border-color: #334155; color: #f1f5f9; }
         [data-theme='dark'] .prod-card { background: #1e293b; border-color: #334155; }
         [data-theme='dark'] .hero-plan { background: #1e293b; border-color: #334155; }
+        [data-theme='dark'] .seg-control { background: #334155; }
+        [data-theme='dark'] .seg-btn.active { background: #1e293b; color: var(--primary); }
+        [data-theme='dark'] .stepper-row { background: #0f172a; border-color: #334155; }
+        [data-theme='dark'] .step-btn { background: #1e293b; color: #f1f5f9; border-color: #334155; }
     </style>
 </head>
 <body>
@@ -304,8 +313,8 @@
     <div class="brand">
         <div class="logo-circle">NU</div>
         <div class="brand-text">
-            <h1>Namaste Udala</h1>
-            <p>Super App for Udala</p>
+            <h1 id="pageTitle">Namaste Udala</h1>
+            <p id="pageSubtitle">Smart Tiffin & Services</p>
         </div>
     </div>
     <div class="header-actions">
@@ -399,7 +408,7 @@
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
 import{getDatabase,ref,set,onValue}from"https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 
-// === CONFIGURATION ===
+// === 1. CONFIGURATION & CONSTANTS ===
 const firebaseConfig = {
     apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",
     authDomain: "namaste-udala.firebaseapp.com",
@@ -411,20 +420,20 @@ const firebaseConfig = {
 };
 
 const UPI_ID = '9583937047@jio';
-const OWNER_PIN = '4821'; // Change this in production
+const OWNER_PIN = '4821'; // Default PIN
 
-// Pricing Logic
+// Pricing Engine Data
 const BASE_PRICES = {
     veg: { 7: 749, 15: 1499, 30: 2899 },
     nv: { 7: 949, 15: 1849, 30: 3599 }
 };
 const ADD_ONS = {
-    lunchBoth: 10, // per day
-    dinnerBoth: 10, // per day
+    lunchBoth: 10, // per day extra if both roti+rice
+    dinnerBoth: 10, // per day extra if both roti+rice
     extraRoti: 5   // per roti per day
 };
 
-// Products Data (Shop)
+// Shop Products Data (Static Seed - Can be dynamic later)
 const PRODUCTS = [
     { id: 1, name: "Veg Special Thali", price: 120, mrp: 150, cat: "Food", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80", rating: 4.8 },
     { id: 2, name: "Chicken Curry Pack", price: 180, mrp: 220, cat: "Food", img: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80", rating: 4.9 },
@@ -434,33 +443,33 @@ const PRODUCTS = [
     { id: 6, name: "Paneer Masala", price: 140, mrp: 160, cat: "Food", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80", rating: 4.6 },
 ];
 
-// === STATE MANAGEMENT ===
+// === 2. STATE MANAGEMENT ===
 let state = {
     user: JSON.parse(localStorage.getItem('nu_user')) || null,
     cart: {}, 
-    view: 'home',
+    view: 'home', // home, shop, profile, owner
     ownerMode: false,
-    allOrders: [], // For owner dashboard
     db: null,
+    allOrders: [], // Fetched from Firebase
     // Plan Builder State
     plan: {
-        type: 'veg',
-        days: 30,
-        lunch: 'rice',
-        dinner: 'roti',
-        extraRoti: 0
+        type: 'veg', // veg or nv
+        days: 30,    // 7, 15, 30
+        lunch: 'rice', // rice, roti, both
+        dinner: 'roti', // rice, roti, both
+        extraRoti: 0   // count 0-4
     }
 };
 
-// Helpers
-const $ = s => document.querySelector(s);
-const fmt = n => '₹' + Math.round(n).toLocaleString('en-IN');
-const getDisc = (mrp, p) => Math.round(((mrp - p) / mrp) * 100);
+// Load Cart from LocalStorage
+try { state.cart = JSON.parse(localStorage.getItem('nu_cart')) || {}; } catch(e){}
 
-// Firebase Init
+// === 3. FIREBASE INITIALIZATION ===
 try {
     const app = initializeApp(firebaseConfig);
     state.db = getDatabase(app);
+    
+    // Listen to global orders for Owner Dashboard
     onValue(ref(state.db, 'orders'), snap => {
         const val = snap.val();
         state.allOrders = val ? Object.values(val) : [];
@@ -468,22 +477,204 @@ try {
     });
 } catch(e) { console.log('Cloud off', e); }
 
+// === 4. HELPER FUNCTIONS ===
+const $ = s => document.querySelector(s);
+const fmt = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const getDisc = (mrp, p) => Math.round(((mrp - p) / mrp) * 100);
+const cleanPh = s => String(s||'').replace(/\D/g,'').slice(-10);
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
 function saveState() {
     localStorage.setItem('nu_cart', JSON.stringify(state.cart));
     if(state.user) localStorage.setItem('nu_user', JSON.stringify(state.user));
-    render(); // Re-render UI
+    render(); // Trigger UI update
 }
 
-// === RENDER ENGINE ===
-function init() {
-    checkTheme();
-    loadCart();
+// === 5. SMART ALGORITHMS ===
+
+/**
+ * Calculates total plan price based on current configuration
+ */
+function calculatePlanPrice(cfg = state.plan) {
+    const base = BASE_PRICES[cfg.type][cfg.days] || 0;
+    const lunchCost = cfg.lunch === 'both' ? ADD_ONS.lunchBoth * cfg.days : 0;
+    const dinnerCost = cfg.dinner === 'both' ? ADD_ONS.dinnerBoth * cfg.days : 0;
+    const rotiCost = cfg.extraRoti * ADD_ONS.extraRoti * cfg.days;
+    
+    const total = base + lunchCost + dinnerCost + rotiCost;
+    const perDay = cfg.days > 0 ? Math.round(total / cfg.days) : 0;
+    
+    return { total, perDay, base, lunchCost, dinnerCost, rotiCost };
+}
+
+/**
+ * Optimizes delivery route using Nearest Neighbor Algorithm
+ * Input: Array of stops with lat/lng
+ * Output: Ordered array of stops for minimum distance
+ */
+function optimizeRoute(stops) {
+    if (!stops.length) return [];
+    if (stops.length <= 2) return stops;
+
+    let unvisited = [...stops];
+    let visited = [];
+    let current = unvisited.shift(); // Start with first stop
+    visited.push(current);
+
+    while (unvisited.length) {
+        let nearestIdx = 0;
+        let minDist = Infinity;
+        
+        // Find closest neighbor
+        for (let i = 0; i < unvisited.length; i++) {
+            const dist = havDistance(current.lat, current.lng, unvisited[i].lat, unvisited[i].lng);
+            if (dist < minDist) {
+                minDist = dist;
+                nearestIdx = i;
+            }
+        }
+        
+        current = unvisited.splice(nearestIdx, 1)[0];
+        visited.push(current);
+    }
+    
+    return visited;
+}
+
+// Haversine formula for distance in km
+function havDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+/**
+ * Generates Revenue Breakdown by Category for Owner Analytics
+ */
+function getRevenueBreakdown() {
+    const breakdown = { Food: 0, Grocery: 0, Services: 0, Subscription: 0 };
+    
+    state.allOrders.forEach(o => {
+        if (o.type === 'subscription') {
+            breakdown.Subscription += o.total;
+        } else if (o.items) {
+            o.items.forEach(item => {
+                const prod = PRODUCTS.find(p => p.id == item.id);
+                if (prod) {
+                    const rev = prod.price * item.qty;
+                    if (breakdown[prod.cat] !== undefined) {
+                        breakdown[prod.cat] += rev;
+                    }
+                }
+            });
+        }
+    });
+    
+    return breakdown;
+}
+
+/**
+ * Predicts Churn Risk for subscribers
+ * Based on: Skip frequency, Payment delay, Tenure
+ */
+function predictChurnRisk(subscriber) {
+    let riskScore = 0;
+    const reasons = [];
+    
+    // Factor 1: Recent Skips
+    const recentSkips = subscriber.skips?.filter(s => new Date(s) > new Date(Date.now() - 7*86400000)).length || 0;
+    if (recentSkips >= 2) {
+        riskScore += 30;
+        reasons.push(`${recentSkips} skips last week`);
+    }
+    
+    // Factor 2: Payment Status
+    if (!subscriber.paid) {
+        riskScore += 40;
+        reasons.push("Payment pending");
+    }
+    
+    // Factor 3: Expiry Soon
+    const daysLeft = subscriber.daysLeft || 0;
+    if (daysLeft <= 3 && daysLeft > 0) {
+        riskScore += 20;
+        reasons.push("Expiring soon");
+    }
+    
+    return { score: Math.min(100, riskScore), reasons };
+}
+
+// === 6. GLOBAL WINDOW FUNCTIONS (For HTML onclick handlers) ===
+window.toggleTheme = () => {
+    const root = document.documentElement;
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+        root.removeAttribute('data-theme');
+        localStorage.setItem('nu_theme', 'light');
+    } else {
+        root.setAttribute('data-theme', 'dark');
+        localStorage.setItem('nu_theme', 'dark');
+    }
+};
+
+window.switchTab = (tab) => {
+    state.view = tab;
     render();
-}
+};
 
-function loadCart() {
-    try { state.cart = JSON.parse(localStorage.getItem('nu_cart')) || {}; } catch(e){}
-}
+window.openCart = () => {
+    if (!state.user) {
+        openModal('loginModal');
+        showToast("Please login first");
+        return;
+    }
+    renderCartItems();
+    openModal('cartModal');
+};
+
+window.saveUser = () => {
+    const name = $('#regName').value.trim();
+    const phone = $('#regPhone').value.replace(/\D/g,'');
+    const addr = $('#regAddr').value.trim();
+    
+    if (!name || phone.length !== 10 || !addr) {
+        alert("Fill all fields correctly");
+        return;
+    }
+    
+    state.user = { name, phone, addr, wishlist: [] };
+    saveState();
+    closeModal('loginModal');
+    showToast("Welcome " + name.split(' ')[0] + "!");
+};
+
+window.verifyOwnerPin = () => {
+    const pin = $('#ownerPinInput').value;
+    if(pin === OWNER_PIN) {
+        state.ownerMode = true;
+        closeModal('ownerPinModal');
+        render();
+    } else {
+        alert("Wrong PIN");
+    }
+};
+
+window.showToast = (msg) => {
+    const t = $('#toast');
+    t.innerText = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+};
+
+window.openModal = (id) => $('#' + id).classList.add('open');
+window.closeModal = (id) => $('#' + id).classList.remove('open');
+
+// === 7. UI RENDERING FUNCTIONS ===
 
 function render() {
     const container = $('#mainView');
@@ -508,6 +699,18 @@ function updateNavActive() {
     if(map[state.view] !== undefined) {
         document.querySelectorAll('.nav-item')[map[state.view]].classList.add('active');
     }
+    
+    // Update Header Title/Subtitle dynamically
+    const titles = {
+        home: ['Namaste Udala', 'Smart Tiffin Builder'],
+        shop: ['Shop', 'Grocery & Services'],
+        profile: ['My Profile', 'Orders & Wishlist'],
+        owner: ['Admin Panel', 'Analytics & Control']
+    };
+    if(titles[state.view]) {
+        $('#pageTitle').innerText = titles[state.view][0];
+        $('#pageSubtitle').innerText = titles[state.view][1];
+    }
 }
 
 function updateCartBadge() {
@@ -516,15 +719,10 @@ function updateCartBadge() {
     badge.style.display = count > 0 ? 'block' : 'none';
 }
 
-// === VIEW: HOME (SMART PLAN BUILDER) ===
+// --- VIEW: HOME (SMART PLAN BUILDER) ---
 function renderHome() {
     const cfg = state.plan;
-    const base = BASE_PRICES[cfg.type][cfg.days];
-    const lunchCost = cfg.lunch === 'both' ? ADD_ONS.lunchBoth * cfg.days : 0;
-    const dinnerCost = cfg.dinner === 'both' ? ADD_ONS.dinnerBoth * cfg.days : 0;
-    const rotiCost = cfg.extraRoti * ADD_ONS.extraRoti * cfg.days;
-    const total = base + lunchCost + dinnerCost + rotiCost;
-    const perDay = Math.round(total / cfg.days);
+    const pricing = calculatePlanPrice(cfg);
 
     return `
         <div class="card hero-plan">
@@ -583,15 +781,15 @@ function renderHome() {
             </div>
 
             <div class="price-summary">
-                <div class="sum-line"><span>Base Plan (${cfg.type.toUpperCase()})</span><span>${fmt(base)}</span></div>
-                <div class="sum-line"><span>Lunch Upgrade</span><span>${fmt(lunchCost)}</span></div>
-                <div class="sum-line"><span>Dinner Upgrade</span><span>${fmt(dinnerCost)}</span></div>
-                <div class="sum-line"><span>Extra Roti (${cfg.extraRoti}x)</span><span>${fmt(rotiCost)}</span></div>
+                <div class="sum-line"><span>Base Plan (${cfg.type.toUpperCase()})</span><span>${fmt(pricing.base)}</span></div>
+                <div class="sum-line"><span>Lunch Upgrade</span><span>${fmt(pricing.lunchCost)}</span></div>
+                <div class="sum-line"><span>Dinner Upgrade</span><span>${fmt(pricing.dinnerCost)}</span></div>
+                <div class="sum-line"><span>Extra Roti (${cfg.extraRoti}x)</span><span>${fmt(pricing.rotiCost)}</span></div>
                 <div class="sum-total">
                     <span>Total Payable</span>
-                    <span>${fmt(total)}</span>
+                    <span>${fmt(pricing.total)}</span>
                 </div>
-                <div style="font-size:11px;color:var(--text-muted);text-align:right;margin-top:4px;">(~${fmt(perDay)}/day)</div>
+                <div style="font-size:11px;color:var(--text-muted);text-align:right;margin-top:4px;">(~${fmt(pricing.perDay)}/day)</div>
             </div>
 
             <button class="btn-pay" onclick="startPlanCheckout()">Join Now & Pay 💳</button>
@@ -629,20 +827,14 @@ window.startPlanCheckout = () => {
         return;
     }
     
-    const cfg = state.plan;
-    const base = BASE_PRICES[cfg.type][cfg.days];
-    const lunchCost = cfg.lunch === 'both' ? ADD_ONS.lunchBoth * cfg.days : 0;
-    const dinnerCost = cfg.dinner === 'both' ? ADD_ONS.dinnerBoth * cfg.days : 0;
-    const rotiCost = cfg.extraRoti * ADD_ONS.extraRoti * cfg.days;
-    const total = base + lunchCost + dinnerCost + rotiCost;
-    
+    const pricing = calculatePlanPrice(state.plan);
     const orderId = Date.now();
     const newOrder = {
         id: orderId,
         ts: Date.now(),
         type: 'subscription',
-        details: {...cfg},
-        total: total,
+        details: {...state.plan},
+        total: pricing.total,
         status: 'pending',
         userName: state.user.name,
         userPhone: state.user.phone,
@@ -658,16 +850,16 @@ window.startPlanCheckout = () => {
 
     // Redirect to UPI
     const note = `Plan#${orderId}`;
-    const upiLink = `upi://pay?pa=${UPI_ID}&pn=NamasteUdala&cu=INR&am=${Math.round(total)}&tn=${encodeURIComponent(note)}`;
+    const upiLink = `upi://pay?pa=${UPI_ID}&pn=NamasteUdala&cu=INR&am=${Math.round(pricing.total)}&tn=${encodeURIComponent(note)}`;
     window.location.href = upiLink;
     
     setTimeout(() => {
         showToast("Redirecting to UPI...");
-        switchTab('profile'); // Go to orders/profile after payment attempt
+        switchTab('profile'); 
     }, 1000);
 };
 
-// === VIEW: SHOP (GRID) ===
+// --- VIEW: SHOP (GRID) ---
 function renderShop() {
     return `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
@@ -725,7 +917,7 @@ window.toggleWish = (id) => {
     saveState();
 };
 
-// === VIEW: PROFILE ===
+// --- VIEW: PROFILE ---
 function renderProfile() {
     if(!state.user) {
         return `
@@ -807,21 +999,40 @@ window.logout = () => {
     showToast("Logged Out");
 };
 
-// === VIEW: OWNER DASHBOARD ===
+// --- VIEW: OWNER DASHBOARD (CATEGORY-WISE ANALYTICS) ---
 function renderOwner() {
     if(!state.ownerMode) {
         return `
             <div class="card" style="text-align:center;padding:40px 20px;">
                 <h3 style="margin-bottom:16px;">Owner Access 🔐</h3>
                 <input type="password" id="opin" class="input-field" placeholder="Enter PIN" style="margin-bottom:12px;">
-                <button class="btn-primary" onclick="unlockOwner()">Unlock Dashboard</button>
+                <button class="btn-primary" onclick="verifyOwnerPinInline()">Unlock Dashboard</button>
             </div>
         `;
     }
     
     const sales = state.allOrders.reduce((a, o) => a + o.total, 0);
     const pending = state.allOrders.filter(o => o.status === 'pending').length;
-    
+    const breakdown = getRevenueBreakdown();
+    const totalRev = Object.values(breakdown).reduce((a,b)=>a+b,0) || 1;
+
+    // Generate CSS Bars for Analytics
+    const bars = Object.entries(breakdown).map(([cat, val]) => {
+        const pct = Math.round((val / totalRev) * 100);
+        const colors = { Food:'#ff5a1f', Grocery:'#0e5c3f', Services:'#2563eb', Subscription:'#f5b301' };
+        return `
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px;">
+                    <span>${cat}</span>
+                    <span>${fmt(val)} (${pct}%)</span>
+                </div>
+                <div style="height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;">
+                    <div style="height:100%;width:${pct}%;background:${colors[cat]||'#ccc'};"></div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
     return `
         <div class="card" style="background:var(--secondary);color:white;">
             <h3 style="color:white;">Admin Dashboard</h3>
@@ -835,6 +1046,11 @@ function renderOwner() {
                     <small>Pending</small>
                 </div>
             </div>
+        </div>
+
+        <div class="card">
+            <h3>📊 Revenue Breakdown (AI Analysis)</h3>
+            ${bars}
         </div>
 
         <div class="card">
@@ -860,7 +1076,7 @@ function renderOwner() {
     `;
 }
 
-window.unlockOwner = () => {
+window.verifyOwnerPinInline = () => {
     const pin = $('#opin').value;
     if(pin === OWNER_PIN) {
         state.ownerMode = true;
@@ -886,7 +1102,7 @@ window.updateOrderStatus = (id, status) => {
     }
 };
 
-// === CART LOGIC ===
+// === 8. CART LOGIC ===
 window.openCart = () => {
     if (!state.user) {
         openModal('loginModal');
@@ -936,7 +1152,7 @@ window.checkoutCart = () => {
         id: orderId,
         ts: Date.now(),
         type: 'shop',
-        items: Object.entries(state.cart).map(([id, q]) => ({ id: +id, q })),
+        items: Object.entries(state.cart).map(([id, q]) => ({ id: +id, qty: q })),
         total: total,
         status: 'pending',
         userName: state.user.name,
@@ -961,49 +1177,15 @@ window.checkoutCart = () => {
     }, 2000);
 };
 
-// === USER AUTH ===
-window.saveUser = () => {
-    const name = $('#regName').value.trim();
-    const phone = $('#regPhone').value.replace(/\D/g,'');
-    const addr = $('#regAddr').value.trim();
-    
-    if (!name || phone.length !== 10 || !addr) {
-        alert("Fill all fields correctly");
-        return;
-    }
-    
-    state.user = { name, phone, addr, wishlist: [] };
-    saveState();
-    closeModal('loginModal');
-    showToast("Welcome " + name.split(' ')[0] + "!");
-};
-
-// === UTILS ===
-function showToast(msg) {
-    const t = $('#toast');
-    t.innerText = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
+// === 9. INITIALIZATION ===
+function init() {
+    checkTheme();
+    loadCart();
+    render();
 }
 
-function openModal(id) { $('#' + id).classList.add('open'); }
-function closeModal(id) { $('#' + id).classList.remove('open'); }
-
-window.switchTab = (tab) => {
-    state.view = tab;
-    render();
-};
-
-function toggleTheme() {
-    const root = document.documentElement;
-    const isDark = root.getAttribute('data-theme') === 'dark';
-    if (isDark) {
-        root.removeAttribute('data-theme');
-        localStorage.setItem('nu_theme', 'light');
-    } else {
-        root.setAttribute('data-theme', 'dark');
-        localStorage.setItem('nu_theme', 'dark');
-    }
+function loadCart() {
+    try { state.cart = JSON.parse(localStorage.getItem('nu_cart')) || {}; } catch(e){}
 }
 
 function checkTheme() {
