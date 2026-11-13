@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Namaste Udala — 3D Tiffin · Shop · Services</title>
-<meta name="theme-color" content="#0b3d2c">
+<title>Namaste Udala — 3D Tiffin · Shop · Kitchen · Delivery</title>
+<meta name="theme-color" content="#093d29">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,12 +19,11 @@
   --ln: #e2e8f0;
   --o: #ff5a1f;
   --g: #0e5c3f;
-  --gold: #f59e0b;
-  --sh-card: 0 18px 35px -8px rgba(15,23,42,0.12), 0 4px 10px -2px rgba(15,23,42,0.06), inset 0 2px 0 rgba(255,255,255,0.9), inset 0 -3px 0 rgba(15,23,42,0.05);
-  --sh-3d-o: 0 6px 0 #c23b0a, 0 14px 24px rgba(255,90,31,0.38), inset 0 2px 1px rgba(255,255,255,0.5);
-  --sh-3d-g: 0 6px 0 #073824, 0 14px 24px rgba(14,92,63,0.35), inset 0 2px 1px rgba(255,255,255,0.4);
+  --sh-card: 0 18px 35px -8px rgba(15,23,42,0.13), 0 4px 10px -2px rgba(15,23,42,0.06), inset 0 2px 0 rgba(255,255,255,0.95), inset 0 -3px 0 rgba(15,23,42,0.06);
+  --sh-3d-o: 0 6px 0 #b83200, 0 14px 24px rgba(255,90,31,0.4), inset 0 2px 1px rgba(255,255,255,0.5);
+  --sh-3d-g: 0 6px 0 #063824, 0 14px 24px rgba(14,92,63,0.35), inset 0 2px 1px rgba(255,255,255,0.4);
   --sh-3d-w: 0 5px 0 #cbd5e1, 0 10px 18px rgba(15,23,42,0.08), inset 0 2px 0 #fff;
-  --sh-in: inset 0 4px 8px rgba(15,23,42,0.08), inset 0 1px 2px rgba(15,23,42,0.12), 0 1px 0 #fff;
+  --sh-in: inset 0 4px 8px rgba(15,23,42,0.09), inset 0 1px 2px rgba(15,23,42,0.12), 0 1px 0 #fff;
 }
 [data-theme=dark] {
   --bg: #0b1116;
@@ -33,16 +32,16 @@
   --ink: #f1f5f9;
   --mu: #94a3b8;
   --ln: #263545;
-  --sh-card: 0 20px 38px -8px rgba(0,0,0,0.6), inset 0 1.5px 0 rgba(255,255,255,0.08), inset 0 -3px 0 rgba(0,0,0,0.4);
-  --sh-3d-w: 0 5px 0 #090d11, 0 10px 18px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-  --sh-in: inset 0 4px 8px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.05);
+  --sh-card: 0 20px 38px -8px rgba(0,0,0,0.65), inset 0 1.5px 0 rgba(255,255,255,0.08), inset 0 -3px 0 rgba(0,0,0,0.45);
+  --sh-3d-w: 0 5px 0 #090d11, 0 10px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.1);
+  --sh-in: inset 0 4px 8px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
 body {
-  background: radial-gradient(circle at 15% 5%, rgba(255,154,61,0.18), transparent 45%),
-              radial-gradient(circle at 85% 15%, rgba(21,154,99,0.15), transparent 45%), var(--bg);
+  background: radial-gradient(circle at 15% 5%, rgba(255,154,61,0.2), transparent 45%),
+              radial-gradient(circle at 85% 15%, rgba(21,154,99,0.16), transparent 45%), var(--bg);
   color: var(--ink);
-  padding-bottom: 115px;
+  padding-bottom: 120px;
   min-height: 100vh;
   perspective: 1200px;
 }
@@ -52,218 +51,283 @@ button, input, select { font: inherit; color: inherit; }
 /* 3D Realistic Header */
 header {
   position: sticky; top: 0; z-index: 60;
-  background: linear-gradient(145deg, #137a54, #093d29);
-  color: #fff; padding: 14px 16px;
-  border-radius: 0 0 28px 28px;
-  box-shadow: 0 8px 0 #052619, 0 18px 36px rgba(8,46,32,0.45), inset 0 2px 1px rgba(255,255,255,0.25);
+  background: linear-gradient(145deg, #137a54, #073523);
+  color: #fff; padding: 13px 15px;
+  border-radius: 0 0 26px 26px;
+  box-shadow: 0 7px 0 #042115, 0 18px 34px rgba(8,46,32,0.45), inset 0 2px 1px rgba(255,255,255,0.25);
   display: flex; align-items: center; gap: 12px;
 }
 .logo {
-  width: 48px; height: 48px; border-radius: 16px;
+  width: 46px; height: 46px; border-radius: 15px;
   background: linear-gradient(145deg, #ff9a3d, #ff4500);
-  display: grid; place-items: center; font-weight: 800; font-size: 18px; color: #fff;
-  box-shadow: 0 5px 0 #9e2a00, 0 10px 20px rgba(0,0,0,0.35), inset 0 2px 2px rgba(255,255,255,0.6);
-  cursor: pointer; user-select: none; transition: transform .12s, box-shadow .12s;
+  display: grid; place-items: center; font-weight: 800; font-size: 17px; color: #fff;
+  box-shadow: 0 5px 0 #9e2a00, 0 10px 18px rgba(0,0,0,0.35), inset 0 2px 2px rgba(255,255,255,0.6);
+  cursor: pointer; user-select: none;
 }
 .logo:active { transform: translateY(4px); box-shadow: 0 1px 0 #9e2a00; }
 .brand { flex: 1; }
-.brand small { display: block; color: #fde047; font-size: 10px; letter-spacing: 2px; font-weight: 800; }
-.brand h1 { font-size: 20px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.brand small { display: block; color: #fde047; font-size: 9.5px; letter-spacing: 2px; font-weight: 800; }
+.brand h1 { font-size: 19px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.35); }
 
 main { padding: 18px 14px 0; max-width: 680px; margin: 0 auto; }
 
-/* 3D Banner */
+/* 3D Hero Banners */
 .hero3d {
-  position: relative; border-radius: 26px; padding: 24px 20px; margin-bottom: 20px; color: #fff;
-  background: linear-gradient(135deg, #ff8533 0%, #ff4500 65%, #c23000 100%);
-  box-shadow: 0 8px 0 #992600, 0 22px 40px rgba(255,69,0,0.35), inset 0 2px 2px rgba(255,255,255,0.45);
-  transform-style: preserve-3d; overflow: hidden;
+  position: relative; border-radius: 26px; padding: 22px 18px; margin-bottom: 18px; color: #fff;
+  background: linear-gradient(135deg, #ff8533 0%, #ff4500 65%, #b82c00 100%);
+  box-shadow: 0 8px 0 #8a2000, 0 20px 38px rgba(255,69,0,0.35), inset 0 2px 2px rgba(255,255,255,0.45);
+  overflow: visible;
 }
 .hero3d.green {
   background: linear-gradient(135deg, #1ad188 0%, #0e7a4e 65%, #07472d 100%);
-  box-shadow: 0 8px 0 #042b1b, 0 22px 40px rgba(14,122,78,0.35), inset 0 2px 2px rgba(255,255,255,0.4);
+  box-shadow: 0 8px 0 #042b1b, 0 20px 38px rgba(14,122,78,0.35), inset 0 2px 2px rgba(255,255,255,0.4);
 }
 .hero3d.purple {
   background: linear-gradient(135deg, #a855f7 0%, #6d28d9 65%, #4c1d95 100%);
-  box-shadow: 0 8px 0 #331068, 0 22px 40px rgba(109,40,217,0.35), inset 0 2px 2px rgba(255,255,255,0.4);
+  box-shadow: 0 8px 0 #331068, 0 20px 38px rgba(109,40,217,0.35), inset 0 2px 2px rgba(255,255,255,0.4);
 }
-.hero3d h2 { font-size: 24px; font-weight: 800; max-width: 72%; line-height: 1.15; text-shadow: 0 3px 6px rgba(0,0,0,0.28); margin-bottom: 6px; }
-.hero3d p { font-size: 13px; font-weight: 700; opacity: .95; max-width: 72%; }
+.hero3d h2 { font-size: 22px; font-weight: 800; max-width: 72%; line-height: 1.18; text-shadow: 0 3px 6px rgba(0,0,0,0.3); margin-bottom: 5px; }
+.hero3d p { font-size: 12.5px; font-weight: 700; opacity: .95; max-width: 72%; }
 .hero3d .float3d {
-  position: absolute; right: 12px; bottom: 2px; font-size: 74px;
-  filter: drop-shadow(0 14px 16px rgba(0,0,0,0.4));
-  animation: bob 3.2s ease-in-out infinite;
+  position: absolute; right: 12px; bottom: -6px; font-size: 72px;
+  filter: drop-shadow(0 16px 14px rgba(0,0,0,0.45));
+  animation: bob 3s ease-in-out infinite; cursor: pointer;
 }
-@keyframes bob { 50% { transform: translateY(-10px) scale(1.05) rotate(4deg); } }
+@keyframes bob { 50% { transform: translateY(-10px) scale(1.06) rotate(4deg); } }
 
-/* 3D Cards */
+/* Realistic Rising Hot Steam (Dhua) Effect */
+.steam-wrap {
+  position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: visible;
+}
+.steam-wrap i {
+  position: absolute; bottom: 25%; width: 26px; height: 26px;
+  background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%; filter: blur(5px); opacity: 0;
+  animation: steamRise 2.6s infinite ease-out;
+}
+.steam-wrap i:nth-child(1) { left: 28%; animation-delay: 0s; }
+.steam-wrap i:nth-child(2) { left: 48%; width: 34px; height: 34px; animation-delay: 0.7s; }
+.steam-wrap i:nth-child(3) { left: 62%; animation-delay: 1.4s; }
+.steam-wrap i:nth-child(4) { left: 38%; width: 30px; height: 30px; animation-delay: 2.0s; }
+@keyframes steamRise {
+  0% { transform: translateY(10px) scale(0.5) translateX(0); opacity: 0; }
+  35% { opacity: 0.75; }
+  70% { transform: translateY(-42px) scale(1.9) translateX(-10px); opacity: 0.4; }
+  100% { transform: translateY(-75px) scale(2.6) translateX(12px); opacity: 0; }
+}
+
+/* 3D Cards & KPIs */
 .card {
   background: linear-gradient(180deg, var(--sf) 0%, var(--sf2) 100%);
-  border: 1px solid var(--ln); border-radius: 24px; padding: 18px; margin-bottom: 18px;
+  border: 1px solid var(--ln); border-radius: 24px; padding: 17px; margin-bottom: 16px;
   box-shadow: var(--sh-card);
 }
-.card h3 {
-  font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: center; justify-content: space-between;
+.card h3 { font-size: 15.5px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.kpi div {
+  background: linear-gradient(180deg, var(--sf), var(--sf2)); border: 1px solid var(--ln);
+  border-radius: 18px; padding: 12px 6px; text-align: center; box-shadow: var(--sh-card);
 }
+.kpi b { display: block; font-size: 20px; font-weight: 800; color: var(--o); }
+.kpi span { font-size: 11px; font-weight: 800; color: var(--mu); }
 
-/* 3D Tactile Buttons */
+/* 3D Buttons */
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; padding: 14px 18px; border: 0; border-radius: 16px;
+  width: 100%; padding: 13px 16px; border: 0; border-radius: 16px;
   background: linear-gradient(180deg, #ff7a33, #ff4d00);
-  color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; text-decoration: none;
-  box-shadow: var(--sh-3d-o); transition: transform .1s, box-shadow .1s; margin-top: 10px;
+  color: #fff; font-weight: 800; font-size: 14.5px; cursor: pointer; text-decoration: none;
+  box-shadow: var(--sh-3d-o); transition: transform .1s, box-shadow .1s; margin-top: 9px;
 }
-.btn:active { transform: translateY(5px); box-shadow: 0 1px 0 #c23b0a, 0 5px 10px rgba(255,90,31,0.3); }
+.btn:active { transform: translateY(5px); box-shadow: 0 1px 0 #b83200; }
 .btn.g { background: linear-gradient(180deg, #19b374, #0e7047); box-shadow: var(--sh-3d-g); }
-.btn.g:active { box-shadow: 0 1px 0 #073824; }
+.btn.g:active { box-shadow: 0 1px 0 #063824; }
 .btn.w { background: linear-gradient(180deg, var(--sf), var(--sf2)); color: var(--ink); border: 1px solid var(--ln); box-shadow: var(--sh-3d-w); }
 .btn.w:active { box-shadow: 0 1px 0 #cbd5e1; }
-.btn.sm { width: auto; display: inline-flex; padding: 9px 14px; font-size: 12px; border-radius: 12px; margin: 0; }
-.btn[disabled] { opacity: .5; pointer-events: none; }
+.btn.sm { width: auto; display: inline-flex; padding: 8px 13px; font-size: 12px; border-radius: 12px; margin: 0; }
+.btn[disabled] { opacity: .45; pointer-events: none; }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-row > * { flex: 1; }
 
-/* 3D Recessed Inputs */
+/* Inputs & Segmented Controls */
 .inp {
-  width: 100%; padding: 13px 15px; border: 1.5px solid var(--ln); border-radius: 14px;
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--ln); border-radius: 14px;
   background: var(--sf2); color: var(--ink); font-weight: 700; font-size: 14px;
-  box-shadow: var(--sh-in); margin: 6px 0; outline: none; transition: border .2s;
+  box-shadow: var(--sh-in); margin: 5px 0; outline: none;
 }
 .inp:focus { border-color: var(--o); background: var(--sf); }
-.lbl { display: block; font-size: 12px; font-weight: 800; color: var(--mu); margin: 12px 0 4px; }
+.lbl { display: block; font-size: 11.5px; font-weight: 800; color: var(--mu); margin: 11px 0 4px; }
 
-/* 3D Segmented Selector */
 .seg {
-  display: flex; gap: 8px; background: var(--sf2); padding: 6px;
-  border-radius: 16px; box-shadow: var(--sh-in); margin: 6px 0;
+  display: flex; gap: 6px; background: var(--sf2); padding: 5px;
+  border-radius: 15px; box-shadow: var(--sh-in); margin: 5px 0;
 }
 .seg button {
-  flex: 1; padding: 11px 6px; border: 0; border-radius: 12px;
-  background: transparent; font-weight: 800; font-size: 13px; color: var(--mu); cursor: pointer; transition: .15s;
+  flex: 1; padding: 10px 4px; border: 0; border-radius: 11px;
+  background: transparent; font-weight: 800; font-size: 12px; color: var(--mu); cursor: pointer; transition: .15s;
 }
 .seg button.on {
   background: linear-gradient(180deg, #ff7a33, #ff4d00); color: #fff;
-  box-shadow: 0 4px 0 #b83700, 0 6px 14px rgba(255,77,0,0.3);
-  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #b83700, 0 6px 12px rgba(255,77,0,0.3); transform: translateY(-1px);
 }
 
-/* 3D Category Pills */
-.chips { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 14px; scrollbar-width: none; }
+/* Category Pills */
+.chips { display: flex; gap: 9px; overflow-x: auto; padding: 4px 2px 14px; scrollbar-width: none; }
 .chips::-webkit-scrollbar { display: none; }
 .chips button {
-  flex: none; padding: 10px 16px; border-radius: 99px; border: 1px solid var(--ln);
-  background: var(--sf); font-weight: 800; font-size: 12.5px; color: var(--ink);
-  box-shadow: var(--sh-3d-w); cursor: pointer; transition: .12s;
+  flex: none; padding: 9px 15px; border-radius: 99px; border: 1px solid var(--ln);
+  background: var(--sf); font-weight: 800; font-size: 12px; color: var(--ink);
+  box-shadow: var(--sh-3d-w); cursor: pointer;
 }
 .chips button.on {
   background: linear-gradient(180deg, #ff7a33, #ff4d00); color: #fff; border-color: transparent;
-  box-shadow: 0 4px 0 #b83700, 0 8px 16px rgba(255,77,0,0.35); transform: translateY(-2px);
+  box-shadow: 0 4px 0 #b83700, 0 8px 14px rgba(255,77,0,0.35); transform: translateY(-2px);
 }
 
-/* 3D Product Grid & Pedestal Cards */
+/* 3D Pop-Out Product Cards */
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 18px; }
 .pcard {
   background: linear-gradient(180deg, var(--sf), var(--sf2));
   border: 1px solid var(--ln); border-radius: 22px; padding: 10px;
   box-shadow: var(--sh-card); display: flex; flex-direction: column;
-  transition: transform .2s;
+  position: relative; transition: transform .25s cubic-bezier(.2,.8,.2,1);
 }
+.pcard:active { transform: translateY(-6px) rotateX(6deg) scale(1.03); z-index: 10; }
 .pimg {
-  height: 124px; border-radius: 16px; overflow: hidden; position: relative;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.16); background: var(--sf2); margin-bottom: 10px;
+  height: 126px; border-radius: 16px; position: relative; cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.18); background: var(--sf2); margin-bottom: 10px; overflow: hidden;
 }
-.pimg img { width: 100%; height: 100%; transition: transform .35s; }
-.pcard:hover .pimg img { transform: scale(1.07); }
+.pimg img { width: 100%; height: 100%; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.pcard:hover .pimg img, .pcard:active .pimg img { transform: scale(1.12); }
 .badge {
-  position: absolute; top: 8px; left: 8px; background: linear-gradient(180deg, #22c55e, #15803d);
-  color: #fff; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 8px;
+  position: absolute; top: 7px; left: 7px; background: linear-gradient(180deg, #22c55e, #15803d);
+  color: #fff; font-size: 9.5px; font-weight: 800; padding: 3px 7px; border-radius: 7px; z-index: 6;
   box-shadow: 0 3px 6px rgba(0,0,0,0.25);
 }
-.pname { font-size: 13.5px; font-weight: 800; line-height: 1.3; margin-bottom: 4px; height: 35px; overflow: hidden; }
-.pprice { display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px; }
-.pprice b { font-size: 17px; font-weight: 800; color: var(--o); }
-.pprice s { font-size: 11.5px; color: var(--mu); }
+.hot-tag {
+  position: absolute; bottom: 7px; right: 7px; background: rgba(15,23,42,0.82);
+  color: #fde047; font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 8px; z-index: 6;
+  backdrop-filter: blur(4px);
+}
+.pname { font-size: 13px; font-weight: 800; line-height: 1.3; margin-bottom: 4px; height: 34px; overflow: hidden; }
+.pprice { display: flex; align-items: baseline; gap: 6px; margin-bottom: 9px; }
+.pprice b { font-size: 16.5px; font-weight: 800; color: var(--o); }
+.pprice s { font-size: 11px; color: var(--mu); }
 
-/* 3D Quantity Stepper */
+/* 3D Stepper */
 .qty {
   display: flex; align-items: center; justify-content: space-between;
-  background: var(--sf2); padding: 4px; border-radius: 14px; box-shadow: var(--sh-in); margin-top: auto;
+  background: var(--sf2); padding: 4px; border-radius: 13px; box-shadow: var(--sh-in); margin-top: auto;
 }
 .qty button {
-  width: 34px; height: 34px; border-radius: 10px; border: 0;
+  width: 32px; height: 32px; border-radius: 9px; border: 0;
   background: linear-gradient(180deg, #ff7a33, #ff4d00); color: #fff;
-  font-size: 18px; font-weight: 800; cursor: pointer;
-  box-shadow: 0 3px 0 #b83700;
+  font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 #b83700;
 }
 .qty button:active { transform: translateY(2px); box-shadow: none; }
-.qty b { font-size: 14px; font-weight: 800; }
+.qty b { font-size: 13.5px; font-weight: 800; }
 
-.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px dashed var(--ln); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px dashed var(--ln); }
 .row:last-child { border-bottom: 0; }
-.tot { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; margin-top: 6px; border-top: 2px solid var(--ln); }
-.tot b { font-size: 24px; font-weight: 800; color: var(--o); }
+.tot { display: flex; justify-content: space-between; align-items: center; padding-top: 13px; margin-top: 6px; border-top: 2px solid var(--ln); }
+.tot b { font-size: 23px; font-weight: 800; color: var(--o); }
 
-/* Floating 3D Cart Bar */
-.cbar {
-  position: sticky; bottom: 96px; z-index: 40;
-  background: linear-gradient(145deg, #16a34a, #0b5c3ab0), #0e5c3f;
-  color: #fff; border-radius: 20px; padding: 14px 18px; margin-bottom: 16px;
-  display: flex; justify-content: space-between; align-items: center;
-  box-shadow: 0 6px 0 #063824, 0 18px 32px rgba(14,92,63,0.45), inset 0 2px 1px rgba(255,255,255,0.4);
-  cursor: pointer; font-weight: 800;
+/* 3D Pop-Out Showcase Modal (When Touching Chicken/Food) */
+.ov {
+  position: fixed; inset: 0; z-index: 200; background: rgba(8,14,22,0.78);
+  backdrop-filter: blur(8px); display: flex; align-items: flex-end; justify-content: center;
+  animation: fadeIn .2s;
+}
+@keyframes fadeIn { from { opacity: 0; } }
+.sh {
+  background: var(--sf); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+  border-radius: 30px 30px 0 0; padding: 20px; position: relative;
+  box-shadow: 0 -12px 45px rgba(0,0,0,0.45), inset 0 2px 0 rgba(255,255,255,0.8);
+  animation: slideUp .28s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes slideUp { from { transform: translateY(100%); } }
+
+/* 3D Floating Plate Pop-out inside Modal */
+.pop-stage {
+  position: relative; height: 225px; margin: -10px 0 14px;
+  border-radius: 24px; background: radial-gradient(circle at 50% 60%, #2a1810, #0f172a);
+  display: flex; align-items: center; justify-content: center; overflow: visible;
+  box-shadow: 0 18px 35px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2);
+}
+.pop-plate {
+  width: 195px; height: 195px; border-radius: 50%; object-fit: cover;
+  border: 5px solid #fff;
+  box-shadow: 0 24px 38px rgba(0,0,0,0.65), 0 0 30px rgba(255,90,31,0.45);
+  animation: popOut3D .55s cubic-bezier(.18,1.25,.4,1) forwards;
+  z-index: 2;
+}
+@keyframes popOut3D {
+  0% { transform: scale(0.3) translateY(60px) rotate(-15deg); opacity: 0; }
+  70% { transform: scale(1.1) translateY(-14px) rotate(3deg); }
+  100% { transform: scale(1.04) translateY(-8px) rotate(0deg); opacity: 1; }
+}
+.pop-steam {
+  position: absolute; top: -18px; left: 0; right: 0; height: 140px; pointer-events: none; z-index: 4;
+}
+.pop-steam span {
+  position: absolute; bottom: 10px; width: 48px; height: 48px;
+  background: radial-gradient(circle, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%; filter: blur(7px); opacity: 0;
+  animation: bigSteam 2.2s infinite ease-out;
+}
+.pop-steam span:nth-child(1) { left: 32%; animation-delay: 0s; }
+.pop-steam span:nth-child(2) { left: 46%; width: 62px; height: 62px; animation-delay: 0.5s; }
+.pop-steam span:nth-child(3) { left: 58%; animation-delay: 1.0s; }
+.pop-steam span:nth-child(4) { left: 38%; width: 54px; height: 54px; animation-delay: 1.5s; }
+@keyframes bigSteam {
+  0% { transform: translateY(30px) scale(0.4); opacity: 0; }
+  35% { opacity: 0.9; }
+  100% { transform: translateY(-95px) scale(2.8) translateX(15px); opacity: 0; }
 }
 
-/* 3D Dock Navigation */
+/* Floating Cart & Bottom 3D Dock */
+.cbar {
+  position: sticky; bottom: 98px; z-index: 40;
+  background: linear-gradient(145deg, #16a34a, #09472b); color: #fff;
+  border-radius: 20px; padding: 13px 18px; margin-bottom: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 6px 0 #052e1b, 0 16px 30px rgba(14,92,63,0.45); cursor: pointer; font-weight: 800;
+}
 nav {
-  position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom));
-  z-index: 80; max-width: 650px; margin: 0 auto;
-  background: var(--sf); border: 1px solid var(--ln); border-radius: 24px;
-  display: flex; gap: 6px; padding: 8px;
-  box-shadow: 0 8px 0 rgba(15,23,42,0.12), 0 22px 45px rgba(15,23,42,0.28), inset 0 2px 0 rgba(255,255,255,0.8);
+  position: fixed; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom));
+  z-index: 80; max-width: 660px; margin: 0 auto;
+  background: var(--sf); border: 1px solid var(--ln); border-radius: 22px;
+  display: flex; gap: 4px; padding: 6px;
+  box-shadow: 0 8px 0 rgba(15,23,42,0.12), 0 22px 45px rgba(15,23,42,0.28);
 }
 nav button {
-  flex: 1; border: 0; background: transparent; border-radius: 16px; padding: 9px 4px;
-  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  flex: 1; border: 0; background: transparent; border-radius: 15px; padding: 8px 2px;
+  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px;
   color: var(--mu); font-weight: 800; position: relative; transition: .15s;
 }
 nav button.on {
   background: linear-gradient(180deg, #ff7a33, #ff4d00); color: #fff;
-  box-shadow: 0 4px 0 #b83700, 0 8px 16px rgba(255,77,0,0.35);
-  transform: translateY(-4px);
+  box-shadow: 0 4px 0 #b83700, 0 8px 14px rgba(255,77,0,0.35); transform: translateY(-4px);
 }
-nav .ni { font-size: 20px; }
-nav .nl { font-size: 10.5px; }
+nav .ni { font-size: 18px; }
+nav .nl { font-size: 9.5px; }
 nav .nb {
-  position: absolute; top: 3px; right: 18%; background: #16a34a; color: #fff;
-  font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 99px; border: 2px solid #fff;
+  position: absolute; top: 2px; right: 14%; background: #16a34a; color: #fff;
+  font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff;
 }
-
-/* 3D Modal Sheet */
-.ov {
-  position: fixed; inset: 0; z-index: 200; background: rgba(10,18,28,0.65);
-  backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center;
-}
-.sh {
-  background: var(--sf); width: 100%; max-width: 520px; max-height: 88vh; overflow-y: auto;
-  border-radius: 28px 28px 0 0; padding: 20px;
-  box-shadow: 0 -10px 40px rgba(0,0,0,0.35), inset 0 2px 0 rgba(255,255,255,0.8);
-  animation: up .25s ease-out;
-}
-@keyframes up { from { transform: translateY(100%); } }
 
 #toast {
-  position: fixed; left: 50%; bottom: 105px; transform: translateX(-50%) translateY(20px);
-  background: #0f172a; color: #fff; padding: 12px 20px; border-radius: 99px;
-  font-size: 13.5px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none;
-  box-shadow: 0 6px 0 #000, 0 14px 28px rgba(0,0,0,0.4); transition: .25s;
+  position: fixed; left: 50%; bottom: 104px; transform: translateX(-50%) translateY(20px);
+  background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 99px;
+  font-size: 13px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none;
+  box-shadow: 0 5px 0 #000, 0 14px 28px rgba(0,0,0,0.4); transition: .25s;
 }
 #toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
-
 .wa {
-  position: fixed; right: 14px; bottom: 104px; z-index: 70; width: 54px; height: 54px;
+  position: fixed; right: 14px; bottom: 102px; z-index: 70; width: 52px; height: 52px;
   border-radius: 50%; background: linear-gradient(145deg, #25d366, #128c4a);
-  display: grid; place-items: center; font-size: 26px; text-decoration: none;
-  box-shadow: 0 6px 0 #09522b, 0 14px 26px rgba(18,140,74,0.45), inset 0 2px 2px rgba(255,255,255,0.6);
+  display: grid; place-items: center; font-size: 25px; text-decoration: none;
+  box-shadow: 0 5px 0 #09522b, 0 14px 26px rgba(18,140,74,0.45);
 }
 #printArea { display: none; }
 @media print { body > * { display: none !important; } #printArea { display: block !important; padding: 16px; font-family: monospace; } }
@@ -272,10 +336,10 @@ nav .nb {
 <body>
 
 <header>
-  <div class="logo" id="mark" title="5 tap for Owner">NU</div>
+  <div class="logo" id="mark" title="Tap 5 times for Owner">NU</div>
   <div class="brand">
-    <small>NAMASTE UDALA 3D</small>
-    <h1 id="ttl">Ghar Jaisa Tiffin</h1>
+    <small>NAMASTE UDALA · 3D LIVE</small>
+    <h1 id="ttl">3-Time Ghar Jaisa Khana</h1>
   </div>
   <button class="btn w sm" id="thm" data-a="theme">🌙</button>
 </header>
@@ -301,29 +365,32 @@ const FB = {
   databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com"
 };
 
-const NODE = 'udala_phase2', UPI = '9583937047@jio', MIN = 300, OPIN = '4827';
-const PL = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
-const FALL = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23fff6ea'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='54'%3E🍱%3C/text%3E%3C/svg%3E";
+const NODE = 'udala_phase2', UPI = '9583937047@jio', MIN = 300, OPIN = '4827', DPIN = '7788';
+const PL = {
+  veg: { 7: 749, 15: 1499, 30: 2899 },
+  nv: { 7: 949, 15: 1849, 30: 3599 }
+};
+const FALL = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23fff6ea'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='54'%3E🍗%3C/text%3E%3C/svg%3E";
 
 const IMG = {
-  thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=70',
-  curry: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=70',
-  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=70',
-  rice: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=600&q=70',
-  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=70',
-  chick: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=70',
-  egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=70',
-  milk: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&q=70',
-  curd: 'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=600&q=70',
-  tea: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&q=70',
-  groc: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=70',
-  clean: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=70',
-  care: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=70',
-  sweet: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=70',
-  books: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=70',
-  cam: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=70',
-  decor: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=70',
-  hostel: 'https://images.unsplash.com/photo-1555854877-bab0ab8386bd?w=600&q=70'
+  chick: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=75',
+  leg: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=75',
+  thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=75',
+  curry: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=75',
+  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=75',
+  rice: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=600&q=75',
+  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=75',
+  egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=75',
+  milk: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&q=75',
+  curd: 'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=600&q=75',
+  tea: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&q=75',
+  groc: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=75',
+  clean: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=75',
+  care: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=75',
+  books: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=75',
+  cam: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=75',
+  decor: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=75',
+  hostel: 'https://images.unsplash.com/photo-1555854877-bab0ab8386bd?w=600&q=75'
 };
 
 const $ = s => document.querySelector(s);
@@ -336,34 +403,59 @@ const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
 const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
 const tm = t => new Date(t).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 const upi = (a, n) => 'upi://pay?pa=' + UPI + '&pn=Namaste%20Udala&cu=INR&am=' + Math.round(a) + '&tn=' + encodeURIComponent(n || 'Order');
+const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i><i></i></div>`;
 
 let _t;
-const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2400); };
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2500); };
 addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== FALL) e.target.src = FALL; }, true);
 
-const CATS = [['all', '🌟 Sab'], ['Dairy', '🥛 Doodh/Dairy'], ['Kirana', '🌾 Kirana'], ['Khana', '🍛 Extra Khana'], ['HUL', '🧼 Daily Care'], ['Safai', '🧹 Safai'], ['Nashta', '☕ Nashta']];
+const CATS = [['all', '🔥 Sab'], ['Khana', '🍗 Garma-Garam Khana'], ['Dairy', '🥛 Doodh/Dairy'], ['Kirana', '🌾 Kirana'], ['HUL', '🧼 Daily Care'], ['Safai', '🧹 Safai'], ['Nashta', '☕ Nashta']];
+
+// Hot flag (hot: 1) adds real 3D rising steam!
 const SEED = [
-  ['Doodh 500 ml', 30, 34, 'Dairy', IMG.milk], ['Dahi 400 g', 40, 46, 'Dairy', IMG.curd], ['Paneer 200 g', 80, 95, 'Dairy', IMG.paneer],
-  ['Atta 5 kg', 245, 285, 'Kirana', IMG.roti], ['Chawal 5 kg', 340, 395, 'Kirana', IMG.rice], ['Dal 1 kg', 150, 175, 'Kirana', IMG.curry], ['Tel 1 L', 150, 178, 'Kirana', IMG.groc],
-  ['Roti (10)', 50, 60, 'Khana', IMG.roti], ['Paneer sabzi', 110, 135, 'Khana', IMG.paneer], ['Egg curry (4)', 96, 120, 'Khana', IMG.egg], ['Chicken curry 500g', 260, 310, 'Khana', IMG.chick],
-  ['Lifebuoy (4)', 140, 168, 'HUL', IMG.care], ['Dove 100g', 60, 70, 'HUL', IMG.care], ['Sunsilk 340ml', 199, 235, 'HUL', IMG.care], ['Horlicks 500g', 260, 285, 'Dairy', IMG.milk],
-  ['Surf Excel 1 kg', 220, 255, 'Safai', IMG.clean], ['Vim (3)', 60, 75, 'Safai', IMG.clean], ['Red Label 250g', 165, 180, 'Nashta', IMG.tea], ['Ande (6)', 72, 85, 'Nashta', IMG.egg]
-].map((a, i) => ({ id: i + 1, n: a[0], p: a[1], mrp: a[2], c: a[3], img: a[4], s: 1 }));
+  ['Hot Chicken Leg Masala (2 Pc)', 160, 195, 'Khana', IMG.leg, 1, 1],
+  ['Desi Chicken Curry 500g', 260, 310, 'Khana', IMG.chick, 1, 1],
+  ['Garma-Garam Egg Curry (4)', 96, 120, 'Khana', IMG.egg, 1, 1],
+  ['Shahi Paneer Sabzi', 110, 135, 'Khana', IMG.paneer, 1, 1],
+  ['Mushroom Masala', 120, 145, 'Khana', IMG.curry, 1, 1],
+  ['Tawa Roti (10 Pc)', 50, 60, 'Khana', IMG.roti, 1, 1],
+  ['Steamed Basmati Rice', 40, 50, 'Khana', IMG.rice, 1, 1],
+  ['Doodh 500 ml', 30, 34, 'Dairy', IMG.milk, 0, 0],
+  ['Dahi 400 g', 40, 46, 'Dairy', IMG.curd, 0, 0],
+  ['Fresh Paneer 200 g', 80, 95, 'Dairy', IMG.paneer, 0, 0],
+  ['Atta 5 kg', 245, 285, 'Kirana', IMG.roti, 0, 0],
+  ['Chawal 5 kg', 340, 395, 'Kirana', IMG.rice, 0, 0],
+  ['Toor Dal 1 kg', 150, 175, 'Kirana', IMG.curry, 0, 0],
+  ['Mustard Oil 1 L', 150, 178, 'Kirana', IMG.groc, 0, 0],
+  ['Lifebuoy Soap (4)', 140, 168, 'HUL', IMG.care, 0, 0],
+  ['Dove Soap 100g', 60, 70, 'HUL', IMG.care, 0, 0],
+  ['Surf Excel 1 kg', 220, 255, 'Safai', IMG.clean, 0, 0],
+  ['Red Label Tea 250g', 165, 180, 'Nashta', IMG.tea, 0, 0],
+  ['Farm Eggs (6 Pc)', 72, 85, 'Nashta', IMG.egg, 0, 0]
+].map((a, i) => ({ id: i + 1, n: a[0], p: a[1], mrp: a[2], c: a[3], img: a[4], h: a[5], hot: a[6], s: 1 }));
 
 const SVC = [
   { id: 's1', n: 'Home Tuition (Class 6–12)', p: 800, u: '/month', img: IMG.books, d: 'Maths, Science, English & Commerce batches.' },
   { id: 's2', n: 'Wedding & Birthday Shoot', p: 5000, u: '/event', img: IMG.cam, d: '4K video, candid photos & reels.' },
   { id: 's3', n: 'Balloon & Stage Decoration', p: 3500, u: '/event', img: IMG.decor, d: 'Birthday arch, LED lights & flower stage.' },
   { id: 's4', n: 'Boys & Girls Hostel', p: 3500, u: '/month', img: IMG.hostel, d: 'Safe campus, WiFi, mess & study table.' },
-  { id: 's5', n: 'Event Bulk Catering (50+ Plate)', p: 75, u: '/plate', img: IMG.thali, d: 'Ghar jaisa swadisht khana party aur function ke liye.' }
+  { id: 's5', n: 'Party Bulk Catering (50+ Plate)', p: 80, u: '/plate', img: IMG.thali, d: 'Garma-garam Veg & Chicken catering.' }
 ];
 
 function seed() {
-  return { rev: Date.now(), prod: SEED, subs: [], orders: [], sv: [], mset: {}, cfg: { min: MIN } };
+  return {
+    rev: Date.now(), prod: SEED,
+    subs: [
+      { id: 's1', name: 'Subham Rana', phone: '8073721357', addr: 'Near Bus Stand, Udala', type: 'nv', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 1, start: iso(addD(D0(), -5)), price: 4199, paid: 1, skip: [] }
+    ],
+    orders: [], sv: [], done: {}, mset: {}, cfg: { min: MIN }
+  };
 }
 
 let S = seed();
 try { const l = JSON.parse(localStorage.getItem('nu5')); if (l && l.prod) S = { ...seed(), ...l }; } catch (e) {}
+// Ensure hot items have hot flag
+S.prod = (S.prod || SEED).map((p, i) => ({ ...SEED[i % SEED.length], ...p, hot: p.c === 'Khana' ? 1 : 0 }));
 
 let db = null;
 try {
@@ -378,99 +470,146 @@ function save() {
   render();
 }
 
-let tab = 'plan', OK = sessionStorage.getItem('nu5ok') ? 1 : 0, SCAT = 'all', SQ = '', TRK = null, SVB = null;
+let tab = 'plan', OK = sessionStorage.getItem('nu5ok') ? 1 : 0, ST = sessionStorage.getItem('nu5st') ? 1 : 0;
+let SCAT = 'all', SQ = '', PQ = null, TRK = null, SVB = null;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || []; } catch (e) {}
-const F = { type: 'veg', days: 30, meal: 'both', name: localStorage.getItem('nu_n') || '', phone: localStorage.getItem('nu_p') || '', addr: localStorage.getItem('nu_a') || '' };
+
+const F = {
+  type: 'nv', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 0,
+  name: localStorage.getItem('nu_n') || '', phone: localStorage.getItem('nu_p') || '', addr: localStorage.getItem('nu_a') || ''
+};
 
 const saveUser = () => { localStorage.setItem('nu_n', F.name); localStorage.setItem('nu_p', F.phone); localStorage.setItem('nu_a', F.addr); };
 const cc = () => Object.values(C).reduce((a, b) => a + (+b || 0), 0);
-const ct = () => Object.entries(C).reduce((a, [k, q]) => { const p = S.prod.find(x => x.id === +k); return a + (p ? p.p * q : 0); }, 0);
-const menu = (d, t) => { const o = (S.mset || {})[iso(d)]; if (o && o[t]) return o[t]; return t === 'nv' ? 'Chicken / Egg Curry + Rice + Roti' : 'Paneer / Dal Tadka + Rice + 4 Roti'; };
+const ct = () => Object.entries(C).reduce((a, [k, q]) => {
+  const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return a;
+  return a + (k.endsWith('h') ? Math.round(p.p * 0.6) : p.p) * q;
+}, 0);
 
-/* --- VIEWS --- */
+const act = (s, d) => {
+  const k = iso(d);
+  if ((s.skip || []).includes(k)) return false;
+  return k >= s.start && k <= iso(addD(new Date(s.start + 'T12:00'), (s.days || 30) - 1));
+};
+
+const menu = (d, t) => {
+  const o = (S.mset || {})[iso(d)];
+  if (o && o[t]) return o[t];
+  if (t === 'bf') return 'Garma-Garam Puri Sabzi / Paratha + Chai';
+  return t === 'nv' ? 'Hot Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Paneer Butter Masala + Dal Tadka + Rice + 4 Roti';
+};
+
+const calcPlanPrice = () => {
+  const d = +F.days || 30;
+  let base = PL[F.type][d] || 2899;
+  if (+F.times === 3) base += d * 25; // 3-time meal includes morning breakfast
+  if (F.lunch === 'both') base += d * 10;
+  if (F.dinner === 'both') base += d * 10;
+  base += (+F.extraRoti || 0) * 5 * d;
+  return base;
+};
+
+/* --- 1. TIFFIN (3-TIME KHANA) VIEW --- */
 function vPlan() {
-  const pr = PL[F.type][F.days] + (F.meal === 'both' ? F.days * 15 : 0);
+  const pr = calcPlanPrice();
   const myOrds = (S.orders || []).filter(o => MY.includes(o.id) || (F.phone && o.phone === ph(F.phone))).slice().reverse();
   const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (F.phone && s.phone === ph(F.phone))).slice().reverse();
 
   return `
-  <div class="hero3d">
-    <h2>Ghar Jaisa Garma-Garam Tiffin</h2>
-    <p>Roz Lunch aur Dinner seedha aapke ghar · Free Delivery</p>
-    <div class="float3d">🍱</div>
+  <div class="hero3d" data-a="pq" data-id="1">
+    ${steamHTML()}
+    <h2>3-Time Garma-Garam Ghar Jaisa Khana</h2>
+    <p>🌅 Subah Nashta · ☀️ Dopahar Lunch · 🌙 Raat Dinner (Touch Chicken 🍗)</p>
+    <div class="float3d">🍗</div>
   </div>
 
   <div class="card">
-    <h3>🍽️ Aaj Ka Fresh Menu <span style="font-size:12px;color:var(--mu)">${iso(D0())}</span></h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div style="background:var(--sf2);padding:12px;border-radius:16px;box-shadow:var(--sh-in)">
-        <small style="color:#16a34a;font-weight:800">🟢 VEG THALI</small>
-        <div style="font-weight:800;font-size:13.5px;margin-top:4px">${esc(menu(D0(), 'veg'))}</div>
+    <h3>🔥 Aaj Ka 3-Time Live Menu <span style="font-size:11.5px;color:var(--mu)">${iso(D0())}</span></h3>
+    <div style="background:var(--sf2);padding:11px;border-radius:15px;box-shadow:var(--sh-in);margin-bottom:9px">
+      <small style="color:var(--o);font-weight:800">🌅 1. SUBAH NASHTA (7:30 AM)</small>
+      <div style="font-weight:800;font-size:13.5px;margin-top:2px">${esc(menu(D0(), 'bf'))}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+      <div style="background:var(--sf2);padding:11px;border-radius:15px;box-shadow:var(--sh-in);cursor:pointer" data-a="pq" data-id="4">
+        <small style="color:#16a34a;font-weight:800">☀️🌙 VEG LUNCH/DINNER</small>
+        <div style="font-weight:800;font-size:13px;margin-top:3px">${esc(menu(D0(), 'veg'))}</div>
       </div>
-      <div style="background:var(--sf2);padding:12px;border-radius:16px;box-shadow:var(--sh-in)">
-        <small style="color:#e11d48;font-weight:800">🔴 NON-VEG THALI</small>
-        <div style="font-weight:800;font-size:13.5px;margin-top:4px">${esc(menu(D0(), 'nv'))}</div>
+      <div style="background:var(--sf2);padding:11px;border-radius:15px;box-shadow:var(--sh-in);cursor:pointer" data-a="pq" data-id="1">
+        <small style="color:#e11d48;font-weight:800">🍗 NON-VEG (Touch 3D)</small>
+        <div style="font-weight:800;font-size:13px;margin-top:3px">${esc(menu(D0(), 'nv'))}</div>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h3>✨ 3 Step Mein Tiffin Shuru Karein</h3>
-    <span class="lbl">1. Khana chunein</span>
+    <h3>🍱 Apna Tiffin Plan Chunein</h3>
+
+    <span class="lbl">1. Kitne Time Khana Chahiye?</span>
+    <div class="seg">
+      <button class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">🌅☀️🌙 3 Time (Nashta+Lunch+Dinner)</button>
+      <button class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">☀️🌙 2 Time (Lunch+Dinner)</button>
+    </div>
+
+    <span class="lbl">2. Veg ya Non-Veg?</span>
     <div class="seg">
       <button class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">🟢 Pure Veg</button>
-      <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">🔴 Non-Veg</button>
+      <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">🍗 Non-Veg (Chicken/Fish/Egg)</button>
     </div>
 
-    <span class="lbl">2. Kitne din ka plan?</span>
+    <span class="lbl">3. Kitne Din Ka Plan?</span>
     <div class="seg">
       <button class="${+F.days === 7 ? 'on' : ''}" data-a="fset" data-k="days" data-v="7">7 Din</button>
       <button class="${+F.days === 15 ? 'on' : ''}" data-a="fset" data-k="days" data-v="15">15 Din</button>
       <button class="${+F.days === 30 ? 'on' : ''}" data-a="fset" data-k="days" data-v="30">30 Din (Best)</button>
     </div>
 
-    <span class="lbl">3. Roti ya Chawal?</span>
+    <span class="lbl">4. Dopahar (Lunch) & Raat (Dinner) Preference</span>
     <div class="seg">
-      <button class="${F.meal === 'roti' ? 'on' : ''}" data-a="fset" data-k="meal" data-v="roti">🫓 Sirf Roti</button>
-      <button class="${F.meal === 'chawal' ? 'on' : ''}" data-a="fset" data-k="meal" data-v="chawal">🍚 Chawal</button>
-      <button class="${F.meal === 'both' ? 'on' : ''}" data-a="fset" data-k="meal" data-v="both">🍱 Dono (+₹15/d)</button>
+      <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">🍚 Lunch: Chawal</button>
+      <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">🫓 Lunch: Roti</button>
+      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">🍱 Dono (+₹10)</button>
     </div>
 
-    <span class="lbl">Delivery Address</span>
+    <span class="lbl">Delivery Details</span>
     <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
     <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-digit Mobile Number" value="${esc(F.phone)}">
     <input class="inp" data-f="addr" placeholder="Pura Address (Ward / Landmark)" value="${esc(F.addr)}">
 
     <div class="tot">
-      <span>Kul Price (${F.days} Din)</span>
+      <span>${F.days} Din (${F.times} Time/Din)</span>
       <b>${inr(pr)}</b>
     </div>
-    <button class="btn" data-a="sub">🚀 Tiffin Plan Book Karein</button>
+    <button class="btn" data-a="sub">🚀 Tiffin Shuru Karein · ${inr(pr)}</button>
     <button class="btn g" data-a="trial">🎁 1 Din FREE Trial Mangwayein</button>
   </div>
 
   ${(mySubs.length || myOrds.length) ? `
   <div class="card">
-    <h3>📦 Mere Orders & Plans</h3>
-    ${mySubs.map(s => `<div class="row"><div><b>🍱 ${s.days} Din ${s.type === 'veg' ? 'Veg' : 'Non-Veg'} Plan</b><div style="font-size:12px;color:var(--mu)">Start: ${s.start} · ${inr(s.price)}</div></div><span style="font-weight:800;color:${s.paid ? '#16a34a' : '#f59e0b'}">${s.paid ? '✅ Active' : '⏳ Payment Due'}</span></div>`).join('')}
-    ${myOrds.map(o => `<div class="row"><div><b>🛒 Order #${String(o.id).slice(-5)} (${inr(o.total)})</b><div style="font-size:12px;color:var(--mu)">${o.items.length} items · ${o.date}</div></div><button class="btn w sm" data-a="trk" data-id="${o.id}">Track / Pay</button></div>`).join('')}
+    <h3>📦 Live Tracking (Mere Orders & Tiffin)</h3>
+    ${mySubs.map(s => `<div class="row"><div><b>🍱 ${s.days}d ${s.type === 'nv' ? '🍗 Non-Veg' : '🟢 Veg'} (${s.times || 2} Time)</b><div style="font-size:12px;color:var(--mu)">Start: ${s.start} · ${S.done[iso(D0()) + '_' + s.id] ? '✅ Aaj Delivered' : '🛵 On Route'}</div></div><span style="font-weight:800;color:${s.paid ? '#16a34a' : '#f59e0b'}">${s.paid ? 'Active' : 'Due'}</span></div>`).join('')}
+    ${myOrds.map(o => `<div class="row"><div><b>🛒 Order #${String(o.id).slice(-5)} (${inr(o.total)})</b><div style="font-size:12px;color:var(--mu)">${o.items.length} item · ${o.dlv ? '✅ Delivered' : '🛵 Coming'}</div></div><button class="btn w sm" data-a="trk" data-id="${o.id}">Track</button></div>`).join('')}
   </div>` : ''}`;
 }
 
+/* --- 2. 3D SHOP VIEW (WITH STEAMING CHICKEN & FOOD) --- */
 function vShop() {
   const q = SQ.trim().toLowerCase();
   const list = S.prod.filter(p => (SCAT === 'all' || p.c === SCAT) && (!q || p.n.toLowerCase().includes(q)));
   const n = cc(), tot = ct();
 
   return `
-  <div class="hero3d green">
-    <h2>Daily Kirana & Doodh Store</h2>
-    <p>30 Minute Express Delivery · Min Order ${inr(S.cfg.min)}</p>
-    <div class="float3d">🛒</div>
+  <div class="hero3d green" data-a="pq" data-id="1">
+    ${steamHTML()}
+    <h2>Garma-Garam Chicken, Khana & Kirana</h2>
+    <p>Kisi bhi item ko touch karein — 3D Dhua ke saath bahar aayega!</p>
+    <div class="float3d">🍗</div>
   </div>
 
-  <input class="inp" id="sq" placeholder="🔍 Doodh, Atta, Paneer, Surf dhundhein..." value="${esc(SQ)}" style="margin-bottom:12px">
+  <div style="display:flex;gap:8px;margin-bottom:12px">
+    <input class="inp" id="sq" placeholder="🔍 Chicken, Paneer, Doodh, Atta dhundhein..." value="${esc(SQ)}" style="margin:0;flex:1">
+    <button class="btn w sm" data-a="voice" style="padding:0 16px">🎤</button>
+  </div>
 
   <div class="chips">
     ${CATS.map(c => `<button class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}">${c[1]}</button>`).join('')}
@@ -478,17 +617,20 @@ function vShop() {
 
   <div class="grid">
     ${list.map(p => {
-      const qty = C[p.id] || 0, off = p.mrp ? Math.round((1 - p.p / p.mrp) * 100) : 0;
+      const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0, qty = qf + qh;
+      const off = p.mrp ? Math.round((1 - p.p / p.mrp) * 100) : 0;
       return `<div class="pcard">
-        <div class="pimg">
+        <div class="pimg" data-a="pq" data-id="${p.id}">
+          ${p.hot ? steamHTML() : ''}
           <img src="${p.img}" alt="${esc(p.n)}" loading="lazy">
           ${off > 0 ? `<span class="badge">${off}% OFF</span>` : ''}
+          ${p.hot ? `<span class="hot-tag">🔥 GARMA-GARAM 3D</span>` : ''}
         </div>
-        <div class="pname">${esc(p.n)}</div>
+        <div class="pname" data-a="pq" data-id="${p.id}">${esc(p.n)}</div>
         <div class="pprice"><b>${inr(p.p)}</b>${p.mrp ? `<s>${inr(p.mrp)}</s>` : ''}</div>
         ${!p.s ? `<button class="btn w" disabled style="margin-top:auto">Khatam</button>` :
-          qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qty}</b><button data-a="inc" data-id="${p.id}">+</button></div>` :
-          `<button class="btn g" style="margin-top:auto;padding:10px" data-a="inc" data-id="${p.id}">+ ADD</button>`}
+          qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` :
+          `<button class="btn g" style="margin-top:auto;padding:10px" data-a="pq" data-id="${p.id}">🔥 Touch 3D / +ADD</button>`}
       </div>`;
     }).join('')}
   </div>
@@ -496,11 +638,12 @@ function vShop() {
   ${n ? `<div class="cbar" data-a="goco"><span>🛒 ${n} Item · ${inr(tot)}</span><span>Checkout ↓</span></div>` : ''}
 
   <div class="card" id="co">
-    <h3>🛍️ Aapka Cart (${n} items)</h3>
-    ${!n ? `<p style="color:var(--mu);font-size:13.5px">Upar se saaman add karein.</p>` : `
-      ${Object.entries(C).filter(x => x[1] > 0).map(([id, q]) => {
-        const p = S.prod.find(x => x.id === +id); if (!p) return '';
-        return `<div class="row"><div><b>${esc(p.n)}</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)} × ${q}</div></div><div class="qty" style="width:115px;margin:0"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div></div>`;
+    <h3>🛍️ Cart & Express Delivery (${n} items)</h3>
+    ${!n ? `<p style="color:var(--mu);font-size:13.5px">Upar kisi bhi khane ya saaman pe touch karke add karein.</p>` : `
+      ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
+        const p = S.prod.find(x => x.id === parseInt(k)); if (!p) return '';
+        const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+        return `<div class="row"><div><b>${esc(p.n)}${isH ? ' (½ Half)' : ''}</b><div style="font-size:12px;color:var(--mu)">${inr(pr)} × ${q}</div></div><div class="qty" style="width:110px;margin:0"><button data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div></div>`;
       }).join('')}
       <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
       ${tot < S.cfg.min ? `<p style="color:#dc2626;font-weight:800;font-size:12.5px;margin-top:8px">⚠️ Minimum order ${inr(S.cfg.min)} hai (${inr(S.cfg.min - tot)} aur jodein)</p>` : ''}
@@ -512,17 +655,110 @@ function vShop() {
   </div>`;
 }
 
+/* --- 3. KITCHEN LIVE VIEW (COOK / CHEF) --- */
+function vKitchen() {
+  const k = iso(D0()), on = (S.subs || []).filter(s => act(s, D0()));
+  const veg = on.filter(s => s.type === 'veg').length, nv = on.length - veg;
+  const bfCount = on.filter(s => (+s.times || 2) === 3).length;
+  const roti = on.length * 4 + on.reduce((a, s) => a + (+s.extraRoti || 0), 0);
+  const shopHot = (S.orders || []).filter(o => !o.dlv);
+
+  return `
+  <div class="hero3d green">
+    ${steamHTML()}
+    <h2>🍳 Live Kitchen Counter</h2>
+    <p>Aaj (${k}) kitna khana aur dabba taiyar karna hai</p>
+    <div class="float3d">👨‍🍳</div>
+  </div>
+
+  <div class="kpi">
+    <div><b>${on.length}</b><span>Kul Tiffin</span></div>
+    <div><b>${bfCount}</b><span>🌅 Nashta</span></div>
+    <div><b>${veg} / ${nv}</b><span>🟢Veg / 🍗NV</span></div>
+    <div><b>${roti}</b><span>🫓 Kul Roti</span></div>
+    <div><b>${on.length}</b><span>🍚 Chawal</span></div>
+    <div><b>${shopHot.length}</b><span>🛒 Shop Order</span></div>
+  </div>
+
+  <div class="card">
+    <h3>🍱 Aaj Ke Active Tiffin Dabbe (${on.length})</h3>
+    ${on.map(s => `<div class="row">
+      <div>
+        <b>${esc(s.name)} ${s.type === 'nv' ? '🍗 Non-Veg' : '🟢 Veg'} (${s.times || 2} Time)</b>
+        <div style="font-size:12px;color:var(--mu)">Lunch: ${s.lunch || 'chawal'} · Dinner: ${s.dinner || 'roti'}</div>
+      </div>
+      <button class="btn w sm" data-a="skip" data-id="${s.id}">Aaj Skip</button>
+    </div>`).join('') || '<p style="color:var(--mu)">Aaj koi active tiffin nahi hai.</p>'}
+  </div>
+
+  <div class="card">
+    <h3>🔥 Kitchen Shop Orders (${shopHot.length})</h3>
+    ${shopHot.map(o => `<div class="row">
+      <div><b>#${String(o.id).slice(-5)} · ${esc(o.name)}</b><div style="font-size:12.5px;color:var(--o);font-weight:800">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div></div>
+      <button class="btn g sm" data-a="odlv" data-id="${o.id}">✅ Ready/Sent</button>
+    </div>`).join('') || '<p style="color:var(--mu)">Sab pack ho gaya!</p>'}
+  </div>`;
+}
+
+/* --- 4. DELIVERY BOY (ROUTE) VIEW --- */
+function vDelivery() {
+  const k = iso(D0());
+  const subs = (S.subs || []).filter(s => act(s, D0()));
+  const pendSubs = subs.filter(s => !S.done[k + '_' + s.id]);
+  const pendOrds = (S.orders || []).filter(o => !o.dlv);
+
+  return `
+  <div class="hero3d">
+    <h2>🛵 Delivery Boy Live Route</h2>
+    <p>${pendSubs.length} Tiffin Baaki · ${pendOrds.length} Shop Order Baaki</p>
+    <div class="float3d">🛵</div>
+  </div>
+
+  ${pendSubs.length ? `<button class="btn g" style="margin-bottom:14px" data-a="allsub">✅ Sab ${pendSubs.length} Tiffin Delivered Mark Karein</button>` : ''}
+
+  <div class="card">
+    <h3>🍱 Tiffin Delivery Route (${pendSubs.length} Baaki)</h3>
+    ${pendSubs.map(s => `<div class="row" style="flex-direction:column;align-items:stretch">
+      <div style="display:flex;justify-content:space-between">
+        <b>${esc(s.name)} (${s.type === 'nv' ? '🍗 NV' : '🟢 Veg'})</b>
+        <span style="font-size:12px;font-weight:800;color:var(--o)">${s.times || 2} Time</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--mu);margin:4px 0 8px">📍 ${esc(s.addr)}</div>
+      <div class="btn-row">
+        <a class="btn w sm" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' Udala')}" target="_blank">📍 Map</a>
+        <a class="btn w sm" href="tel:+91${esc(s.phone)}">📞 Call</a>
+        <button class="btn g sm" data-a="sdone" data-id="${s.id}">✅ De Diya</button>
+      </div>
+    </div>`).join('') || '<p style="color:#16a34a;font-weight:800">🎉 Saare Tiffin Deliver Ho Gaye!</p>'}
+  </div>
+
+  <div class="card">
+    <h3>🛒 Shop Order Delivery (${pendOrds.length} Baaki)</h3>
+    ${pendOrds.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
+      <div style="display:flex;justify-content:space-between">
+        <b>${esc(o.name)} — ${inr(o.total)}</b>
+        <span style="font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'PAID' : 'CASH/UPI LO'}</span>
+      </div>
+      <div style="font-size:12px;color:var(--mu);margin:4px 0">📍 ${esc(o.addr)} · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
+      <div class="btn-row" style="margin-top:6px">
+        <a class="btn w sm" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' Udala')}" target="_blank">📍 Map</a>
+        <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
+        <button class="btn g sm" data-a="odlv" data-id="${o.id}">✅ Delivered</button>
+      </div>
+    </div>`).join('') || '<p style="color:#16a34a;font-weight:800">🎉 Saare Shop Orders Deliver Ho Gaye!</p>'}`;
+}
+
+/* --- 5. SERVICES VIEW --- */
 function vServices() {
   return `
   <div class="hero3d purple">
-    <h2>Udala Local Services & Catering</h2>
-    <p>Tuition · Photography · Decoration · Hostel · Party Order</p>
+    <h2>🎪 Udala Local Services & Catering</h2>
+    <p>Tuition · Photography · Decoration · Hostel · Party Catering</p>
     <div class="float3d">🎪</div>
   </div>
-
   ${SVC.map(s => `
     <div class="card" style="display:flex;gap:14px;align-items:center">
-      <img src="${s.img}" style="width:88px;height:88px;border-radius:16px;box-shadow:0 6px 14px rgba(0,0,0,0.18)">
+      <img src="${s.img}" style="width:86px;height:86px;border-radius:16px;box-shadow:0 8px 16px rgba(0,0,0,0.2)">
       <div style="flex:1">
         <div style="font-weight:800;font-size:15px">${esc(s.n)}</div>
         <p style="font-size:12px;color:var(--mu);margin:4px 0 8px">${esc(s.d)}</p>
@@ -535,76 +771,105 @@ function vServices() {
   `).join('')}`;
 }
 
+/* --- 6. OWNER PANEL --- */
 function vOwner() {
   const ords = (S.orders || []).slice().reverse();
   const subs = (S.subs || []).slice().reverse();
-  const svs = (S.sv || []).slice().reverse();
   return `
   <div class="hero3d purple">
-    <h2>Owner Control Panel</h2>
-    <p>Orders, Tiffin, Menu aur Stock ek hi jagah</p>
-    <div class="float3d">📊</div>
+    <h2>📊 Owner Control Room</h2>
+    <p>Menu, Orders, Tiffin aur Stock Control (PIN: 4827)</p>
+    <div class="float3d">👑</div>
   </div>
 
   <div class="card">
-    <h3>🍽️ Aaj Ka Menu Update (${iso(D0())})</h3>
-    <input class="inp" id="m_veg" value="${esc(menu(D0(), 'veg'))}" placeholder="Veg Menu">
-    <input class="inp" id="m_nv" value="${esc(menu(D0(), 'nv'))}" placeholder="Non-Veg Menu">
-    <button class="btn g" data-a="savem">💾 Menu Save Karein</button>
+    <h3>🍽️ Aaj Ka 3-Time Menu Update (${iso(D0())})</h3>
+    <span class="lbl">🌅 Subah Nashta</span>
+    <input class="inp" id="m_bf" value="${esc(menu(D0(), 'bf'))}">
+    <span class="lbl">🟢 Pure Veg Menu</span>
+    <input class="inp" id="m_veg" value="${esc(menu(D0(), 'veg'))}">
+    <span class="lbl">🍗 Non-Veg Menu</span>
+    <input class="inp" id="m_nv" value="${esc(menu(D0(), 'nv'))}">
+    <button class="btn g" data-a="savem">💾 Live Menu Save Karein</button>
   </div>
 
   <div class="card">
     <h3>🛒 Shop Orders (${ords.length})</h3>
     ${ords.map(o => `<div class="row">
-      <div>
-        <b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
-        <div style="font-size:12px;color:var(--mu)">${esc(o.addr)} · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
-      </div>
-      <div style="display:flex;gap:6px">
+      <div><b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b><div style="font-size:12px;color:var(--mu)">${o.items.map(i => i.n + '×' + i.q).join(', ')}</div></div>
+      <div style="display:flex;gap:5px">
         ${!o.paid ? `<button class="btn g sm" data-a="opaid" data-id="${o.id}">Paid</button>` : ''}
-        ${!o.dlv ? `<button class="btn sm" data-a="odlv" data-id="${o.id}">Deliver</button>` : '<span style="font-weight:800;color:#16a34a">✅ Done</span>'}
+        ${!o.dlv ? `<button class="btn sm" data-a="odlv" data-id="${o.id}">Done</button>` : '✅'}
         <button class="btn w sm" data-a="prt" data-id="${o.id}">🖨️</button>
       </div>
     </div>`).join('') || '<p style="color:var(--mu)">Koi order nahi</p>'}
   </div>
 
   <div class="card">
-    <h3>🍱 Tiffin Plans (${subs.length})</h3>
+    <h3>🍱 Tiffin Subscriptions (${subs.length})</h3>
     ${subs.map(s => `<div class="row">
-      <div><b>${esc(s.name)} (${esc(s.phone)})</b><div style="font-size:12px;color:var(--mu)">${s.days}d ${s.type} · ${s.meal} · ${inr(s.price)}</div></div>
+      <div><b>${esc(s.name)} (${esc(s.phone)})</b><div style="font-size:12px;color:var(--mu)">${s.days}d · ${s.times || 2} Time · ${inr(s.price)}</div></div>
       ${s.paid ? '<span style="color:#16a34a;font-weight:800">✅ Paid</span>' : `<button class="btn g sm" data-a="spaid" data-id="${s.id}">Mark Paid</button>`}
-    </div>`).join('') || '<p style="color:var(--mu)">Koi plan nahi</p>'}
-  </div>
-
-  <div class="card">
-    <h3>🎪 Service Bookings (${svs.length})</h3>
-    ${svs.map(v => `<div class="row"><div><b>${esc(v.svname)}</b><div style="font-size:12px;color:var(--mu)">${esc(v.name)} (${esc(v.phone)}) · Date: ${esc(v.date)}</div></div><a class="btn g sm" href="tel:+91${esc(v.phone)}">📞 Call</a></div>`).join('') || '<p style="color:var(--mu)">Koi booking nahi</p>'}
+    </div>`).join('')}
   </div>
 
   <div class="card">
     <h3>📦 Stock On / Off</h3>
-    ${S.prod.map(p => `<div class="row"><b>${esc(p.n)} (${inr(p.p)})</b><button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? '✅ In Stock' : '🚫 Khatam'}</button></div>`).join('')}
+    ${S.prod.map(p => `<div class="row"><b>${esc(p.n)} (${inr(p.p)})</b><button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'In Stock' : 'Khatam'}</button></div>`).join('')}
   </div>`;
 }
 
+/* --- 3D POP-OUT & STEAM MODAL SHEET --- */
 function sheet() {
+  if (PQ) {
+    const p = S.prod.find(x => x.id === +PQ); if (!p) return '';
+    const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0;
+    return `<div class="ov" data-a="close_bg"><div class="sh">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-weight:800;color:var(--o)">🔥 3D REAL VIEW</span>
+        <button class="btn w sm" data-a="close">✕ Band Karein</button>
+      </div>
+      <div class="pop-stage">
+        ${p.hot ? `<div class="pop-steam"><span></span><span></span><span></span><span></span></div>` : ''}
+        <img class="pop-plate" src="${p.img}" alt="${esc(p.n)}">
+      </div>
+      <h2 style="font-size:21px;font-weight:800;text-align:center">${esc(p.n)}</h2>
+      <p style="text-align:center;color:var(--mu);font-size:12.5px;margin:4px 0 14px">${p.hot ? '♨️ Taza Garma-Garam Kitchen Se Seedha' : '✅ Fresh Quality Checked'}</p>
+
+      <div class="row">
+        <div><b>Full Plate / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div>
+        <div class="qty" style="width:120px;margin:0">
+          <button data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button data-a="inc" data-id="${p.id}">+</button>
+        </div>
+      </div>
+
+      ${p.h ? `<div class="row">
+        <div><b>½ Half Plate</b><div style="font-size:12px;color:var(--mu)">${inr(Math.round(p.p * 0.6))}</div></div>
+        <div class="qty" style="width:120px;margin:0">
+          <button data-a="dh" data-id="${p.id}">−</button><b>${qh}</b><button data-a="ih" data-id="${p.id}">+</button>
+        </div>
+      </div>` : ''}
+
+      <button class="btn" data-a="buynow" data-id="${p.id}">⚡ Abhi Order Karein</button>
+    </div></div>`;
+  }
   if (TRK) {
     const o = S.orders.find(x => x.id === TRK); if (!o) return '';
-    return `<div class="ov"><div class="sh">
+    return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <h3>🧾 Order #${String(o.id).slice(-5)}</h3>
         <button class="btn w sm" data-a="close">✕</button>
       </div>
-      <p style="font-size:13px;color:var(--mu);margin-bottom:12px">Status: <b>${o.dlv ? '✅ Delivered' : o.paid ? '🍳 Packing / On the way' : '⏳ Payment Baaki'}</b></p>
+      <p style="font-size:13px;color:var(--mu);margin-bottom:12px">Status: <b>${o.dlv ? '✅ Delivered' : o.paid ? '🍳 Kitchen Mein Ban Raha Hai' : '⏳ Payment Pending'}</b></p>
       ${o.items.map(i => `<div class="row"><span>${esc(i.n)} × ${i.q}</span><b>${inr(i.p * i.q)}</b></div>`).join('')}
       <div class="tot"><span>Total</span><b>${inr(o.total)}</b></div>
-      ${!o.paid ? `<a class="btn" href="${esc(upi(o.total, 'Order ' + o.name))}">💳 UPI App Se ${inr(o.total)} Pay Karein</a>` : ''}
+      ${!o.paid ? `<a class="btn" href="${esc(upi(o.total, 'Order ' + o.name))}">💳 UPI Se ${inr(o.total)} Pay Karein</a>` : ''}
       <button class="btn w" data-a="prt" data-id="${o.id}">🖨️ Bill Print Karein</button>
     </div></div>`;
   }
   if (SVB) {
     const s = SVC.find(x => x.id === SVB); if (!s) return '';
-    return `<div class="ov"><div class="sh">
+    return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <h3>🎪 ${esc(s.n)}</h3>
         <button class="btn w sm" data-a="close">✕</button>
@@ -619,11 +884,17 @@ function sheet() {
 }
 
 function render() {
-  const V = { plan: vPlan, shop: vShop, services: vServices, owner: vOwner };
+  const V = { plan: vPlan, shop: vShop, kitchen: vKitchen, delivery: vDelivery, services: vServices, owner: vOwner };
   $('#v').innerHTML = (V[tab] || vPlan)();
   $('#sheet').innerHTML = sheet();
-  const TABS = [['plan', '🍱', 'Tiffin'], ['shop', '🛒', 'Shop'], ['services', '🎪', 'Services']];
-  if (OK) TABS.push(['owner', '📊', 'Owner']);
+  const TABS = [
+    ['plan', '🍱', 'Tiffin'],
+    ['shop', '🍗', 'Shop'],
+    ['services', '🎪', 'Services'],
+    ['kitchen', '🍳', 'Kitchen'],
+    ['delivery', '🛵', 'Route'],
+    ['owner', '📊', 'Owner']
+  ];
   const n = cc();
   $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><span class="ni">${x[1]}</span><span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
 }
@@ -638,13 +909,36 @@ function need() {
 }
 
 const A = {
-  tab: v => { tab = v; TRK = SVB = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
-  fset: (v, k) => { F[k] = k === 'days' ? +v : v; render(); },
+  tab: v => {
+    if ((v === 'kitchen' || v === 'delivery') && !OK && !ST) {
+      const p = prompt('Staff PIN (7788) ya Owner PIN (4827) daalein:');
+      if (p === OPIN) { OK = 1; sessionStorage.setItem('nu5ok', '1'); }
+      else if (p === DPIN) { ST = 1; sessionStorage.setItem('nu5st', '1'); }
+      else { if (p !== null) toast('❌ Galat PIN'); return; }
+    }
+    if (v === 'owner' && !OK) {
+      const p = prompt('Owner PIN (4827) daalein:');
+      if (p === OPIN) { OK = 1; sessionStorage.setItem('nu5ok', '1'); }
+      else { if (p !== null) toast('❌ Galat PIN'); return; }
+    }
+    tab = v; PQ = TRK = SVB = null; render(); scrollTo({ top: 0, behavior: 'smooth' });
+  },
+  fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
   cat: v => { SCAT = v; render(); },
+  pq: (v, k, id) => { PQ = +id; render(); },
+  close: () => { PQ = TRK = SVB = null; render(); },
+  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = TRK = SVB = null; render(); } },
   inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+  ih: (v, k, id) => { C[id + 'h'] = (C[id + 'h'] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+  dh: (v, k, id) => { C[id + 'h'] = Math.max(0, (C[id + 'h'] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+  buynow: (v, k, id) => {
+    if (!C[id] && !C[id + 'h']) C[id] = 1;
+    localStorage.setItem('nu5c', JSON.stringify(C));
+    PQ = null; tab = 'shop'; render();
+    setTimeout(() => { const e = $('#co'); if (e) e.scrollIntoView({ behavior: 'smooth' }); }, 120);
+  },
   goco: () => { const e = $('#co'); if (e) e.scrollIntoView({ behavior: 'smooth' }); },
-  close: () => { TRK = SVB = null; render(); },
   trk: (v, k, id) => { TRK = id; render(); },
   svb: (v, k, id) => { SVB = id; render(); },
   svok: () => {
@@ -652,13 +946,12 @@ const A = {
     if (!F.name.trim() || ph(F.phone).length !== 10) { toast('⚠️ Naam aur Phone daalein'); return; }
     saveUser();
     S.sv.push({ id: uid('v'), svname: s.n, date: $('#sv_d').value, name: F.name.trim(), phone: ph(F.phone) });
-    SVB = null; save(); toast('🎉 Booking request bhej di gayi!');
+    SVB = null; save(); toast('🎉 Booking Request Bhej Di Gayi!');
   },
   sub: () => {
     if (!need()) return;
-    const pr = PL[F.type][F.days] + (F.meal === 'both' ? F.days * 15 : 0);
-    const id = uid('s');
-    S.subs.push({ id, name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(), type: F.type, days: F.days, meal: F.meal, start: iso(addD(D0(), 1)), price: pr, paid: 0 });
+    const pr = calcPlanPrice(), id = uid('s');
+    S.subs.push({ id, name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(), type: F.type, days: F.days, times: F.times, lunch: F.lunch, dinner: F.dinner, start: iso(addD(D0(), 1)), price: pr, paid: 0, skip: [] });
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
     save(); toast('🎉 Tiffin Plan Book Ho Gaya!');
     location.href = upi(pr, 'Tiffin ' + F.name);
@@ -666,31 +959,52 @@ const A = {
   trial: () => {
     if (!need()) return;
     const id = uid('s');
-    S.subs.push({ id, name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(), type: F.type, days: 1, meal: F.meal, start: iso(D0()), price: 0, paid: 1 });
+    S.subs.push({ id, name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(), type: F.type, days: 1, times: F.times, lunch: F.lunch, dinner: F.dinner, start: iso(D0()), price: 0, paid: 1, skip: [] });
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
     save(); toast('🎁 1 Din Free Trial Book Ho Gaya!');
   },
   order: () => {
     if (!need()) return;
     const items = []; let tot = 0;
-    Object.entries(C).forEach(([id, q]) => { const p = S.prod.find(x => x.id === +id); if (p && q > 0 && p.s) { items.push({ n: p.n, q, p: p.p }); tot += p.p * q; } });
+    Object.entries(C).forEach(([k, q]) => {
+      const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1 || !p.s) return;
+      const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+      items.push({ n: p.n + (isH ? ' (½)' : ''), q, p: pr }); tot += pr * q;
+    });
     if (tot < S.cfg.min) { toast('Minimum order ' + inr(S.cfg.min)); return; }
     const id = uid('o');
     S.orders.push({ id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(), items, total: tot, paid: 0, dlv: 0 });
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
     C = {}; localStorage.setItem('nu5c', '{}'); TRK = id; save(); toast('🎉 Order Place Ho Gaya!');
   },
+  skip: (v, k, id) => {
+    const s = S.subs.find(x => x.id === id); if (!s) return;
+    s.skip = s.skip || []; s.skip.push(iso(D0())); save(); toast('⏭️ Aaj ka dabba skip kiya gaya');
+  },
+  sdone: (v, k, id) => { S.done[iso(D0()) + '_' + id] = 1; save(); toast('✅ Tiffin Delivered!'); },
+  allsub: () => {
+    const k = iso(D0());
+    (S.subs || []).filter(s => act(s, D0())).forEach(s => S.done[k + '_' + s.id] = 1);
+    save(); toast('🎉 Saare Tiffin Delivered!');
+  },
   savem: () => {
-    S.mset[iso(D0())] = { veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() };
-    save(); toast('✅ Aaj ka menu update ho gaya');
+    S.mset[iso(D0())] = { bf: $('#m_bf').value.trim(), veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() };
+    save(); toast('✅ 3-Time Menu Update Ho Gaya!');
   },
   opaid: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.paid = 1; save(); toast('✅ Paid'); } },
   odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = 1; save(); toast('🛵 Delivered'); } },
   spaid: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.paid = 1; save(); toast('✅ Plan Paid'); } },
   stk: (v, k, id) => { const p = S.prod.find(x => x.id === +id); if (p) { p.s = p.s ? 0 : 1; save(); } },
+  voice: () => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { toast('Chrome browser use karein'); return; }
+    const r = new SR(); r.lang = 'hi-IN'; toast('🎤 Boliye kya chahiye...');
+    r.onresult = e => { SQ = e.results[0][0].transcript; SCAT = 'all'; render(); };
+    r.start();
+  },
   prt: (v, k, id) => {
     const o = S.orders.find(x => x.id === id); if (!o) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Order #${String(o.id).slice(-5)} · ${o.date} ${tm(o.ts)}</p><p>${esc(o.name)} (${esc(o.phone)})<br>${esc(o.addr)}</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>Total: ${inr(o.total)} (${o.paid ? 'PAID' : 'DUE'})</h3>`;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Bill #${String(o.id).slice(-5)} · ${o.date} ${tm(o.ts)}</p><p>${esc(o.name)} (${esc(o.phone)})<br>${esc(o.addr)}</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>Total: ${inr(o.total)} (${o.paid ? 'PAID' : 'DUE'})</h3>`;
     window.print();
   },
   theme: () => {
@@ -702,7 +1016,7 @@ const A = {
 
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-a]'); if (!b) return;
-  const f = A[b.dataset.a]; if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id); }
+  const f = A[b.dataset.a]; if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id, e); }
 });
 
 document.addEventListener('input', e => {
@@ -713,12 +1027,7 @@ document.addEventListener('input', e => {
 let taps = 0, tapT;
 $('#mark').addEventListener('click', () => {
   taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 1800);
-  if (taps >= 5) {
-    taps = 0;
-    const pin = prompt('Owner PIN daalein:');
-    if (pin === OPIN) { OK = 1; sessionStorage.setItem('nu5ok', '1'); tab = 'owner'; render(); toast('🔓 Owner Mode Active'); }
-    else if (pin !== null) toast('❌ Galat PIN');
-  }
+  if (taps >= 5) { taps = 0; A.tab('owner'); }
 });
 
 render();
