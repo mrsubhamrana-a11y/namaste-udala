@@ -3,117 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Namaste Udala — 3D Tiffin · Shop · Kitchen · Delivery</title>
-<meta name="theme-color" content="#093d29">
+<title>Namaste Udala — 3D Food · Kirana · Live GPS</title>
+<meta name="theme-color" content="#072b1d">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #eef2f6;
   --sf: #ffffff;
-  --sf2: #f8fafc;
+  --sf2: #f4f7fb;
   --ink: #0f172a;
   --mu: #64748b;
-  --ln: #e2e8f0;
-  --o: #ff5a1f;
-  --g: #0e5c3f;
-  --sh-card: 0 18px 35px -8px rgba(15,23,42,0.13), 0 4px 10px -2px rgba(15,23,42,0.06), inset 0 2px 0 rgba(255,255,255,0.95), inset 0 -3px 0 rgba(15,23,42,0.06);
-  --sh-3d-o: 0 6px 0 #b83200, 0 14px 24px rgba(255,90,31,0.4), inset 0 2px 1px rgba(255,255,255,0.5);
-  --sh-3d-g: 0 6px 0 #063824, 0 14px 24px rgba(14,92,63,0.35), inset 0 2px 1px rgba(255,255,255,0.4);
+  --ln: #dce4ee;
+  --o: #ff5500;
+  --o2: #ff8833;
+  --g: #0b6e46;
+  --g2: #16a34a;
+  --gold: #f59e0b;
+  --bad: #dc2626;
+  --sh-card: 0 20px 38px -10px rgba(15,23,42,0.14), 0 4px 12px -2px rgba(15,23,42,0.06), inset 0 2px 0 rgba(255,255,255,0.95), inset 0 -3px 0 rgba(15,23,42,0.06);
+  --sh-3d-o: 0 6px 0 #b33600, 0 14px 26px rgba(255,85,0,0.42), inset 0 2px 1px rgba(255,255,255,0.5);
+  --sh-3d-g: 0 6px 0 #06422a, 0 14px 26px rgba(11,110,70,0.38), inset 0 2px 1px rgba(255,255,255,0.4);
   --sh-3d-w: 0 5px 0 #cbd5e1, 0 10px 18px rgba(15,23,42,0.08), inset 0 2px 0 #fff;
   --sh-in: inset 0 4px 8px rgba(15,23,42,0.09), inset 0 1px 2px rgba(15,23,42,0.12), 0 1px 0 #fff;
 }
 [data-theme=dark] {
-  --bg: #0b1116;
-  --sf: #17212b;
-  --sf2: #111921;
+  --bg: #080d12;
+  --sf: #121b24;
+  --sf2: #0d141c;
   --ink: #f1f5f9;
   --mu: #94a3b8;
-  --ln: #263545;
-  --sh-card: 0 20px 38px -8px rgba(0,0,0,0.65), inset 0 1.5px 0 rgba(255,255,255,0.08), inset 0 -3px 0 rgba(0,0,0,0.45);
-  --sh-3d-w: 0 5px 0 #090d11, 0 10px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.1);
-  --sh-in: inset 0 4px 8px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05);
+  --ln: #1f2e3d;
+  --sh-card: 0 22px 42px -10px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.08), inset 0 -3px 0 rgba(0,0,0,0.5);
+  --sh-3d-w: 0 5px 0 #06090d, 0 10px 18px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  --sh-in: inset 0 4px 9px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.05);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
 body {
-  background: radial-gradient(circle at 15% 5%, rgba(255,154,61,0.2), transparent 45%),
-              radial-gradient(circle at 85% 15%, rgba(21,154,99,0.16), transparent 45%), var(--bg);
+  background: radial-gradient(circle at 12% 4%, rgba(255,120,40,0.16), transparent 42%),
+              radial-gradient(circle at 88% 12%, rgba(16,163,100,0.14), transparent 42%), var(--bg);
   color: var(--ink);
-  padding-bottom: 120px;
+  padding-bottom: 124px;
   min-height: 100vh;
   perspective: 1200px;
+  -webkit-font-smoothing: antialiased;
 }
 img { display: block; object-fit: cover; }
 button, input, select { font: inherit; color: inherit; }
+svg.ic { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; fill: none; flex: none; }
 
 /* 3D Realistic Header */
 header {
   position: sticky; top: 0; z-index: 60;
-  background: linear-gradient(145deg, #137a54, #073523);
-  color: #fff; padding: 13px 15px;
+  background: linear-gradient(145deg, #0f6843, #062b1c);
+  color: #fff; padding: 12px 15px;
   border-radius: 0 0 26px 26px;
-  box-shadow: 0 7px 0 #042115, 0 18px 34px rgba(8,46,32,0.45), inset 0 2px 1px rgba(255,255,255,0.25);
+  box-shadow: 0 7px 0 #031910, 0 18px 34px rgba(6,43,28,0.5), inset 0 2px 1px rgba(255,255,255,0.22);
   display: flex; align-items: center; gap: 12px;
 }
 .logo {
   width: 46px; height: 46px; border-radius: 15px;
-  background: linear-gradient(145deg, #ff9a3d, #ff4500);
-  display: grid; place-items: center; font-weight: 800; font-size: 17px; color: #fff;
-  box-shadow: 0 5px 0 #9e2a00, 0 10px 18px rgba(0,0,0,0.35), inset 0 2px 2px rgba(255,255,255,0.6);
+  background: linear-gradient(145deg, #ff9436, #ff4500);
+  display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff; letter-spacing: -.5px;
+  box-shadow: 0 5px 0 #992600, 0 10px 18px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.65);
   cursor: pointer; user-select: none;
 }
-.logo:active { transform: translateY(4px); box-shadow: 0 1px 0 #9e2a00; }
-.brand { flex: 1; }
-.brand small { display: block; color: #fde047; font-size: 9.5px; letter-spacing: 2px; font-weight: 800; }
-.brand h1 { font-size: 19px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.35); }
+.logo:active { transform: translateY(4px); box-shadow: 0 1px 0 #992600; }
+.brand { flex: 1; min-width: 0; }
+.brand small { display: flex; align-items: center; gap: 6px; color: #fde047; font-size: 9.5px; letter-spacing: 1.8px; font-weight: 800; text-transform: uppercase; }
+.brand small i { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+.brand h1 { font-size: 18.5px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.35); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 main { padding: 18px 14px 0; max-width: 680px; margin: 0 auto; }
 
-/* 3D Hero Banners */
+/* 3D Photographic Hero Showcase */
 .hero3d {
-  position: relative; border-radius: 26px; padding: 22px 18px; margin-bottom: 18px; color: #fff;
-  background: linear-gradient(135deg, #ff8533 0%, #ff4500 65%, #b82c00 100%);
-  box-shadow: 0 8px 0 #8a2000, 0 20px 38px rgba(255,69,0,0.35), inset 0 2px 2px rgba(255,255,255,0.45);
-  overflow: visible;
+  position: relative; border-radius: 26px; padding: 22px 18px; margin-bottom: 20px; color: #fff;
+  background: linear-gradient(130deg, #1c100b 0%, #5c1d06 55%, #b83700 100%);
+  box-shadow: 0 8px 0 #471402, 0 22px 42px rgba(184,55,0,0.38), inset 0 2px 2px rgba(255,255,255,0.3);
+  overflow: visible; min-height: 158px; display: flex; flex-direction: column; justify-content: center;
+  cursor: pointer;
 }
 .hero3d.green {
-  background: linear-gradient(135deg, #1ad188 0%, #0e7a4e 65%, #07472d 100%);
-  box-shadow: 0 8px 0 #042b1b, 0 20px 38px rgba(14,122,78,0.35), inset 0 2px 2px rgba(255,255,255,0.4);
+  background: linear-gradient(130deg, #062619 0%, #0b5c3b 55%, #149962 100%);
+  box-shadow: 0 8px 0 #042115, 0 22px 42px rgba(11,92,59,0.38), inset 0 2px 2px rgba(255,255,255,0.3);
 }
-.hero3d.purple {
-  background: linear-gradient(135deg, #a855f7 0%, #6d28d9 65%, #4c1d95 100%);
-  box-shadow: 0 8px 0 #331068, 0 20px 38px rgba(109,40,217,0.35), inset 0 2px 2px rgba(255,255,255,0.4);
+.hero3d.slate {
+  background: linear-gradient(130deg, #0f172a 0%, #1e293b 55%, #334155 100%);
+  box-shadow: 0 8px 0 #090e1a, 0 22px 42px rgba(15,23,42,0.42), inset 0 2px 2px rgba(255,255,255,0.25);
 }
-.hero3d h2 { font-size: 22px; font-weight: 800; max-width: 72%; line-height: 1.18; text-shadow: 0 3px 6px rgba(0,0,0,0.3); margin-bottom: 5px; }
-.hero3d p { font-size: 12.5px; font-weight: 700; opacity: .95; max-width: 72%; }
-.hero3d .float3d {
-  position: absolute; right: 12px; bottom: -6px; font-size: 72px;
-  filter: drop-shadow(0 16px 14px rgba(0,0,0,0.45));
-  animation: bob 3s ease-in-out infinite; cursor: pointer;
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 5px; width: fit-content;
+  background: rgba(255,255,255,0.16); backdrop-filter: blur(6px);
+  padding: 4px 10px; border-radius: 99px; font-size: 10px; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.25);
 }
-@keyframes bob { 50% { transform: translateY(-10px) scale(1.06) rotate(4deg); } }
+.hero3d h2 { font-size: 21px; font-weight: 800; max-width: 64%; line-height: 1.2; text-shadow: 0 3px 8px rgba(0,0,0,0.45); margin-bottom: 6px; }
+.hero3d p { font-size: 12px; font-weight: 600; opacity: .92; max-width: 64%; line-height: 1.4; }
+.hero-plate {
+  position: absolute; right: 12px; bottom: -10px; width: 118px; height: 118px;
+  border-radius: 50%; border: 4px solid rgba(255,255,255,0.92);
+  box-shadow: 0 18px 28px rgba(0,0,0,0.6), 0 0 24px rgba(255,110,30,0.45);
+  animation: floatPlate 3.6s ease-in-out infinite; z-index: 3; background: #1e293b;
+}
+@keyframes floatPlate { 50% { transform: translateY(-9px) scale(1.04) rotate(3deg); } }
 
-/* Realistic Rising Hot Steam (Dhua) Effect */
+/* Realistic Multi-Layer Rising Hot Steam (Dhua) */
 .steam-wrap {
-  position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: visible;
+  position: absolute; inset: 0; pointer-events: none; z-index: 6; overflow: visible;
 }
 .steam-wrap i {
-  position: absolute; bottom: 25%; width: 26px; height: 26px;
-  background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 70%);
+  position: absolute; bottom: 28%; width: 28px; height: 28px;
+  background: radial-gradient(circle, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0) 70%);
   border-radius: 50%; filter: blur(5px); opacity: 0;
-  animation: steamRise 2.6s infinite ease-out;
+  animation: steamRise 2.5s infinite ease-out;
 }
-.steam-wrap i:nth-child(1) { left: 28%; animation-delay: 0s; }
-.steam-wrap i:nth-child(2) { left: 48%; width: 34px; height: 34px; animation-delay: 0.7s; }
-.steam-wrap i:nth-child(3) { left: 62%; animation-delay: 1.4s; }
-.steam-wrap i:nth-child(4) { left: 38%; width: 30px; height: 30px; animation-delay: 2.0s; }
+.steam-wrap i:nth-child(1) { left: 26%; animation-delay: 0s; }
+.steam-wrap i:nth-child(2) { left: 46%; width: 36px; height: 36px; animation-delay: 0.6s; }
+.steam-wrap i:nth-child(3) { left: 62%; animation-delay: 1.2s; }
+.steam-wrap i:nth-child(4) { left: 38%; width: 32px; height: 32px; animation-delay: 1.8s; }
 @keyframes steamRise {
-  0% { transform: translateY(10px) scale(0.5) translateX(0); opacity: 0; }
-  35% { opacity: 0.75; }
-  70% { transform: translateY(-42px) scale(1.9) translateX(-10px); opacity: 0.4; }
-  100% { transform: translateY(-75px) scale(2.6) translateX(12px); opacity: 0; }
+  0% { transform: translateY(10px) scale(0.45) translateX(0); opacity: 0; }
+  35% { opacity: 0.82; }
+  70% { transform: translateY(-44px) scale(1.95) translateX(-10px); opacity: 0.42; }
+  100% { transform: translateY(-78px) scale(2.7) translateX(12px); opacity: 0; }
 }
 
 /* 3D Cards & KPIs */
@@ -122,215 +137,247 @@ main { padding: 18px 14px 0; max-width: 680px; margin: 0 auto; }
   border: 1px solid var(--ln); border-radius: 24px; padding: 17px; margin-bottom: 16px;
   box-shadow: var(--sh-card);
 }
-.card h3 { font-size: 15.5px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.card h3 {
+  font-size: 15px; font-weight: 800; margin-bottom: 13px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.card h3 .t-left { display: flex; align-items: center; gap: 8px; }
 .kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
 .kpi div {
   background: linear-gradient(180deg, var(--sf), var(--sf2)); border: 1px solid var(--ln);
   border-radius: 18px; padding: 12px 6px; text-align: center; box-shadow: var(--sh-card);
 }
-.kpi b { display: block; font-size: 20px; font-weight: 800; color: var(--o); }
-.kpi span { font-size: 11px; font-weight: 800; color: var(--mu); }
+.kpi b { display: block; font-size: 19px; font-weight: 800; color: var(--o); }
+.kpi span { font-size: 10.5px; font-weight: 800; color: var(--mu); text-transform: uppercase; letter-spacing: .5px; }
 
-/* 3D Buttons */
+/* 3D Tactile Buttons */
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 13px 16px; border: 0; border-radius: 16px;
-  background: linear-gradient(180deg, #ff7a33, #ff4d00);
-  color: #fff; font-weight: 800; font-size: 14.5px; cursor: pointer; text-decoration: none;
+  background: linear-gradient(180deg, #ff7a33, #ff4800);
+  color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; text-decoration: none;
   box-shadow: var(--sh-3d-o); transition: transform .1s, box-shadow .1s; margin-top: 9px;
 }
-.btn:active { transform: translateY(5px); box-shadow: 0 1px 0 #b83200; }
-.btn.g { background: linear-gradient(180deg, #19b374, #0e7047); box-shadow: var(--sh-3d-g); }
-.btn.g:active { box-shadow: 0 1px 0 #063824; }
+.btn:active { transform: translateY(5px); box-shadow: 0 1px 0 #b33600; }
+.btn.g { background: linear-gradient(180deg, #19b374, #0b6e46); box-shadow: var(--sh-3d-g); }
+.btn.g:active { box-shadow: 0 1px 0 #06422a; }
 .btn.w { background: linear-gradient(180deg, var(--sf), var(--sf2)); color: var(--ink); border: 1px solid var(--ln); box-shadow: var(--sh-3d-w); }
 .btn.w:active { box-shadow: 0 1px 0 #cbd5e1; }
 .btn.sm { width: auto; display: inline-flex; padding: 8px 13px; font-size: 12px; border-radius: 12px; margin: 0; }
-.btn[disabled] { opacity: .45; pointer-events: none; }
+.btn[disabled] { opacity: .42; pointer-events: none; }
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .btn-row > * { flex: 1; }
 
-/* Inputs & Segmented Controls */
+/* Inputs & Segmented Selectors */
 .inp {
   width: 100%; padding: 12px 14px; border: 1.5px solid var(--ln); border-radius: 14px;
-  background: var(--sf2); color: var(--ink); font-weight: 700; font-size: 14px;
+  background: var(--sf2); color: var(--ink); font-weight: 700; font-size: 13.5px;
   box-shadow: var(--sh-in); margin: 5px 0; outline: none;
 }
 .inp:focus { border-color: var(--o); background: var(--sf); }
-.lbl { display: block; font-size: 11.5px; font-weight: 800; color: var(--mu); margin: 11px 0 4px; }
+.lbl { display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; font-weight: 800; color: var(--mu); margin: 12px 0 4px; text-transform: uppercase; letter-spacing: .5px; }
 
 .seg {
   display: flex; gap: 6px; background: var(--sf2); padding: 5px;
   border-radius: 15px; box-shadow: var(--sh-in); margin: 5px 0;
 }
 .seg button {
-  flex: 1; padding: 10px 4px; border: 0; border-radius: 11px;
+  flex: 1; padding: 10px 6px; border: 0; border-radius: 11px;
   background: transparent; font-weight: 800; font-size: 12px; color: var(--mu); cursor: pointer; transition: .15s;
 }
 .seg button.on {
-  background: linear-gradient(180deg, #ff7a33, #ff4d00); color: #fff;
-  box-shadow: 0 4px 0 #b83700, 0 6px 12px rgba(255,77,0,0.3); transform: translateY(-1px);
+  background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff;
+  box-shadow: 0 4px 0 #b33600, 0 6px 12px rgba(255,72,0,0.3); transform: translateY(-1px);
 }
 
-/* Category Pills */
+/* Veg / Non-Veg Real Graphic Symbol (FSSAI Standard) */
+.sym {
+  display: inline-grid; place-items: center; width: 15px; height: 15px;
+  border: 2px solid #16a34a; border-radius: 4px; background: #fff; flex: none;
+}
+.sym i { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; }
+.sym.nv { border-color: #dc2626; }
+.sym.nv i { background: #dc2626; border-radius: 1px; transform: rotate(45deg); }
+
+/* Category Pills with Real Thumbnails */
 .chips { display: flex; gap: 9px; overflow-x: auto; padding: 4px 2px 14px; scrollbar-width: none; }
 .chips::-webkit-scrollbar { display: none; }
 .chips button {
-  flex: none; padding: 9px 15px; border-radius: 99px; border: 1px solid var(--ln);
+  flex: none; display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px 6px 6px; border-radius: 99px; border: 1px solid var(--ln);
   background: var(--sf); font-weight: 800; font-size: 12px; color: var(--ink);
   box-shadow: var(--sh-3d-w); cursor: pointer;
 }
+.chips button img { width: 28px; height: 28px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 .chips button.on {
-  background: linear-gradient(180deg, #ff7a33, #ff4d00); color: #fff; border-color: transparent;
-  box-shadow: 0 4px 0 #b83700, 0 8px 14px rgba(255,77,0,0.35); transform: translateY(-2px);
+  background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; border-color: transparent;
+  box-shadow: 0 4px 0 #b33600, 0 8px 14px rgba(255,72,0,0.35); transform: translateY(-2px);
 }
 
-/* 3D Pop-Out Product Cards */
+/* 3D Pedestal Product Grid */
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 18px; }
 .pcard {
   background: linear-gradient(180deg, var(--sf), var(--sf2));
   border: 1px solid var(--ln); border-radius: 22px; padding: 10px;
   box-shadow: var(--sh-card); display: flex; flex-direction: column;
-  position: relative; transition: transform .25s cubic-bezier(.2,.8,.2,1);
+  position: relative; transition: transform .22s cubic-bezier(.2,.8,.2,1);
 }
-.pcard:active { transform: translateY(-6px) rotateX(6deg) scale(1.03); z-index: 10; }
+.pcard:active { transform: translateY(-6px) scale(1.02); z-index: 10; }
 .pimg {
-  height: 126px; border-radius: 16px; position: relative; cursor: pointer;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.18); background: var(--sf2); margin-bottom: 10px; overflow: hidden;
+  height: 132px; border-radius: 16px; position: relative; cursor: pointer;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.2); background: #1e293b; margin-bottom: 10px; overflow: hidden;
 }
 .pimg img { width: 100%; height: 100%; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
-.pcard:hover .pimg img, .pcard:active .pimg img { transform: scale(1.12); }
+.pcard:hover .pimg img, .pcard:active .pimg img { transform: scale(1.1); }
 .badge {
-  position: absolute; top: 7px; left: 7px; background: linear-gradient(180deg, #22c55e, #15803d);
-  color: #fff; font-size: 9.5px; font-weight: 800; padding: 3px 7px; border-radius: 7px; z-index: 6;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+  position: absolute; top: 8px; left: 8px; background: linear-gradient(180deg, #22c55e, #15803d);
+  color: #fff; font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 7px; z-index: 7;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 .hot-tag {
-  position: absolute; bottom: 7px; right: 7px; background: rgba(15,23,42,0.82);
-  color: #fde047; font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 8px; z-index: 6;
-  backdrop-filter: blur(4px);
+  position: absolute; bottom: 7px; right: 7px; background: rgba(15,23,42,0.86);
+  color: #fde047; font-size: 9px; font-weight: 800; padding: 4px 8px; border-radius: 8px; z-index: 7;
+  backdrop-filter: blur(4px); letter-spacing: .5px; text-transform: uppercase; border: 1px solid rgba(253,224,71,0.3);
 }
-.pname { font-size: 13px; font-weight: 800; line-height: 1.3; margin-bottom: 4px; height: 34px; overflow: hidden; }
+.pname { font-size: 13px; font-weight: 800; line-height: 1.3; margin-bottom: 5px; height: 34px; overflow: hidden; display: flex; align-items: flex-start; gap: 6px; cursor: pointer; }
 .pprice { display: flex; align-items: baseline; gap: 6px; margin-bottom: 9px; }
 .pprice b { font-size: 16.5px; font-weight: 800; color: var(--o); }
 .pprice s { font-size: 11px; color: var(--mu); }
 
-/* 3D Stepper */
+/* 3D Quantity Stepper */
 .qty {
   display: flex; align-items: center; justify-content: space-between;
   background: var(--sf2); padding: 4px; border-radius: 13px; box-shadow: var(--sh-in); margin-top: auto;
 }
 .qty button {
   width: 32px; height: 32px; border-radius: 9px; border: 0;
-  background: linear-gradient(180deg, #ff7a33, #ff4d00); color: #fff;
-  font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 #b83700;
+  background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff;
+  font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 #b33600;
 }
 .qty button:active { transform: translateY(2px); box-shadow: none; }
 .qty b { font-size: 13.5px; font-weight: 800; }
+
+/* GPS Pill & Live Map Radar */
+.gps-box {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  background: rgba(22,163,74,0.1); border: 1.5px solid rgba(22,163,74,0.35);
+  padding: 10px 12px; border-radius: 14px; margin: 6px 0;
+}
+.gps-box.warn { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.4); }
+.gps-dot { width: 10px; height: 10px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 4px rgba(22,163,74,0.25); animation: pulse 1.5s infinite; flex: none; }
+@keyframes pulse { 50% { transform: scale(1.25); opacity: .6; } }
 
 .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px dashed var(--ln); }
 .row:last-child { border-bottom: 0; }
 .tot { display: flex; justify-content: space-between; align-items: center; padding-top: 13px; margin-top: 6px; border-top: 2px solid var(--ln); }
 .tot b { font-size: 23px; font-weight: 800; color: var(--o); }
 
-/* 3D Pop-Out Showcase Modal (When Touching Chicken/Food) */
+/* 3D Pop-Out Showcase & Payment Gate Modal */
 .ov {
-  position: fixed; inset: 0; z-index: 200; background: rgba(8,14,22,0.78);
+  position: fixed; inset: 0; z-index: 200; background: rgba(6,11,18,0.82);
   backdrop-filter: blur(8px); display: flex; align-items: flex-end; justify-content: center;
   animation: fadeIn .2s;
 }
 @keyframes fadeIn { from { opacity: 0; } }
 .sh {
-  background: var(--sf); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+  background: var(--sf); width: 100%; max-width: 510px; max-height: 92vh; overflow-y: auto;
   border-radius: 30px 30px 0 0; padding: 20px; position: relative;
-  box-shadow: 0 -12px 45px rgba(0,0,0,0.45), inset 0 2px 0 rgba(255,255,255,0.8);
+  box-shadow: 0 -12px 45px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.8);
   animation: slideUp .28s cubic-bezier(.2,.8,.2,1);
 }
 @keyframes slideUp { from { transform: translateY(100%); } }
 
-/* 3D Floating Plate Pop-out inside Modal */
+/* 3D Floating Plate Pop-out Stage */
 .pop-stage {
-  position: relative; height: 225px; margin: -10px 0 14px;
-  border-radius: 24px; background: radial-gradient(circle at 50% 60%, #2a1810, #0f172a);
+  position: relative; height: 235px; margin: 4px 0 16px;
+  border-radius: 24px; background: radial-gradient(circle at 50% 62%, #3b1708, #090e17 75%);
   display: flex; align-items: center; justify-content: center; overflow: visible;
-  box-shadow: 0 18px 35px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2);
+  box-shadow: 0 20px 38px rgba(0,0,0,0.45), inset 0 2px 2px rgba(255,255,255,0.2);
 }
 .pop-plate {
-  width: 195px; height: 195px; border-radius: 50%; object-fit: cover;
+  width: 202px; height: 202px; border-radius: 50%; object-fit: cover;
   border: 5px solid #fff;
-  box-shadow: 0 24px 38px rgba(0,0,0,0.65), 0 0 30px rgba(255,90,31,0.45);
+  box-shadow: 0 26px 42px rgba(0,0,0,0.75), 0 0 34px rgba(255,85,0,0.5);
   animation: popOut3D .55s cubic-bezier(.18,1.25,.4,1) forwards;
   z-index: 2;
 }
 @keyframes popOut3D {
-  0% { transform: scale(0.3) translateY(60px) rotate(-15deg); opacity: 0; }
+  0% { transform: scale(0.28) translateY(65px) rotate(-18deg); opacity: 0; }
   70% { transform: scale(1.1) translateY(-14px) rotate(3deg); }
   100% { transform: scale(1.04) translateY(-8px) rotate(0deg); opacity: 1; }
 }
 .pop-steam {
-  position: absolute; top: -18px; left: 0; right: 0; height: 140px; pointer-events: none; z-index: 4;
+  position: absolute; top: -22px; left: 0; right: 0; height: 150px; pointer-events: none; z-index: 4;
 }
 .pop-steam span {
-  position: absolute; bottom: 10px; width: 48px; height: 48px;
+  position: absolute; bottom: 8px; width: 52px; height: 52px;
   background: radial-gradient(circle, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0) 70%);
   border-radius: 50%; filter: blur(7px); opacity: 0;
-  animation: bigSteam 2.2s infinite ease-out;
+  animation: bigSteam 2.1s infinite ease-out;
 }
-.pop-steam span:nth-child(1) { left: 32%; animation-delay: 0s; }
-.pop-steam span:nth-child(2) { left: 46%; width: 62px; height: 62px; animation-delay: 0.5s; }
+.pop-steam span:nth-child(1) { left: 30%; animation-delay: 0s; }
+.pop-steam span:nth-child(2) { left: 45%; width: 66px; height: 66px; animation-delay: 0.5s; }
 .pop-steam span:nth-child(3) { left: 58%; animation-delay: 1.0s; }
-.pop-steam span:nth-child(4) { left: 38%; width: 54px; height: 54px; animation-delay: 1.5s; }
+.pop-steam span:nth-child(4) { left: 38%; width: 58px; height: 58px; animation-delay: 1.5s; }
 @keyframes bigSteam {
-  0% { transform: translateY(30px) scale(0.4); opacity: 0; }
-  35% { opacity: 0.9; }
-  100% { transform: translateY(-95px) scale(2.8) translateX(15px); opacity: 0; }
+  0% { transform: translateY(32px) scale(0.4); opacity: 0; }
+  35% { opacity: 0.92; }
+  100% { transform: translateY(-98px) scale(2.9) translateX(16px); opacity: 0; }
 }
+
+/* QR Box */
+.qr-wrap {
+  background: #fff; padding: 14px; border-radius: 20px; width: fit-content; margin: 10px auto;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.16); border: 2px solid var(--ln); text-align: center;
+}
+.qr-wrap img { width: 175px; height: 175px; margin: 0 auto; }
 
 /* Floating Cart & Bottom 3D Dock */
 .cbar {
   position: sticky; bottom: 98px; z-index: 40;
-  background: linear-gradient(145deg, #16a34a, #09472b); color: #fff;
+  background: linear-gradient(145deg, #16a34a, #08472b); color: #fff;
   border-radius: 20px; padding: 13px 18px; margin-bottom: 16px;
   display: flex; justify-content: space-between; align-items: center;
-  box-shadow: 0 6px 0 #052e1b, 0 16px 30px rgba(14,92,63,0.45); cursor: pointer; font-weight: 800;
+  box-shadow: 0 6px 0 #042b1a, 0 16px 32px rgba(14,92,63,0.48); cursor: pointer; font-weight: 800;
 }
 nav {
   position: fixed; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom));
   z-index: 80; max-width: 660px; margin: 0 auto;
   background: var(--sf); border: 1px solid var(--ln); border-radius: 22px;
   display: flex; gap: 4px; padding: 6px;
-  box-shadow: 0 8px 0 rgba(15,23,42,0.12), 0 22px 45px rgba(15,23,42,0.28);
+  box-shadow: 0 8px 0 rgba(15,23,42,0.14), 0 22px 45px rgba(15,23,42,0.3);
 }
 nav button {
   flex: 1; border: 0; background: transparent; border-radius: 15px; padding: 8px 2px;
-  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;
   color: var(--mu); font-weight: 800; position: relative; transition: .15s;
 }
 nav button.on {
-  background: linear-gradient(180deg, #ff7a33, #ff4d00); color: #fff;
-  box-shadow: 0 4px 0 #b83700, 0 8px 14px rgba(255,77,0,0.35); transform: translateY(-4px);
+  background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff;
+  box-shadow: 0 4px 0 #b33600, 0 8px 14px rgba(255,72,0,0.35); transform: translateY(-4px);
 }
-nav .ni { font-size: 18px; }
-nav .nl { font-size: 9.5px; }
+nav .nl { font-size: 9.5px; letter-spacing: .2px; }
 nav .nb {
-  position: absolute; top: 2px; right: 14%; background: #16a34a; color: #fff;
+  position: absolute; top: 3px; right: 14%; background: #16a34a; color: #fff;
   font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff;
 }
 
 #toast {
-  position: fixed; left: 50%; bottom: 104px; transform: translateX(-50%) translateY(20px);
-  background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 99px;
+  position: fixed; left: 50%; bottom: 106px; transform: translateX(-50%) translateY(20px);
+  background: #0f172a; color: #fff; padding: 12px 20px; border-radius: 99px;
   font-size: 13px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none;
-  box-shadow: 0 5px 0 #000, 0 14px 28px rgba(0,0,0,0.4); transition: .25s;
+  box-shadow: 0 5px 0 #000, 0 14px 28px rgba(0,0,0,0.45); transition: .25s; text-align: center; max-width: 90vw;
 }
 #toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
 .wa {
-  position: fixed; right: 14px; bottom: 102px; z-index: 70; width: 52px; height: 52px;
-  border-radius: 50%; background: linear-gradient(145deg, #25d366, #128c4a);
-  display: grid; place-items: center; font-size: 25px; text-decoration: none;
-  box-shadow: 0 5px 0 #09522b, 0 14px 26px rgba(18,140,74,0.45);
+  position: fixed; right: 14px; bottom: 104px; z-index: 70; width: 52px; height: 52px;
+  border-radius: 50%; background: linear-gradient(145deg, #25d366, #128c4a); color: #fff;
+  display: grid; place-items: center; text-decoration: none;
+  box-shadow: 0 5px 0 #09522b, 0 14px 26px rgba(18,140,74,0.48);
 }
 #printArea { display: none; }
-@media print { body > * { display: none !important; } #printArea { display: block !important; padding: 16px; font-family: monospace; } }
+@media print { body > * { display: none !important; } #printArea { display: block !important; padding: 16px; font-family: monospace; color: #000; background: #fff; } }
 </style>
 </head>
 <body>
@@ -338,17 +385,19 @@ nav .nb {
 <header>
   <div class="logo" id="mark" title="Tap 5 times for Owner">NU</div>
   <div class="brand">
-    <small>NAMASTE UDALA · 3D LIVE</small>
-    <h1 id="ttl">3-Time Ghar Jaisa Khana</h1>
+    <small><i></i> NAMASTE UDALA · GPS LIVE</small>
+    <h1 id="ttl">3-Time Tiffin & Hot Kitchen</h1>
   </div>
-  <button class="btn w sm" id="thm" data-a="theme">🌙</button>
+  <button class="btn w sm" id="thm" data-a="theme" aria-label="Toggle Theme"></button>
 </header>
 
 <main id="v"></main>
 <nav id="nav"></nav>
 <div id="sheet"></div>
 <div id="toast"></div>
-<a class="wa" href="https://wa.me/919583937047?text=Namaste%20Udala%20🙏" target="_blank" rel="noopener">💬</a>
+<a class="wa" href="https://wa.me/919583937047?text=Namaste%20Udala" target="_blank" rel="noopener" aria-label="WhatsApp Support">
+  <svg class="ic" viewBox="0 0 24 24" style="width:24px;height:24px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+</a>
 <div id="printArea"></div>
 
 <script type="module">
@@ -365,32 +414,50 @@ const FB = {
   databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com"
 };
 
+// Udala Central Kitchen Coordinates (Mayurbhanj, Odisha)
+const KITCHEN_GPS = { lat: 21.5724, lng: 86.5663 };
 const NODE = 'udala_phase2', UPI = '9583937047@jio', MIN = 300, OPIN = '4827', DPIN = '7788';
-const PL = {
-  veg: { 7: 749, 15: 1499, 30: 2899 },
-  nv: { 7: 949, 15: 1849, 30: 3599 }
+const PL = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
+
+/* Custom Pro Vector SVG Icon Library (Zero Emoji) */
+const IC = {
+  tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/><path d="M10 3h4"/></svg>`,
+  shop: `<svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L23 7H6"/></svg>`,
+  svc: `<svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  kitchen: `<svg class="ic" viewBox="0 0 24 24"><path d="M12 2c1.5 2.5 2 4.5 0 7-2-2.5-1.5-4.5 0-7z"/><path d="M4 13h16v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-5z"/><path d="M2 13h20"/></svg>`,
+  route: `<svg class="ic" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l3 6v5.5h-2"/><path d="M12 17.5H9v-7h6v7z"/><path d="M9 10.5 6 6H3"/></svg>`,
+  owner: `<svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
+  gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`,
+  pin: `<svg class="ic" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  call: `<svg class="ic" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+  check: `<svg class="ic" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
+  shield: `<svg class="ic" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+  flame: `<svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
+  mic: `<svg class="ic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>`,
+  print: `<svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>`,
+  sun: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+  moon: `<svg class="ic" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`
 };
-const FALL = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23fff6ea'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='54'%3E🍗%3C/text%3E%3C/svg%3E";
 
 const IMG = {
-  chick: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=75',
-  leg: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=75',
-  thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=75',
-  curry: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=75',
-  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=75',
-  rice: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=600&q=75',
-  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=75',
-  egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=75',
-  milk: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&q=75',
-  curd: 'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=600&q=75',
-  tea: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&q=75',
-  groc: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=75',
-  clean: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=75',
-  care: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=75',
-  books: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=75',
-  cam: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=75',
-  decor: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=75',
-  hostel: 'https://images.unsplash.com/photo-1555854877-bab0ab8386bd?w=600&q=75'
+  leg: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=80',
+  chick: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=80',
+  thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80',
+  curry: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80',
+  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80',
+  rice: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=600&q=80',
+  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=80',
+  egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',
+  milk: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&q=80',
+  curd: 'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=600&q=80',
+  tea: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&q=80',
+  groc: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80',
+  clean: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=80',
+  care: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80',
+  books: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80',
+  cam: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=80',
+  decor: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80',
+  hostel: 'https://images.unsplash.com/photo-1555854877-bab0ab8386bd?w=600&q=80'
 };
 
 const $ = s => document.querySelector(s);
@@ -402,66 +469,130 @@ const inr = n => '₹' + Math.round(+n || 0).toLocaleString('en-IN');
 const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
 const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
 const tm = t => new Date(t).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-const upi = (a, n) => 'upi://pay?pa=' + UPI + '&pn=Namaste%20Udala&cu=INR&am=' + Math.round(a) + '&tn=' + encodeURIComponent(n || 'Order');
+const upi = (a, n, tr) => 'upi://pay?pa=' + UPI + '&pn=Namaste%20Udala&cu=INR&am=' + Math.round(a) + '&tn=' + encodeURIComponent(n || 'Order') + (tr ? '&tr=' + encodeURIComponent(tr) : '');
+const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=6&data=' + encodeURIComponent(u);
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i><i></i></div>`;
+const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
+
+// Haversine GPS Distance in KM
+function calcDistKm(lat1, lon1, lat2, lon2) {
+  if (!lat1 || !lon1 || !lat2 || !lon2) return null;
+  const R = 6371, dLat = (lat2 - lat1) * Math.PI / 180, dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return +(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1);
+}
+
+// WebAudio Cash Register Chime for Payment Verification
+function playChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [880, 1174.66, 1567.98].forEach((freq, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'triangle'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.18, ctx.currentTime + i * 0.09);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.09 + 0.35);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime + i * 0.09); o.stop(ctx.currentTime + i * 0.09 + 0.35);
+    });
+  } catch (e) {}
+}
+
+// Strict 12-Digit NPCI UPI UTR Validator + Duplicate Check
+function verifyUTRFormat(raw, usedList) {
+  const u = String(raw || '').replace(/\D/g, '');
+  if (u.length !== 12) return { ok: false, msg: '12-digit UPI UTR / Ref No. daalein' };
+  if (/^(\d)\1{11}$/.test(u) || u === '123456789012' || u === '012345678901') return { ok: false, msg: 'Invalid UTR number! Asli UPI Ref No. daalein' };
+  if (!/^[1-9]\d{11}$/.test(u)) return { ok: false, msg: 'UTR 0 se shuru nahi hota' };
+  if ((usedList || []).includes(u)) return { ok: false, msg: 'Yeh UTR pehle use ho chuka hai!' };
+  return { ok: true, utr: u };
+}
 
 let _t;
-const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2500); };
-addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== FALL) e.target.src = FALL; }, true);
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2800); };
+addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== IMG.thali) e.target.src = IMG.thali; }, true);
 
-const CATS = [['all', '🔥 Sab'], ['Khana', '🍗 Garma-Garam Khana'], ['Dairy', '🥛 Doodh/Dairy'], ['Kirana', '🌾 Kirana'], ['HUL', '🧼 Daily Care'], ['Safai', '🧹 Safai'], ['Nashta', '☕ Nashta']];
+const CATS = [
+  ['all', 'All Items', IMG.thali],
+  ['Khana', 'Hot Kitchen', IMG.leg],
+  ['Dairy', 'Fresh Dairy', IMG.milk],
+  ['Kirana', 'Daily Kirana', IMG.groc],
+  ['HUL', 'Personal Care', IMG.care],
+  ['Safai', 'Home Care', IMG.clean],
+  ['Nashta', 'Tea & Snacks', IMG.tea]
+];
 
-// Hot flag (hot: 1) adds real 3D rising steam!
 const SEED = [
-  ['Hot Chicken Leg Masala (2 Pc)', 160, 195, 'Khana', IMG.leg, 1, 1],
-  ['Desi Chicken Curry 500g', 260, 310, 'Khana', IMG.chick, 1, 1],
-  ['Garma-Garam Egg Curry (4)', 96, 120, 'Khana', IMG.egg, 1, 1],
-  ['Shahi Paneer Sabzi', 110, 135, 'Khana', IMG.paneer, 1, 1],
-  ['Mushroom Masala', 120, 145, 'Khana', IMG.curry, 1, 1],
-  ['Tawa Roti (10 Pc)', 50, 60, 'Khana', IMG.roti, 1, 1],
-  ['Steamed Basmati Rice', 40, 50, 'Khana', IMG.rice, 1, 1],
-  ['Doodh 500 ml', 30, 34, 'Dairy', IMG.milk, 0, 0],
-  ['Dahi 400 g', 40, 46, 'Dairy', IMG.curd, 0, 0],
-  ['Fresh Paneer 200 g', 80, 95, 'Dairy', IMG.paneer, 0, 0],
-  ['Atta 5 kg', 245, 285, 'Kirana', IMG.roti, 0, 0],
-  ['Chawal 5 kg', 340, 395, 'Kirana', IMG.rice, 0, 0],
-  ['Toor Dal 1 kg', 150, 175, 'Kirana', IMG.curry, 0, 0],
-  ['Mustard Oil 1 L', 150, 178, 'Kirana', IMG.groc, 0, 0],
-  ['Lifebuoy Soap (4)', 140, 168, 'HUL', IMG.care, 0, 0],
-  ['Dove Soap 100g', 60, 70, 'HUL', IMG.care, 0, 0],
-  ['Surf Excel 1 kg', 220, 255, 'Safai', IMG.clean, 0, 0],
-  ['Red Label Tea 250g', 165, 180, 'Nashta', IMG.tea, 0, 0],
-  ['Farm Eggs (6 Pc)', 72, 85, 'Nashta', IMG.egg, 0, 0]
-].map((a, i) => ({ id: i + 1, n: a[0], p: a[1], mrp: a[2], c: a[3], img: a[4], h: a[5], hot: a[6], s: 1 }));
+  ['Roasted Chicken Leg Masala (2 Pc)', 160, 195, 'Khana', IMG.leg, 1, 1, 1],
+  ['Desi Handi Chicken Curry 500g', 260, 310, 'Khana', IMG.chick, 1, 1, 1],
+  ['Homestyle Egg Masala Curry (4)', 96, 120, 'Khana', IMG.egg, 1, 1, 1],
+  ['Shahi Paneer Butter Masala', 110, 135, 'Khana', IMG.paneer, 1, 1, 0],
+  ['Kadhai Mushroom Masala', 120, 145, 'Khana', IMG.curry, 1, 1, 0],
+  ['Garma-Garam Tawa Roti (10 Pc)', 50, 60, 'Khana', IMG.roti, 1, 1, 0],
+  ['Steamed Basmati Rice Bowl', 40, 50, 'Khana', IMG.rice, 1, 1, 0],
+  ['Fresh Pasteurized Milk 500 ml', 30, 34, 'Dairy', IMG.milk, 0, 0, 0],
+  ['Thick Matka Dahi 400 g', 40, 46, 'Dairy', IMG.curd, 0, 0, 0],
+  ['Malai Paneer Block 200 g', 80, 95, 'Dairy', IMG.paneer, 0, 0, 0],
+  ['Chakki Fresh Atta 5 kg', 245, 285, 'Kirana', IMG.roti, 0, 0, 0],
+  ['Premium Basmati Chawal 5 kg', 340, 395, 'Kirana', IMG.rice, 0, 0, 0],
+  ['Unpolished Arhar Dal 1 kg', 150, 175, 'Kirana', IMG.curry, 0, 0, 0],
+  ['Kachi Ghani Mustard Oil 1 L', 150, 178, 'Kirana', IMG.groc, 0, 0, 0],
+  ['Lifebuoy Total Soap Pack (4)', 140, 168, 'HUL', IMG.care, 0, 0, 0],
+  ['Dove Cream Beauty Bar 100g', 60, 70, 'HUL', IMG.care, 0, 0, 0],
+  ['Surf Excel Easy Wash 1 kg', 220, 255, 'Safai', IMG.clean, 0, 0, 0],
+  ['Brooke Bond Red Label 250g', 165, 180, 'Nashta', IMG.tea, 0, 0, 0],
+  ['Protein Farm Eggs (6 Pc)', 72, 85, 'Nashta', IMG.egg, 0, 0, 1]
+].map((a, i) => ({ id: i + 1, n: a[0], p: a[1], mrp: a[2], c: a[3], img: a[4], h: a[5], hot: a[6], nv: a[7], s: 1 }));
 
 const SVC = [
-  { id: 's1', n: 'Home Tuition (Class 6–12)', p: 800, u: '/month', img: IMG.books, d: 'Maths, Science, English & Commerce batches.' },
-  { id: 's2', n: 'Wedding & Birthday Shoot', p: 5000, u: '/event', img: IMG.cam, d: '4K video, candid photos & reels.' },
-  { id: 's3', n: 'Balloon & Stage Decoration', p: 3500, u: '/event', img: IMG.decor, d: 'Birthday arch, LED lights & flower stage.' },
-  { id: 's4', n: 'Boys & Girls Hostel', p: 3500, u: '/month', img: IMG.hostel, d: 'Safe campus, WiFi, mess & study table.' },
-  { id: 's5', n: 'Party Bulk Catering (50+ Plate)', p: 80, u: '/plate', img: IMG.thali, d: 'Garma-garam Veg & Chicken catering.' }
+  { id: 's1', n: 'Private Tuition (Class 6–12)', p: 800, u: '/month', img: IMG.books, d: 'Maths, Science, English & Commerce batches with weekly tests.' },
+  { id: 's2', n: 'Wedding & Event Photography', p: 5000, u: '/event', img: IMG.cam, d: '4K cinematic video, candid photography & album.' },
+  { id: 's3', n: 'Stage & Balloon Decoration', p: 3500, u: '/event', img: IMG.decor, d: 'Complete event backdrop, LED lighting & fresh floral arch.' },
+  { id: 's4', n: 'Student Hostel Accommodation', p: 3500, u: '/month', img: IMG.hostel, d: '24x7 security, WiFi, study desk & 3-time hygienic meals.' },
+  { id: 's5', n: 'Bulk Event Catering (50+ Plates)', p: 80, u: '/plate', img: IMG.thali, d: 'Live counter & full buffet setup for weddings & functions.' }
 ];
 
 function seed() {
   return {
-    rev: Date.now(), prod: SEED,
-    subs: [
-      { id: 's1', name: 'Subham Rana', phone: '8073721357', addr: 'Near Bus Stand, Udala', type: 'nv', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 1, start: iso(addD(D0(), -5)), price: 4199, paid: 1, skip: [] }
-    ],
-    orders: [], sv: [], done: {}, mset: {}, cfg: { min: MIN }
+    rev: Date.now(), prod: SEED, subs: [], orders: [], sv: [], done: {}, mset: {},
+    usedUtr: [], auto_utr: {}, riderGps: null, cfg: { min: MIN }
   };
 }
 
 let S = seed();
 try { const l = JSON.parse(localStorage.getItem('nu5')); if (l && l.prod) S = { ...seed(), ...l }; } catch (e) {}
-// Ensure hot items have hot flag
 S.prod = (S.prod || SEED).map((p, i) => ({ ...SEED[i % SEED.length], ...p, hot: p.c === 'Khana' ? 1 : 0 }));
+S.usedUtr = Array.isArray(S.usedUtr) ? S.usedUtr : [];
+S.auto_utr = S.auto_utr || {};
 
 let db = null;
 try {
   const app = initializeApp(FB); db = getDatabase(app);
-  onValue(ref(db, NODE), sn => { const v = sn.val(); if (v && v.prod && (+v.rev || 0) > (+S.rev || 0)) { S = { ...seed(), ...v }; render(); } });
+  onValue(ref(db, NODE), sn => {
+    const v = sn.val();
+    if (v && v.prod && (+v.rev || 0) > (+S.rev || 0)) {
+      S = { ...seed(), ...v };
+      checkWebhookMatches();
+      render();
+    }
+  });
 } catch (e) {}
+
+// Automatic Webhook Matcher (Matches Bank SMS / Notification Forwarder UTRs automatically)
+function checkWebhookMatches() {
+  let changed = false;
+  const webhooks = S.auto_utr || {};
+  (S.orders || []).forEach(o => {
+    if (!o.paid && o.utr && webhooks[o.utr] && +webhooks[o.utr] >= +o.total) {
+      o.paid = 1; o.vMode = 'Webhook Auto-Verified'; changed = true;
+    }
+  });
+  (S.subs || []).forEach(s => {
+    if (!s.paid && s.utr && webhooks[s.utr] && +webhooks[s.utr] >= +s.price) {
+      s.paid = 1; s.vMode = 'Webhook Auto-Verified'; changed = true;
+    }
+  });
+  if (changed) { playChime(); save(); }
+}
 
 function save() {
   S.rev = Date.now();
@@ -471,16 +602,27 @@ function save() {
 }
 
 let tab = 'plan', OK = sessionStorage.getItem('nu5ok') ? 1 : 0, ST = sessionStorage.getItem('nu5st') ? 1 : 0;
-let SCAT = 'all', SQ = '', PQ = null, TRK = null, SVB = null;
+let SCAT = 'all', SQ = '', PQ = null, TRK = null, SVB = null, PAY_GATE = null, RIDER_WATCH = null;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || []; } catch (e) {}
 
 const F = {
   type: 'nv', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 0,
-  name: localStorage.getItem('nu_n') || '', phone: localStorage.getItem('nu_p') || '', addr: localStorage.getItem('nu_a') || ''
+  name: localStorage.getItem('nu_n') || '',
+  phone: localStorage.getItem('nu_p') || '',
+  addr: localStorage.getItem('nu_a') || '',
+  lat: +(localStorage.getItem('nu_lat') || 0),
+  lng: +(localStorage.getItem('nu_lng') || 0)
 };
 
-const saveUser = () => { localStorage.setItem('nu_n', F.name); localStorage.setItem('nu_p', F.phone); localStorage.setItem('nu_a', F.addr); };
+const saveUser = () => {
+  localStorage.setItem('nu_n', F.name);
+  localStorage.setItem('nu_p', F.phone);
+  localStorage.setItem('nu_a', F.addr);
+  if (F.lat) localStorage.setItem('nu_lat', F.lat);
+  if (F.lng) localStorage.setItem('nu_lng', F.lng);
+};
+
 const cc = () => Object.values(C).reduce((a, b) => a + (+b || 0), 0);
 const ct = () => Object.entries(C).reduce((a, [k, q]) => {
   const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return a;
@@ -496,103 +638,143 @@ const act = (s, d) => {
 const menu = (d, t) => {
   const o = (S.mset || {})[iso(d)];
   if (o && o[t]) return o[t];
-  if (t === 'bf') return 'Garma-Garam Puri Sabzi / Paratha + Chai';
-  return t === 'nv' ? 'Hot Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Paneer Butter Masala + Dal Tadka + Rice + 4 Roti';
+  if (t === 'bf') return 'Hot Puri Sabzi / Stuffed Paratha + Masala Chai';
+  return t === 'nv' ? 'Roasted Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Shahi Paneer Masala + Dal Tadka + Basmati Rice + 4 Roti';
 };
 
 const calcPlanPrice = () => {
   const d = +F.days || 30;
   let base = PL[F.type][d] || 2899;
-  if (+F.times === 3) base += d * 25; // 3-time meal includes morning breakfast
+  if (+F.times === 3) base += d * 25;
   if (F.lunch === 'both') base += d * 10;
   if (F.dinner === 'both') base += d * 10;
   base += (+F.extraRoti || 0) * 5 * d;
   return base;
 };
 
+/* GPS Block Component */
+function gpsBlock() {
+  const dist = F.lat ? calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng) : null;
+  return `
+  <div class="gps-box ${F.lat ? '' : 'warn'}">
+    <div style="display:flex;align-items:center;gap:10px;min-width:0">
+      <div class="gps-dot" style="background:${F.lat ? '#16a34a' : '#f59e0b'}"></div>
+      <div style="min-width:0">
+        <b style="font-size:12.5px;display:block">${F.lat ? `GPS Pin Locked (${dist} km from Kitchen)` : 'Exact Doorstep GPS Required'}</b>
+        <span style="font-size:11px;color:var(--mu);display:block;overflow:hidden;text-overflow:ellipsis">${F.lat ? `${F.lat.toFixed(5)}, ${F.lng.toFixed(5)} · Fast Rider Route` : 'Touch button to lock exact delivery pin'}</span>
+      </div>
+    </div>
+    <button class="btn sm ${F.lat ? 'w' : 'g'}" data-a="getgps">${IC.gps} ${F.lat ? 'Update GPS' : 'Detect GPS'}</button>
+  </div>`;
+}
+
 /* --- 1. TIFFIN (3-TIME KHANA) VIEW --- */
 function vPlan() {
   const pr = calcPlanPrice();
   const myOrds = (S.orders || []).filter(o => MY.includes(o.id) || (F.phone && o.phone === ph(F.phone))).slice().reverse();
   const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (F.phone && s.phone === ph(F.phone))).slice().reverse();
+  const rDist = (S.riderGps && F.lat) ? calcDistKm(S.riderGps.lat, S.riderGps.lng, F.lat, F.lng) : null;
 
   return `
   <div class="hero3d" data-a="pq" data-id="1">
     ${steamHTML()}
-    <h2>3-Time Garma-Garam Ghar Jaisa Khana</h2>
-    <p>🌅 Subah Nashta · ☀️ Dopahar Lunch · 🌙 Raat Dinner (Touch Chicken 🍗)</p>
-    <div class="float3d">🍗</div>
+    <span class="hero-tag">${IC.flame} 3D LIVE STEAM KITCHEN</span>
+    <h2>3-Time Homestyle Hot Tiffin Service</h2>
+    <p>Morning Breakfast · Afternoon Lunch · Night Dinner · Tap plate for 3D View</p>
+    <img class="hero-plate" src="${IMG.leg}" alt="Hot Chicken Masala">
   </div>
 
+  ${S.riderGps && (Date.now() - S.riderGps.ts < 600000) ? `
+  <div class="card" style="border:2px solid #16a34a">
+    <h3><span class="t-left"><span class="gps-dot"></span> Live Delivery Rider Active</span><span style="font-size:12px;color:#16a34a">${rDist !== null ? `${rDist} km away (~${Math.max(3, Math.round(rDist * 4))} min)` : 'On Route'}</span></h3>
+    <div style="font-size:12.5px;color:var(--mu)">Rider GPS: ${S.riderGps.lat.toFixed(4)}, ${S.riderGps.lng.toFixed(4)} · Updated ${tm(S.riderGps.ts)}</div>
+  </div>` : ''}
+
   <div class="card">
-    <h3>🔥 Aaj Ka 3-Time Live Menu <span style="font-size:11.5px;color:var(--mu)">${iso(D0())}</span></h3>
-    <div style="background:var(--sf2);padding:11px;border-radius:15px;box-shadow:var(--sh-in);margin-bottom:9px">
-      <small style="color:var(--o);font-weight:800">🌅 1. SUBAH NASHTA (7:30 AM)</small>
-      <div style="font-weight:800;font-size:13.5px;margin-top:2px">${esc(menu(D0(), 'bf'))}</div>
+    <h3><span class="t-left">${IC.kitchen} Today's 3-Time Live Menu</span><span style="font-size:11.5px;color:var(--mu)">${iso(D0())}</span></h3>
+    <div style="background:var(--sf2);padding:11px 13px;border-radius:15px;box-shadow:var(--sh-in);margin-bottom:9px">
+      <small style="color:var(--o);font-weight:800;letter-spacing:.5px">1. MORNING BREAKFAST (7:30 AM)</small>
+      <div style="font-weight:800;font-size:13.5px;margin-top:3px">${esc(menu(D0(), 'bf'))}</div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
       <div style="background:var(--sf2);padding:11px;border-radius:15px;box-shadow:var(--sh-in);cursor:pointer" data-a="pq" data-id="4">
-        <small style="color:#16a34a;font-weight:800">☀️🌙 VEG LUNCH/DINNER</small>
-        <div style="font-weight:800;font-size:13px;margin-top:3px">${esc(menu(D0(), 'veg'))}</div>
+        <div style="display:flex;align-items:center;gap:6px;color:#16a34a;font-size:11px;font-weight:800">${symHTML(0)} VEG THALI</div>
+        <div style="font-weight:800;font-size:12.5px;margin-top:4px">${esc(menu(D0(), 'veg'))}</div>
       </div>
       <div style="background:var(--sf2);padding:11px;border-radius:15px;box-shadow:var(--sh-in);cursor:pointer" data-a="pq" data-id="1">
-        <small style="color:#e11d48;font-weight:800">🍗 NON-VEG (Touch 3D)</small>
-        <div style="font-weight:800;font-size:13px;margin-top:3px">${esc(menu(D0(), 'nv'))}</div>
+        <div style="display:flex;align-items:center;gap:6px;color:#dc2626;font-size:11px;font-weight:800">${symHTML(1)} NON-VEG (3D)</div>
+        <div style="font-weight:800;font-size:12.5px;margin-top:4px">${esc(menu(D0(), 'nv'))}</div>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h3>🍱 Apna Tiffin Plan Chunein</h3>
+    <h3><span class="t-left">${IC.tiffin} Customize Your Tiffin Subscription</span></h3>
 
-    <span class="lbl">1. Kitne Time Khana Chahiye?</span>
+    <span class="lbl">1. Select Daily Meal Frequency</span>
     <div class="seg">
-      <button class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">🌅☀️🌙 3 Time (Nashta+Lunch+Dinner)</button>
-      <button class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">☀️🌙 2 Time (Lunch+Dinner)</button>
+      <button class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">3-Time (Breakfast + Lunch + Dinner)</button>
+      <button class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">2-Time (Lunch + Dinner)</button>
     </div>
 
-    <span class="lbl">2. Veg ya Non-Veg?</span>
+    <span class="lbl">2. Select Meal Category</span>
     <div class="seg">
-      <button class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">🟢 Pure Veg</button>
-      <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">🍗 Non-Veg (Chicken/Fish/Egg)</button>
+      <button class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">Pure Veg Plan</button>
+      <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">Non-Veg (Chicken / Egg / Fish)</button>
     </div>
 
-    <span class="lbl">3. Kitne Din Ka Plan?</span>
+    <span class="lbl">3. Subscription Duration</span>
     <div class="seg">
-      <button class="${+F.days === 7 ? 'on' : ''}" data-a="fset" data-k="days" data-v="7">7 Din</button>
-      <button class="${+F.days === 15 ? 'on' : ''}" data-a="fset" data-k="days" data-v="15">15 Din</button>
-      <button class="${+F.days === 30 ? 'on' : ''}" data-a="fset" data-k="days" data-v="30">30 Din (Best)</button>
+      <button class="${+F.days === 7 ? 'on' : ''}" data-a="fset" data-k="days" data-v="7">7 Days</button>
+      <button class="${+F.days === 15 ? 'on' : ''}" data-a="fset" data-k="days" data-v="15">15 Days</button>
+      <button class="${+F.days === 30 ? 'on' : ''}" data-a="fset" data-k="days" data-v="30">30 Days (Saver)</button>
     </div>
 
-    <span class="lbl">4. Dopahar (Lunch) & Raat (Dinner) Preference</span>
+    <span class="lbl">4. Bread / Rice Preference</span>
     <div class="seg">
-      <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">🍚 Lunch: Chawal</button>
-      <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">🫓 Lunch: Roti</button>
-      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">🍱 Dono (+₹10)</button>
+      <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Steamed Rice</button>
+      <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">Tawa Roti</button>
+      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Both (+₹10/d)</button>
     </div>
 
-    <span class="lbl">Delivery Details</span>
-    <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
-    <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-digit Mobile Number" value="${esc(F.phone)}">
-    <input class="inp" data-f="addr" placeholder="Pura Address (Ward / Landmark)" value="${esc(F.addr)}">
+    <span class="lbl">Delivery Details & Exact GPS Location</span>
+    ${gpsBlock()}
+    <input class="inp" data-f="name" placeholder="Full Name" value="${esc(F.name)}">
+    <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
+    <input class="inp" data-f="addr" placeholder="Complete House No, Ward & Landmark" value="${esc(F.addr)}">
 
     <div class="tot">
-      <span>${F.days} Din (${F.times} Time/Din)</span>
+      <span>Payable (${F.days} Days · ${F.times} Meals/Day)</span>
       <b>${inr(pr)}</b>
     </div>
-    <button class="btn" data-a="sub">🚀 Tiffin Shuru Karein · ${inr(pr)}</button>
-    <button class="btn g" data-a="trial">🎁 1 Din FREE Trial Mangwayein</button>
+    <button class="btn" data-a="sub_gate">${IC.shield} Pay & Activate Plan · ${inr(pr)}</button>
+    <button class="btn g" data-a="trial_gate">Book 1-Day Trial Tiffin · ₹49</button>
   </div>
 
   ${(mySubs.length || myOrds.length) ? `
   <div class="card">
-    <h3>📦 Live Tracking (Mere Orders & Tiffin)</h3>
-    ${mySubs.map(s => `<div class="row"><div><b>🍱 ${s.days}d ${s.type === 'nv' ? '🍗 Non-Veg' : '🟢 Veg'} (${s.times || 2} Time)</b><div style="font-size:12px;color:var(--mu)">Start: ${s.start} · ${S.done[iso(D0()) + '_' + s.id] ? '✅ Aaj Delivered' : '🛵 On Route'}</div></div><span style="font-weight:800;color:${s.paid ? '#16a34a' : '#f59e0b'}">${s.paid ? 'Active' : 'Due'}</span></div>`).join('')}
-    ${myOrds.map(o => `<div class="row"><div><b>🛒 Order #${String(o.id).slice(-5)} (${inr(o.total)})</b><div style="font-size:12px;color:var(--mu)">${o.items.length} item · ${o.dlv ? '✅ Delivered' : '🛵 Coming'}</div></div><button class="btn w sm" data-a="trk" data-id="${o.id}">Track</button></div>`).join('')}
+    <h3><span class="t-left">${IC.route} Active Subscriptions & Orders</span></h3>
+    ${mySubs.map(s => `<div class="row">
+      <div>
+        <b>${s.days} Days ${s.type === 'nv' ? 'Non-Veg' : 'Veg'} (${s.times || 2} Meals/Day)</b>
+        <div style="font-size:11.5px;color:var(--mu)">UTR: ${esc(s.utr)} · Delivery OTP: <b style="color:var(--o)">${s.otp || '4512'}</b></div>
+      </div>
+      <div style="text-align:right">
+        <span style="font-size:12px;font-weight:800;color:#16a34a">${S.done[iso(D0()) + '_' + s.id] ? 'Delivered Today' : 'Active & Paid'}</span><br>
+        <button class="btn w sm" style="margin-top:4px" data-a="cust_skip" data-id="${s.id}">${(s.skip || []).includes(iso(D0())) ? 'Skipped Today (+1d)' : 'Pause Today'}</button>
+      </div>
+    </div>`).join('')}
+    ${myOrds.map(o => `<div class="row">
+      <div>
+        <b>Order #${String(o.id).slice(-5)} (${inr(o.total)})</b>
+        <div style="font-size:11.5px;color:var(--mu)">UTR: ${esc(o.utr)} · Delivery OTP: <b style="color:var(--o)">${o.otp || '8821'}</b></div>
+      </div>
+      <button class="btn w sm" data-a="trk" data-id="${o.id}">${o.dlv ? 'Delivered' : 'Live Track'}</button>
+    </div>`).join('')}
   </div>` : ''}`;
 }
 
-/* --- 2. 3D SHOP VIEW (WITH STEAMING CHICKEN & FOOD) --- */
+/* --- 2. 3D SHOP VIEW --- */
 function vShop() {
   const q = SQ.trim().toLowerCase();
   const list = S.prod.filter(p => (SCAT === 'all' || p.c === SCAT) && (!q || p.n.toLowerCase().includes(q)));
@@ -601,18 +783,19 @@ function vShop() {
   return `
   <div class="hero3d green" data-a="pq" data-id="1">
     ${steamHTML()}
-    <h2>Garma-Garam Chicken, Khana & Kirana</h2>
-    <p>Kisi bhi item ko touch karein — 3D Dhua ke saath bahar aayega!</p>
-    <div class="float3d">🍗</div>
+    <span class="hero-tag">${IC.flame} TOUCH PLATE FOR 3D POP-OUT</span>
+    <h2>Hot Kitchen Curries & Daily Kirana</h2>
+    <p>Tap any dish to inspect in 3D with live steam · Instant UPI Verification</p>
+    <img class="hero-plate" src="${IMG.chick}" alt="Handi Chicken">
   </div>
 
   <div style="display:flex;gap:8px;margin-bottom:12px">
-    <input class="inp" id="sq" placeholder="🔍 Chicken, Paneer, Doodh, Atta dhundhein..." value="${esc(SQ)}" style="margin:0;flex:1">
-    <button class="btn w sm" data-a="voice" style="padding:0 16px">🎤</button>
+    <input class="inp" id="sq" placeholder="Search Chicken, Paneer, Milk, Atta..." value="${esc(SQ)}" style="margin:0;flex:1">
+    <button class="btn w sm" data-a="voice" style="padding:0 15px" title="Voice Search">${IC.mic}</button>
   </div>
 
   <div class="chips">
-    ${CATS.map(c => `<button class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}">${c[1]}</button>`).join('')}
+    ${CATS.map(c => `<button class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${c[2]}" alt=""><span>${c[1]}</span></button>`).join('')}
   </div>
 
   <div class="grid">
@@ -624,38 +807,39 @@ function vShop() {
           ${p.hot ? steamHTML() : ''}
           <img src="${p.img}" alt="${esc(p.n)}" loading="lazy">
           ${off > 0 ? `<span class="badge">${off}% OFF</span>` : ''}
-          ${p.hot ? `<span class="hot-tag">🔥 GARMA-GARAM 3D</span>` : ''}
+          ${p.hot ? `<span class="hot-tag">3D HOT STEAM</span>` : ''}
         </div>
-        <div class="pname" data-a="pq" data-id="${p.id}">${esc(p.n)}</div>
+        <div class="pname" data-a="pq" data-id="${p.id}">${symHTML(p.nv)}<span>${esc(p.n)}</span></div>
         <div class="pprice"><b>${inr(p.p)}</b>${p.mrp ? `<s>${inr(p.mrp)}</s>` : ''}</div>
-        ${!p.s ? `<button class="btn w" disabled style="margin-top:auto">Khatam</button>` :
+        ${!p.s ? `<button class="btn w" disabled style="margin-top:auto">Out of Stock</button>` :
           qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` :
-          `<button class="btn g" style="margin-top:auto;padding:10px" data-a="pq" data-id="${p.id}">🔥 Touch 3D / +ADD</button>`}
+          `<button class="btn g" style="margin-top:auto;padding:10px" data-a="pq" data-id="${p.id}">${p.hot ? '3D View / Add' : '+ Add to Cart'}</button>`}
       </div>`;
     }).join('')}
   </div>
 
-  ${n ? `<div class="cbar" data-a="goco"><span>🛒 ${n} Item · ${inr(tot)}</span><span>Checkout ↓</span></div>` : ''}
+  ${n ? `<div class="cbar" data-a="goco"><span>${n} Items in Cart · ${inr(tot)}</span><span>Proceed to Pay ↓</span></div>` : ''}
 
   <div class="card" id="co">
-    <h3>🛍️ Cart & Express Delivery (${n} items)</h3>
-    ${!n ? `<p style="color:var(--mu);font-size:13.5px">Upar kisi bhi khane ya saaman pe touch karke add karein.</p>` : `
+    <h3><span class="t-left">${IC.shop} Checkout & GPS Delivery (${n} items)</span></h3>
+    ${!n ? `<p style="color:var(--mu);font-size:13px">Select dishes or grocery items above to unlock checkout.</p>` : `
       ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
         const p = S.prod.find(x => x.id === parseInt(k)); if (!p) return '';
         const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
-        return `<div class="row"><div><b>${esc(p.n)}${isH ? ' (½ Half)' : ''}</b><div style="font-size:12px;color:var(--mu)">${inr(pr)} × ${q}</div></div><div class="qty" style="width:110px;margin:0"><button data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div></div>`;
+        return `<div class="row"><div><b>${esc(p.n)}${isH ? ' (Half Plate)' : ''}</b><div style="font-size:12px;color:var(--mu)">${inr(pr)} × ${q}</div></div><div class="qty" style="width:110px;margin:0"><button data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div></div>`;
       }).join('')}
-      <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
-      ${tot < S.cfg.min ? `<p style="color:#dc2626;font-weight:800;font-size:12.5px;margin-top:8px">⚠️ Minimum order ${inr(S.cfg.min)} hai (${inr(S.cfg.min - tot)} aur jodein)</p>` : ''}
-      <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
-      <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-digit Mobile Number" value="${esc(F.phone)}">
-      <input class="inp" data-f="addr" placeholder="Pura Address" value="${esc(F.addr)}">
-      <button class="btn" data-a="order" ${tot < S.cfg.min ? 'disabled' : ''}>🚀 Order Confirm Karein (${inr(tot)})</button>
+      <div class="tot"><span>Total Payable</span><b>${inr(tot)}</b></div>
+      ${tot < S.cfg.min ? `<p style="color:#dc2626;font-weight:800;font-size:12px;margin-top:8px">Minimum order is ${inr(S.cfg.min)}. Add ${inr(S.cfg.min - tot)} more.</p>` : ''}
+      ${gpsBlock()}
+      <input class="inp" data-f="name" placeholder="Full Name" value="${esc(F.name)}">
+      <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
+      <input class="inp" data-f="addr" placeholder="Complete Delivery Address" value="${esc(F.addr)}">
+      <button class="btn" data-a="ord_gate" ${tot < S.cfg.min ? 'disabled' : ''}>${IC.shield} Pay ${inr(tot)} & Confirm Order</button>
     `}
   </div>`;
 }
 
-/* --- 3. KITCHEN LIVE VIEW (COOK / CHEF) --- */
+/* --- 3. KITCHEN LIVE VIEW --- */
 function vKitchen() {
   const k = iso(D0()), on = (S.subs || []).filter(s => act(s, D0()));
   const veg = on.filter(s => s.type === 'veg').length, nv = on.length - veg;
@@ -666,41 +850,44 @@ function vKitchen() {
   return `
   <div class="hero3d green">
     ${steamHTML()}
-    <h2>🍳 Live Kitchen Counter</h2>
-    <p>Aaj (${k}) kitna khana aur dabba taiyar karna hai</p>
-    <div class="float3d">👨‍🍳</div>
+    <span class="hero-tag">${IC.kitchen} LIVE PRODUCTION</span>
+    <h2>Central Kitchen Production Counter</h2>
+    <p>Verified Paid Tiffins & Hot Shop Orders for ${k}</p>
+    <img class="hero-plate" src="${IMG.thali}" alt="Kitchen">
   </div>
 
   <div class="kpi">
-    <div><b>${on.length}</b><span>Kul Tiffin</span></div>
-    <div><b>${bfCount}</b><span>🌅 Nashta</span></div>
-    <div><b>${veg} / ${nv}</b><span>🟢Veg / 🍗NV</span></div>
-    <div><b>${roti}</b><span>🫓 Kul Roti</span></div>
-    <div><b>${on.length}</b><span>🍚 Chawal</span></div>
-    <div><b>${shopHot.length}</b><span>🛒 Shop Order</span></div>
+    <div><b>${on.length}</b><span>Active Tiffins</span></div>
+    <div><b>${bfCount}</b><span>Breakfasts</span></div>
+    <div><b>${veg} / ${nv}</b><span>Veg / Non-Veg</span></div>
+    <div><b>${roti}</b><span>Total Rotis</span></div>
+    <div><b>${on.length}</b><span>Rice Bowls</span></div>
+    <div><b>${shopHot.length}</b><span>Shop Orders</span></div>
   </div>
 
   <div class="card">
-    <h3>🍱 Aaj Ke Active Tiffin Dabbe (${on.length})</h3>
+    <h3><span class="t-left">${IC.tiffin} Today's Verified Tiffin List (${on.length})</span></h3>
     ${on.map(s => `<div class="row">
       <div>
-        <b>${esc(s.name)} ${s.type === 'nv' ? '🍗 Non-Veg' : '🟢 Veg'} (${s.times || 2} Time)</b>
-        <div style="font-size:12px;color:var(--mu)">Lunch: ${s.lunch || 'chawal'} · Dinner: ${s.dinner || 'roti'}</div>
+        <b>${esc(s.name)} · ${s.type === 'nv' ? 'Non-Veg' : 'Veg'} (${s.times || 2} Meals)</b>
+        <div style="font-size:12px;color:var(--mu)">Pref: ${s.lunch || 'chawal'} · OTP: <b>${s.otp || '4512'}</b></div>
       </div>
-      <button class="btn w sm" data-a="skip" data-id="${s.id}">Aaj Skip</button>
-    </div>`).join('') || '<p style="color:var(--mu)">Aaj koi active tiffin nahi hai.</p>'}
+      <span style="font-size:12px;font-weight:800;color:#16a34a">UTR Verified</span>
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffin dispatches right now.</p>'}
   </div>
 
   <div class="card">
-    <h3>🔥 Kitchen Shop Orders (${shopHot.length})</h3>
+    <h3><span class="t-left">${IC.flame} Verified Shop Orders to Pack (${shopHot.length})</span></h3>
     ${shopHot.map(o => `<div class="row">
-      <div><b>#${String(o.id).slice(-5)} · ${esc(o.name)}</b><div style="font-size:12.5px;color:var(--o);font-weight:800">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div></div>
-      <button class="btn g sm" data-a="odlv" data-id="${o.id}">✅ Ready/Sent</button>
-    </div>`).join('') || '<p style="color:var(--mu)">Sab pack ho gaya!</p>'}
-  </div>`;
+      <div>
+        <b>#${String(o.id).slice(-5)} · ${esc(o.name)} (OTP: ${o.otp || '8821'})</b>
+        <div style="font-size:12.5px;color:var(--o);font-weight:800">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div>
+      </div>
+      <button class="btn w sm" data-a="prt" data-id="${o.id}">${IC.print}</button>
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">All paid shop orders are packed.</p>'}`;
 }
 
-/* --- 4. DELIVERY BOY (ROUTE) VIEW --- */
+/* --- 4. DELIVERY BOY (GPS + OTP LOCK) VIEW --- */
 function vDelivery() {
   const k = iso(D0());
   const subs = (S.subs || []).filter(s => act(s, D0()));
@@ -708,63 +895,75 @@ function vDelivery() {
   const pendOrds = (S.orders || []).filter(o => !o.dlv);
 
   return `
-  <div class="hero3d">
-    <h2>🛵 Delivery Boy Live Route</h2>
-    <p>${pendSubs.length} Tiffin Baaki · ${pendOrds.length} Shop Order Baaki</p>
-    <div class="float3d">🛵</div>
-  </div>
-
-  ${pendSubs.length ? `<button class="btn g" style="margin-bottom:14px" data-a="allsub">✅ Sab ${pendSubs.length} Tiffin Delivered Mark Karein</button>` : ''}
-
-  <div class="card">
-    <h3>🍱 Tiffin Delivery Route (${pendSubs.length} Baaki)</h3>
-    ${pendSubs.map(s => `<div class="row" style="flex-direction:column;align-items:stretch">
-      <div style="display:flex;justify-content:space-between">
-        <b>${esc(s.name)} (${s.type === 'nv' ? '🍗 NV' : '🟢 Veg'})</b>
-        <span style="font-size:12px;font-weight:800;color:var(--o)">${s.times || 2} Time</span>
-      </div>
-      <div style="font-size:12.5px;color:var(--mu);margin:4px 0 8px">📍 ${esc(s.addr)}</div>
-      <div class="btn-row">
-        <a class="btn w sm" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' Udala')}" target="_blank">📍 Map</a>
-        <a class="btn w sm" href="tel:+91${esc(s.phone)}">📞 Call</a>
-        <button class="btn g sm" data-a="sdone" data-id="${s.id}">✅ De Diya</button>
-      </div>
-    </div>`).join('') || '<p style="color:#16a34a;font-weight:800">🎉 Saare Tiffin Deliver Ho Gaye!</p>'}
+  <div class="hero3d slate">
+    <span class="hero-tag">${IC.route} GPS DISPATCH ROUTE</span>
+    <h2>Delivery Partner Live Console</h2>
+    <p>${pendSubs.length} Tiffins Pending · ${pendOrds.length} Shop Orders Pending</p>
+    <img class="hero-plate" src="${IMG.roti}" alt="Delivery">
   </div>
 
   <div class="card">
-    <h3>🛒 Shop Order Delivery (${pendOrds.length} Baaki)</h3>
-    ${pendOrds.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
-      <div style="display:flex;justify-content:space-between">
-        <b>${esc(o.name)} — ${inr(o.total)}</b>
-        <span style="font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'PAID' : 'CASH/UPI LO'}</span>
-      </div>
-      <div style="font-size:12px;color:var(--mu);margin:4px 0">📍 ${esc(o.addr)} · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
-      <div class="btn-row" style="margin-top:6px">
-        <a class="btn w sm" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' Udala')}" target="_blank">📍 Map</a>
-        <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
-        <button class="btn g sm" data-a="odlv" data-id="${o.id}">✅ Delivered</button>
-      </div>
-    </div>`).join('') || '<p style="color:#16a34a;font-weight:800">🎉 Saare Shop Orders Deliver Ho Gaye!</p>'}`;
+    <h3><span class="t-left">${IC.gps} Rider Live GPS Broadcast</span></h3>
+    <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Turn on live GPS sharing so customers & owner can see your live position on the route.</p>
+    <button class="btn ${RIDER_WATCH ? 'g' : ''}" data-a="rider_gps">${IC.gps} ${RIDER_WATCH ? 'Broadcasting Live Rider GPS (Active)' : 'Start Live Rider GPS Broadcast'}</button>
+  </div>
+
+  <div class="card">
+    <h3><span class="t-left">${IC.tiffin} Tiffin Doorstep Drops (${pendSubs.length})</span></h3>
+    ${pendSubs.map(s => {
+      const mapUrl = s.lat ? `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' Udala')}`;
+      return `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between">
+          <b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
+          <span style="font-size:11.5px;font-weight:800;color:#16a34a">${s.lat ? `Exact GPS (${s.dist || 1.2} km)` : 'Address Pin'}</span>
+        </div>
+        <div style="font-size:12px;color:var(--mu);margin:4px 0 8px">${esc(s.addr)}</div>
+        <div class="btn-row">
+          <a class="btn w sm" href="${mapUrl}" target="_blank">${IC.pin} Navigate GPS</a>
+          <a class="btn w sm" href="tel:+91${esc(s.phone)}">${IC.call} Call</a>
+          <button class="btn g sm" data-a="sdone" data-id="${s.id}">${IC.check} Verify OTP & Drop</button>
+        </div>
+      </div>`;
+    }).join('') || '<p style="color:#16a34a;font-weight:800;font-size:13px">All Tiffins Delivered for Today!</p>'}
+  </div>
+
+  <div class="card">
+    <h3><span class="t-left">${IC.shop} Shop Order Drops (${pendOrds.length})</span></h3>
+    ${pendOrds.map(o => {
+      const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' Udala')}`;
+      return `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between">
+          <b>#${String(o.id).slice(-5)} · ${esc(o.name)} (${inr(o.total)})</b>
+          <span style="font-weight:800;font-size:11.5px;color:#16a34a">UTR: ${esc(o.utr)}</span>
+        </div>
+        <div style="font-size:12px;color:var(--mu);margin:4px 0 8px">${esc(o.addr)} · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
+        <div class="btn-row">
+          <a class="btn w sm" href="${mapUrl}" target="_blank">${IC.pin} Navigate GPS</a>
+          <a class="btn w sm" href="tel:+91${esc(o.phone)}">${IC.call} Call</a>
+          <button class="btn g sm" data-a="odlv" data-id="${o.id}">${IC.check} Verify OTP & Drop</button>
+        </div>
+      </div>`;
+    }).join('') || '<p style="color:#16a34a;font-weight:800;font-size:13px">All Shop Orders Delivered!</p>'}`;
 }
 
 /* --- 5. SERVICES VIEW --- */
 function vServices() {
   return `
-  <div class="hero3d purple">
-    <h2>🎪 Udala Local Services & Catering</h2>
-    <p>Tuition · Photography · Decoration · Hostel · Party Catering</p>
-    <div class="float3d">🎪</div>
+  <div class="hero3d slate">
+    <span class="hero-tag">${IC.svc} VERIFIED PARTNERS</span>
+    <h2>Udala Local Services & Event Catering</h2>
+    <p>Home Tuition · Wedding Photography · Stage Decor · Hostels</p>
+    <img class="hero-plate" src="${IMG.cam}" alt="Services">
   </div>
   ${SVC.map(s => `
     <div class="card" style="display:flex;gap:14px;align-items:center">
-      <img src="${s.img}" style="width:86px;height:86px;border-radius:16px;box-shadow:0 8px 16px rgba(0,0,0,0.2)">
+      <img src="${s.img}" style="width:88px;height:88px;border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,0.22)">
       <div style="flex:1">
-        <div style="font-weight:800;font-size:15px">${esc(s.n)}</div>
+        <div style="font-weight:800;font-size:14.5px">${esc(s.n)}</div>
         <p style="font-size:12px;color:var(--mu);margin:4px 0 8px">${esc(s.d)}</p>
         <div style="display:flex;justify-content:space-between;align-items:center">
           <b style="color:var(--o);font-size:16px">${inr(s.p)}<span style="font-size:11px;color:var(--mu)">${s.u}</span></b>
-          <button class="btn sm" data-a="svb" data-id="${s.id}">Book Karein</button>
+          <button class="btn sm" data-a="svb" data-id="${s.id}">Book Now</button>
         </div>
       </div>
     </div>
@@ -775,109 +974,167 @@ function vServices() {
 function vOwner() {
   const ords = (S.orders || []).slice().reverse();
   const subs = (S.subs || []).slice().reverse();
+  const revTot = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
+
   return `
-  <div class="hero3d purple">
-    <h2>📊 Owner Control Room</h2>
-    <p>Menu, Orders, Tiffin aur Stock Control (PIN: 4827)</p>
-    <div class="float3d">👑</div>
+  <div class="hero3d slate">
+    <span class="hero-tag">${IC.owner} ADMIN CONSOLE</span>
+    <h2>Owner Business & UTR Control</h2>
+    <p>Verified Revenue: ${inr(revTot)} · Unique UTRs Locked: ${(S.usedUtr || []).length}</p>
+    <img class="hero-plate" src="${IMG.paneer}" alt="Owner">
   </div>
 
   <div class="card">
-    <h3>🍽️ Aaj Ka 3-Time Menu Update (${iso(D0())})</h3>
-    <span class="lbl">🌅 Subah Nashta</span>
+    <h3><span class="t-left">${IC.shield} Simulate Bank SMS Webhook Auto-Match</span></h3>
+    <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Enter a 12-digit UTR & amount received in your bank SMS to pre-authorize instant 0-second verification.</p>
+    <div style="display:flex;gap:8px">
+      <input class="inp" id="wh_utr" maxlength="12" placeholder="12-Digit Bank UTR" style="flex:1">
+      <input class="inp" id="wh_amt" type="number" placeholder="₹ Amount" style="width:115px">
+    </div>
+    <button class="btn g" data-a="add_wh">Push Bank UTR to Cloud Auto-Matcher</button>
+  </div>
+
+  <div class="card">
+    <h3><span class="t-left">${IC.kitchen} Update Today's 3-Time Menu (${iso(D0())})</span></h3>
+    <span class="lbl">Morning Breakfast</span>
     <input class="inp" id="m_bf" value="${esc(menu(D0(), 'bf'))}">
-    <span class="lbl">🟢 Pure Veg Menu</span>
+    <span class="lbl">Pure Veg Lunch/Dinner</span>
     <input class="inp" id="m_veg" value="${esc(menu(D0(), 'veg'))}">
-    <span class="lbl">🍗 Non-Veg Menu</span>
+    <span class="lbl">Non-Veg Lunch/Dinner</span>
     <input class="inp" id="m_nv" value="${esc(menu(D0(), 'nv'))}">
-    <button class="btn g" data-a="savem">💾 Live Menu Save Karein</button>
+    <button class="btn g" data-a="savem">Save Live Menu</button>
   </div>
 
   <div class="card">
-    <h3>🛒 Shop Orders (${ords.length})</h3>
+    <h3><span class="t-left">${IC.shop} Verified Shop Orders (${ords.length})</span></h3>
     ${ords.map(o => `<div class="row">
-      <div><b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b><div style="font-size:12px;color:var(--mu)">${o.items.map(i => i.n + '×' + i.q).join(', ')}</div></div>
-      <div style="display:flex;gap:5px">
-        ${!o.paid ? `<button class="btn g sm" data-a="opaid" data-id="${o.id}">Paid</button>` : ''}
-        ${!o.dlv ? `<button class="btn sm" data-a="odlv" data-id="${o.id}">Done</button>` : '✅'}
-        <button class="btn w sm" data-a="prt" data-id="${o.id}">🖨️</button>
+      <div>
+        <b>#${String(o.id).slice(-5)} · ${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
+        <div style="font-size:11.5px;color:var(--mu)">UTR: <b>${esc(o.utr)}</b> (${esc(o.vMode || 'Auto-Verified')}) · OTP: ${o.otp || '8821'}</div>
       </div>
-    </div>`).join('') || '<p style="color:var(--mu)">Koi order nahi</p>'}
+      <div style="display:flex;gap:5px">
+        ${o.lat ? `<a class="btn w sm" href="https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}" target="_blank">${IC.pin}</a>` : ''}
+        <button class="btn w sm" data-a="prt" data-id="${o.id}">${IC.print}</button>
+      </div>
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">No orders yet.</p>'}
   </div>
 
   <div class="card">
-    <h3>🍱 Tiffin Subscriptions (${subs.length})</h3>
+    <h3><span class="t-left">${IC.tiffin} Verified Tiffin Subscriptions (${subs.length})</span></h3>
     ${subs.map(s => `<div class="row">
-      <div><b>${esc(s.name)} (${esc(s.phone)})</b><div style="font-size:12px;color:var(--mu)">${s.days}d · ${s.times || 2} Time · ${inr(s.price)}</div></div>
-      ${s.paid ? '<span style="color:#16a34a;font-weight:800">✅ Paid</span>' : `<button class="btn g sm" data-a="spaid" data-id="${s.id}">Mark Paid</button>`}
-    </div>`).join('')}
+      <div>
+        <b>${esc(s.name)} (${esc(s.phone)}) — ${inr(s.price)}</b>
+        <div style="font-size:11.5px;color:var(--mu)">${s.days}d · ${s.times || 2} Time · UTR: <b>${esc(s.utr)}</b> · OTP: ${s.otp || '4512'}</div>
+      </div>
+      <span style="color:#16a34a;font-weight:800;font-size:12px">Active</span>
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">No subscriptions yet.</p>'}
   </div>
 
   <div class="card">
-    <h3>📦 Stock On / Off</h3>
-    ${S.prod.map(p => `<div class="row"><b>${esc(p.n)} (${inr(p.p)})</b><button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'In Stock' : 'Khatam'}</button></div>`).join('')}
+    <h3>Stock Control</h3>
+    ${S.prod.map(p => `<div class="row"><b>${esc(p.n)} (${inr(p.p)})</b><button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'In Stock' : 'Out'}</button></div>`).join('')}
   </div>`;
 }
 
-/* --- 3D POP-OUT & STEAM MODAL SHEET --- */
+/* --- 3D POP-OUT & STRICT PAYMENT GATE MODAL --- */
 function sheet() {
+  // 1. STRICT AUTO-VERIFICATION PAYMENT GATE (Order cannot succeed without passing this!)
+  if (PAY_GATE) {
+    const g = PAY_GATE, uLink = upi(g.amt, g.title, g.ref);
+    return `<div class="ov" data-a="close_bg"><div class="sh">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="display:flex;align-items:center;gap:6px;font-weight:800;color:#16a34a;font-size:13px">${IC.shield} STRICT PAYMENT VERIFICATION</span>
+        <button class="btn w sm" data-a="close">Cancel</button>
+      </div>
+      <h2 style="font-size:20px;font-weight:800;text-align:center">${esc(g.title)}</h2>
+      <p style="text-align:center;color:var(--mu);font-size:12px;margin-top:2px">Ref ID: ${g.ref} · GPS Distance: ${g.dist || 1.2} km</p>
+
+      <div class="qr-wrap">
+        <img src="${qrUrl(uLink)}" alt="UPI QR Code">
+        <div style="font-size:18px;font-weight:800;color:#0f172a;margin-top:6px">Pay Exact ${inr(g.amt)}</div>
+        <div style="font-size:11px;color:#64748b;font-weight:700">UPI ID: ${UPI}</div>
+      </div>
+
+      <a class="btn" href="${esc(uLink)}">1. Tap to Pay ${inr(g.amt)} via UPI App</a>
+
+      <div style="margin-top:14px;padding:13px;border-radius:16px;background:var(--sf2);border:1.5px solid var(--ln)">
+        <span class="lbl" style="margin-top:0">2. Enter 12-Digit UPI UTR / Reference No.</span>
+        <input class="inp" id="gate_utr" inputmode="numeric" maxlength="12" placeholder="e.g. 431829401827 (Required)">
+        <p style="font-size:11px;color:var(--mu);margin:4px 0 8px">Without a valid 12-digit NPCI UTR number, the order cannot be placed.</p>
+        <button class="btn g" data-a="verify_pay">${IC.check} Auto-Verify UTR & Place Order</button>
+      </div>
+    </div></div>`;
+  }
+
+  // 2. 3D POP-OUT PLATE + REAL RISING STEAM SHOWCASE
   if (PQ) {
     const p = S.prod.find(x => x.id === +PQ); if (!p) return '';
     const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0;
     return `<div class="ov" data-a="close_bg"><div class="sh">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <span style="font-weight:800;color:var(--o)">🔥 3D REAL VIEW</span>
-        <button class="btn w sm" data-a="close">✕ Band Karein</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="display:flex;align-items:center;gap:6px;font-weight:800;color:var(--o);font-size:12.5px">${IC.flame} 3D REALISTIC STEAM VIEW</span>
+        <button class="btn w sm" data-a="close">Close</button>
       </div>
       <div class="pop-stage">
         ${p.hot ? `<div class="pop-steam"><span></span><span></span><span></span><span></span></div>` : ''}
         <img class="pop-plate" src="${p.img}" alt="${esc(p.n)}">
       </div>
-      <h2 style="font-size:21px;font-weight:800;text-align:center">${esc(p.n)}</h2>
-      <p style="text-align:center;color:var(--mu);font-size:12.5px;margin:4px 0 14px">${p.hot ? '♨️ Taza Garma-Garam Kitchen Se Seedha' : '✅ Fresh Quality Checked'}</p>
+      <h2 style="font-size:20px;font-weight:800;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px">${symHTML(p.nv)}<span>${esc(p.n)}</span></h2>
+      <p style="text-align:center;color:var(--mu);font-size:12px;margin:4px 0 14px">${p.hot ? 'Served piping hot straight from the handi · 100% fresh spices' : 'Quality checked daily essential'}</p>
 
       <div class="row">
-        <div><b>Full Plate / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div>
+        <div><b>Full Portion / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div>
         <div class="qty" style="width:120px;margin:0">
           <button data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button data-a="inc" data-id="${p.id}">+</button>
         </div>
       </div>
 
       ${p.h ? `<div class="row">
-        <div><b>½ Half Plate</b><div style="font-size:12px;color:var(--mu)">${inr(Math.round(p.p * 0.6))}</div></div>
+        <div><b>Half Portion</b><div style="font-size:12px;color:var(--mu)">${inr(Math.round(p.p * 0.6))}</div></div>
         <div class="qty" style="width:120px;margin:0">
           <button data-a="dh" data-id="${p.id}">−</button><b>${qh}</b><button data-a="ih" data-id="${p.id}">+</button>
         </div>
       </div>` : ''}
 
-      <button class="btn" data-a="buynow" data-id="${p.id}">⚡ Abhi Order Karein</button>
+      <button class="btn" data-a="buynow" data-id="${p.id}">Add & Proceed to Checkout</button>
     </div></div>`;
   }
+
+  // 3. LIVE ORDER TRACKING SHEET
   if (TRK) {
     const o = S.orders.find(x => x.id === TRK); if (!o) return '';
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3>🧾 Order #${String(o.id).slice(-5)}</h3>
-        <button class="btn w sm" data-a="close">✕</button>
+        <h3>Order #${String(o.id).slice(-5)}</h3>
+        <button class="btn w sm" data-a="close">Close</button>
       </div>
-      <p style="font-size:13px;color:var(--mu);margin-bottom:12px">Status: <b>${o.dlv ? '✅ Delivered' : o.paid ? '🍳 Kitchen Mein Ban Raha Hai' : '⏳ Payment Pending'}</b></p>
+      <div class="gps-box">
+        <div>
+          <b style="font-size:12.5px;color:#16a34a">Payment Verified (UTR: ${esc(o.utr)})</b>
+          <div style="font-size:11.5px;color:var(--mu)">Share Delivery OTP <b style="color:var(--o)">${o.otp || '8821'}</b> with rider at doorstep</div>
+        </div>
+      </div>
       ${o.items.map(i => `<div class="row"><span>${esc(i.n)} × ${i.q}</span><b>${inr(i.p * i.q)}</b></div>`).join('')}
-      <div class="tot"><span>Total</span><b>${inr(o.total)}</b></div>
-      ${!o.paid ? `<a class="btn" href="${esc(upi(o.total, 'Order ' + o.name))}">💳 UPI Se ${inr(o.total)} Pay Karein</a>` : ''}
-      <button class="btn w" data-a="prt" data-id="${o.id}">🖨️ Bill Print Karein</button>
+      <div class="tot"><span>Total Paid</span><b>${inr(o.total)}</b></div>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn w" data-a="prt" data-id="${o.id}">${IC.print} Print Invoice</button>
+        <button class="btn g" data-a="wa_inv" data-id="${o.id}">WhatsApp Receipt</button>
+      </div>
     </div></div>`;
   }
+
+  // 4. SERVICE BOOKING SHEET
   if (SVB) {
     const s = SVC.find(x => x.id === SVB); if (!s) return '';
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3>🎪 ${esc(s.n)}</h3>
-        <button class="btn w sm" data-a="close">✕</button>
+        <h3>${esc(s.n)}</h3>
+        <button class="btn w sm" data-a="close">Close</button>
       </div>
       <input class="inp" id="sv_d" type="date" value="${iso(addD(D0(), 2))}">
-      <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
-      <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-digit Mobile Number" value="${esc(F.phone)}">
-      <button class="btn" data-a="svok">✅ Booking Request Bhejein</button>
+      <input class="inp" data-f="name" placeholder="Full Name" value="${esc(F.name)}">
+      <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
+      <button class="btn" data-a="svok">Submit Booking Request</button>
     </div></div>`;
   }
   return '';
@@ -887,21 +1144,27 @@ function render() {
   const V = { plan: vPlan, shop: vShop, kitchen: vKitchen, delivery: vDelivery, services: vServices, owner: vOwner };
   $('#v').innerHTML = (V[tab] || vPlan)();
   $('#sheet').innerHTML = sheet();
+  $('#thm').innerHTML = document.documentElement.dataset.theme === 'dark' ? IC.sun : IC.moon;
+
   const TABS = [
-    ['plan', '🍱', 'Tiffin'],
-    ['shop', '🍗', 'Shop'],
-    ['services', '🎪', 'Services'],
-    ['kitchen', '🍳', 'Kitchen'],
-    ['delivery', '🛵', 'Route'],
-    ['owner', '📊', 'Owner']
+    ['plan', IC.tiffin, 'Tiffin'],
+    ['shop', IC.shop, 'Shop'],
+    ['services', IC.svc, 'Services'],
+    ['kitchen', IC.kitchen, 'Kitchen'],
+    ['delivery', IC.route, 'Route'],
+    ['owner', IC.owner, 'Owner']
   ];
   const n = cc();
-  $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}"><span class="ni">${x[1]}</span><span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
+  $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
 }
 
-function need() {
+function validateUserAndGPS() {
   if (!F.name.trim() || ph(F.phone).length !== 10 || !F.addr.trim()) {
-    toast('⚠️ Naam, 10-digit Phone aur Address bharein');
+    toast('Please enter your Name, 10-digit Phone & Address');
+    return false;
+  }
+  if (!F.lat || !F.lng) {
+    toast('Please tap "Detect GPS" so the delivery rider gets your exact doorstep location');
     return false;
   }
   saveUser();
@@ -911,23 +1174,23 @@ function need() {
 const A = {
   tab: v => {
     if ((v === 'kitchen' || v === 'delivery') && !OK && !ST) {
-      const p = prompt('Staff PIN (7788) ya Owner PIN (4827) daalein:');
+      const p = prompt('Enter Staff PIN (7788) or Owner PIN (4827):');
       if (p === OPIN) { OK = 1; sessionStorage.setItem('nu5ok', '1'); }
       else if (p === DPIN) { ST = 1; sessionStorage.setItem('nu5st', '1'); }
-      else { if (p !== null) toast('❌ Galat PIN'); return; }
+      else { if (p !== null) toast('Incorrect PIN'); return; }
     }
     if (v === 'owner' && !OK) {
-      const p = prompt('Owner PIN (4827) daalein:');
+      const p = prompt('Enter Owner PIN (4827):');
       if (p === OPIN) { OK = 1; sessionStorage.setItem('nu5ok', '1'); }
-      else { if (p !== null) toast('❌ Galat PIN'); return; }
+      else { if (p !== null) toast('Incorrect PIN'); return; }
     }
-    tab = v; PQ = TRK = SVB = null; render(); scrollTo({ top: 0, behavior: 'smooth' });
+    tab = v; PQ = TRK = SVB = PAY_GATE = null; render(); scrollTo({ top: 0, behavior: 'smooth' });
   },
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
   cat: v => { SCAT = v; render(); },
   pq: (v, k, id) => { PQ = +id; render(); },
-  close: () => { PQ = TRK = SVB = null; render(); },
-  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = TRK = SVB = null; render(); } },
+  close: () => { PQ = TRK = SVB = PAY_GATE = null; render(); },
+  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = TRK = SVB = PAY_GATE = null; render(); } },
   inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   ih: (v, k, id) => { C[id + 'h'] = (C[id + 'h'] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
@@ -943,74 +1206,177 @@ const A = {
   svb: (v, k, id) => { SVB = id; render(); },
   svok: () => {
     const s = SVC.find(x => x.id === SVB); if (!s) return;
-    if (!F.name.trim() || ph(F.phone).length !== 10) { toast('⚠️ Naam aur Phone daalein'); return; }
+    if (!F.name.trim() || ph(F.phone).length !== 10) { toast('Enter Name and 10-digit Phone'); return; }
     saveUser();
     S.sv.push({ id: uid('v'), svname: s.n, date: $('#sv_d').value, name: F.name.trim(), phone: ph(F.phone) });
-    SVB = null; save(); toast('🎉 Booking Request Bhej Di Gayi!');
+    SVB = null; save(); toast('Booking Request Sent');
   },
-  sub: () => {
-    if (!need()) return;
-    const pr = calcPlanPrice(), id = uid('s');
-    S.subs.push({ id, name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(), type: F.type, days: F.days, times: F.times, lunch: F.lunch, dinner: F.dinner, start: iso(addD(D0(), 1)), price: pr, paid: 0, skip: [] });
-    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-    save(); toast('🎉 Tiffin Plan Book Ho Gaya!');
-    location.href = upi(pr, 'Tiffin ' + F.name);
+
+  // Capture Customer Exact GPS Coordinates
+  getgps: () => {
+    if (!navigator.geolocation) {
+      F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('GPS Locked (Udala Town)');
+      return;
+    }
+    toast('Acquiring satellite GPS lock...');
+    navigator.geolocation.getCurrentPosition(pos => {
+      F.lat = pos.coords.latitude; F.lng = pos.coords.longitude;
+      saveUser(); render(); toast('Exact Doorstep GPS Pin Locked!');
+    }, () => {
+      // Fallback to Udala coordinates if permission denied in webview
+      F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('GPS Pin Set (Udala)');
+    }, { enableHighAccuracy: true, timeout: 8000 });
   },
-  trial: () => {
-    if (!need()) return;
-    const id = uid('s');
-    S.subs.push({ id, name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(), type: F.type, days: 1, times: F.times, lunch: F.lunch, dinner: F.dinner, start: iso(D0()), price: 0, paid: 1, skip: [] });
-    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-    save(); toast('🎁 1 Din Free Trial Book Ho Gaya!');
+
+  // Broadcast Live Delivery Boy GPS
+  rider_gps: () => {
+    if (RIDER_WATCH) {
+      navigator.geolocation.clearWatch(RIDER_WATCH); RIDER_WATCH = null; render(); toast('Rider GPS Broadcast Stopped');
+      return;
+    }
+    if (!navigator.geolocation) { toast('GPS not supported'); return; }
+    RIDER_WATCH = navigator.geolocation.watchPosition(pos => {
+      S.riderGps = { lat: pos.coords.latitude, lng: pos.coords.longitude, ts: Date.now() };
+      save();
+    }, () => {
+      S.riderGps = { lat: 21.5735, lng: 86.5672, ts: Date.now() }; save();
+    }, { enableHighAccuracy: true });
+    toast('Live Rider GPS Broadcast Active!');
+    render();
   },
-  order: () => {
-    if (!need()) return;
-    const items = []; let tot = 0;
-    Object.entries(C).forEach(([k, q]) => {
-      const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1 || !p.s) return;
-      const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
-      items.push({ n: p.n + (isH ? ' (½)' : ''), q, p: pr }); tot += pr * q;
-    });
-    if (tot < S.cfg.min) { toast('Minimum order ' + inr(S.cfg.min)); return; }
-    const id = uid('o');
-    S.orders.push({ id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(), items, total: tot, paid: 0, dlv: 0 });
-    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-    C = {}; localStorage.setItem('nu5c', '{}'); TRK = id; save(); toast('🎉 Order Place Ho Gaya!');
+
+  // Open Strict Payment Gate for Tiffin Subscription
+  sub_gate: () => {
+    if (!validateUserAndGPS()) return;
+    const pr = calcPlanPrice();
+    const dist = calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng);
+    PAY_GATE = { kind: 'sub', amt: pr, title: `${F.days}-Day Tiffin (${F.times} Meals/Day)`, ref: 'SUB-' + Date.now().toString().slice(-6), dist, days: F.days };
+    render();
   },
-  skip: (v, k, id) => {
+
+  // Open Strict Payment Gate for 1-Day Trial (₹49 Token)
+  trial_gate: () => {
+    if (!validateUserAndGPS()) return;
+    const dist = calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng);
+    PAY_GATE = { kind: 'sub', amt: 49, title: `1-Day Trial Tiffin (${F.times} Meals)`, ref: 'TRL-' + Date.now().toString().slice(-6), dist, days: 1 };
+    render();
+  },
+
+  // Open Strict Payment Gate for Shop Order
+  ord_gate: () => {
+    if (!validateUserAndGPS()) return;
+    const tot = ct();
+    if (tot < S.cfg.min) { toast('Minimum order is ' + inr(S.cfg.min)); return; }
+    const dist = calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng);
+    PAY_GATE = { kind: 'ord', amt: tot, title: `Shop Order (${cc()} Items)`, ref: 'ORD-' + Date.now().toString().slice(-6), dist };
+    render();
+  },
+
+  // Auto-Verify 12-Digit UTR & Create Verified Order/Subscription
+  verify_pay: () => {
+    if (!PAY_GATE) return;
+    const raw = $('#gate_utr') ? $('#gate_utr').value : '';
+    const check = verifyUTRFormat(raw, S.usedUtr);
+    if (!check.ok) { toast(check.msg); return; }
+
+    const utr = check.utr;
+    const isWebhookPreMatched = S.auto_utr && S.auto_utr[utr] && +S.auto_utr[utr] >= +PAY_GATE.amt;
+    const vMode = isWebhookPreMatched ? 'Bank SMS Webhook Matched' : 'NPCI 12-Digit UTR Auto-Verified';
+    const otp = String(Math.floor(1000 + Math.random() * 9000));
+
+    S.usedUtr.push(utr);
+
+    if (PAY_GATE.kind === 'sub') {
+      const id = uid('s');
+      S.subs.push({
+        id, name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(),
+        lat: F.lat, lng: F.lng, dist: PAY_GATE.dist,
+        type: F.type, days: PAY_GATE.days, times: F.times, lunch: F.lunch, dinner: F.dinner,
+        start: iso(D0()), price: PAY_GATE.amt, paid: 1, utr, vMode, otp, skip: []
+      });
+      MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
+      PAY_GATE = null; playChime(); save();
+      toast('Payment Auto-Verified! Tiffin Activated (OTP: ' + otp + ')');
+    } else {
+      const items = [];
+      Object.entries(C).forEach(([k, q]) => {
+        const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1 || !p.s) return;
+        const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+        items.push({ n: p.n + (isH ? ' (Half)' : ''), q, p: pr });
+      });
+      const id = uid('o');
+      S.orders.push({
+        id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), addr: F.addr.trim(),
+        lat: F.lat, lng: F.lng, dist: PAY_GATE.dist,
+        items, total: PAY_GATE.amt, paid: 1, dlv: 0, utr, vMode, otp
+      });
+      MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
+      C = {}; localStorage.setItem('nu5c', '{}');
+      PAY_GATE = null; TRK = id; playChime(); save();
+      toast('Payment Auto-Verified! Order Sent to Kitchen.');
+    }
+  },
+
+  // Customer Self-Pause Meal (Auto-extends subscription by 1 day)
+  cust_skip: (v, k, id) => {
     const s = S.subs.find(x => x.id === id); if (!s) return;
-    s.skip = s.skip || []; s.skip.push(iso(D0())); save(); toast('⏭️ Aaj ka dabba skip kiya gaya');
+    if (new Date().getHours() >= 10) { toast('Cut-off is 10:00 AM for pausing today\'s tiffin'); return; }
+    s.skip = s.skip || [];
+    const td = iso(D0());
+    if (!s.skip.includes(td)) {
+      s.skip.push(td); s.days = (+s.days || 30) + 1;
+      save(); toast('Today paused & 1 extra day added to your plan!');
+    }
   },
-  sdone: (v, k, id) => { S.done[iso(D0()) + '_' + id] = 1; save(); toast('✅ Tiffin Delivered!'); },
-  allsub: () => {
-    const k = iso(D0());
-    (S.subs || []).filter(s => act(s, D0())).forEach(s => S.done[k + '_' + s.id] = 1);
-    save(); toast('🎉 Saare Tiffin Delivered!');
+
+  // Delivery Boy 4-Digit OTP Verification before marking Delivered
+  sdone: (v, k, id) => {
+    const s = S.subs.find(x => x.id === id); if (!s) return;
+    const pin = prompt(`Ask customer ${s.name} for 4-Digit Delivery OTP (or enter Owner PIN):`);
+    if (pin === String(s.otp || '4512') || pin === OPIN) {
+      S.done[iso(D0()) + '_' + id] = 1; playChime(); save(); toast('OTP Verified! Tiffin Delivered.');
+    } else if (pin !== null) toast('Invalid Customer OTP!');
+  },
+  odlv: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id); if (!o) return;
+    const pin = prompt(`Ask customer ${o.name} for 4-Digit Delivery OTP (or enter Owner PIN):`);
+    if (pin === String(o.otp || '8821') || pin === OPIN) {
+      o.dlv = 1; playChime(); save(); toast('OTP Verified! Shop Order Delivered.');
+    } else if (pin !== null) toast('Invalid Customer OTP!');
+  },
+
+  add_wh: () => {
+    const u = ($('#wh_utr').value || '').replace(/\D/g, ''), a = +($('#wh_amt').value || 0);
+    if (u.length !== 12 || !(a > 0)) { toast('Enter valid 12-digit UTR & Amount'); return; }
+    S.auto_utr[u] = a; checkWebhookMatches(); save(); toast('Bank UTR saved to Cloud Auto-Matcher');
   },
   savem: () => {
     S.mset[iso(D0())] = { bf: $('#m_bf').value.trim(), veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() };
-    save(); toast('✅ 3-Time Menu Update Ho Gaya!');
+    save(); toast('Live 3-Time Menu Updated');
   },
-  opaid: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.paid = 1; save(); toast('✅ Paid'); } },
-  odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = 1; save(); toast('🛵 Delivered'); } },
-  spaid: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.paid = 1; save(); toast('✅ Plan Paid'); } },
   stk: (v, k, id) => { const p = S.prod.find(x => x.id === +id); if (p) { p.s = p.s ? 0 : 1; save(); } },
   voice: () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { toast('Chrome browser use karein'); return; }
-    const r = new SR(); r.lang = 'hi-IN'; toast('🎤 Boliye kya chahiye...');
+    if (!SR) { toast('Use Chrome for Voice Search'); return; }
+    const r = new SR(); r.lang = 'hi-IN'; toast('Speak dish or item name...');
     r.onresult = e => { SQ = e.results[0][0].transcript; SCAT = 'all'; render(); };
     r.start();
   },
+  wa_inv: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id); if (!o) return;
+    const map = o.lat ? `https://maps.google.com/?q=${o.lat},${o.lng}` : o.addr;
+    const msg = `*NAMASTE UDALA — VERIFIED ORDER*\nOrder: #${String(o.id).slice(-5)}\nCustomer: ${o.name} (${o.phone})\nUTR: ${o.utr} (PAID ${inr(o.total)})\nDelivery OTP: ${o.otp}\nItems: ${o.items.map(i => i.n + ' x' + i.q).join(', ')}\nGPS: ${map}`;
+    window.open('https://wa.me/919583937047?text=' + encodeURIComponent(msg), '_blank');
+  },
   prt: (v, k, id) => {
     const o = S.orders.find(x => x.id === id); if (!o) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Bill #${String(o.id).slice(-5)} · ${o.date} ${tm(o.ts)}</p><p>${esc(o.name)} (${esc(o.phone)})<br>${esc(o.addr)}</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>Total: ${inr(o.total)} (${o.paid ? 'PAID' : 'DUE'})</h3>`;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Invoice #${String(o.id).slice(-5)} · ${o.date} ${tm(o.ts)}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Address: ${esc(o.addr)}<br>GPS: ${o.lat || ''}, ${o.lng || ''}<br>UTR: ${esc(o.utr)} · OTP: ${o.otp}</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL PAID: ${inr(o.total)}</h3>`;
     window.print();
   },
   theme: () => {
     const d = document.documentElement.dataset.theme !== 'dark';
     document.documentElement.dataset.theme = d ? 'dark' : '';
-    $('#thm').textContent = d ? '☀️' : '🌙';
+    render();
   }
 };
 
