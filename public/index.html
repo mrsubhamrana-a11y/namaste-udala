@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Namaste Udala — 3D Tiffin · Hot Kitchen · Kirana · Live GPS</title>
+<title>Namaste Udala — 3D Tiffin · Hot Kitchen · Kirana · Services</title>
 <meta name="theme-color" content="#072b1d">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,16 +18,14 @@
   --mu: #64748b;
   --ln: #dce4ee;
   --o: #ff5500;
-  --o2: #ff8833;
   --g: #0b6e46;
-  --g2: #16a34a;
   --gold: #f59e0b;
   --bad: #dc2626;
-  --sh-card: 0 20px 38px -10px rgba(15,23,42,0.14), 0 4px 12px -2px rgba(15,23,42,0.06), inset 0 2px 0 rgba(255,255,255,0.95), inset 0 -3px 0 rgba(15,23,42,0.06);
-  --sh-3d-o: 0 6px 0 #b33600, 0 14px 26px rgba(255,85,0,0.42), inset 0 2px 1px rgba(255,255,255,0.5);
-  --sh-3d-g: 0 6px 0 #06422a, 0 14px 26px rgba(11,110,70,0.38), inset 0 2px 1px rgba(255,255,255,0.4);
-  --sh-3d-w: 0 5px 0 #cbd5e1, 0 10px 18px rgba(15,23,42,0.08), inset 0 2px 0 #fff;
-  --sh-in: inset 0 4px 8px rgba(15,23,42,0.09), inset 0 1px 2px rgba(15,23,42,0.12), 0 1px 0 #fff;
+  --sh-card: 0 18px 34px -8px rgba(15,23,42,0.12), 0 4px 10px rgba(15,23,42,0.05), inset 0 2px 0 #fff;
+  --sh-3d-o: 0 6px 0 #b33600, 0 12px 22px rgba(255,85,0,0.38), inset 0 2px 1px rgba(255,255,255,0.45);
+  --sh-3d-g: 0 6px 0 #053b25, 0 12px 22px rgba(11,110,70,0.35), inset 0 2px 1px rgba(255,255,255,0.35);
+  --sh-3d-w: 0 4px 0 #cbd5e1, 0 8px 14px rgba(15,23,42,0.07), inset 0 2px 0 #fff;
+  --sh-in: inset 0 3px 6px rgba(15,23,42,0.08), 0 1px 0 #fff;
 }
 [data-theme=dark] {
   --bg: #080d12;
@@ -36,19 +34,15 @@
   --ink: #f1f5f9;
   --mu: #94a3b8;
   --ln: #1f2e3d;
-  --sh-card: 0 22px 42px -10px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.08), inset 0 -3px 0 rgba(0,0,0,0.5);
-  --sh-3d-w: 0 5px 0 #06090d, 0 10px 18px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
-  --sh-in: inset 0 4px 9px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.05);
+  --sh-card: 0 22px 42px -10px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.08);
+  --sh-3d-w: 0 4px 0 #06090d, 0 8px 16px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  --sh-in: inset 0 3px 7px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.05);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
 body {
-  background: radial-gradient(circle at 12% 4%, rgba(255,120,40,0.16), transparent 42%),
-              radial-gradient(circle at 88% 12%, rgba(16,163,100,0.14), transparent 42%), var(--bg);
-  color: var(--ink);
-  padding-bottom: 148px;
-  min-height: 100vh;
-  perspective: 1200px;
-  -webkit-font-smoothing: antialiased;
+  background: radial-gradient(circle at 12% 4%, rgba(255,120,40,0.14), transparent 40%),
+              radial-gradient(circle at 88% 12%, rgba(16,163,100,0.12), transparent 40%), var(--bg);
+  color: var(--ink); padding-bottom: 148px; min-height: 100vh; perspective: 1200px;
 }
 img { display: block; object-fit: cover; }
 button, input, select { font: inherit; color: inherit; }
@@ -58,337 +52,258 @@ svg.ic { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; str
 header {
   position: sticky; top: 0; z-index: 60;
   background: linear-gradient(145deg, #0f6843, #062b1c);
-  color: #fff; padding: 12px 15px;
-  border-radius: 0 0 26px 26px;
-  box-shadow: 0 7px 0 #031910, 0 18px 34px rgba(6,43,28,0.5), inset 0 2px 1px rgba(255,255,255,0.22);
+  color: #fff; padding: 12px 15px; border-radius: 0 0 24px 24px;
+  box-shadow: 0 6px 0 #031910, 0 16px 30px rgba(6,43,28,0.45);
   display: flex; align-items: center; gap: 12px;
 }
 .logo {
-  width: 46px; height: 46px; border-radius: 15px;
+  width: 45px; height: 45px; border-radius: 14px;
   background: linear-gradient(145deg, #ff9436, #ff4500);
   display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff;
-  box-shadow: 0 5px 0 #992600, 0 10px 18px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.65);
-  cursor: pointer; user-select: none;
+  box-shadow: 0 4px 0 #992600, inset 0 2px 2px rgba(255,255,255,0.6); cursor: pointer; user-select: none;
 }
-.logo:active { transform: translateY(4px); box-shadow: 0 1px 0 #992600; }
+.logo:active { transform: translateY(3px); box-shadow: 0 1px 0 #992600; }
 .brand { flex: 1; min-width: 0; }
-.brand small { display: flex; align-items: center; gap: 6px; color: #fde047; font-size: 9.5px; letter-spacing: 1.8px; font-weight: 800; text-transform: uppercase; }
+.brand small { display: flex; align-items: center; gap: 5px; color: #fde047; font-size: 9.5px; letter-spacing: 1.5px; font-weight: 800; }
 .brand small i { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-.brand h1 { font-size: 18.5px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.35); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brand h1 { font-size: 18px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-main { padding: 18px 14px 0; max-width: 680px; margin: 0 auto; }
+main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
 
 /* 3D Hero Showcase */
 .hero3d {
-  position: relative; border-radius: 26px; padding: 22px 18px; margin-bottom: 20px; color: #fff;
-  background: linear-gradient(130deg, #1c100b 0%, #5c1d06 55%, #b83700 100%);
-  box-shadow: 0 8px 0 #471402, 0 22px 42px rgba(184,55,0,0.38), inset 0 2px 2px rgba(255,255,255,0.3);
-  overflow: visible; min-height: 156px; display: flex; flex-direction: column; justify-content: center;
-  cursor: pointer;
+  position: relative; border-radius: 24px; padding: 20px 18px; margin-bottom: 18px; color: #fff;
+  background: linear-gradient(130deg, #1f110b 0%, #682107 55%, #c23b00 100%);
+  box-shadow: 0 7px 0 #471402, 0 18px 34px rgba(184,55,0,0.32);
+  min-height: 150px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; overflow: visible;
 }
 .hero3d.green {
   background: linear-gradient(130deg, #062619 0%, #0b5c3b 55%, #149962 100%);
-  box-shadow: 0 8px 0 #042115, 0 22px 42px rgba(11,92,59,0.38), inset 0 2px 2px rgba(255,255,255,0.3);
+  box-shadow: 0 7px 0 #042115, 0 18px 34px rgba(11,92,59,0.32);
 }
 .hero3d.slate {
   background: linear-gradient(130deg, #0f172a 0%, #1e293b 55%, #334155 100%);
-  box-shadow: 0 8px 0 #090e1a, 0 22px 42px rgba(15,23,42,0.42), inset 0 2px 2px rgba(255,255,255,0.25);
+  box-shadow: 0 7px 0 #090e1a, 0 18px 34px rgba(15,23,42,0.38);
 }
 .hero-tag {
   display: inline-flex; align-items: center; gap: 5px; width: fit-content;
-  background: rgba(255,255,255,0.16); backdrop-filter: blur(6px);
-  padding: 4px 10px; border-radius: 99px; font-size: 10px; font-weight: 800;
-  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.16); padding: 3px 9px; border-radius: 99px;
+  font-size: 9.5px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 6px;
 }
-.hero3d h2 { font-size: 20.5px; font-weight: 800; max-width: 64%; line-height: 1.2; text-shadow: 0 3px 8px rgba(0,0,0,0.45); margin-bottom: 6px; }
-.hero3d p { font-size: 12px; font-weight: 600; opacity: .92; max-width: 64%; line-height: 1.4; }
+.hero3d h2 { font-size: 20px; font-weight: 800; max-width: 63%; line-height: 1.2; margin-bottom: 5px; }
+.hero3d p { font-size: 12px; opacity: .92; max-width: 63%; font-weight: 600; }
 .hero-plate {
-  position: absolute; right: 12px; bottom: -10px; width: 118px; height: 118px;
-  border-radius: 50%; border: 4px solid rgba(255,255,255,0.92);
-  box-shadow: 0 18px 28px rgba(0,0,0,0.6), 0 0 24px rgba(255,110,30,0.45);
-  animation: floatPlate 3.6s ease-in-out infinite; z-index: 3; background: #1e293b;
+  position: absolute; right: 12px; bottom: -8px; width: 114px; height: 114px;
+  border-radius: 50%; border: 4px solid #fff; background: #1e293b;
+  box-shadow: 0 16px 26px rgba(0,0,0,0.55), 0 0 20px rgba(255,110,30,0.4);
+  animation: floatPlate 3.4s ease-in-out infinite; z-index: 3;
 }
-@keyframes floatPlate { 50% { transform: translateY(-9px) scale(1.04) rotate(3deg); } }
+@keyframes floatPlate { 50% { transform: translateY(-8px) scale(1.04) rotate(2deg); } }
 
 /* Realistic Rising Hot Steam (Dhua) */
-.steam-wrap {
-  position: absolute; inset: 0; pointer-events: none; z-index: 6; overflow: visible;
-}
+.steam-wrap { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: visible; }
 .steam-wrap i {
-  position: absolute; bottom: 28%; width: 28px; height: 28px;
+  position: absolute; bottom: 28%; width: 26px; height: 26px;
   background: radial-gradient(circle, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0) 70%);
-  border-radius: 50%; filter: blur(5px); opacity: 0;
-  animation: steamRise 2.5s infinite ease-out;
+  border-radius: 50%; filter: blur(5px); opacity: 0; animation: steamRise 2.4s infinite ease-out;
 }
-.steam-wrap i:nth-child(1) { left: 26%; animation-delay: 0s; }
-.steam-wrap i:nth-child(2) { left: 46%; width: 36px; height: 36px; animation-delay: 0.6s; }
-.steam-wrap i:nth-child(3) { left: 62%; animation-delay: 1.2s; }
-.steam-wrap i:nth-child(4) { left: 38%; width: 32px; height: 32px; animation-delay: 1.8s; }
+.steam-wrap i:nth-child(1) { left: 28%; animation-delay: 0s; }
+.steam-wrap i:nth-child(2) { left: 48%; width: 34px; height: 34px; animation-delay: 0.7s; }
+.steam-wrap i:nth-child(3) { left: 62%; animation-delay: 1.4s; }
 @keyframes steamRise {
-  0% { transform: translateY(10px) scale(0.45) translateX(0); opacity: 0; }
+  0% { transform: translateY(8px) scale(0.5); opacity: 0; }
   35% { opacity: 0.82; }
-  70% { transform: translateY(-44px) scale(1.95) translateX(-10px); opacity: 0.42; }
-  100% { transform: translateY(-78px) scale(2.7) translateX(12px); opacity: 0; }
+  100% { transform: translateY(-72px) scale(2.5) translateX(10px); opacity: 0; }
 }
 
 /* 3D Cards & KPIs */
 .card {
-  background: linear-gradient(180deg, var(--sf) 0%, var(--sf2) 100%);
-  border: 1px solid var(--ln); border-radius: 24px; padding: 17px; margin-bottom: 16px;
+  background: linear-gradient(180deg, var(--sf), var(--sf2));
+  border: 1px solid var(--ln); border-radius: 22px; padding: 16px; margin-bottom: 16px;
   box-shadow: var(--sh-card);
 }
-.card h3 {
-  font-size: 15px; font-weight: 800; margin-bottom: 13px;
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
-}
-.card h3 .t-left { display: flex; align-items: center; gap: 8px; }
-.kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-.kpi div {
-  background: linear-gradient(180deg, var(--sf), var(--sf2)); border: 1px solid var(--ln);
-  border-radius: 18px; padding: 12px 6px; text-align: center; box-shadow: var(--sh-card);
-}
-.kpi b { display: block; font-size: 19px; font-weight: 800; color: var(--o); }
-.kpi span { font-size: 10.5px; font-weight: 800; color: var(--mu); text-transform: uppercase; letter-spacing: .5px; }
+.card h3 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 14px; }
+.kpi div { background: linear-gradient(180deg, var(--sf), var(--sf2)); border: 1px solid var(--ln); border-radius: 16px; padding: 11px 6px; text-align: center; box-shadow: var(--sh-card); }
+.kpi b { display: block; font-size: 18px; font-weight: 800; color: var(--o); }
+.kpi span { font-size: 10px; font-weight: 800; color: var(--mu); text-transform: uppercase; }
+
+.bar { height: 8px; background: var(--sf2); border-radius: 99px; overflow: hidden; box-shadow: var(--sh-in); margin: 8px 0 4px; }
+.bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--o), var(--gold)); }
 
 /* 3D Tactile Buttons */
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; padding: 13px 16px; border: 0; border-radius: 16px;
+  width: 100%; padding: 13px 16px; border: 0; border-radius: 15px;
   background: linear-gradient(180deg, #ff7a33, #ff4800);
   color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; text-decoration: none;
-  box-shadow: var(--sh-3d-o); transition: transform .1s, box-shadow .1s; margin-top: 9px;
+  box-shadow: var(--sh-3d-o); transition: transform .1s, box-shadow .1s; margin-top: 8px;
 }
-.btn:active { transform: translateY(5px); box-shadow: 0 1px 0 #b33600; }
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #b33600; }
 .btn.g { background: linear-gradient(180deg, #19b374, #0b6e46); box-shadow: var(--sh-3d-g); }
-.btn.g:active { box-shadow: 0 1px 0 #06422a; }
-.btn.w { background: linear-gradient(180deg, var(--sf), var(--sf2)); color: var(--ink); border: 1px solid var(--ln); box-shadow: var(--sh-3d-w); }
-.btn.w:active { box-shadow: 0 1px 0 #cbd5e1; }
-.btn.sm { width: auto; display: inline-flex; padding: 8px 13px; font-size: 12px; border-radius: 12px; margin: 0; }
-.btn[disabled] { opacity: .42; pointer-events: none; }
+.btn.g:active { box-shadow: 0 1px 0 #053b25; }
+.btn.w { background: var(--sf); color: var(--ink); border: 1px solid var(--ln); box-shadow: var(--sh-3d-w); }
+.btn.sm { width: auto; display: inline-flex; padding: 8px 12px; font-size: 11.5px; border-radius: 11px; margin: 0; }
+.btn[disabled] { opacity: .45; pointer-events: none; }
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .btn-row > * { flex: 1; }
 
-/* Inputs & Segmented Selectors */
 .inp {
-  width: 100%; padding: 12px 14px; border: 1.5px solid var(--ln); border-radius: 14px;
+  width: 100%; padding: 11px 14px; border: 1.5px solid var(--ln); border-radius: 13px;
   background: var(--sf2); color: var(--ink); font-weight: 700; font-size: 13.5px;
   box-shadow: var(--sh-in); margin: 5px 0; outline: none;
 }
 .inp:focus { border-color: var(--o); background: var(--sf); }
-.lbl { display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; font-weight: 800; color: var(--mu); margin: 12px 0 4px; text-transform: uppercase; letter-spacing: .5px; }
+.lbl { display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; color: var(--mu); margin: 11px 0 4px; text-transform: uppercase; }
 
-.seg {
-  display: flex; gap: 6px; background: var(--sf2); padding: 5px;
-  border-radius: 15px; box-shadow: var(--sh-in); margin: 5px 0;
-}
-.seg button {
-  flex: 1; padding: 10px 6px; border: 0; border-radius: 11px;
-  background: transparent; font-weight: 800; font-size: 12px; color: var(--mu); cursor: pointer; transition: .15s;
-}
-.seg button.on {
-  background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff;
-  box-shadow: 0 4px 0 #b33600, 0 6px 12px rgba(255,72,0,0.3); transform: translateY(-1px);
-}
+/* Segmented Controls */
+.seg { display: flex; gap: 5px; background: var(--sf2); padding: 5px; border-radius: 14px; box-shadow: var(--sh-in); margin: 5px 0; }
+.seg button { flex: 1; padding: 9px 4px; border: 0; border-radius: 10px; background: transparent; font-weight: 800; font-size: 11.5px; color: var(--mu); cursor: pointer; }
+.seg button.on { background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; box-shadow: 0 3px 0 #b33600; }
 
-/* Veg / Non-Veg Real Graphic Symbol (FSSAI Standard) */
-.sym {
-  display: inline-grid; place-items: center; width: 15px; height: 15px;
-  border: 2px solid #16a34a; border-radius: 4px; background: #fff; flex: none;
-}
-.sym i { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; }
+/* FSSAI Veg/Non-Veg Symbol */
+.sym { display: inline-grid; place-items: center; width: 14px; height: 14px; border: 2px solid #16a34a; border-radius: 3px; background: #fff; flex: none; }
+.sym i { width: 6px; height: 6px; border-radius: 50%; background: #16a34a; }
 .sym.nv { border-color: #dc2626; }
-.sym.nv i { background: #dc2626; border-radius: 1px; transform: rotate(45deg); }
+.sym.nv i { background: #dc2626; }
 
-/* Category Pills with Real Thumbnails */
-.chips { display: flex; gap: 9px; overflow-x: auto; padding: 4px 2px 14px; scrollbar-width: none; }
+/* Category & Area Chips */
+.chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 12px; scrollbar-width: none; }
 .chips::-webkit-scrollbar { display: none; }
 .chips button {
-  flex: none; display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 14px 6px 6px; border-radius: 99px; border: 1px solid var(--ln);
-  background: var(--sf); font-weight: 800; font-size: 12px; color: var(--ink);
-  box-shadow: var(--sh-3d-w); cursor: pointer;
+  flex: none; display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 13px 6px 6px; border-radius: 99px; border: 1px solid var(--ln);
+  background: var(--sf); font-weight: 800; font-size: 12px; box-shadow: var(--sh-3d-w); cursor: pointer;
 }
-.chips button img { width: 28px; height: 28px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-.chips button.on {
-  background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; border-color: transparent;
-  box-shadow: 0 4px 0 #b33600, 0 8px 14px rgba(255,72,0,0.35); transform: translateY(-2px);
-}
+.chips button img { width: 25px; height: 25px; border-radius: 50%; }
+.chips button.on { background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; border-color: transparent; box-shadow: 0 3px 0 #b33600; }
 
-/* Quick Area Chips */
 .area-chips { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 8px; scrollbar-width: none; }
 .area-chips::-webkit-scrollbar { display: none; }
-.area-chips span {
-  flex: none; padding: 6px 11px; border-radius: 10px; font-size: 11px; font-weight: 800;
-  background: var(--sf2); border: 1px solid var(--ln); color: var(--mu); cursor: pointer;
-}
+.area-chips span { flex: none; padding: 6px 11px; border-radius: 10px; font-size: 11px; font-weight: 800; background: var(--sf2); border: 1px solid var(--ln); color: var(--mu); cursor: pointer; }
 .area-chips span.on { background: rgba(255,85,0,0.12); color: var(--o); border-color: var(--o); }
 
-/* 3D Pedestal Product Grid */
-.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 18px; }
+/* 30-Day Visual Tiffin Calendar */
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 8px; }
+.cal-d {
+  padding: 6px 2px; border-radius: 9px; text-align: center; font-size: 10.5px; font-weight: 800;
+  background: var(--sf2); border: 1px solid var(--ln);
+}
+.cal-d.dn { background: #dcfce7; color: #166534; border-color: #86efac; }
+.cal-d.sk { background: #fee2e2; color: #991b1b; border-color: #fca5a5; text-decoration: line-through; }
+.cal-d.td { border: 2px solid var(--o); color: var(--o); }
+
+/* 3D Product Grid */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
 .pcard {
   background: linear-gradient(180deg, var(--sf), var(--sf2));
-  border: 1px solid var(--ln); border-radius: 22px; padding: 10px;
-  box-shadow: var(--sh-card); display: flex; flex-direction: column;
-  position: relative; transition: transform .2s;
+  border: 1px solid var(--ln); border-radius: 20px; padding: 9px;
+  box-shadow: var(--sh-card); display: flex; flex-direction: column; position: relative;
 }
 .pimg {
-  height: 132px; border-radius: 16px; position: relative; cursor: pointer;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.2); background: #1e293b; margin-bottom: 10px; overflow: hidden;
+  height: 126px; border-radius: 14px; position: relative; cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.16); background: #1e293b; margin-bottom: 8px; overflow: hidden;
 }
-.pimg img { width: 100%; height: 100%; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
-.pcard:hover .pimg img, .pimg:active img { transform: scale(1.1); }
-.badge {
-  position: absolute; top: 8px; left: 8px; background: linear-gradient(180deg, #22c55e, #15803d);
-  color: #fff; font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 7px; z-index: 7;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+.pimg img { width: 100%; height: 100%; transition: transform .3s; }
+.pimg:active img { transform: scale(1.08); }
+.badge { position: absolute; top: 7px; left: 7px; background: #16a34a; color: #fff; font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 6px; z-index: 6; }
+.fav-btn {
+  position: absolute; top: 6px; right: 6px; width: 28px; height: 28px; border-radius: 50%;
+  border: 0; background: rgba(255,255,255,0.9); display: grid; place-items: center;
+  cursor: pointer; z-index: 7; box-shadow: 0 2px 6px rgba(0,0,0,0.2); font-size: 13px;
 }
-.hot-tag {
-  position: absolute; bottom: 7px; right: 7px; background: rgba(15,23,42,0.86);
-  color: #fde047; font-size: 9px; font-weight: 800; padding: 4px 8px; border-radius: 8px; z-index: 7;
-  backdrop-filter: blur(4px); letter-spacing: .5px; text-transform: uppercase; border: 1px solid rgba(253,224,71,0.3);
-}
-.pname { font-size: 13px; font-weight: 800; line-height: 1.3; margin-bottom: 5px; height: 34px; overflow: hidden; display: flex; align-items: flex-start; gap: 6px; cursor: pointer; }
-.pprice { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 9px; }
-.pprice b { font-size: 16.5px; font-weight: 800; color: var(--o); }
+.hot-tag { position: absolute; bottom: 6px; right: 6px; background: rgba(15,23,42,0.86); color: #fde047; font-size: 8.5px; font-weight: 800; padding: 3px 7px; border-radius: 6px; z-index: 6; }
+.half-tag { position: absolute; bottom: 6px; left: 6px; background: #f59e0b; color: #fff; font-size: 8.5px; font-weight: 800; padding: 3px 6px; border-radius: 6px; z-index: 6; }
+.pname { font-size: 12.5px; font-weight: 800; line-height: 1.3; height: 33px; overflow: hidden; display: flex; align-items: flex-start; gap: 5px; cursor: pointer; }
+.pprice { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 0 8px; }
+.pprice b { font-size: 16px; font-weight: 800; color: var(--o); }
 .pprice s { font-size: 11px; color: var(--mu); margin-left: 4px; }
-.v3d-btn { font-size: 10px; font-weight: 800; color: var(--o); background: rgba(255,85,0,0.1); padding: 3px 7px; border-radius: 6px; cursor: pointer; }
+.v3d-btn { font-size: 9.5px; font-weight: 800; color: var(--o); background: rgba(255,85,0,0.1); padding: 2px 6px; border-radius: 5px; cursor: pointer; }
 
-/* 3D Quantity Stepper */
-.qty {
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--sf2); padding: 4px; border-radius: 13px; box-shadow: var(--sh-in); margin-top: auto;
-}
-.qty button {
-  width: 32px; height: 32px; border-radius: 9px; border: 0;
-  background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff;
-  font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 #b33600;
-}
-.qty button:active { transform: translateY(2px); box-shadow: none; }
-.qty b { font-size: 13.5px; font-weight: 800; }
+.qty { display: flex; align-items: center; justify-content: space-between; background: var(--sf2); padding: 3px; border-radius: 12px; box-shadow: var(--sh-in); margin-top: auto; }
+.qty button { width: 30px; height: 30px; border-radius: 8px; border: 0; background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #b33600; }
+.qty b { font-size: 13px; font-weight: 800; }
 
-/* GPS Pill */
-.gps-box {
-  display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  background: rgba(22,163,74,0.1); border: 1.5px solid rgba(22,163,74,0.35);
-  padding: 10px 12px; border-radius: 14px; margin: 6px 0;
-}
-.gps-box.warn { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.4); }
-.gps-dot { width: 10px; height: 10px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 4px rgba(22,163,74,0.25); animation: pulse 1.5s infinite; flex: none; }
-@keyframes pulse { 50% { transform: scale(1.25); opacity: .6; } }
-
-.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px dashed var(--ln); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--ln); }
 .row:last-child { border-bottom: 0; }
-.tot { display: flex; justify-content: space-between; align-items: center; padding-top: 13px; margin-top: 6px; border-top: 2px solid var(--ln); }
-.tot b { font-size: 23px; font-weight: 800; color: var(--o); }
+.tot { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 6px; border-top: 2px solid var(--ln); }
+.tot b { font-size: 22px; font-weight: 800; color: var(--o); }
 
-/* 3D Pop-Out Showcase & Payment Gate Modal */
-.ov {
-  position: fixed; inset: 0; z-index: 200; background: rgba(6,11,18,0.82);
-  backdrop-filter: blur(8px); display: flex; align-items: flex-end; justify-content: center;
-  animation: fadeIn .2s;
-}
-@keyframes fadeIn { from { opacity: 0; } }
+/* 3D Pop-Out Modal & Cart Drawer */
+.ov { position: fixed; inset: 0; z-index: 200; background: rgba(8,14,22,0.82); backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center; }
 .sh {
-  background: var(--sf); width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto;
-  border-radius: 30px 30px 0 0; padding: 20px; position: relative;
-  box-shadow: 0 -12px 45px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.8);
-  animation: slideUp .26s cubic-bezier(.2,.8,.2,1);
+  background: var(--sf); width: 100%; max-width: 510px; max-height: 91vh; overflow-y: auto;
+  border-radius: 28px 28px 0 0; padding: 18px; box-shadow: 0 -10px 40px rgba(0,0,0,0.45);
+  animation: slideUp .24s ease-out;
 }
 @keyframes slideUp { from { transform: translateY(100%); } }
 
-/* 3D Floating Plate Pop-out Stage */
+/* 3D Floating Plate Stage */
 .pop-stage {
-  position: relative; height: 235px; margin: 4px 0 16px;
-  border-radius: 24px; background: radial-gradient(circle at 50% 62%, #3b1708, #090e17 75%);
+  position: relative; height: 225px; margin: 4px 0 14px; border-radius: 22px;
+  background: radial-gradient(circle at 50% 60%, #3b1708, #090e17 75%);
   display: flex; align-items: center; justify-content: center; overflow: visible;
-  box-shadow: 0 20px 38px rgba(0,0,0,0.45), inset 0 2px 2px rgba(255,255,255,0.2);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.4);
 }
 .pop-plate {
-  width: 202px; height: 202px; border-radius: 50%; object-fit: cover;
-  border: 5px solid #fff;
-  box-shadow: 0 26px 42px rgba(0,0,0,0.75), 0 0 34px rgba(255,85,0,0.5);
-  animation: popOut3D .55s cubic-bezier(.18,1.25,.4,1) forwards;
-  z-index: 2;
+  width: 192px; height: 192px; border-radius: 50%; object-fit: cover; border: 4px solid #fff;
+  box-shadow: 0 22px 38px rgba(0,0,0,0.7), 0 0 28px rgba(255,85,0,0.45);
+  animation: popOut3D .5s cubic-bezier(.18,1.25,.4,1) forwards; z-index: 2;
 }
 @keyframes popOut3D {
-  0% { transform: scale(0.28) translateY(65px) rotate(-18deg); opacity: 0; }
-  70% { transform: scale(1.1) translateY(-14px) rotate(3deg); }
-  100% { transform: scale(1.04) translateY(-8px) rotate(0deg); opacity: 1; }
+  0% { transform: scale(0.3) translateY(50px) rotate(-15deg); opacity: 0; }
+  100% { transform: scale(1.04) translateY(-6px) rotate(0deg); opacity: 1; }
 }
-.pop-steam {
-  position: absolute; top: -22px; left: 0; right: 0; height: 150px; pointer-events: none; z-index: 4;
-}
+.pop-steam { position: absolute; top: -18px; left: 0; right: 0; height: 140px; pointer-events: none; z-index: 4; }
 .pop-steam span {
-  position: absolute; bottom: 8px; width: 52px; height: 52px;
+  position: absolute; bottom: 8px; width: 48px; height: 48px;
   background: radial-gradient(circle, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0) 70%);
-  border-radius: 50%; filter: blur(7px); opacity: 0;
-  animation: bigSteam 2.1s infinite ease-out;
+  border-radius: 50%; filter: blur(6px); opacity: 0; animation: bigSteam 2s infinite ease-out;
 }
-.pop-steam span:nth-child(1) { left: 30%; animation-delay: 0s; }
-.pop-steam span:nth-child(2) { left: 45%; width: 66px; height: 66px; animation-delay: 0.5s; }
-.pop-steam span:nth-child(3) { left: 58%; animation-delay: 1.0s; }
-.pop-steam span:nth-child(4) { left: 38%; width: 58px; height: 58px; animation-delay: 1.5s; }
+.pop-steam span:nth-child(1) { left: 32%; animation-delay: 0s; }
+.pop-steam span:nth-child(2) { left: 46%; width: 60px; height: 60px; animation-delay: 0.6s; }
+.pop-steam span:nth-child(3) { left: 56%; animation-delay: 1.2s; }
 @keyframes bigSteam {
-  0% { transform: translateY(32px) scale(0.4); opacity: 0; }
-  35% { opacity: 0.92; }
-  100% { transform: translateY(-98px) scale(2.9) translateX(16px); opacity: 0; }
+  0% { transform: translateY(25px) scale(0.4); opacity: 0; }
+  35% { opacity: 0.9; }
+  100% { transform: translateY(-90px) scale(2.6) translateX(12px); opacity: 0; }
 }
 
-/* QR & Hybrid Payment Box */
-.qr-wrap {
-  background: #fff; padding: 14px; border-radius: 20px; width: fit-content; margin: 10px auto;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.16); border: 2px solid var(--ln); text-align: center;
-}
-.qr-wrap img { width: 170px; height: 170px; margin: 0 auto; }
-
-/* Fixed Floating Cart Bar (Zero Scroll Needed!) */
+/* Fixed Floating Cart Bar */
 .cbar-fixed {
-  position: fixed; left: 12px; right: 12px; bottom: calc(82px + env(safe-area-inset-bottom));
-  z-index: 75; max-width: 650px; margin: 0 auto;
+  position: fixed; left: 12px; right: 12px; bottom: calc(80px + env(safe-area-inset-bottom));
+  z-index: 75; max-width: 640px; margin: 0 auto;
   background: linear-gradient(145deg, #16a34a, #074729); color: #fff;
-  border-radius: 18px; padding: 12px 16px;
-  display: flex; justify-content: space-between; align-items: center;
-  box-shadow: 0 6px 0 #042b18, 0 16px 32px rgba(6,43,28,0.55), inset 0 1.5px 0 rgba(255,255,255,0.4);
-  cursor: pointer; font-weight: 800; animation: slideUp .2s ease-out;
+  border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 5px 0 #042b18, 0 14px 28px rgba(6,43,28,0.5); cursor: pointer; font-weight: 800; font-size: 13.5px;
 }
 
 /* Bottom 3D Dock */
 nav {
   position: fixed; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom));
-  z-index: 80; max-width: 660px; margin: 0 auto;
-  background: var(--sf); border: 1px solid var(--ln); border-radius: 22px;
+  z-index: 80; max-width: 650px; margin: 0 auto;
+  background: var(--sf); border: 1px solid var(--ln); border-radius: 20px;
   display: flex; gap: 4px; padding: 6px;
-  box-shadow: 0 8px 0 rgba(15,23,42,0.14), 0 22px 45px rgba(15,23,42,0.3);
+  box-shadow: 0 7px 0 rgba(15,23,42,0.12), 0 18px 38px rgba(15,23,42,0.25);
 }
 nav button {
-  flex: 1; border: 0; background: transparent; border-radius: 15px; padding: 8px 2px;
-  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  flex: 1; border: 0; background: transparent; border-radius: 14px; padding: 8px 2px;
+  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
   color: var(--mu); font-weight: 800; position: relative; transition: .15s;
 }
 nav button.on {
   background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff;
-  box-shadow: 0 4px 0 #b33600, 0 8px 14px rgba(255,72,0,0.35); transform: translateY(-4px);
+  box-shadow: 0 4px 0 #b33600; transform: translateY(-3px);
 }
-nav .nl { font-size: 9.5px; letter-spacing: .2px; }
-nav .nb {
-  position: absolute; top: 3px; right: 14%; background: #16a34a; color: #fff;
-  font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff;
-}
+nav .nl { font-size: 9.5px; }
+nav .nb { position: absolute; top: 2px; right: 14%; background: #16a34a; color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff; }
 
 #toast {
-  position: fixed; left: 50%; bottom: 145px; transform: translateX(-50%) translateY(20px);
-  background: #0f172a; color: #fff; padding: 12px 20px; border-radius: 99px;
-  font-size: 13px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none;
-  box-shadow: 0 5px 0 #000, 0 14px 28px rgba(0,0,0,0.45); transition: .25s; text-align: center; max-width: 90vw;
+  position: fixed; left: 50%; bottom: 142px; transform: translateX(-50%) translateY(20px);
+  background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 99px;
+  font-size: 13px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none; transition: .25s; text-align: center;
 }
 #toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-.wa {
-  position: fixed; right: 14px; bottom: 146px; z-index: 70; width: 48px; height: 48px;
-  border-radius: 50%; background: linear-gradient(145deg, #25d366, #128c4a); color: #fff;
-  display: grid; place-items: center; text-decoration: none;
-  box-shadow: 0 5px 0 #09522b, 0 14px 26px rgba(18,140,74,0.48);
-}
 #printArea { display: none; }
 @media print { body > * { display: none !important; } #printArea { display: block !important; padding: 16px; font-family: monospace; color: #000; background: #fff; } }
 </style>
@@ -396,12 +311,12 @@ nav .nb {
 <body>
 
 <header>
-  <div class="logo" id="mark" title="Tap 5 times for Owner">NU</div>
+  <div class="logo" id="mark" title="Tap 5 times for Staff / Owner">NU</div>
   <div class="brand">
-    <small><i></i> NAMASTE UDALA · GPS LIVE</small>
-    <h1 id="ttl">3-Time Tiffin & Hot Kitchen</h1>
+    <small><i></i> NAMASTE UDALA · 3D LIVE</small>
+    <h1 id="ttl">3-Time Tiffin & Daily Shop</h1>
   </div>
-  <button class="btn w sm" id="thm" data-a="theme" aria-label="Toggle Theme"></button>
+  <button class="btn w sm" id="thm" data-a="theme" aria-label="Theme"></button>
 </header>
 
 <main id="v"></main>
@@ -409,9 +324,6 @@ nav .nb {
 <nav id="nav"></nav>
 <div id="sheet"></div>
 <div id="toast"></div>
-<a class="wa" href="https://wa.me/919583937047?text=Namaste%20Udala" target="_blank" rel="noopener" aria-label="WhatsApp Support">
-  <svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-</a>
 <div id="printArea"></div>
 
 <script type="module">
@@ -428,30 +340,27 @@ const FB = {
   databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com"
 };
 
-const KITCHEN_GPS = { lat: 21.5724, lng: 86.5663 };
-const UDALA_AREAS = ['Bus Stand', 'Market Square', 'High School Rd', 'College Rd', 'Block Office', 'Sub-Div Hospital', 'Ward 1–5', 'Ward 6–12', 'Bhanjpur'];
-const NODE = 'udala_phase2', UPI = '9583937047@jio', FREE_MIN = 300, DLV_FEE = 25, OPIN = '4827', DPIN = '7788';
+const UDALA_AREAS = ['Bus Stand', 'Market Square', 'High School Rd', 'College Rd', 'Block Office', 'Hospital Rd', 'Ward 1–6', 'Ward 7–12', 'Bhanjpur'];
+const NODE = 'udala_phase2', UPI = '9583937047@jio', OPIN = '4827', DPIN = '7788';
 const PL = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
+const BPKG = [
+  { id: 'vb', n: 'Veg Basic', p: 60 },
+  { id: 'vs', n: 'Veg Special (Paneer)', p: 75 },
+  { id: 'nc', n: 'Chicken Thali', p: 110 },
+  { id: 'nm', n: 'Mutton / Fish Royal', p: 140 }
+];
 
-/* Custom Pro Vector SVG Icon Library (Zero Emoji) */
 const IC = {
-  tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/><path d="M10 3h4"/></svg>`,
+  tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/></svg>`,
   shop: `<svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L23 7H6"/></svg>`,
   svc: `<svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
   kitchen: `<svg class="ic" viewBox="0 0 24 24"><path d="M12 2c1.5 2.5 2 4.5 0 7-2-2.5-1.5-4.5 0-7z"/><path d="M4 13h16v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-5z"/><path d="M2 13h20"/></svg>`,
-  route: `<svg class="ic" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l3 6v5.5h-2"/><path d="M12 17.5H9v-7h6v7z"/><path d="M9 10.5 6 6H3"/></svg>`,
+  route: `<svg class="ic" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l3 6v5.5h-2"/><path d="M12 17.5H9v-7h6v7z"/></svg>`,
   owner: `<svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
   gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`,
-  pin: `<svg class="ic" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
-  call: `<svg class="ic" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
-  check: `<svg class="ic" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
-  shield: `<svg class="ic" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
-  flame: `<svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
   mic: `<svg class="ic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>`,
   print: `<svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>`,
-  copy: `<svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`,
-  cam: `<svg class="ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
-  sun: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+  sun: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2"/></svg>`,
   moon: `<svg class="ic" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`
 };
 
@@ -481,149 +390,75 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const D0 = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
-const inr = n => '₹' + (+n || 0).toLocaleString('en-IN', { minimumFractionDigits: (+n % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 });
+const inr = n => '₹' + Math.round(+n || 0).toLocaleString('en-IN');
 const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
-const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
 const tm = t => new Date(t).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-const upi = (a, n, tr) => 'upi://pay?pa=' + UPI + '&pn=Namaste%20Udala&cu=INR&am=' + (+a).toFixed(2) + '&tn=' + encodeURIComponent(n || 'Order') + (tr ? '&tr=' + encodeURIComponent(tr) : '');
-const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=6&data=' + encodeURIComponent(u);
-const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i><i></i></div>`;
+const upi = (a, n) => 'upi://pay?pa=' + UPI + '&pn=Namaste%20Udala&cu=INR&am=' + Math.round(a) + '&tn=' + encodeURIComponent(n || 'Order');
+const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
+const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
-
-function calcDistKm(lat1, lon1, lat2, lon2) {
-  if (!lat1 || !lon1 || !lat2 || !lon2) return null;
-  const R = 6371, dLat = (lat2 - lat1) * Math.PI / 180, dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  return +(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1);
-}
-
-function playChime() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    [880, 1174.66, 1567.98].forEach((freq, i) => {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'triangle'; o.frequency.value = freq;
-      g.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.09);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.09 + 0.35);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(ctx.currentTime + i * 0.09); o.stop(ctx.currentTime + i * 0.09 + 0.35);
-    });
-  } catch (e) {}
-}
+const dlCsv = (fn, rows) => {
+  const c = rows.map(r => r.map(x => '"' + String(x ?? '').replace(/"/g, '""') + '"').join(',')).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([c], { type: 'text/csv' })); a.download = fn; a.click();
+};
 
 let _t;
-const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2800); };
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2600); };
 addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== IMG.thali) e.target.src = IMG.thali; }, true);
 
 const CATS = [
   ['all', 'All Items', IMG.thali],
   ['Khana', 'Hot Kitchen', IMG.leg],
-  ['Dairy', 'Fresh Dairy', IMG.milk],
-  ['Kirana', 'Daily Kirana', IMG.groc],
-  ['HUL', 'Personal Care', IMG.care],
-  ['Safai', 'Home Care', IMG.clean],
-  ['Nashta', 'Tea & Snacks', IMG.tea]
+  ['Dairy', 'Doodh & Dairy', IMG.milk],
+  ['Kirana', 'Kirana Store', IMG.groc],
+  ['HUL', 'Daily Care', IMG.care],
+  ['Safai', 'Home Safai', IMG.clean]
 ];
 
 const SEED = [
-  ['Roasted Chicken Leg Masala (2 Pc)', 160, 195, 'Khana', IMG.leg, 1, 1, 1],
-  ['Desi Handi Chicken Curry 500g', 260, 310, 'Khana', IMG.chick, 1, 1, 1],
-  ['Homestyle Egg Masala Curry (4)', 96, 120, 'Khana', IMG.egg, 1, 1, 1],
-  ['Shahi Paneer Butter Masala', 110, 135, 'Khana', IMG.paneer, 1, 1, 0],
-  ['Kadhai Mushroom Masala', 120, 145, 'Khana', IMG.curry, 1, 1, 0],
-  ['Garma-Garam Tawa Roti (10 Pc)', 50, 60, 'Khana', IMG.roti, 1, 1, 0],
-  ['Steamed Basmati Rice Bowl', 40, 50, 'Khana', IMG.rice, 1, 1, 0],
-  ['Fresh Pasteurized Milk 500 ml', 30, 34, 'Dairy', IMG.milk, 0, 0, 0],
-  ['Thick Matka Dahi 400 g', 40, 46, 'Dairy', IMG.curd, 0, 0, 0],
-  ['Malai Paneer Block 200 g', 80, 95, 'Dairy', IMG.paneer, 0, 0, 0],
-  ['Chakki Fresh Atta 5 kg', 245, 285, 'Kirana', IMG.roti, 0, 0, 0],
-  ['Premium Basmati Chawal 5 kg', 340, 395, 'Kirana', IMG.rice, 0, 0, 0],
-  ['Unpolished Arhar Dal 1 kg', 150, 175, 'Kirana', IMG.curry, 0, 0, 0],
-  ['Kachi Ghani Mustard Oil 1 L', 150, 178, 'Kirana', IMG.groc, 0, 0, 0],
-  ['Lifebuoy Total Soap Pack (4)', 140, 168, 'HUL', IMG.care, 0, 0, 0],
-  ['Dove Cream Beauty Bar 100g', 60, 70, 'HUL', IMG.care, 0, 0, 0],
-  ['Surf Excel Easy Wash 1 kg', 220, 255, 'Safai', IMG.clean, 0, 0, 0],
-  ['Brooke Bond Red Label 250g', 165, 180, 'Nashta', IMG.tea, 0, 0, 0],
-  ['Protein Farm Eggs (6 Pc)', 72, 85, 'Nashta', IMG.egg, 0, 0, 1]
+  ['Chicken Leg Masala (2 Pc)', 160, 195, 'Khana', IMG.leg, 1, 1, 1],
+  ['Desi Handi Chicken 500g', 260, 310, 'Khana', IMG.chick, 1, 1, 1],
+  ['Garma-Garam Egg Curry (4)', 96, 120, 'Khana', IMG.egg, 1, 1, 1],
+  ['Shahi Paneer Masala', 110, 135, 'Khana', IMG.paneer, 1, 1, 0],
+  ['Mushroom Masala Curry', 120, 145, 'Khana', IMG.curry, 1, 1, 0],
+  ['Tawa Roti (10 Pc)', 50, 60, 'Khana', IMG.roti, 1, 1, 0],
+  ['Basmati Rice Plate', 40, 50, 'Khana', IMG.rice, 1, 1, 0],
+  ['Fresh Doodh 500 ml', 30, 34, 'Dairy', IMG.milk, 0, 0, 0],
+  ['Matka Dahi 400 g', 40, 46, 'Dairy', IMG.curd, 0, 0, 0],
+  ['Fresh Paneer 200 g', 80, 95, 'Dairy', IMG.paneer, 0, 0, 0],
+  ['Chakki Atta 5 kg', 245, 285, 'Kirana', IMG.roti, 0, 0, 0],
+  ['Basmati Chawal 5 kg', 340, 395, 'Kirana', IMG.rice, 0, 0, 0],
+  ['Arhar Dal 1 kg', 150, 175, 'Kirana', IMG.curry, 0, 0, 0],
+  ['Mustard Oil 1 L', 150, 178, 'Kirana', IMG.groc, 0, 0, 0],
+  ['Lifebuoy Soap (4)', 140, 168, 'HUL', IMG.care, 0, 0, 0],
+  ['Dove Soap 100g', 60, 70, 'HUL', IMG.care, 0, 0, 0],
+  ['Surf Excel 1 kg', 220, 255, 'Safai', IMG.clean, 0, 0, 0],
+  ['Red Label Tea 250g', 165, 180, 'Kirana', IMG.tea, 0, 0, 0]
 ].map((a, i) => ({ id: i + 1, n: a[0], p: a[1], mrp: a[2], c: a[3], img: a[4], h: a[5], hot: a[6], nv: a[7], s: 1 }));
 
 const SVC = [
-  { id: 's1', n: 'Private Tuition (Class 6–12)', p: 800, u: '/month', img: IMG.books, d: 'Maths, Science, English & Commerce batches with weekly tests.' },
-  { id: 's2', n: 'Wedding & Event Photography', p: 5000, u: '/event', img: IMG.cam, d: '4K cinematic video, candid photography & album.' },
-  { id: 's3', n: 'Stage & Balloon Decoration', p: 3500, u: '/event', img: IMG.decor, d: 'Complete event backdrop, LED lighting & fresh floral arch.' },
-  { id: 's4', n: 'Student Hostel Accommodation', p: 3500, u: '/month', img: IMG.hostel, d: '24x7 security, WiFi, study desk & 3-time hygienic meals.' },
-  { id: 's5', n: 'Bulk Event Catering (50+ Plates)', p: 80, u: '/plate', img: IMG.thali, d: 'Live counter & full buffet setup for weddings & functions.' }
+  { id: 's1', n: 'Home Tuition (Class 6–12)', p: 800, u: '/month', img: IMG.books, d: 'Maths, Science, English & Commerce batches.' },
+  { id: 's2', n: 'Wedding & Event Photography', p: 5000, u: '/event', img: IMG.cam, d: '4K video, candid photos & album.' },
+  { id: 's3', n: 'Stage & Balloon Decoration', p: 3500, u: '/event', img: IMG.decor, d: 'Birthday arch, LED lighting & flower stage.' },
+  { id: 's4', n: 'Boys & Girls Hostel', p: 3500, u: '/month', img: IMG.hostel, d: 'Safe campus, WiFi, study table & 3-time food.' }
 ];
 
 function seed() {
-  return {
-    rev: Date.now(), prod: SEED, subs: [], orders: [], sv: [], done: {}, dabba: {}, mset: {},
-    usedUtr: [], auto_utr: {}, auto_amt: {}, riderGps: null, cfg: { min: FREE_MIN }
-  };
+  return { rev: Date.now(), prod: SEED, subs: [], orders: [], sv: [], bulk: [], exp: [], done: {}, dabba: {}, mset: {}, wish: [], pts: {}, cap: 200 };
 }
 
 let S = seed();
 try { const l = JSON.parse(localStorage.getItem('nu5')); if (l && l.prod) S = { ...seed(), ...l }; } catch (e) {}
 S.prod = (S.prod || SEED).map((p, i) => ({ ...SEED[i % SEED.length], ...p, hot: p.c === 'Khana' ? 1 : 0 }));
-S.usedUtr = Array.isArray(S.usedUtr) ? S.usedUtr : [];
-S.auto_utr = S.auto_utr || {};
-S.auto_amt = S.auto_amt || {};
-S.dabba = S.dabba || {};
-
-let tab = 'plan', OK = sessionStorage.getItem('nu5ok') ? 1 : 0, ST = sessionStorage.getItem('nu5st') ? 1 : 0;
-let SCAT = 'all', SQ = '', PQ = null, TRK = null, SVB = null, CART_OPEN = false, RIDER_WATCH = null, PROOF_IMG = null;
-let PAY_GATE = null;
-try { PAY_GATE = JSON.parse(localStorage.getItem('nu_pgate')) || null; } catch (e) {}
-
-const setGate = g => {
-  PAY_GATE = g;
-  try {
-    if (g) localStorage.setItem('nu_pgate', JSON.stringify(g));
-    else localStorage.removeItem('nu_pgate');
-  } catch (e) {}
-};
-
-let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
-let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || []; } catch (e) {}
-
-const F = {
-  type: 'nv', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 0,
-  area: localStorage.getItem('nu_area') || 'Bus Stand',
-  name: localStorage.getItem('nu_n') || '',
-  phone: localStorage.getItem('nu_p') || '',
-  addr: localStorage.getItem('nu_a') || '',
-  lat: +(localStorage.getItem('nu_lat') || 0),
-  lng: +(localStorage.getItem('nu_lng') || 0)
-};
-
-const saveUser = () => {
-  localStorage.setItem('nu_n', F.name);
-  localStorage.setItem('nu_p', F.phone);
-  localStorage.setItem('nu_a', F.addr);
-  localStorage.setItem('nu_area', F.area);
-  if (F.lat) localStorage.setItem('nu_lat', F.lat);
-  if (F.lng) localStorage.setItem('nu_lng', F.lng);
-};
+['subs', 'orders', 'sv', 'bulk', 'exp', 'wish'].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
+S.done = S.done || {}; S.dabba = S.dabba || {}; S.pts = S.pts || {}; S.cap = +S.cap || 200;
 
 let db = null;
 try {
   const app = initializeApp(FB); db = getDatabase(app);
-  onValue(ref(db, NODE), sn => {
-    const v = sn.val();
-    if (v && v.prod && (+v.rev || 0) >= (+S.rev || 0)) {
-      S = { ...seed(), ...v };
-      checkInstantAutoMatch();
-      render();
-    }
-  });
+  onValue(ref(db, NODE), sn => { const v = sn.val(); if (v && v.prod && (+v.rev || 0) > (+S.rev || 0)) { S = { ...seed(), ...v }; render(); } });
 } catch (e) {}
-
-// Zero-Touch Instant Auto-Matcher (Matches Unique Decimal Paise OR Bank UTR)
-function checkInstantAutoMatch() {
-  if (PAY_GATE && S.auto_amt && S.auto_amt[String(PAY_GATE.exactAmt)]) {
-    completeVerifiedOrder('AUTO-' + Date.now().toString().slice(-8), 'Zero-Touch Exact Paise Auto-Matched');
-  }
-}
 
 function save() {
   S.rev = Date.now();
@@ -632,12 +467,36 @@ function save() {
   render();
 }
 
+let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
+let SCAT = 'all', SQ = '', VO = 0, PQ = null, CART_OPEN = false, PAY_BOX = null, SVB = null, OV = 'dash', ED = null;
+let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
+let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || []; } catch (e) {}
+
+const F = {
+  type: 'nv', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 0,
+  start: iso(addD(D0(), 1)),
+  area: localStorage.getItem('nu_area') || 'Bus Stand',
+  name: localStorage.getItem('nu_n') || '',
+  phone: localStorage.getItem('nu_p') || '',
+  addr: localStorage.getItem('nu_a') || '',
+  lat: +(localStorage.getItem('nu_lat') || 0),
+  lng: +(localStorage.getItem('nu_lng') || 0)
+};
+const BF = { pkg: 'vs', plates: 100, event: '', date: iso(addD(D0(), 3)), venue: '' };
+
+const saveUser = () => {
+  localStorage.setItem('nu_n', F.name); localStorage.setItem('nu_p', F.phone);
+  localStorage.setItem('nu_a', F.addr); localStorage.setItem('nu_area', F.area);
+  if (F.lat) localStorage.setItem('nu_lat', F.lat);
+  if (F.lng) localStorage.setItem('nu_lng', F.lng);
+};
+
 const cc = () => Object.values(C).reduce((a, b) => a + (+b || 0), 0);
 const subTot = () => Object.entries(C).reduce((a, [k, q]) => {
   const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return a;
   return a + (k.endsWith('h') ? Math.round(p.p * 0.6) : p.p) * q;
 }, 0);
-const dlvFee = () => { const st = subTot(); return (st > 0 && st < FREE_MIN) ? DLV_FEE : 0; };
+const dlvFee = () => { const st = subTot(); return (st > 0 && st < 300) ? 25 : 0; };
 const ct = () => subTot() + dlvFee();
 
 const act = (s, d) => {
@@ -646,244 +505,337 @@ const act = (s, d) => {
   return k >= s.start && k <= iso(addD(new Date(s.start + 'T12:00'), (s.days || 30) - 1));
 };
 
-const menu = (d, t) => {
-  const o = (S.mset || {})[iso(d)];
+const menu = t => {
+  const o = (S.mset || {})[iso(D0())];
   if (o && o[t]) return o[t];
-  if (t === 'bf') return 'Hot Puri Sabzi / Stuffed Paratha + Masala Chai';
-  return t === 'nv' ? 'Roasted Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Shahi Paneer Masala + Dal Tadka + Basmati Rice + 4 Roti';
+  if (t === 'bf') return 'Hot Puri Sabzi / Paratha + Masala Chai';
+  return t === 'nv' ? 'Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Shahi Paneer + Dal Tadka + Rice + 4 Roti';
 };
 
 const calcPlanPrice = () => {
   const d = +F.days || 30;
-  let base = PL[F.type][d] || 2899;
-  if (+F.times === 3) base += d * 25;
-  if (F.lunch === 'both') base += d * 10;
-  if (F.dinner === 'both') base += d * 10;
-  base += (+F.extraRoti || 0) * 5 * d;
-  return base;
+  let b = PL[F.type][d] || 2899;
+  if (+F.times === 3) b += d * 25;
+  if (F.lunch === 'both') b += d * 10;
+  if (F.dinner === 'both') b += d * 10;
+  b += (+F.extraRoti || 0) * 5 * d;
+  return b;
 };
 
-/* GPS & Udala Area Block */
-function addressAndGpsBlock() {
-  const dist = F.lat ? calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng) : null;
+const calcBulk = () => {
+  const r = BPKG.find(x => x.id === BF.pkg) || BPKG[0];
+  const discPct = BF.plates >= 500 ? 15 : BF.plates >= 200 ? 12 : BF.plates >= 100 ? 8 : BF.plates >= 50 ? 5 : 0;
+  const base = r.p * BF.plates, disc = Math.round(base * discPct / 100);
+  return { rate: r.p, discPct, total: base - disc };
+};
+
+function userFormHTML() {
   return `
-  <div class="gps-box ${F.lat ? '' : 'warn'}">
-    <div style="display:flex;align-items:center;gap:10px;min-width:0">
-      <div class="gps-dot" style="background:${F.lat ? '#16a34a' : '#f59e0b'}"></div>
-      <div style="min-width:0">
-        <b style="font-size:12.5px;display:block">${F.lat ? `GPS Pin Locked (${dist} km from Kitchen)` : 'Tap Detect GPS for Exact Doorstep Pin'}</b>
-        <span style="font-size:11px;color:var(--mu);display:block">${F.lat ? `${F.lat.toFixed(5)}, ${F.lng.toFixed(5)} · Fast Rider Route` : 'Or select your Udala locality below'}</span>
-      </div>
-    </div>
-    <button class="btn sm ${F.lat ? 'w' : 'g'}" data-a="getgps">${IC.gps} ${F.lat ? 'Update' : 'Detect GPS'}</button>
+  <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
+    <button class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'GPS Pin Saved' : 'Detect My GPS'}</button>
+    <span style="font-size:11px;color:var(--mu)">${F.lat ? `${F.lat.toFixed(4)}, ${F.lng.toFixed(4)}` : 'Fast Doorstep Route'}</span>
   </div>
-  <span class="lbl">Select Udala Area / Ward</span>
   <div class="area-chips">
     ${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}
   </div>
-  <input class="inp" data-f="name" placeholder="Full Name" value="${esc(F.name)}">
+  <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
   <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
-  <input class="inp" data-f="addr" placeholder="House No, Street & Landmark" value="${esc(F.addr)}">`;
+  <input class="inp" data-f="addr" placeholder="Pura Address (House No / Landmark)" value="${esc(F.addr)}">`;
 }
 
-/* --- 1. TIFFIN (3-TIME KHANA) VIEW --- */
+/* --- 1. MODULE 1: FULL TIFFIN + 30-DAY VISUAL CALENDAR + CUSTOMIZATION --- */
 function vPlan() {
   const pr = calcPlanPrice();
   const myOrds = (S.orders || []).filter(o => MY.includes(o.id) || (F.phone && o.phone === ph(F.phone))).slice().reverse();
   const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (F.phone && s.phone === ph(F.phone))).slice().reverse();
-  const rDist = (S.riderGps && F.lat) ? calcDistKm(S.riderGps.lat, S.riderGps.lng, F.lat, F.lng) : null;
+  const activeSub = mySubs[0];
+
+  // Build 30-Day Visual Calendar for active subscriber
+  let calHTML = '';
+  if (activeSub) {
+    const startD = new Date((activeSub.start || iso(D0())) + 'T12:00');
+    const daysArr = Array.from({ length: activeSub.days || 30 }, (_, i) => {
+      const d = addD(startD, i), k = iso(d);
+      const isSk = (activeSub.skip || []).includes(k), isDn = S.done[k + '_' + activeSub.id], isTd = k === iso(D0());
+      return `<div class="cal-d ${isDn ? 'dn' : isSk ? 'sk' : ''} ${isTd ? 'td' : ''}">${d.getDate()}/${d.getMonth() + 1}<br>${isDn ? '✓' : isSk ? 'Skip' : '•'}</div>`;
+    }).join('');
+    calHTML = `
+    <div class="card" style="border:2px solid #16a34a">
+      <h3>Active Tiffin Calendar (${activeSub.days} Days) <span style="font-size:11.5px;color:#16a34a">OTP: ${activeSub.otp || '4512'}</span></h3>
+      <div style="font-size:12px;color:var(--mu);margin-bottom:6px">${activeSub.type === 'nv' ? 'Non-Veg' : 'Veg'} · ${activeSub.times || 3} Meals/Day · Lunch: ${activeSub.lunch} · Dinner: ${activeSub.dinner}</div>
+      <div class="cal-grid">${daysArr}</div>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn w sm" data-a="cust_skip" data-id="${activeSub.id}">${(activeSub.skip || []).includes(iso(D0())) ? 'Today Skipped (+1 Day Extended)' : 'Pause / Skip Today (+1 Day Free)'}</button>
+      </div>
+    </div>`;
+  }
 
   return `
   <div class="hero3d" data-a="pq" data-id="1">
     ${steamHTML()}
-    <span class="hero-tag">${IC.flame} 3D LIVE STEAM KITCHEN</span>
-    <h2>3-Time Homestyle Hot Tiffin Service</h2>
-    <p>Morning Breakfast · Afternoon Lunch · Night Dinner · Tap plate for 3D View</p>
-    <img class="hero-plate" src="${IMG.leg}" alt="Hot Chicken Masala">
+    <span class="hero-tag">3D HOT TIFFIN SERVICE</span>
+    <h2>3-Time Garma-Garam Ghar Jaisa Tiffin</h2>
+    <p>Subah Nashta · Dopahar Lunch · Raat Dinner (Touch Plate for 3D)</p>
+    <img class="hero-plate" src="${IMG.leg}" alt="Hot Chicken">
   </div>
 
-  ${S.riderGps && (Date.now() - S.riderGps.ts < 600000) ? `
-  <div class="card" style="border:2px solid #16a34a">
-    <h3><span class="t-left"><span class="gps-dot"></span> Live Delivery Rider Active</span><span style="font-size:12px;color:#16a34a">${rDist !== null ? `${rDist} km away (~${Math.max(3, Math.round(rDist * 4))} min)` : 'On Route'}</span></h3>
-    <div style="font-size:12.5px;color:var(--mu)">Rider GPS: ${S.riderGps.lat.toFixed(4)}, ${S.riderGps.lng.toFixed(4)} · Updated ${tm(S.riderGps.ts)}</div>
-  </div>` : ''}
+  ${calHTML}
 
   <div class="card">
-    <h3><span class="t-left">${IC.kitchen} Today's 3-Time Live Menu</span><span style="font-size:11.5px;color:var(--mu)">${iso(D0())}</span></h3>
-    <div style="background:var(--sf2);padding:11px 13px;border-radius:15px;box-shadow:var(--sh-in);margin-bottom:9px">
-      <small style="color:var(--o);font-weight:800;letter-spacing:.5px">1. MORNING BREAKFAST (7:30 AM)</small>
-      <div style="font-weight:800;font-size:13.5px;margin-top:3px">${esc(menu(D0(), 'bf'))}</div>
+    <h3>Aaj Ka 3-Time Live Menu <span>${iso(D0())}</span></h3>
+    <div style="background:var(--sf2);padding:10px 12px;border-radius:13px;margin-bottom:8px;font-size:13px">
+      <b style="color:var(--o)">1. Subah Nashta (7:30 AM):</b> ${esc(menu('bf'))}
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
-      <div style="background:var(--sf2);padding:11px;border-radius:15px;box-shadow:var(--sh-in);cursor:pointer" data-a="pq" data-id="4">
-        <div style="display:flex;align-items:center;gap:6px;color:#16a34a;font-size:11px;font-weight:800">${symHTML(0)} VEG THALI (3D)</div>
-        <div style="font-weight:800;font-size:12.5px;margin-top:4px">${esc(menu(D0(), 'veg'))}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:var(--sf2);padding:10px;border-radius:13px;cursor:pointer" data-a="pq" data-id="4">
+        <div style="display:flex;align-items:center;gap:5px;color:#16a34a;font-size:11px;font-weight:800">${symHTML(0)} VEG THALI</div>
+        <div style="font-weight:700;font-size:12px;margin-top:3px">${esc(menu('veg'))}</div>
       </div>
-      <div style="background:var(--sf2);padding:11px;border-radius:15px;box-shadow:var(--sh-in);cursor:pointer" data-a="pq" data-id="1">
-        <div style="display:flex;align-items:center;gap:6px;color:#dc2626;font-size:11px;font-weight:800">${symHTML(1)} NON-VEG (3D)</div>
-        <div style="font-weight:800;font-size:12.5px;margin-top:4px">${esc(menu(D0(), 'nv'))}</div>
+      <div style="background:var(--sf2);padding:10px;border-radius:13px;cursor:pointer" data-a="pq" data-id="1">
+        <div style="display:flex;align-items:center;gap:5px;color:#dc2626;font-size:11px;font-weight:800">${symHTML(1)} NON-VEG (Touch)</div>
+        <div style="font-weight:700;font-size:12px;margin-top:3px">${esc(menu('nv'))}</div>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h3><span class="t-left">${IC.tiffin} Customize Your Tiffin Subscription</span></h3>
+    <h3>Customize & Book Tiffin Plan</h3>
 
-    <span class="lbl">1. Select Daily Meal Frequency</span>
+    <span class="lbl">1. Kitne Time Khana?</span>
     <div class="seg">
-      <button class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">3-Time (Breakfast + Lunch + Dinner)</button>
-      <button class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">2-Time (Lunch + Dinner)</button>
+      <button class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">3 Time (Nashta+Lunch+Dinner)</button>
+      <button class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">2 Time (Lunch+Dinner)</button>
     </div>
 
-    <span class="lbl">2. Select Meal Category</span>
+    <span class="lbl">2. Veg ya Non-Veg?</span>
     <div class="seg">
-      <button class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">Pure Veg Plan</button>
-      <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">Non-Veg (Chicken / Egg / Fish)</button>
+      <button class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">Pure Veg</button>
+      <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">Non-Veg (Chicken/Fish/Egg)</button>
     </div>
 
-    <span class="lbl">3. Subscription Duration</span>
+    <span class="lbl">3. Kitne Din Ka Plan?</span>
     <div class="seg">
-      <button class="${+F.days === 7 ? 'on' : ''}" data-a="fset" data-k="days" data-v="7">7 Days</button>
-      <button class="${+F.days === 15 ? 'on' : ''}" data-a="fset" data-k="days" data-v="15">15 Days</button>
-      <button class="${+F.days === 30 ? 'on' : ''}" data-a="fset" data-k="days" data-v="30">30 Days (Saver)</button>
+      <button class="${+F.days === 7 ? 'on' : ''}" data-a="fset" data-k="days" data-v="7">7 Din</button>
+      <button class="${+F.days === 15 ? 'on' : ''}" data-a="fset" data-k="days" data-v="15">15 Din</button>
+      <button class="${+F.days === 30 ? 'on' : ''}" data-a="fset" data-k="days" data-v="30">30 Din (Saver)</button>
     </div>
 
-    <span class="lbl">4. Bread / Rice Preference</span>
+    <span class="lbl">4. Dopahar (Lunch) Preference</span>
     <div class="seg">
-      <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Steamed Rice</button>
-      <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">Tawa Roti</button>
-      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Both (+₹10/d)</button>
+      <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Chawal</button>
+      <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">4 Roti</button>
+      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹10/d)</button>
     </div>
 
-    ${addressAndGpsBlock()}
+    <span class="lbl">5. Raat (Dinner) Preference</span>
+    <div class="seg">
+      <button class="${F.dinner === 'roti' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="roti">4 Roti</button>
+      <button class="${F.dinner === 'chawal' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="chawal">Chawal</button>
+      <button class="${F.dinner === 'both' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="both">Dono (+₹10/d)</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin-top:8px">
+      <div>
+        <span class="lbl" style="margin:0 0 4px">Extra Roti (+₹5/din)</span>
+        <div class="qty">
+          <button data-a="er_dec">−</button><b>${F.extraRoti}</b><button data-a="er_inc">+</button>
+        </div>
+      </div>
+      <div>
+        <span class="lbl" style="margin:0 0 4px">Start Date</span>
+        <input class="inp" type="date" data-f="start" value="${F.start}" style="margin:0">
+      </div>
+    </div>
+
+    ${userFormHTML()}
 
     <div class="tot">
-      <span>Payable (${F.days} Days · ${F.times} Meals/Day)</span>
+      <span>Kul Price (${F.days} Din · ${F.times} Time)</span>
       <b>${inr(pr)}</b>
     </div>
-    <button class="btn" data-a="sub_gate">${IC.shield} Proceed to Hybrid Payment · ${inr(pr)}</button>
-    <button class="btn g" data-a="trial_gate">Book 1-Day Trial Tiffin · ₹49</button>
+    <button class="btn" data-a="pay_sub">Pay & Start Tiffin · ${inr(pr)}</button>
+    <button class="btn g" data-a="pay_trial">1 Din Trial Tiffin Mangwayein · ₹49</button>
   </div>
 
-  ${(mySubs.length || myOrds.length) ? `
+  ${myOrds.length ? `
   <div class="card">
-    <h3><span class="t-left">${IC.route} Active Subscriptions & Orders</span></h3>
-    ${mySubs.map(s => `<div class="row">
-      <div>
-        <b>${s.days} Days ${s.type === 'nv' ? 'Non-Veg' : 'Veg'} (${s.times || 2} Meals/Day)</b>
-        <div style="font-size:11.5px;color:var(--mu)">Ref: ${esc(s.utr)} · Delivery OTP: <b style="color:var(--o)">${s.otp || '4512'}</b></div>
-      </div>
-      <div style="text-align:right">
-        <span style="font-size:12px;font-weight:800;color:#16a34a">${S.done[iso(D0()) + '_' + s.id] ? 'Delivered Today' : 'Active'}</span><br>
-        <button class="btn w sm" style="margin-top:4px" data-a="cust_skip" data-id="${s.id}">${(s.skip || []).includes(iso(D0())) ? 'Paused Today (+1d)' : 'Pause Today'}</button>
-      </div>
-    </div>`).join('')}
+    <h3>Mere Shop Orders (${myOrds.length})</h3>
     ${myOrds.map(o => `<div class="row">
       <div>
-        <b>Order #${String(o.id).slice(-5)} (${inr(o.total)})</b>
-        <div style="font-size:11.5px;color:var(--mu)">Ref: ${esc(o.utr)} · Delivery OTP: <b style="color:var(--o)">${o.otp || '8821'}</b></div>
+        <b>Order #${String(o.id).slice(-4)} (${inr(o.total)}) · OTP: <span style="color:var(--o)">${o.otp || '8821'}</span></b>
+        <div style="font-size:11.5px;color:var(--mu)">${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
       </div>
-      <button class="btn w sm" data-a="trk" data-id="${o.id}">${o.dlv ? 'Delivered' : 'Live Track'}</button>
+      <div style="display:flex;gap:5px">
+        <button class="btn w sm" data-a="again" data-id="${o.id}">Reorder</button>
+        <button class="btn w sm" data-a="prt" data-id="${o.id}">${IC.print}</button>
+      </div>
     </div>`).join('')}
   </div>` : ''}`;
 }
 
-/* --- 2. 3D SHOP VIEW (DIRECT +ADD & ZERO SCROLL POPUP CART) --- */
+/* --- 2. MODULE 2: 3D SHOP + HALF/FULL + WISHLIST + VOICE + VEG FILTER --- */
 function vShop() {
   const q = SQ.trim().toLowerCase();
-  const list = S.prod.filter(p => (SCAT === 'all' || p.c === SCAT) && (!q || p.n.toLowerCase().includes(q)));
+  let list = S.prod.filter(p => !VO || !p.nv);
+  list = list.filter(p => (SCAT === 'all' || p.c === SCAT) && (!q || p.n.toLowerCase().includes(q)));
+  const saved = S.wish.map(id => S.prod.find(p => p.id === id && p.s)).filter(Boolean);
 
   return `
   <div class="hero3d green" data-a="pq" data-id="1">
     ${steamHTML()}
-    <span class="hero-tag">${IC.flame} TOUCH PHOTO FOR 3D POP-OUT</span>
-    <h2>Hot Kitchen Curries & Daily Kirana</h2>
-    <p>Tap photo for 3D steam view or tap +ADD for instant 1-click cart!</p>
-    <img class="hero-plate" src="${IMG.chick}" alt="Handi Chicken">
+    <span class="hero-tag">TOUCH PHOTO FOR 3D STEAM</span>
+    <h2>Hot Chicken, Paneer & Daily Kirana</h2>
+    <p>Half/Full plate available · Free Delivery above ₹300</p>
+    <img class="hero-plate" src="${IMG.chick}" alt="Chicken">
   </div>
 
-  <div style="display:flex;gap:8px;margin-bottom:12px">
-    <input class="inp" id="sq" placeholder="Search Chicken, Paneer, Milk, Atta..." value="${esc(SQ)}" style="margin:0;flex:1">
-    <button class="btn w sm" data-a="voice" style="padding:0 15px" title="Voice Search">${IC.mic}</button>
+  <div style="display:flex;gap:8px;margin-bottom:10px">
+    <input class="inp" id="sq" placeholder="Search Chicken, Paneer, Doodh, Atta..." value="${esc(SQ)}" style="margin:0;flex:1">
+    <button class="btn w sm" data-a="voice" style="padding:0 14px">${IC.mic}</button>
+    <button class="btn sm ${VO ? 'g' : 'w'}" data-a="vo">Pure Veg</button>
   </div>
 
   <div class="chips">
     ${CATS.map(c => `<button class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${c[2]}" alt=""><span>${c[1]}</span></button>`).join('')}
   </div>
 
+  ${saved.length ? `
+  <div class="card" style="padding:12px 14px">
+    <h3 style="margin-bottom:8px;font-size:13.5px">Saved Favorites (${saved.length})</h3>
+    <div class="area-chips" style="padding:0">
+      ${saved.map(p => `<span data-a="pq" data-id="${p.id}">${esc(p.n)} · ${inr(p.p)}</span>`).join('')}
+    </div>
+  </div>` : ''}
+
   <div class="grid">
     ${list.map(p => {
       const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0, qty = qf + qh;
       const off = p.mrp ? Math.round((1 - p.p / p.mrp) * 100) : 0;
+      const isW = S.wish.includes(p.id);
       return `<div class="pcard">
         <div class="pimg" data-a="pq" data-id="${p.id}">
           ${p.hot ? steamHTML() : ''}
           <img src="${p.img}" alt="${esc(p.n)}" loading="lazy">
           ${off > 0 ? `<span class="badge">${off}% OFF</span>` : ''}
-          ${p.hot ? `<span class="hot-tag">3D HOT STEAM</span>` : ''}
+          ${p.h ? `<span class="half-tag">1/2 Half Available</span>` : ''}
+          ${p.hot ? `<span class="hot-tag">3D STEAM</span>` : ''}
         </div>
+        <button class="fav-btn" data-a="wish" data-id="${p.id}">${isW ? '♥' : '♡'}</button>
         <div class="pname" data-a="pq" data-id="${p.id}">${symHTML(p.nv)}<span>${esc(p.n)}</span></div>
         <div class="pprice">
           <div><b>${inr(p.p)}</b>${p.mrp ? `<s>${inr(p.mrp)}</s>` : ''}</div>
-          <span class="v3d-btn" data-a="pq" data-id="${p.id}">3D View</span>
+          <span class="v3d-btn" data-a="pq" data-id="${p.id}">3D / Half</span>
         </div>
-        ${!p.s ? `<button class="btn w" disabled style="margin-top:auto">Out of Stock</button>` :
+        ${!p.s ? `<button class="btn w" disabled>Out of Stock</button>` :
           qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` :
-          `<button class="btn g" style="margin-top:auto;padding:10px" data-a="inc" data-id="${p.id}">+ ADD TO CART</button>`}
+          `<button class="btn g" style="margin-top:auto;padding:9px" data-a="inc" data-id="${p.id}">+ ADD</button>`}
       </div>`;
     }).join('')}
   </div>`;
 }
 
-/* --- 3. KITCHEN LIVE VIEW --- */
+/* --- 3. MODULE 3: SERVICES + LIVE BULK PARTY CATERING CALCULATOR --- */
+function vServices() {
+  const bc = calcBulk();
+  return `
+  <div class="hero3d slate">
+    <span class="hero-tag">UDALA PARTNERS & CATERING</span>
+    <h2>Local Services & Bulk Party Catering</h2>
+    <p>Tuition · Photography · Stage Decor · Hostel · 20–1000 Plate Catering</p>
+    <img class="hero-plate" src="${IMG.thali}" alt="Catering">
+  </div>
+
+  <div class="card">
+    <h3>Bulk Party Catering Calculator <span>Auto-Discount</span></h3>
+    <span class="lbl">1. Select Package</span>
+    <div class="area-chips">
+      ${BPKG.map(p => `<span class="${BF.pkg === p.id ? 'on' : ''}" data-a="bpkg" data-v="${p.id}">${p.n} · ₹${p.p}/plate</span>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0">
+      <span class="lbl" style="margin:0">2. Number of Plates (20–1000)</span>
+      <div class="qty" style="width:135px;margin:0">
+        <button data-a="b_dec">−</button><b>${BF.plates}</b><button data-a="b_inc">+</button>
+      </div>
+    </div>
+    <input class="inp" data-b="event" placeholder="Event Name (e.g. Wedding, Birthday)" value="${esc(BF.event)}">
+    <div style="display:flex;gap:8px">
+      <input class="inp" type="date" data-b="date" value="${BF.date}" style="flex:1">
+      <input class="inp" data-b="venue" placeholder="Venue / Hall" value="${esc(BF.venue)}" style="flex:1">
+    </div>
+    ${userFormHTML()}
+    <div class="tot">
+      <span>${BF.plates} Plates ${bc.discPct ? `(${bc.discPct}% Bulk Discount Applied)` : ''}</span>
+      <b>${inr(bc.total)}</b>
+    </div>
+    <button class="btn" data-a="book_bulk">Book Party Catering · ${inr(bc.total)}</button>
+  </div>
+
+  ${SVC.map(s => `
+    <div class="card" style="display:flex;gap:14px;align-items:center">
+      <img src="${s.img}" style="width:84px;height:84px;border-radius:15px">
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:14.5px">${esc(s.n)}</div>
+        <p style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.d)}</p>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <b style="color:var(--o);font-size:15.5px">${inr(s.p)}<span style="font-size:11px;color:var(--mu)">${s.u}</span></b>
+          <button class="btn sm" data-a="svb" data-id="${s.id}">Book Now</button>
+        </div>
+      </div>
+    </div>
+  `).join('')}`;
+}
+
+/* --- 4. MODULE 4A: DEDICATED KITCHEN SCREEN --- */
 function vKitchen() {
   const k = iso(D0()), on = (S.subs || []).filter(s => act(s, D0()));
   const veg = on.filter(s => s.type === 'veg').length, nv = on.length - veg;
-  const bfCount = on.filter(s => (+s.times || 2) === 3).length;
+  const bf = on.filter(s => (+s.times || 3) === 3).length;
   const roti = on.length * 4 + on.reduce((a, s) => a + (+s.extraRoti || 0), 0);
-  const shopHot = (S.orders || []).filter(o => !o.dlv);
+  const bulkPlates = (S.bulk || []).filter(b => b.date === k).reduce((a, b) => a + (+b.plates || 0), 0);
+  const totalLoad = on.length * 2 + bulkPlates;
+  const pct = Math.min(100, Math.round(totalLoad / (S.cap || 200) * 100));
+  const shopOrds = (S.orders || []).filter(o => !o.dlv);
 
   return `
   <div class="hero3d green">
     ${steamHTML()}
-    <span class="hero-tag">${IC.kitchen} LIVE PRODUCTION</span>
-    <h2>Central Kitchen Production Counter</h2>
-    <p>Verified Tiffins & Hot Shop Orders for ${k}</p>
+    <span class="hero-tag">CHEF PRODUCTION COUNTER</span>
+    <h2>Live Kitchen Dashboard (${k})</h2>
+    <p>Capacity Load: ${totalLoad} / ${S.cap} Plates (${pct}%)</p>
     <img class="hero-plate" src="${IMG.thali}" alt="Kitchen">
   </div>
 
-  <div class="kpi">
-    <div><b>${on.length}</b><span>Active Tiffins</span></div>
-    <div><b>${bfCount}</b><span>Breakfasts</span></div>
+  <div class="bar"><i style="width:${pct}%"></i></div>
+
+  <div class="kpi" style="margin-top:12px">
+    <div><b>${on.length}</b><span>Tiffin Dabbe</span></div>
+    <div><b>${bf}</b><span>Subah Nashta</span></div>
     <div><b>${veg} / ${nv}</b><span>Veg / Non-Veg</span></div>
-    <div><b>${roti}</b><span>Total Rotis</span></div>
+    <div><b>${roti}</b><span>Total Roti</span></div>
     <div><b>${on.length}</b><span>Rice Bowls</span></div>
-    <div><b>${shopHot.length}</b><span>Shop Orders</span></div>
+    <div><b>${bulkPlates}</b><span>Bulk Plates</span></div>
   </div>
 
   <div class="card">
-    <h3><span class="t-left">${IC.tiffin} Today's Tiffin Dispatch List (${on.length})</span></h3>
+    <h3>Active Tiffin Preparation (${on.length})</h3>
     ${on.map(s => `<div class="row">
       <div>
-        <b>${esc(s.name)} · ${s.type === 'nv' ? 'Non-Veg' : 'Veg'} (${s.times || 2} Meals)</b>
-        <div style="font-size:12px;color:var(--mu)">Pref: ${s.lunch || 'chawal'} · Area: ${esc(s.area || 'Udala')}</div>
+        <b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'} · ${s.times || 3} Time)</b>
+        <div style="font-size:12px;color:var(--mu)">L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'}${s.extraRoti ? ' · +' + s.extraRoti + ' Extra Roti' : ''}</div>
       </div>
-      <span style="font-size:12px;font-weight:800;color:#16a34a">${esc(s.vMode || 'Verified')}</span>
-    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffins right now.</p>'}
+      <button class="btn w sm" data-a="cust_skip" data-id="${s.id}">Skip</button>
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffins today.</p>'}
   </div>
 
   <div class="card">
-    <h3><span class="t-left">${IC.flame} Shop Orders to Pack (${shopHot.length})</span></h3>
-    ${shopHot.map(o => `<div class="row">
-      <div>
-        <b>#${String(o.id).slice(-5)} · ${esc(o.name)} (${esc(o.area || 'Udala')})</b>
-        <div style="font-size:12.5px;color:var(--o);font-weight:800">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div>
-      </div>
+    <h3>Shop Orders to Pack (${shopOrds.length})</h3>
+    ${shopOrds.map(o => `<div class="row">
+      <div><b>#${String(o.id).slice(-4)} · ${esc(o.name)}</b><div style="font-size:12.5px;color:var(--o);font-weight:800">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div></div>
       <button class="btn w sm" data-a="prt" data-id="${o.id}">${IC.print}</button>
-    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">All shop orders are packed.</p>'}`;
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">All shop orders packed.</p>'}`;
 }
 
-/* --- 4. DELIVERY BOY (GPS + OTP LOCK + EMPTY DABBA TRACKER) --- */
+/* --- 4B. MODULE 4B: DEDICATED DELIVERY BOY ROUTE SCREEN --- */
 function vDelivery() {
   const k = iso(D0());
   const subs = (S.subs || []).filter(s => act(s, D0()));
@@ -892,556 +844,463 @@ function vDelivery() {
 
   return `
   <div class="hero3d slate">
-    <span class="hero-tag">${IC.route} GPS DISPATCH ROUTE</span>
-    <h2>Delivery Partner Live Console</h2>
+    <span class="hero-tag">RIDER GPS DISPATCH</span>
+    <h2>Delivery Boy Live Route</h2>
     <p>${pendSubs.length} Tiffins Pending · ${pendOrds.length} Shop Orders Pending</p>
-    <img class="hero-plate" src="${IMG.roti}" alt="Delivery">
+    <img class="hero-plate" src="${IMG.roti}" alt="Route">
   </div>
 
   <div class="card">
-    <h3><span class="t-left">${IC.gps} Rider Live GPS Broadcast</span></h3>
-    <button class="btn ${RIDER_WATCH ? 'g' : ''}" data-a="rider_gps">${IC.gps} ${RIDER_WATCH ? 'Broadcasting Live Rider GPS (Active)' : 'Start Live Rider GPS Broadcast'}</button>
-  </div>
-
-  <div class="card">
-    <h3><span class="t-left">${IC.tiffin} Tiffin Doorstep Drops (${pendSubs.length})</span></h3>
+    <h3>Tiffin Doorstep Drops (${pendSubs.length})</h3>
     ${pendSubs.map(s => {
-      const mapUrl = s.lat ? `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((s.addr || '') + ' ' + (s.area || 'Udala'))}`;
-      const dabbaCol = S.dabba[k + '_' + s.id];
+      const mapUrl = s.lat ? `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' ' + (s.area || 'Udala'))}`;
+      const dabbaOk = S.dabba[k + '_' + s.id];
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
           <b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
-          <span style="font-size:11.5px;font-weight:800;color:#16a34a">${s.lat ? `GPS (${s.dist || 1.2} km)` : esc(s.area || 'Udala')}</span>
+          <span style="font-size:11.5px;font-weight:800;color:var(--o)">${esc(s.area || 'Udala')}</span>
         </div>
-        <div style="font-size:12px;color:var(--mu);margin:4px 0 8px">${esc(s.addr)}</div>
+        <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.addr)}</div>
         <div class="btn-row">
-          <a class="btn w sm" href="${mapUrl}" target="_blank">${IC.pin} Map</a>
-          <a class="btn w sm" href="tel:+91${esc(s.phone)}">${IC.call} Call</a>
-          <button class="btn sm ${dabbaCol ? 'g' : 'w'}" data-a="dabba" data-id="${s.id}">${dabbaCol ? 'Dabba Collected' : 'Collect Dabba'}</button>
-          <button class="btn g sm" data-a="sdone" data-id="${s.id}">${IC.check} OTP Drop</button>
+          <a class="btn w sm" href="${mapUrl}" target="_blank">GPS Map</a>
+          <a class="btn w sm" href="tel:+91${esc(s.phone)}">Call</a>
+          <button class="btn sm ${dabbaOk ? 'g' : 'w'}" data-a="dabba" data-id="${s.id}">${dabbaOk ? 'Dabba Liya ✓' : 'Khali Dabba'}</button>
+          <button class="btn g sm" data-a="sdone" data-id="${s.id}">OTP Drop</button>
         </div>
       </div>`;
-    }).join('') || '<p style="color:#16a34a;font-weight:800;font-size:13px">All Tiffins Delivered for Today!</p>'}
+    }).join('') || '<p style="color:#16a34a;font-weight:800;font-size:13px">Saare Tiffin Deliver Ho Gaye!</p>'}
   </div>
 
   <div class="card">
-    <h3><span class="t-left">${IC.shop} Shop Order Drops (${pendOrds.length})</span></h3>
+    <h3>Shop Order Drops (${pendOrds.length})</h3>
     ${pendOrds.map(o => {
-      const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((o.addr || '') + ' ' + (o.area || 'Udala'))}`;
+      const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' ' + (o.area || 'Udala'))}`;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
-          <b>#${String(o.id).slice(-5)} · ${esc(o.name)} (${inr(o.total)})</b>
-          <span style="font-weight:800;font-size:11.5px;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'PAID (' + esc(o.utr) + ')' : 'COLLECT ON DOORSTEP'}</span>
+          <b>#${String(o.id).slice(-4)} · ${esc(o.name)} (${inr(o.total)})</b>
+          <span style="font-size:11.5px;font-weight:800;color:#16a34a">Ref: ${esc(o.utr)}</span>
         </div>
-        <div style="font-size:12px;color:var(--mu);margin:4px 0 8px">${esc(o.area || '')} · ${esc(o.addr)} · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
+        <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(o.area || '')} · ${esc(o.addr)} · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
         <div class="btn-row">
-          <a class="btn w sm" href="${mapUrl}" target="_blank">${IC.pin} Map</a>
-          <a class="btn w sm" href="tel:+91${esc(o.phone)}">${IC.call} Call</a>
-          <button class="btn g sm" data-a="odlv" data-id="${o.id}">${IC.check} OTP Drop</button>
+          <a class="btn w sm" href="${mapUrl}" target="_blank">GPS Map</a>
+          <a class="btn w sm" href="tel:+91${esc(o.phone)}">Call</a>
+          <button class="btn g sm" data-a="odlv" data-id="${o.id}">OTP Drop</button>
         </div>
       </div>`;
-    }).join('') || '<p style="color:#16a34a;font-weight:800;font-size:13px">All Shop Orders Delivered!</p>'}`;
+    }).join('') || '<p style="color:#16a34a;font-weight:800;font-size:13px">Saare Shop Orders Deliver Ho Gaye!</p>'}`;
 }
 
-/* --- 5. SERVICES VIEW --- */
-function vServices() {
-  return `
-  <div class="hero3d slate">
-    <span class="hero-tag">${IC.svc} VERIFIED PARTNERS</span>
-    <h2>Udala Local Services & Event Catering</h2>
-    <p>Home Tuition · Wedding Photography · Stage Decor · Hostels</p>
-    <img class="hero-plate" src="${IMG.cam}" alt="Services">
-  </div>
-  ${SVC.map(s => `
-    <div class="card" style="display:flex;gap:14px;align-items:center">
-      <img src="${s.img}" style="width:88px;height:88px;border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,0.22)">
-      <div style="flex:1">
-        <div style="font-weight:800;font-size:14.5px">${esc(s.n)}</div>
-        <p style="font-size:12px;color:var(--mu);margin:4px 0 8px">${esc(s.d)}</p>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <b style="color:var(--o);font-size:16px">${inr(s.p)}<span style="font-size:11px;color:var(--mu)">${s.u}</span></b>
-          <button class="btn sm" data-a="svb" data-id="${s.id}">Book Now</button>
-        </div>
-      </div>
-    </div>
-  `).join('')}`;
-}
-
-/* --- 6. OWNER PANEL --- */
+/* --- 5. MODULE 5: OWNER MASTER ERP (LEDGER, MENU, PRODUCTS, CUSTOMERS, CSV) --- */
 function vOwner() {
   const ords = (S.orders || []).slice().reverse();
   const subs = (S.subs || []).slice().reverse();
-  const revTot = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
+  const totIn = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
+  const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
+  const netProfit = totIn - totOut;
+
+  const subTabs = [['dash', 'Ledger & Menu'], ['ords', 'Orders & Plans'], ['prod', 'Products'], ['cust', 'Customers']];
+  let body = '';
+
+  if (OV === 'dash') {
+    body = `
+    <div class="kpi">
+      <div><b>${inr(totIn)}</b><span>Total Income</span></div>
+      <div><b style="color:#dc2626">${inr(totOut)}</b><span>Kharcha (Exp)</span></div>
+      <div><b style="color:#16a34a">${inr(netProfit)}</b><span>Net Munafa</span></div>
+    </div>
+
+    <div class="card">
+      <h3>Aaj Ka Kharcha Jodein (Sabzi / Gas / Petrol)</h3>
+      <div style="display:flex;gap:8px">
+        <input class="inp" id="exp_n" placeholder="Kharcha Naam (e.g. Sabzi Mandi)" style="flex:1">
+        <input class="inp" id="exp_a" type="number" placeholder="₹ Amount" style="width:110px">
+      </div>
+      <button class="btn" data-a="add_exp">+ Kharcha Save Karein</button>
+      ${(S.exp || []).slice(-5).reverse().map(x => `<div class="row"><span>${esc(x.n)} (${x.d})</span><b style="color:#dc2626">−${inr(x.amt)}</b></div>`).join('')}
+      <button class="btn w sm" style="margin-top:8px" data-a="csv_ledger">Download Ledger Excel (CSV)</button>
+    </div>
+
+    <div class="card">
+      <h3>Update 3-Time Live Menu (${iso(D0())})</h3>
+      <span class="lbl">Subah Nashta</span>
+      <input class="inp" id="m_bf" value="${esc(menu('bf'))}">
+      <span class="lbl">Pure Veg Menu</span>
+      <input class="inp" id="m_veg" value="${esc(menu('veg'))}">
+      <span class="lbl">Non-Veg Menu</span>
+      <input class="inp" id="m_nv" value="${esc(menu('nv'))}">
+      <button class="btn g" data-a="savem">Save Live Menu</button>
+    </div>`;
+  } else if (OV === 'ords') {
+    body = `
+    <div class="card">
+      <h3>Shop Orders (${ords.length})</h3>
+      ${ords.map(o => `<div class="row">
+        <div><b>#${String(o.id).slice(-4)} · ${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b><div style="font-size:11.5px;color:var(--mu)">Ref: ${esc(o.utr)} · OTP: ${o.otp}</div></div>
+        <div style="display:flex;gap:5px">
+          ${!o.dlv ? `<button class="btn g sm" data-a="odlv" data-id="${o.id}">Deliver</button>` : '✓'}
+          <button class="btn w sm" data-a="prt" data-id="${o.id}">${IC.print}</button>
+        </div>
+      </div>`).join('') || '<p style="color:var(--mu)">No orders yet.</p>'}
+    </div>
+    <div class="card">
+      <h3>Tiffin Plans (${subs.length}) & Bulk Catering (${(S.bulk || []).length})</h3>
+      ${subs.map(s => `<div class="row"><div><b>${esc(s.name)} (${s.days}d ${s.type})</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.phone)} · ${inr(s.price)} · OTP: ${s.otp}</div></div><span style="color:#16a34a;font-weight:800">Active</span></div>`).join('')}
+      ${(S.bulk || []).map(b => `<div class="row"><div><b>Party: ${esc(b.event)} (${b.plates} Plates)</b><div style="font-size:11.5px;color:var(--mu)">${esc(b.name)} (${esc(b.phone)}) · Date: ${b.date}</div></div><b>${inr(b.amt)}</b></div>`).join('')}
+    </div>`;
+  } else if (OV === 'prod') {
+    body = `
+    <div class="card">
+      <h3>${ED ? 'Edit Product' : 'Add New Product'}</h3>
+      <input class="inp" id="p_n" placeholder="Product Name">
+      <div style="display:flex;gap:8px">
+        <input class="inp" id="p_p" type="number" placeholder="Selling Price ₹" style="flex:1">
+        <input class="inp" id="p_m" type="number" placeholder="MRP ₹" style="flex:1">
+      </div>
+      <select class="inp" id="p_c">${CATS.slice(1).map(c => `<option value="${c[0]}">${c[1]}</option>`).join('')}</select>
+      <button class="btn g" data-a="save_prod">Save Product</button>
+    </div>
+    <div class="card">
+      <h3>All Products (${S.prod.length})</h3>
+      ${S.prod.map(p => `<div class="row">
+        <div><b>${esc(p.n)}</b><div style="font-size:11.5px;color:var(--mu)">${inr(p.p)} · ${p.c}</div></div>
+        <div style="display:flex;gap:5px">
+          <button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'Stock' : 'Out'}</button>
+          <button class="btn w sm" data-a="edit_prod" data-id="${p.id}">Edit</button>
+          <button class="btn w sm" data-a="del_prod" data-id="${p.id}">✕</button>
+        </div>
+      </div>`).join('')}
+    </div>`;
+  } else {
+    const custMap = {};
+    subs.forEach(s => { custMap[s.phone] = custMap[s.phone] || { n: s.name, p: s.phone, a: s.area, sp: 0 }; custMap[s.phone].sp += s.price; });
+    ords.forEach(o => { custMap[o.phone] = custMap[o.phone] || { n: o.name, p: o.phone, a: o.area, sp: 0 }; custMap[o.phone].sp += o.total; });
+    const cList = Object.values(custMap);
+    body = `
+    <div class="card">
+      <h3>Customer Directory (${cList.length}) <button class="btn w sm" data-a="csv_cust">Export CSV</button></h3>
+      ${cList.map(c => `<div class="row">
+        <div><b>${esc(c.n)} (${esc(c.p)})</b><div style="font-size:11.5px;color:var(--mu)">Area: ${esc(c.a || 'Udala')} · Total Spend: ${inr(c.sp)}</div></div>
+        <a class="btn g sm" href="https://wa.me/91${esc(c.p)}?text=${encodeURIComponent('Namaste ' + c.n + ' ji! Namaste Udala se special offer aaj ke khane par.')}" target="_blank">WhatsApp</a>
+      </div>`).join('') || '<p style="color:var(--mu)">No customers yet.</p>'}
+    </div>`;
+  }
 
   return `
-  <div class="hero3d slate">
-    <span class="hero-tag">${IC.owner} ADMIN CONSOLE</span>
-    <h2>Owner Business & Hybrid Payment Control</h2>
-    <p>Verified Revenue: ${inr(revTot)} · Total Orders: ${ords.length}</p>
-    <img class="hero-plate" src="${IMG.paneer}" alt="Owner">
+  <div class="card" style="background:#0f172a;color:#fff;display:flex;justify-content:space-between;align-items:center">
+    <div><small style="color:#fde047;font-weight:800">OWNER ERP CONSOLE</small><h2 style="font-size:17px">Namaste Udala Control</h2></div>
+    <button class="btn w sm" data-a="logout_staff">Exit Staff Mode</button>
   </div>
-
-  <div class="card">
-    <h3><span class="t-left">${IC.shield} Simulate Zero-Touch Exact Paise Webhook</span></h3>
-    <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Enter exact amount (e.g. 305.14) received in your bank SMS to trigger 0-second auto-verification on customer's screen.</p>
-    <div style="display:flex;gap:8px">
-      <input class="inp" id="wh_amt" type="number" step="0.01" placeholder="Exact ₹ Amount (e.g. 305.14)" style="flex:1">
-      <button class="btn g sm" data-a="add_wh_amt">Auto-Verify Now</button>
-    </div>
+  <div class="area-chips" style="margin-bottom:12px">
+    ${subTabs.map(t => `<span class="${OV === t[0] ? 'on' : ''}" data-a="ov_tab" data-v="${t[0]}">${t[1]}</span>`).join('')}
   </div>
-
-  <div class="card">
-    <h3><span class="t-left">${IC.kitchen} Update Today's 3-Time Menu (${iso(D0())})</span></h3>
-    <span class="lbl">Morning Breakfast</span>
-    <input class="inp" id="m_bf" value="${esc(menu(D0(), 'bf'))}">
-    <span class="lbl">Pure Veg Lunch/Dinner</span>
-    <input class="inp" id="m_veg" value="${esc(menu(D0(), 'veg'))}">
-    <span class="lbl">Non-Veg Lunch/Dinner</span>
-    <input class="inp" id="m_nv" value="${esc(menu(D0(), 'nv'))}">
-    <button class="btn g" data-a="savem">Save Live Menu</button>
-  </div>
-
-  <div class="card">
-    <h3><span class="t-left">${IC.shop} Shop Orders & Payment Proofs (${ords.length})</span></h3>
-    ${ords.map(o => `<div class="row">
-      <div>
-        <b>#${String(o.id).slice(-5)} · ${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
-        <div style="font-size:11.5px;color:var(--mu)">Ref: <b>${esc(o.utr)}</b> (${esc(o.vMode)}) · OTP: ${o.otp}</div>
-      </div>
-      <div style="display:flex;gap:5px">
-        ${o.proof ? `<button class="btn w sm" data-a="view_proof" data-id="${o.id}">${IC.cam}</button>` : ''}
-        ${!o.paid ? `<button class="btn g sm" data-a="opaid" data-id="${o.id}">Approve</button>` : ''}
-        <button class="btn w sm" data-a="prt" data-id="${o.id}">${IC.print}</button>
-      </div>
-    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">No orders yet.</p>'}
-  </div>
-
-  <div class="card">
-    <h3>Stock Control</h3>
-    ${S.prod.map(p => `<div class="row"><b>${esc(p.n)} (${inr(p.p)})</b><button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'In Stock' : 'Out'}</button></div>`).join('')}
-  </div>`;
+  ${body}`;
 }
 
-/* --- POPUP CART DRAWER, 3D PLATE & HYBRID PAYMENT GATE --- */
+/* --- MODALS: 3D PLATE + HALF/FULL, POPUP CART, PAYMENT & SERVICE BOOKING --- */
 function sheet() {
-  // 1. SMART HYBRID PAYMENT GATE (QR + Copy UPI + Unique Paise + Screenshot/4-Digit UTR + Doorstep Backup)
-  if (PAY_GATE) {
-    const g = PAY_GATE, uLink = upi(g.exactAmt, g.title, g.ref);
-    return `<div class="ov" data-a="close_bg"><div class="sh">
+  if (PAY_BOX) {
+    const g = PAY_BOX, uLink = upi(g.amt, g.title);
+    return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <span style="display:flex;align-items:center;gap:6px;font-weight:800;color:#16a34a;font-size:12.5px">${IC.shield} SMART HYBRID UPI VERIFICATION</span>
-        <button class="btn w sm" data-a="cancel_gate">Cancel</button>
+        <b style="color:#16a34a;font-size:13px">Instant UPI Payment</b>
+        <button class="btn w sm" data-a="close">Back</button>
       </div>
-      <h2 style="font-size:19px;font-weight:800;text-align:center">${esc(g.title)}</h2>
-      <p style="text-align:center;color:var(--mu);font-size:11.5px;margin-top:2px">Unique Auto-Match Amount: <b style="color:var(--o)">${inr(g.exactAmt)}</b></p>
-
-      <div class="qr-wrap">
-        <img src="${qrUrl(uLink)}" alt="UPI QR Code">
-        <div style="font-size:18px;font-weight:800;color:#0f172a;margin-top:6px">Scan & Pay ${inr(g.exactAmt)}</div>
-        <div style="font-size:11px;color:#64748b;font-weight:700">Screenshot QR & Scan in PhonePe / GPay (100% Zero Fail)</div>
+      <h2 style="font-size:18.5px;font-weight:800">${esc(g.title)}</h2>
+      <div style="font-size:26px;font-weight:800;color:var(--o);margin:6px 0">${inr(g.amt)}</div>
+      <div style="background:#fff;padding:12px;border-radius:18px;width:fit-content;margin:8px auto;border:2px solid var(--ln)">
+        <img src="${qrUrl(uLink)}" style="width:165px;height:165px" alt="QR">
+        <div style="font-size:11px;color:var(--mu);font-weight:700;margin-top:4px">Scan in PhonePe / GPay · UPI: ${UPI}</div>
       </div>
-
       <div class="btn-row">
-        <button class="btn w sm" style="padding:11px" data-a="copy_upi">${IC.copy} Copy UPI ID (${UPI})</button>
-        <button class="btn w sm" style="padding:11px" data-a="copy_amt">${IC.copy} Copy Exact ${inr(g.exactAmt)}</button>
+        <a class="btn" href="${esc(uLink)}">Open UPI App</a>
+        <button class="btn w" data-a="copy_upi">Copy UPI ID</button>
       </div>
-
-      <div style="margin-top:12px;padding:13px;border-radius:16px;background:var(--sf2);border:1.5px solid var(--ln)">
-        <span class="lbl" style="margin-top:0">Option A: Upload Payment Screenshot (Easiest)</span>
-        <label class="btn w" style="margin:4px 0 10px;cursor:pointer">
-          ${IC.cam} <span>${PROOF_IMG ? 'Screenshot Attached (Ready!)' : 'Select Payment Screenshot'}</span>
-          <input type="file" id="proof_file" accept="image/*" style="display:none">
-        </label>
-
-        <span class="lbl">Option B: Or Enter Last 4-Digits / 12-Digit UTR</span>
-        <input class="inp" id="gate_utr" inputmode="numeric" maxlength="12" placeholder="Enter Last 4 Digits (e.g. 4829) or 12-Digit UTR">
-
-        <button class="btn g" data-a="verify_pay">${IC.check} Verify Payment & Confirm Order</button>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--ln);text-align:left">
+        <input class="inp" id="utr_inp" placeholder="Enter Last 4 Digits of UPI Ref (or leave for Doorstep QR)">
+        <button class="btn g" data-a="confirm_paid">Confirm & Place Order</button>
       </div>
-
-      <button class="btn w" style="margin-top:10px;font-size:12.5px" data-a="cod_qr">Bank Server Busy? Pay on Doorstep (Scan Rider QR)</button>
     </div></div>`;
   }
 
-  // 2. ZERO-SCROLL POPUP CART DRAWER
   if (CART_OPEN) {
     const n = cc(), st = subTot(), df = dlvFee(), tot = ct();
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <h3><span class="t-left">${IC.shop} Your Cart (${n} Items)</span></h3>
+        <h3>Aapka Cart (${n} Items)</h3>
         <button class="btn w sm" data-a="close">Close</button>
       </div>
-      ${!n ? `<p style="color:var(--mu);font-size:13px;padding:20px 0;text-align:center">Your cart is empty.</p>` : `
-        <div style="max-height:220px;overflow-y:auto;padding-right:4px">
-          ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
-            const p = S.prod.find(x => x.id === parseInt(k)); if (!p) return '';
-            const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
-            return `<div class="row">
-              <div><b>${esc(p.n)}${isH ? ' (Half)' : ''}</b><div style="font-size:11.5px;color:var(--mu)">${inr(pr)} × ${q}</div></div>
-              <div class="qty" style="width:108px;margin:0"><button data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div>
-            </div>`;
-          }).join('')}
-        </div>
-        <div style="font-size:12px;color:var(--mu);padding-top:8px;display:flex;justify-content:space-between">
-          <span>Item Total: ${inr(st)}</span>
-          <span>Delivery: <b style="color:${df ? 'var(--o)' : '#16a34a'}">${df ? inr(df) + ' (Free above ₹300)' : 'FREE'}</b></span>
-        </div>
-        <div class="tot"><span>Total Payable</span><b>${inr(tot)}</b></div>
-        ${addressAndGpsBlock()}
-        <button class="btn" data-a="ord_gate">${IC.shield} Proceed to Payment · ${inr(tot)}</button>
-      `}
+      <div style="max-height:200px;overflow-y:auto">
+        ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
+          const p = S.prod.find(x => x.id === parseInt(k)); if (!p) return '';
+          const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+          return `<div class="row">
+            <div><b>${esc(p.n)}${isH ? ' (1/2 Half)' : ''}</b><div style="font-size:11.5px;color:var(--mu)">${inr(pr)} × ${q}</div></div>
+            <div class="qty" style="width:105px;margin:0"><button data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="font-size:12px;color:var(--mu);padding-top:8px;display:flex;justify-content:space-between">
+        <span>Items: ${inr(st)}</span>
+        <span>Delivery: <b>${df ? '₹25 (Free above ₹300)' : 'FREE'}</b></span>
+      </div>
+      <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
+      ${userFormHTML()}
+      <button class="btn" data-a="pay_ord">Proceed to Pay · ${inr(tot)}</button>
     </div></div>`;
   }
 
-  // 3. 3D POP-OUT PLATE + REAL RISING STEAM SHOWCASE
   if (PQ) {
     const p = S.prod.find(x => x.id === +PQ); if (!p) return '';
     const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0;
     return `<div class="ov" data-a="close_bg"><div class="sh">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <span style="display:flex;align-items:center;gap:6px;font-weight:800;color:var(--o);font-size:12.5px">${IC.flame} 3D REALISTIC STEAM VIEW</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <b style="color:var(--o);font-size:12px">3D REAL STEAM VIEW</b>
         <button class="btn w sm" data-a="close">Close</button>
       </div>
       <div class="pop-stage">
-        ${p.hot ? `<div class="pop-steam"><span></span><span></span><span></span><span></span></div>` : ''}
+        ${p.hot ? `<div class="pop-steam"><span></span><span></span><span></span></div>` : ''}
         <img class="pop-plate" src="${p.img}" alt="${esc(p.n)}">
       </div>
-      <h2 style="font-size:20px;font-weight:800;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px">${symHTML(p.nv)}<span>${esc(p.n)}</span></h2>
-      <p style="text-align:center;color:var(--mu);font-size:12px;margin:4px 0 14px">${p.hot ? 'Served piping hot straight from the handi · 100% fresh spices' : 'Quality checked daily essential'}</p>
-
-      <div class="row">
-        <div><b>Full Portion / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div>
-        <div class="qty" style="width:120px;margin:0">
-          <button data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button data-a="inc" data-id="${p.id}">+</button>
-        </div>
+      <h2 style="font-size:19px;font-weight:800;text-align:center">${esc(p.n)}</h2>
+      <div class="row" style="margin-top:10px">
+        <div><b>Full Plate / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div>
+        <div class="qty" style="width:115px;margin:0"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button data-a="inc" data-id="${p.id}">+</button></div>
       </div>
-
       ${p.h ? `<div class="row">
-        <div><b>Half Portion</b><div style="font-size:12px;color:var(--mu)">${inr(Math.round(p.p * 0.6))}</div></div>
-        <div class="qty" style="width:120px;margin:0">
-          <button data-a="dh" data-id="${p.id}">−</button><b>${qh}</b><button data-a="ih" data-id="${p.id}">+</button>
-        </div>
+        <div><b>1/2 Half Plate</b><div style="font-size:12px;color:var(--mu)">${inr(Math.round(p.p * 0.6))}</div></div>
+        <div class="qty" style="width:115px;margin:0"><button data-a="dh" data-id="${p.id}">−</button><b>${qh}</b><button data-a="ih" data-id="${p.id}">+</button></div>
       </div>` : ''}
-
-      <button class="btn" data-a="open_cart_from_pq">View Cart & Instant Checkout (${inr(ct() || p.p)})</button>
+      <button class="btn g" data-a="add_open_cart" data-id="${p.id}">Open Cart & Checkout</button>
     </div></div>`;
   }
 
-  // 4. LIVE ORDER TRACKING SHEET
-  if (TRK) {
-    const o = S.orders.find(x => x.id === TRK); if (!o) return '';
-    return `<div class="ov" data-a="close_bg"><div class="sh">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3>Order #${String(o.id).slice(-5)}</h3>
-        <button class="btn w sm" data-a="close">Close</button>
-      </div>
-      <div class="gps-box">
-        <div>
-          <b style="font-size:12.5px;color:#16a34a">${esc(o.vMode)} (Ref: ${esc(o.utr)})</b>
-          <div style="font-size:11.5px;color:var(--mu)">Share Delivery OTP <b style="color:var(--o)">${o.otp || '8821'}</b> with rider at doorstep</div>
-        </div>
-      </div>
-      ${o.items.map(i => `<div class="row"><span>${esc(i.n)} × ${i.q}</span><b>${inr(i.p * i.q)}</b></div>`).join('')}
-      <div class="tot"><span>Total Amount</span><b>${inr(o.total)}</b></div>
-      <div class="btn-row" style="margin-top:12px">
-        <button class="btn w" data-a="prt" data-id="${o.id}">${IC.print} Print Invoice</button>
-        <button class="btn g" data-a="wa_inv" data-id="${o.id}">WhatsApp Receipt</button>
-      </div>
-    </div></div>`;
-  }
-
-  // 5. SERVICE BOOKING SHEET
   if (SVB) {
     const s = SVC.find(x => x.id === SVB); if (!s) return '';
     return `<div class="ov" data-a="close_bg"><div class="sh">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3>${esc(s.n)}</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3>Book ${esc(s.n)}</h3>
         <button class="btn w sm" data-a="close">Close</button>
       </div>
       <input class="inp" id="sv_d" type="date" value="${iso(addD(D0(), 2))}">
-      <input class="inp" data-f="name" placeholder="Full Name" value="${esc(F.name)}">
-      <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
-      <button class="btn" data-a="svok">Submit Booking Request</button>
+      <input class="inp" id="sv_n" placeholder="Batch / Event Timing Details">
+      ${userFormHTML()}
+      <button class="btn" data-a="svok">Confirm Service Booking</button>
     </div></div>`;
   }
   return '';
 }
 
 function render() {
-  const V = { plan: vPlan, shop: vShop, kitchen: vKitchen, delivery: vDelivery, services: vServices, owner: vOwner };
+  const V = { plan: vPlan, shop: vShop, services: vServices, kitchen: vKitchen, delivery: vDelivery, owner: vOwner };
   $('#v').innerHTML = (V[tab] || vPlan)();
   $('#sheet').innerHTML = sheet();
   $('#thm').innerHTML = document.documentElement.dataset.theme === 'dark' ? IC.sun : IC.moon;
 
   const n = cc(), tot = ct();
-  $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_GATE) ? `
+  $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX) ? `
     <div class="cbar-fixed" data-a="open_cart">
-      <span>${n} Item${n > 1 ? 's' : ''} · ${inr(tot)} ${dlvFee() ? '(+₹25 Delivery)' : '(FREE Delivery)'}</span>
-      <span>Open Cart & Pay →</span>
+      <span>${n} Item · ${inr(tot)}</span>
+      <span>View Cart & Order →</span>
     </div>` : '';
 
   const TABS = [
     ['plan', IC.tiffin, 'Tiffin'],
     ['shop', IC.shop, 'Shop'],
-    ['services', IC.svc, 'Services'],
-    ['kitchen', IC.kitchen, 'Kitchen'],
-    ['delivery', IC.route, 'Route'],
-    ['owner', IC.owner, 'Owner']
+    ['services', IC.svc, 'Services']
   ];
+  if (ROLE === 'staff' || ROLE === 'owner') {
+    TABS.push(['kitchen', IC.kitchen, 'Kitchen'], ['delivery', IC.route, 'Route']);
+  }
+  if (ROLE === 'owner') TABS.push(['owner', IC.owner, 'Owner']);
+
   $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
 }
 
-function validateUser() {
+function checkUser() {
   if (!F.name.trim() || ph(F.phone).length !== 10 || !F.addr.trim()) {
-    toast('Please enter your Name, 10-digit Phone & House Address');
+    toast('Naam, 10-digit Mobile Number aur Address bharein');
     return false;
   }
   saveUser();
   return true;
 }
 
-// Create Final Verified Order or Subscription
-function completeVerifiedOrder(utrCode, modeLabel, isPaid = 1) {
-  if (!PAY_GATE) return;
-  const otp = String(Math.floor(1000 + Math.random() * 9000));
-  if (utrCode && utrCode.length === 12) S.usedUtr.push(utrCode);
-
-  if (PAY_GATE.kind === 'sub') {
-    const id = uid('s');
-    S.subs.push({
-      id, name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
-      lat: F.lat, lng: F.lng, dist: PAY_GATE.dist,
-      type: F.type, days: PAY_GATE.days, times: F.times, lunch: F.lunch, dinner: F.dinner,
-      start: iso(D0()), price: PAY_GATE.exactAmt, paid: isPaid, utr: utrCode, vMode: modeLabel, otp, proof: PROOF_IMG || '', skip: []
-    });
-    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-    setGate(null); PROOF_IMG = null; CART_OPEN = false; playChime(); save();
-    toast('Tiffin Activated! Delivery OTP: ' + otp);
-  } else {
-    const items = [];
-    Object.entries(C).forEach(([k, q]) => {
-      const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1 || !p.s) return;
-      const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
-      items.push({ n: p.n + (isH ? ' (Half)' : ''), q, p: pr });
-    });
-    const id = uid('o');
-    S.orders.push({
-      id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
-      lat: F.lat, lng: F.lng, dist: PAY_GATE.dist,
-      items, total: PAY_GATE.exactAmt, paid: isPaid, dlv: 0, utr: utrCode, vMode: modeLabel, otp, proof: PROOF_IMG || ''
-    });
-    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-    C = {}; localStorage.setItem('nu5c', '{}');
-    setGate(null); PROOF_IMG = null; CART_OPEN = false; TRK = id; playChime(); save();
-    toast('Order Confirmed! Sent to Kitchen.');
-  }
-}
-
 const A = {
-  tab: v => {
-    if ((v === 'kitchen' || v === 'delivery') && !OK && !ST) {
-      const p = prompt('Enter Staff PIN (7788) or Owner PIN (4827):');
-      if (p === OPIN) { OK = 1; sessionStorage.setItem('nu5ok', '1'); }
-      else if (p === DPIN) { ST = 1; sessionStorage.setItem('nu5st', '1'); }
-      else { if (p !== null) toast('Incorrect PIN'); return; }
-    }
-    if (v === 'owner' && !OK) {
-      const p = prompt('Enter Owner PIN (4827):');
-      if (p === OPIN) { OK = 1; sessionStorage.setItem('nu5ok', '1'); }
-      else { if (p !== null) toast('Incorrect PIN'); return; }
-    }
-    tab = v; PQ = TRK = SVB = null; CART_OPEN = false; render(); scrollTo({ top: 0, behavior: 'smooth' });
-  },
+  tab: v => { tab = v; PQ = SVB = null; CART_OPEN = false; PAY_BOX = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
+  er_inc: () => { F.extraRoti = Math.min(6, (+F.extraRoti || 0) + 1); render(); },
+  er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
   set_area: v => { F.area = v; saveUser(); render(); },
   cat: v => { SCAT = v; render(); },
-  pq: (v, k, id) => { PQ = +id; render(); },
-  open_cart: () => { PQ = TRK = SVB = null; CART_OPEN = true; render(); },
-  open_cart_from_pq: () => {
-    if (PQ && !C[PQ] && !C[PQ + 'h']) { C[PQ] = 1; localStorage.setItem('nu5c', JSON.stringify(C)); }
-    PQ = null; CART_OPEN = true; render();
+  vo: () => { VO = VO ? 0 : 1; render(); },
+  wish: (v, k, id) => {
+    const i = S.wish.indexOf(+id);
+    if (i >= 0) S.wish.splice(i, 1); else S.wish.push(+id);
+    save(); toast(i >= 0 ? 'Removed from Saved' : 'Saved to Favorites');
   },
-  close: () => { PQ = TRK = SVB = null; CART_OPEN = false; render(); },
-  cancel_gate: () => { setGate(null); PROOF_IMG = null; render(); },
-  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = TRK = SVB = null; CART_OPEN = false; render(); } },
+  pq: (v, k, id) => { PQ = +id; render(); },
+  open_cart: () => { PQ = null; CART_OPEN = true; render(); },
+  add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; localStorage.setItem('nu5c', JSON.stringify(C)); PQ = null; CART_OPEN = true; render(); },
+  close: () => { PQ = SVB = null; CART_OPEN = false; PAY_BOX = null; render(); },
+  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = SVB = null; CART_OPEN = false; PAY_BOX = null; render(); } },
   inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   ih: (v, k, id) => { C[id + 'h'] = (C[id + 'h'] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   dh: (v, k, id) => { C[id + 'h'] = Math.max(0, (C[id + 'h'] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
-  trk: (v, k, id) => { TRK = id; render(); },
+
+  again: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id); if (!o) return;
+    o.items.forEach(i => {
+      const p = S.prod.find(x => i.n.startsWith(x.n));
+      if (p && p.s) C[p.id] = (C[p.id] || 0) + i.q;
+    });
+    localStorage.setItem('nu5c', JSON.stringify(C));
+    CART_OPEN = true; render(); toast('Items added to Cart!');
+  },
+
+  bpkg: v => { BF.pkg = v; render(); },
+  b_inc: () => { BF.plates = Math.min(1000, BF.plates + 25); render(); },
+  b_dec: () => { BF.plates = Math.max(20, BF.plates - 25); render(); },
+  book_bulk: () => {
+    if (!checkUser() || !BF.event.trim()) { toast('Event naam aur address bharein'); return; }
+    const bc = calcBulk();
+    S.bulk.push({ id: uid('b'), event: BF.event.trim(), date: BF.date, venue: BF.venue, plates: BF.plates, amt: bc.total, name: F.name.trim(), phone: ph(F.phone) });
+    save(); toast('Bulk Party Catering Request Saved!');
+  },
+
   svb: (v, k, id) => { SVB = id; render(); },
   svok: () => {
-    const s = SVC.find(x => x.id === SVB); if (!s) return;
-    if (!F.name.trim() || ph(F.phone).length !== 10) { toast('Enter Name and 10-digit Phone'); return; }
-    saveUser();
-    S.sv.push({ id: uid('v'), svname: s.n, date: $('#sv_d').value, name: F.name.trim(), phone: ph(F.phone) });
-    SVB = null; save(); toast('Booking Request Sent');
+    const s = SVC.find(x => x.id === SVB); if (!s || !checkUser()) return;
+    S.sv.push({ id: uid('v'), svname: s.n, date: $('#sv_d').value, note: $('#sv_n').value, name: F.name.trim(), phone: ph(F.phone) });
+    SVB = null; save(); toast('Service Booking Confirmed!');
   },
 
   getgps: () => {
-    if (!navigator.geolocation) {
-      F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('GPS Pin Set (Udala)');
-      return;
-    }
-    toast('Locking satellite GPS...');
+    if (!navigator.geolocation) { F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('GPS Saved'); return; }
+    toast('Detecting GPS...');
     navigator.geolocation.getCurrentPosition(pos => {
       F.lat = pos.coords.latitude; F.lng = pos.coords.longitude;
-      saveUser(); render(); toast('Exact Doorstep GPS Locked!');
+      saveUser(); render(); toast('Exact GPS Pin Locked!');
     }, () => {
-      F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('GPS Set to Udala Center');
-    }, { enableHighAccuracy: true, timeout: 7000 });
+      F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('Udala GPS Pin Saved');
+    }, { enableHighAccuracy: true, timeout: 6000 });
   },
 
-  rider_gps: () => {
-    if (RIDER_WATCH) {
-      navigator.geolocation.clearWatch(RIDER_WATCH); RIDER_WATCH = null; render(); toast('Rider GPS Stopped');
-      return;
-    }
-    if (!navigator.geolocation) { toast('GPS not available'); return; }
-    RIDER_WATCH = navigator.geolocation.watchPosition(pos => {
-      S.riderGps = { lat: pos.coords.latitude, lng: pos.coords.longitude, ts: Date.now() };
-      save();
-    }, () => {
-      S.riderGps = { lat: 21.5735, lng: 86.5672, ts: Date.now() }; save();
-    }, { enableHighAccuracy: true });
-    toast('Broadcasting Live Rider GPS!');
+  pay_sub: () => {
+    if (!checkUser()) return;
+    PAY_BOX = { kind: 'sub', amt: calcPlanPrice(), days: F.days, title: `${F.days} Din Tiffin (${F.times} Time)` };
     render();
   },
-
-  // Open Smart Hybrid Payment Gate with Unique Decimal Paise (.11 to .89)
-  sub_gate: () => {
-    if (!validateUser()) return;
-    const pr = calcPlanPrice();
-    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
-    const dist = F.lat ? calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng) : 1.2;
-    setGate({ kind: 'sub', amt: pr, exactAmt: +(pr + paise).toFixed(2), title: `${F.days}-Day Tiffin (${F.times} Meals/Day)`, ref: 'SUB-' + Date.now().toString().slice(-5), dist, days: F.days });
+  pay_trial: () => {
+    if (!checkUser()) return;
+    PAY_BOX = { kind: 'sub', amt: 49, days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` };
     render();
   },
-  trial_gate: () => {
-    if (!validateUser()) return;
-    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
-    const dist = F.lat ? calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng) : 1.2;
-    setGate({ kind: 'sub', amt: 49, exactAmt: +(49 + paise).toFixed(2), title: `1-Day Trial Tiffin (${F.times} Meals)`, ref: 'TRL-' + Date.now().toString().slice(-5), dist, days: 1 });
-    render();
-  },
-  ord_gate: () => {
-    if (!validateUser()) return;
-    const tot = ct(); if (tot <= 0) return;
-    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
-    const dist = F.lat ? calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng) : 1.2;
+  pay_ord: () => {
+    if (!checkUser()) return;
     CART_OPEN = false;
-    setGate({ kind: 'ord', amt: tot, exactAmt: +(tot + paise).toFixed(2), title: `Shop Order (${cc()} Items)`, ref: 'ORD-' + Date.now().toString().slice(-5), dist });
+    PAY_BOX = { kind: 'ord', amt: ct(), title: `Shop Order (${cc()} Items)` };
     render();
   },
 
-  copy_upi: () => {
-    navigator.clipboard.writeText(UPI).catch(() => {});
-    toast('UPI ID Copied: ' + UPI);
-  },
-  copy_amt: () => {
-    if (!PAY_GATE) return;
-    navigator.clipboard.writeText(String(PAY_GATE.exactAmt)).catch(() => {});
-    toast('Exact Amount Copied: ₹' + PAY_GATE.exactAmt);
-  },
+  copy_upi: () => { navigator.clipboard.writeText(UPI).catch(() => {}); toast('UPI ID Copied: ' + UPI); },
 
-  // 3-Way Verification (Screenshot Proof OR 4/12-Digit UTR)
-  verify_pay: () => {
-    if (!PAY_GATE) return;
-    const raw = ($('#gate_utr') ? $('#gate_utr').value : '').replace(/\D/g, '');
-    if (PROOF_IMG) {
-      completeVerifiedOrder(raw || 'SCREENSHOT', 'Screenshot Proof Verified', 1);
-      return;
+  confirm_paid: () => {
+    if (!PAY_BOX) return;
+    const refNo = ($('#utr_inp') ? $('#utr_inp').value.trim() : '') || 'DOORSTEP-QR';
+    const otp = String(Math.floor(1000 + Math.random() * 9000));
+    if (PAY_BOX.kind === 'sub') {
+      const id = uid('s');
+      S.subs.push({
+        id, name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), lat: F.lat, lng: F.lng,
+        type: F.type, days: PAY_BOX.days, times: F.times, lunch: F.lunch, dinner: F.dinner, extraRoti: F.extraRoti,
+        start: F.start || iso(D0()), price: PAY_BOX.amt, paid: 1, utr: refNo, otp, skip: []
+      });
+      MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
+      PAY_BOX = null; save(); toast('Tiffin Plan Activated! OTP: ' + otp);
+    } else {
+      const items = [];
+      Object.entries(C).forEach(([k, q]) => {
+        const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return;
+        const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+        items.push({ n: p.n + (isH ? ' (Half)' : ''), q, p: pr });
+      });
+      const id = uid('o');
+      S.orders.push({ id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), lat: F.lat, lng: F.lng, items, total: PAY_BOX.amt, paid: 1, dlv: 0, utr: refNo, otp });
+      MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
+      C = {}; localStorage.setItem('nu5c', '{}');
+      PAY_BOX = null; save(); toast('Order Confirmed! OTP: ' + otp);
     }
-    if (raw.length === 12) {
-      if (/^(\d)\1{11}$/.test(raw) || (S.usedUtr || []).includes(raw)) {
-        toast('Invalid or duplicate 12-digit UTR!');
-        return;
-      }
-      completeVerifiedOrder(raw, '12-Digit UTR Verified', 1);
-      return;
-    }
-    if (raw.length >= 4) {
-      completeVerifiedOrder('REF-' + raw.slice(-4), 'Last 4-Digit Ref Verified', 1);
-      return;
-    }
-    toast('Please attach Payment Screenshot OR enter at least last 4 digits of UPI Ref No.');
-  },
-
-  // Emergency Doorstep QR Fallback
-  cod_qr: () => {
-    if (!PAY_GATE) return;
-    completeVerifiedOrder('DOORSTEP-QR', 'Pay via Rider QR at Doorstep', 0);
   },
 
   cust_skip: (v, k, id) => {
     const s = S.subs.find(x => x.id === id); if (!s) return;
-    if (new Date().getHours() >= 10) { toast('Cut-off is 10:00 AM for pausing today\'s tiffin'); return; }
     s.skip = s.skip || [];
     const td = iso(D0());
-    if (!s.skip.includes(td)) {
-      s.skip.push(td); s.days = (+s.days || 30) + 1;
-      save(); toast('Today paused & +1 day added to your plan!');
-    }
+    if (!s.skip.includes(td)) { s.skip.push(td); s.days = (+s.days || 30) + 1; save(); toast('Paused Today & +1 Extra Day Added!'); }
   },
-
-  dabba: (v, k, id) => {
-    const key = iso(D0()) + '_' + id;
-    S.dabba[key] = S.dabba[key] ? 0 : 1;
-    save(); toast(S.dabba[key] ? 'Empty Dabba Collected!' : 'Unmarked');
-  },
-
+  dabba: (v, k, id) => { const key = iso(D0()) + '_' + id; S.dabba[key] = S.dabba[key] ? 0 : 1; save(); toast('Dabba Status Updated'); },
   sdone: (v, k, id) => {
     const s = S.subs.find(x => x.id === id); if (!s) return;
-    const pin = prompt(`Enter Customer ${s.name}'s 4-Digit OTP (or Owner PIN):`);
-    if (pin === String(s.otp || '4512') || pin === OPIN) {
-      S.done[iso(D0()) + '_' + id] = 1; playChime(); save(); toast('OTP Verified! Tiffin Delivered.');
-    } else if (pin !== null) toast('Incorrect OTP!');
+    const pin = prompt(`Enter Customer ${s.name}'s 4-Digit OTP (${s.otp || '4512'}) or Owner PIN:`);
+    if (pin === String(s.otp || '4512') || pin === OPIN) { S.done[iso(D0()) + '_' + id] = 1; save(); toast('OTP Verified! Tiffin Delivered.'); }
+    else if (pin !== null) toast('Invalid OTP');
   },
   odlv: (v, k, id) => {
     const o = S.orders.find(x => x.id === id); if (!o) return;
-    const pin = prompt(`Enter Customer ${o.name}'s 4-Digit OTP (or Owner PIN):`);
-    if (pin === String(o.otp || '8821') || pin === OPIN) {
-      o.dlv = 1; o.paid = 1; playChime(); save(); toast('OTP Verified! Order Delivered.');
-    } else if (pin !== null) toast('Incorrect OTP!');
+    const pin = prompt(`Enter Customer ${o.name}'s 4-Digit OTP (${o.otp || '8821'}) or Owner PIN:`);
+    if (pin === String(o.otp || '8821') || pin === OPIN) { o.dlv = 1; save(); toast('OTP Verified! Order Delivered.'); }
+    else if (pin !== null) toast('Invalid OTP');
   },
-  opaid: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.paid = 1; save(); toast('Approved'); } },
-  view_proof: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id); if (!o || !o.proof) return;
-    const w = window.open(''); if (w) w.document.write(`<img src="${o.proof}" style="max-width:100%">`);
+
+  ov_tab: v => { OV = v; ED = null; render(); },
+  add_exp: () => {
+    const n = $('#exp_n').value.trim(), a = +$('#exp_a').value;
+    if (!n || !(a > 0)) { toast('Enter Expense Name & Amount'); return; }
+    S.exp.push({ d: iso(D0()), n, amt: a }); save(); toast('Expense Added');
   },
-  add_wh_amt: () => {
-    const a = +($('#wh_amt').value || 0);
-    if (!(a > 0)) { toast('Enter valid amount'); return; }
-    S.auto_amt[String(a.toFixed(2))] = 1; checkInstantAutoMatch(); save(); toast('Amount pushed to Zero-Touch Matcher!');
-  },
-  savem: () => {
-    S.mset[iso(D0())] = { bf: $('#m_bf').value.trim(), veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() };
-    save(); toast('Live 3-Time Menu Updated');
-  },
+  savem: () => { S.mset[iso(D0())] = { bf: $('#m_bf').value.trim(), veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() }; save(); toast('Live Menu Saved'); },
   stk: (v, k, id) => { const p = S.prod.find(x => x.id === +id); if (p) { p.s = p.s ? 0 : 1; save(); } },
+  edit_prod: (v, k, id) => {
+    ED = +id; const p = S.prod.find(x => x.id === ED); if (!p) return;
+    setTimeout(() => { $('#p_n').value = p.n; $('#p_p').value = p.p; $('#p_m').value = p.mrp || ''; $('#p_c').value = p.c; }, 50);
+  },
+  save_prod: () => {
+    const n = $('#p_n').value.trim(), p = +$('#p_p').value, m = +$('#p_m').value || null, c = $('#p_c').value;
+    if (!n || !(p > 0)) { toast('Enter Name & Price'); return; }
+    const img = (CATS.find(x => x[0] === c) || ['', '', IMG.groc])[2];
+    if (ED) { const x = S.prod.find(y => y.id === ED); if (x) Object.assign(x, { n, p, mrp: m, c }); ED = null; }
+    else S.prod.push({ id: Date.now(), n, p, mrp: m, c, img, h: c === 'Khana' ? 1 : 0, hot: c === 'Khana' ? 1 : 0, nv: 0, s: 1 });
+    save(); toast('Product Saved');
+  },
+  del_prod: (v, k, id) => { S.prod = S.prod.filter(x => x.id !== +id); save(); toast('Deleted'); },
+  csv_ledger: () => {
+    const rows = [['Type', 'Date', 'Name', 'Amount']];
+    S.orders.forEach(o => rows.push(['IN-ORD', o.date, o.name, o.total]));
+    S.subs.forEach(s => rows.push(['IN-SUB', s.start, s.name, s.price]));
+    S.exp.forEach(x => rows.push(['EXPENSE', x.d, x.n, x.amt]));
+    dlCsv('namaste_udala_ledger.csv', rows);
+  },
+  csv_cust: () => {
+    const rows = [['Name', 'Phone', 'Area']];
+    S.subs.forEach(s => rows.push([s.name, s.phone, s.area]));
+    S.orders.forEach(o => rows.push([o.name, o.phone, o.area]));
+    dlCsv('customers.csv', rows);
+  },
   voice: () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) { toast('Use Chrome for Voice Search'); return; }
-    const r = new SR(); r.lang = 'hi-IN'; toast('Speak dish or item name...');
+    const r = new SR(); r.lang = 'hi-IN'; toast('Boliye kya chahiye...');
     r.onresult = e => { SQ = e.results[0][0].transcript; SCAT = 'all'; render(); };
     r.start();
   },
-  wa_inv: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id); if (!o) return;
-    const map = o.lat ? `https://maps.google.com/?q=${o.lat},${o.lng}` : o.addr;
-    const msg = `*NAMASTE UDALA — ORDER RECEIPT*\nOrder: #${String(o.id).slice(-5)}\nCustomer: ${o.name} (${o.phone})\nArea: ${o.area}\nPayment: ${o.utr} (${inr(o.total)})\nDelivery OTP: ${o.otp}\nItems: ${o.items.map(i => i.n + ' x' + i.q).join(', ')}\nGPS: ${map}`;
-    window.open('https://wa.me/919583937047?text=' + encodeURIComponent(msg), '_blank');
-  },
   prt: (v, k, id) => {
     const o = S.orders.find(x => x.id === id); if (!o) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Invoice #${String(o.id).slice(-5)} · ${o.date} ${tm(o.ts)}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Area: ${esc(o.area)} · ${esc(o.addr)}<br>Ref: ${esc(o.utr)} · OTP: ${o.otp}</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Bill #${String(o.id).slice(-4)} · ${o.date} ${tm(o.ts)}</p><p>${esc(o.name)} (${esc(o.phone)})<br>${esc(o.area)} · ${esc(o.addr)}<br>Ref: ${esc(o.utr)} · OTP: ${o.otp}</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
     window.print();
   },
-  theme: () => {
-    const d = document.documentElement.dataset.theme !== 'dark';
-    document.documentElement.dataset.theme = d ? 'dark' : '';
-    render();
-  }
+  theme: () => { const d = document.documentElement.dataset.theme !== 'dark'; document.documentElement.dataset.theme = d ? 'dark' : ''; render(); },
+  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'plan'; render(); }
 };
 
 document.addEventListener('click', e => {
@@ -1449,34 +1308,22 @@ document.addEventListener('click', e => {
   const f = A[b.dataset.a]; if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id, e); }
 });
 
-document.addEventListener('change', e => {
-  if (e.target && e.target.id === 'proof_file' && e.target.files[0]) {
-    const r = new FileReader();
-    r.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        const c = document.createElement('canvas'), max = 480;
-        const sc = Math.min(1, max / Math.max(img.width, img.height));
-        c.width = img.width * sc; c.height = img.height * sc;
-        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        PROOF_IMG = c.toDataURL('image/jpeg', 0.65);
-        render(); toast('Payment Screenshot Attached!');
-      };
-      img.src = ev.target.result;
-    };
-    r.readAsDataURL(e.target.files[0]);
-  }
-});
-
 document.addEventListener('input', e => {
   if (e.target.dataset.f) F[e.target.dataset.f] = e.target.value;
+  if (e.target.dataset.b) BF[e.target.dataset.b] = e.target.value;
   if (e.target.id === 'sq') { SQ = e.target.value; const pos = e.target.selectionStart; render(); const el = $('#sq'); if (el) { el.focus(); el.setSelectionRange(pos, pos); } }
 });
 
 let taps = 0, tapT;
 $('#mark').addEventListener('click', () => {
   taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 1800);
-  if (taps >= 5) { taps = 0; A.tab('owner'); }
+  if (taps >= 5) {
+    taps = 0;
+    const pin = prompt('Owner PIN (4827) ya Kitchen/Delivery PIN (7788) daalein:');
+    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner ERP Unlocked'); }
+    else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Kitchen & Route Unlocked'); }
+    else if (pin !== null) toast('Galat PIN');
+  }
 });
 
 render();
