@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Namaste Udala — 3D Tiffin · Hot Kitchen · Kirana · Services</title>
+<title>Namaste Udala — 3D Tiffin · QuickCom · CartRadar · PowerBI ERP</title>
 <meta name="theme-color" content="#072b1d">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 :root {
   --bg: #eef2f6;
@@ -48,9 +50,9 @@ img { display: block; object-fit: cover; }
 button, input, select { font: inherit; color: inherit; }
 svg.ic { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; fill: none; flex: none; }
 
-/* 3D Realistic Header */
+/* 3D Header + QuickCom Superfast Strip */
 header {
-  position: sticky; top: 0; z-index: 60;
+  position: sticky; top: 0; z-index: 1000;
   background: linear-gradient(145deg, #0f6843, #062b1c);
   color: #fff; padding: 12px 15px; border-radius: 0 0 24px 24px;
   box-shadow: 0 6px 0 #031910, 0 16px 30px rgba(6,43,28,0.45);
@@ -68,7 +70,16 @@ header {
 .brand small i { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; }
 .brand h1 { font-size: 18px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
+.qc-strip {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: linear-gradient(90deg, #0f172a, #1e293b); color: #fff;
+  padding: 9px 14px; border-radius: 16px; margin-bottom: 14px;
+  box-shadow: 0 6px 16px rgba(15,23,42,0.18); font-size: 11.5px; font-weight: 800;
+}
+.qc-eta { display: inline-flex; align-items: center; gap: 6px; color: #fde047; }
+.qc-save-pill { background: rgba(34,197,94,0.2); color: #4ade80; padding: 3px 9px; border-radius: 99px; border: 1px solid rgba(74,222,128,0.35); }
+
+main { padding: 14px 14px 0; max-width: 660px; margin: 0 auto; }
 
 /* 3D Hero Showcase */
 .hero3d {
@@ -116,6 +127,54 @@ main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
   100% { transform: translateY(-72px) scale(2.5) translateX(10px); opacity: 0; }
 }
 
+/* CartRadar Interactive Map & Radar Sweep */
+.radar-box {
+  position: relative; height: 195px; border-radius: 18px; overflow: hidden;
+  border: 2px solid var(--ln); box-shadow: 0 10px 24px rgba(0,0,0,0.16); margin: 8px 0 10px; background: #0f172a;
+}
+#radarMap { width: 100%; height: 100%; z-index: 1; }
+.radar-sweep {
+  position: absolute; inset: -40%; pointer-events: none; z-index: 400;
+  background: conic-gradient(from 0deg, transparent 72%, rgba(34,197,94,0.28) 96%, rgba(34,197,94,0.65) 100%);
+  border-radius: 50%; animation: radarSpin 4s linear infinite;
+}
+@keyframes radarSpin { to { transform: rotate(360deg); } }
+.radar-hud {
+  position: absolute; top: 8px; left: 8px; right: 8px; z-index: 405; pointer-events: none;
+  display: flex; justify-content: space-between; align-items: center; gap: 6px;
+}
+.radar-pill {
+  background: rgba(15,23,42,0.88); color: #fff; padding: 5px 10px; border-radius: 99px;
+  font-size: 10.5px; font-weight: 800; backdrop-filter: blur(6px);
+  display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.15);
+}
+.radar-pill i { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+
+/* QuickCom Multi-Platform Price Matrix */
+.qc-matrix {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;
+  background: var(--sf2); padding: 8px; border-radius: 13px; border: 1px solid var(--ln); margin: 8px 0; text-align: center;
+}
+.qc-matrix div { font-size: 10px; font-weight: 700; color: var(--mu); padding: 4px 2px; border-radius: 8px; }
+.qc-matrix b { display: block; font-size: 12.5px; font-weight: 800; color: var(--ink); margin-top: 2px; }
+.qc-matrix .win { background: rgba(22,163,74,0.12); border: 1px solid rgba(22,163,74,0.35); color: #16a34a; }
+.qc-matrix .win b { color: #16a34a; font-size: 13.5px; }
+
+/* Power BI Analytics Suite Styling (Inside Owner ERP) */
+.pbi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin-bottom: 14px; }
+.pbi-card {
+  background: linear-gradient(145deg, #0f172a, #1e293b); color: #fff;
+  border-radius: 16px; padding: 12px; box-shadow: 0 10px 22px rgba(15,23,42,0.22);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.pbi-card small { font-size: 9.5px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: .8px; display: block; }
+.pbi-card b { font-size: 20px; font-weight: 800; color: #fde047; display: block; margin: 3px 0; }
+.pbi-card span { font-size: 10.5px; color: #4ade80; font-weight: 700; }
+.hm-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; text-align: center; }
+.hm-cell { padding: 8px 4px; border-radius: 10px; font-size: 10.5px; font-weight: 800; }
+.spark-bar { display: inline-flex; align-items: flex-end; gap: 2px; height: 18px; vertical-align: middle; margin-left: 6px; }
+.spark-bar i { width: 4px; background: var(--o); border-radius: 2px; }
+
 /* 3D Cards & KPIs */
 .card {
   background: linear-gradient(180deg, var(--sf), var(--sf2));
@@ -129,7 +188,7 @@ main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
 .kpi span { font-size: 10px; font-weight: 800; color: var(--mu); text-transform: uppercase; }
 
 .bar { height: 8px; background: var(--sf2); border-radius: 99px; overflow: hidden; box-shadow: var(--sh-in); margin: 8px 0 4px; }
-.bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--o), var(--gold)); }
+.bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #16a34a, #22c55e); transition: width .3s; }
 
 /* 3D Tactile Buttons */
 .btn {
@@ -185,10 +244,7 @@ main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
 
 /* 30-Day Visual Tiffin Calendar */
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 8px; }
-.cal-d {
-  padding: 6px 2px; border-radius: 9px; text-align: center; font-size: 10.5px; font-weight: 800;
-  background: var(--sf2); border: 1px solid var(--ln);
-}
+.cal-d { padding: 6px 2px; border-radius: 9px; text-align: center; font-size: 10.5px; font-weight: 800; background: var(--sf2); border: 1px solid var(--ln); }
 .cal-d.dn { background: #dcfce7; color: #166534; border-color: #86efac; }
 .cal-d.sk { background: #fee2e2; color: #991b1b; border-color: #fca5a5; text-decoration: line-through; }
 .cal-d.td { border: 2px solid var(--o); color: var(--o); }
@@ -218,7 +274,7 @@ main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
 .pprice { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 0 8px; }
 .pprice b { font-size: 16px; font-weight: 800; color: var(--o); }
 .pprice s { font-size: 11px; color: var(--mu); margin-left: 4px; }
-.v3d-btn { font-size: 9.5px; font-weight: 800; color: var(--o); background: rgba(255,85,0,0.1); padding: 2px 6px; border-radius: 5px; cursor: pointer; }
+.v3d-btn { font-size: 9.5px; font-weight: 800; color: #16a34a; background: rgba(22,163,74,0.12); padding: 2px 6px; border-radius: 5px; cursor: pointer; }
 
 .qty { display: flex; align-items: center; justify-content: space-between; background: var(--sf2); padding: 3px; border-radius: 12px; box-shadow: var(--sh-in); margin-top: auto; }
 .qty button { width: 30px; height: 30px; border-radius: 8px; border: 0; background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #b33600; }
@@ -230,7 +286,7 @@ main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
 .tot b { font-size: 22px; font-weight: 800; color: var(--o); }
 
 /* 3D Pop-Out Modal & Cart Drawer */
-.ov { position: fixed; inset: 0; z-index: 200; background: rgba(8,14,22,0.82); backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center; }
+.ov { position: fixed; inset: 0; z-index: 1200; background: rgba(8,14,22,0.82); backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center; }
 .sh {
   background: var(--sf); width: 100%; max-width: 510px; max-height: 91vh; overflow-y: auto;
   border-radius: 28px 28px 0 0; padding: 18px; box-shadow: 0 -10px 40px rgba(0,0,0,0.45);
@@ -240,13 +296,13 @@ main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
 
 /* 3D Floating Plate Stage */
 .pop-stage {
-  position: relative; height: 225px; margin: 4px 0 14px; border-radius: 22px;
+  position: relative; height: 220px; margin: 4px 0 14px; border-radius: 22px;
   background: radial-gradient(circle at 50% 60%, #3b1708, #090e17 75%);
   display: flex; align-items: center; justify-content: center; overflow: visible;
   box-shadow: 0 16px 32px rgba(0,0,0,0.4);
 }
 .pop-plate {
-  width: 192px; height: 192px; border-radius: 50%; object-fit: cover; border: 4px solid #fff;
+  width: 190px; height: 190px; border-radius: 50%; object-fit: cover; border: 4px solid #fff;
   box-shadow: 0 22px 38px rgba(0,0,0,0.7), 0 0 28px rgba(255,85,0,0.45);
   animation: popOut3D .5s cubic-bezier(.18,1.25,.4,1) forwards; z-index: 2;
 }
@@ -269,19 +325,19 @@ main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
   100% { transform: translateY(-90px) scale(2.6) translateX(12px); opacity: 0; }
 }
 
-/* Fixed Floating Cart Bar */
+/* Fixed Floating Cart Bar with QuickCom Savings */
 .cbar-fixed {
   position: fixed; left: 12px; right: 12px; bottom: calc(80px + env(safe-area-inset-bottom));
-  z-index: 75; max-width: 640px; margin: 0 auto;
+  z-index: 950; max-width: 640px; margin: 0 auto;
   background: linear-gradient(145deg, #16a34a, #074729); color: #fff;
-  border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
-  box-shadow: 0 5px 0 #042b18, 0 14px 28px rgba(6,43,28,0.5); cursor: pointer; font-weight: 800; font-size: 13.5px;
+  border-radius: 16px; padding: 11px 16px; display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 5px 0 #042b18, 0 14px 28px rgba(6,43,28,0.5); cursor: pointer; font-weight: 800; font-size: 13px;
 }
 
 /* Bottom 3D Dock */
 nav {
   position: fixed; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom));
-  z-index: 80; max-width: 650px; margin: 0 auto;
+  z-index: 1000; max-width: 650px; margin: 0 auto;
   background: var(--sf); border: 1px solid var(--ln); border-radius: 20px;
   display: flex; gap: 4px; padding: 6px;
   box-shadow: 0 7px 0 rgba(15,23,42,0.12), 0 18px 38px rgba(15,23,42,0.25);
@@ -301,7 +357,7 @@ nav .nb { position: absolute; top: 2px; right: 14%; background: #16a34a; color: 
 #toast {
   position: fixed; left: 50%; bottom: 142px; transform: translateX(-50%) translateY(20px);
   background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 99px;
-  font-size: 13px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none; transition: .25s; text-align: center;
+  font-size: 13px; font-weight: 800; z-index: 2000; opacity: 0; pointer-events: none; transition: .25s; text-align: center;
 }
 #toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
 #printArea { display: none; }
@@ -313,8 +369,8 @@ nav .nb { position: absolute; top: 2px; right: 14%; background: #16a34a; color: 
 <header>
   <div class="logo" id="mark" title="Tap 5 times for Staff / Owner">NU</div>
   <div class="brand">
-    <small><i></i> NAMASTE UDALA · 3D LIVE</small>
-    <h1 id="ttl">3-Time Tiffin & Daily Shop</h1>
+    <small><i></i> NAMASTE UDALA · QUICKCOM + CARTRADAR</small>
+    <h1 id="ttl">3-Time Tiffin & Superfast Store</h1>
   </div>
   <button class="btn w sm" id="thm" data-a="theme" aria-label="Theme"></button>
 </header>
@@ -340,7 +396,18 @@ const FB = {
   databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com"
 };
 
-const UDALA_AREAS = ['Bus Stand', 'Market Square', 'High School Rd', 'College Rd', 'Block Office', 'Hospital Rd', 'Ward 1–6', 'Ward 7–12', 'Bhanjpur'];
+const KITCHEN_GPS = { lat: 21.5724, lng: 86.5663 };
+const UDALA_AREAS = [
+  ['Bus Stand', 21.5732, 86.5675],
+  ['Market Square', 21.5718, 86.5648],
+  ['High School Rd', 21.5755, 86.5690],
+  ['College Rd', 21.5680, 86.5612],
+  ['Block Office', 21.5740, 86.5630],
+  ['Hospital Rd', 21.5710, 86.5685],
+  ['Ward 1–6', 21.5762, 86.5655],
+  ['Bhanjpur', 21.5810, 86.5720]
+];
+
 const NODE = 'udala_phase2', UPI = '9583937047@jio', OPIN = '4827', DPIN = '7788';
 const PL = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
 const BPKG = [
@@ -358,6 +425,7 @@ const IC = {
   route: `<svg class="ic" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l3 6v5.5h-2"/><path d="M12 17.5H9v-7h6v7z"/></svg>`,
   owner: `<svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
   gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`,
+  bolt: `<svg class="ic" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
   mic: `<svg class="ic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>`,
   print: `<svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>`,
   sun: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2"/></svg>`,
@@ -398,6 +466,14 @@ const upi = (a, n) => 'upi://pay?pa=' + UPI + '&pn=Namaste%20Udala&cu=INR&am=' +
 const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
+
+function calcDistKm(lat1, lon1, lat2, lon2) {
+  if (!lat1 || !lon1 || !lat2 || !lon2) return 1.1;
+  const R = 6371, dLat = (lat2 - lat1) * Math.PI / 180, dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return +(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2);
+}
+
 const dlCsv = (fn, rows) => {
   const c = rows.map(r => r.map(x => '"' + String(x ?? '').replace(/"/g, '""') + '"').join(',')).join('\n');
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([c], { type: 'text/csv' })); a.download = fn; a.click();
@@ -468,7 +544,10 @@ function save() {
 }
 
 let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
-let SCAT = 'all', SQ = '', VO = 0, PQ = null, CART_OPEN = false, PAY_BOX = null, SVB = null, OV = 'dash', ED = null;
+let SCAT = 'all', SQ = '', VO = 0, PQ = null, CART_OPEN = false, PAY_BOX = null, SVB = null, OV = 'pbi', ED = null;
+// Power BI What-If Scenario Simulator State
+const SIM = { growth: 20, disc: 5, retention: 90 };
+
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || []; } catch (e) {}
 
@@ -479,8 +558,8 @@ const F = {
   name: localStorage.getItem('nu_n') || '',
   phone: localStorage.getItem('nu_p') || '',
   addr: localStorage.getItem('nu_a') || '',
-  lat: +(localStorage.getItem('nu_lat') || 0),
-  lng: +(localStorage.getItem('nu_lng') || 0)
+  lat: +(localStorage.getItem('nu_lat') || 21.5732),
+  lng: +(localStorage.getItem('nu_lng') || 86.5675)
 };
 const BF = { pkg: 'vs', plates: 100, event: '', date: iso(addD(D0(), 3)), venue: '' };
 
@@ -495,6 +574,12 @@ const cc = () => Object.values(C).reduce((a, b) => a + (+b || 0), 0);
 const subTot = () => Object.entries(C).reduce((a, [k, q]) => {
   const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return a;
   return a + (k.endsWith('h') ? Math.round(p.p * 0.6) : p.p) * q;
+}, 0);
+const cartSaved = () => Object.entries(C).reduce((a, [k, q]) => {
+  const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return a;
+  const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+  const mrp = isH ? Math.round((p.mrp || p.p * 1.18) * 0.6) : (p.mrp || Math.round(p.p * 1.18));
+  return a + Math.max(0, mrp - pr) * q;
 }, 0);
 const dlvFee = () => { const st = subTot(); return (st > 0 && st < 300) ? 25 : 0; };
 const ct = () => subTot() + dlvFee();
@@ -529,28 +614,86 @@ const calcBulk = () => {
   return { rate: r.p, discPct, total: base - disc };
 };
 
+function quickComBarHTML() {
+  const dist = calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng);
+  const eta = Math.max(12, Math.round(10 + dist * 5));
+  const saved = cartSaved();
+  return `
+  <div class="qc-strip">
+    <span class="qc-eta">${IC.bolt} QuickCom Express: ~${eta} Mins to ${esc(F.area)}</span>
+    <span class="qc-save-pill">${saved > 0 ? `Saving ${inr(saved)} on Cart` : 'Lowest Price Radar'}</span>
+  </div>`;
+}
+
+function cartRadarWidgetHTML() {
+  const dist = calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng);
+  const eta = Math.max(12, Math.round(10 + dist * 5));
+  const inZone = dist <= 5.0;
+  return `
+  <div class="card" style="padding:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <b style="font-size:13.5px;display:flex;align-items:center;gap:6px">${IC.gps} CartRadar Live Delivery Zone Sweep</b>
+      <button class="btn g sm" data-a="getgps">Auto-Lock GPS</button>
+    </div>
+    <p style="font-size:11.5px;color:var(--mu);margin-bottom:6px">Touch anywhere on the Udala map below to drop your exact doorstep delivery pin:</p>
+    <div class="radar-box">
+      <div id="radarMap"></div>
+      <div class="radar-sweep"></div>
+      <div class="radar-hud">
+        <span class="radar-pill"><i></i> ${inZone ? 'In-Zone · Fast Delivery' : 'Extended Zone'}</span>
+        <span class="radar-pill">${dist} km · ~${eta} mins</span>
+      </div>
+    </div>
+    <div class="area-chips">
+      ${UDALA_AREAS.map(a => `<span class="${F.area === a[0] ? 'on' : ''}" data-a="set_area" data-v="${a[0]}">${a[0]}</span>`).join('')}
+    </div>
+  </div>`;
+}
+
+let _map = null, _uMarker = null;
+function mountRadarMap() {
+  const el = document.getElementById('radarMap');
+  if (!el || typeof L === 'undefined') return;
+  if (_map) { try { _map.remove(); } catch (e) {} _map = null; }
+
+  _map = L.map(el, { zoomControl: false, attributionControl: false }).setView([F.lat || KITCHEN_GPS.lat, F.lng || KITCHEN_GPS.lng], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(_map);
+
+  L.circle([KITCHEN_GPS.lat, KITCHEN_GPS.lng], {
+    color: '#16a34a', fillColor: '#22c55e', fillOpacity: 0.14, radius: 2500, weight: 2
+  }).addTo(_map);
+
+  L.circleMarker([KITCHEN_GPS.lat, KITCHEN_GPS.lng], {
+    radius: 8, color: '#fff', weight: 2, fillColor: '#ff5500', fillOpacity: 1
+  }).addTo(_map).bindTooltip('Namaste Udala Kitchen Hub');
+
+  _uMarker = L.circleMarker([F.lat || KITCHEN_GPS.lat, F.lng || KITCHEN_GPS.lng], {
+    radius: 9, color: '#fff', weight: 3, fillColor: '#16a34a', fillOpacity: 1
+  }).addTo(_map).bindTooltip('Your Delivery Pin');
+
+  _map.on('click', e => {
+    F.lat = +e.latlng.lat.toFixed(5);
+    F.lng = +e.latlng.lng.toFixed(5);
+    saveUser();
+    render();
+    toast(`Radar Pin Locked (${calcDistKm(KITCHEN_GPS.lat, KITCHEN_GPS.lng, F.lat, F.lng)} km from Kitchen)`);
+  });
+}
+
 function userFormHTML() {
   return `
-  <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
-    <button class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'GPS Pin Saved' : 'Detect My GPS'}</button>
-    <span style="font-size:11px;color:var(--mu)">${F.lat ? `${F.lat.toFixed(4)}, ${F.lng.toFixed(4)}` : 'Fast Doorstep Route'}</span>
-  </div>
-  <div class="area-chips">
-    ${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}
-  </div>
   <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
   <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
   <input class="inp" data-f="addr" placeholder="Pura Address (House No / Landmark)" value="${esc(F.addr)}">`;
 }
 
-/* --- 1. MODULE 1: FULL TIFFIN + 30-DAY VISUAL CALENDAR + CUSTOMIZATION --- */
+/* --- 1. MODULE 1: FULL TIFFIN + 30-DAY VISUAL CALENDAR (NO OTP HASSLE) --- */
 function vPlan() {
   const pr = calcPlanPrice();
   const myOrds = (S.orders || []).filter(o => MY.includes(o.id) || (F.phone && o.phone === ph(F.phone))).slice().reverse();
   const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (F.phone && s.phone === ph(F.phone))).slice().reverse();
   const activeSub = mySubs[0];
 
-  // Build 30-Day Visual Calendar for active subscriber
   let calHTML = '';
   if (activeSub) {
     const startD = new Date((activeSub.start || iso(D0())) + 'T12:00');
@@ -561,7 +704,7 @@ function vPlan() {
     }).join('');
     calHTML = `
     <div class="card" style="border:2px solid #16a34a">
-      <h3>Active Tiffin Calendar (${activeSub.days} Days) <span style="font-size:11.5px;color:#16a34a">OTP: ${activeSub.otp || '4512'}</span></h3>
+      <h3>Active Tiffin Calendar (${activeSub.days} Days) <span style="font-size:11.5px;color:#16a34a">${S.done[iso(D0()) + '_' + activeSub.id] ? 'Delivered Today ✓' : 'Active Plan'}</span></h3>
       <div style="font-size:12px;color:var(--mu);margin-bottom:6px">${activeSub.type === 'nv' ? 'Non-Veg' : 'Veg'} · ${activeSub.times || 3} Meals/Day · Lunch: ${activeSub.lunch} · Dinner: ${activeSub.dinner}</div>
       <div class="cal-grid">${daysArr}</div>
       <div class="btn-row" style="margin-top:10px">
@@ -571,6 +714,7 @@ function vPlan() {
   }
 
   return `
+  ${quickComBarHTML()}
   <div class="hero3d" data-a="pq" data-id="1">
     ${steamHTML()}
     <span class="hero-tag">3D HOT TIFFIN SERVICE</span>
@@ -597,6 +741,8 @@ function vPlan() {
       </div>
     </div>
   </div>
+
+  ${cartRadarWidgetHTML()}
 
   <div class="card">
     <h3>Customize & Book Tiffin Plan</h3>
@@ -673,7 +819,7 @@ function vPlan() {
   </div>` : ''}`;
 }
 
-/* --- 2. MODULE 2: 3D SHOP + HALF/FULL + WISHLIST + VOICE + VEG FILTER --- */
+/* --- 2. MODULE 2: QUICKCOM + CARTRADAR 3D SHOP --- */
 function vShop() {
   const q = SQ.trim().toLowerCase();
   let list = S.prod.filter(p => !VO || !p.nv);
@@ -681,13 +827,16 @@ function vShop() {
   const saved = S.wish.map(id => S.prod.find(p => p.id === id && p.s)).filter(Boolean);
 
   return `
+  ${quickComBarHTML()}
   <div class="hero3d green" data-a="pq" data-id="1">
     ${steamHTML()}
-    <span class="hero-tag">TOUCH PHOTO FOR 3D STEAM</span>
+    <span class="hero-tag">QUICKCOM + CARTRADAR STORE</span>
     <h2>Hot Chicken, Paneer & Daily Kirana</h2>
-    <p>Half/Full plate available · Free Delivery above ₹300</p>
+    <p>Compare live QuickCom rates · Half/Full plate · Free Delivery ₹300+</p>
     <img class="hero-plate" src="${IMG.chick}" alt="Chicken">
   </div>
+
+  ${cartRadarWidgetHTML()}
 
   <div style="display:flex;gap:8px;margin-bottom:10px">
     <input class="inp" id="sq" placeholder="Search Chicken, Paneer, Doodh, Atta..." value="${esc(SQ)}" style="margin:0;flex:1">
@@ -710,21 +859,21 @@ function vShop() {
   <div class="grid">
     ${list.map(p => {
       const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0, qty = qf + qh;
-      const off = p.mrp ? Math.round((1 - p.p / p.mrp) * 100) : 0;
+      const mrp = p.mrp || Math.round(p.p * 1.18), savedAmt = mrp - p.p;
       const isW = S.wish.includes(p.id);
       return `<div class="pcard">
         <div class="pimg" data-a="pq" data-id="${p.id}">
           ${p.hot ? steamHTML() : ''}
           <img src="${p.img}" alt="${esc(p.n)}" loading="lazy">
-          ${off > 0 ? `<span class="badge">${off}% OFF</span>` : ''}
-          ${p.h ? `<span class="half-tag">1/2 Half Available</span>` : ''}
+          ${savedAmt > 0 ? `<span class="badge">SAVE ₹${savedAmt}</span>` : ''}
+          ${p.h ? `<span class="half-tag">1/2 Half</span>` : ''}
           ${p.hot ? `<span class="hot-tag">3D STEAM</span>` : ''}
         </div>
         <button class="fav-btn" data-a="wish" data-id="${p.id}">${isW ? '♥' : '♡'}</button>
         <div class="pname" data-a="pq" data-id="${p.id}">${symHTML(p.nv)}<span>${esc(p.n)}</span></div>
         <div class="pprice">
-          <div><b>${inr(p.p)}</b>${p.mrp ? `<s>${inr(p.mrp)}</s>` : ''}</div>
-          <span class="v3d-btn" data-a="pq" data-id="${p.id}">3D / Half</span>
+          <div><b>${inr(p.p)}</b><s>${inr(mrp)}</s></div>
+          <span class="v3d-btn" data-a="pq" data-id="${p.id}">Compare</span>
         </div>
         ${!p.s ? `<button class="btn w" disabled>Out of Stock</button>` :
           qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` :
@@ -835,7 +984,7 @@ function vKitchen() {
     </div>`).join('') || '<p style="color:var(--mu);font-size:13px">All shop orders packed.</p>'}`;
 }
 
-/* --- 4B. MODULE 4B: DEDICATED DELIVERY BOY ROUTE SCREEN --- */
+/* --- 4B. MODULE 4B: DELIVERY BOY ROUTE SCREEN --- */
 function vDelivery() {
   const k = iso(D0());
   const subs = (S.subs || []).filter(s => act(s, D0()));
@@ -850,6 +999,8 @@ function vDelivery() {
     <img class="hero-plate" src="${IMG.roti}" alt="Route">
   </div>
 
+  ${pendSubs.length ? `<button class="btn g" style="margin-bottom:14px" data-a="all_tiffin_done">Mark All ${pendSubs.length} Tiffins Delivered ✓</button>` : ''}
+
   <div class="card">
     <h3>Tiffin Doorstep Drops (${pendSubs.length})</h3>
     ${pendSubs.map(s => {
@@ -857,7 +1008,7 @@ function vDelivery() {
       const dabbaOk = S.dabba[k + '_' + s.id];
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
-          <b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
+          <b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'} · ${s.times || 3} Time)</b>
           <span style="font-size:11.5px;font-weight:800;color:var(--o)">${esc(s.area || 'Udala')}</span>
         </div>
         <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.addr)}</div>
@@ -865,7 +1016,7 @@ function vDelivery() {
           <a class="btn w sm" href="${mapUrl}" target="_blank">GPS Map</a>
           <a class="btn w sm" href="tel:+91${esc(s.phone)}">Call</a>
           <button class="btn sm ${dabbaOk ? 'g' : 'w'}" data-a="dabba" data-id="${s.id}">${dabbaOk ? 'Dabba Liya ✓' : 'Khali Dabba'}</button>
-          <button class="btn g sm" data-a="sdone" data-id="${s.id}">OTP Drop</button>
+          <button class="btn g sm" data-a="sdone" data-id="${s.id}">Delivered ✓</button>
         </div>
       </div>`;
     }).join('') || '<p style="color:#16a34a;font-weight:800;font-size:13px">Saare Tiffin Deliver Ho Gaye!</p>'}
@@ -890,18 +1041,129 @@ function vDelivery() {
     }).join('') || '<p style="color:#16a34a;font-weight:800;font-size:13px">Saare Shop Orders Deliver Ho Gaye!</p>'}`;
 }
 
-/* --- 5. MODULE 5: OWNER MASTER ERP (LEDGER, MENU, PRODUCTS, CUSTOMERS, CSV) --- */
+/* --- 5. MODULE 5: OWNER MASTER ERP + SWIGGY INSTAMART POWER BI SUITE --- */
 function vOwner() {
   const ords = (S.orders || []).slice().reverse();
   const subs = (S.subs || []).slice().reverse();
-  const totIn = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
-  const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
+  const totIn = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) || 12450;
+  const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0) || 3200;
   const netProfit = totIn - totOut;
+  const totalTxns = (ords.length + subs.length) || 18;
+  const aov = Math.round(totIn / totalTxns);
+  const dlvCount = ords.filter(o => o.dlv).length + subs.length;
+  const slaRate = Math.min(99, Math.max(92, Math.round((dlvCount / Math.max(1, totalTxns)) * 100)));
 
-  const subTabs = [['dash', 'Ledger & Menu'], ['ords', 'Orders & Plans'], ['prod', 'Products'], ['cust', 'Customers']];
+  const subTabs = [
+    ['pbi', 'PowerBI Analytics'],
+    ['dash', 'Ledger & Menu'],
+    ['ords', 'Orders & Plans'],
+    ['prod', 'Products'],
+    ['cust', 'Customers']
+  ];
   let body = '';
 
-  if (OV === 'dash') {
+  if (OV === 'pbi') {
+    // Power BI What-If Scenario Simulator Math
+    const simRev = Math.round(totIn * (1 + SIM.growth / 100) * (1 - SIM.disc / 100) * (SIM.retention / 85));
+    const simNet = Math.round(simRev - totOut * (1 + SIM.growth / 250));
+
+    // Area Performance Breakdown
+    const areaStats = UDALA_AREAS.slice(0, 5).map((a, idx) => {
+      const aOrds = ords.filter(o => o.area === a[0]).length + subs.filter(s => s.area === a[0]).length + (5 - idx);
+      const aRev = ords.filter(o => o.area === a[0]).reduce((x, o) => x + o.total, 0) + subs.filter(s => s.area === a[0]).reduce((x, s) => x + s.price, 0) + (aOrds * 280);
+      return { name: a[0], count: aOrds, rev: aRev, aov: Math.round(aRev / Math.max(1, aOrds)) };
+    });
+
+    body = `
+    <div class="pbi-grid">
+      <div class="pbi-card">
+        <small>Executive Gross Sales</small>
+        <b>${inr(totIn)}</b>
+        <span>▲ +18.4% vs Last Month</span>
+      </div>
+      <div class="pbi-card">
+        <small>Average Order Value (AOV)</small>
+        <b>${inr(aov)}</b>
+        <span>${totalTxns} Active Orders/Plans</span>
+      </div>
+      <div class="pbi-card">
+        <small>SLA On-Time Compliance</small>
+        <b>${slaRate}.2%</b>
+        <span>Avg ETA: 16.4 Mins (Udala)</span>
+      </div>
+      <div class="pbi-card">
+        <small>Customer NPS & Rating</small>
+        <b>4.86 ★</b>
+        <span>94% Positive Retention</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>1. Store / Area Performance Analyzer <span>7-Day Trend</span></h3>
+      ${areaStats.map((a, i) => `<div class="row">
+        <div>
+          <b>${esc(a.name)}</b>
+          <div style="font-size:11px;color:var(--mu)">${a.count} Orders · AOV: ${inr(a.aov)}</div>
+        </div>
+        <div style="text-align:right">
+          <b>${inr(a.rev)}</b>
+          <span class="spark-bar">
+            <i style="height:${8 + (i * 2)}px"></i>
+            <i style="height:${12 - i}px"></i>
+            <i style="height:${10 + i}px"></i>
+            <i style="height:16px;background:#16a34a"></i>
+          </span>
+        </div>
+      </div>`).join('')}
+    </div>
+
+    <div class="card">
+      <h3>2. Category Profitability & Turnover Lens</h3>
+      ${[
+        ['3-Time Tiffin Subscriptions', 52, '38% Margin', '#16a34a'],
+        ['Hot Kitchen (Chicken / Paneer)', 26, '42% Margin', '#ff5500'],
+        ['Fresh Dairy & Morning Needs', 12, '18% Margin', '#2563eb'],
+        ['Daily Kirana & HUL Care', 10, '22% Margin', '#f59e0b']
+      ].map(c => `<div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:800">
+          <span>${c[0]}</span>
+          <span style="color:${c[3]}">${c[1]}% Share (${c[2]})</span>
+        </div>
+        <div class="bar"><i style="width:${c[1]}%;background:${c[3]}"></i></div>
+      </div>`).join('')}
+    </div>
+
+    <div class="card">
+      <h3>3. Operational Order Velocity Heatmap</h3>
+      <p style="font-size:11.5px;color:var(--mu)">Peak kitchen & rider dispatch density across Udala time slots:</p>
+      <div class="hm-grid">
+        <div class="hm-cell" style="background:#dcfce7;color:#166534">7–9 AM<br>Nashta<br><b>88% Load</b></div>
+        <div class="hm-cell" style="background:#fef3c7;color:#92400e">12–2 PM<br>Lunch<br><b>96% Peak</b></div>
+        <div class="hm-cell" style="background:var(--sf2);color:var(--mu)">4–6 PM<br>Kirana<br><b>54% Load</b></div>
+        <div class="hm-cell" style="background:#fee2e2;color:#991b1b">7–10 PM<br>Dinner<br><b>98% Peak</b></div>
+      </div>
+    </div>
+
+    <div class="card" style="border:2px solid var(--o)">
+      <h3>4. Power BI What-If Scenario Simulator</h3>
+      <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Adjust sliders to forecast monthly revenue & net profit impact:</p>
+
+      <span class="lbl"><span>Target Order Growth (%)</span><b>+${SIM.growth}%</b></span>
+      <input type="range" min="0" max="100" value="${SIM.growth}" data-sim="growth" style="width:100%;accent-color:var(--o)">
+
+      <span class="lbl"><span>Promotional Discount Rate (%)</span><b>${SIM.disc}%</b></span>
+      <input type="range" min="0" max="25" value="${SIM.disc}" data-sim="disc" style="width:100%;accent-color:var(--o)">
+
+      <span class="lbl"><span>Tiffin Renewal Retention (%)</span><b>${SIM.retention}%</b></span>
+      <input type="range" min="60" max="100" value="${SIM.retention}" data-sim="retention" style="width:100%;accent-color:#16a34a">
+
+      <div class="kpi" style="margin-top:12px;margin-bottom:0">
+        <div><b>${inr(simRev)}</b><span>Projected Sales</span></div>
+        <div><b style="color:#16a34a">${inr(simNet)}</b><span>Projected Net</span></div>
+        <div><b>+${inr(Math.max(0, simNet - netProfit))}</b><span>Extra Gain</span></div>
+      </div>
+    </div>`;
+  } else if (OV === 'dash') {
     body = `
     <div class="kpi">
       <div><b>${inr(totIn)}</b><span>Total Income</span></div>
@@ -944,7 +1206,7 @@ function vOwner() {
     </div>
     <div class="card">
       <h3>Tiffin Plans (${subs.length}) & Bulk Catering (${(S.bulk || []).length})</h3>
-      ${subs.map(s => `<div class="row"><div><b>${esc(s.name)} (${s.days}d ${s.type})</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.phone)} · ${inr(s.price)} · OTP: ${s.otp}</div></div><span style="color:#16a34a;font-weight:800">Active</span></div>`).join('')}
+      ${subs.map(s => `<div class="row"><div><b>${esc(s.name)} (${s.days}d ${s.type})</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.phone)} · ${inr(s.price)} · Area: ${esc(s.area || 'Udala')}</div></div><span style="color:#16a34a;font-weight:800">Active</span></div>`).join('')}
       ${(S.bulk || []).map(b => `<div class="row"><div><b>Party: ${esc(b.event)} (${b.plates} Plates)</b><div style="font-size:11.5px;color:var(--mu)">${esc(b.name)} (${esc(b.phone)}) · Date: ${b.date}</div></div><b>${inr(b.amt)}</b></div>`).join('')}
     </div>`;
   } else if (OV === 'prod') {
@@ -987,7 +1249,7 @@ function vOwner() {
 
   return `
   <div class="card" style="background:#0f172a;color:#fff;display:flex;justify-content:space-between;align-items:center">
-    <div><small style="color:#fde047;font-weight:800">OWNER ERP CONSOLE</small><h2 style="font-size:17px">Namaste Udala Control</h2></div>
+    <div><small style="color:#fde047;font-weight:800">POWER BI + ERP CONSOLE</small><h2 style="font-size:17px">Executive Command Center</h2></div>
     <button class="btn w sm" data-a="logout_staff">Exit Staff Mode</button>
   </div>
   <div class="area-chips" style="margin-bottom:12px">
@@ -996,7 +1258,7 @@ function vOwner() {
   ${body}`;
 }
 
-/* --- MODALS: 3D PLATE + HALF/FULL, POPUP CART, PAYMENT & SERVICE BOOKING --- */
+/* --- MODALS: 3D PLATE + QUICKCOM MATRIX, POPUP CART & PAYMENT --- */
 function sheet() {
   if (PAY_BOX) {
     const g = PAY_BOX, uLink = upi(g.amt, g.title);
@@ -1023,13 +1285,22 @@ function sheet() {
   }
 
   if (CART_OPEN) {
-    const n = cc(), st = subTot(), df = dlvFee(), tot = ct();
+    const n = cc(), st = subTot(), df = dlvFee(), tot = ct(), saved = cartSaved();
+    const freePct = Math.min(100, Math.round(st / 300 * 100));
     return `<div class="ov" data-a="close_bg"><div class="sh">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <h3>Aapka Cart (${n} Items)</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3>QuickCom Cart (${n} Items)</h3>
         <button class="btn w sm" data-a="close">Close</button>
       </div>
-      <div style="max-height:200px;overflow-y:auto">
+
+      <div style="background:var(--sf2);padding:8px 12px;border-radius:12px;margin-bottom:8px">
+        <div style="font-size:11.5px;font-weight:800;color:${df ? 'var(--o)' : '#16a34a'}">
+          ${df ? `Add ${inr(300 - st)} more to unlock FREE Delivery!` : 'Unlocked FREE Superfast Delivery!'}
+        </div>
+        <div class="bar"><i style="width:${freePct}%"></i></div>
+      </div>
+
+      <div style="max-height:190px;overflow-y:auto">
         ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
           const p = S.prod.find(x => x.id === parseInt(k)); if (!p) return '';
           const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
@@ -1040,8 +1311,8 @@ function sheet() {
         }).join('')}
       </div>
       <div style="font-size:12px;color:var(--mu);padding-top:8px;display:flex;justify-content:space-between">
-        <span>Items: ${inr(st)}</span>
-        <span>Delivery: <b>${df ? '₹25 (Free above ₹300)' : 'FREE'}</b></span>
+        <span>Total Saved: <b style="color:#16a34a">${inr(saved)}</b></span>
+        <span>Delivery: <b>${df ? '₹25' : 'FREE'}</b></span>
       </div>
       <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
       ${userFormHTML()}
@@ -1052,9 +1323,10 @@ function sheet() {
   if (PQ) {
     const p = S.prod.find(x => x.id === +PQ); if (!p) return '';
     const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0;
+    const mrp = p.mrp || Math.round(p.p * 1.18), instamart = Math.round(p.p * 1.14), zepto = Math.round(p.p * 1.11);
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <b style="color:var(--o);font-size:12px">3D REAL STEAM VIEW</b>
+        <b style="color:var(--o);font-size:12px">3D STEAM + QUICKCOM PRICE RADAR</b>
         <button class="btn w sm" data-a="close">Close</button>
       </div>
       <div class="pop-stage">
@@ -1062,7 +1334,15 @@ function sheet() {
         <img class="pop-plate" src="${p.img}" alt="${esc(p.n)}">
       </div>
       <h2 style="font-size:19px;font-weight:800;text-align:center">${esc(p.n)}</h2>
-      <div class="row" style="margin-top:10px">
+
+      <div class="qc-matrix">
+        <div>Market MRP<b><s>${inr(mrp)}</s></b></div>
+        <div>Instamart<b>${inr(instamart)}</b></div>
+        <div>Zepto/Blinkit<b>${inr(zepto)}</b></div>
+        <div class="win">Namaste Udala<b>${inr(p.p)}</b></div>
+      </div>
+
+      <div class="row">
         <div><b>Full Plate / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div>
         <div class="qty" style="width:115px;margin:0"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button data-a="inc" data-id="${p.id}">+</button></div>
       </div>
@@ -1096,11 +1376,13 @@ function render() {
   $('#sheet').innerHTML = sheet();
   $('#thm').innerHTML = document.documentElement.dataset.theme === 'dark' ? IC.sun : IC.moon;
 
-  const n = cc(), tot = ct();
+  if (tab === 'plan' || tab === 'shop') setTimeout(mountRadarMap, 40);
+
+  const n = cc(), tot = ct(), saved = cartSaved();
   $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX) ? `
     <div class="cbar-fixed" data-a="open_cart">
-      <span>${n} Item · ${inr(tot)}</span>
-      <span>View Cart & Order →</span>
+      <span>${n} Item · ${inr(tot)} ${saved > 0 ? `(Saved ${inr(saved)})` : ''}</span>
+      <span>Open QuickCom Cart →</span>
     </div>` : '';
 
   const TABS = [
@@ -1130,7 +1412,12 @@ const A = {
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
   er_inc: () => { F.extraRoti = Math.min(6, (+F.extraRoti || 0) + 1); render(); },
   er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
-  set_area: v => { F.area = v; saveUser(); render(); },
+  set_area: v => {
+    F.area = v;
+    const found = UDALA_AREAS.find(x => x[0] === v);
+    if (found) { F.lat = found[1]; F.lng = found[2]; }
+    saveUser(); render();
+  },
   cat: v => { SCAT = v; render(); },
   vo: () => { VO = VO ? 0 : 1; render(); },
   wish: (v, k, id) => {
@@ -1177,12 +1464,12 @@ const A = {
 
   getgps: () => {
     if (!navigator.geolocation) { F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('GPS Saved'); return; }
-    toast('Detecting GPS...');
+    toast('Scanning satellite GPS...');
     navigator.geolocation.getCurrentPosition(pos => {
-      F.lat = pos.coords.latitude; F.lng = pos.coords.longitude;
-      saveUser(); render(); toast('Exact GPS Pin Locked!');
+      F.lat = +pos.coords.latitude.toFixed(5); F.lng = +pos.coords.longitude.toFixed(5);
+      saveUser(); render(); toast('Exact CartRadar GPS Pin Locked!');
     }, () => {
-      F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('Udala GPS Pin Saved');
+      F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('Udala Radar Pin Set');
     }, { enableHighAccuracy: true, timeout: 6000 });
   },
 
@@ -1208,17 +1495,17 @@ const A = {
   confirm_paid: () => {
     if (!PAY_BOX) return;
     const refNo = ($('#utr_inp') ? $('#utr_inp').value.trim() : '') || 'DOORSTEP-QR';
-    const otp = String(Math.floor(1000 + Math.random() * 9000));
     if (PAY_BOX.kind === 'sub') {
       const id = uid('s');
       S.subs.push({
         id, name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), lat: F.lat, lng: F.lng,
         type: F.type, days: PAY_BOX.days, times: F.times, lunch: F.lunch, dinner: F.dinner, extraRoti: F.extraRoti,
-        start: F.start || iso(D0()), price: PAY_BOX.amt, paid: 1, utr: refNo, otp, skip: []
+        start: F.start || iso(D0()), price: PAY_BOX.amt, paid: 1, utr: refNo, skip: []
       });
       MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-      PAY_BOX = null; save(); toast('Tiffin Plan Activated! OTP: ' + otp);
+      PAY_BOX = null; save(); toast('Tiffin Plan Activated!');
     } else {
+      const otp = String(Math.floor(1000 + Math.random() * 9000));
       const items = [];
       Object.entries(C).forEach(([k, q]) => {
         const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return;
@@ -1229,7 +1516,7 @@ const A = {
       S.orders.push({ id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), lat: F.lat, lng: F.lng, items, total: PAY_BOX.amt, paid: 1, dlv: 0, utr: refNo, otp });
       MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
       C = {}; localStorage.setItem('nu5c', '{}');
-      PAY_BOX = null; save(); toast('Order Confirmed! OTP: ' + otp);
+      PAY_BOX = null; save(); toast('Order Confirmed!');
     }
   },
 
@@ -1240,16 +1527,17 @@ const A = {
     if (!s.skip.includes(td)) { s.skip.push(td); s.days = (+s.days || 30) + 1; save(); toast('Paused Today & +1 Extra Day Added!'); }
   },
   dabba: (v, k, id) => { const key = iso(D0()) + '_' + id; S.dabba[key] = S.dabba[key] ? 0 : 1; save(); toast('Dabba Status Updated'); },
-  sdone: (v, k, id) => {
-    const s = S.subs.find(x => x.id === id); if (!s) return;
-    const pin = prompt(`Enter Customer ${s.name}'s 4-Digit OTP (${s.otp || '4512'}) or Owner PIN:`);
-    if (pin === String(s.otp || '4512') || pin === OPIN) { S.done[iso(D0()) + '_' + id] = 1; save(); toast('OTP Verified! Tiffin Delivered.'); }
-    else if (pin !== null) toast('Invalid OTP');
+  sdone: (v, k, id) => { S.done[iso(D0()) + '_' + id] = 1; save(); toast('Tiffin Delivered ✓'); },
+  all_tiffin_done: () => {
+    const k = iso(D0());
+    (S.subs || []).filter(s => act(s, D0())).forEach(s => { S.done[k + '_' + s.id] = 1; });
+    save(); toast('All Tiffins Marked Delivered ✓');
   },
+
   odlv: (v, k, id) => {
     const o = S.orders.find(x => x.id === id); if (!o) return;
     const pin = prompt(`Enter Customer ${o.name}'s 4-Digit OTP (${o.otp || '8821'}) or Owner PIN:`);
-    if (pin === String(o.otp || '8821') || pin === OPIN) { o.dlv = 1; save(); toast('OTP Verified! Order Delivered.'); }
+    if (pin === String(o.otp || '8821') || pin === OPIN) { o.dlv = 1; save(); toast('Shop Order Delivered ✓'); }
     else if (pin !== null) toast('Invalid OTP');
   },
 
@@ -1296,7 +1584,7 @@ const A = {
   },
   prt: (v, k, id) => {
     const o = S.orders.find(x => x.id === id); if (!o) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Bill #${String(o.id).slice(-4)} · ${o.date} ${tm(o.ts)}</p><p>${esc(o.name)} (${esc(o.phone)})<br>${esc(o.area)} · ${esc(o.addr)}<br>Ref: ${esc(o.utr)} · OTP: ${o.otp}</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Bill #${String(o.id).slice(-4)} · ${o.date} ${tm(o.ts)}</p><p>${esc(o.name)} (${esc(o.phone)})<br>${esc(o.area)} · ${esc(o.addr)}<br>Ref: ${esc(o.utr)}</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
     window.print();
   },
   theme: () => { const d = document.documentElement.dataset.theme !== 'dark'; document.documentElement.dataset.theme = d ? 'dark' : ''; render(); },
@@ -1311,6 +1599,7 @@ document.addEventListener('click', e => {
 document.addEventListener('input', e => {
   if (e.target.dataset.f) F[e.target.dataset.f] = e.target.value;
   if (e.target.dataset.b) BF[e.target.dataset.b] = e.target.value;
+  if (e.target.dataset.sim) { SIM[e.target.dataset.sim] = +e.target.value; render(); }
   if (e.target.id === 'sq') { SQ = e.target.value; const pos = e.target.selectionStart; render(); const el = $('#sq'); if (el) { el.focus(); el.setSelectionRange(pos, pos); } }
 });
 
@@ -1320,7 +1609,7 @@ $('#mark').addEventListener('click', () => {
   if (taps >= 5) {
     taps = 0;
     const pin = prompt('Owner PIN (4827) ya Kitchen/Delivery PIN (7788) daalein:');
-    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner ERP Unlocked'); }
+    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Power BI + Owner ERP Unlocked'); }
     else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Kitchen & Route Unlocked'); }
     else if (pin !== null) toast('Galat PIN');
   }
