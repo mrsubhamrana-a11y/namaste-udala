@@ -3,44 +3,523 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Namaste Udala — 3D Tiffin & Shop</title>
-<meta name="theme-color" content="#083a27">
+<title>Namaste Udala — 3D Delivery & Kitchen</title>
+<meta name="theme-color" content="#072b1d">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 :root {
-  --bg: #eef2f6;
-  --sf: #ffffff;
-  --sf2: #f4f7fb;
-  --ink: #0f172a;
-  --mu: #64748b;
-  --ln: #dce4ee;
-  --o: #ff5500;
-  --g: #0b6e46;
-  --sh-card: 0 16px 30px -8px rgba(15,23,42,0.1), 0 4px 10px rgba(15,23,42,0.04), inset 0 2px 0 #fff;
-  --sh-3d-o: 0 5px 0 #b33600, 0 10px 18px rgba(255,85,0,0.32), inset 0 2px 1px rgba(255,255,255,0.4);
-  --sh-3d-g: 0 5px 0 #053b25, 0 10px 18px rgba(11,110,70,0.3), inset 0 2px 1px rgba(255,255,255,0.35);
-  --sh-3d-w: 0 4px 0 #cbd5e1, 0 6px 12px rgba(15,23,42,0.06), inset 0 2px 0 #fff;
+  --bg: #eef2f6; --sf: #ffffff; --sf2: #f4f7fb; --ink: #0f172a; --mu: #64748b; --ln: #dce4ee;
+  --o: #ff5500; --g: #0b6e46; --sh-card: 0 18px 34px -8px rgba(15,23,42,0.12), inset 0 2px 0 #fff;
+  --sh-3d-o: 0 6px 0 #b33600, 0 12px 22px rgba(255,85,0,0.38), inset 0 2px 1px rgba(255,255,255,0.45);
   --sh-in: inset 0 3px 6px rgba(15,23,42,0.08), 0 1px 0 #fff;
 }
+[data-theme=dark] {
+  --bg: #080d12; --sf: #121b24; --sf2: #0d141c; --ink: #f1f5f9; --mu: #94a3b8; --ln: #1f2e3d;
+  --sh-card: 0 22px 42px -10px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.08);
+  --sh-in: inset 0 3px 7px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.05);
+}
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--ink); padding-bottom: 145px; min-height: 100vh; }
+body { background: radial-gradient(circle at 12% 4%, rgba(255,120,40,0.14), transparent 40%), var(--bg); color: var(--ink); padding-bottom: 148px; min-height: 100vh; }
 img { display: block; object-fit: cover; }
-button, input { font: inherit; color: inherit; }
+button, input, select { font: inherit; color: inherit; }
 svg.ic { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; fill: none; flex: none; }
 
 /* 3D Header */
 header {
-  position: sticky; top: 0; z-index: 60;
-  background: linear-gradient(145deg, #0f6843, #062b1c);
-  color: #fff; padding: 12px 16px; border-radius: 0 0 24px 24px;
-  box-shadow: 0 6px 0 #031910, 0 14px 26px rgba(6,43,28,0.4);
-  display: flex; align-items: center; gap: 12px;
+  position: sticky; top: 0; z-index: 1000;
+  background: linear-gradient(145deg, #0f6843, #062b1c); color: #fff; padding: 12px 15px; border-radius: 0 0 24px 24px;
+  box-shadow: 0 6px 0 #031910, 0 16px 30px rgba(6,43,28,0.45); display: flex; align-items: center; gap: 12px;
 }
 .logo {
-  width: 44px; height: 44px; border-radius: 14px;
-  background: linear-gradient(145deg, #ff9436, #ff4500);
-  display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff;
-  box-shadow: 0 4px 0 #992600, inset 0
+  width: 45px; height: 45px; border-radius: 14px; background: linear-gradient(145deg, #ff9436, #ff4500);
+  display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff; box-shadow: 0 4px 0 #992600;
+}
+.logo:active { transform: translateY(3px); box-shadow: 0 1px 0 #992600; }
+.brand { flex: 1; min-width: 0; }
+.brand small { display: flex; align-items: center; gap: 5px; color: #fde047; font-size: 9.5px; font-weight: 800; }
+.brand h1 { font-size: 18px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Auth Overlay Wall */
+#auth_wall {
+  position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+}
+.auth-box { background: var(--sf); padding: 24px; border-radius: 24px; box-shadow: var(--sh-card); width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--ln); }
+
+main { padding: 16px 14px 0; max-width: 660px; margin: 0 auto; }
+
+/* 3D Hero */
+.hero3d {
+  position: relative; border-radius: 24px; padding: 20px 18px; margin-bottom: 18px; color: #fff;
+  background: linear-gradient(130deg, #1f110b 0%, #682107 55%, #c23b00 100%);
+  box-shadow: 0 7px 0 #471402, 0 18px 34px rgba(184,55,0,0.32); min-height: 150px; display: flex; flex-direction: column; justify-content: center;
+}
+.hero3d.green { background: linear-gradient(130deg, #062619 0%, #0b5c3b 55%, #149962 100%); box-shadow: 0 7px 0 #042115, 0 18px 34px rgba(11,92,59,0.32); }
+.hero-plate { position: absolute; right: 12px; bottom: -8px; width: 114px; height: 114px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 16px 26px rgba(0,0,0,0.55); animation: floatPlate 3.4s ease-in-out infinite; z-index: 3; }
+@keyframes floatPlate { 50% { transform: translateY(-8px) scale(1.04) rotate(2deg); } }
+
+/* Shared UI Components */
+.card { background: linear-gradient(180deg, var(--sf), var(--sf2)); border: 1px solid var(--ln); border-radius: 22px; padding: 16px; margin-bottom: 16px; box-shadow: var(--sh-card); }
+.card h3 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 16px; border: 0; border-radius: 15px; background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: var(--sh-3d-o); margin-top: 8px; }
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #b33600; }
+.btn.g { background: linear-gradient(180deg, #19b374, #0b6e46); box-shadow: 0 6px 0 #053b25; }
+.btn.w { background: var(--sf); color: var(--ink); border: 1px solid var(--ln); box-shadow: 0 4px 0 #cbd5e1; }
+.btn.sm { width: auto; display: inline-flex; padding: 8px 12px; font-size: 11.5px; border-radius: 11px; margin: 0; }
+.inp { width: 100%; padding: 11px 14px; border: 1.5px solid var(--ln); border-radius: 13px; background: var(--sf2); color: var(--ink); font-weight: 700; font-size: 13.5px; box-shadow: var(--sh-in); margin: 5px 0; outline: none; }
+.inp:focus { border-color: var(--o); background: var(--sf); }
+.lbl { display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; color: var(--mu); margin: 11px 0 4px; text-transform: uppercase; }
+.seg { display: flex; gap: 5px; background: var(--sf2); padding: 5px; border-radius: 14px; box-shadow: var(--sh-in); margin: 5px 0; }
+.seg button { flex: 1; padding: 9px 4px; border: 0; border-radius: 10px; background: transparent; font-weight: 800; font-size: 11.5px; color: var(--mu); cursor: pointer; }
+.seg button.on { background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; box-shadow: 0 3px 0 #b33600; }
+.chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 12px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chips button { flex: none; display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px 6px 6px; border-radius: 99px; border: 1px solid var(--ln); background: var(--sf); font-weight: 800; font-size: 12px; cursor: pointer; }
+.chips button.on { background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; }
+
+/* 3D Product Grid */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+.pcard { background: linear-gradient(180deg, var(--sf), var(--sf2)); border: 1px solid var(--ln); border-radius: 20px; padding: 9px; box-shadow: var(--sh-card); display: flex; flex-direction: column; position: relative; }
+.pimg { height: 126px; border-radius: 14px; position: relative; box-shadow: 0 8px 18px rgba(0,0,0,0.16); background: #1e293b; margin-bottom: 8px; overflow: hidden; }
+.pimg img { width: 100%; height: 100%; transition: transform .3s; }
+.stk-tag { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.7); color: #fff; font-size: 9px; font-weight: 800; padding: 3px 6px; border-radius: 6px; backdrop-filter: blur(4px); }
+.pname { font-size: 12.5px; font-weight: 800; line-height: 1.3; height: 33px; overflow: hidden; }
+.pprice { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 0 8px; }
+.pprice b { font-size: 16px; font-weight: 800; color: var(--o); }
+.qty { display: flex; align-items: center; justify-content: space-between; background: var(--sf2); padding: 3px; border-radius: 12px; box-shadow: var(--sh-in); margin-top: auto; }
+.qty button { width: 30px; height: 30px; border-radius: 8px; border: 0; background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #b33600; }
+.qty b { font-size: 13px; font-weight: 800; }
+
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--ln); }
+.row:last-child { border-bottom: 0; }
+.tot { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 6px; border-top: 2px solid var(--ln); }
+.tot b { font-size: 22px; font-weight: 800; color: var(--o); }
+
+/* Modals & Docks */
+.ov { position: fixed; inset: 0; z-index: 1200; background: rgba(8,14,22,0.82); backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center; }
+.sh { background: var(--sf); width: 100%; max-width: 510px; max-height: 91vh; overflow-y: auto; border-radius: 28px 28px 0 0; padding: 18px; box-shadow: 0 -10px 40px rgba(0,0,0,0.45); animation: slideUp .24s ease-out; }
+@keyframes slideUp { from { transform: translateY(100%); } }
+
+.cbar-fixed { position: fixed; left: 12px; right: 12px; bottom: calc(80px + env(safe-area-inset-bottom)); z-index: 950; max-width: 640px; margin: 0 auto; background: linear-gradient(145deg, #16a34a, #074729); color: #fff; border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 0 #042b18; cursor: pointer; font-weight: 800; font-size: 13.5px; }
+
+nav { position: fixed; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 1000; max-width: 650px; margin: 0 auto; background: var(--sf); border: 1px solid var(--ln); border-radius: 20px; display: flex; gap: 4px; padding: 6px; box-shadow: 0 7px 0 rgba(15,23,42,0.12); }
+nav button { flex: 1; border: 0; background: transparent; border-radius: 14px; padding: 8px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--mu); font-weight: 800; }
+nav button.on { background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; box-shadow: 0 4px 0 #b33600; transform: translateY(-3px); }
+nav .nl { font-size: 9.5px; }
+nav .nb { position: absolute; top: 2px; right: 14%; background: #16a34a; color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 99px; }
+
+#toast { position: fixed; left: 50%; bottom: 142px; transform: translateX(-50%) translateY(20px); background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 99px; font-size: 13px; font-weight: 800; z-index: 2000; opacity: 0; pointer-events: none; transition: .25s; text-align: center; }
+#toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- SECURE AUTH WALL -->
+<div id="auth_wall">
+  <div class="auth-box">
+    <div class="logo" style="margin:0 auto 16px;width:60px;height:60px;font-size:20px">NU</div>
+    <h2 style="font-weight:800;margin-bottom:8px">Namaste Udala</h2>
+    <p style="font-size:13px;color:var(--mu);margin-bottom:20px">Please verify your number to continue.</p>
+    
+    <div id="auth_step1">
+      <input class="inp" id="auth_phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number">
+      <button class="btn" data-a="send_otp">Send OTP</button>
+    </div>
+    
+    <div id="auth_step2" style="display:none">
+      <span class="lbl">Enter 4-Digit OTP sent to your number</span>
+      <input class="inp" id="auth_otp" type="tel" maxlength="4" placeholder="XXXX" style="text-align:center;letter-spacing:10px;font-size:18px">
+      <button class="btn g" data-a="verify_otp">Verify & Login</button>
+      <button class="btn w sm" style="margin-top:12px" data-a="reset_auth">Change Number</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="logo" id="mark" title="Tap 5 times for Staff / Owner">NU</div>
+  <div class="brand">
+    <small>NAMASTE UDALA · SECURE</small>
+    <h1 id="ttl">3-Time Tiffin & Hot Shop</h1>
+  </div>
+  <button class="btn w sm" id="noti_btn" data-a="req_noti">🔔 Alerts</button>
+</header>
+
+<main id="v"></main>
+<div id="cbar"></div>
+<nav id="nav"></nav>
+<div id="sheet"></div>
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+
+const FB = {
+  apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",
+  authDomain: "namaste-udala.firebaseapp.com",
+  projectId: "namaste-udala",
+  storageBucket: "namaste-udala.firebasestorage.app",
+  messagingSenderId: "998684348165",
+  appId: "1:998684348165:web:4bb0d2f5335a90a394716c",
+  databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com"
+};
+
+const NODE = 'udala_phase2', UPI = '9583937047@jio', OPIN = '4827', DPIN = '7788';
+const PL = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
+
+const IC = {
+  tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/></svg>`,
+  shop: `<svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L23 7H6"/></svg>`,
+  kitchen: `<svg class="ic" viewBox="0 0 24 24"><path d="M12 2c1.5 2.5 2 4.5 0 7-2-2.5-1.5-4.5 0-7z"/><path d="M4 13h16v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-5z"/><path d="M2 13h20"/></svg>`,
+  route: `<svg class="ic" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l3 6v5.5h-2"/><path d="M12 17.5H9v-7h6v7z"/></svg>`,
+  owner: `<svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
+};
+
+const IMG = {
+  leg: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=80',
+  chick: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=80',
+  thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80',
+  curry: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80',
+  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80',
+  rice: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=600&q=80',
+  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=80',
+  groc: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80'
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const D0 = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
+const inr = n => '₹' + Math.round(+n || 0).toLocaleString('en-IN');
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
+const upi = (a, n) => 'upi://pay?pa=' + UPI + '&pn=Namaste%20Udala&cu=INR&am=' + Math.round(a) + '&tn=' + encodeURIComponent(n || 'Order');
+const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
+
+let _t;
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2600); };
+
+// Real-time Inventory with STOCK numbers instead of boolean
+const SEED = [
+  ['Chicken Leg Masala', 160, 195, 'Khana', IMG.leg, 15],
+  ['Handi Chicken 500g', 260, 310, 'Khana', IMG.chick, 10],
+  ['Shahi Paneer', 110, 135, 'Khana', IMG.paneer, 20],
+  ['Tawa Roti (10)', 50, 60, 'Khana', IMG.roti, 100],
+  ['Basmati Rice', 40, 50, 'Khana', IMG.rice, 50],
+  ['Atta 5 kg', 245, 285, 'Kirana', IMG.groc, 30]
+].map((a, i) => ({ id: i + 1, n: a[0], p: a[1], mrp: a[2], c: a[3], img: a[4], stk: a[5] }));
+
+function seed() { return { rev: Date.now(), prod: SEED, subs: [], orders: [] }; }
+let S = seed();
+try { const l = JSON.parse(localStorage.getItem('nu5')); if (l && l.prod) S = { ...seed(), ...l }; } catch (e) {}
+if(!S.orders) S.orders = [];
+if(!S.subs) S.subs = [];
+
+let db = null;
+let lastOrdCount = S.orders.length;
+
+try {
+  const app = initializeApp(FB); db = getDatabase(app);
+  onValue(ref(db, NODE), sn => { 
+    const v = sn.val(); 
+    if (v && v.prod && (+v.rev || 0) >= (+S.rev || 0)) { 
+      S = { ...seed(), ...v }; 
+      
+      // Native Push Notification Trigger
+      if(S.orders.length > lastOrdCount) {
+         if((ROLE === 'owner' || ROLE === 'staff') && Notification.permission === 'granted') {
+             new Notification('Naya Order Aaya Hai! 🚀', { body: 'App khol kar assign karein.', icon: IMG.thali });
+         }
+         lastOrdCount = S.orders.length;
+      }
+      render(); 
+    } 
+  });
+} catch (e) {}
+
+function save() {
+  S.rev = Date.now();
+  try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
+  if (db) set(ref(db, NODE), S).catch(() => {});
+  render();
+}
+
+let tab = 'shop', ROLE = sessionStorage.getItem('nu_role') || '';
+let SCAT = 'all', SQ = '', CART_OPEN = false, PAY_BOX = null;
+let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
+let CURRENT_USER = localStorage.getItem('nu_user') || '';
+
+// Auth Enforcement
+if(CURRENT_USER) {
+  $('#auth_wall').style.display = 'none';
+}
+
+const cc = () => Object.values(C).reduce((a, b) => a + (+b || 0), 0);
+const ct = () => Object.entries(C).reduce((a, [k, q]) => {
+  const p = S.prod.find(x => x.id === parseInt(k)); return a + (p ? p.p * q : 0);
+}, 0);
+
+/* --- 1. 3D SHOP & LIVE INVENTORY VIEW --- */
+function vShop() {
+  const q = SQ.trim().toLowerCase();
+  const list = S.prod.filter(p => !q || p.n.toLowerCase().includes(q));
+
+  return `
+  <div class="hero3d green">
+    <h2>Hot Kitchen & Daily Kirana</h2>
+    <p>Real-time Inventory & Fast Delivery</p>
+    <img class="hero-plate" src="${IMG.chick}" alt="Chicken">
+  </div>
+
+  <input class="inp" id="sq" placeholder="Search Chicken, Paneer, Atta..." value="${esc(SQ)}" style="margin-bottom:10px">
+
+  <div class="grid">
+    ${list.map(p => {
+      const qty = C[p.id] || 0;
+      const stk = p.stk || 0;
+      return `<div class="pcard">
+        <div class="pimg">
+          <img src="${p.img}" alt="${esc(p.n)}" loading="lazy">
+          ${stk > 0 && stk <= 5 ? `<span class="stk-tag" style="background:#dc2626">Only ${stk} left!</span>` : stk > 5 ? `<span class="stk-tag">Stock: ${stk}</span>` : ''}
+        </div>
+        <div class="pname">${esc(p.n)}</div>
+        <div class="pprice"><b>${inr(p.p)}</b></div>
+        ${stk <= 0 ? `<button class="btn w" disabled>Sold Out</button>` :
+          qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qty}</b><button data-a="inc" data-id="${p.id}" ${qty >= stk ? 'disabled' : ''}>+</button></div>` :
+          `<button class="btn g" style="margin-top:auto;padding:9px" data-a="inc" data-id="${p.id}">+ ADD</button>`}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+/* --- 2. STAFF / DELIVERY BOY (RIDER ASSIGNMENT) --- */
+function vRoute() {
+  const ords = (S.orders || []).filter(o => !o.dlv).slice().reverse();
+  const myRiderName = CURRENT_USER;
+
+  return `
+  <div class="card" style="background:#0f172a;color:#fff">
+    <h2>Delivery Boy Route</h2>
+    <p style="font-size:12px;color:var(--mu)">Rider: ${esc(myRiderName)}</p>
+  </div>
+  
+  <div class="card">
+    <h3>Pending Orders & Assignment (${ords.length})</h3>
+    ${ords.map(o => {
+      return `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between">
+          <b>#${String(o.id).slice(-4)} · ${esc(o.name)} (${inr(o.total)})</b>
+          <span style="font-size:11.5px;font-weight:800;color:${o.rider ? '#16a34a' : 'var(--o)'}">${o.rider ? `Assigned to ${esc(o.rider)}` : 'Waiting for Rider'}</span>
+        </div>
+        <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(o.addr)} · <b>${o.items.map(i => i.n + '×' + i.q).join(', ')}</b></div>
+        
+        ${!o.rider ? `
+          <button class="btn" data-a="accept_ord" data-id="${o.id}">Accept Order</button>
+        ` : o.rider === myRiderName ? `
+          <div class="btn-row">
+            <a class="btn w sm" href="tel:+91${esc(o.phone)}">Call Customer</a>
+            <button class="btn g sm" data-a="odlv" data-id="${o.id}">Mark Delivered ✓</button>
+          </div>
+        ` : ``}
+      </div>`;
+    }).join('') || '<p style="color:var(--mu);font-size:13px">Abhi koi pending order nahi hai.</p>'}
+  </div>`;
+}
+
+/* --- 3. OWNER PANEL --- */
+function vOwner() {
+  const ords = (S.orders || []).slice().reverse();
+  return `
+  <div class="card" style="background:#0f172a;color:#fff">
+    <h2>Owner Dashboard</h2>
+    <button class="btn w sm" data-a="logout_staff" style="margin-top:10px">Exit Owner Mode</button>
+  </div>
+  <div class="card">
+    <h3>All Orders History (${ords.length})</h3>
+    ${ords.map(o => `<div class="row">
+      <div><b>#${String(o.id).slice(-4)} · ${esc(o.name)} — ${inr(o.total)}</b><div style="font-size:11.5px;color:var(--mu)">Rider: ${o.rider || 'None'} · Ref: ${esc(o.utr)}</div></div>
+      <span style="font-weight:800;font-size:12px;color:${o.dlv ? '#16a34a' : 'var(--o)'}">${o.dlv ? 'Delivered' : 'Pending'}</span>
+    </div>`).join('') || '<p style="color:var(--mu)">No orders yet.</p>'}
+  </div>`;
+}
+
+/* --- MODALS --- */
+function sheet() {
+  if (PAY_BOX) {
+    const g = PAY_BOX, uLink = upi(g.amt, g.title);
+    return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <b style="color:#16a34a;font-size:13px">Strict UPI Payment</b>
+        <button class="btn w sm" data-a="close">Back</button>
+      </div>
+      <div style="font-size:26px;font-weight:800;color:var(--o);margin:6px 0">${inr(g.amt)}</div>
+      <div style="background:#fff;padding:12px;border-radius:18px;width:fit-content;margin:8px auto;border:2px solid var(--ln)">
+        <img src="${qrUrl(uLink)}" style="width:165px;height:165px" alt="QR">
+      </div>
+      <a class="btn" href="${esc(uLink)}">1. Pay ${inr(g.amt)} via PhonePe / GPay</a>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--ln);text-align:left">
+        <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="Required: 12-Digit UPI UTR No.">
+        <button class="btn g" data-a="confirm_paid">2. Verify UTR & Place Order</button>
+      </div>
+    </div></div>`;
+  }
+
+  if (CART_OPEN) {
+    const n = cc(), tot = ct();
+    return `<div class="ov" data-a="close_bg"><div class="sh">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3>Aapka Cart (${n} Items)</h3>
+        <button class="btn w sm" data-a="close">Close</button>
+      </div>
+      <div style="max-height:200px;overflow-y:auto">
+        ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
+          const p = S.prod.find(x => x.id === parseInt(k)); if (!p) return '';
+          return `<div class="row">
+            <div><b>${esc(p.n)}</b><div style="font-size:11.5px;color:var(--mu)">${inr(p.p)} × ${q}</div></div>
+            <div class="qty" style="width:105px;margin:0"><button data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button data-a="inc" data-id="${p.id}">+</button></div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
+      <input class="inp" id="f_name" placeholder="Aapka Naam" value="${esc(localStorage.getItem('nu_n')||'')}">
+      <input class="inp" id="f_addr" placeholder="Pura Address" value="${esc(localStorage.getItem('nu_a')||'')}">
+      <button class="btn" data-a="pay_ord">Proceed to Pay · ${inr(tot)}</button>
+    </div></div>`;
+  }
+  return '';
+}
+
+function render() {
+  if(!CURRENT_USER) return;
+  const V = { shop: vShop, route: vRoute, owner: vOwner };
+  $('#v').innerHTML = (V[tab] || vShop)();
+  $('#sheet').innerHTML = sheet();
+
+  const n = cc(), tot = ct();
+  $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX) ? `
+    <div class="cbar-fixed" data-a="open_cart">
+      <span>${n} Item · ${inr(tot)}</span>
+      <span>View Cart & Order →</span>
+    </div>` : '';
+
+  const TABS = [['shop', IC.shop, 'Shop']];
+  if (ROLE === 'staff' || ROLE === 'owner') TABS.push(['route', IC.route, 'Route']);
+  if (ROLE === 'owner') TABS.push(['owner', IC.owner, 'Owner']);
+
+  $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
+}
+
+const A = {
+  // Mock SMS OTP Logic
+  send_otp: () => {
+    const p = $('#auth_phone').value;
+    if(p.length !== 10) { toast('10-digit number daalein'); return; }
+    $('#auth_step1').style.display = 'none';
+    $('#auth_step2').style.display = 'block';
+    toast('OTP Sent: 1234 (Simulation)'); // For MVP, OTP is fixed to 1234
+  },
+  verify_otp: () => {
+    const otp = $('#auth_otp').value;
+    const p = $('#auth_phone').value;
+    if(otp === '1234') { // Simulated strict validation
+      CURRENT_USER = p;
+      localStorage.setItem('nu_user', p);
+      $('#auth_wall').style.display = 'none';
+      render(); toast('Login Successful!');
+    } else { toast('Invalid OTP. Use 1234'); }
+  },
+  reset_auth: () => { $('#auth_step2').style.display='none'; $('#auth_step1').style.display='block'; },
+  
+  // App Navigation & Cart
+  tab: v => { tab = v; CART_OPEN = false; PAY_BOX = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
+  open_cart: () => { CART_OPEN = true; render(); },
+  close: () => { CART_OPEN = false; PAY_BOX = null; render(); },
+  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { CART_OPEN = false; PAY_BOX = null; render(); } },
+  inc: (v, k, id) => { 
+    const p = S.prod.find(x => x.id === +id);
+    if(p && (C[id]||0) < p.stk) { C[id] = (C[id] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); }
+    else { toast('Not enough stock!'); }
+  },
+  dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+  
+  // Push Notifications Permission
+  req_noti: () => {
+    if (!("Notification" in window)) { toast("Browser doesn't support notifications"); return; }
+    Notification.requestPermission().then(perm => {
+      if(perm === 'granted') { toast('Notifications Enabled!'); $('#noti_btn').style.display = 'none'; }
+    });
+  },
+
+  pay_ord: () => {
+    const n = $('#f_name').value.trim(), a = $('#f_addr').value.trim();
+    if(!n || !a) { toast('Name & Address required'); return; }
+    localStorage.setItem('nu_n', n); localStorage.setItem('nu_a', a);
+    CART_OPEN = false;
+    PAY_BOX = { amt: ct(), title: `Shop Order (${cc()} Items)` };
+    render();
+  },
+
+  confirm_paid: () => {
+    if (!PAY_BOX) return;
+    const refNo = $('#utr_inp').value.trim();
+    if (refNo.length < 4) { toast('Please enter valid UTR to proceed.'); return; }
+    
+    // Security: Recalculate server-side (simulated logic lock)
+    const items = [];
+    let calcTotal = 0;
+    Object.entries(C).forEach(([k, q]) => {
+      const p = S.prod.find(x => x.id === parseInt(k)); 
+      if (p && q > 0 && p.stk >= q) {
+        items.push({ n: p.n, q, p: p.p });
+        calcTotal += (p.p * q);
+        p.stk -= q; // Auto-Minus Inventory (Real-Time)
+      }
+    });
+
+    if (items.length === 0) { toast('Cart error / Out of stock'); return; }
+
+    const id = uid('o');
+    S.orders.push({ id, ts: Date.now(), date: iso(D0()), name: localStorage.getItem('nu_n'), phone: CURRENT_USER, addr: localStorage.getItem('nu_a'), items, total: calcTotal, paid: 1, dlv: 0, utr: refNo, rider: null });
+    
+    C = {}; localStorage.setItem('nu5c', '{}');
+    PAY_BOX = null; save(); toast('Order Confirmed & Stock Updated!');
+  },
+
+  // Smart Rider Assignment
+  accept_ord: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id); 
+    if (o) { o.rider = CURRENT_USER; save(); toast('Order Assigned to You!'); }
+  },
+  odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = 1; save(); toast('Order Delivered ✓'); } },
+  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'shop'; render(); }
+};
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a]'); if (!b) return;
+  const f = A[b.dataset.a]; if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id, e); }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'sq') { SQ = e.target.value; const pos = e.target.selectionStart; render(); const el = $('#sq'); if (el) { el.focus(); el.setSelectionRange(pos, pos); } }
+});
+
+let taps = 0, tapT;
+$('#mark').addEventListener('click', () => {
+  taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 1800);
+  if (taps >= 5) {
+    taps = 0;
+    const pin = prompt('Owner PIN (4827) ya Rider PIN (7788):');
+    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner Unlock'); }
+    else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'route'; render(); toast('Rider Unlock'); }
+  }
+});
+
+// Hide notifications button if already granted
+if(Notification.permission === 'granted') $('#noti_btn').style.display = 'none';
+
+if(CURRENT_USER) render();
+</script>
+</body>
+</html>
