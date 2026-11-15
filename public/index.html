@@ -3,75 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Namaste Udala — Monthly · 15 Day · 7 Day Tiffin & Shop</title>
-<meta name="theme-color" content="#072b1d">
+<title>Namaste Udala — Ghar Jaisa Khana · Daily Shop · Services</title>
+<meta name="theme-color" content="#113221">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #eef2f6; --sf: #ffffff; --sf2: #f4f7fb; --ink: #0f172a; --mu: #64748b; --ln: #dce4ee;
-  --o: #ff5500; --g: #0b6e46; --gold: #f59e0b; --bad: #dc2626;
-  --sh-card: 0 16px 32px -8px rgba(15,23,42,0.12), 0 4px 10px rgba(15,23,42,0.05), inset 0 2px 0 #fff;
-  --sh-3d-o: 0 5px 0 #b33600, 0 12px 22px rgba(255,85,0,0.35), inset 0 2px 1px rgba(255,255,255,0.45);
-  --sh-3d-g: 0 5px 0 #053b25, 0 12px 22px rgba(11,110,70,0.32), inset 0 2px 1px rgba(255,255,255,0.35);
-  --sh-3d-w: 0 4px 0 #cbd5e1, 0 6px 12px rgba(15,23,42,0.06), inset 0 2px 0 #fff;
-  --sh-in: inset 0 3px 6px rgba(15,23,42,0.08), 0 1px 0 #fff;
+  --bg: #f9f5ec;
+  --sf: #fffdf8;
+  --sf2: #f1eadc;
+  --ink: #16241c;
+  --mu: #626d65;
+  --ln: #e2d9c5;
+  --o: #d94e1f;
+  --g: #113221;
+  --g2: #1b5e3a;
+  --gold: #d97706;
+  --bad: #dc2626;
+  --serif: 'Fraunces', Georgia, serif;
+  --sh-card: 0 20px 38px -12px rgba(22,36,28,0.12), 0 4px 12px rgba(22,36,28,0.05), inset 0 2px 0 #fff;
+  --sh-3d-o: 0 5px 0 #8f2d0b, 0 12px 24px rgba(217,78,31,0.34), inset 0 2px 1px rgba(255,255,255,0.4);
+  --sh-3d-g: 0 5px 0 #081c11, 0 12px 24px rgba(17,50,33,0.32), inset 0 2px 1px rgba(255,255,255,0.3);
+  --sh-3d-w: 0 4px 0 #d5cbb4, 0 8px 16px rgba(22,36,28,0.06), inset 0 2px 0 #fff;
+  --sh-in: inset 0 3px 6px rgba(22,36,28,0.08), 0 1px 0 #fff;
 }
 [data-theme=dark] {
-  --bg: #080d12; --sf: #121b24; --sf2: #0d141c; --ink: #f1f5f9; --mu: #94a3b8; --ln: #1f2e3d;
-  --sh-card: 0 20px 38px -10px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.08);
-  --sh-3d-w: 0 4px 0 #06090d, 0 8px 16px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  --bg: #0c130f;
+  --sf: #142019;
+  --sf2: #0f1813;
+  --ink: #f4f1ea;
+  --mu: #9ca89f;
+  --ln: #233329;
+  --sh-card: 0 22px 42px -10px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08);
+  --sh-3d-w: 0 4px 0 #070b09, 0 8px 16px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
   --sh-in: inset 0 3px 7px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.05);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
-body { background: radial-gradient(circle at 12% 4%, rgba(255,120,40,0.14), transparent 40%), var(--bg); color: var(--ink); padding-bottom: 148px; min-height: 100vh; }
+html { scroll-behavior: smooth; }
+body {
+  background: radial-gradient(circle at 15% 4%, rgba(217,78,31,0.11), transparent 42%),
+              radial-gradient(circle at 85% 14%, rgba(27,94,58,0.1), transparent 42%), var(--bg);
+  color: var(--ink); padding-bottom: 150px; min-height: 100vh;
+}
 img { display: block; object-fit: cover; }
 button, input, select { font: inherit; color: inherit; }
 svg.ic { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; fill: none; flex: none; }
 
-/* 3D Header */
+/* Agrumea Artisanal Header */
 header {
   position: sticky; top: 0; z-index: 60;
-  background: linear-gradient(145deg, #0f6843, #062b1c);
-  color: #fff; padding: 12px 16px; border-radius: 0 0 24px 24px;
-  box-shadow: 0 6px 0 #031910, 0 14px 26px rgba(6,43,28,0.4);
+  background: linear-gradient(145deg, #163f2a, #0b2216);
+  color: #f9f5ec; padding: 12px 16px;
+  box-shadow: 0 6px 20px rgba(11,34,22,0.35);
   display: flex; align-items: center; gap: 12px;
 }
 .logo {
-  width: 44px; height: 44px; border-radius: 14px;
-  background: linear-gradient(145deg, #ff9436, #ff4500);
-  display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff;
-  box-shadow: 0 4px 0 #992600, inset 0 2px 2px rgba(255,255,255,0.6); cursor: pointer; user-select: none;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(145deg, #f06434, #c43c10);
+  display: grid; place-items: center; font-family: var(--serif); font-weight: 800; font-size: 16px; color: #fff;
+  box-shadow: 0 4px 0 #7a2205, inset 0 2px 2px rgba(255,255,255,0.5); cursor: pointer; user-select: none;
 }
-.logo:active { transform: translateY(3px); box-shadow: 0 1px 0 #992600; }
+.logo:active { transform: translateY(3px); box-shadow: 0 1px 0 #7a2205; }
 .brand { flex: 1; }
-.brand small { display: block; color: #fde047; font-size: 9.5px; letter-spacing: 1.5px; font-weight: 800; }
-.brand h1 { font-size: 18px; font-weight: 800; }
+.brand small { display: block; color: #fbbf24; font-size: 9px; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; }
+.brand h1 { font-family: var(--serif); font-size: 19px; font-weight: 800; letter-spacing: -.3px; }
+
+/* Agrumea Infinite Marquee Ticker */
+.marquee {
+  background: #e9dfc8; color: #163f2a; overflow: hidden; white-space: nowrap;
+  padding: 7px 0; border-bottom: 1px solid var(--ln); font-size: 10.5px; font-weight: 800; letter-spacing: 1.4px;
+}
+[data-theme=dark] .marquee { background: #18271e; color: #fbbf24; }
+.marquee-track { display: inline-block; animation: marqueeRoll 22s linear infinite; }
+@keyframes marqueeRoll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
 
-/* 3D Hero with Real Floating Plate & Steam */
+/* Agrumea Editorial Hero Showcase */
 .hero3d {
-  position: relative; border-radius: 24px; padding: 20px 18px; margin-bottom: 18px; color: #fff;
-  background: linear-gradient(130deg, #1f110b 0%, #682107 55%, #c23b00 100%);
-  box-shadow: 0 7px 0 #471402, 0 18px 34px rgba(184,55,0,0.32);
-  min-height: 148px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; overflow: visible;
+  position: relative; border-radius: 28px; padding: 22px 20px; margin-bottom: 18px; color: #fffdf8;
+  background: linear-gradient(132deg, #113221 0%, #1d4d34 58%, #2a6a48 100%);
+  box-shadow: 0 8px 0 #091c12, 0 20px 38px rgba(17,50,33,0.32);
+  min-height: 158px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; overflow: visible;
 }
-.hero3d.green {
-  background: linear-gradient(130deg, #062619 0%, #0b5c3b 55%, #149962 100%);
-  box-shadow: 0 7px 0 #042115, 0 18px 34px rgba(11,92,59,0.32);
+.hero3d.terracotta {
+  background: linear-gradient(132deg, #2b1208 0%, #7c280d 55%, #d94e1f 100%);
+  box-shadow: 0 8px 0 #421304, 0 20px 38px rgba(217,78,31,0.32);
 }
-.hero3d h2 { font-size: 20px; font-weight: 800; max-width: 63%; line-height: 1.2; margin-bottom: 5px; }
-.hero3d p { font-size: 12px; opacity: .92; max-width: 63%; font-weight: 600; }
+.hero-pill {
+  display: inline-block; width: fit-content; background: rgba(255,255,255,0.15);
+  padding: 4px 10px; border-radius: 99px; font-size: 9.5px; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.25);
+}
+.hero3d h2 { font-family: var(--serif); font-size: 22px; font-weight: 800; max-width: 63%; line-height: 1.15; margin-bottom: 6px; }
+.hero3d p { font-size: 12px; opacity: .92; max-width: 63%; font-weight: 600; line-height: 1.4; }
 .hero-plate {
-  position: absolute; right: 12px; bottom: -8px; width: 114px; height: 114px;
-  border-radius: 50%; border: 4px solid #fff; background: #1e293b;
-  box-shadow: 0 16px 26px rgba(0,0,0,0.55), 0 0 20px rgba(255,110,30,0.4);
-  animation: floatPlate 3.4s ease-in-out infinite; z-index: 3;
+  position: absolute; right: 12px; bottom: -10px; width: 120px; height: 120px;
+  border-radius: 50%; border: 4px solid #fffdf8; background: #1e293b;
+  box-shadow: 0 18px 30px rgba(0,0,0,0.55), 0 0 24px rgba(217,78,31,0.35);
+  animation: floatPlate 3.6s ease-in-out infinite; z-index: 3;
 }
-@keyframes floatPlate { 50% { transform: translateY(-8px) scale(1.04); } }
+@keyframes floatPlate { 50% { transform: translateY(-9px) scale(1.04) rotate(3deg); } }
 
 /* Rising Hot Steam (Dhua) */
 .steam-wrap { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: visible; }
@@ -89,137 +123,142 @@ main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
   100% { transform: translateY(-70px) scale(2.5) translateX(10px); opacity: 0; }
 }
 
-/* FRONT FOCUS: 3D PLAN SHOWCASE CARDS (Monthly / 15-Day / 7-Day) */
-.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0 16px; }
+/* FRONT FOCUS: MONTHLY / 15-DAY / 7-DAY ARTISANAL PLAN CARDS */
+.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 18px; }
 .p-tier {
-  position: relative; border-radius: 20px; padding: 14px 8px 12px; text-align: center;
+  position: relative; border-radius: 22px; padding: 16px 8px 13px; text-align: center;
   background: linear-gradient(180deg, var(--sf), var(--sf2));
   border: 2px solid var(--ln); box-shadow: var(--sh-3d-w);
-  cursor: pointer; transition: transform .18s, box-shadow .18s, border-color .18s;
+  cursor: pointer; transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s, border-color .2s;
 }
 .p-tier.on {
-  background: linear-gradient(180deg, #fff7f2, #ffe4d4);
+  background: linear-gradient(180deg, #fff9f2, #fde6d2);
   border-color: var(--o);
-  box-shadow: 0 6px 0 #b33600, 0 14px 26px rgba(255,85,0,0.28);
-  transform: translateY(-5px);
+  box-shadow: 0 6px 0 #8f2d0b, 0 16px 28px rgba(217,78,31,0.26);
+  transform: translateY(-6px);
 }
-[data-theme=dark] .p-tier.on { background: linear-gradient(180deg, #2a160d, #1a0f0a); }
+[data-theme=dark] .p-tier.on { background: linear-gradient(180deg, #2b180e, #1a100b); }
 .p-tier .p-badge {
   position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(90deg, #ff5500, #ff8800); color: #fff;
-  font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 99px; white-space: nowrap;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  background: var(--g); color: #fbbf24;
+  font-size: 8.5px; font-weight: 800; padding: 3px 9px; border-radius: 99px; white-space: nowrap;
+  letter-spacing: .6px; box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
-.p-tier .p-days { font-size: 16px; font-weight: 800; color: var(--ink); display: block; }
-.p-tier .p-sub { font-size: 10px; font-weight: 800; color: var(--mu); text-transform: uppercase; margin-bottom: 6px; display: block; }
-.p-tier .p-amt { font-size: 20px; font-weight: 800; color: var(--o); display: block; letter-spacing: -.5px; }
-.p-tier .p-per { font-size: 10px; font-weight: 700; color: #16a34a; margin-top: 3px; display: block; }
+.p-tier.on .p-badge { background: var(--o); color: #fff; }
+.p-tier .p-days { font-family: var(--serif); font-size: 18px; font-weight: 800; color: var(--ink); display: block; }
+.p-tier .p-sub { font-size: 9.5px; font-weight: 800; color: var(--mu); text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: .5px; }
+.p-tier .p-amt { font-family: var(--serif); font-size: 20px; font-weight: 800; color: var(--o); display: block; }
+.p-tier .p-per { font-size: 10px; font-weight: 800; color: var(--g2); margin-top: 3px; display: block; }
 
 .card {
   background: linear-gradient(180deg, var(--sf), var(--sf2));
-  border: 1px solid var(--ln); border-radius: 22px; padding: 16px; margin-bottom: 16px;
+  border: 1px solid var(--ln); border-radius: 24px; padding: 17px; margin-bottom: 16px;
   box-shadow: var(--sh-card);
 }
-.card h3 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.card h3 { font-family: var(--serif); font-size: 16.5px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
 
 .kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
-.kpi div { background: var(--sf); border: 1px solid var(--ln); border-radius: 16px; padding: 10px 6px; text-align: center; box-shadow: var(--sh-card); }
-.kpi b { display: block; font-size: 17px; font-weight: 800; color: var(--o); }
+.kpi div { background: var(--sf); border: 1px solid var(--ln); border-radius: 18px; padding: 11px 6px; text-align: center; box-shadow: var(--sh-card); }
+.kpi b { font-family: var(--serif); display: block; font-size: 18px; font-weight: 800; color: var(--o); }
 .kpi span { font-size: 10px; font-weight: 800; color: var(--mu); text-transform: uppercase; }
 
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; padding: 13px 16px; border: 0; border-radius: 15px;
-  background: linear-gradient(180deg, #ff7a33, #ff4800);
+  width: 100%; padding: 13px 16px; border: 0; border-radius: 99px;
+  background: linear-gradient(180deg, #eb5e2f, #c83e10);
   color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; text-decoration: none;
   box-shadow: var(--sh-3d-o); transition: transform .1s, box-shadow .1s; margin-top: 8px;
 }
-.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #b33600; }
-.btn.g { background: linear-gradient(180deg, #19b374, #0b6e46); box-shadow: var(--sh-3d-g); }
-.btn.g:active { box-shadow: 0 1px 0 #053b25; }
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #8f2d0b; }
+.btn.g { background: linear-gradient(180deg, #1f6942, #113221); box-shadow: var(--sh-3d-g); }
+.btn.g:active { box-shadow: 0 1px 0 #081c11; }
+.btn.r { background: linear-gradient(180deg, #ef4444, #b91c1c); box-shadow: 0 4px 0 #7f1d1d; color: #fff; }
 .btn.w { background: var(--sf); color: var(--ink); border: 1px solid var(--ln); box-shadow: var(--sh-3d-w); }
-.btn.sm { width: auto; display: inline-flex; padding: 8px 12px; font-size: 11.5px; border-radius: 11px; margin: 0; }
+.btn.sm { width: auto; display: inline-flex; padding: 7px 13px; font-size: 11.5px; border-radius: 99px; margin: 0; }
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .btn-row > * { flex: 1; }
 
 .inp {
-  width: 100%; padding: 11px 14px; border: 1.5px solid var(--ln); border-radius: 13px;
+  width: 100%; padding: 11px 14px; border: 1.5px solid var(--ln); border-radius: 14px;
   background: var(--sf2); color: var(--ink); font-weight: 700; font-size: 13.5px;
   box-shadow: var(--sh-in); margin: 5px 0; outline: none;
 }
 .inp:focus { border-color: var(--o); background: var(--sf); }
-.lbl { display: block; font-size: 11px; font-weight: 800; color: var(--mu); margin: 10px 0 4px; text-transform: uppercase; }
+.lbl { display: block; font-size: 11px; font-weight: 800; color: var(--mu); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: .5px; }
 
-.seg { display: flex; gap: 5px; background: var(--sf2); padding: 5px; border-radius: 14px; box-shadow: var(--sh-in); margin: 5px 0; }
-.seg button { flex: 1; padding: 9px 4px; border: 0; border-radius: 10px; background: transparent; font-weight: 800; font-size: 11.5px; color: var(--mu); cursor: pointer; }
-.seg button.on { background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; box-shadow: 0 3px 0 #b33600; }
+.seg { display: flex; gap: 5px; background: var(--sf2); padding: 5px; border-radius: 99px; box-shadow: var(--sh-in); margin: 5px 0; }
+.seg button { flex: 1; padding: 9px 6px; border: 0; border-radius: 99px; background: transparent; font-weight: 800; font-size: 11.5px; color: var(--mu); cursor: pointer; transition: .15s; }
+.seg button.on { background: var(--g); color: #fff; box-shadow: 0 3px 8px rgba(17,50,33,0.3); }
 
 .sym { display: inline-grid; place-items: center; width: 14px; height: 14px; border: 2px solid #16a34a; border-radius: 3px; background: #fff; flex: none; }
 .sym i { width: 6px; height: 6px; border-radius: 50%; background: #16a34a; }
 .sym.nv { border-color: #dc2626; }
 .sym.nv i { background: #dc2626; }
 
-.chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 12px; scrollbar-width: none; }
+.chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 14px; scrollbar-width: none; }
 .chips::-webkit-scrollbar { display: none; }
 .chips button {
   flex: none; display: inline-flex; align-items: center; gap: 7px;
-  padding: 6px 13px 6px 6px; border-radius: 99px; border: 1px solid var(--ln);
+  padding: 6px 14px 6px 6px; border-radius: 99px; border: 1px solid var(--ln);
   background: var(--sf); font-weight: 800; font-size: 12px; box-shadow: var(--sh-3d-w); cursor: pointer;
 }
-.chips button img { width: 25px; height: 25px; border-radius: 50%; }
-.chips button.on { background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; border-color: transparent; box-shadow: 0 3px 0 #b33600; }
+.chips button img { width: 26px; height: 26px; border-radius: 50%; }
+.chips button.on { background: var(--g); color: #fff; border-color: transparent; box-shadow: 0 4px 10px rgba(17,50,33,0.3); }
 
 .area-chips { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 8px; scrollbar-width: none; }
 .area-chips::-webkit-scrollbar { display: none; }
-.area-chips span { flex: none; padding: 6px 11px; border-radius: 10px; font-size: 11px; font-weight: 800; background: var(--sf2); border: 1px solid var(--ln); color: var(--mu); cursor: pointer; }
-.area-chips span.on { background: rgba(255,85,0,0.12); color: var(--o); border-color: var(--o); }
+.area-chips span { flex: none; padding: 6px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; background: var(--sf2); border: 1px solid var(--ln); color: var(--mu); cursor: pointer; }
+.area-chips span.on { background: var(--o); color: #fff; border-color: var(--o); }
 
-.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+/* Agrumea Pedestal Product Showcase Grid */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px; margin-bottom: 18px; }
 .pcard {
   background: linear-gradient(180deg, var(--sf), var(--sf2));
-  border: 1px solid var(--ln); border-radius: 20px; padding: 9px;
+  border: 1px solid var(--ln); border-radius: 24px; padding: 10px;
   box-shadow: var(--sh-card); display: flex; flex-direction: column; position: relative;
+  transition: transform .22s;
 }
+.pcard:hover { transform: translateY(-4px); }
 .pimg {
-  height: 126px; border-radius: 14px; position: relative; cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.16); background: #1e293b; margin-bottom: 8px; overflow: hidden;
+  height: 132px; border-radius: 18px; position: relative; cursor: pointer;
+  box-shadow: 0 10px 20px rgba(22,36,28,0.14); background: #1c2826; margin-bottom: 9px; overflow: hidden;
 }
-.pimg img { width: 100%; height: 100%; transition: transform .3s; }
-.pimg:active img { transform: scale(1.08); }
-.badge { position: absolute; top: 7px; left: 7px; background: #16a34a; color: #fff; font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 6px; z-index: 6; }
-.hot-tag { position: absolute; bottom: 6px; right: 6px; background: rgba(15,23,42,0.86); color: #fde047; font-size: 8.5px; font-weight: 800; padding: 3px 7px; border-radius: 6px; z-index: 6; }
-.half-tag { position: absolute; bottom: 6px; left: 6px; background: #f59e0b; color: #fff; font-size: 8.5px; font-weight: 800; padding: 3px 6px; border-radius: 6px; z-index: 6; }
-.pname { font-size: 12.5px; font-weight: 800; line-height: 1.3; height: 33px; overflow: hidden; display: flex; align-items: flex-start; gap: 5px; cursor: pointer; }
+.pimg img { width: 100%; height: 100%; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.pcard:hover .pimg img, .pimg:active img { transform: scale(1.09); }
+.badge { position: absolute; top: 7px; left: 7px; background: #16a34a; color: #fff; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 99px; z-index: 6; }
+.hot-tag { position: absolute; bottom: 6px; right: 6px; background: rgba(17,50,33,0.9); color: #fbbf24; font-size: 8.5px; font-weight: 800; padding: 3px 8px; border-radius: 99px; z-index: 6; }
+.half-tag { position: absolute; bottom: 6px; left: 6px; background: var(--o); color: #fff; font-size: 8.5px; font-weight: 800; padding: 3px 7px; border-radius: 99px; z-index: 6; }
+.pname { font-size: 13px; font-weight: 800; line-height: 1.3; height: 34px; overflow: hidden; display: flex; align-items: flex-start; gap: 5px; cursor: pointer; }
 .pprice { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 0 8px; }
-.pprice b { font-size: 16px; font-weight: 800; color: var(--o); }
+.pprice b { font-family: var(--serif); font-size: 17px; font-weight: 800; color: var(--o); }
 .pprice s { font-size: 11px; color: var(--mu); margin-left: 4px; }
 
-.qty { display: flex; align-items: center; justify-content: space-between; background: var(--sf2); padding: 3px; border-radius: 12px; box-shadow: var(--sh-in); margin-top: auto; }
-.qty button { width: 30px; height: 30px; border-radius: 8px; border: 0; background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #b33600; }
+.qty { display: flex; align-items: center; justify-content: space-between; background: var(--sf2); padding: 3px; border-radius: 99px; box-shadow: var(--sh-in); margin-top: auto; }
+.qty button { width: 30px; height: 30px; border-radius: 50%; border: 0; background: var(--o); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #8f2d0b; }
 .qty b { font-size: 13px; font-weight: 800; }
 
 .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--ln); }
 .row:last-child { border-bottom: 0; }
 .tot { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 6px; border-top: 2px solid var(--ln); }
-.tot b { font-size: 22px; font-weight: 800; color: var(--o); }
+.tot b { font-family: var(--serif); font-size: 23px; font-weight: 800; color: var(--o); }
 
 /* Modals */
-.ov { position: fixed; inset: 0; z-index: 200; background: rgba(8,14,22,0.82); backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center; }
+.ov { position: fixed; inset: 0; z-index: 200; background: rgba(11,22,16,0.82); backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center; }
 .sh {
   background: var(--sf); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
-  border-radius: 28px 28px 0 0; padding: 18px; box-shadow: 0 -10px 40px rgba(0,0,0,0.45);
+  border-radius: 30px 30px 0 0; padding: 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.45);
   animation: slideUp .24s ease-out;
 }
 @keyframes slideUp { from { transform: translateY(100%); } }
 
 .pop-stage {
-  position: relative; height: 215px; margin: 4px 0 14px; border-radius: 22px;
-  background: radial-gradient(circle at 50% 60%, #3b1708, #090e17 75%);
+  position: relative; height: 215px; margin: 4px 0 14px; border-radius: 24px;
+  background: radial-gradient(circle at 50% 60%, #1d4d34, #091810 78%);
   display: flex; align-items: center; justify-content: center; overflow: visible;
 }
 .pop-plate {
-  width: 188px; height: 188px; border-radius: 50%; object-fit: cover; border: 4px solid #fff;
-  box-shadow: 0 22px 38px rgba(0,0,0,0.7), 0 0 28px rgba(255,85,0,0.45);
+  width: 188px; height: 188px; border-radius: 50%; object-fit: cover; border: 4px solid #fffdf8;
+  box-shadow: 0 22px 38px rgba(0,0,0,0.7), 0 0 28px rgba(217,78,31,0.4);
   animation: popOut3D .45s cubic-bezier(.18,1.25,.4,1) forwards; z-index: 2;
 }
 @keyframes popOut3D {
@@ -242,35 +281,35 @@ main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
 }
 
 .cbar-fixed {
-  position: fixed; left: 12px; right: 12px; bottom: calc(80px + env(safe-area-inset-bottom));
+  position: fixed; left: 12px; right: 12px; bottom: calc(82px + env(safe-area-inset-bottom));
   z-index: 75; max-width: 620px; margin: 0 auto;
-  background: linear-gradient(145deg, #16a34a, #074729); color: #fff;
-  border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
-  box-shadow: 0 5px 0 #042b18, 0 14px 28px rgba(6,43,28,0.5); cursor: pointer; font-weight: 800; font-size: 13.5px;
+  background: linear-gradient(145deg, #1b5e3a, #0d311d); color: #fff;
+  border-radius: 99px; padding: 13px 20px; display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 5px 0 #071c10, 0 14px 28px rgba(11,34,22,0.5); cursor: pointer; font-weight: 800; font-size: 13.5px;
 }
 
 nav {
   position: fixed; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom));
   z-index: 80; max-width: 620px; margin: 0 auto;
-  background: var(--sf); border: 1px solid var(--ln); border-radius: 20px;
-  display: flex; gap: 6px; padding: 6px;
-  box-shadow: 0 7px 0 rgba(15,23,42,0.12), 0 18px 38px rgba(15,23,42,0.25);
+  background: var(--sf); border: 1px solid var(--ln); border-radius: 99px;
+  display: flex; gap: 6px; padding: 6px 10px;
+  box-shadow: 0 7px 0 rgba(22,36,28,0.1), 0 18px 38px rgba(22,36,28,0.22);
 }
 nav button {
-  flex: 1; border: 0; background: transparent; border-radius: 14px; padding: 8px 4px;
+  flex: 1; border: 0; background: transparent; border-radius: 99px; padding: 8px 4px;
   cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
   color: var(--mu); font-weight: 800; position: relative; transition: .15s;
 }
 nav button.on {
-  background: linear-gradient(180deg, #ff7a33, #ff4800); color: #fff;
-  box-shadow: 0 4px 0 #b33600; transform: translateY(-3px);
+  background: var(--g); color: #fbbf24;
+  box-shadow: 0 4px 10px rgba(17,50,33,0.35); transform: translateY(-2px);
 }
 nav .nl { font-size: 10px; }
-nav .nb { position: absolute; top: 2px; right: 18%; background: #16a34a; color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff; }
+nav .nb { position: absolute; top: 2px; right: 18%; background: var(--o); color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff; }
 
 #toast {
   position: fixed; left: 50%; bottom: 142px; transform: translateX(-50%) translateY(20px);
-  background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 99px;
+  background: var(--g); color: #fff; padding: 11px 18px; border-radius: 99px;
   font-size: 13px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none; transition: .25s; text-align: center;
 }
 #toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -281,11 +320,17 @@ nav .nb { position: absolute; top: 2px; right: 18%; background: #16a34a; color: 
 <header>
   <div class="logo" id="mark" title="5 Tap for Owner/Staff">NU</div>
   <div class="brand">
-    <small>NAMASTE UDALA · 3D LIVE</small>
-    <h1 id="ttl">Monthly · 15 Day · 7 Day Tiffin</h1>
+    <small>NAMASTE UDALA · EST. KITCHEN</small>
+    <h1 id="ttl">Ghar Jaisa Khana · Roz Time Pe</h1>
   </div>
   <button class="btn w sm" id="thm" data-a="theme">🌙</button>
 </header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    ✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER · FREE HOME DELIVERY IN UDALA · TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER ✦
+  </div>
+</div>
 
 <main id="v"></main>
 <div id="cbar"></div>
@@ -308,8 +353,7 @@ const FB = {
 };
 
 const UDALA_AREAS = ['Udala Bus Stand', 'Market Square', 'High School Rd', 'College Rd', 'Block Office', 'Hospital Rd', 'Ward 1–6', 'Bhanjpur'];
-const NODE = 'udala_phase2', UPI = '9583937047@jio', OPIN = '4827', DPIN = '7788';
-const PL = { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } };
+const NODE = 'udala_phase2', OPIN = '4827', DPIN = '7788';
 
 const IC = {
   tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/></svg>`,
@@ -351,7 +395,6 @@ const D0 = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
 const inr = n => '₹' + Math.round(+n || 0).toLocaleString('en-IN');
 const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
 const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
-const upi = (a, n) => 'upi://pay?pa=' + UPI + '&pn=Namaste%20Udala&cu=INR&am=' + Math.round(a) + '&tn=' + encodeURIComponent(n || 'Order');
 const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
@@ -370,7 +413,6 @@ const CATS = [
   ['Safai', 'Ghar Ki Safai', IMG.clean]
 ];
 
-// ALL 25 ORIGINAL PRODUCTS RESTORED + 3D Chicken Leg
 const SEED = [
   ['Chicken Leg Masala (2 Pc)', 160, 195, 'Khana', IMG.leg, 1, 1, 1],
   ['Chicken curry 500g', 260, 310, 'Khana', IMG.chick, 1, 1, 1],
@@ -400,8 +442,7 @@ const SEED = [
   ['Domex 1 L', 185, 210, 'Safai', IMG.clean, 0, 0, 0]
 ].map((a, i) => ({ id: i + 1, n: a[0], p: a[1], mrp: a[2], c: a[3], img: a[4], h: a[5], hot: a[6], nv: a[7], s: 1 }));
 
-// ALL ORIGINAL SERVICES RESTORED
-const SVC = [
+const SVC_SEED = [
   { id: 't1', c: 'Tuition', n: 'Maths & Science (Class 6–10)', p: 800, u: '/month', img: IMG.books, d: 'Small batch, weekly test, doubt clearing.' },
   { id: 't2', c: 'Tuition', n: 'English & Hindi (Class 6–10)', p: 700, u: '/month', img: IMG.books, d: 'Grammar, writing, monthly progress report.' },
   { id: 't3', c: 'Tuition', n: 'Commerce (Class 11–12)', p: 1200, u: '/month', img: IMG.books, d: 'Accounts, BST, Economics — board pattern.' },
@@ -412,12 +453,25 @@ const SVC = [
   { id: 'h1', c: 'Hostel', n: 'Boys & Girls Hostel', p: 3500, u: '/month', img: IMG.hostel, d: 'WiFi, study table, warden, safe campus.' }
 ];
 
+const DEFAULT_CFG = {
+  upi: '9583937047@jio',
+  wa: '9583937047',
+  freeMin: 300,
+  dlvFee: 25,
+  trialPrice: 49,
+  bfAddon: 20,
+  bothAddon: 10,
+  rotiAddon: 5,
+  pl: { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } }
+};
+
 const NOW = Date.now();
-// ALL ORIGINAL CUSTOMERS, SUBS & ORDERS RESTORED!
 function seed() {
   return {
     rev: NOW,
     prod: SEED,
+    svcList: SVC_SEED,
+    cfg: JSON.parse(JSON.stringify(DEFAULT_CFG)),
     subs: [
       { id: 's1', ts: NOW - 5 * 864e5, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, times: 3, start: iso(addD(D0(), -5)), price: 2899, paid: 1, utr: '402312345678', lunch: 'chawal', dinner: 'roti', extraRoti: 0 },
       { id: 's2', ts: NOW - 3 * 864e5, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, times: 3, start: iso(addD(D0(), -3)), price: 1849, paid: 1, utr: '402398765432', lunch: 'both', dinner: 'roti', extraRoti: 1 }
@@ -434,15 +488,20 @@ function seed() {
 let S = seed();
 try {
   const l = JSON.parse(localStorage.getItem('nu5'));
-  if (l && l.prod && l.prod.length >= 15) S = { ...seed(), ...l };
+  if (l && l.prod && l.prod.length >= 10) S = { ...seed(), ...l };
 } catch (e) {}
-if (!S.subs || !S.subs.length) S.subs = seed().subs;
-if (!S.orders || !S.orders.length) S.orders = seed().orders;
-S.prod = SEED.map((sp, idx) => {
-  const existing = (S.prod || []).find(x => x.n === sp.n);
-  return existing ? { ...sp, s: existing.s } : sp;
-});
-S.done = S.done || {}; S.mset = S.mset || {};
+
+function ensureIntegrity() {
+  if (!S.subs || !Array.isArray(S.subs)) S.subs = seed().subs;
+  if (!S.orders || !Array.isArray(S.orders)) S.orders = seed().orders;
+  if (!S.svcList || !Array.isArray(S.svcList) || !S.svcList.length) S.svcList = SVC_SEED;
+  S.cfg = { ...DEFAULT_CFG, ...(S.cfg || {}) };
+  S.cfg.pl = S.cfg.pl || DEFAULT_CFG.pl;
+  S.cfg.pl.veg = { ...DEFAULT_CFG.pl.veg, ...(S.cfg.pl.veg || {}) };
+  S.cfg.pl.nv = { ...DEFAULT_CFG.pl.nv, ...(S.cfg.pl.nv || {}) };
+  S.done = S.done || {}; S.mset = S.mset || {};
+}
+ensureIntegrity();
 
 let db = null;
 try {
@@ -451,6 +510,7 @@ try {
     const v = sn.val();
     if (v && v.prod && (+v.rev || 0) > (+S.rev || 0)) {
       S = { ...seed(), ...v };
+      ensureIntegrity();
       render();
     }
   });
@@ -465,6 +525,7 @@ function save() {
 
 let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
 let SCAT = 'all', SQ = '', PQ = null, CART_OPEN = false, PAY_BOX = null;
+let O_TAB = 'ords', ED_P = null, ED_SV = null;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
 
@@ -485,12 +546,13 @@ const saveUser = () => {
   if (F.lng) localStorage.setItem('nu_lng', F.lng);
 };
 
+const upiLink = (a, n) => 'upi://pay?pa=' + (S.cfg.upi || '9583937047@jio') + '&pn=Namaste%20Udala&cu=INR&am=' + Math.round(a) + '&tn=' + encodeURIComponent(n || 'Order');
 const cc = () => Object.values(C).reduce((a, b) => a + (+b || 0), 0);
 const subTot = () => Object.entries(C).reduce((a, [k, q]) => {
   const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return a;
   return a + (k.endsWith('h') ? Math.round(p.p * 0.6) : p.p) * q;
 }, 0);
-const dlvFee = () => { const st = subTot(); return (st > 0 && st < 300) ? 25 : 0; };
+const dlvFee = () => { const st = subTot(); return (st > 0 && st < (+S.cfg.freeMin || 300)) ? (+S.cfg.dlvFee || 25) : 0; };
 const ct = () => subTot() + dlvFee();
 
 const menu = t => {
@@ -501,11 +563,12 @@ const menu = t => {
 };
 
 const tierPrice = d => {
-  let b = PL[F.type][d];
-  if (+F.times === 3) b += d * 20;
-  if (F.lunch === 'both') b += d * 10;
-  if (F.dinner === 'both') b += d * 10;
-  b += (+F.extraRoti || 0) * 5 * d;
+  const plMap = S.cfg.pl || DEFAULT_CFG.pl;
+  let b = +(plMap[F.type][d] || 1499);
+  if (+F.times === 3) b += d * (+S.cfg.bfAddon || 20);
+  if (F.lunch === 'both') b += d * (+S.cfg.bothAddon || 10);
+  if (F.dinner === 'both') b += d * (+S.cfg.bothAddon || 10);
+  b += (+F.extraRoti || 0) * (+S.cfg.rotiAddon || 5) * d;
   return b;
 };
 
@@ -530,10 +593,11 @@ function vPlan() {
   const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (F.phone && s.phone === ph(F.phone))).slice().reverse();
 
   return `
-  <div class="hero3d" data-a="pq" data-id="1">
+  <div class="hero3d terracotta" data-a="pq" data-id="1">
     ${steamHTML()}
+    <span class="hero-pill">ARTISANAL HOME KITCHEN</span>
     <h2>Monthly · 15 Days · 7 Days Tiffin Plan</h2>
-    <p>3-Time Ghar Jaisa Khana · Free Home Delivery (Touch Plate for 3D)</p>
+    <p>3-Time Ghar Jaisa Garma-Garam Khana · Free Home Delivery</p>
     <img class="hero-plate" src="${IMG.leg}" alt="Hot Chicken">
   </div>
 
@@ -544,7 +608,6 @@ function vPlan() {
       <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">🔴 Non-Veg Plans (Chicken/Egg)</button>
     </div>
 
-    <!-- BIG FRONT FOCUS: MONTHLY (30 DAY), 15 DAY & 7 DAY 3D CARDS -->
     <div class="plan-grid">
       ${[
         [30, 'Monthly Plan', 'BEST VALUE'],
@@ -573,7 +636,7 @@ function vPlan() {
     <div class="seg">
       <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Chawal</button>
       <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">4 Roti</button>
-      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹10/d)</button>
+      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹${S.cfg.bothAddon}/d)</button>
     </div>
 
     ${userFormHTML()}
@@ -583,21 +646,21 @@ function vPlan() {
       <b>${inr(pr)}</b>
     </div>
     <button class="btn" data-a="pay_sub">Activate ${F.days} Days Plan · ${inr(pr)}</button>
-    <button class="btn g" data-a="pay_trial">Book 1-Day Trial Tiffin · ₹49</button>
+    <button class="btn g" data-a="pay_trial">Book 1-Day Trial Tiffin · ${inr(S.cfg.trialPrice)}</button>
   </div>
 
   <div class="card">
     <h3>Aaj Ka 3-Time Fresh Menu <span>${iso(D0())}</span></h3>
-    <div style="background:var(--sf2);padding:10px 12px;border-radius:13px;margin-bottom:8px;font-size:13px">
+    <div style="background:var(--sf2);padding:10px 12px;border-radius:14px;margin-bottom:8px;font-size:13px">
       <b style="color:var(--o)">Subah Nashta:</b> ${esc(menu('bf'))}
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <div style="background:var(--sf2);padding:10px;border-radius:13px;cursor:pointer" data-a="pq" data-id="4">
+      <div style="background:var(--sf2);padding:10px;border-radius:14px;cursor:pointer" data-a="pq" data-id="4">
         <div style="display:flex;align-items:center;gap:5px;color:#16a34a;font-size:11px;font-weight:800">${symHTML(0)} VEG THALI</div>
         <div style="font-weight:700;font-size:12px;margin-top:3px">${esc(menu('veg'))}</div>
       </div>
-      <div style="background:var(--sf2);padding:10px;border-radius:13px;cursor:pointer" data-a="pq" data-id="1">
-        <div style="display:flex;align-items:center;gap:5px;color:#dc2626;font-size:11px;font-weight:800">${symHTML(1)} NON-VEG (Touch)</div>
+      <div style="background:var(--sf2);padding:10px;border-radius:14px;cursor:pointer" data-a="pq" data-id="1">
+        <div style="display:flex;align-items:center;gap:5px;color:#dc2626;font-size:11px;font-weight:800">${symHTML(1)} NON-VEG THALI</div>
         <div style="font-weight:700;font-size:12px;margin-top:3px">${esc(menu('nv'))}</div>
       </div>
     </div>
@@ -605,28 +668,29 @@ function vPlan() {
 
   ${(mySubs.length || myOrds.length) ? `
   <div class="card">
-    <h3>Purana & Active Data (Mere Plans & Orders)</h3>
+    <h3>Mere Plans & Orders</h3>
     ${mySubs.map(s => `<div class="row">
-      <div><b>🍱 ${s.name} — ${s.days} Din (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.area)} · Start: ${s.start} · ${inr(s.price)}</div></div>
+      <div><b>🍱 ${esc(s.name)} — ${s.days} Din (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.area)} · Start: ${s.start} · ${inr(s.price)}</div></div>
       <span style="font-weight:800;font-size:12px;color:#16a34a">${S.done[iso(D0()) + '_' + s.id] ? 'Delivered ✓' : 'Active'}</span>
     </div>`).join('')}
     ${myOrds.map(o => `<div class="row">
-      <div><b>🛒 ${o.name} — ${inr(o.total)}</b><div style="font-size:11.5px;color:var(--mu)">${o.items.map(i => i.n + '×' + i.q).join(', ')}</div></div>
+      <div><b>🛒 ${esc(o.name)} — ${inr(o.total)}</b><div style="font-size:11.5px;color:var(--mu)">${o.items.map(i => i.n + '×' + i.q).join(', ')}</div></div>
       <span style="font-weight:800;font-size:12px;color:${o.dlv ? '#16a34a' : 'var(--o)'}">${o.dlv ? 'Delivered ✓' : 'Packing'}</span>
     </div>`).join('')}
   </div>` : ''}`;
 }
 
-/* --- 2. 3D SHOP VIEW (ALL 26 ITEMS RESTORED) --- */
+/* --- 2. SHOP VIEW (CLEAN ARTISANAL LABELS — ZERO "3D" TEXT) --- */
 function vShop() {
   const q = SQ.trim().toLowerCase();
   const list = S.prod.filter(p => (SCAT === 'all' || p.c === SCAT) && (!q || p.n.toLowerCase().includes(q)));
 
   return `
-  <div class="hero3d green" data-a="pq" data-id="1">
+  <div class="hero3d" data-a="pq" data-id="1">
     ${steamHTML()}
-    <h2>Hot Chicken, Paneer & 25+ Daily Kirana</h2>
-    <p>Touch photo for 3D Steam & Half-Plate · Free Delivery ₹300+</p>
+    <span class="hero-pill">FRESH KITCHEN & PANTRY</span>
+    <h2>Garma-Garam Khana & Daily Kirana</h2>
+    <p>Full & Half-Plate available · Free Delivery above ${inr(S.cfg.freeMin)}</p>
     <img class="hero-plate" src="${IMG.chick}" alt="Chicken">
   </div>
 
@@ -646,7 +710,7 @@ function vShop() {
           <img src="${p.img}" alt="${esc(p.n)}" loading="lazy">
           ${off > 0 ? `<span class="badge">${off}% OFF</span>` : ''}
           ${p.h ? `<span class="half-tag">1/2 Half</span>` : ''}
-          ${p.hot ? `<span class="hot-tag">3D STEAM</span>` : ''}
+          ${p.hot ? `<span class="hot-tag">GARMA-GARAM</span>` : ''}
         </div>
         <div class="pname" data-a="pq" data-id="${p.id}">${symHTML(p.nv)}<span>${esc(p.n)}</span></div>
         <div class="pprice">
@@ -663,20 +727,21 @@ function vShop() {
 /* --- 3. SERVICES VIEW --- */
 function vServices() {
   return `
-  <div class="hero3d">
+  <div class="hero3d terracotta">
+    <span class="hero-pill">VERIFIED LOCAL PARTNERS</span>
     <h2>Udala Local Services & Catering</h2>
     <p>Tuition · Photography · Stage Decor · Hostel · Party Order</p>
     <img class="hero-plate" src="${IMG.cam}" alt="Services">
   </div>
-  ${SVC.map(s => `
+  ${(S.svcList || []).map(s => `
     <div class="card" style="display:flex;gap:14px;align-items:center">
-      <img src="${s.img}" style="width:84px;height:84px;border-radius:15px">
+      <img src="${s.img}" style="width:84px;height:84px;border-radius:16px">
       <div style="flex:1">
-        <div style="font-weight:800;font-size:14.5px">${esc(s.n)}</div>
+        <div style="font-family:var(--serif);font-weight:800;font-size:15.5px">${esc(s.n)}</div>
         <p style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.d)}</p>
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <b style="color:var(--o);font-size:15.5px">${inr(s.p)}<span style="font-size:11px;color:var(--mu)">${s.u}</span></b>
-          <a class="btn sm" href="https://wa.me/919583937047?text=${encodeURIComponent('Namaste! Mujhe ' + s.n + ' book karna hai.')}" target="_blank">Book on WhatsApp</a>
+          <b style="font-family:var(--serif);color:var(--o);font-size:16.5px">${inr(s.p)}<span style="font-size:11px;color:var(--mu)">${esc(s.u)}</span></b>
+          <a class="btn sm" href="https://wa.me/91${S.cfg.wa || '9583937047'}?text=${encodeURIComponent('Namaste! Mujhe ' + s.n + ' book karna hai.')}" target="_blank">Book Now</a>
         </div>
       </div>
     </div>
@@ -691,7 +756,7 @@ function vKitchen() {
   const pendOrds = (S.orders || []).filter(o => !o.dlv);
 
   return `
-  <div class="hero3d green">
+  <div class="hero3d">
     ${steamHTML()}
     <h2>Kitchen Production Counter</h2>
     <p>Aaj (${k}) kitne dabbe aur roti banani hai</p>
@@ -728,8 +793,8 @@ function vRoute() {
   const ords = (S.orders || []).filter(o => !o.dlv);
 
   return `
-  <div class="card" style="background:#0f172a;color:#fff;display:flex;justify-content:space-between;align-items:center">
-    <div><small style="color:#fde047;font-weight:800">DELIVERY ROUTE</small><h2 style="font-size:17px">Tiffin & Shop Drops</h2></div>
+  <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
+    <div><small style="color:#fbbf24;font-weight:800">DELIVERY ROUTE</small><h2 style="font-family:var(--serif);font-size:18px">Tiffin & Shop Drops</h2></div>
     <button class="btn w sm" data-a="logout_staff">Exit</button>
   </div>
 
@@ -773,72 +838,198 @@ function vRoute() {
   </div>`;
 }
 
-/* --- 6. CLEAN OWNER PANEL --- */
+/* --- 6. OWNER MASTER CONTROL (100% EDIT ACCESS TO EVERYTHING) --- */
 function vOwner() {
   const subs = (S.subs || []).slice().reverse();
   const ords = (S.orders || []).slice().reverse();
   const totIn = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
 
+  const ownerTabs = [
+    ['ords', 'Orders & Tiffins'],
+    ['plans', 'Plan Rates & Menu'],
+    ['prod', 'Shop Products'],
+    ['svc', 'Services & App']
+  ];
+
+  let body = '';
+
+  if (O_TAB === 'ords') {
+    body = `
+    <div class="card">
+      <h3>Shop Orders Control (${ords.length})</h3>
+      ${ords.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between">
+          <b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
+          <span style="font-size:11px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'PAID' : 'UNPAID'} · ${o.dlv ? 'Delivered' : 'Pending'}</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--mu);margin:3px 0 8px">${esc(o.area)} · ${esc(o.addr)} · <b>${o.items.map(i => i.n + '×' + i.q).join(', ')}</b></div>
+        <div class="btn-row">
+          <button class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Mark Unpaid' : 'Mark Paid'}</button>
+          <button class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Undeliver' : 'Deliver ✓'}</button>
+          <button class="btn sm r" data-a="o_del" data-id="${o.id}">Delete</button>
+        </div>
+      </div>`).join('') || '<p style="color:var(--mu)">No shop orders.</p>'}
+    </div>
+
+    <div class="card">
+      <h3>Tiffin Subscriptions Control (${subs.length})</h3>
+      ${subs.map(s => `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between">
+          <b>${esc(s.name)} (${esc(s.phone)}) — ${inr(s.price)}</b>
+          <span style="font-size:11px;font-weight:800;color:${s.paid ? '#16a34a' : '#dc2626'}">${s.days} Days (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--mu);margin:3px 0 8px">${esc(s.area)} · ${esc(s.addr)} · Start: ${s.start}</div>
+        <div class="btn-row">
+          <button class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Paid ✓' : 'Mark Paid'}</button>
+          <button class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1 Day</button>
+          <button class="btn sm r" data-a="s_del" data-id="${s.id}">Delete</button>
+        </div>
+      </div>`).join('') || '<p style="color:var(--mu)">No active tiffin plans.</p>'}
+    </div>`;
+  } else if (O_TAB === 'plans') {
+    const vp = S.cfg.pl.veg, nvp = S.cfg.pl.nv;
+    body = `
+    <div class="card">
+      <h3>Edit Tiffin Plan Prices (₹)</h3>
+      <span class="lbl">Pure Veg Base Prices (7 Din / 15 Din / 30 Din)</span>
+      <div class="btn-row">
+        <input class="inp" id="vp_7" type="number" value="${vp[7]}" placeholder="7d Veg">
+        <input class="inp" id="vp_15" type="number" value="${vp[15]}" placeholder="15d Veg">
+        <input class="inp" id="vp_30" type="number" value="${vp[30]}" placeholder="30d Veg">
+      </div>
+      <span class="lbl">Non-Veg Base Prices (7 Din / 15 Din / 30 Din)</span>
+      <div class="btn-row">
+        <input class="inp" id="nvp_7" type="number" value="${nvp[7]}" placeholder="7d NV">
+        <input class="inp" id="nvp_15" type="number" value="${nvp[15]}" placeholder="15d NV">
+        <input class="inp" id="nvp_30" type="number" value="${nvp[30]}" placeholder="30d NV">
+      </div>
+      <span class="lbl">1-Day Trial Price (₹) & 3-Time Nashta Addon/Day (₹)</span>
+      <div class="btn-row">
+        <input class="inp" id="cfg_trial" type="number" value="${S.cfg.trialPrice}" placeholder="Trial ₹">
+        <input class="inp" id="cfg_bf" type="number" value="${S.cfg.bfAddon}" placeholder="Nashta/d ₹">
+      </div>
+      <span class="lbl">Free Delivery Min Order (₹) & Delivery Fee (₹)</span>
+      <div class="btn-row">
+        <input class="inp" id="cfg_fmin" type="number" value="${S.cfg.freeMin}" placeholder="Free Min ₹">
+        <input class="inp" id="cfg_dfee" type="number" value="${S.cfg.dlvFee}" placeholder="Dlv Fee ₹">
+      </div>
+      <button class="btn g" data-a="save_rates">Save All Plan Rates & Fees</button>
+    </div>
+
+    <div class="card">
+      <h3>Edit Today's 3-Time Menu (${iso(D0())})</h3>
+      <span class="lbl">Subah Nashta</span>
+      <input class="inp" id="m_bf" value="${esc(menu('bf'))}">
+      <span class="lbl">Pure Veg Menu</span>
+      <input class="inp" id="m_veg" value="${esc(menu('veg'))}">
+      <span class="lbl">Non-Veg Menu</span>
+      <input class="inp" id="m_nv" value="${esc(menu('nv'))}">
+      <button class="btn g" data-a="savem">Save Live Menu</button>
+    </div>`;
+  } else if (O_TAB === 'prod') {
+    body = `
+    <div class="card" id="prod_form">
+      <h3>${ED_P ? 'Edit Product' : 'Add New Shop Product'} ${ED_P ? `<button class="btn w sm" data-a="cancel_edp">Cancel</button>` : ''}</h3>
+      <input class="inp" id="ep_n" placeholder="Item Name (e.g. Paneer 200g)">
+      <div class="btn-row">
+        <input class="inp" id="ep_p" type="number" placeholder="Selling Price ₹">
+        <input class="inp" id="ep_m" type="number" placeholder="MRP ₹">
+      </div>
+      <div class="btn-row">
+        <select class="inp" id="ep_c">${CATS.slice(1).map(c => `<option value="${c[0]}">${c[1]}</option>`).join('')}</select>
+        <select class="inp" id="ep_nv"><option value="0">🟢 Pure Veg</option><option value="1">🔴 Non-Veg</option></select>
+      </div>
+      <div class="btn-row">
+        <select class="inp" id="ep_h"><option value="0">Full Pack Only</option><option value="1">1/2 Half Plate Available</option></select>
+        <select class="inp" id="ep_hot"><option value="0">Normal Item</option><option value="1">Garma-Garam Steam</option></select>
+      </div>
+      <input class="inp" id="ep_img" placeholder="Photo URL (Leave blank for auto category photo)">
+      <button class="btn g" data-a="save_prod">${ED_P ? 'Update Product' : '+ Add Product to Shop'}</button>
+    </div>
+
+    <div class="card">
+      <h3>All Shop Products (${S.prod.length})</h3>
+      ${S.prod.map(p => `<div class="row">
+        <div>
+          <b>${esc(p.n)} (${inr(p.p)})</b>
+          <div style="font-size:11px;color:var(--mu)">${esc(p.c)} · MRP: ${p.mrp ? inr(p.mrp) : '-'} ${p.h ? '· Half Avail' : ''}</div>
+        </div>
+        <div style="display:flex;gap:5px">
+          <button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'Stock' : 'Out'}</button>
+          <button class="btn sm w" data-a="edit_prod" data-id="${p.id}">Edit</button>
+          <button class="btn sm r" data-a="del_prod" data-id="${p.id}">✕</button>
+        </div>
+      </div>`).join('')}
+    </div>`;
+  } else {
+    body = `
+    <div class="card" id="svc_form">
+      <h3>${ED_SV ? 'Edit Service' : 'Add New Service'} ${ED_SV ? `<button class="btn w sm" data-a="cancel_edsv">Cancel</button>` : ''}</h3>
+      <input class="inp" id="es_n" placeholder="Service Title (e.g. Home Tuition)">
+      <div class="btn-row">
+        <input class="inp" id="es_p" type="number" placeholder="Price ₹">
+        <input class="inp" id="es_u" placeholder="Unit (e.g. /month, /event)">
+      </div>
+      <input class="inp" id="es_d" placeholder="Short Description">
+      <input class="inp" id="es_img" placeholder="Photo URL (Optional)">
+      <button class="btn g" data-a="save_svc">${ED_SV ? 'Update Service' : '+ Add Service'}</button>
+    </div>
+
+    <div class="card">
+      <h3>All Local Services (${(S.svcList || []).length})</h3>
+      ${(S.svcList || []).map(s => `<div class="row">
+        <div><b>${esc(s.n)} (${inr(s.p)}${esc(s.u)})</b><div style="font-size:11px;color:var(--mu)">${esc(s.d)}</div></div>
+        <div style="display:flex;gap:5px">
+          <button class="btn sm w" data-a="edit_svc" data-id="${s.id}">Edit</button>
+          <button class="btn sm r" data-a="del_svc" data-id="${s.id}">✕</button>
+        </div>
+      </div>`).join('')}
+    </div>
+
+    <div class="card">
+      <h3>App Payment & WhatsApp Settings</h3>
+      <span class="lbl">Owner UPI ID (For QR & Payments)</span>
+      <input class="inp" id="cfg_upi" value="${esc(S.cfg.upi)}">
+      <span class="lbl">WhatsApp Number (10 Digits)</span>
+      <input class="inp" id="cfg_wa" value="${esc(S.cfg.wa)}">
+      <button class="btn g" data-a="save_app_cfg">Save UPI & WhatsApp</button>
+    </div>`;
+  }
+
   return `
-  <div class="card" style="background:#0f172a;color:#fff;display:flex;justify-content:space-between;align-items:center">
-    <div><small style="color:#fde047;font-weight:800">OWNER CONSOLE</small><h2 style="font-size:17px">Orders · Plans · Menu · Stock</h2></div>
+  <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
+    <div><small style="color:#fbbf24;font-weight:800">OWNER MASTER CONTROL</small><h2 style="font-family:var(--serif);font-size:18px">Full Edit & Access</h2></div>
     <button class="btn w sm" data-a="logout_staff">Exit</button>
   </div>
 
   <div class="kpi">
-    <div><b>${inr(totIn)}</b><span>Total Sales</span></div>
-    <div><b>${subs.length}</b><span>Active Plans</span></div>
+    <div><b>${inr(totIn)}</b><span>Paid Revenue</span></div>
+    <div><b>${subs.length}</b><span>Tiffin Plans</span></div>
     <div><b>${ords.length}</b><span>Shop Orders</span></div>
   </div>
 
-  <div class="card">
-    <h3>Aaj Ka Menu Badlein</h3>
-    <span class="lbl">Subah Nashta</span>
-    <input class="inp" id="m_bf" value="${esc(menu('bf'))}">
-    <span class="lbl">Pure Veg Menu</span>
-    <input class="inp" id="m_veg" value="${esc(menu('veg'))}">
-    <span class="lbl">Non-Veg Menu</span>
-    <input class="inp" id="m_nv" value="${esc(menu('nv'))}">
-    <button class="btn g" data-a="savem">Save Menu</button>
+  <div class="area-chips" style="margin-bottom:12px">
+    ${ownerTabs.map(t => `<span class="${O_TAB === t[0] ? 'on' : ''}" data-a="otab" data-v="${t[0]}">${t[1]}</span>`).join('')}
   </div>
 
-  <div class="card">
-    <h3>Tiffin Subscriptions (${subs.length})</h3>
-    ${subs.map(s => `<div class="row">
-      <div><b>${esc(s.name)} (${s.days} Din ${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.phone)} · ${esc(s.area)} · ${inr(s.price)}</div></div>
-      <span style="color:#16a34a;font-weight:800;font-size:12px">Active</span>
-    </div>`).join('')}
-  </div>
-
-  <div class="card">
-    <h3>Shop Orders (${ords.length})</h3>
-    ${ords.map(o => `<div class="row">
-      <div><b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b><div style="font-size:11.5px;color:var(--mu)">${o.items.map(i => i.n + '×' + i.q).join(', ')}</div></div>
-      ${!o.dlv ? `<button class="btn g sm" data-a="odlv" data-id="${o.id}">Deliver ✓</button>` : '<span style="color:#16a34a;font-weight:800">Done ✓</span>'}
-    </div>`).join('')}
-  </div>
-
-  <div class="card">
-    <h3>Stock On / Off (${S.prod.length} Items)</h3>
-    ${S.prod.map(p => `<div class="row"><b>${esc(p.n)} (${inr(p.p)})</b><button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'In Stock' : 'Out'}</button></div>`).join('')}
-  </div>`;
+  ${body}`;
 }
 
-/* --- MODALS: 3D PLATE VIEW, POPUP CART & SIMPLE PAYMENT --- */
+/* --- MODALS: PLATE VIEW, POPUP CART & SIMPLE PAYMENT --- */
 function sheet() {
   if (PAY_BOX) {
-    const g = PAY_BOX, uLink = upi(g.amt, g.title);
+    const g = PAY_BOX, uLink = upiLink(g.amt, g.title);
     return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <b style="color:#16a34a;font-size:13px">UPI Payment Step</b>
         <button class="btn w sm" data-a="close">Back</button>
       </div>
-      <h2 style="font-size:19px;font-weight:800">${esc(g.title)}</h2>
-      <div style="font-size:26px;font-weight:800;color:var(--o);margin:6px 0">${inr(g.amt)}</div>
+      <h2 style="font-family:var(--serif);font-size:19px;font-weight:800">${esc(g.title)}</h2>
+      <div style="font-family:var(--serif);font-size:26px;font-weight:800;color:var(--o);margin:6px 0">${inr(g.amt)}</div>
 
       <div style="background:#fff;padding:12px;border-radius:18px;width:fit-content;margin:8px auto;border:2px solid var(--ln)">
         <img src="${qrUrl(uLink)}" style="width:165px;height:165px" alt="QR">
-        <div style="font-size:11px;color:var(--mu);font-weight:700;margin-top:4px">UPI ID: ${UPI}</div>
+        <div style="font-size:11px;color:var(--mu);font-weight:700;margin-top:4px">UPI ID: ${esc(S.cfg.upi)}</div>
       </div>
 
       <div class="btn-row">
@@ -857,7 +1048,7 @@ function sheet() {
     const n = cc(), st = subTot(), df = dlvFee(), tot = ct();
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <h3>Aapka Cart (${n} Items)</h3>
+        <h3 style="font-family:var(--serif)">Aapka Cart (${n} Items)</h3>
         <button class="btn w sm" data-a="close">Close</button>
       </div>
       <div style="max-height:200px;overflow-y:auto">
@@ -872,7 +1063,7 @@ function sheet() {
       </div>
       <div style="font-size:12px;color:var(--mu);padding-top:8px;display:flex;justify-content:space-between">
         <span>Items: ${inr(st)}</span>
-        <span>Delivery: <b>${df ? '₹25 (₹300+ par Free)' : 'FREE'}</b></span>
+        <span>Delivery: <b>${df ? inr(df) + ' (Free above ' + inr(S.cfg.freeMin) + ')' : 'FREE'}</b></span>
       </div>
       <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
       ${userFormHTML()}
@@ -885,14 +1076,14 @@ function sheet() {
     const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0;
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <b style="color:var(--o);font-size:12px">3D REAL STEAM VIEW</b>
+        <b style="color:var(--o);font-size:12px">${p.hot ? 'GARMA-GARAM KITCHEN DISH' : 'PRODUCT DETAILS'}</b>
         <button class="btn w sm" data-a="close">Close</button>
       </div>
       <div class="pop-stage">
         ${p.hot ? `<div class="pop-steam"><span></span><span></span><span></span></div>` : ''}
         <img class="pop-plate" src="${p.img}" alt="${esc(p.n)}">
       </div>
-      <h2 style="font-size:19px;font-weight:800;text-align:center">${esc(p.n)}</h2>
+      <h2 style="font-family:var(--serif);font-size:20px;font-weight:800;text-align:center">${esc(p.n)}</h2>
       <div class="row" style="margin-top:10px">
         <div><b>Full Plate / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div>
         <div class="qty" style="width:115px;margin:0"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button data-a="inc" data-id="${p.id}">+</button></div>
@@ -943,6 +1134,7 @@ function checkUser() {
 
 const A = {
   tab: v => { tab = v; PQ = null; CART_OPEN = false; PAY_BOX = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
+  otab: v => { O_TAB = v; ED_P = null; ED_SV = null; render(); },
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
   set_area: v => { F.area = v; saveUser(); render(); },
   cat: v => { SCAT = v; render(); },
@@ -974,7 +1166,7 @@ const A = {
   },
   pay_trial: () => {
     if (!checkUser()) return;
-    PAY_BOX = { kind: 'sub', amt: 49, days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` };
+    PAY_BOX = { kind: 'sub', amt: +S.cfg.trialPrice || 49, days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` };
     render();
   },
   pay_ord: () => {
@@ -984,7 +1176,7 @@ const A = {
     render();
   },
 
-  copy_upi: () => { navigator.clipboard.writeText(UPI).catch(() => {}); toast('UPI ID Copied: ' + UPI); },
+  copy_upi: () => { navigator.clipboard.writeText(S.cfg.upi || '9583937047@jio').catch(() => {}); toast('UPI ID Copied!'); },
 
   confirm_paid: () => {
     if (!PAY_BOX) return;
@@ -1009,10 +1201,88 @@ const A = {
     }
   },
 
-  odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = 1; o.paid = 1; save(); toast('Order Delivered ✓'); } },
+  // OWNER FULL CONTROL ACTIONS
+  o_paid: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.paid = o.paid ? 0 : 1; save(); toast('Payment Status Updated'); } },
+  odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = o.dlv ? 0 : 1; save(); toast('Delivery Status Updated'); } },
+  o_del: (v, k, id) => { if (!confirm('Delete this order?')) return; S.orders = S.orders.filter(x => x.id !== id); save(); toast('Order Deleted'); },
+
+  s_paid: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.paid = s.paid ? 0 : 1; save(); toast('Plan Payment Updated'); } },
+  s_add_day: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.days = (+s.days || 30) + 1; save(); toast('+1 Day Added to Plan'); } },
+  s_del: (v, k, id) => { if (!confirm('Delete this tiffin subscription?')) return; S.subs = S.subs.filter(x => x.id !== id); save(); toast('Subscription Deleted'); },
   sdone: (v, k, id) => { const key = iso(D0()) + '_' + id; S.done[key] = S.done[key] ? 0 : 1; save(); toast('Tiffin Status Updated ✓'); },
+
+  save_rates: () => {
+    S.cfg.pl.veg = { 7: +$('#vp_7').value || 749, 15: +$('#vp_15').value || 1499, 30: +$('#vp_30').value || 2899 };
+    S.cfg.pl.nv = { 7: +$('#nvp_7').value || 949, 15: +$('#nvp_15').value || 1849, 30: +$('#nvp_30').value || 3599 };
+    S.cfg.trialPrice = +$('#cfg_trial').value || 49;
+    S.cfg.bfAddon = +$('#cfg_bf').value || 20;
+    S.cfg.freeMin = +$('#cfg_fmin').value || 300;
+    S.cfg.dlvFee = +$('#cfg_dfee').value || 25;
+    save(); toast('All Plan Rates & Fees Saved!');
+  },
   savem: () => { S.mset[iso(D0())] = { bf: $('#m_bf').value.trim(), veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() }; save(); toast('Menu Saved'); },
+
   stk: (v, k, id) => { const p = S.prod.find(x => x.id === +id); if (p) { p.s = p.s ? 0 : 1; save(); } },
+  edit_prod: (v, k, id) => {
+    ED_P = +id; const p = S.prod.find(x => x.id === ED_P); if (!p) return;
+    render();
+    setTimeout(() => {
+      $('#ep_n').value = p.n; $('#ep_p').value = p.p; $('#ep_m').value = p.mrp || '';
+      $('#ep_c').value = p.c; $('#ep_nv').value = p.nv ? '1' : '0';
+      $('#ep_h').value = p.h ? '1' : '0'; $('#ep_hot').value = p.hot ? '1' : '0';
+      $('#ep_img').value = p.img || '';
+      $('#prod_form').scrollIntoView({ behavior: 'smooth' });
+    }, 50);
+  },
+  cancel_edp: () => { ED_P = null; render(); },
+  save_prod: () => {
+    const n = $('#ep_n').value.trim(), p = +$('#ep_p').value, mrp = +$('#ep_m').value || null;
+    const c = $('#ep_c').value, nv = +$('#ep_nv').value, h = +$('#ep_h').value, hot = +$('#ep_hot').value;
+    const defImg = (CATS.find(x => x[0] === c) || ['', '', IMG.groc])[2];
+    const img = $('#ep_img').value.trim() || defImg;
+    if (!n || !(p > 0)) { toast('Enter Name & Selling Price'); return; }
+    if (ED_P) {
+      const idx = S.prod.findIndex(x => x.id === ED_P);
+      if (idx >= 0) S.prod[idx] = { ...S.prod[idx], n, p, mrp, c, nv, h, hot, img };
+      ED_P = null;
+    } else {
+      S.prod.unshift({ id: Date.now(), n, p, mrp, c, nv, h, hot, img, s: 1 });
+    }
+    save(); toast('Product Saved!');
+  },
+  del_prod: (v, k, id) => { if (!confirm('Delete product?')) return; S.prod = S.prod.filter(x => x.id !== +id); save(); toast('Product Deleted'); },
+
+  edit_svc: (v, k, id) => {
+    ED_SV = id; const s = S.svcList.find(x => x.id === id); if (!s) return;
+    render();
+    setTimeout(() => {
+      $('#es_n').value = s.n; $('#es_p').value = s.p; $('#es_u').value = s.u || '/month';
+      $('#es_d').value = s.d || ''; $('#es_img').value = s.img || '';
+      $('#svc_form').scrollIntoView({ behavior: 'smooth' });
+    }, 50);
+  },
+  cancel_edsv: () => { ED_SV = null; render(); },
+  save_svc: () => {
+    const n = $('#es_n').value.trim(), p = +$('#es_p').value, u = $('#es_u').value.trim() || '/event';
+    const d = $('#es_d').value.trim(), img = $('#es_img').value.trim() || IMG.cam;
+    if (!n || !(p > 0)) { toast('Enter Service Name & Price'); return; }
+    if (ED_SV) {
+      const idx = S.svcList.findIndex(x => x.id === ED_SV);
+      if (idx >= 0) S.svcList[idx] = { ...S.svcList[idx], n, p, u, d, img };
+      ED_SV = null;
+    } else {
+      S.svcList.push({ id: uid('sv'), n, p, u, d, img });
+    }
+    save(); toast('Service Saved!');
+  },
+  del_svc: (v, k, id) => { if (!confirm('Delete service?')) return; S.svcList = S.svcList.filter(x => x.id !== id); save(); toast('Service Deleted'); },
+
+  save_app_cfg: () => {
+    S.cfg.upi = $('#cfg_upi').value.trim() || '9583937047@jio';
+    S.cfg.wa = ph($('#cfg_wa').value) || '9583937047';
+    save(); toast('UPI & WhatsApp Updated!');
+  },
+
   theme: () => {
     const d = document.documentElement.dataset.theme !== 'dark';
     document.documentElement.dataset.theme = d ? 'dark' : '';
@@ -1037,8 +1307,8 @@ $('#mark').addEventListener('click', () => {
   if (taps >= 5) {
     taps = 0;
     const pin = prompt('Owner PIN (4827) ya Kitchen/Delivery PIN (7788) daalein:');
-    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner Mode On'); }
-    else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Staff Mode On'); }
+    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner Master Control Unlocked'); }
+    else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Staff Mode Unlocked'); }
     else if (pin !== null) toast('Galat PIN');
   }
 });
