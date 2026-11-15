@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Namaste Udala — Ghar Jaisa Khana · Daily Shop · Customer Profile</title>
+<title>Namaste Udala — Ghar Jaisa Khana · Daily Shop · Services</title>
 <meta name="theme-color" content="#113221">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -202,7 +202,7 @@ main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
   box-shadow: var(--sh-in); margin: 5px 0; outline: none;
 }
 .inp:focus { border-color: var(--o); background: var(--sf); }
-.lbl { display: block; font-size: 11px; font-weight: 800; color: var(--mu); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: .5px; }
+.lbl { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; color: var(--mu); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: .5px; }
 
 .seg { display: flex; gap: 5px; background: var(--sf2); padding: 5px; border-radius: 99px; box-shadow: var(--sh-in); margin: 5px 0; }
 .seg button { flex: 1; padding: 9px 6px; border: 0; border-radius: 99px; background: transparent; font-weight: 800; font-size: 11.5px; color: var(--mu); cursor: pointer; transition: .15s; }
@@ -325,15 +325,21 @@ nav button.on {
 nav .nl { font-size: 9.5px; }
 nav .nb { position: absolute; top: 2px; right: 14%; background: var(--o); color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff; }
 
+.pulse-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; animation: pulseAnim 1.4s infinite; }
+@keyframes pulseAnim { 50% { transform: scale(1.35); opacity: .5; } }
+
 #toast {
   position: fixed; left: 50%; bottom: 142px; transform: translateX(-50%) translateY(20px);
   background: var(--g); color: #fff; padding: 11px 18px; border-radius: 99px;
-  font-size: 13px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none; transition: .25s; text-align: center;
+  font-size: 13px; font-weight: 800; z-index: 900; opacity: 0; pointer-events: none; transition: .25s; text-align: center; max-width: 92vw;
 }
 #toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
+
+<!-- Hidden Global File Input so Screenshot Upload NEVER fails on any mobile browser -->
+<input type="file" id="proof_file" accept="image/*" style="display:none">
 
 <header>
   <div class="logo" id="mark" title="5 Tap for Owner/Staff">NU</div>
@@ -419,8 +425,22 @@ const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&mar
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
 
+function playChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [880, 1174.66, 1567.98].forEach((freq, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'triangle'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.09);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.09 + 0.35);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime + i * 0.09); o.stop(ctx.currentTime + i * 0.09 + 0.35);
+    });
+  } catch (e) {}
+}
+
 let _t;
-const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2600); };
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 2800); };
 addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== IMG.thali) e.target.src = IMG.thali; }, true);
 
 const CATS = [
@@ -485,7 +505,6 @@ const DEFAULT_CFG = {
   pl: { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } }
 };
 
-// SEED CUSTOMER PROFILES WITH ALL DETAILS
 const CUST_SEED = {
   '8073721357': {
     phone: '8073721357', name: 'Subham Rana', altPhone: '9583937047', area: 'Udala Bus Stand',
@@ -510,6 +529,8 @@ function seed() {
     rev: NOW,
     prod: SEED,
     svcList: SVC_SEED,
+    svBookings: [],
+    auto_amt: {},
     profiles: JSON.parse(JSON.stringify(CUST_SEED)),
     cfg: JSON.parse(JSON.stringify(DEFAULT_CFG)),
     subs: [
@@ -535,6 +556,8 @@ function ensureIntegrity() {
   if (!S.subs || !Array.isArray(S.subs)) S.subs = seed().subs;
   if (!S.orders || !Array.isArray(S.orders)) S.orders = seed().orders;
   if (!S.svcList || !Array.isArray(S.svcList) || !S.svcList.length) S.svcList = SVC_SEED;
+  if (!S.svBookings || !Array.isArray(S.svBookings)) S.svBookings = [];
+  S.auto_amt = S.auto_amt || {};
   S.profiles = { ...CUST_SEED, ...(S.profiles || {}) };
   S.cfg = { ...DEFAULT_CFG, ...(S.cfg || {}) };
   S.cfg.pl = S.cfg.pl || DEFAULT_CFG.pl;
@@ -544,31 +567,22 @@ function ensureIntegrity() {
 }
 ensureIntegrity();
 
-let db = null;
-try {
-  const app = initializeApp(FB); db = getDatabase(app);
-  onValue(ref(db, NODE), sn => {
-    const v = sn.val();
-    if (v && v.prod && (+v.rev || 0) > (+S.rev || 0)) {
-      S = { ...seed(), ...v };
-      ensureIntegrity();
-      render();
-    }
-  });
-} catch (e) {}
-
-function save() {
-  S.rev = Date.now();
-  try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
-  if (db) set(ref(db, NODE), S).catch(() => {});
-  render();
-}
-
 let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
-let SCAT = 'all', SQ = '', PQ = null, CART_OPEN = false, PAY_BOX = null, PAY_MODE = 'upi', PROOF_IMG = null;
+let SCAT = 'all', SQ = '', PQ = null, CART_OPEN = false, PAY_MODE = 'upi', PROOF_IMG = null, VIEW_PROOF = null, SV_BOOK = null;
 let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
+
+// Persist PAY_BOX across app-switching to PhonePe/GPay
+let PAY_BOX = null;
+try { PAY_BOX = JSON.parse(localStorage.getItem('nu_paybox')) || null; } catch (e) {}
+const setPayBox = b => {
+  PAY_BOX = b;
+  try {
+    if (b) localStorage.setItem('nu_paybox', JSON.stringify(b));
+    else localStorage.removeItem('nu_paybox');
+  } catch (e) {}
+};
 
 const F = {
   type: 'veg', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 0,
@@ -584,7 +598,6 @@ const F = {
   lng: +(localStorage.getItem('nu_lng') || 86.5675)
 };
 
-// Sync Customer Profile into Global Database
 function syncCustomerProfile() {
   localStorage.setItem('nu_n', F.name);
   localStorage.setItem('nu_p', F.phone);
@@ -615,6 +628,37 @@ function syncCustomerProfile() {
       notes: F.notes.trim()
     };
   }
+}
+
+let db = null;
+try {
+  const app = initializeApp(FB); db = getDatabase(app);
+  onValue(ref(db, NODE), sn => {
+    const v = sn.val();
+    if (v && v.prod && (+v.rev || 0) >= (+S.rev || 0)) {
+      S = { ...seed(), ...v };
+      ensureIntegrity();
+      checkAutoPaymentMatch();
+      render();
+    }
+  });
+} catch (e) {}
+
+// REAL-TIME PAYMENT AUTO-MATCHER (Matches exact paise or UTR from Firebase / Bank Webhook)
+function checkAutoPaymentMatch() {
+  if (!PAY_BOX || !S.auto_amt) return;
+  const key = Number(PAY_BOX.exactAmt).toFixed(2);
+  if (S.auto_amt[key]) {
+    delete S.auto_amt[key];
+    finalizeOrder(1, 'Auto-Matched ₹' + key, 'AUTO-' + Date.now().toString().slice(-6));
+  }
+}
+
+function save() {
+  S.rev = Date.now();
+  try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
+  if (db) set(ref(db, NODE), S).catch(() => {});
+  render();
 }
 
 const upiLink = (a, n) => 'upi://pay?pa=' + (S.cfg.upi || '9583937047@jio') + '&pn=Namaste%20Udala&cu=INR&am=' + (+a).toFixed(2) + '&tn=' + encodeURIComponent(n || 'Order');
@@ -702,11 +746,25 @@ function vPlan() {
       <button class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">2 Time (Lunch + Dinner)</button>
     </div>
 
-    <span class="lbl">3. Dopahar (Lunch) & Raat (Dinner) Choice</span>
+    <span class="lbl">3. Dopahar (Lunch) Preference</span>
     <div class="seg">
       <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Chawal</button>
       <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">4 Roti</button>
       <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹${S.cfg.bothAddon}/d)</button>
+    </div>
+
+    <span class="lbl">4. Raat (Dinner) Preference</span>
+    <div class="seg">
+      <button class="${F.dinner === 'roti' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="roti">4 Roti</button>
+      <button class="${F.dinner === 'chawal' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="chawal">Chawal</button>
+      <button class="${F.dinner === 'both' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="both">Dono (+₹${S.cfg.bothAddon}/d)</button>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 4px">
+      <span class="lbl" style="margin:0">5. Extra Roti (+₹${S.cfg.rotiAddon}/roti per day)</span>
+      <div class="qty" style="width:115px;margin:0">
+        <button data-a="er_dec">−</button><b>${F.extraRoti}</b><button data-a="er_inc">+</button>
+      </div>
     </div>
 
     ${userFormHTML()}
@@ -790,7 +848,7 @@ function vShop() {
   </div>`;
 }
 
-/* --- 3. SERVICES VIEW --- */
+/* --- 3. SERVICES VIEW (IN-APP BOOKING SAVED TO DATABASE) --- */
 function vServices() {
   return `
   <div class="hero3d terracotta">
@@ -807,14 +865,14 @@ function vServices() {
         <p style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.d)}</p>
         <div style="display:flex;justify-content:space-between;align-items:center">
           <b style="font-family:var(--serif);color:var(--o);font-size:16.5px">${inr(s.p)}<span style="font-size:11px;color:var(--mu)">${esc(s.u)}</span></b>
-          <a class="btn sm" href="https://wa.me/91${S.cfg.wa || '9583937047'}?text=${encodeURIComponent('Namaste! Mujhe ' + s.n + ' book karna hai.')}" target="_blank">Book Now</a>
+          <button class="btn sm" data-a="open_svb" data-id="${s.id}">Book Now</button>
         </div>
       </div>
     </div>
   `).join('')}`;
 }
 
-/* --- 4. COMPLETE CUSTOMER PROFILE VIEW (ALL DETAILS + HISTORY + PREFERENCES) --- */
+/* --- 4. COMPLETE CUSTOMER PROFILE VIEW --- */
 function vProfile() {
   const cleanP = ph(F.phone);
   const prof = S.profiles[cleanP] || {};
@@ -885,8 +943,9 @@ function vProfile() {
           <b>🍱 ${s.days} Din ${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} (${s.times || 3} Time/Day)</b>
           <span style="font-weight:800;font-size:11.5px;color:${s.paid ? '#16a34a' : '#dc2626'}">${s.paid ? 'PAID' : 'DUE'} · ${inr(s.price)}</span>
         </div>
-        <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">Start: ${s.start} · Lunch: ${s.lunch || 'chawal'} · Payment: ${esc(s.pMode || 'UPI')} (Ref: ${esc(s.utr)})</div>
+        <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">Start: ${s.start} · L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'} · Mode: ${esc(s.pMode || 'UPI')} (${esc(s.utr)})</div>
         <div class="btn-row">
+          ${s.proof ? `<button class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} View My Proof</button>` : ''}
           <button class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1 Day Extended)' : 'Pause Today\'s Tiffin (+1 Day Free)'}</button>
         </div>
       </div>`;
@@ -901,9 +960,12 @@ function vProfile() {
         <span style="font-weight:800;font-size:11.5px;color:${o.dlv ? '#16a34a' : 'var(--o)'}">${o.dlv ? 'Delivered ✓' : 'In Progress'}</span>
       </div>
       <div style="font-size:12px;color:var(--mu);margin:3px 0">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;gap:6px">
         <span style="font-size:11px;font-weight:700;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'Paid' : 'Pending'} · ${esc(o.pMode || 'UPI')} (${esc(o.utr)})</span>
-        <button class="btn w sm" data-a="reorder" data-id="${o.id}">↻ Reorder Items</button>
+        <div style="display:flex;gap:6px">
+          ${o.proof ? `<button class="btn w sm" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} Proof</button>` : ''}
+          <button class="btn w sm" data-a="reorder" data-id="${o.id}">↻ Reorder</button>
+        </div>
       </div>
     </div>`).join('') || '<p style="color:var(--mu);font-size:13px">Abhi tak koi shop order nahi hai.</p>'}`;
 }
@@ -936,7 +998,7 @@ function vKitchen() {
       return `<div class="row">
         <div>
           <b>${esc(s.name)} (${s.days}d ${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
-          <div style="font-size:12px;color:var(--mu)">Lunch: ${s.lunch || 'chawal'} · Spice: <b>${esc(prof.spice || 'Medium')}</b> ${prof.notes ? `· Note: "${esc(prof.notes)}"` : ''}</div>
+          <div style="font-size:12px;color:var(--mu)">L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'}${s.extraRoti ? ` (+${s.extraRoti} Roti)` : ''} · Spice: <b>${esc(prof.spice || 'Medium')}</b> ${prof.notes ? `· "${esc(prof.notes)}"` : ''}</div>
         </div>
         <span style="font-weight:800;font-size:12px;color:#16a34a">${(s.skip || []).includes(k) ? 'SKIPPED' : 'Active'}</span>
       </div>`;
@@ -1004,13 +1066,12 @@ function vRoute() {
   </div>`;
 }
 
-/* --- 7. OWNER MASTER CONTROL (WITH FULL CUSTOMER CRM & PAYMENT VERIFICATION) --- */
+/* --- 7. OWNER MASTER CONTROL (WITH LIVE AUTO-MATCH TRIGGER, PROOF MODAL & FULL CRM) --- */
 function vOwner() {
   const subs = (S.subs || []).slice().reverse();
   const ords = (S.orders || []).slice().reverse();
   const totIn = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
 
-  // Merge all customer profiles from S.profiles, S.subs, S.orders
   const allCust = { ...(S.profiles || {}) };
   subs.forEach(s => {
     const p = ph(s.phone); if (!p) return;
@@ -1023,7 +1084,7 @@ function vOwner() {
   const custList = Object.values(allCust);
 
   const ownerTabs = [
-    ['ords', 'Orders & Payments'],
+    ['ords', 'Orders & Auto-Pay'],
     ['cust', `Customers (${custList.length})`],
     ['plans', 'Plan Rates & Menu'],
     ['prod', 'Shop Products'],
@@ -1032,11 +1093,19 @@ function vOwner() {
 
   let body = '';
 
-  // TAB 1: ORDERS, TIFFINS & PAYMENT PROOFS
   if (O_TAB === 'ords') {
     body = `
+    <div class="card" style="border:2px solid #16a34a">
+      <h3><span style="display:flex;align-items:center;gap:6px"><i class="pulse-dot"></i> Instant UPI Paise Auto-Matcher</span></h3>
+      <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Jab aapke bank SMS mein exact paise (jaise <b>305.24</b>) aayein, yahan daal kar Push karein (ya SMS Webhook se auto-push hoga)—customer ki screen par 0-second mein order auto-confirm ho jayega!</p>
+      <div style="display:flex;gap:8px">
+        <input class="inp" id="wh_amt" type="number" step="0.01" placeholder="Exact ₹ Amount (e.g. 305.24)" style="flex:1;margin:0">
+        <button class="btn g sm" data-a="push_auto_amt">Auto-Verify Now</button>
+      </div>
+    </div>
+
     <div class="card">
-      <h3>Shop Orders & Payment Control (${ords.length})</h3>
+      <h3>Shop Orders & Payment Proofs (${ords.length})</h3>
       ${ords.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
           <b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
@@ -1044,7 +1113,7 @@ function vOwner() {
         </div>
         <div style="font-size:11.5px;color:var(--mu);margin:3px 0 8px">${esc(o.area)} · ${esc(o.addr)} · Ref: <b>${esc(o.utr)}</b> · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
         <div class="btn-row">
-          ${o.proof ? `<button class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} Proof</button>` : ''}
+          ${o.proof ? `<button class="btn sm g" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} View Screenshot</button>` : ''}
           <button class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Mark Unpaid' : 'Approve Paid ✓'}</button>
           <button class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
           <button class="btn sm r" data-a="o_del" data-id="${o.id}">✕</button>
@@ -1061,17 +1130,14 @@ function vOwner() {
         </div>
         <div style="font-size:11.5px;color:var(--mu);margin:3px 0 8px">${esc(s.area)} · ${esc(s.addr)} · Mode: ${esc(s.pMode || 'UPI')} (Ref: ${esc(s.utr)})</div>
         <div class="btn-row">
-          ${s.proof ? `<button class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
+          ${s.proof ? `<button class="btn sm g" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} View Screenshot</button>` : ''}
           <button class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Paid ✓' : 'Approve Paid'}</button>
           <button class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1 Day</button>
           <button class="btn sm r" data-a="s_del" data-id="${s.id}">✕</button>
         </div>
       </div>`).join('') || '<p style="color:var(--mu)">No active tiffin plans.</p>'}
     </div>`;
-  }
-
-  // TAB 2: COMPLETE CUSTOMER DIRECTORY & PROFILE EDITOR (CRM)
-  else if (O_TAB === 'cust') {
+  } else if (O_TAB === 'cust') {
     body = `
     <div class="card" id="cust_form">
       <h3>${ED_CUST ? 'Edit Customer Profile: ' + esc(ED_CUST) : 'Add / Update Customer Profile'} ${ED_CUST ? `<button class="btn w sm" data-a="cancel_edcust">Cancel</button>` : ''}</h3>
@@ -1128,10 +1194,7 @@ function vOwner() {
         </div>`;
       }).join('')}
     </div>`;
-  }
-
-  // TAB 3: EDIT PLAN RATES & MENU
-  else if (O_TAB === 'plans') {
+  } else if (O_TAB === 'plans') {
     const vp = S.cfg.pl.veg, nvp = S.cfg.pl.nv;
     body = `
     <div class="card">
@@ -1171,10 +1234,7 @@ function vOwner() {
       <input class="inp" id="m_nv" value="${esc(menu('nv'))}">
       <button class="btn g" data-a="savem">Save Live Menu</button>
     </div>`;
-  }
-
-  // TAB 4: SHOP PRODUCTS
-  else if (O_TAB === 'prod') {
+  } else if (O_TAB === 'prod') {
     body = `
     <div class="card" id="prod_form">
       <h3>${ED_P ? 'Edit Product' : 'Add New Shop Product'} ${ED_P ? `<button class="btn w sm" data-a="cancel_edp">Cancel</button>` : ''}</h3>
@@ -1209,11 +1269,16 @@ function vOwner() {
         </div>
       </div>`).join('')}
     </div>`;
-  }
-
-  // TAB 5: SERVICES & UPI SETTINGS
-  else {
+  } else {
     body = `
+    <div class="card">
+      <h3>Service Bookings Received (${(S.svBookings || []).length})</h3>
+      ${(S.svBookings || []).slice().reverse().map(b => `<div class="row">
+        <div><b>${esc(b.svName)} — ${esc(b.name)} (${esc(b.phone)})</b><div style="font-size:11.5px;color:var(--mu)">Date: ${esc(b.date)} · Area: ${esc(b.area)} · Note: ${esc(b.note || '-')}</div></div>
+        <a class="btn sm g" href="tel:+91${esc(b.phone)}">Call</a>
+      </div>`).join('') || '<p style="color:var(--mu);font-size:13px">No service bookings yet.</p>'}
+    </div>
+
     <div class="card" id="svc_form">
       <h3>${ED_SV ? 'Edit Service' : 'Add New Service'} ${ED_SV ? `<button class="btn w sm" data-a="cancel_edsv">Cancel</button>` : ''}</h3>
       <input class="inp" id="es_n" placeholder="Service Title (e.g. Home Tuition)">
@@ -1266,20 +1331,48 @@ function vOwner() {
   ${body}`;
 }
 
-/* --- MODALS: COMPLETE SMART PAYMENT HUB, POPUP CART & DISH VIEW --- */
+/* --- MODALS: SCREENSHOT VIEWER, SERVICE BOOKING, PAYMENT HUB, CART & DISH VIEW --- */
 function sheet() {
-  // UPGRADED 3-WAY SMART PAYMENT HUB (UPI QR + SCREENSHOT PROOF + PAY ON DELIVERY)
+  // 1. IN-APP SCREENSHOT PROOF VIEWER MODAL (Never blocked by mobile browsers)
+  if (VIEW_PROOF) {
+    return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <b>📸 Uploaded Payment Proof</b>
+        <button class="btn w sm" data-a="close_proof">Close</button>
+      </div>
+      <img src="${VIEW_PROOF}" style="max-width:100%;max-height:68vh;margin:0 auto;border-radius:16px;border:2px solid var(--ln)">
+    </div></div>`;
+  }
+
+  // 2. IN-APP SERVICE BOOKING MODAL
+  if (SV_BOOK) {
+    const s = (S.svcList || []).find(x => x.id === SV_BOOK); if (!s) return '';
+    return `<div class="ov" data-a="close_bg"><div class="sh">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3 style="font-family:var(--serif)">Book ${esc(s.n)}</h3>
+        <button class="btn w sm" data-a="close">Close</button>
+      </div>
+      <div style="font-size:18px;font-weight:800;color:var(--o);margin-bottom:8px">${inr(s.p)}${esc(s.u)}</div>
+      <span class="lbl">Preferred Start / Event Date</span>
+      <input class="inp" id="sv_date" type="date" value="${iso(addD(D0(), 1))}">
+      <input class="inp" id="sv_note" placeholder="Timing / Batch / Event Details">
+      ${userFormHTML()}
+      <button class="btn g" data-a="confirm_svb">Confirm Service Booking ✓</button>
+    </div></div>`;
+  }
+
+  // 3. FIXED & UPGRADED SMART PAYMENT HUB (Auto-Match + Working Screenshot Upload + Doorstep)
   if (PAY_BOX) {
     const g = PAY_BOX, uLink = upiLink(g.exactAmt, g.title);
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <b style="color:var(--g2);font-size:12.5px">🔒 SMART PAYMENT CHECKOUT</b>
-        <button class="btn w sm" data-a="close">Back</button>
+        <span style="display:flex;align-items:center;gap:6px;color:var(--g2);font-size:12px;font-weight:800"><i class="pulse-dot"></i> AUTO-MATCH PAYMENT HUB</span>
+        <button class="btn w sm" data-a="cancel_pay">Cancel</button>
       </div>
       <h2 style="font-family:var(--serif);font-size:19px;font-weight:800;text-align:center">${esc(g.title)}</h2>
 
       <div class="seg" style="margin:10px 0">
-        <button class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. Scan QR / UPI</button>
+        <button class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. QR / Auto-Pay</button>
         <button class="${PAY_MODE === 'proof' ? 'on' : ''}" data-a="pmode" data-v="proof">2. Screenshot</button>
         <button class="${PAY_MODE === 'cod' ? 'on' : ''}" data-a="pmode" data-v="cod">3. Pay at Door</button>
       </div>
@@ -1287,28 +1380,32 @@ function sheet() {
       ${PAY_MODE === 'upi' ? `
         <div style="text-align:center">
           <div style="font-family:var(--serif);font-size:26px;font-weight:800;color:var(--o)">${inr(g.exactAmt)}</div>
-          <div style="font-size:11px;color:var(--mu)">Unique Auto-Match Amount (Includes paise for instant verification)</div>
+          <div style="font-size:11px;color:var(--g2);font-weight:800">⚡ Listening for ${inr(g.exactAmt)} (Auto-confirms on Bank SMS)</div>
           <div style="background:#fff;padding:12px;border-radius:18px;width:fit-content;margin:8px auto;border:2px solid var(--ln)">
-            <img src="${qrUrl(uLink)}" style="width:160px;height:160px" alt="QR">
+            <img src="${qrUrl(uLink)}" style="width:158px;height:158px" alt="QR">
             <div style="font-size:11px;color:#16241c;font-weight:800;margin-top:4px">UPI ID: ${esc(S.cfg.upi)}</div>
           </div>
           <div class="btn-row">
             <button class="btn w sm" data-a="copy_upi">Copy UPI ID</button>
             <button class="btn w sm" data-a="copy_amt">Copy ${inr(g.exactAmt)}</button>
           </div>
-          <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="Enter Last 4 Digits of UPI Ref (e.g. 4821)" style="margin-top:10px">
-          <button class="btn g" data-a="confirm_paid">Verify UPI & Confirm Order ✓</button>
+          <span class="lbl" style="margin-top:10px">Or Enter Last 4 Digits of UPI Ref OR Attach Screenshot:</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="Last 4 Digits (e.g. 4821)" style="flex:1;margin:0">
+            <button class="btn w sm" data-a="pick_proof">${IC.cam} ${PROOF_IMG ? 'Attached ✓' : 'Photo'}</button>
+          </div>
+          ${PROOF_IMG ? `<img src="${PROOF_IMG}" style="max-height:85px;margin:8px auto;border-radius:10px;border:1px solid var(--ln)">` : ''}
+          <button class="btn g" data-a="confirm_paid">Verify & Confirm Order ✓</button>
         </div>
       ` : PAY_MODE === 'proof' ? `
-        <div style="text-align:center;padding:8px 0">
-          <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:6px">${inr(g.amt)}</div>
-          <p style="font-size:12px;color:var(--mu);margin-bottom:10px">PhonePe / GPay se payment karke uska Screenshot yahan upload karein:</p>
-          <label class="btn w" style="cursor:pointer;margin-bottom:10px">
-            ${IC.cam} <span>${PROOF_IMG ? 'Screenshot Attached ✓' : 'Select Payment Screenshot'}</span>
-            <input type="file" id="proof_file" accept="image/*" style="display:none">
-          </label>
-          ${PROOF_IMG ? `<img src="${PROOF_IMG}" style="max-height:110px;margin:6px auto;border-radius:10px;border:1px solid var(--ln)">` : ''}
-          <input class="inp" id="utr_inp" placeholder="Optional: Note or Ref No.">
+        <div style="text-align:center;padding:6px 0">
+          <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:4px">${inr(g.exactAmt)}</div>
+          <p style="font-size:12px;color:var(--mu);margin-bottom:10px">PhonePe / GPay se payment karke neeche button daba kar Screenshot chunein:</p>
+          <button class="btn w" data-a="pick_proof" style="margin-bottom:10px">
+            ${IC.cam} <span>${PROOF_IMG ? 'Change Payment Screenshot ✓' : 'Tap to Upload Payment Screenshot'}</span>
+          </button>
+          ${PROOF_IMG ? `<img src="${PROOF_IMG}" style="max-height:140px;margin:8px auto;border-radius:12px;border:2px solid #16a34a">` : ''}
+          <input class="inp" id="utr_inp" placeholder="Optional: UPI Ref / Note">
           <button class="btn g" data-a="confirm_paid">Submit Screenshot & Confirm Order ✓</button>
         </div>
       ` : `
@@ -1411,22 +1508,78 @@ function checkUser() {
   return true;
 }
 
+// Unified Order & Subscription Finalizer (Used by both Manual & Instant Auto-Match)
+function finalizeOrder(isPaid, modeLabel, refNo) {
+  if (!PAY_BOX) return;
+  const finalPrice = PAY_MODE === 'cod' ? PAY_BOX.amt : PAY_BOX.exactAmt;
+  syncCustomerProfile();
+
+  if (PAY_BOX.kind === 'sub') {
+    const id = uid('s');
+    S.subs.push({
+      id, ts: Date.now(), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+      lat: F.lat, lng: F.lng, type: F.type, days: PAY_BOX.days, times: F.times, lunch: F.lunch, dinner: F.dinner, extraRoti: F.extraRoti,
+      start: iso(D0()), price: finalPrice, paid: isPaid, pMode: modeLabel, utr: refNo, proof: PROOF_IMG || '', skip: []
+    });
+    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
+    setPayBox(null); PROOF_IMG = null; playChime(); save();
+    toast('🎉 Tiffin Plan Confirmed! (' + modeLabel + ')');
+  } else {
+    const items = [];
+    Object.entries(C).forEach(([k, q]) => {
+      const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return;
+      const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+      items.push({ n: p.n + (isH ? ' (Half)' : ''), q, p: pr });
+    });
+    const id = uid('o');
+    S.orders.push({
+      id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+      lat: F.lat, lng: F.lng, items, total: finalPrice, paid: isPaid, dlv: 0, pMode: modeLabel, utr: refNo, proof: PROOF_IMG || ''
+    });
+    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
+    C = {}; localStorage.setItem('nu5c', '{}');
+    setPayBox(null); PROOF_IMG = null; playChime(); save();
+    toast('🎉 Order Confirmed! (' + modeLabel + ')');
+  }
+}
+
 const A = {
-  tab: v => { tab = v; PQ = null; CART_OPEN = false; PAY_BOX = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
+  tab: v => { tab = v; PQ = null; CART_OPEN = false; SV_BOOK = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
   otab: v => { O_TAB = v; ED_P = null; ED_SV = null; ED_CUST = null; render(); },
   pmode: v => { PAY_MODE = v; render(); },
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
+  er_inc: () => { F.extraRoti = Math.min(10, (+F.extraRoti || 0) + 1); render(); },
+  er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
   set_area: v => { F.area = v; syncCustomerProfile(); render(); },
   cat: v => { SCAT = v; render(); },
   pq: (v, k, id) => { PQ = +id; render(); },
   open_cart: () => { PQ = null; CART_OPEN = true; render(); },
   add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; localStorage.setItem('nu5c', JSON.stringify(C)); PQ = null; CART_OPEN = true; render(); },
-  close: () => { PQ = null; CART_OPEN = false; PAY_BOX = null; PROOF_IMG = null; render(); },
-  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = null; CART_OPEN = false; PAY_BOX = null; PROOF_IMG = null; render(); } },
+  close: () => { PQ = null; CART_OPEN = false; SV_BOOK = null; render(); },
+  cancel_pay: () => { setPayBox(null); PROOF_IMG = null; render(); },
+  close_proof: () => { VIEW_PROOF = null; render(); },
+  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = null; CART_OPEN = false; SV_BOOK = null; VIEW_PROOF = null; render(); } },
   inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   ih: (v, k, id) => { C[id + 'h'] = (C[id + 'h'] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   dh: (v, k, id) => { C[id + 'h'] = Math.max(0, (C[id + 'h'] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+
+  // Dedicated File Picker Trigger (Fixes label click bug!)
+  pick_proof: () => {
+    const inp = $('#proof_file');
+    if (inp) { inp.value = ''; inp.click(); }
+  },
+
+  open_svb: (v, k, id) => { SV_BOOK = id; render(); },
+  confirm_svb: () => {
+    const s = (S.svcList || []).find(x => x.id === SV_BOOK);
+    if (!s || !checkUser()) return;
+    S.svBookings.push({
+      id: uid('sb'), svName: s.n, price: s.p, date: $('#sv_date').value,
+      note: $('#sv_note').value.trim(), name: F.name.trim(), phone: ph(F.phone), area: F.area
+    });
+    SV_BOOK = null; playChime(); save(); toast('Service Booking Saved! Hum aapko call karenge.');
+  },
 
   save_prof: () => {
     if (!checkUser()) return;
@@ -1440,7 +1593,7 @@ const A = {
       if (p && p.s) C[p.id] = (C[p.id] || 0) + i.q;
     });
     localStorage.setItem('nu5c', JSON.stringify(C));
-    CART_OPEN = true; render(); toast('Items Cart MeinJud Gaye!');
+    CART_OPEN = true; render(); toast('Items Cart Mein Jud Gaye!');
   },
 
   cust_skip: (v, k, id) => {
@@ -1466,7 +1619,7 @@ const A = {
     const base = tierPrice(+F.days);
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null;
-    PAY_BOX = { kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: +F.days, title: `${F.days} Din Tiffin (${F.times} Time)` };
+    setPayBox({ kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: +F.days, title: `${F.days} Din Tiffin (${F.times} Time)` });
     render();
   },
   pay_trial: () => {
@@ -1474,7 +1627,7 @@ const A = {
     const base = +S.cfg.trialPrice || 49;
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null;
-    PAY_BOX = { kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` };
+    setPayBox({ kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` });
     render();
   },
   pay_ord: () => {
@@ -1483,57 +1636,46 @@ const A = {
     const base = ct();
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null;
-    PAY_BOX = { kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)` };
+    setPayBox({ kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)` });
     render();
   },
 
   copy_upi: () => { navigator.clipboard.writeText(S.cfg.upi || '9583937047@jio').catch(() => {}); toast('UPI ID Copied!'); },
-  copy_amt: () => { if (PAY_BOX) { navigator.clipboard.writeText(String(PAY_BOX.exactAmt)).catch(() => {}); toast('Exact Amount Copied: ₹' + PAY_BOX.exactAmt); } },
+  copy_amt: () => { if (PAY_BOX) { navigator.clipboard.writeText(Number(PAY_BOX.exactAmt).toFixed(2)).catch(() => {}); toast('Exact Amount Copied: ₹' + Number(PAY_BOX.exactAmt).toFixed(2)); } },
 
   confirm_paid: () => {
     if (!PAY_BOX) return;
     const rawRef = ($('#utr_inp') ? $('#utr_inp').value.trim() : '');
-    if (PAY_MODE === 'upi' && rawRef.length < 4) { toast('UPI Ref ke last 4 digits daalein (ya Screenshot/Pay at Door chunein)'); return; }
-    if (PAY_MODE === 'proof' && !PROOF_IMG && rawRef.length < 4) { toast('Payment Screenshot select karein'); return; }
+    if (PAY_MODE === 'upi' && !PROOF_IMG && rawRef.length < 4) {
+      toast('Last 4-digit UPI Ref daalein ya Screenshot upload karein!');
+      return;
+    }
+    if (PAY_MODE === 'proof' && !PROOF_IMG) {
+      toast('Pehle Payment Screenshot select karein!');
+      return;
+    }
 
     const isPaid = PAY_MODE === 'cod' ? 0 : 1;
-    const modeLabel = PAY_MODE === 'upi' ? 'UPI Verified' : PAY_MODE === 'proof' ? 'Screenshot Proof' : 'Pay on Delivery';
-    const refNo = rawRef || (PAY_MODE === 'cod' ? 'Doorstep Due' : 'Screenshot');
-    const finalPrice = PAY_MODE === 'upi' ? PAY_BOX.exactAmt : PAY_BOX.amt;
+    const modeLabel = PROOF_IMG ? 'Screenshot Verified' : PAY_MODE === 'upi' ? 'UPI Ref Verified' : 'Pay on Delivery';
+    const refNo = rawRef || (PROOF_IMG ? 'Screenshot' : 'Doorstep Due');
+    finalizeOrder(isPaid, modeLabel, refNo);
+  },
 
-    syncCustomerProfile();
-
-    if (PAY_BOX.kind === 'sub') {
-      const id = uid('s');
-      S.subs.push({
-        id, ts: Date.now(), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
-        lat: F.lat, lng: F.lng, type: F.type, days: PAY_BOX.days, times: F.times, lunch: F.lunch, dinner: F.dinner,
-        start: iso(D0()), price: finalPrice, paid: isPaid, pMode: modeLabel, utr: refNo, proof: PROOF_IMG || '', skip: []
-      });
-      MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-      PAY_BOX = null; PROOF_IMG = null; save(); toast('Tiffin Plan Book Ho Gaya!');
-    } else {
-      const items = [];
-      Object.entries(C).forEach(([k, q]) => {
-        const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return;
-        const isH = k.endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
-        items.push({ n: p.n + (isH ? ' (Half)' : ''), q, p: pr });
-      });
-      const id = uid('o');
-      S.orders.push({
-        id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
-        lat: F.lat, lng: F.lng, items, total: finalPrice, paid: isPaid, dlv: 0, pMode: modeLabel, utr: refNo, proof: PROOF_IMG || ''
-      });
-      MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-      C = {}; localStorage.setItem('nu5c', '{}');
-      PAY_BOX = null; PROOF_IMG = null; save(); toast('Order Confirm Ho Gaya!');
-    }
+  push_auto_amt: () => {
+    const val = +($('#wh_amt') ? $('#wh_amt').value : 0);
+    if (!(val > 0)) { toast('Valid exact amount daalein (e.g. 305.24)'); return; }
+    const key = val.toFixed(2);
+    S.auto_amt[key] = 1;
+    checkAutoPaymentMatch();
+    save();
+    toast('₹' + key + ' pushed to Live Auto-Matcher!');
   },
 
   view_proof: (v, k, id) => {
     const item = (k === 'sub' ? S.subs : S.orders).find(x => x.id === id);
     if (!item || !item.proof) { toast('No screenshot attached'); return; }
-    const w = window.open(''); if (w) w.document.write(`<title>Payment Proof</title><img src="${item.proof}" style="max-width:100%;border-radius:12px">`);
+    VIEW_PROOF = item.proof;
+    render();
   },
 
   // OWNER FULL CONTROL ACTIONS
@@ -1546,7 +1688,6 @@ const A = {
   s_del: (v, k, id) => { if (!confirm('Delete this tiffin subscription?')) return; S.subs = S.subs.filter(x => x.id !== id); save(); toast('Subscription Deleted'); },
   sdone: (v, k, id) => { const key = iso(D0()) + '_' + id; S.done[key] = S.done[key] ? 0 : 1; save(); toast('Tiffin Status Updated ✓'); },
 
-  // OWNER CUSTOMER CRM EDIT / DELETE
   edit_cust: (v, k, id) => {
     ED_CUST = id;
     const c = S.profiles[id] || {};
@@ -1672,23 +1813,27 @@ document.addEventListener('click', e => {
   const f = A[b.dataset.a]; if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id, e); }
 });
 
-document.addEventListener('change', e => {
-  if (e.target && e.target.id === 'proof_file' && e.target.files[0]) {
-    const r = new FileReader();
-    r.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        const c = document.createElement('canvas'), max = 480;
-        const sc = Math.min(1, max / Math.max(img.width, img.height));
-        c.width = img.width * sc; c.height = img.height * sc;
-        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        PROOF_IMG = c.toDataURL('image/jpeg', 0.65);
-        render(); toast('Payment Screenshot Attached ✓');
-      };
-      img.src = ev.target.result;
+// Global File Input Listener for Screenshot Proof
+$('#proof_file').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  toast('Processing screenshot...');
+  const r = new FileReader();
+  r.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas'), max = 360;
+      const sc = Math.min(1, max / Math.max(img.width, img.height));
+      c.width = Math.round(img.width * sc);
+      c.height = Math.round(img.height * sc);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      PROOF_IMG = c.toDataURL('image/jpeg', 0.6);
+      render();
+      toast('Payment Screenshot Attached ✓');
     };
-    r.readAsDataURL(e.target.files[0]);
-  }
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(file);
 });
 
 document.addEventListener('input', e => {
