@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Namaste Udala — Ghar Jaisa Khana · Daily Shop · Services</title>
+<title>Namaste Udala — Ghar Jaisa Khana · Daily Shop · Customer Profile</title>
 <meta name="theme-color" content="#113221">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,10 +48,10 @@ body {
   color: var(--ink); padding-bottom: 150px; min-height: 100vh;
 }
 img { display: block; object-fit: cover; }
-button, input, select { font: inherit; color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
 svg.ic { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; fill: none; flex: none; }
 
-/* Agrumea Artisanal Header */
+/* Artisanal Header */
 header {
   position: sticky; top: 0; z-index: 60;
   background: linear-gradient(145deg, #163f2a, #0b2216);
@@ -70,7 +70,7 @@ header {
 .brand small { display: block; color: #fbbf24; font-size: 9px; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; }
 .brand h1 { font-family: var(--serif); font-size: 19px; font-weight: 800; letter-spacing: -.3px; }
 
-/* Agrumea Infinite Marquee Ticker */
+/* Infinite Marquee Ticker */
 .marquee {
   background: #e9dfc8; color: #163f2a; overflow: hidden; white-space: nowrap;
   padding: 7px 0; border-bottom: 1px solid var(--ln); font-size: 10.5px; font-weight: 800; letter-spacing: 1.4px;
@@ -81,7 +81,7 @@ header {
 
 main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
 
-/* Agrumea Editorial Hero Showcase */
+/* Hero Showcase */
 .hero3d {
   position: relative; border-radius: 28px; padding: 22px 20px; margin-bottom: 18px; color: #fffdf8;
   background: linear-gradient(132deg, #113221 0%, #1d4d34 58%, #2a6a48 100%);
@@ -123,7 +123,7 @@ main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
   100% { transform: translateY(-70px) scale(2.5) translateX(10px); opacity: 0; }
 }
 
-/* FRONT FOCUS: MONTHLY / 15-DAY / 7-DAY ARTISANAL PLAN CARDS */
+/* FRONT FOCUS: MONTHLY / 15-DAY / 7-DAY PLAN CARDS */
 .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 18px; }
 .p-tier {
   position: relative; border-radius: 22px; padding: 16px 8px 13px; text-align: center;
@@ -161,6 +161,24 @@ main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
 .kpi div { background: var(--sf); border: 1px solid var(--ln); border-radius: 18px; padding: 11px 6px; text-align: center; box-shadow: var(--sh-card); }
 .kpi b { font-family: var(--serif); display: block; font-size: 18px; font-weight: 800; color: var(--o); }
 .kpi span { font-size: 10px; font-weight: 800; color: var(--mu); text-transform: uppercase; }
+
+/* Customer Avatar & Profile Header */
+.prof-head {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: linear-gradient(135deg, #163f2a, #0b2216); color: #fff;
+  border-radius: 24px; margin-bottom: 16px; box-shadow: 0 12px 26px rgba(17,50,33,0.3);
+}
+.prof-av {
+  width: 62px; height: 62px; border-radius: 50%;
+  background: linear-gradient(145deg, #f06434, #c43c10);
+  display: grid; place-items: center; font-family: var(--serif); font-size: 24px; font-weight: 800;
+  border: 3px solid rgba(255,255,255,0.85); flex: none;
+}
+.prof-badge {
+  display: inline-block; background: rgba(251,191,36,0.2); color: #fbbf24;
+  padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 800; margin-top: 4px;
+  border: 1px solid rgba(251,191,36,0.4);
+}
 
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -210,7 +228,7 @@ main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
 .area-chips span { flex: none; padding: 6px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; background: var(--sf2); border: 1px solid var(--ln); color: var(--mu); cursor: pointer; }
 .area-chips span.on { background: var(--o); color: #fff; border-color: var(--o); }
 
-/* Agrumea Pedestal Product Showcase Grid */
+/* Product Showcase Grid */
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px; margin-bottom: 18px; }
 .pcard {
   background: linear-gradient(180deg, var(--sf), var(--sf2));
@@ -245,7 +263,7 @@ main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
 /* Modals */
 .ov { position: fixed; inset: 0; z-index: 200; background: rgba(11,22,16,0.82); backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center; }
 .sh {
-  background: var(--sf); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+  background: var(--sf); width: 100%; max-width: 510px; max-height: 92vh; overflow-y: auto;
   border-radius: 30px 30px 0 0; padding: 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.45);
   animation: slideUp .24s ease-out;
 }
@@ -289,14 +307,14 @@ main { padding: 16px 14px 0; max-width: 650px; margin: 0 auto; }
 }
 
 nav {
-  position: fixed; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom));
-  z-index: 80; max-width: 620px; margin: 0 auto;
+  position: fixed; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom));
+  z-index: 80; max-width: 640px; margin: 0 auto;
   background: var(--sf); border: 1px solid var(--ln); border-radius: 99px;
-  display: flex; gap: 6px; padding: 6px 10px;
+  display: flex; gap: 4px; padding: 6px 8px;
   box-shadow: 0 7px 0 rgba(22,36,28,0.1), 0 18px 38px rgba(22,36,28,0.22);
 }
 nav button {
-  flex: 1; border: 0; background: transparent; border-radius: 99px; padding: 8px 4px;
+  flex: 1; border: 0; background: transparent; border-radius: 99px; padding: 8px 2px;
   cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
   color: var(--mu); font-weight: 800; position: relative; transition: .15s;
 }
@@ -304,8 +322,8 @@ nav button.on {
   background: var(--g); color: #fbbf24;
   box-shadow: 0 4px 10px rgba(17,50,33,0.35); transform: translateY(-2px);
 }
-nav .nl { font-size: 10px; }
-nav .nb { position: absolute; top: 2px; right: 18%; background: var(--o); color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff; }
+nav .nl { font-size: 9.5px; }
+nav .nb { position: absolute; top: 2px; right: 14%; background: var(--o); color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 99px; border: 1.5px solid #fff; }
 
 #toast {
   position: fixed; left: 50%; bottom: 142px; transform: translateX(-50%) translateY(20px);
@@ -359,10 +377,12 @@ const IC = {
   tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/></svg>`,
   shop: `<svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L23 7H6"/></svg>`,
   svc: `<svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  user: `<svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
   kitchen: `<svg class="ic" viewBox="0 0 24 24"><path d="M12 2c1.5 2.5 2 4.5 0 7-2-2.5-1.5-4.5 0-7z"/><path d="M4 13h16v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-5z"/><path d="M2 13h20"/></svg>`,
   route: `<svg class="ic" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l3 6v5.5h-2"/><path d="M12 17.5H9v-7h6v7z"/></svg>`,
   owner: `<svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
-  gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`
+  gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`,
+  cam: `<svg class="ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`
 };
 
 const IMG = {
@@ -392,7 +412,7 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const D0 = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
-const inr = n => '₹' + Math.round(+n || 0).toLocaleString('en-IN');
+const inr = n => '₹' + (+n || 0).toLocaleString('en-IN', { minimumFractionDigits: (+n % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 });
 const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
 const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
 const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
@@ -465,21 +485,41 @@ const DEFAULT_CFG = {
   pl: { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } }
 };
 
+// SEED CUSTOMER PROFILES WITH ALL DETAILS
+const CUST_SEED = {
+  '8073721357': {
+    phone: '8073721357', name: 'Subham Rana', altPhone: '9583937047', area: 'Udala Bus Stand',
+    addr: 'Near Bus Stand, Main Road, Udala', lat: 21.5732, lng: 86.5675,
+    diet: 'veg', spice: 'Medium', family: 3, notes: 'Prefers गरम रोटी in dinner', dues: 0, joined: '2026-10-01'
+  },
+  '9437012345': {
+    phone: '9437012345', name: 'Priyanka Das', altPhone: '', area: 'Bhanjpur',
+    addr: 'Ward 4, Near Temple, Bhanjpur', lat: 21.5810, lng: 86.5720,
+    diet: 'nv', spice: 'Spicy', family: 2, notes: 'Extra gravy in chicken', dues: 0, joined: '2026-10-12'
+  },
+  '9937055555': {
+    phone: '9937055555', name: 'Anita Sahoo', altPhone: '', area: 'Market Square',
+    addr: 'Shop No 12, Market Square, Udala', lat: 21.5718, lng: 86.5648,
+    diet: 'veg', spice: 'Low', family: 4, notes: 'Less oil in sabzi', dues: 560, joined: '2026-10-20'
+  }
+};
+
 const NOW = Date.now();
 function seed() {
   return {
     rev: NOW,
     prod: SEED,
     svcList: SVC_SEED,
+    profiles: JSON.parse(JSON.stringify(CUST_SEED)),
     cfg: JSON.parse(JSON.stringify(DEFAULT_CFG)),
     subs: [
-      { id: 's1', ts: NOW - 5 * 864e5, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, times: 3, start: iso(addD(D0(), -5)), price: 2899, paid: 1, utr: '402312345678', lunch: 'chawal', dinner: 'roti', extraRoti: 0 },
-      { id: 's2', ts: NOW - 3 * 864e5, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, times: 3, start: iso(addD(D0(), -3)), price: 1849, paid: 1, utr: '402398765432', lunch: 'both', dinner: 'roti', extraRoti: 1 }
+      { id: 's1', ts: NOW - 5 * 864e5, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, times: 3, start: iso(addD(D0(), -5)), price: 2899, paid: 1, pMode: 'UPI Verified', utr: '402312345678', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] },
+      { id: 's2', ts: NOW - 3 * 864e5, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, times: 3, start: iso(addD(D0(), -3)), price: 1849, paid: 1, pMode: 'UPI Verified', utr: '402398765432', lunch: 'both', dinner: 'roti', extraRoti: 1, skip: [] }
     ],
     orders: [
-      { id: 'o1', ts: NOW - 3 * 36e5, date: iso(D0()), name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ n: 'Atta 5 kg', q: 1, p: 245 }, { n: 'Doodh 500 ml', q: 2, p: 30 }], total: 305, paid: 1, dlv: 0, utr: '402311112222' },
-      { id: 'o2', ts: NOW - 26 * 36e5, date: iso(addD(D0(), -1)), name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ n: 'Chicken curry 500g', q: 1, p: 260 }, { n: 'Roti (10)', q: 1, p: 50 }], total: 310, paid: 1, dlv: 1, utr: '402333334444' },
-      { id: 'o3', ts: NOW - 40 * 6e4, date: iso(D0()), name: 'Anita Sahoo', phone: '9937055555', area: 'Market Square', addr: 'Market Square', items: [{ n: 'Paneer sabzi', q: 2, p: 110 }, { n: 'Chawal 5 kg', q: 1, p: 340 }], total: 560, paid: 0, dlv: 0, utr: 'Pending' }
+      { id: 'o1', ts: NOW - 3 * 36e5, date: iso(D0()), name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ n: 'Atta 5 kg', q: 1, p: 245 }, { n: 'Doodh 500 ml', q: 2, p: 30 }], total: 305, paid: 1, dlv: 0, pMode: 'UPI Verified', utr: '402311112222' },
+      { id: 'o2', ts: NOW - 26 * 36e5, date: iso(addD(D0(), -1)), name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ n: 'Chicken curry 500g', q: 1, p: 260 }, { n: 'Roti (10)', q: 1, p: 50 }], total: 310, paid: 1, dlv: 1, pMode: 'UPI Verified', utr: '402333334444' },
+      { id: 'o3', ts: NOW - 40 * 6e4, date: iso(D0()), name: 'Anita Sahoo', phone: '9937055555', area: 'Market Square', addr: 'Market Square', items: [{ n: 'Paneer sabzi', q: 2, p: 110 }, { n: 'Chawal 5 kg', q: 1, p: 340 }], total: 560, paid: 0, dlv: 0, pMode: 'Pay on Delivery', utr: 'Doorstep Due' }
     ],
     done: {}, mset: {}
   };
@@ -495,6 +535,7 @@ function ensureIntegrity() {
   if (!S.subs || !Array.isArray(S.subs)) S.subs = seed().subs;
   if (!S.orders || !Array.isArray(S.orders)) S.orders = seed().orders;
   if (!S.svcList || !Array.isArray(S.svcList) || !S.svcList.length) S.svcList = SVC_SEED;
+  S.profiles = { ...CUST_SEED, ...(S.profiles || {}) };
   S.cfg = { ...DEFAULT_CFG, ...(S.cfg || {}) };
   S.cfg.pl = S.cfg.pl || DEFAULT_CFG.pl;
   S.cfg.pl.veg = { ...DEFAULT_CFG.pl.veg, ...(S.cfg.pl.veg || {}) };
@@ -524,8 +565,8 @@ function save() {
 }
 
 let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
-let SCAT = 'all', SQ = '', PQ = null, CART_OPEN = false, PAY_BOX = null;
-let O_TAB = 'ords', ED_P = null, ED_SV = null;
+let SCAT = 'all', SQ = '', PQ = null, CART_OPEN = false, PAY_BOX = null, PAY_MODE = 'upi', PROOF_IMG = null;
+let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
 
@@ -534,19 +575,49 @@ const F = {
   area: localStorage.getItem('nu_area') || 'Udala Bus Stand',
   name: localStorage.getItem('nu_n') || 'Subham Rana',
   phone: localStorage.getItem('nu_p') || '8073721357',
-  addr: localStorage.getItem('nu_a') || 'Near Bus Stand',
-  lat: +(localStorage.getItem('nu_lat') || 0),
-  lng: +(localStorage.getItem('nu_lng') || 0)
+  altPhone: localStorage.getItem('nu_altp') || '',
+  addr: localStorage.getItem('nu_a') || 'Near Bus Stand, Main Road, Udala',
+  spice: localStorage.getItem('nu_spice') || 'Medium',
+  family: +(localStorage.getItem('nu_fam') || 3),
+  notes: localStorage.getItem('nu_notes') || '',
+  lat: +(localStorage.getItem('nu_lat') || 21.5732),
+  lng: +(localStorage.getItem('nu_lng') || 86.5675)
 };
 
-const saveUser = () => {
-  localStorage.setItem('nu_n', F.name); localStorage.setItem('nu_p', F.phone);
-  localStorage.setItem('nu_a', F.addr); localStorage.setItem('nu_area', F.area);
+// Sync Customer Profile into Global Database
+function syncCustomerProfile() {
+  localStorage.setItem('nu_n', F.name);
+  localStorage.setItem('nu_p', F.phone);
+  localStorage.setItem('nu_altp', F.altPhone);
+  localStorage.setItem('nu_a', F.addr);
+  localStorage.setItem('nu_area', F.area);
+  localStorage.setItem('nu_spice', F.spice);
+  localStorage.setItem('nu_fam', F.family);
+  localStorage.setItem('nu_notes', F.notes);
   if (F.lat) localStorage.setItem('nu_lat', F.lat);
   if (F.lng) localStorage.setItem('nu_lng', F.lng);
-};
 
-const upiLink = (a, n) => 'upi://pay?pa=' + (S.cfg.upi || '9583937047@jio') + '&pn=Namaste%20Udala&cu=INR&am=' + Math.round(a) + '&tn=' + encodeURIComponent(n || 'Order');
+  const cleanP = ph(F.phone);
+  if (cleanP.length === 10) {
+    const existing = S.profiles[cleanP] || { joined: iso(D0()), dues: 0 };
+    S.profiles[cleanP] = {
+      ...existing,
+      phone: cleanP,
+      name: F.name.trim(),
+      altPhone: ph(F.altPhone),
+      area: F.area,
+      addr: F.addr.trim(),
+      lat: F.lat,
+      lng: F.lng,
+      diet: F.type,
+      spice: F.spice,
+      family: +F.family || 1,
+      notes: F.notes.trim()
+    };
+  }
+}
+
+const upiLink = (a, n) => 'upi://pay?pa=' + (S.cfg.upi || '9583937047@jio') + '&pn=Namaste%20Udala&cu=INR&am=' + (+a).toFixed(2) + '&tn=' + encodeURIComponent(n || 'Order');
 const cc = () => Object.values(C).reduce((a, b) => a + (+b || 0), 0);
 const subTot = () => Object.entries(C).reduce((a, [k, q]) => {
   const p = S.prod.find(x => x.id === parseInt(k)); if (!p || q < 1) return a;
@@ -576,7 +647,7 @@ function userFormHTML() {
   return `
   <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
     <button class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'GPS Location Saved' : 'Detect My GPS'}</button>
-    <span style="font-size:11px;color:var(--mu)">${F.lat ? 'Exact Doorstep Pin Set' : '1-Tap Fast Delivery'}</span>
+    <span style="font-size:11px;color:var(--mu)">${F.lat ? `${F.lat.toFixed(4)}, ${F.lng.toFixed(4)}` : '1-Tap Fast Delivery'}</span>
   </div>
   <div class="area-chips">
     ${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}
@@ -589,7 +660,6 @@ function userFormHTML() {
 /* --- 1. FRONT MAIN FOCUS: MONTHLY (30d), 15-DAY & 7-DAY TIFFIN PLANS --- */
 function vPlan() {
   const pr = tierPrice(+F.days);
-  const myOrds = (S.orders || []).filter(o => MY.includes(o.id) || (F.phone && o.phone === ph(F.phone))).slice().reverse();
   const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (F.phone && s.phone === ph(F.phone))).slice().reverse();
 
   return `
@@ -666,21 +736,17 @@ function vPlan() {
     </div>
   </div>
 
-  ${(mySubs.length || myOrds.length) ? `
+  ${mySubs.length ? `
   <div class="card">
-    <h3>Mere Plans & Orders</h3>
+    <h3>Mera Active Tiffin Plan</h3>
     ${mySubs.map(s => `<div class="row">
-      <div><b>🍱 ${esc(s.name)} — ${s.days} Din (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.area)} · Start: ${s.start} · ${inr(s.price)}</div></div>
-      <span style="font-weight:800;font-size:12px;color:#16a34a">${S.done[iso(D0()) + '_' + s.id] ? 'Delivered ✓' : 'Active'}</span>
-    </div>`).join('')}
-    ${myOrds.map(o => `<div class="row">
-      <div><b>🛒 ${esc(o.name)} — ${inr(o.total)}</b><div style="font-size:11.5px;color:var(--mu)">${o.items.map(i => i.n + '×' + i.q).join(', ')}</div></div>
-      <span style="font-weight:800;font-size:12px;color:${o.dlv ? '#16a34a' : 'var(--o)'}">${o.dlv ? 'Delivered ✓' : 'Packing'}</span>
+      <div><b>🍱 ${esc(s.name)} — ${s.days} Din (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.area)} · ${esc(s.pMode || 'Verified')} · ${inr(s.price)}</div></div>
+      <button class="btn w sm" data-a="tab" data-v="profile">Full Profile →</button>
     </div>`).join('')}
   </div>` : ''}`;
 }
 
-/* --- 2. SHOP VIEW (CLEAN ARTISANAL LABELS — ZERO "3D" TEXT) --- */
+/* --- 2. SHOP VIEW --- */
 function vShop() {
   const q = SQ.trim().toLowerCase();
   const list = S.prod.filter(p => (SCAT === 'all' || p.c === SCAT) && (!q || p.n.toLowerCase().includes(q)));
@@ -748,7 +814,101 @@ function vServices() {
   `).join('')}`;
 }
 
-/* --- 4. KITCHEN VIEW --- */
+/* --- 4. COMPLETE CUSTOMER PROFILE VIEW (ALL DETAILS + HISTORY + PREFERENCES) --- */
+function vProfile() {
+  const cleanP = ph(F.phone);
+  const prof = S.profiles[cleanP] || {};
+  const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (cleanP && s.phone === cleanP)).slice().reverse();
+  const myOrds = (S.orders || []).filter(o => MY.includes(o.id) || (cleanP && o.phone === cleanP)).slice().reverse();
+  const totSpent = mySubs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) + myOrds.reduce((a, o) => a + (o.paid ? o.total : 0), 0);
+  const totDue = (+prof.dues || 0) + myOrds.reduce((a, o) => a + (!o.paid ? o.total : 0), 0) + mySubs.reduce((a, s) => a + (!s.paid ? s.price : 0), 0);
+  const initials = (F.name || 'N U').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+  return `
+  <div class="prof-head">
+    <div class="prof-av">${esc(initials)}</div>
+    <div style="flex:1;min-width:0">
+      <h2 style="font-family:var(--serif);font-size:20px;font-weight:800">${esc(F.name || 'Guest Customer')}</h2>
+      <div style="font-size:12px;opacity:.9">+91 ${esc(cleanP || 'Add Mobile Number')} · ${esc(F.area)}</div>
+      <span class="prof-badge">★ Verified Namaste Udala Member</span>
+    </div>
+  </div>
+
+  <div class="kpi">
+    <div><b>${inr(totSpent)}</b><span>Total Paid</span></div>
+    <div><b style="color:${totDue > 0 ? '#dc2626' : '#16a34a'}">${inr(totDue)}</b><span>Pending Due</span></div>
+    <div><b>${mySubs.length + myOrds.length}</b><span>Total Orders</span></div>
+  </div>
+
+  <div class="card">
+    <h3>1. Personal, Address & Taste Profile</h3>
+    <span class="lbl">Full Name & Primary 10-Digit Mobile</span>
+    <div class="btn-row">
+      <input class="inp" data-f="name" placeholder="Full Name" value="${esc(F.name)}">
+      <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="Mobile Number" value="${esc(F.phone)}">
+    </div>
+
+    <span class="lbl">Alternate Mobile / WhatsApp & Family Members Count</span>
+    <div class="btn-row">
+      <input class="inp" data-f="altPhone" type="tel" maxlength="10" placeholder="Alternate Number" value="${esc(F.altPhone)}">
+      <input class="inp" data-f="family" type="number" placeholder="Family Size (e.g. 3)" value="${esc(F.family)}">
+    </div>
+
+    <span class="lbl">Select Udala Locality / Ward</span>
+    <div class="area-chips">
+      ${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}
+    </div>
+
+    <span class="lbl">Complete House Address & Landmark</span>
+    <input class="inp" data-f="addr" placeholder="House No, Street, Landmark" value="${esc(F.addr)}">
+
+    <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
+      <button class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'Update Doorstep GPS' : 'Lock Doorstep GPS'}</button>
+      <span style="font-size:11.5px;color:var(--mu)">GPS: ${F.lat ? `${F.lat.toFixed(4)}, ${F.lng.toFixed(4)}` : 'Not locked'}</span>
+    </div>
+
+    <span class="lbl">Spice Level & Kitchen Instructions (e.g. Less Oil / Extra Gravy)</span>
+    <div class="seg">
+      ${['Low', 'Medium', 'Spicy'].map(sp => `<button class="${F.spice === sp ? 'on' : ''}" data-a="fset" data-k="spice" data-v="${sp}">${sp} Masala</button>`).join('')}
+    </div>
+    <input class="inp" data-f="notes" placeholder="Special kitchen note (e.g. Less oil, गरम रोटी)" value="${esc(F.notes)}">
+
+    <button class="btn g" data-a="save_prof">Save My Complete Profile ✓</button>
+  </div>
+
+  <div class="card">
+    <h3>2. Active Tiffin Subscriptions (${mySubs.length})</h3>
+    ${mySubs.map(s => {
+      const paused = (s.skip || []).includes(iso(D0()));
+      return `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between">
+          <b>🍱 ${s.days} Din ${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} (${s.times || 3} Time/Day)</b>
+          <span style="font-weight:800;font-size:11.5px;color:${s.paid ? '#16a34a' : '#dc2626'}">${s.paid ? 'PAID' : 'DUE'} · ${inr(s.price)}</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">Start: ${s.start} · Lunch: ${s.lunch || 'chawal'} · Payment: ${esc(s.pMode || 'UPI')} (Ref: ${esc(s.utr)})</div>
+        <div class="btn-row">
+          <button class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1 Day Extended)' : 'Pause Today\'s Tiffin (+1 Day Free)'}</button>
+        </div>
+      </div>`;
+    }).join('') || '<p style="color:var(--mu);font-size:13px">Koi active tiffin plan nahi hai.</p>'}
+  </div>
+
+  <div class="card">
+    <h3>3. Shop Order History & Payments (${myOrds.length})</h3>
+    ${myOrds.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
+      <div style="display:flex;justify-content:space-between">
+        <b>🛒 Order #${String(o.id).slice(-4)} (${o.date}) — ${inr(o.total)}</b>
+        <span style="font-weight:800;font-size:11.5px;color:${o.dlv ? '#16a34a' : 'var(--o)'}">${o.dlv ? 'Delivered ✓' : 'In Progress'}</span>
+      </div>
+      <div style="font-size:12px;color:var(--mu);margin:3px 0">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+        <span style="font-size:11px;font-weight:700;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'Paid' : 'Pending'} · ${esc(o.pMode || 'UPI')} (${esc(o.utr)})</span>
+        <button class="btn w sm" data-a="reorder" data-id="${o.id}">↻ Reorder Items</button>
+      </div>
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">Abhi tak koi shop order nahi hai.</p>'}`;
+}
+
+/* --- 5. KITCHEN VIEW --- */
 function vKitchen() {
   const k = iso(D0()), subs = S.subs || [];
   const veg = subs.filter(s => s.type === 'veg').length, nv = subs.length - veg;
@@ -770,23 +930,29 @@ function vKitchen() {
   </div>
 
   <div class="card">
-    <h3>Active Tiffin List (${subs.length})</h3>
-    ${subs.map(s => `<div class="row">
-      <div><b>${esc(s.name)} (${s.days}d ${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b><div style="font-size:12px;color:var(--mu)">Lunch: ${s.lunch || 'chawal'} · Dinner: ${s.dinner || 'roti'}</div></div>
-      <span style="font-weight:800;font-size:12px;color:#16a34a">${s.days} Days</span>
-    </div>`).join('')}
+    <h3>Active Tiffin List & Customer Taste Notes (${subs.length})</h3>
+    ${subs.map(s => {
+      const prof = S.profiles[ph(s.phone)] || {};
+      return `<div class="row">
+        <div>
+          <b>${esc(s.name)} (${s.days}d ${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
+          <div style="font-size:12px;color:var(--mu)">Lunch: ${s.lunch || 'chawal'} · Spice: <b>${esc(prof.spice || 'Medium')}</b> ${prof.notes ? `· Note: "${esc(prof.notes)}"` : ''}</div>
+        </div>
+        <span style="font-weight:800;font-size:12px;color:#16a34a">${(s.skip || []).includes(k) ? 'SKIPPED' : 'Active'}</span>
+      </div>`;
+    }).join('')}
   </div>
 
   <div class="card">
     <h3>Shop Orders to Pack (${pendOrds.length})</h3>
     ${pendOrds.map(o => `<div class="row">
-      <div><b>${esc(o.name)}</b><div style="font-size:12.5px;color:var(--o);font-weight:800">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div></div>
+      <div><b>${esc(o.name)} (${esc(o.area)})</b><div style="font-size:12.5px;color:var(--o);font-weight:800">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div></div>
       <button class="btn g sm" data-a="odlv" data-id="${o.id}">Ready ✓</button>
     </div>`).join('')}
   </div>`;
 }
 
-/* --- 5. DELIVERY ROUTE VIEW --- */
+/* --- 6. DELIVERY ROUTE VIEW --- */
 function vRoute() {
   const k = iso(D0());
   const subs = S.subs || [];
@@ -802,7 +968,7 @@ function vRoute() {
     <h3>Tiffin Deliveries (${subs.length})</h3>
     ${subs.map(s => {
       const done = S.done[k + '_' + s.id];
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' ' + (s.area || 'Udala'))}`;
+      const mapUrl = s.lat ? `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' ' + (s.area || 'Udala'))}`;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
           <b>${esc(s.name)} (${s.days}d ${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
@@ -821,52 +987,67 @@ function vRoute() {
   <div class="card">
     <h3>Shop Order Drops (${ords.length})</h3>
     ${ords.map(o => {
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' ' + (o.area || 'Udala'))}`;
+      const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' ' + (o.area || 'Udala'))}`;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
           <b>${esc(o.name)} — ${inr(o.total)}</b>
-          <span style="font-size:11.5px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'PAID' : 'COLLECT CASH/UPI'}</span>
+          <span style="font-size:11.5px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'PAID (' + esc(o.pMode || 'UPI') + ')' : 'COLLECT ' + inr(o.total)}</span>
         </div>
         <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(o.addr)} · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
         <div class="btn-row">
           <a class="btn w sm" href="${mapUrl}" target="_blank">GPS Map</a>
           <a class="btn w sm" href="tel:+91${esc(o.phone)}">Call</a>
-          <button class="btn g sm" data-a="odlv" data-id="${o.id}">Delivered ✓</button>
+          <button class="btn g sm" data-a="odlv" data-id="${o.id}">Delivered & Paid ✓</button>
         </div>
       </div>`;
     }).join('')}
   </div>`;
 }
 
-/* --- 6. OWNER MASTER CONTROL (100% EDIT ACCESS TO EVERYTHING) --- */
+/* --- 7. OWNER MASTER CONTROL (WITH FULL CUSTOMER CRM & PAYMENT VERIFICATION) --- */
 function vOwner() {
   const subs = (S.subs || []).slice().reverse();
   const ords = (S.orders || []).slice().reverse();
   const totIn = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
 
+  // Merge all customer profiles from S.profiles, S.subs, S.orders
+  const allCust = { ...(S.profiles || {}) };
+  subs.forEach(s => {
+    const p = ph(s.phone); if (!p) return;
+    allCust[p] = { phone: p, name: s.name, area: s.area, addr: s.addr, lat: s.lat, lng: s.lng, diet: s.type, spice: 'Medium', family: 1, dues: 0, ...(allCust[p] || {}) };
+  });
+  ords.forEach(o => {
+    const p = ph(o.phone); if (!p) return;
+    allCust[p] = { phone: p, name: o.name, area: o.area, addr: o.addr, lat: o.lat, lng: o.lng, diet: 'veg', spice: 'Medium', family: 1, dues: 0, ...(allCust[p] || {}) };
+  });
+  const custList = Object.values(allCust);
+
   const ownerTabs = [
-    ['ords', 'Orders & Tiffins'],
+    ['ords', 'Orders & Payments'],
+    ['cust', `Customers (${custList.length})`],
     ['plans', 'Plan Rates & Menu'],
     ['prod', 'Shop Products'],
-    ['svc', 'Services & App']
+    ['svc', 'Services & UPI']
   ];
 
   let body = '';
 
+  // TAB 1: ORDERS, TIFFINS & PAYMENT PROOFS
   if (O_TAB === 'ords') {
     body = `
     <div class="card">
-      <h3>Shop Orders Control (${ords.length})</h3>
+      <h3>Shop Orders & Payment Control (${ords.length})</h3>
       ${ords.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
           <b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
-          <span style="font-size:11px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'PAID' : 'UNPAID'} · ${o.dlv ? 'Delivered' : 'Pending'}</span>
+          <span style="font-size:11px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'PAID' : 'UNPAID'} · ${esc(o.pMode || 'UPI')}</span>
         </div>
-        <div style="font-size:11.5px;color:var(--mu);margin:3px 0 8px">${esc(o.area)} · ${esc(o.addr)} · <b>${o.items.map(i => i.n + '×' + i.q).join(', ')}</b></div>
+        <div style="font-size:11.5px;color:var(--mu);margin:3px 0 8px">${esc(o.area)} · ${esc(o.addr)} · Ref: <b>${esc(o.utr)}</b> · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div>
         <div class="btn-row">
-          <button class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Mark Unpaid' : 'Mark Paid'}</button>
-          <button class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Undeliver' : 'Deliver ✓'}</button>
-          <button class="btn sm r" data-a="o_del" data-id="${o.id}">Delete</button>
+          ${o.proof ? `<button class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} Proof</button>` : ''}
+          <button class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Mark Unpaid' : 'Approve Paid ✓'}</button>
+          <button class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
+          <button class="btn sm r" data-a="o_del" data-id="${o.id}">✕</button>
         </div>
       </div>`).join('') || '<p style="color:var(--mu)">No shop orders.</p>'}
     </div>
@@ -876,17 +1057,81 @@ function vOwner() {
       ${subs.map(s => `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
           <b>${esc(s.name)} (${esc(s.phone)}) — ${inr(s.price)}</b>
-          <span style="font-size:11px;font-weight:800;color:${s.paid ? '#16a34a' : '#dc2626'}">${s.days} Days (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</span>
+          <span style="font-size:11px;font-weight:800;color:${s.paid ? '#16a34a' : '#dc2626'}">${s.days}d (${s.type === 'nv' ? 'NV' : 'Veg'}) · ${s.paid ? 'PAID' : 'DUE'}</span>
         </div>
-        <div style="font-size:11.5px;color:var(--mu);margin:3px 0 8px">${esc(s.area)} · ${esc(s.addr)} · Start: ${s.start}</div>
+        <div style="font-size:11.5px;color:var(--mu);margin:3px 0 8px">${esc(s.area)} · ${esc(s.addr)} · Mode: ${esc(s.pMode || 'UPI')} (Ref: ${esc(s.utr)})</div>
         <div class="btn-row">
-          <button class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Paid ✓' : 'Mark Paid'}</button>
+          ${s.proof ? `<button class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
+          <button class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Paid ✓' : 'Approve Paid'}</button>
           <button class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1 Day</button>
-          <button class="btn sm r" data-a="s_del" data-id="${s.id}">Delete</button>
+          <button class="btn sm r" data-a="s_del" data-id="${s.id}">✕</button>
         </div>
       </div>`).join('') || '<p style="color:var(--mu)">No active tiffin plans.</p>'}
     </div>`;
-  } else if (O_TAB === 'plans') {
+  }
+
+  // TAB 2: COMPLETE CUSTOMER DIRECTORY & PROFILE EDITOR (CRM)
+  else if (O_TAB === 'cust') {
+    body = `
+    <div class="card" id="cust_form">
+      <h3>${ED_CUST ? 'Edit Customer Profile: ' + esc(ED_CUST) : 'Add / Update Customer Profile'} ${ED_CUST ? `<button class="btn w sm" data-a="cancel_edcust">Cancel</button>` : ''}</h3>
+      <div class="btn-row">
+        <input class="inp" id="ec_name" placeholder="Full Name">
+        <input class="inp" id="ec_phone" type="tel" maxlength="10" placeholder="10-Digit Mobile">
+      </div>
+      <div class="btn-row">
+        <input class="inp" id="ec_alt" type="tel" maxlength="10" placeholder="Alternate / WhatsApp">
+        <select class="inp" id="ec_area">${UDALA_AREAS.map(a => `<option value="${a}">${a}</option>`).join('')}</select>
+      </div>
+      <input class="inp" id="ec_addr" placeholder="Complete House Address & Landmark">
+      <div class="btn-row">
+        <select class="inp" id="ec_diet"><option value="veg">🟢 Pure Veg</option><option value="nv">🔴 Non-Veg</option></select>
+        <select class="inp" id="ec_spice"><option value="Medium">Medium Spice</option><option value="Low">Low Spice</option><option value="Spicy">Extra Spicy</option></select>
+        <input class="inp" id="ec_dues" type="number" placeholder="Pending Due ₹">
+      </div>
+      <input class="inp" id="ec_notes" placeholder="Kitchen / Delivery Note (e.g. Less oil, 2nd floor)">
+      <button class="btn g" data-a="save_cust">${ED_CUST ? 'Update Customer Profile ✓' : '+ Save Customer Profile'}</button>
+    </div>
+
+    <div class="card">
+      <h3>All Customers Full Directory (${custList.length})</h3>
+      ${custList.map(c => {
+        const cSubs = subs.filter(s => ph(s.phone) === c.phone);
+        const cOrds = ords.filter(o => ph(o.phone) === c.phone);
+        const totalPaid = cSubs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) + cOrds.reduce((a, o) => a + (o.paid ? o.total : 0), 0);
+        const calcDue = (+c.dues || 0) + cOrds.reduce((a, o) => a + (!o.paid ? o.total : 0), 0) + cSubs.reduce((a, s) => a + (!s.paid ? s.price : 0), 0);
+        const mapUrl = c.lat ? `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((c.addr || '') + ' ' + (c.area || 'Udala'))}`;
+
+        return `<div class="row" style="flex-direction:column;align-items:stretch">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <b style="font-size:14.5px">${esc(c.name)} (+91 ${esc(c.phone)})</b>
+              <div style="font-size:11.5px;color:var(--mu)">Area: <b>${esc(c.area || 'Udala')}</b> · ${esc(c.addr || '')}</div>
+            </div>
+            <span style="font-size:11.5px;font-weight:800;color:${calcDue > 0 ? '#dc2626' : '#16a34a'}">${calcDue > 0 ? 'Due: ' + inr(calcDue) : 'No Dues'}</span>
+          </div>
+
+          <div style="background:var(--sf2);padding:8px 10px;border-radius:12px;margin:6px 0;font-size:11.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">
+            <span>Total Paid: <b style="color:var(--g2)">${inr(totalPaid)}</b></span>
+            <span>Plans: <b>${cSubs.length}</b> · Orders: <b>${cOrds.length}</b></span>
+            <span>Taste: <b>${c.diet === 'nv' ? 'Non-Veg' : 'Veg'} (${esc(c.spice || 'Medium')})</b></span>
+            ${c.notes ? `<span style="width:100%;color:var(--o)">Note: "${esc(c.notes)}"</span>` : ''}
+          </div>
+
+          <div class="btn-row">
+            <a class="btn sm w" href="tel:+91${esc(c.phone)}">Call</a>
+            <a class="btn sm w" href="https://wa.me/91${esc(c.phone)}?text=${encodeURIComponent('Namaste ' + c.name + ' ji! Namaste Udala se update.')}" target="_blank">WhatsApp</a>
+            <a class="btn sm w" href="${mapUrl}" target="_blank">GPS Map</a>
+            <button class="btn sm g" data-a="edit_cust" data-id="${c.phone}">Edit All</button>
+            <button class="btn sm r" data-a="del_cust" data-id="${c.phone}">✕</button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  // TAB 3: EDIT PLAN RATES & MENU
+  else if (O_TAB === 'plans') {
     const vp = S.cfg.pl.veg, nvp = S.cfg.pl.nv;
     body = `
     <div class="card">
@@ -926,7 +1171,10 @@ function vOwner() {
       <input class="inp" id="m_nv" value="${esc(menu('nv'))}">
       <button class="btn g" data-a="savem">Save Live Menu</button>
     </div>`;
-  } else if (O_TAB === 'prod') {
+  }
+
+  // TAB 4: SHOP PRODUCTS
+  else if (O_TAB === 'prod') {
     body = `
     <div class="card" id="prod_form">
       <h3>${ED_P ? 'Edit Product' : 'Add New Shop Product'} ${ED_P ? `<button class="btn w sm" data-a="cancel_edp">Cancel</button>` : ''}</h3>
@@ -961,7 +1209,10 @@ function vOwner() {
         </div>
       </div>`).join('')}
     </div>`;
-  } else {
+  }
+
+  // TAB 5: SERVICES & UPI SETTINGS
+  else {
     body = `
     <div class="card" id="svc_form">
       <h3>${ED_SV ? 'Edit Service' : 'Add New Service'} ${ED_SV ? `<button class="btn w sm" data-a="cancel_edsv">Cancel</button>` : ''}</h3>
@@ -998,14 +1249,14 @@ function vOwner() {
 
   return `
   <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
-    <div><small style="color:#fbbf24;font-weight:800">OWNER MASTER CONTROL</small><h2 style="font-family:var(--serif);font-size:18px">Full Edit & Access</h2></div>
+    <div><small style="color:#fbbf24;font-weight:800">OWNER MASTER CONTROL</small><h2 style="font-family:var(--serif);font-size:18px">Full Edit & CRM</h2></div>
     <button class="btn w sm" data-a="logout_staff">Exit</button>
   </div>
 
   <div class="kpi">
     <div><b>${inr(totIn)}</b><span>Paid Revenue</span></div>
-    <div><b>${subs.length}</b><span>Tiffin Plans</span></div>
-    <div><b>${ords.length}</b><span>Shop Orders</span></div>
+    <div><b>${custList.length}</b><span>Customers</span></div>
+    <div><b>${ords.length + subs.length}</b><span>Total Orders</span></div>
   </div>
 
   <div class="area-chips" style="margin-bottom:12px">
@@ -1015,32 +1266,59 @@ function vOwner() {
   ${body}`;
 }
 
-/* --- MODALS: PLATE VIEW, POPUP CART & SIMPLE PAYMENT --- */
+/* --- MODALS: COMPLETE SMART PAYMENT HUB, POPUP CART & DISH VIEW --- */
 function sheet() {
+  // UPGRADED 3-WAY SMART PAYMENT HUB (UPI QR + SCREENSHOT PROOF + PAY ON DELIVERY)
   if (PAY_BOX) {
-    const g = PAY_BOX, uLink = upiLink(g.amt, g.title);
-    return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <b style="color:#16a34a;font-size:13px">UPI Payment Step</b>
+    const g = PAY_BOX, uLink = upiLink(g.exactAmt, g.title);
+    return `<div class="ov" data-a="close_bg"><div class="sh">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <b style="color:var(--g2);font-size:12.5px">🔒 SMART PAYMENT CHECKOUT</b>
         <button class="btn w sm" data-a="close">Back</button>
       </div>
-      <h2 style="font-family:var(--serif);font-size:19px;font-weight:800">${esc(g.title)}</h2>
-      <div style="font-family:var(--serif);font-size:26px;font-weight:800;color:var(--o);margin:6px 0">${inr(g.amt)}</div>
+      <h2 style="font-family:var(--serif);font-size:19px;font-weight:800;text-align:center">${esc(g.title)}</h2>
 
-      <div style="background:#fff;padding:12px;border-radius:18px;width:fit-content;margin:8px auto;border:2px solid var(--ln)">
-        <img src="${qrUrl(uLink)}" style="width:165px;height:165px" alt="QR">
-        <div style="font-size:11px;color:var(--mu);font-weight:700;margin-top:4px">UPI ID: ${esc(S.cfg.upi)}</div>
+      <div class="seg" style="margin:10px 0">
+        <button class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. Scan QR / UPI</button>
+        <button class="${PAY_MODE === 'proof' ? 'on' : ''}" data-a="pmode" data-v="proof">2. Screenshot</button>
+        <button class="${PAY_MODE === 'cod' ? 'on' : ''}" data-a="pmode" data-v="cod">3. Pay at Door</button>
       </div>
 
-      <div class="btn-row">
-        <a class="btn" href="${esc(uLink)}">Open UPI App</a>
-        <button class="btn w" data-a="copy_upi">Copy UPI ID</button>
-      </div>
-
-      <div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--ln);text-align:left">
-        <input class="inp" id="utr_inp" placeholder="Optional: UPI Ref / Last 4 Digits daalein">
-        <button class="btn g" data-a="confirm_paid">Confirm & Place Order</button>
-      </div>
+      ${PAY_MODE === 'upi' ? `
+        <div style="text-align:center">
+          <div style="font-family:var(--serif);font-size:26px;font-weight:800;color:var(--o)">${inr(g.exactAmt)}</div>
+          <div style="font-size:11px;color:var(--mu)">Unique Auto-Match Amount (Includes paise for instant verification)</div>
+          <div style="background:#fff;padding:12px;border-radius:18px;width:fit-content;margin:8px auto;border:2px solid var(--ln)">
+            <img src="${qrUrl(uLink)}" style="width:160px;height:160px" alt="QR">
+            <div style="font-size:11px;color:#16241c;font-weight:800;margin-top:4px">UPI ID: ${esc(S.cfg.upi)}</div>
+          </div>
+          <div class="btn-row">
+            <button class="btn w sm" data-a="copy_upi">Copy UPI ID</button>
+            <button class="btn w sm" data-a="copy_amt">Copy ${inr(g.exactAmt)}</button>
+          </div>
+          <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="Enter Last 4 Digits of UPI Ref (e.g. 4821)" style="margin-top:10px">
+          <button class="btn g" data-a="confirm_paid">Verify UPI & Confirm Order ✓</button>
+        </div>
+      ` : PAY_MODE === 'proof' ? `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:6px">${inr(g.amt)}</div>
+          <p style="font-size:12px;color:var(--mu);margin-bottom:10px">PhonePe / GPay se payment karke uska Screenshot yahan upload karein:</p>
+          <label class="btn w" style="cursor:pointer;margin-bottom:10px">
+            ${IC.cam} <span>${PROOF_IMG ? 'Screenshot Attached ✓' : 'Select Payment Screenshot'}</span>
+            <input type="file" id="proof_file" accept="image/*" style="display:none">
+          </label>
+          ${PROOF_IMG ? `<img src="${PROOF_IMG}" style="max-height:110px;margin:6px auto;border-radius:10px;border:1px solid var(--ln)">` : ''}
+          <input class="inp" id="utr_inp" placeholder="Optional: Note or Ref No.">
+          <button class="btn g" data-a="confirm_paid">Submit Screenshot & Confirm Order ✓</button>
+        </div>
+      ` : `
+        <div style="text-align:center;padding:12px 0">
+          <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:6px">${inr(g.amt)}</div>
+          <p style="font-size:12.5px;color:var(--mu);line-height:1.5;margin-bottom:12px">Jab hamara Delivery Boy aapke darwaze par aayega, tab aap <b>Rider QR Scan</b> ya <b>Cash</b> de sakte hain.</p>
+          <input class="inp" id="utr_inp" placeholder="Delivery Instruction (e.g. Bring change of ₹500)">
+          <button class="btn g" data-a="confirm_paid">Confirm Pay on Delivery Order ✓</button>
+        </div>
+      `}
     </div></div>`;
   }
 
@@ -1067,7 +1345,7 @@ function sheet() {
       </div>
       <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
       ${userFormHTML()}
-      <button class="btn" data-a="pay_ord">Proceed to Pay · ${inr(tot)}</button>
+      <button class="btn" data-a="pay_ord">Proceed to Payment · ${inr(tot)}</button>
     </div></div>`;
   }
 
@@ -1099,7 +1377,7 @@ function sheet() {
 }
 
 function render() {
-  const V = { plan: vPlan, shop: vShop, services: vServices, kitchen: vKitchen, route: vRoute, owner: vOwner };
+  const V = { plan: vPlan, shop: vShop, services: vServices, profile: vProfile, kitchen: vKitchen, route: vRoute, owner: vOwner };
   $('#v').innerHTML = (V[tab] || vPlan)();
   $('#sheet').innerHTML = sheet();
 
@@ -1113,7 +1391,8 @@ function render() {
   const TABS = [
     ['plan', IC.tiffin, 'Plans'],
     ['shop', IC.shop, 'Shop'],
-    ['services', IC.svc, 'Services']
+    ['services', IC.svc, 'Services'],
+    ['profile', IC.user, 'Profile']
   ];
   if (ROLE === 'staff' || ROLE === 'owner') {
     TABS.push(['kitchen', IC.kitchen, 'Kitchen'], ['route', IC.route, 'Route']);
@@ -1128,64 +1407,111 @@ function checkUser() {
     toast('Naam, 10-digit Mobile Number aur Address bharein');
     return false;
   }
-  saveUser();
+  syncCustomerProfile();
   return true;
 }
 
 const A = {
   tab: v => { tab = v; PQ = null; CART_OPEN = false; PAY_BOX = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
-  otab: v => { O_TAB = v; ED_P = null; ED_SV = null; render(); },
+  otab: v => { O_TAB = v; ED_P = null; ED_SV = null; ED_CUST = null; render(); },
+  pmode: v => { PAY_MODE = v; render(); },
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
-  set_area: v => { F.area = v; saveUser(); render(); },
+  set_area: v => { F.area = v; syncCustomerProfile(); render(); },
   cat: v => { SCAT = v; render(); },
   pq: (v, k, id) => { PQ = +id; render(); },
   open_cart: () => { PQ = null; CART_OPEN = true; render(); },
   add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; localStorage.setItem('nu5c', JSON.stringify(C)); PQ = null; CART_OPEN = true; render(); },
-  close: () => { PQ = null; CART_OPEN = false; PAY_BOX = null; render(); },
-  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = null; CART_OPEN = false; PAY_BOX = null; render(); } },
+  close: () => { PQ = null; CART_OPEN = false; PAY_BOX = null; PROOF_IMG = null; render(); },
+  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = null; CART_OPEN = false; PAY_BOX = null; PROOF_IMG = null; render(); } },
   inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   ih: (v, k, id) => { C[id + 'h'] = (C[id + 'h'] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
   dh: (v, k, id) => { C[id + 'h'] = Math.max(0, (C[id + 'h'] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
 
+  save_prof: () => {
+    if (!checkUser()) return;
+    save(); toast('Aapka Complete Profile Save Ho Gaya ✓');
+  },
+
+  reorder: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id); if (!o) return;
+    o.items.forEach(i => {
+      const p = S.prod.find(x => i.n.startsWith(x.n));
+      if (p && p.s) C[p.id] = (C[p.id] || 0) + i.q;
+    });
+    localStorage.setItem('nu5c', JSON.stringify(C));
+    CART_OPEN = true; render(); toast('Items Cart MeinJud Gaye!');
+  },
+
+  cust_skip: (v, k, id) => {
+    const s = S.subs.find(x => x.id === id); if (!s) return;
+    s.skip = s.skip || [];
+    const td = iso(D0());
+    if (!s.skip.includes(td)) { s.skip.push(td); s.days = (+s.days || 30) + 1; save(); toast('Aaj ka Tiffin Paused & +1 Extra Day Added!'); }
+  },
+
   getgps: () => {
-    if (!navigator.geolocation) { F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('GPS Saved'); return; }
+    if (!navigator.geolocation) { F.lat = 21.5742; F.lng = 86.5681; syncCustomerProfile(); save(); toast('GPS Saved'); return; }
     toast('Detecting GPS...');
     navigator.geolocation.getCurrentPosition(pos => {
       F.lat = pos.coords.latitude; F.lng = pos.coords.longitude;
-      saveUser(); render(); toast('GPS Location Saved!');
+      syncCustomerProfile(); save(); toast('Exact Doorstep GPS Saved!');
     }, () => {
-      F.lat = 21.5742; F.lng = 86.5681; saveUser(); render(); toast('Udala GPS Pin Saved');
+      F.lat = 21.5742; F.lng = 86.5681; syncCustomerProfile(); save(); toast('Udala GPS Pin Saved');
     }, { enableHighAccuracy: true, timeout: 6000 });
   },
 
   pay_sub: () => {
     if (!checkUser()) return;
-    PAY_BOX = { kind: 'sub', amt: tierPrice(+F.days), days: +F.days, title: `${F.days} Din Tiffin (${F.times} Time)` };
+    const base = tierPrice(+F.days);
+    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+    PAY_MODE = 'upi'; PROOF_IMG = null;
+    PAY_BOX = { kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: +F.days, title: `${F.days} Din Tiffin (${F.times} Time)` };
     render();
   },
   pay_trial: () => {
     if (!checkUser()) return;
-    PAY_BOX = { kind: 'sub', amt: +S.cfg.trialPrice || 49, days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` };
+    const base = +S.cfg.trialPrice || 49;
+    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+    PAY_MODE = 'upi'; PROOF_IMG = null;
+    PAY_BOX = { kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` };
     render();
   },
   pay_ord: () => {
     if (!checkUser()) return;
     CART_OPEN = false;
-    PAY_BOX = { kind: 'ord', amt: ct(), title: `Shop Order (${cc()} Items)` };
+    const base = ct();
+    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+    PAY_MODE = 'upi'; PROOF_IMG = null;
+    PAY_BOX = { kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)` };
     render();
   },
 
   copy_upi: () => { navigator.clipboard.writeText(S.cfg.upi || '9583937047@jio').catch(() => {}); toast('UPI ID Copied!'); },
+  copy_amt: () => { if (PAY_BOX) { navigator.clipboard.writeText(String(PAY_BOX.exactAmt)).catch(() => {}); toast('Exact Amount Copied: ₹' + PAY_BOX.exactAmt); } },
 
   confirm_paid: () => {
     if (!PAY_BOX) return;
-    const refNo = ($('#utr_inp') ? $('#utr_inp').value.trim() : '') || 'PAID';
+    const rawRef = ($('#utr_inp') ? $('#utr_inp').value.trim() : '');
+    if (PAY_MODE === 'upi' && rawRef.length < 4) { toast('UPI Ref ke last 4 digits daalein (ya Screenshot/Pay at Door chunein)'); return; }
+    if (PAY_MODE === 'proof' && !PROOF_IMG && rawRef.length < 4) { toast('Payment Screenshot select karein'); return; }
+
+    const isPaid = PAY_MODE === 'cod' ? 0 : 1;
+    const modeLabel = PAY_MODE === 'upi' ? 'UPI Verified' : PAY_MODE === 'proof' ? 'Screenshot Proof' : 'Pay on Delivery';
+    const refNo = rawRef || (PAY_MODE === 'cod' ? 'Doorstep Due' : 'Screenshot');
+    const finalPrice = PAY_MODE === 'upi' ? PAY_BOX.exactAmt : PAY_BOX.amt;
+
+    syncCustomerProfile();
+
     if (PAY_BOX.kind === 'sub') {
       const id = uid('s');
-      S.subs.push({ id, name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), lat: F.lat, lng: F.lng, type: F.type, days: PAY_BOX.days, times: F.times, lunch: F.lunch, dinner: F.dinner, start: iso(D0()), price: PAY_BOX.amt, paid: 1, utr: refNo });
+      S.subs.push({
+        id, ts: Date.now(), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+        lat: F.lat, lng: F.lng, type: F.type, days: PAY_BOX.days, times: F.times, lunch: F.lunch, dinner: F.dinner,
+        start: iso(D0()), price: finalPrice, paid: isPaid, pMode: modeLabel, utr: refNo, proof: PROOF_IMG || '', skip: []
+      });
       MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
-      PAY_BOX = null; save(); toast('Tiffin Plan Book Ho Gaya!');
+      PAY_BOX = null; PROOF_IMG = null; save(); toast('Tiffin Plan Book Ho Gaya!');
     } else {
       const items = [];
       Object.entries(C).forEach(([k, q]) => {
@@ -1194,22 +1520,72 @@ const A = {
         items.push({ n: p.n + (isH ? ' (Half)' : ''), q, p: pr });
       });
       const id = uid('o');
-      S.orders.push({ id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), lat: F.lat, lng: F.lng, items, total: PAY_BOX.amt, paid: 1, dlv: 0, utr: refNo });
+      S.orders.push({
+        id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+        lat: F.lat, lng: F.lng, items, total: finalPrice, paid: isPaid, dlv: 0, pMode: modeLabel, utr: refNo, proof: PROOF_IMG || ''
+      });
       MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
       C = {}; localStorage.setItem('nu5c', '{}');
-      PAY_BOX = null; save(); toast('Order Confirm Ho Gaya!');
+      PAY_BOX = null; PROOF_IMG = null; save(); toast('Order Confirm Ho Gaya!');
     }
+  },
+
+  view_proof: (v, k, id) => {
+    const item = (k === 'sub' ? S.subs : S.orders).find(x => x.id === id);
+    if (!item || !item.proof) { toast('No screenshot attached'); return; }
+    const w = window.open(''); if (w) w.document.write(`<title>Payment Proof</title><img src="${item.proof}" style="max-width:100%;border-radius:12px">`);
   },
 
   // OWNER FULL CONTROL ACTIONS
   o_paid: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.paid = o.paid ? 0 : 1; save(); toast('Payment Status Updated'); } },
-  odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = o.dlv ? 0 : 1; save(); toast('Delivery Status Updated'); } },
+  odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = o.dlv ? 0 : 1; if (o.dlv) o.paid = 1; save(); toast('Delivery Status Updated'); } },
   o_del: (v, k, id) => { if (!confirm('Delete this order?')) return; S.orders = S.orders.filter(x => x.id !== id); save(); toast('Order Deleted'); },
 
   s_paid: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.paid = s.paid ? 0 : 1; save(); toast('Plan Payment Updated'); } },
   s_add_day: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.days = (+s.days || 30) + 1; save(); toast('+1 Day Added to Plan'); } },
   s_del: (v, k, id) => { if (!confirm('Delete this tiffin subscription?')) return; S.subs = S.subs.filter(x => x.id !== id); save(); toast('Subscription Deleted'); },
   sdone: (v, k, id) => { const key = iso(D0()) + '_' + id; S.done[key] = S.done[key] ? 0 : 1; save(); toast('Tiffin Status Updated ✓'); },
+
+  // OWNER CUSTOMER CRM EDIT / DELETE
+  edit_cust: (v, k, id) => {
+    ED_CUST = id;
+    const c = S.profiles[id] || {};
+    render();
+    setTimeout(() => {
+      $('#ec_name').value = c.name || '';
+      $('#ec_phone').value = c.phone || id;
+      $('#ec_alt').value = c.altPhone || '';
+      $('#ec_area').value = c.area || 'Udala Bus Stand';
+      $('#ec_addr').value = c.addr || '';
+      $('#ec_diet').value = c.diet || 'veg';
+      $('#ec_spice').value = c.spice || 'Medium';
+      $('#ec_dues').value = c.dues || 0;
+      $('#ec_notes').value = c.notes || '';
+      $('#cust_form').scrollIntoView({ behavior: 'smooth' });
+    }, 50);
+  },
+  cancel_edcust: () => { ED_CUST = null; render(); },
+  save_cust: () => {
+    const p = ph($('#ec_phone').value), n = $('#ec_name').value.trim();
+    if (p.length !== 10 || !n) { toast('Enter Valid Name & 10-Digit Mobile'); return; }
+    S.profiles[p] = {
+      ...(S.profiles[p] || { joined: iso(D0()) }),
+      phone: p,
+      name: n,
+      altPhone: ph($('#ec_alt').value),
+      area: $('#ec_area').value,
+      addr: $('#ec_addr').value.trim(),
+      diet: $('#ec_diet').value,
+      spice: $('#ec_spice').value,
+      dues: +$('#ec_dues').value || 0,
+      notes: $('#ec_notes').value.trim()
+    };
+    ED_CUST = null; save(); toast('Customer Profile Saved ✓');
+  },
+  del_cust: (v, k, id) => {
+    if (!confirm('Delete customer profile?')) return;
+    delete S.profiles[id]; save(); toast('Customer Profile Deleted');
+  },
 
   save_rates: () => {
     S.cfg.pl.veg = { 7: +$('#vp_7').value || 749, 15: +$('#vp_15').value || 1499, 30: +$('#vp_30').value || 2899 };
@@ -1294,6 +1670,25 @@ const A = {
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-a]'); if (!b) return;
   const f = A[b.dataset.a]; if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id, e); }
+});
+
+document.addEventListener('change', e => {
+  if (e.target && e.target.id === 'proof_file' && e.target.files[0]) {
+    const r = new FileReader();
+    r.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas'), max = 480;
+        const sc = Math.min(1, max / Math.max(img.width, img.height));
+        c.width = img.width * sc; c.height = img.height * sc;
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        PROOF_IMG = c.toDataURL('image/jpeg', 0.65);
+        render(); toast('Payment Screenshot Attached ✓');
+      };
+      img.src = ev.target.result;
+    };
+    r.readAsDataURL(e.target.files[0]);
+  }
 });
 
 document.addEventListener('input', e => {
