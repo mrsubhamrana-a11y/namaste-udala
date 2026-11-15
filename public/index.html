@@ -13,6 +13,7 @@
 [data-theme=dark]{--bg:#0c130f;--sf:#142019;--sf2:#0f1813;--ink:#f4f1ea;--mu:#9ca89f;--ln:#233329;--sh-card:0 20px 36px -10px rgba(0,0,0,.7);--sh-3d-w:0 4px 0 #070b09;--sh-in:inset 0 3px 7px rgba(0,0,0,.6)}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
 body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:150px;min-height:100vh}
+body.modal-open{overflow:hidden}
 img{display:block;object-fit:cover}
 button,input,select{font:inherit;color:inherit}
 svg.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none}
@@ -24,7 +25,7 @@ header{position:sticky;top:0;z-index:60;background:linear-gradient(145deg,#163f2
 .brand h1{font-family:var(--serif);font-size:18.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .marquee{background:#e9dfc8;color:#163f2a;overflow:hidden;white-space:nowrap;padding:6px 0;border-bottom:1px solid var(--ln);font-size:10px;font-weight:800;letter-spacing:1.3px}
 [data-theme=dark] .marquee{background:#18271e;color:#fbbf24}
-.marquee-track{display:inline-block;animation:mRoll 22s linear infinite}
+.marquee-track{display:inline-block;animation:mRoll 24s linear infinite}
 @keyframes mRoll{to{transform:translateX(-50%)}}
 main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .hero3d{position:relative;border-radius:26px;padding:20px 18px;margin-bottom:18px;color:#fffdf8;background:linear-gradient(132deg,#113221 0%,#1d4d34 58%,#2a6a48 100%);box-shadow:0 7px 0 #091c12,0 18px 34px rgba(17,50,33,.3);min-height:152px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;overflow:visible}
@@ -135,7 +136,7 @@ nav .nl{font-size:9px}
 nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff}
 .pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:pAnim 1.4s infinite}
 @keyframes pAnim{50%{transform:scale(1.35);opacity:.5}}
-#toast{position:fixed;left:50%;bottom:140px;transform:translateX(-50%) translateY(20px);background:var(--g);color:#fff;padding:11px 18px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:900;opacity:0;pointer-events:none;transition:.25s;text-align:center;max-width:92vw}
+#toast{position:fixed;left:50%;top:72px;transform:translateX(-50%) translateY(-16px);background:var(--g);color:#fff;padding:11px 18px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:900;opacity:0;pointer-events:none;transition:.25s;text-align:center;max-width:92vw;box-shadow:0 10px 24px rgba(0,0,0,.35);border:1.5px solid #fbbf24}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 #printArea{display:none}
 @media print{body>*{display:none!important}#printArea{display:block!important;padding:16px;font-family:monospace;color:#000;background:#fff}}
@@ -146,7 +147,7 @@ nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-
 <input type="file" id="proof_file" accept="image/*" style="display:none">
 
 <header>
-  <div class="logo" id="mark" title="5 Tap for Owner/Staff">NU</div>
+  <div class="logo" id="mark" title="Namaste Udala">NU</div>
   <div class="brand">
     <small>NAMASTE UDALA · EST. KITCHEN</small>
     <h1 id="ttl">Ghar Jaisa Khana · Roz Time Pe</h1>
@@ -156,7 +157,8 @@ nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-
 
 <div class="marquee">
   <div class="marquee-track">
-    ✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER · FREE HOME DELIVERY IN UDALA · TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER ✦
+    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
+    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
   </div>
 </div>
 
@@ -225,7 +227,10 @@ const addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); retu
 const D0 = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
 const inr = n => '₹' + (+n || 0).toLocaleString('en-IN', { minimumFractionDigits: (+n % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 });
 const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
-const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
+const isValidPhone = s => /^[6-9]\d{9}$/.test(ph(s));
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+const amtKey = n => Number(n || 0).toFixed(2).replace('.', '_');
+const numOr = (val, def) => { const n = parseFloat(val); return Number.isFinite(n) && n >= 0 ? n : def; };
 const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
@@ -235,21 +240,39 @@ if (localStorage.getItem('nu_theme') === 'dark') {
   setTimeout(() => { if ($('#thm')) $('#thm').textContent = '☀️'; }, 20);
 }
 
-function strHash(s) {
-  let h = 5381;
-  for (let i = 0; i < s.length; i += Math.max(1, Math.floor(s.length / 450))) {
-    h = ((h << 5) + h) ^ s.charCodeAt(i);
+function copyText(txt, msg) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(() => toast(msg)).catch(() => fallbackCopy(txt, msg));
+  } else {
+    fallbackCopy(txt, msg);
   }
-  return 'IMG-' + (h >>> 0).toString(16);
+}
+function fallbackCopy(txt, msg) {
+  const ta = document.createElement('textarea');
+  ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast(msg); } catch (e) { toast('Copy: ' + txt); }
+  document.body.removeChild(ta);
+}
+
+function strHash(s) {
+  let h1 = 0xdeadbeef ^ s.length, h2 = 0x41c6ce57 ^ s.length;
+  const step = Math.max(1, Math.floor(s.length / 2000));
+  for (let i = 0; i < s.length; i += step) {
+    const ch = s.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  return 'IMG-' + (h1 >>> 0).toString(16) + '-' + (h2 >>> 0).toString(16);
 }
 
 function validateStrictUTR(raw, usedList) {
   const clean = String(raw || '').replace(/\D/g, '');
-  if (clean.length !== 12) return { ok: false, msg: '⚠️ Bank UPI UTR hamesha poore 12-digit ka hota hai!' };
-  if (/^(\d)\1{6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean) || /^00/.test(clean)) {
+  if (clean.length !== 12) return { ok: false, msg: '⚠️ Bank UPI Ref/UTR hamesha poore 12-digit ka hota hai!' };
+  if (/^(\d)\1{7,}$/.test(clean) || /^(012345678901|123456789012|987654321098)$/.test(clean)) {
     return { ok: false, msg: '⚠️ Fake sequence UTR detected! Asli bank SMS/UPI UTR daalein.' };
   }
-  if (new Set(clean.split('')).size < 4) {
+  if (new Set(clean.split('')).size < 3) {
     return { ok: false, msg: '⚠️ Invalid UTR pattern! Sahi 12-digit UTR number daalein.' };
   }
   if ((usedList || []).includes(clean)) {
@@ -260,47 +283,47 @@ function validateStrictUTR(raw, usedList) {
 
 function inspectReceiptCanvas(canvas, origW, origH) {
   const ratio = origH / Math.max(1, origW);
-  if (ratio < 1.18 || ratio > 2.95) {
-    return { ok: false, msg: '⚠️ Yeh mobile UPI screenshot nahi hai! (Landscape/Square photo blocked).' };
+  if (ratio < 0.72 || ratio > 3.6) {
+    return { ok: false, msg: '⚠️ Invalid image dimensions! Asli UPI payment screenshot upload karein.' };
   }
   const ctx = canvas.getContext('2d');
   const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-  let uiBgPixels = 0, darkInkPixels = 0, total = data.length / 4;
+  let uiBgPixels = 0, contrastPixels = 0, total = data.length / 4;
   for (let i = 0; i < data.length; i += 16) {
     const r = data[i], g = data[i + 1], b = data[i + 2];
     const maxDiff = Math.max(Math.abs(r - g), Math.abs(g - b), Math.abs(r - b));
     const lum = (r + g + b) / 3;
-    if (maxDiff < 28 && (lum > 210 || (lum > 8 && lum < 56))) uiBgPixels++;
-    if (lum < 90) darkInkPixels++;
+    if (maxDiff < 38 && (lum > 185 || lum < 75)) uiBgPixels++;
+    if (lum < 110 || lum > 200) contrastPixels++;
   }
   const sampleCount = Math.max(1, total / 4);
-  const uiRatio = uiBgPixels / sampleCount;
-  const inkRatio = darkInkPixels / sampleCount;
-  if (uiRatio < 0.25) {
-    return { ok: false, msg: '⚠️ Camera/Gallery photo detected! Sirf GPay/PhonePe/Paytm ka asli screenshot upload karein.' };
+  if (uiBgPixels / sampleCount < 0.16) {
+    return { ok: false, msg: '⚠️ Camera photo detected! Sirf GPay/PhonePe/Paytm/BHIM ka screenshot lagayein.' };
   }
-  if (inkRatio < 0.015 || inkRatio > 0.96) {
-    return { ok: false, msg: '⚠️ Blank ya solid color image blocked! Asli payment screenshot lagayein.' };
+  if (contrastPixels / sampleCount < 0.02) {
+    return { ok: false, msg: '⚠️ Blank ya blur image blocked! Sahi screenshot select karein.' };
   }
   return { ok: true };
 }
 
+let _audioCtx = null;
 function playChime() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (_audioCtx.state === 'suspended') _audioCtx.resume();
     [880, 1174.66, 1567.98].forEach((freq, i) => {
-      const o = ctx.createOscillator(), g = ctx.createGain();
+      const o = _audioCtx.createOscillator(), g = _audioCtx.createGain();
       o.type = 'triangle'; o.frequency.value = freq;
-      g.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.09);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.09 + 0.35);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(ctx.currentTime + i * 0.09); o.stop(ctx.currentTime + i * 0.09 + 0.35);
+      g.gain.setValueAtTime(0.18, _audioCtx.currentTime + i * 0.09);
+      g.gain.exponentialRampToValueAtTime(0.001, _audioCtx.currentTime + i * 0.09 + 0.35);
+      o.connect(g); g.connect(_audioCtx.destination);
+      o.start(_audioCtx.currentTime + i * 0.09); o.stop(_audioCtx.currentTime + i * 0.09 + 0.35);
     });
   } catch (e) {}
 }
 
 let _t;
-const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 3100); };
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 3200); };
 addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== IMG.thali) e.target.src = IMG.thali; }, true);
 
 const CATS = [
@@ -362,24 +385,24 @@ const DEFAULT_CFG = {
   bfAddon: 20,
   bothAddon: 10,
   rotiAddon: 5,
-  pl: { veg: { 7: 749, 15: 1499, 30: 2899 }, nv: { 7: 949, 15: 1849, 30: 3599 } }
+  pl: { veg: { d7: 749, d15: 1499, d30: 2899 }, nv: { d7: 949, d15: 1849, d30: 3599 } }
 };
 
 const CUST_SEED = {
   '8073721357': {
     phone: '8073721357', name: 'Subham Rana', altPhone: '9583937047', area: 'Udala Bus Stand',
     addr: 'Near Bus Stand, Main Road, Udala', lat: 21.5732, lng: 86.5675,
-    diet: 'veg', spice: 'Medium', family: 3, notes: 'Prefers गरम रोटी in dinner', dues: 0, joined: '2026-10-01'
+    diet: 'veg', spice: 'Medium', family: 3, notes: 'Prefers गरम रोटी in dinner', dues: 0, joined: iso(addD(D0(), -15))
   },
   '9437012345': {
     phone: '9437012345', name: 'Priyanka Das', altPhone: '', area: 'Bhanjpur',
     addr: 'Ward 4, Near Temple, Bhanjpur', lat: 21.5810, lng: 86.5720,
-    diet: 'nv', spice: 'Spicy', family: 2, notes: 'Extra gravy in chicken', dues: 0, joined: '2026-10-12'
+    diet: 'nv', spice: 'Spicy', family: 2, notes: 'Extra gravy in chicken', dues: 0, joined: iso(addD(D0(), -8))
   },
   '9937055555': {
     phone: '9937055555', name: 'Anita Sahoo', altPhone: '', area: 'Market Square',
     addr: 'Shop No 12, Market Square, Udala', lat: 21.5718, lng: 86.5648,
-    diet: 'veg', spice: 'Low', family: 4, notes: 'Less oil in sabzi', dues: 560, joined: '2026-10-20'
+    diet: 'veg', spice: 'Low', family: 4, notes: 'Less oil in sabzi', dues: 0, joined: iso(addD(D0(), -4))
   }
 };
 
@@ -401,9 +424,9 @@ function seed() {
       { id: 's2', ts: NOW - 3 * 864e5, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, origDays: 15, times: 3, start: iso(addD(D0(), -3)), price: 1849, paid: 1, vStat: 'ok', pMode: 'UPI Verified', utr: '402398765432', lunch: 'both', dinner: 'roti', extraRoti: 1, skip: [] }
     ],
     orders: [
-      { id: 'o1', ts: NOW - 3 * 36e5, date: iso(D0()), name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ id: 16, n: 'Atta 5 kg', q: 1, p: 245, h: 0 }, { id: 8, n: 'Doodh 500 ml', q: 2, p: 30, h: 0 }], total: 305, paid: 1, vStat: 'ok', dlv: 0, pMode: 'UPI Verified', utr: '402311112222' },
-      { id: 'o2', ts: NOW - 26 * 36e5, date: iso(addD(D0(), -1)), name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ id: 2, n: 'Chicken curry 500g', q: 1, p: 260, h: 0 }, { id: 6, n: 'Roti (10)', q: 1, p: 50, h: 0 }], total: 310, paid: 1, vStat: 'ok', dlv: 1, pMode: 'UPI Verified', utr: '402333334444' },
-      { id: 'o3', ts: NOW - 40 * 6e4, date: iso(D0()), name: 'Anita Sahoo', phone: '9937055555', area: 'Market Square', addr: 'Market Square', items: [{ id: 4, n: 'Paneer sabzi', q: 2, p: 110, h: 0 }, { id: 17, n: 'Chawal 5 kg', q: 1, p: 340, h: 0 }], total: 560, paid: 0, vStat: 'cod', dlv: 0, pMode: 'Pay on Delivery', utr: 'Doorstep Due' }
+      { id: 'o1', ts: NOW - 3 * 36e5, date: iso(D0()), name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ id: 16, n: 'Atta 5 kg', q: 1, p: 245, h: 0 }, { id: 8, n: 'Doodh 500 ml', q: 2, p: 30, h: 0 }], total: 305, paid: 1, vStat: 'ok', packed: 1, dlv: 0, pMode: 'UPI Verified', utr: '402311112222' },
+      { id: 'o2', ts: NOW - 26 * 36e5, date: iso(addD(D0(), -1)), name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ id: 2, n: 'Chicken curry 500g', q: 1, p: 260, h: 0 }, { id: 6, n: 'Roti (10)', q: 1, p: 50, h: 0 }], total: 310, paid: 1, vStat: 'ok', packed: 1, dlv: 1, pMode: 'UPI Verified', utr: '402333334444' },
+      { id: 'o3', ts: NOW - 40 * 6e4, date: iso(D0()), name: 'Anita Sahoo', phone: '9937055555', area: 'Market Square', addr: 'Market Square', items: [{ id: 4, n: 'Paneer sabzi', q: 2, p: 110, h: 0 }, { id: 17, n: 'Chawal 5 kg', q: 1, p: 340, h: 0 }], total: 560, paid: 0, vStat: 'cod', packed: 0, dlv: 0, pMode: 'Pay on Delivery', utr: 'Doorstep Due' }
     ],
     done: {}, mset: {}
   };
@@ -415,6 +438,11 @@ try {
   if (l && l.prod && l.prod.length >= 1) S = { ...seed(), ...l };
 } catch (e) {}
 
+function getPlRate(type, d) {
+  const pl = (S.cfg && S.cfg.pl && S.cfg.pl[type]) || DEFAULT_CFG.pl[type];
+  return numOr(pl['d' + d] ?? pl[d], DEFAULT_CFG.pl[type]['d' + d] || 1499);
+}
+
 function ensureIntegrity() {
   if (!Array.isArray(S.prod) || !S.prod.length) S.prod = JSON.parse(JSON.stringify(SEED));
   if (!Array.isArray(S.subs)) S.subs = [];
@@ -425,25 +453,49 @@ function ensureIntegrity() {
   if (!Array.isArray(S.usedUtr)) S.usedUtr = ['402312345678', '402398765432', '402311112222', '402333334444'];
   if (!Array.isArray(S.usedImgHash)) S.usedImgHash = [];
   S.subs.forEach(s => { if (!Array.isArray(s.skip)) s.skip = []; });
-  S.orders.forEach(o => { if (!Array.isArray(o.items)) o.items = []; });
-  S.auto_amt = S.auto_amt || {};
+  S.orders.forEach(o => { if (!Array.isArray(o.items)) o.items = []; if (o.packed === undefined) o.packed = 0; });
+  S.exp.forEach((x, i) => { if (!x.id) x.id = 'ex_' + i + '_' + Date.now(); });
+
+  const cleanAuto = {};
+  Object.entries(S.auto_amt || {}).forEach(([k, v]) => { if (v) cleanAuto[String(k).replace('.', '_')] = v; });
+  S.auto_amt = cleanAuto;
+
   S.profiles = { ...CUST_SEED, ...(S.profiles || {}) };
+  if (S.profiles['9937055555'] && S.profiles['9937055555'].dues === 560 && S.orders.some(o => o.id === 'o3' && !o.paid)) {
+    S.profiles['9937055555'].dues = 0;
+  }
+
   S.cfg = { ...DEFAULT_CFG, ...(S.cfg || {}) };
-  S.cfg.pl = S.cfg.pl || DEFAULT_CFG.pl;
-  S.cfg.pl.veg = { ...DEFAULT_CFG.pl.veg, ...(S.cfg.pl.veg || {}) };
-  S.cfg.pl.nv = { ...DEFAULT_CFG.pl.nv, ...(S.cfg.pl.nv || {}) };
+  const rawVeg = (S.cfg.pl && S.cfg.pl.veg) || {};
+  const rawNv = (S.cfg.pl && S.cfg.pl.nv) || {};
+  S.cfg.pl = {
+    veg: { d7: numOr(rawVeg.d7 ?? rawVeg[7], 749), d15: numOr(rawVeg.d15 ?? rawVeg[15], 1499), d30: numOr(rawVeg.d30 ?? rawVeg[30], 2899) },
+    nv: { d7: numOr(rawNv.d7 ?? rawNv[7], 949), d15: numOr(rawNv.d15 ?? rawNv[15], 1849), d30: numOr(rawNv.d30 ?? rawNv[30], 3599) }
+  };
   S.done = S.done || {};
   S.mset = S.mset || {};
 }
 ensureIntegrity();
 
-function isSubActiveOn(s, d) {
+function isSubActiveOn(s, d, slot) {
   if (!s || s.vStat === 'bad') return false;
+  if (slot === 'bf' && (+s.times || 3) < 3) return false;
   const k = iso(d);
   if ((s.skip || []).includes(k)) return false;
   const startStr = s.start || iso(D0());
   const endStr = iso(addD(new Date(startStr + 'T12:00:00'), (+s.days || 30) - 1));
   return k >= startStr && k <= endStr;
+}
+
+function isSubSlotDone(subId, dateStr, slot) {
+  return !!(S.done[`${dateStr}_${subId}_${slot}`] || S.done[`${dateStr}_${subId}`]);
+}
+
+function calcRotiForSub(s, slot) {
+  if (slot === 'bf') return 0;
+  const pref = slot === 'lunch' ? (s.lunch || 'chawal') : (s.dinner || 'roti');
+  const base = pref === 'roti' ? 4 : pref === 'both' ? 2 : 0;
+  return base + (+s.extraRoti || 0);
 }
 
 function statusPillHTML(item) {
@@ -455,7 +507,9 @@ function statusPillHTML(item) {
 
 let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
 let SCAT = 'all', SQ = '', PQ = null, CART_OPEN = false, PAY_MODE = 'upi', PROOF_IMG = null, PROOF_META = null, VIEW_PROOF = null, SV_BOOK = null;
-let DRAFT_UTR = '';
+let DRAFT_UTR = '', O_Q = '', O_FILTER = 'all';
+let K_SLOT = new Date().getHours() < 11 ? 'bf' : new Date().getHours() < 16 ? 'lunch' : 'dinner';
+let MENU_DATE = iso(D0());
 let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null, ED_SUB = null, ED_ORD = null;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
@@ -480,13 +534,14 @@ const F = {
   altPhone: localStorage.getItem('nu_altp') || '',
   addr: localStorage.getItem('nu_a') || 'Near Bus Stand, Main Road, Udala',
   spice: localStorage.getItem('nu_spice') || 'Medium',
-  family: +(localStorage.getItem('nu_fam') || 3),
+  family: Math.max(1, +(localStorage.getItem('nu_fam') || 3)),
   notes: localStorage.getItem('nu_notes') || '',
   lat: +(localStorage.getItem('nu_lat') || 21.5732),
   lng: +(localStorage.getItem('nu_lng') || 86.5675)
 };
 
 function syncCustomerProfile() {
+  F.family = Math.min(50, Math.max(1, +F.family || 1));
   localStorage.setItem('nu_n', F.name);
   localStorage.setItem('nu_p', F.phone);
   localStorage.setItem('nu_altp', F.altPhone);
@@ -499,7 +554,7 @@ function syncCustomerProfile() {
   if (F.lng) localStorage.setItem('nu_lng', F.lng);
 
   const cleanP = ph(F.phone);
-  if (cleanP.length === 10) {
+  if (isValidPhone(cleanP)) {
     const existing = S.profiles[cleanP] || { joined: iso(D0()), dues: 0 };
     S.profiles[cleanP] = {
       ...existing,
@@ -512,7 +567,7 @@ function syncCustomerProfile() {
       lng: F.lng,
       diet: F.type,
       spice: F.spice,
-      family: +F.family || 1,
+      family: F.family,
       notes: F.notes.trim()
     };
   }
@@ -523,7 +578,7 @@ try {
   const app = initializeApp(FB); db = getDatabase(app);
   onValue(ref(db, NODE), sn => {
     const v = sn.val();
-    if (v && v.prod && (+v.rev || 0) >= (+S.rev || 0)) {
+    if (v && v.prod) {
       S = {
         ...seed(),
         ...v,
@@ -537,7 +592,7 @@ try {
       ensureIntegrity();
       checkAutoPaymentMatch();
       const active = document.activeElement;
-      const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK;
+      const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK || PAY_BOX;
       if (!isEditing && (!active || (active.tagName !== 'INPUT' && active.tagName !== 'SELECT'))) {
         render();
       }
@@ -547,10 +602,10 @@ try {
 
 function checkAutoPaymentMatch() {
   if (!PAY_BOX || !S.auto_amt) return;
-  const key = Number(PAY_BOX.exactAmt).toFixed(2);
+  const key = amtKey(PAY_BOX.exactAmt);
   if (S.auto_amt[key]) {
     delete S.auto_amt[key];
-    finalizeOrder(1, 'ok', 'Bank Auto-Matched ₹' + key, 'AUTO-' + Date.now().toString().slice(-8));
+    finalizeOrder(1, 'ok', 'Bank Auto-Matched ₹' + Number(PAY_BOX.exactAmt).toFixed(2), 'AUTO-' + Date.now().toString().slice(-8));
   }
 }
 
@@ -561,42 +616,60 @@ function save() {
   render();
 }
 
-const upiLink = (a, n) => 'upi://pay?pa=' + (S.cfg.upi || '9583937047@jio') + '&pn=Namaste%20Udala&cu=INR&am=' + (+a).toFixed(2) + '&tn=' + encodeURIComponent(n || 'Order');
+const upiLink = (a, n) => 'upi://pay?pa=' + encodeURIComponent(S.cfg.upi || '9583937047@jio') + '&pn=' + encodeURIComponent('Namaste Udala') + '&cu=INR&am=' + (+a).toFixed(2) + '&tn=' + encodeURIComponent(n || 'Order');
 
 const parsePid = k => Number(String(k).replace('h', ''));
 const saveCart = () => {
-  Object.keys(C).forEach(k => { if (!C[k] || C[k] < 1) delete C[k]; });
+  Object.keys(C).forEach(k => {
+    const p = S.prod.find(x => x.id === parsePid(k));
+    const isH = String(k).endsWith('h');
+    if (!C[k] || C[k] < 1 || !p || !p.s || (isH && !p.h)) delete C[k];
+    else if (C[k] > 50) C[k] = 50;
+  });
   localStorage.setItem('nu5c', JSON.stringify(C));
 };
 const cc = () => Object.entries(C).reduce((a, [k, q]) => {
   const p = S.prod.find(x => x.id === parsePid(k));
-  return (p && p.s && q > 0) ? a + (+q) : a;
+  const isH = String(k).endsWith('h');
+  return (p && p.s && (!isH || p.h) && q > 0) ? a + (+q) : a;
 }, 0);
 const subTot = () => Object.entries(C).reduce((a, [k, q]) => {
   const p = S.prod.find(x => x.id === parsePid(k));
-  if (!p || !p.s || q < 1) return a;
-  return a + (String(k).endsWith('h') ? Math.round(p.p * 0.6) : p.p) * q;
+  const isH = String(k).endsWith('h');
+  if (!p || !p.s || (isH && !p.h) || q < 1) return a;
+  return a + (isH ? Math.round(p.p * 0.6) : p.p) * q;
 }, 0);
-const dlvFee = () => { const st = subTot(); return (st > 0 && st < (+S.cfg.freeMin || 300)) ? (+S.cfg.dlvFee || 25) : 0; };
+const dlvFee = () => {
+  const st = subTot(), fMin = numOr(S.cfg.freeMin, 300), dFee = numOr(S.cfg.dlvFee, 25);
+  return (st > 0 && st < fMin) ? dFee : 0;
+};
 const ct = () => subTot() + dlvFee();
 
-const menu = t => {
-  const o = (S.mset || {})[iso(D0())];
+const menu = (t, dt) => {
+  const o = (S.mset || {})[dt || iso(D0())];
   if (o && o[t]) return o[t];
   if (t === 'bf') return 'Garma-Garam Puri Sabzi / Paratha + Chai';
   return t === 'nv' ? 'Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Shahi Paneer + Dal Tadka + Rice + 4 Roti';
 };
 
 const tierPrice = d => {
-  const plMap = S.cfg.pl || DEFAULT_CFG.pl;
-  const typeMap = plMap[F.type] || DEFAULT_CFG.pl.veg;
-  let b = +(typeMap[d] || Math.round((typeMap[30] / 30) * d));
-  if (+F.times === 3) b += d * (+S.cfg.bfAddon || 20);
-  if (F.lunch === 'both') b += d * (+S.cfg.bothAddon || 10);
-  if (F.dinner === 'both') b += d * (+S.cfg.bothAddon || 10);
-  b += (+F.extraRoti || 0) * (+S.cfg.rotiAddon || 5) * d;
+  let b = d === 1 ? numOr(S.cfg.trialPrice, 49) : getPlRate(F.type, d);
+  if (d === 1 && F.type === 'nv') b += 20;
+  if (+F.times === 3) b += d * numOr(S.cfg.bfAddon, 20);
+  if (F.lunch === 'both') b += d * numOr(S.cfg.bothAddon, 10);
+  if (F.dinner === 'both') b += d * numOr(S.cfg.bothAddon, 10);
+  b += (+F.extraRoti || 0) * numOr(S.cfg.rotiAddon, 5) * d;
   return b;
 };
+
+function getMySubs() {
+  const cleanP = ph(F.phone);
+  return (S.subs || []).filter(s => MY.includes(s.id) || ((ROLE === 'owner' || s.id === 's1') && cleanP === s.phone)).slice().reverse();
+}
+function getMyOrders() {
+  const cleanP = ph(F.phone);
+  return (S.orders || []).filter(o => MY.includes(o.id) || ((ROLE === 'owner' || o.id === 'o1') && cleanP === o.phone)).slice().reverse();
+}
 
 function userFormHTML() {
   return `
@@ -608,38 +681,43 @@ function userFormHTML() {
     ${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}
   </div>
   <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
-  <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
+  <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number (6-9 se shuru)" value="${esc(F.phone)}">
   <input class="inp" data-f="addr" placeholder="Pura Address (House No / Landmark)" value="${esc(F.addr)}">`;
 }
 
 /* --- 1. FRONT MAIN FOCUS: MONTHLY (30d), 15-DAY & 7-DAY TIFFIN PLANS --- */
 function vPlan() {
   const pr = tierPrice(+F.days);
-  const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (F.phone && s.phone === ph(F.phone))).slice().reverse();
-  const activeSub = mySubs[0];
+  const trialPr = tierPrice(1);
+  const mySubs = getMySubs();
+  const todayStr = iso(D0());
 
-  let calHTML = '';
-  if (activeSub) {
-    const startD = new Date((activeSub.start || iso(D0())) + 'T12:00:00');
+  const calHTML = mySubs.map(activeSub => {
+    const startD = new Date((activeSub.start || todayStr) + 'T12:00:00');
     const daysArr = Array.from({ length: +activeSub.days || 30 }, (_, i) => {
       const d = addD(startD, i), k = iso(d);
-      const isSk = (activeSub.skip || []).includes(k), isDn = S.done[k + '_' + activeSub.id], isTd = k === iso(D0());
+      const isSk = (activeSub.skip || []).includes(k);
+      const isDn = isSubSlotDone(activeSub.id, k, 'lunch') || isSubSlotDone(activeSub.id, k, 'dinner');
+      const isTd = k === todayStr;
       return `<div class="cal-d ${isDn ? 'dn' : isSk ? 'sk' : ''} ${isTd ? 'td' : ''}">${d.getDate()}/${d.getMonth() + 1}<br>${isDn ? '✓' : isSk ? 'Skip' : '•'}</div>`;
     }).join('');
-    calHTML = `
+    return `
     <div class="card">
-      <h3>Mera Tiffin Attendance Calendar (${activeSub.days}d) ${statusPillHTML(activeSub)}</h3>
+      <h3>Mera Tiffin Calendar: ${activeSub.days}d (${activeSub.type === 'nv' ? 'Non-Veg' : 'Veg'}) ${statusPillHTML(activeSub)}</h3>
       <div class="cal-grid">${daysArr}</div>
     </div>`;
-  }
+  }).join('');
+
+  const heroDishId = F.type === 'veg' ? 4 : 1;
+  const heroImg = F.type === 'veg' ? IMG.paneer : IMG.leg;
 
   return `
-  <div class="hero3d terracotta" data-a="pq" data-id="1">
+  <div class="hero3d terracotta" data-a="pq" data-id="${heroDishId}">
     ${steamHTML()}
     <span class="hero-pill">ARTISANAL HOME KITCHEN</span>
     <h2>Monthly · 15 Days · 7 Days Tiffin Plan</h2>
     <p>3-Time Ghar Jaisa Garma-Garam Khana · Free Home Delivery</p>
-    <img class="hero-plate" src="${IMG.leg}" alt="Hot Chicken">
+    <img class="hero-plate" src="${esc(heroImg)}" alt="Hot Thali">
   </div>
 
   <div class="card">
@@ -677,26 +755,26 @@ function vPlan() {
     <div class="seg">
       <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Chawal</button>
       <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">4 Roti</button>
-      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹${S.cfg.bothAddon}/d)</button>
+      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹${numOr(S.cfg.bothAddon, 10)}/d)</button>
     </div>
 
     <span class="lbl">4. Raat (Dinner) Preference</span>
     <div class="seg">
       <button class="${F.dinner === 'roti' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="roti">4 Roti</button>
       <button class="${F.dinner === 'chawal' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="chawal">Chawal</button>
-      <button class="${F.dinner === 'both' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="both">Dono (+₹${S.cfg.bothAddon}/d)</button>
+      <button class="${F.dinner === 'both' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="both">Dono (+₹${numOr(S.cfg.bothAddon, 10)}/d)</button>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin:10px 0 4px">
       <div>
-        <span class="lbl" style="margin:0 0 4px">5. Extra Roti (+₹${S.cfg.rotiAddon}/d)</span>
+        <span class="lbl" style="margin:0 0 4px">5. Extra Roti (+₹${numOr(S.cfg.rotiAddon, 5)}/d)</span>
         <div class="qty">
           <button data-a="er_dec">−</button><b>${F.extraRoti}</b><button data-a="er_inc">+</button>
         </div>
       </div>
       <div>
         <span class="lbl" style="margin:0 0 4px">Start Date</span>
-        <input class="inp" type="date" data-f="start" value="${F.start}" style="margin:0">
+        <input class="inp" type="date" data-f="start" min="${todayStr}" value="${F.start < todayStr ? todayStr : F.start}" style="margin:0">
       </div>
     </div>
 
@@ -707,13 +785,13 @@ function vPlan() {
       <b>${inr(pr)}</b>
     </div>
     <button class="btn" data-a="pay_sub">Activate ${F.days} Days Plan · ${inr(pr)}</button>
-    <button class="btn g" data-a="pay_trial">Book 1-Day Trial Tiffin · ${inr(S.cfg.trialPrice)}</button>
+    <button class="btn g" data-a="pay_trial">Book 1-Day Trial Tiffin · ${inr(trialPr)}</button>
   </div>
 
   ${calHTML}
 
   <div class="card">
-    <h3>Aaj Ka 3-Time Fresh Menu <span>${iso(D0())}</span></h3>
+    <h3>Aaj Ka 3-Time Fresh Menu <span>${todayStr}</span></h3>
     <div style="background:var(--sf2);padding:10px 12px;border-radius:14px;margin-bottom:8px;font-size:13px">
       <b style="color:var(--o)">Subah Nashta:</b> ${esc(menu('bf'))}
     </div>
@@ -740,31 +818,31 @@ function vShop() {
     ${steamHTML()}
     <span class="hero-pill">FRESH KITCHEN & PANTRY</span>
     <h2>Garma-Garam Khana & Daily Kirana</h2>
-    <p>Full & Half-Plate available · Free Delivery above ${inr(S.cfg.freeMin)}</p>
-    <img class="hero-plate" src="${IMG.chick}" alt="Chicken">
+    <p>Full & Half-Plate available · Free Delivery above ${inr(numOr(S.cfg.freeMin, 300))}</p>
+    <img class="hero-plate" src="${esc(IMG.chick)}" alt="Chicken">
   </div>
 
   <input class="inp" id="sq" placeholder="Search Doodh, Atta, Chicken, Paneer, Surf..." value="${esc(SQ)}" style="margin-bottom:10px">
 
   <div class="chips">
-    ${CATS.map(c => `<button class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${c[2]}" alt=""><span>${c[1]}</span></button>`).join('')}
+    ${CATS.map(c => `<button class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${esc(c[2])}" alt=""><span>${c[1]}</span></button>`).join('')}
   </div>
 
   <div class="grid">
     ${list.map(p => {
-      const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0, qty = qf + qh;
-      const off = p.mrp ? Math.round((1 - p.p / p.mrp) * 100) : 0;
+      const qf = C[p.id] || 0, qh = p.h ? (C[p.id + 'h'] || 0) : 0, qty = qf + qh;
+      const off = (p.mrp && p.mrp > p.p) ? Math.round((1 - p.p / p.mrp) * 100) : 0;
       return `<div class="pcard">
         <div class="pimg" data-a="pq" data-id="${p.id}">
           ${p.hot ? steamHTML() : ''}
-          <img src="${p.img}" alt="${esc(p.n)}" loading="lazy">
+          <img src="${esc(p.img)}" alt="${esc(p.n)}" loading="lazy">
           ${off > 0 ? `<span class="badge">${off}% OFF</span>` : ''}
           ${p.h ? `<span class="half-tag">1/2 Half</span>` : ''}
           ${p.hot ? `<span class="hot-tag">GARMA-GARAM</span>` : ''}
         </div>
         <div class="pname" data-a="pq" data-id="${p.id}">${symHTML(p.nv)}<span>${esc(p.n)}</span></div>
         <div class="pprice">
-          <div><b>${inr(p.p)}</b>${p.mrp ? `<s>${inr(p.mrp)}</s>` : ''}</div>
+          <div><b>${inr(p.p)}</b>${p.mrp && p.mrp > p.p ? `<s>${inr(p.mrp)}</s>` : ''}</div>
         </div>
         ${!p.s ? `<button class="btn w" disabled>Out of Stock</button>` :
           qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` :
@@ -781,11 +859,11 @@ function vServices() {
     <span class="hero-pill">VERIFIED LOCAL PARTNERS</span>
     <h2>Udala Local Services & Catering</h2>
     <p>Tuition · Photography · Stage Decor · Hostel · Party Order</p>
-    <img class="hero-plate" src="${IMG.cam}" alt="Services">
+    <img class="hero-plate" src="${esc(IMG.cam)}" alt="Services">
   </div>
   ${(S.svcList || []).map(s => `
     <div class="card" style="display:flex;gap:14px;align-items:center">
-      <img src="${s.img}" style="width:84px;height:84px;border-radius:16px">
+      <img src="${esc(s.img)}" style="width:84px;height:84px;border-radius:16px">
       <div style="flex:1">
         <div style="font-family:var(--serif);font-weight:800;font-size:15.5px">${esc(s.n)}</div>
         <p style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.d)}</p>
@@ -798,15 +876,16 @@ function vServices() {
   `).join('')}`;
 }
 
-/* --- 4. COMPLETE CUSTOMER PROFILE VIEW --- */
+/* --- 4. COMPLETE CUSTOMER PROFILE VIEW (PRIVACY LOCKED TO DEVICE) --- */
 function vProfile() {
   const cleanP = ph(F.phone);
   const prof = S.profiles[cleanP] || {};
-  const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (cleanP && s.phone === cleanP)).slice().reverse();
-  const myOrds = (S.orders || []).filter(o => MY.includes(o.id) || (cleanP && o.phone === cleanP)).slice().reverse();
+  const mySubs = getMySubs();
+  const myOrds = getMyOrders();
   const totSpent = mySubs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) + myOrds.reduce((a, o) => a + (o.paid ? o.total : 0), 0);
   const totDue = (+prof.dues || 0) + myOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? o.total : 0), 0) + mySubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? s.price : 0), 0);
   const initials = (F.name || 'N U').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  const todayStr = iso(D0());
 
   return `
   <div class="prof-head">
@@ -821,7 +900,7 @@ function vProfile() {
   <div class="kpi">
     <div><b>${inr(totSpent)}</b><span>Verified Paid</span></div>
     <div><b style="color:${totDue > 0 ? '#dc2626' : '#16a34a'}">${inr(totDue)}</b><span>Pending / Hold</span></div>
-    <div><b>${mySubs.length + myOrds.length}</b><span>Total Orders</span></div>
+    <div><b>${mySubs.length + myOrds.length}</b><span>My Orders</span></div>
   </div>
 
   <div class="card">
@@ -835,7 +914,7 @@ function vProfile() {
     <span class="lbl">Alternate Mobile / WhatsApp & Family Members Count</span>
     <div class="btn-row">
       <input class="inp" data-f="altPhone" type="tel" maxlength="10" placeholder="Alternate Number" value="${esc(F.altPhone)}">
-      <input class="inp" data-f="family" type="number" placeholder="Family Size (e.g. 3)" value="${esc(F.family)}">
+      <input class="inp" data-f="family" type="number" min="1" max="50" placeholder="Family Size (e.g. 3)" value="${esc(F.family)}">
     </div>
 
     <span class="lbl">Select Udala Locality / Ward</span>
@@ -863,9 +942,10 @@ function vProfile() {
   <div class="card">
     <h3>2. My Tiffin Subscriptions (${mySubs.length})</h3>
     ${mySubs.map(s => {
-      const paused = (s.skip || []).includes(iso(D0()));
+      const paused = (s.skip || []).includes(todayStr);
       const maxSkips = (+s.origDays || +s.days || 30) >= 30 ? 5 : (+s.origDays || 15) >= 15 ? 3 : 2;
       const usedSkips = (s.skip || []).length;
+      const activeToday = isSubActiveOn(s, D0());
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <b>🍱 ${s.days} Din ${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} (${s.times || 3} Time/Day)</b>
@@ -874,10 +954,12 @@ function vProfile() {
         <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">Start: ${s.start} · L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'} · Skips: ${usedSkips}/${maxSkips} · UTR: ${esc(s.utr)}</div>
         <div class="btn-row">
           ${s.proof ? `<button class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
-          ${s.vStat !== 'bad' ? `<button class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
+          <button class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨 Bill</button>
+          <a class="btn sm w" href="https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(`Namaste Udala! Mera ${s.days}d Tiffin Plan (#${s.id.slice(-4)}) UTR: ${s.utr} verify kar dein.`)}" target="_blank">📲 WhatsApp</a>
+          ${(s.paid || s.vStat === 'cod') && (activeToday || paused) ? `<button class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
         </div>
       </div>`;
-    }).join('') || '<p style="color:var(--mu);font-size:13px">Koi active tiffin plan nahi hai.</p>'}
+    }).join('') || '<p style="color:var(--mu);font-size:13px">Is device par koi active tiffin plan nahi hai.</p>'}
   </div>
 
   <div class="card">
@@ -888,8 +970,8 @@ function vProfile() {
         ${statusPillHTML(o)}
       </div>
       <div style="font-size:12px;color:var(--mu);margin:4px 0">${(o.items || []).map(i => i.n + ' ×' + i.q).join(', ')}</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;gap:6px">
-        <span style="font-size:11px;font-weight:700;color:var(--mu)">Status: <b>${o.dlv ? 'Delivered ✓' : o.vStat === 'bad' ? 'Cancelled' : 'Preparing'}</b> · UTR: ${esc(o.utr)}</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;gap:6px;flex-wrap:wrap">
+        <span style="font-size:11px;font-weight:700;color:var(--mu)">Status: <b>${o.dlv ? 'Delivered ✓' : o.packed ? 'Packed & Out for Delivery' : o.vStat === 'bad' ? 'Cancelled' : 'Preparing'}</b> · UTR: ${esc(o.utr)}</span>
         <div style="display:flex;gap:5px">
           ${o.proof ? `<button class="btn w sm" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam}</button>` : ''}
           <button class="btn w sm" data-a="prt" data-id="${o.id}">🖨 Bill</button>
@@ -900,12 +982,12 @@ function vProfile() {
   </div>`;
 }
 
-/* --- 5. KITCHEN VIEW --- */
+/* --- 5. KITCHEN VIEW (WITH 3-TIME MEAL SLOT SWITCHER & EXACT ROTI COUNT) --- */
 function vKitchen() {
   const k = iso(D0());
-  const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (s.paid || s.vStat === 'cod'));
+  const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
   const veg = activeSubs.filter(s => s.type === 'veg').length, nv = activeSubs.length - veg;
-  const roti = activeSubs.length * 4 + activeSubs.reduce((a, s) => a + (+s.extraRoti || 0), 0);
+  const roti = activeSubs.reduce((a, s) => a + calcRotiForSub(s, K_SLOT), 0);
   const pendOrds = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod'));
   const holdCount = (S.orders || []).filter(o => !o.paid && o.vStat === 'verify').length + (S.subs || []).filter(s => !s.paid && s.vStat === 'verify').length;
 
@@ -914,7 +996,7 @@ function vKitchen() {
     ${steamHTML()}
     <h2>Kitchen Production Counter</h2>
     <p>Aaj (${k}) ke Verified Active Tiffins & Shop Orders</p>
-    <img class="hero-plate" src="${IMG.thali}" alt="Kitchen">
+    <img class="hero-plate" src="${esc(IMG.thali)}" alt="Kitchen">
   </div>
 
   ${holdCount ? `
@@ -923,39 +1005,50 @@ function vKitchen() {
     <p style="font-size:11.5px;color:#b45309;margin-top:3px">Owner Panel se screenshot/UTR check karke Approve karne par woh Kitchen list mein aayenge.</p>
   </div>` : ''}
 
+  <div class="seg" style="margin-bottom:12px">
+    <button class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">🌅 Subah Nashta</button>
+    <button class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">☀️ Dopahar Lunch</button>
+    <button class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">🌙 Raat Dinner</button>
+  </div>
+
   <div class="kpi">
-    <div><b>${activeSubs.length}</b><span>Active Dabbe</span></div>
+    <div><b>${activeSubs.length}</b><span>${K_SLOT.toUpperCase()} Dabbe</span></div>
     <div><b>${veg} / ${nv}</b><span>Veg / NV</span></div>
-    <div><b>${roti}</b><span>Kul Roti</span></div>
+    <div><b>${roti}</b><span>Slot Kul Roti</span></div>
   </div>
 
   <div class="card">
-    <h3>Today's Active Tiffins to Cook (${activeSubs.length})</h3>
+    <h3>${K_SLOT === 'bf' ? 'Morning Nashta' : K_SLOT === 'lunch' ? 'Dopahar Lunch' : 'Raat Dinner'} Tiffins (${activeSubs.length})</h3>
     ${activeSubs.map(s => {
       const prof = S.profiles[ph(s.phone)] || {};
+      const slotRoti = calcRotiForSub(s, K_SLOT);
+      const slotPref = K_SLOT === 'bf' ? 'Nashta' : K_SLOT === 'lunch' ? (s.lunch || 'chawal') : (s.dinner || 'roti');
       return `<div class="row">
         <div>
           <b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'} · ${s.times || 3} Time)</b>
-          <div style="font-size:12px;color:var(--mu)">L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'}${s.extraRoti ? ` (+${s.extraRoti} Roti)` : ''} · Spice: <b>${esc(prof.spice || 'Medium')}</b> ${prof.notes ? `· "${esc(prof.notes)}"` : ''}</div>
+          <div style="font-size:12px;color:var(--mu)">Slot: <b>${esc(slotPref.toUpperCase())}</b> (${slotRoti} Roti) · Spice: <b>${esc(prof.spice || 'Medium')}</b> ${prof.notes ? `· "${esc(prof.notes)}"` : ''}</div>
         </div>
-        <span class="st-pill st-ok">Cook Today</span>
+        <span class="st-pill st-ok">Cook Now</span>
       </div>`;
-    }).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffins for today.</p>'}
+    }).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffins for this meal slot.</p>'}
   </div>
 
   <div class="card">
     <h3>Verified Shop Orders to Pack (${pendOrds.length})</h3>
     ${pendOrds.map(o => `<div class="row">
-      <div><b>${esc(o.name)} (${esc(o.area)})</b><div style="font-size:12.5px;color:var(--o);font-weight:800">${(o.items || []).map(i => i.n + ' ×' + i.q).join(', ')}</div></div>
-      <button class="btn g sm" data-a="odlv" data-id="${o.id}">Packed & Ready ✓</button>
-    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">All verified orders packed.</p>'}
+      <div>
+        <b>${esc(o.name)} (${esc(o.area)})</b>
+        <div style="font-size:12.5px;color:var(--o);font-weight:800">${(o.items || []).map(i => i.n + ' ×' + i.q).join(', ')}</div>
+      </div>
+      <button class="btn sm ${o.packed ? 'w' : 'g'}" data-a="opack" data-id="${o.id}">${o.packed ? 'Packed ✓ (On Route)' : 'Mark Packed ✓'}</button>
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">All verified orders packed & delivered.</p>'}
   </div>`;
 }
 
-/* --- 6. DELIVERY ROUTE VIEW --- */
+/* --- 6. DELIVERY ROUTE VIEW (SLOT-WISE TIFFIN DROP + PACKED ORDER DROP) --- */
 function vRoute() {
   const k = iso(D0());
-  const subs = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (s.paid || s.vStat === 'cod'));
+  const subs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
   const ords = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod'));
 
   return `
@@ -964,11 +1057,17 @@ function vRoute() {
     <button class="btn w sm" data-a="logout_staff">Exit</button>
   </div>
 
+  <div class="seg" style="margin-bottom:12px">
+    <button class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">🌅 Nashta Drop</button>
+    <button class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">☀️ Lunch Drop</button>
+    <button class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">🌙 Dinner Drop</button>
+  </div>
+
   <div class="card">
-    <h3>Today's Tiffin Deliveries (${subs.length})</h3>
+    <h3>${K_SLOT.toUpperCase()} Tiffin Deliveries (${subs.length})</h3>
     ${subs.map(s => {
-      const done = S.done[k + '_' + s.id];
-      const mapUrl = s.lat ? `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' ' + (s.area || 'Udala'))}`;
+      const done = isSubSlotDone(s.id, k, K_SLOT);
+      const mapUrl = s.lat ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.lat + ',' + s.lng)}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' ' + (s.area || 'Udala'))}`;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
           <b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
@@ -976,35 +1075,35 @@ function vRoute() {
         </div>
         <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.addr)}</div>
         <div class="btn-row">
-          <a class="btn w sm" href="${mapUrl}" target="_blank">GPS Map</a>
+          <a class="btn w sm" href="${esc(mapUrl)}" target="_blank">GPS Map</a>
           <a class="btn w sm" href="tel:+91${esc(s.phone)}">Call</a>
-          <button class="btn sm ${done ? 'w' : 'g'}" data-a="sdone" data-id="${s.id}">${done ? 'Delivered Today ✓' : 'Mark Delivered ✓'}</button>
+          <button class="btn sm ${done ? 'w' : 'g'}" data-a="sdone" data-k="${K_SLOT}" data-id="${s.id}">${done ? `${K_SLOT.toUpperCase()} Delivered ✓` : `Mark ${K_SLOT.toUpperCase()} Done ✓`}</button>
         </div>
       </div>`;
-    }).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffin drops.</p>'}
+    }).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffin drops for this slot.</p>'}
   </div>
 
   <div class="card">
     <h3>Shop Order Drops (${ords.length})</h3>
     ${ords.map(o => {
-      const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' ' + (o.area || 'Udala'))}`;
+      const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(o.lat + ',' + o.lng)}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' ' + (o.area || 'Udala'))}`;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
-          <b>${esc(o.name)} — ${inr(o.total)}</b>
+          <b>${esc(o.name)} — ${inr(o.total)} ${o.packed ? '<span class="st-pill st-ok">📦 Packed</span>' : '<span class="st-pill st-wait">⏳ In Kitchen</span>'}</b>
           <span style="font-size:11.5px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'VERIFIED PAID' : 'COLLECT CASH/QR: ' + inr(o.total)}</span>
         </div>
         <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(o.addr)} · ${(o.items || []).map(i => i.n + '×' + i.q).join(', ')}</div>
         <div class="btn-row">
-          <a class="btn w sm" href="${mapUrl}" target="_blank">GPS Map</a>
+          <a class="btn w sm" href="${esc(mapUrl)}" target="_blank">GPS Map</a>
           <a class="btn w sm" href="tel:+91${esc(o.phone)}">Call</a>
-          <button class="btn g sm" data-a="odlv" data-id="${o.id}">Delivered & Paid ✓</button>
+          <button class="btn g sm" data-a="odlv" data-id="${o.id}">Delivered & Cash/QR Collected ✓</button>
         </div>
       </div>`;
     }).join('') || '<p style="color:var(--mu);font-size:13px">No pending shop drops.</p>'}
   </div>`;
 }
 
-/* --- 7. OWNER MASTER CONTROL (WITH FULL ORDER & TIFFIN EDITORS) --- */
+/* --- 7. OWNER MASTER CONTROL --- */
 function vOwner() {
   const subs = (S.subs || []).slice().reverse();
   const ords = (S.orders || []).slice().reverse();
@@ -1021,11 +1120,12 @@ function vOwner() {
     const p = ph(o.phone); if (!p) return;
     allCust[p] = { phone: p, name: o.name, area: o.area, addr: o.addr, lat: o.lat, lng: o.lng, diet: 'veg', spice: 'Medium', family: 1, dues: 0, ...(allCust[p] || {}) };
   });
-  const custList = Object.values(allCust);
+  const q = O_Q.trim().toLowerCase();
+  const custList = Object.values(allCust).filter(c => !q || (c.name || '').toLowerCase().includes(q) || (c.phone || '').includes(q) || (c.area || '').toLowerCase().includes(q));
 
   const ownerTabs = [
     ['ords', `Orders & Verify ${pendVerifyCount ? '(' + pendVerifyCount + ')' : ''}`],
-    ['cust', `Customers (${custList.length})`],
+    ['cust', `Customers (${Object.keys(allCust).length})`],
     ['plans', 'Rates, Menu & Kharcha'],
     ['prod', 'Shop Products'],
     ['svc', 'Services & UPI']
@@ -1036,15 +1136,23 @@ function vOwner() {
   if (O_TAB === 'ords') {
     const eoObj = ED_ORD ? S.orders.find(x => x.id === ED_ORD) : null;
     const esObj = ED_SUB ? S.subs.find(x => x.id === ED_SUB) : null;
+    const filtOrds = ords.filter(o => (O_FILTER === 'all' || (O_FILTER === 'hold' && o.vStat === 'verify' && !o.paid) || (O_FILTER === 'unpaid' && !o.paid)) && (!q || (o.name || '').toLowerCase().includes(q) || (o.phone || '').includes(q) || String(o.utr || '').toLowerCase().includes(q)));
+    const filtSubs = subs.filter(s => (O_FILTER === 'all' || (O_FILTER === 'hold' && s.vStat === 'verify' && !s.paid) || (O_FILTER === 'unpaid' && !s.paid)) && (!q || (s.name || '').toLowerCase().includes(q) || (s.phone || '').includes(q) || String(s.utr || '').toLowerCase().includes(q)));
 
     body = `
     <div class="card" style="border:2px solid #16a34a">
       <h3><span style="display:flex;align-items:center;gap:6px"><i class="pulse-dot"></i> Bank SMS Exact Paise Auto-Matcher</span></h3>
-      <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Bank SMS mein aaya exact amount (jaise <b>305.24</b>) yahan push karein—matching order turant <b>Verified Paid ✓</b> ho jayega:</p>
+      <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Bank SMS mein aaya exact amount (jaise <b>305.24</b>) yahan push karein—oldest matching order turant <b>Verified Paid ✓</b> ho jayega:</p>
       <div style="display:flex;gap:8px">
         <input class="inp" id="wh_amt" type="number" step="0.01" placeholder="Exact ₹ Amount (e.g. 305.24)" style="flex:1;margin:0">
         <button class="btn g sm" data-a="push_auto_amt">Auto-Match</button>
       </div>
+    </div>
+
+    <div style="display:flex;gap:6px;margin-bottom:10px;align-items:center">
+      <input class="inp" id="oq" placeholder="Search Name, Phone, UTR..." value="${esc(O_Q)}" style="margin:0;flex:1">
+      <button class="btn sm ${O_FILTER === 'all' ? 'g' : 'w'}" data-a="ofilter" data-v="all">All</button>
+      <button class="btn sm ${O_FILTER === 'hold' ? 'g' : 'w'}" data-a="ofilter" data-v="hold">Hold (${pendVerifyCount})</button>
     </div>
 
     ${eoObj ? `
@@ -1063,8 +1171,8 @@ function vOwner() {
     </div>` : ''}
 
     <div class="card">
-      <h3>Shop Orders & Anti-Fraud Verification (${ords.length})</h3>
-      ${ords.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
+      <h3>Shop Orders & Anti-Fraud Verification (${filtOrds.length})</h3>
+      ${filtOrds.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
           ${statusPillHTML(o)}
@@ -1076,14 +1184,14 @@ function vOwner() {
         </div>
         <div class="btn-row">
           ${o.proof ? `<button class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} Proof</button>` : ''}
-          <button class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Unmark' : '✓ Approve'}</button>
+          <button class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Unmark Paid' : '✓ Approve'}</button>
           ${o.vStat !== 'bad' ? `<button class="btn sm r" data-a="o_reject" data-id="${o.id}">✕ Fake</button>` : ''}
-          <button class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Done ✓' : 'Deliver'}</button>
+          <button class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
           <button class="btn sm w" data-a="edit_ord" data-id="${o.id}">Edit</button>
           <button class="btn sm w" data-a="prt" data-id="${o.id}">🖨</button>
           <button class="btn sm w" data-a="o_del" data-id="${o.id}">🗑</button>
         </div>
-      </div>`).join('') || '<p style="color:var(--mu)">No shop orders.</p>'}
+      </div>`).join('') || '<p style="color:var(--mu)">No matching shop orders.</p>'}
     </div>
 
     ${esObj ? `
@@ -1105,8 +1213,8 @@ function vOwner() {
     </div>` : ''}
 
     <div class="card">
-      <h3>Tiffin Subscriptions Verification (${subs.length})</h3>
-      ${subs.map(s => `<div class="row" style="flex-direction:column;align-items:stretch">
+      <h3>Tiffin Subscriptions Verification (${filtSubs.length})</h3>
+      ${filtSubs.map(s => `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <b>${esc(s.name)} (${esc(s.phone)}) — ${inr(s.price)}</b>
           ${statusPillHTML(s)}
@@ -1118,13 +1226,15 @@ function vOwner() {
           ${s.vStat !== 'bad' ? `<button class="btn sm r" data-a="s_reject" data-id="${s.id}">✕ Fake</button>` : ''}
           <button class="btn sm w" data-a="edit_sub" data-id="${s.id}">Edit</button>
           <button class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1d</button>
+          <button class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨</button>
           <button class="btn sm w" data-a="s_del" data-id="${s.id}">🗑</button>
         </div>
-      </div>`).join('') || '<p style="color:var(--mu)">No active tiffin plans.</p>'}
+      </div>`).join('') || '<p style="color:var(--mu)">No matching tiffin plans.</p>'}
     </div>`;
   } else if (O_TAB === 'cust') {
     const ecObj = ED_CUST ? (S.profiles[ED_CUST] || { phone: ED_CUST }) : {};
     body = `
+    <input class="inp" id="oq" placeholder="Search Customer Name, Phone, Locality..." value="${esc(O_Q)}" style="margin-bottom:10px">
     <div class="card" id="cust_form">
       <h3>${ED_CUST ? 'Edit Customer Profile: ' + esc(ED_CUST) : 'Add / Update Customer Profile'} ${ED_CUST ? `<button class="btn w sm" data-a="cancel_edcust">Cancel</button>` : ''}</h3>
       <div class="btn-row">
@@ -1146,7 +1256,7 @@ function vOwner() {
           <option value="Low" ${ecObj.spice === 'Low' ? 'selected' : ''}>Low Spice</option>
           <option value="Spicy" ${ecObj.spice === 'Spicy' ? 'selected' : ''}>Extra Spicy</option>
         </select>
-        <input class="inp" id="ec_dues" type="number" placeholder="Extra Due ₹" value="${ecObj.dues || 0}">
+        <input class="inp" id="ec_dues" type="number" placeholder="Manual Khata Due ₹" value="${numOr(ecObj.dues, 0)}">
       </div>
       <input class="inp" id="ec_notes" placeholder="Kitchen / Delivery Note (e.g. Less oil, 2nd floor)" value="${esc(ecObj.notes || '')}">
       <button class="btn g" data-a="save_cust">${ED_CUST ? 'Update Customer Profile ✓' : '+ Save Customer Profile'}</button>
@@ -1159,7 +1269,7 @@ function vOwner() {
         const cOrds = ords.filter(o => ph(o.phone) === c.phone);
         const totalPaid = cSubs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) + cOrds.reduce((a, o) => a + (o.paid ? o.total : 0), 0);
         const calcDue = (+c.dues || 0) + cOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? o.total : 0), 0) + cSubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? s.price : 0), 0);
-        const mapUrl = c.lat ? `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((c.addr || '') + ' ' + (c.area || 'Udala'))}`;
+        const mapUrl = c.lat ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(c.lat + ',' + c.lng)}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((c.addr || '') + ' ' + (c.area || 'Udala'))}`;
 
         return `<div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between;align-items:flex-start">
@@ -1180,7 +1290,7 @@ function vOwner() {
           <div class="btn-row">
             <a class="btn sm w" href="tel:+91${esc(c.phone)}">Call</a>
             <a class="btn sm w" href="https://wa.me/91${esc(c.phone)}?text=${encodeURIComponent('Namaste ' + c.name + ' ji! Namaste Udala se update.')}" target="_blank">WhatsApp</a>
-            <a class="btn sm w" href="${mapUrl}" target="_blank">GPS Map</a>
+            <a class="btn sm w" href="${esc(mapUrl)}" target="_blank">GPS Map</a>
             <button class="btn sm g" data-a="edit_cust" data-id="${c.phone}">Edit All</button>
             <button class="btn sm r" data-a="del_cust" data-id="${c.phone}">✕</button>
           </div>
@@ -1188,7 +1298,6 @@ function vOwner() {
       }).join('')}
     </div>`;
   } else if (O_TAB === 'plans') {
-    const vp = S.cfg.pl.veg, nvp = S.cfg.pl.nv;
     body = `
     <div class="card">
       <h3>Daily Kharcha (Expense) & Net Profit Ledger</h3>
@@ -1197,45 +1306,47 @@ function vOwner() {
         <input class="inp" id="exp_a" type="number" placeholder="₹ Amt" style="width:110px">
       </div>
       <button class="btn" data-a="add_exp">+ Add Daily Expense</button>
-      ${(S.exp || []).map((x, idx) => ({ ...x, idx })).slice(-8).reverse().map(x => `<div class="row"><span>${esc(x.n)} (${x.d})</span><div style="display:flex;align-items:center;gap:8px"><b style="color:#dc2626">−${inr(x.amt)}</b><button class="btn sm r" data-a="del_exp" data-id="${x.idx}">✕</button></div></div>`).join('')}
+      ${(S.exp || []).slice(-10).reverse().map(x => `<div class="row"><span>${esc(x.n)} (${x.d})</span><div style="display:flex;align-items:center;gap:8px"><b style="color:#dc2626">−${inr(x.amt)}</b><button class="btn sm r" data-a="del_exp" data-id="${x.id}">✕</button></div></div>`).join('')}
     </div>
 
     <div class="card">
-      <h3>Edit Tiffin Plan Prices (₹)</h3>
+      <h3>Edit Tiffin Plan Prices & Add-ons (₹)</h3>
       <span class="lbl">Pure Veg Base Prices (7 Din / 15 Din / 30 Din)</span>
       <div class="btn-row">
-        <input class="inp" id="vp_7" type="number" value="${vp[7]}" placeholder="7d Veg">
-        <input class="inp" id="vp_15" type="number" value="${vp[15]}" placeholder="15d Veg">
-        <input class="inp" id="vp_30" type="number" value="${vp[30]}" placeholder="30d Veg">
+        <input class="inp" id="vp_7" type="number" value="${getPlRate('veg', 7)}" placeholder="7d Veg">
+        <input class="inp" id="vp_15" type="number" value="${getPlRate('veg', 15)}" placeholder="15d Veg">
+        <input class="inp" id="vp_30" type="number" value="${getPlRate('veg', 30)}" placeholder="30d Veg">
       </div>
       <span class="lbl">Non-Veg Base Prices (7 Din / 15 Din / 30 Din)</span>
       <div class="btn-row">
-        <input class="inp" id="nvp_7" type="number" value="${nvp[7]}" placeholder="7d NV">
-        <input class="inp" id="nvp_15" type="number" value="${nvp[15]}" placeholder="15d NV">
-        <input class="inp" id="nvp_30" type="number" value="${nvp[30]}" placeholder="30d NV">
+        <input class="inp" id="nvp_7" type="number" value="${getPlRate('nv', 7)}" placeholder="7d NV">
+        <input class="inp" id="nvp_15" type="number" value="${getPlRate('nv', 15)}" placeholder="15d NV">
+        <input class="inp" id="nvp_30" type="number" value="${getPlRate('nv', 30)}" placeholder="30d NV">
       </div>
-      <span class="lbl">1-Day Trial Price (₹) & 3-Time Nashta Addon/Day (₹)</span>
+      <span class="lbl">1-Day Trial (₹) · Nashta/d (₹) · Dono/d (₹) · Extra Roti (₹)</span>
       <div class="btn-row">
-        <input class="inp" id="cfg_trial" type="number" value="${S.cfg.trialPrice}" placeholder="Trial ₹">
-        <input class="inp" id="cfg_bf" type="number" value="${S.cfg.bfAddon}" placeholder="Nashta/d ₹">
+        <input class="inp" id="cfg_trial" type="number" value="${numOr(S.cfg.trialPrice, 49)}" placeholder="Trial ₹">
+        <input class="inp" id="cfg_bf" type="number" value="${numOr(S.cfg.bfAddon, 20)}" placeholder="Nashta ₹">
+        <input class="inp" id="cfg_both" type="number" value="${numOr(S.cfg.bothAddon, 10)}" placeholder="Dono ₹">
+        <input class="inp" id="cfg_roti" type="number" value="${numOr(S.cfg.rotiAddon, 5)}" placeholder="Roti ₹">
       </div>
-      <span class="lbl">Free Delivery Min Order (₹) & Delivery Fee (₹)</span>
+      <span class="lbl">Free Delivery Min Order (₹) & Delivery Fee (₹, 0 allowed)</span>
       <div class="btn-row">
-        <input class="inp" id="cfg_fmin" type="number" value="${S.cfg.freeMin}" placeholder="Free Min ₹">
-        <input class="inp" id="cfg_dfee" type="number" value="${S.cfg.dlvFee}" placeholder="Dlv Fee ₹">
+        <input class="inp" id="cfg_fmin" type="number" value="${numOr(S.cfg.freeMin, 300)}" placeholder="Free Min ₹">
+        <input class="inp" id="cfg_dfee" type="number" value="${numOr(S.cfg.dlvFee, 25)}" placeholder="Dlv Fee ₹">
       </div>
-      <button class="btn g" data-a="save_rates">Save All Plan Rates & Fees</button>
+      <button class="btn g" data-a="save_rates">Save All Plan Rates & Fees ✓</button>
     </div>
 
     <div class="card">
-      <h3>Edit Today's 3-Time Menu (${iso(D0())})</h3>
+      <h3>Edit 3-Time Menu <input class="inp" type="date" id="menu_dt" value="${MENU_DATE}" style="width:auto;padding:4px 8px;margin:0"></h3>
       <span class="lbl">Subah Nashta</span>
-      <input class="inp" id="m_bf" value="${esc(menu('bf'))}">
+      <input class="inp" id="m_bf" value="${esc(menu('bf', MENU_DATE))}">
       <span class="lbl">Pure Veg Menu</span>
-      <input class="inp" id="m_veg" value="${esc(menu('veg'))}">
+      <input class="inp" id="m_veg" value="${esc(menu('veg', MENU_DATE))}">
       <span class="lbl">Non-Veg Menu</span>
-      <input class="inp" id="m_nv" value="${esc(menu('nv'))}">
-      <button class="btn g" data-a="savem">Save Live Menu</button>
+      <input class="inp" id="m_nv" value="${esc(menu('nv', MENU_DATE))}">
+      <button class="btn g" data-a="savem">Save Live Menu for ${MENU_DATE} ✓</button>
     </div>`;
   } else if (O_TAB === 'prod') {
     const epObj = ED_P ? (S.prod.find(x => x.id === ED_P) || {}) : {};
@@ -1288,8 +1399,12 @@ function vOwner() {
     <div class="card">
       <h3>Service Bookings Received (${(S.svBookings || []).length})</h3>
       ${(S.svBookings || []).slice().reverse().map(b => `<div class="row">
-        <div><b>${esc(b.svName)} — ${esc(b.name)} (${esc(b.phone)})</b><div style="font-size:11.5px;color:var(--mu)">Date: ${esc(b.date)} · Area: ${esc(b.area)} · Note: ${esc(b.note || '-')}</div></div>
+        <div>
+          <b>${esc(b.svName)} — ${esc(b.name)} (${esc(b.phone)})</b>
+          <div style="font-size:11.5px;color:var(--mu)">Date: ${esc(b.date)} · Area: ${esc(b.area)} · Note: ${esc(b.note || '-')}</div>
+        </div>
         <div style="display:flex;gap:5px">
+          <button class="btn sm ${b.done ? 'w' : 'g'}" data-a="done_svb" data-id="${b.id}">${b.done ? 'Confirmed ✓' : 'Confirm'}</button>
           <a class="btn sm g" href="tel:+91${esc(b.phone)}">Call</a>
           <button class="btn sm r" data-a="del_svb" data-id="${b.id}">✕</button>
         </div>
@@ -1300,8 +1415,11 @@ function vOwner() {
       <h3>${ED_SV ? 'Edit Service' : 'Add New Service'} ${ED_SV ? `<button class="btn w sm" data-a="cancel_edsv">Cancel</button>` : ''}</h3>
       <input class="inp" id="es_n" placeholder="Service Title (e.g. Home Tuition)" value="${esc(esvObj.n || '')}">
       <div class="btn-row">
+        <select class="inp" id="es_c">
+          ${['Tuition', 'Photo', 'Decor', 'Hostel', 'Catering'].map(cat => `<option value="${cat}" ${esvObj.c === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+        </select>
         <input class="inp" id="es_p" type="number" placeholder="Price ₹" value="${esvObj.p || ''}">
-        <input class="inp" id="es_u" placeholder="Unit (e.g. /month, /event)" value="${esc(esvObj.u || '')}">
+        <input class="inp" id="es_u" placeholder="Unit (e.g. /month)" value="${esc(esvObj.u || '')}">
       </div>
       <input class="inp" id="es_d" placeholder="Short Description" value="${esc(esvObj.d || '')}">
       <input class="inp" id="es_img" placeholder="Photo URL (Optional)" value="${esc(esvObj.img || '')}">
@@ -1311,7 +1429,7 @@ function vOwner() {
     <div class="card">
       <h3>All Local Services (${(S.svcList || []).length})</h3>
       ${(S.svcList || []).map(s => `<div class="row">
-        <div><b>${esc(s.n)} (${inr(s.p)}${esc(s.u)})</b><div style="font-size:11px;color:var(--mu)">${esc(s.d)}</div></div>
+        <div><b>${esc(s.n)} (${inr(s.p)}${esc(s.u)})</b><div style="font-size:11px;color:var(--mu)">${esc(s.c || 'Local')} · ${esc(s.d)}</div></div>
         <div style="display:flex;gap:5px">
           <button class="btn sm w" data-a="edit_svc" data-id="${s.id}">Edit</button>
           <button class="btn sm r" data-a="del_svc" data-id="${s.id}">✕</button>
@@ -1357,7 +1475,7 @@ function sheet() {
         <b>📸 Uploaded Payment Proof</b>
         <button class="btn w sm" data-a="close_proof">Close</button>
       </div>
-      <img src="${VIEW_PROOF}" style="max-width:100%;max-height:68vh;margin:0 auto;border-radius:16px;border:2px solid var(--ln)">
+      <img src="${esc(VIEW_PROOF)}" style="max-width:100%;max-height:68vh;margin:0 auto;border-radius:16px;border:2px solid var(--ln)">
     </div></div>`;
   }
 
@@ -1370,7 +1488,7 @@ function sheet() {
       </div>
       <div style="font-size:18px;font-weight:800;color:var(--o);margin-bottom:8px">${inr(s.p)}${esc(s.u)}</div>
       <span class="lbl">Preferred Start / Event Date</span>
-      <input class="inp" id="sv_date" type="date" value="${iso(addD(D0(), 1))}">
+      <input class="inp" id="sv_date" type="date" min="${iso(D0())}" value="${iso(addD(D0(), 1))}">
       <input class="inp" id="sv_note" placeholder="Timing / Batch / Event Details">
       ${userFormHTML()}
       <button class="btn g" data-a="confirm_svb">Confirm Service Booking ✓</button>
@@ -1379,6 +1497,7 @@ function sheet() {
 
   if (PAY_BOX) {
     const g = PAY_BOX, uLink = upiLink(g.exactAmt, g.title);
+    const over2k = g.exactAmt > 2000;
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <span style="display:flex;align-items:center;gap:6px;color:var(--g2);font-size:12px;font-weight:800"><i class="pulse-dot"></i> ANTI-FRAUD PAYMENT HUB</span>
@@ -1387,7 +1506,7 @@ function sheet() {
       <h2 style="font-family:var(--serif);font-size:19px;font-weight:800;text-align:center">${esc(g.title)}</h2>
 
       <div class="seg" style="margin:10px 0">
-        <button class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. QR + 12-Digit UTR</button>
+        <button class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. UPI + 12-Digit UTR</button>
         <button class="${PAY_MODE === 'proof' ? 'on' : ''}" data-a="pmode" data-v="proof">2. Screenshot + UTR</button>
         <button class="${PAY_MODE === 'cod' ? 'on' : ''}" data-a="pmode" data-v="cod">3. Pay at Door</button>
       </div>
@@ -1396,8 +1515,10 @@ function sheet() {
         <div style="text-align:center">
           <div style="font-family:var(--serif);font-size:26px;font-weight:800;color:var(--o)">${inr(g.exactAmt)}</div>
           <div style="font-size:11px;color:var(--g2);font-weight:800">⚡ Auto-Verifies in 0s on Bank SMS of ${inr(g.exactAmt)}</div>
-          <div style="background:#fff;padding:12px;border-radius:18px;width:fit-content;margin:8px auto;border:2px solid var(--ln)">
-            <img src="${qrUrl(uLink)}" style="width:152px;height:152px" alt="QR">
+          ${over2k ? `<div style="background:#fef3c7;color:#92400e;font-size:11px;padding:7px 10px;border-radius:10px;margin:6px 0;font-weight:700">💡 ₹2,000+ ke plan ke liye Gallery QR scan ki jagah niche <b>Open UPI App</b> ya <b>Copy UPI ID</b> se direct pay karein.</div>` : ''}
+          <a class="btn" href="${esc(uLink)}" style="margin:8px 0">⚡ 1-Tap Open GPay / PhonePe / Paytm</a>
+          <div style="background:#fff;padding:10px;border-radius:18px;width:fit-content;margin:6px auto;border:2px solid var(--ln)">
+            <img src="${esc(qrUrl(uLink))}" style="width:142px;height:142px;margin:0 auto" alt="QR">
             <div style="font-size:11px;color:#16241c;font-weight:800;margin-top:4px">UPI ID: ${esc(S.cfg.upi)}</div>
           </div>
           <div class="btn-row">
@@ -1411,11 +1532,11 @@ function sheet() {
       ` : PAY_MODE === 'proof' ? `
         <div style="text-align:center;padding:6px 0">
           <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:4px">${inr(g.exactAmt)}</div>
-          <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Fake photo block hai! Sirf <b>Asli UPI Screenshot</b> + usme likha <b>12-Digit UTR</b> dono lagayein:</p>
+          <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Sirf <b>Asli UPI Screenshot</b> + usme likha <b>12-Digit UTR</b> dono lagayein:</p>
           <button class="btn w" data-a="pick_proof" style="margin-bottom:8px">
             ${IC.cam} <span>${PROOF_IMG ? 'Verified Screenshot Attached ✓' : '1. Select UPI Payment Screenshot'}</span>
           </button>
-          ${PROOF_IMG ? `<img src="${PROOF_IMG}" style="max-height:120px;margin:6px auto;border-radius:12px;border:2px solid #16a34a">` : ''}
+          ${PROOF_IMG ? `<img src="${esc(PROOF_IMG)}" style="max-height:120px;margin:6px auto;border-radius:12px;border:2px solid #16a34a">` : ''}
           <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="2. Enter 12-Digit UTR shown in Screenshot" value="${esc(DRAFT_UTR)}">
           <button class="btn g" data-a="confirm_paid">Submit Screenshot + UTR for Approval ✓</button>
         </div>
@@ -1439,8 +1560,10 @@ function sheet() {
       </div>
       <div style="max-height:200px;overflow-y:auto">
         ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
-          const p = S.prod.find(x => x.id === parsePid(k)); if (!p || !p.s) return '';
-          const isH = String(k).endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+          const p = S.prod.find(x => x.id === parsePid(k));
+          const isH = String(k).endsWith('h');
+          if (!p || !p.s || (isH && !p.h)) return '';
+          const pr = isH ? Math.round(p.p * 0.6) : p.p;
           return `<div class="row">
             <div><b>${esc(p.n)}${isH ? ' (1/2 Half)' : ''}</b><div style="font-size:11.5px;color:var(--mu)">${inr(pr)} × ${q}</div></div>
             <div class="qty" style="width:105px;margin:0"><button data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div>
@@ -1449,7 +1572,7 @@ function sheet() {
       </div>
       <div style="font-size:12px;color:var(--mu);padding-top:8px;display:flex;justify-content:space-between">
         <span>Items: ${inr(st)}</span>
-        <span>Delivery: <b>${df ? inr(df) + ' (Free above ' + inr(S.cfg.freeMin) + ')' : 'FREE'}</b></span>
+        <span>Delivery: <b>${df ? inr(df) + ' (Free above ' + inr(numOr(S.cfg.freeMin, 300)) + ')' : 'FREE'}</b></span>
       </div>
       <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
       ${userFormHTML()}
@@ -1459,7 +1582,7 @@ function sheet() {
 
   if (PQ) {
     const p = S.prod.find(x => x.id === +PQ); if (!p) return '';
-    const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0;
+    const qf = C[p.id] || 0, qh = p.h ? (C[p.id + 'h'] || 0) : 0;
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <b style="color:var(--o);font-size:12px">${p.hot ? 'GARMA-GARAM KITCHEN DISH' : 'PRODUCT DETAILS'}</b>
@@ -1467,7 +1590,7 @@ function sheet() {
       </div>
       <div class="pop-stage">
         ${p.hot ? `<div class="pop-steam"><span></span><span></span><span></span></div>` : ''}
-        <img class="pop-plate" src="${p.img}" alt="${esc(p.n)}">
+        <img class="pop-plate" src="${esc(p.img)}" alt="${esc(p.n)}">
       </div>
       <h2 style="font-family:var(--serif);font-size:20px;font-weight:800;text-align:center">${esc(p.n)}</h2>
       <div class="row" style="margin-top:10px">
@@ -1478,16 +1601,19 @@ function sheet() {
         <div><b>1/2 Half Plate</b><div style="font-size:12px;color:var(--mu)">${inr(Math.round(p.p * 0.6))}</div></div>
         <div class="qty" style="width:115px;margin:0"><button data-a="dh" data-id="${p.id}">−</button><b>${qh}</b><button data-a="ih" data-id="${p.id}">+</button></div>
       </div>` : ''}
-      <button class="btn g" data-a="add_open_cart" data-id="${p.id}">Open Cart & Checkout</button>
+      <button class="btn g" data-a="add_open_cart" data-id="${p.id}" ${!p.s ? 'disabled' : ''}>${p.s ? 'Open Cart & Checkout' : 'Out of Stock'}</button>
     </div></div>`;
   }
   return '';
 }
 
 function render() {
+  saveCart();
   const V = { plan: vPlan, shop: vShop, services: vServices, profile: vProfile, kitchen: vKitchen, route: vRoute, owner: vOwner };
   $('#v').innerHTML = (V[tab] || vPlan)();
-  $('#sheet').innerHTML = sheet();
+  const shHTML = sheet();
+  $('#sheet').innerHTML = shHTML;
+  document.body.classList.toggle('modal-open', !!shHTML);
 
   const n = cc(), tot = ct();
   $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX) ? `
@@ -1511,8 +1637,8 @@ function render() {
 }
 
 function checkUser() {
-  if (!F.name.trim() || ph(F.phone).length !== 10 || !F.addr.trim()) {
-    toast('Naam, 10-digit Mobile Number aur Address bharein');
+  if (!F.name.trim() || !isValidPhone(F.phone) || !F.addr.trim()) {
+    toast('Naam, valid 10-digit Mobile (6-9 se shuru) aur Address bharein');
     return false;
   }
   syncCustomerProfile();
@@ -1527,13 +1653,16 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
   if (refNo && /^\d{12}$/.test(refNo)) S.usedUtr.push(refNo);
   if (PROOF_IMG) S.usedImgHash.push(strHash(PROOF_IMG));
 
+  const todayStr = iso(D0());
+  const safeStart = (!F.start || F.start < todayStr) ? todayStr : F.start;
+
   if (PAY_BOX.kind === 'sub') {
     const id = uid('s');
     S.subs.push({
       id, ts: Date.now(), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
       lat: F.lat, lng: F.lng, type: F.type, days: PAY_BOX.days, origDays: PAY_BOX.days, times: F.times,
       lunch: F.lunch, dinner: F.dinner, extraRoti: F.extraRoti,
-      start: F.start || iso(D0()), price: finalPrice, paid: isPaid, vStat, pMode: modeLabel, utr: refNo,
+      start: safeStart, price: finalPrice, paid: isPaid, vStat, pMode: modeLabel, utr: refNo,
       proof: PROOF_IMG || '', proofMeta: PROOF_META || '', skip: []
     });
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
@@ -1542,15 +1671,17 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
   } else {
     const items = [];
     Object.entries(C).forEach(([k, q]) => {
-      const p = S.prod.find(x => x.id === parsePid(k)); if (!p || !p.s || q < 1) return;
-      const isH = String(k).endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+      const p = S.prod.find(x => x.id === parsePid(k));
+      const isH = String(k).endsWith('h');
+      if (!p || !p.s || (isH && !p.h) || q < 1) return;
+      const pr = isH ? Math.round(p.p * 0.6) : p.p;
       items.push({ id: p.id, h: isH ? 1 : 0, n: p.n + (isH ? ' (Half)' : ''), q, p: pr });
     });
     if (!items.length) { toast('Cart is empty!'); setPayBox(null); render(); return; }
     const id = uid('o');
     S.orders.push({
-      id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
-      lat: F.lat, lng: F.lng, items, total: finalPrice, paid: isPaid, vStat, dlv: 0,
+      id, ts: Date.now(), date: todayStr, name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+      lat: F.lat, lng: F.lng, items, total: finalPrice, paid: isPaid, vStat, packed: 0, dlv: 0,
       pMode: modeLabel, utr: refNo, proof: PROOF_IMG || '', proofMeta: PROOF_META || ''
     });
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
@@ -1563,22 +1694,24 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
 const A = {
   tab: v => { tab = v; PQ = null; CART_OPEN = false; SV_BOOK = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
   otab: v => { O_TAB = v; ED_P = null; ED_SV = null; ED_CUST = null; ED_SUB = null; ED_ORD = null; render(); },
+  ofilter: v => { O_FILTER = v; render(); },
+  kslot: v => { K_SLOT = v; render(); },
   pmode: v => { if ($('#utr_inp')) DRAFT_UTR = $('#utr_inp').value; PAY_MODE = v; render(); },
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
   er_inc: () => { F.extraRoti = Math.min(10, (+F.extraRoti || 0) + 1); render(); },
   er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
   set_area: v => { F.area = v; syncCustomerProfile(); render(); },
   cat: v => { SCAT = v; render(); },
-  pq: (v, k, id) => { PQ = +id; render(); },
-  open_cart: () => { PQ = null; CART_OPEN = true; render(); },
+  pq: (v, k, id) => { history.pushState({ modal: 1 }, ''); PQ = +id; render(); },
+  open_cart: () => { history.pushState({ modal: 1 }, ''); PQ = null; CART_OPEN = true; render(); },
   add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; saveCart(); PQ = null; CART_OPEN = true; render(); },
   close: () => { PQ = null; CART_OPEN = false; SV_BOOK = null; render(); },
   cancel_pay: () => { setPayBox(null); PROOF_IMG = null; PROOF_META = null; render(); },
   close_proof: () => { VIEW_PROOF = null; render(); },
   close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = null; CART_OPEN = false; SV_BOOK = null; VIEW_PROOF = null; render(); } },
-  inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; saveCart(); render(); },
+  inc: (v, k, id) => { C[id] = Math.min(50, (C[id] || 0) + 1); saveCart(); render(); },
   dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); saveCart(); render(); },
-  ih: (v, k, id) => { C[id + 'h'] = (C[id + 'h'] || 0) + 1; saveCart(); render(); },
+  ih: (v, k, id) => { C[id + 'h'] = Math.min(50, (C[id + 'h'] || 0) + 1); saveCart(); render(); },
   dh: (v, k, id) => { C[id + 'h'] = Math.max(0, (C[id + 'h'] || 0) - 1); saveCart(); render(); },
 
   pick_proof: () => {
@@ -1587,16 +1720,17 @@ const A = {
     if (inp) { inp.value = ''; inp.click(); }
   },
 
-  open_svb: (v, k, id) => { SV_BOOK = id; render(); },
+  open_svb: (v, k, id) => { history.pushState({ modal: 1 }, ''); SV_BOOK = id; render(); },
   confirm_svb: () => {
     const s = (S.svcList || []).find(x => x.id === SV_BOOK);
     if (!s || !checkUser()) return;
     S.svBookings.push({
       id: uid('sb'), svName: s.n, price: s.p, date: $('#sv_date').value,
-      note: $('#sv_note').value.trim(), name: F.name.trim(), phone: ph(F.phone), area: F.area
+      note: $('#sv_note').value.trim(), name: F.name.trim(), phone: ph(F.phone), area: F.area, done: 0
     });
     SV_BOOK = null; playChime(); save(); toast('Service Booking Saved! Hum aapko call karenge.');
   },
+  done_svb: (v, k, id) => { const b = (S.svBookings || []).find(x => x.id === id); if (b) { b.done = b.done ? 0 : 1; save(); toast('Booking Updated'); } },
   del_svb: (v, k, id) => { S.svBookings = (S.svBookings || []).filter(x => x.id !== id); save(); toast('Booking Deleted'); },
 
   save_prof: () => {
@@ -1606,21 +1740,34 @@ const A = {
 
   reorder: (v, k, id) => {
     const o = S.orders.find(x => x.id === id); if (!o) return;
+    let added = 0, skipped = 0;
     (o.items || []).forEach(i => {
-      const p = S.prod.find(x => x.id === i.id || i.n.startsWith(x.n));
-      if (p && p.s) {
-        const key = (i.h || i.n.includes('(Half)')) ? (p.id + 'h') : p.id;
-        C[key] = (C[key] || 0) + i.q;
+      const p = S.prod.find(x => x.id === i.id) || S.prod.find(x => x.n === i.n.replace(' (Half)', ''));
+      const isH = !!(i.h || i.n.includes('(Half)'));
+      if (p && p.s && (!isH || p.h)) {
+        const key = isH ? (p.id + 'h') : p.id;
+        C[key] = Math.min(50, (C[key] || 0) + i.q);
+        added++;
+      } else {
+        skipped++;
       }
     });
     saveCart();
-    CART_OPEN = true; render(); toast('Items Cart Mein Jud Gaye!');
+    if (added > 0) { CART_OPEN = true; render(); toast(skipped ? `${added} items added (${skipped} out of stock)` : 'Items Cart Mein Jud Gaye!'); }
+    else toast('Yeh items abhi out of stock hain.');
   },
 
   cust_skip: (v, k, id) => {
     const s = S.subs.find(x => x.id === id); if (!s) return;
+    if (!MY.includes(s.id) && ROLE !== 'owner') { toast('Unauthorized action!'); return; }
+    if (!s.paid && s.vStat !== 'cod' && ROLE !== 'owner') { toast('Plan abhi verification hold par hai!'); return; }
     if (new Date().getHours() >= 10 && ROLE !== 'owner') {
       toast('Subah 10:00 AM ke baad aaj ka tiffin skip nahi ho sakta!');
+      return;
+    }
+    const td = iso(D0());
+    if (!isSubActiveOn(s, D0()) && !(s.skip || []).includes(td)) {
+      toast('Yeh plan aaj ki date par active nahi hai!');
       return;
     }
     s.skip = s.skip || [];
@@ -1629,7 +1776,6 @@ const A = {
       toast(`Max ${maxSkips} skips allowed in this plan!`);
       return;
     }
-    const td = iso(D0());
     if (!s.skip.includes(td)) {
       s.skip.push(td);
       s.days = (+s.days || 30) + 1;
@@ -1639,18 +1785,19 @@ const A = {
   },
 
   getgps: () => {
-    if (!navigator.geolocation) { F.lat = 21.5742; F.lng = 86.5681; syncCustomerProfile(); save(); toast('GPS Saved'); return; }
-    toast('Detecting GPS...');
+    if (!navigator.geolocation) { toast('Is browser mein GPS supported nahi hai.'); return; }
+    toast('Detecting exact GPS...');
     navigator.geolocation.getCurrentPosition(pos => {
       F.lat = pos.coords.latitude; F.lng = pos.coords.longitude;
-      syncCustomerProfile(); save(); toast('Exact Doorstep GPS Saved!');
+      syncCustomerProfile(); save(); toast('Exact Doorstep GPS Locked ✓');
     }, () => {
-      F.lat = 21.5742; F.lng = 86.5681; syncCustomerProfile(); save(); toast('Udala GPS Pin Saved');
-    }, { enableHighAccuracy: true, timeout: 6000 });
+      toast('⚠️ GPS Permission Denied! Phone location ON karke dobara try karein.');
+    }, { enableHighAccuracy: true, timeout: 7000 });
   },
 
   pay_sub: () => {
     if (!checkUser()) return;
+    history.pushState({ modal: 1 }, '');
     const base = tierPrice(+F.days);
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
@@ -1659,7 +1806,8 @@ const A = {
   },
   pay_trial: () => {
     if (!checkUser()) return;
-    const base = +S.cfg.trialPrice || 49;
+    history.pushState({ modal: 1 }, '');
+    const base = tierPrice(1);
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
     setPayBox({ kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` });
@@ -1676,8 +1824,8 @@ const A = {
     render();
   },
 
-  copy_upi: () => { navigator.clipboard.writeText(S.cfg.upi || '9583937047@jio').catch(() => {}); toast('UPI ID Copied!'); },
-  copy_amt: () => { if (PAY_BOX) { navigator.clipboard.writeText(Number(PAY_BOX.exactAmt).toFixed(2)).catch(() => {}); toast('Exact Amount Copied: ₹' + Number(PAY_BOX.exactAmt).toFixed(2)); } },
+  copy_upi: () => copyText(S.cfg.upi || '9583937047@jio', 'UPI ID Copied!'),
+  copy_amt: () => { if (PAY_BOX) copyText(Number(PAY_BOX.exactAmt).toFixed(2), 'Exact Amount Copied: ₹' + Number(PAY_BOX.exactAmt).toFixed(2)); },
 
   confirm_paid: () => {
     if (!PAY_BOX) return;
@@ -1706,7 +1854,7 @@ const A = {
       }
     }
 
-    const key = Number(PAY_BOX.exactAmt).toFixed(2);
+    const key = amtKey(PAY_BOX.exactAmt);
     if (S.auto_amt && S.auto_amt[key]) {
       delete S.auto_amt[key];
       finalizeOrder(1, 'ok', 'Auto-Matched + UTR', vCheck.utr);
@@ -1720,16 +1868,27 @@ const A = {
   push_auto_amt: () => {
     const val = +($('#wh_amt') ? $('#wh_amt').value : 0);
     if (!(val > 0)) { toast('Valid exact amount daalein (e.g. 305.24)'); return; }
-    const key = val.toFixed(2);
-    S.auto_amt[key] = 1;
+    const key = amtKey(val);
+    const disp = val.toFixed(2);
 
-    let matched = 0;
-    (S.orders || []).forEach(o => { if (!o.paid && Number(o.total).toFixed(2) === key) { o.paid = 1; o.vStat = 'ok'; o.pMode = 'Bank Auto-Matched'; matched++; } });
-    (S.subs || []).forEach(s => { if (!s.paid && Number(s.price).toFixed(2) === key) { s.paid = 1; s.vStat = 'ok'; s.pMode = 'Bank Auto-Matched'; matched++; } });
+    let matched = false;
+    for (const o of (S.orders || [])) {
+      if (!o.paid && o.vStat !== 'bad' && amtKey(o.total) === key) {
+        o.paid = 1; o.vStat = 'ok'; o.pMode = 'Bank Auto-Matched'; matched = true; break;
+      }
+    }
+    if (!matched) {
+      for (const s of (S.subs || [])) {
+        if (!s.paid && s.vStat !== 'bad' && amtKey(s.price) === key) {
+          s.paid = 1; s.vStat = 'ok'; s.pMode = 'Bank Auto-Matched'; matched = true; break;
+        }
+      }
+    }
+    if (!matched) S.auto_amt[key] = 1;
 
     checkAutoPaymentMatch();
     save();
-    toast(matched ? `🎉 Auto-Verified ${matched} Pending Order(s) of ₹${key}!` : `₹${key} pushed to Live Auto-Matcher!`);
+    toast(matched ? `🎉 Auto-Verified Pending Order of ₹${disp}!` : `₹${disp} pushed to Live Auto-Matcher!`);
   },
 
   view_proof: (v, k, id) => {
@@ -1741,7 +1900,13 @@ const A = {
 
   prt: (v, k, id) => {
     const o = S.orders.find(x => x.id === id); if (!o) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Bill #${String(o.id).slice(-4)} · ${o.date}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Area: ${esc(o.area)} · ${esc(o.addr)}<br>Status: ${o.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(o.utr)})</p><hr>${(o.items || []).map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Shop Bill #${String(o.id).slice(-4)} · ${esc(o.date)}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Area: ${esc(o.area)} · ${esc(o.addr)}<br>Status: ${o.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(o.utr)})</p><hr>${(o.items || []).map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
+    window.print();
+  },
+
+  prt_sub: (v, k, id) => {
+    const s = S.subs.find(x => x.id === id); if (!s) return;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Tiffin Subscription #${String(s.id).slice(-4)} · Start: ${esc(s.start)}</p><p>Customer: ${esc(s.name)} (${esc(s.phone)})<br>Area: ${esc(s.area)} · ${esc(s.addr)}<br>Plan: ${s.days} Days (${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} · ${s.times || 3} Time)<br>Status: ${s.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(s.utr)})</p><hr><h3>TOTAL PLAN AMOUNT: ${inr(s.price)}</h3>`;
     window.print();
   },
 
@@ -1754,7 +1919,7 @@ const A = {
     const o = S.orders.find(x => x.id === ED_ORD); if (!o) return;
     o.name = $('#eo_name').value.trim() || o.name;
     o.phone = ph($('#eo_phone').value) || o.phone;
-    o.total = +$('#eo_total').value || o.total;
+    o.total = numOr($('#eo_total').value, o.total);
     o.utr = $('#eo_utr').value.trim() || o.utr;
     o.addr = $('#eo_addr').value.trim() || o.addr;
     ED_ORD = null; save(); toast('Order Updated ✓');
@@ -1769,8 +1934,9 @@ const A = {
     const s = S.subs.find(x => x.id === ED_SUB); if (!s) return;
     s.name = $('#esub_name').value.trim() || s.name;
     s.type = $('#esub_type').value;
-    s.days = +$('#esub_days').value || s.days;
-    s.price = +$('#esub_price').value || s.price;
+    s.days = Math.max(1, +$('#esub_days').value || s.days);
+    s.origDays = s.days;
+    s.price = numOr($('#esub_price').value, s.price);
     s.start = $('#esub_start').value || s.start;
     ED_SUB = null; save(); toast('Subscription Updated ✓');
   },
@@ -1781,10 +1947,25 @@ const A = {
   },
   o_reject: (v, k, id) => {
     const o = S.orders.find(x => x.id === id);
-    if (o) { o.paid = 0; o.vStat = 'bad'; o.pMode = 'Rejected Fake Proof'; save(); toast('Order Rejected as Fake Proof!'); }
+    if (o) {
+      if (o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
+      o.paid = 0; o.vStat = 'bad'; o.pMode = 'Rejected Fake Proof'; save(); toast('Order Rejected & UTR Released!');
+    }
   },
-  odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = o.dlv ? 0 : 1; if (o.dlv) { o.paid = 1; o.vStat = 'ok'; } save(); toast('Delivery Status Updated'); } },
-  o_del: (v, k, id) => { if (!confirm('Delete this order?')) return; S.orders = S.orders.filter(x => x.id !== id); save(); toast('Order Deleted'); },
+  opack: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id);
+    if (o) { o.packed = o.packed ? 0 : 1; save(); toast(o.packed ? 'Order Packed & Ready for Rider ✓' : 'Unpacked'); }
+  },
+  odlv: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id);
+    if (o) { o.dlv = o.dlv ? 0 : 1; if (o.dlv) { o.packed = 1; o.paid = 1; o.vStat = 'ok'; } save(); toast(o.dlv ? 'Order Delivered & Paid ✓' : 'Marked Undelivered'); }
+  },
+  o_del: (v, k, id) => {
+    if (!confirm('Delete this order?')) return;
+    const o = S.orders.find(x => x.id === id);
+    if (o && o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
+    S.orders = S.orders.filter(x => x.id !== id); save(); toast('Order Deleted');
+  },
 
   s_paid: (v, k, id) => {
     const s = S.subs.find(x => x.id === id);
@@ -1792,19 +1973,32 @@ const A = {
   },
   s_reject: (v, k, id) => {
     const s = S.subs.find(x => x.id === id);
-    if (s) { s.paid = 0; s.vStat = 'bad'; s.pMode = 'Rejected Fake Proof'; save(); toast('Plan Rejected as Fake Proof!'); }
+    if (s) {
+      if (s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
+      s.paid = 0; s.vStat = 'bad'; s.pMode = 'Rejected Fake Proof'; save(); toast('Plan Rejected & UTR Released!');
+    }
   },
   s_add_day: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.days = (+s.days || 30) + 1; save(); toast('+1 Day Added to Plan'); } },
-  s_del: (v, k, id) => { if (!confirm('Delete this tiffin subscription?')) return; S.subs = S.subs.filter(x => x.id !== id); save(); toast('Subscription Deleted'); },
-  sdone: (v, k, id) => { const key = iso(D0()) + '_' + id; S.done[key] = S.done[key] ? 0 : 1; save(); toast('Tiffin Status Updated ✓'); },
+  s_del: (v, k, id) => {
+    if (!confirm('Delete this tiffin subscription?')) return;
+    const s = S.subs.find(x => x.id === id);
+    if (s && s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
+    S.subs = S.subs.filter(x => x.id !== id); save(); toast('Subscription Deleted');
+  },
+  sdone: (v, k, id) => {
+    const slot = k || K_SLOT || 'lunch';
+    const key = `${iso(D0())}_${id}_${slot}`;
+    S.done[key] = S.done[key] ? 0 : 1;
+    save(); toast(`${slot.toUpperCase()} Tiffin Status Updated ✓`);
+  },
 
   add_exp: () => {
     const n = $('#exp_n').value.trim(), a = +$('#exp_a').value;
     if (!n || !(a > 0)) { toast('Enter Expense Name & Amount'); return; }
-    S.exp.push({ d: iso(D0()), n, amt: a });
+    S.exp.push({ id: uid('ex'), d: iso(D0()), n, amt: a });
     save(); toast('Expense Added');
   },
-  del_exp: (v, k, id) => { S.exp.splice(+id, 1); save(); toast('Expense Removed'); },
+  del_exp: (v, k, id) => { S.exp = (S.exp || []).filter(x => x.id !== id); save(); toast('Expense Removed'); },
 
   edit_cust: (v, k, id) => {
     ED_CUST = id; render();
@@ -1813,7 +2007,7 @@ const A = {
   cancel_edcust: () => { ED_CUST = null; render(); },
   save_cust: () => {
     const p = ph($('#ec_phone').value), n = $('#ec_name').value.trim();
-    if (p.length !== 10 || !n) { toast('Enter Valid Name & 10-Digit Mobile'); return; }
+    if (!isValidPhone(p) || !n) { toast('Enter Valid Name & 10-Digit Mobile (6-9 se shuru)'); return; }
     S.profiles[p] = {
       ...(S.profiles[p] || { joined: iso(D0()) }),
       phone: p,
@@ -1823,7 +2017,7 @@ const A = {
       addr: $('#ec_addr').value.trim(),
       diet: $('#ec_diet').value,
       spice: $('#ec_spice').value,
-      dues: +$('#ec_dues').value || 0,
+      dues: numOr($('#ec_dues').value, 0),
       notes: $('#ec_notes').value.trim()
     };
     ED_CUST = null; save(); toast('Customer Profile Saved ✓');
@@ -1834,15 +2028,22 @@ const A = {
   },
 
   save_rates: () => {
-    S.cfg.pl.veg = { 7: +$('#vp_7').value || 749, 15: +$('#vp_15').value || 1499, 30: +$('#vp_30').value || 2899 };
-    S.cfg.pl.nv = { 7: +$('#nvp_7').value || 949, 15: +$('#nvp_15').value || 1849, 30: +$('#nvp_30').value || 3599 };
-    S.cfg.trialPrice = +$('#cfg_trial').value || 49;
-    S.cfg.bfAddon = +$('#cfg_bf').value || 20;
-    S.cfg.freeMin = +$('#cfg_fmin').value || 300;
-    S.cfg.dlvFee = +$('#cfg_dfee').value || 25;
-    save(); toast('All Plan Rates & Fees Saved!');
+    S.cfg.pl.veg = { d7: numOr($('#vp_7').value, 749), d15: numOr($('#vp_15').value, 1499), d30: numOr($('#vp_30').value, 2899) };
+    S.cfg.pl.nv = { d7: numOr($('#nvp_7').value, 949), d15: numOr($('#nvp_15').value, 1849), d30: numOr($('#nvp_30').value, 3599) };
+    S.cfg.trialPrice = numOr($('#cfg_trial').value, 49);
+    S.cfg.bfAddon = numOr($('#cfg_bf').value, 20);
+    S.cfg.bothAddon = numOr($('#cfg_both').value, 10);
+    S.cfg.rotiAddon = numOr($('#cfg_roti').value, 5);
+    S.cfg.freeMin = numOr($('#cfg_fmin').value, 300);
+    S.cfg.dlvFee = numOr($('#cfg_dfee').value, 25);
+    save(); toast('All Plan Rates & Add-ons Saved ✓');
   },
-  savem: () => { S.mset[iso(D0())] = { bf: $('#m_bf').value.trim(), veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() }; save(); toast('Menu Saved'); },
+  savem: () => {
+    const dt = $('#menu_dt') ? $('#menu_dt').value : iso(D0());
+    MENU_DATE = dt;
+    S.mset[dt] = { bf: $('#m_bf').value.trim(), veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() };
+    save(); toast('Menu Saved for ' + dt + ' ✓');
+  },
 
   stk: (v, k, id) => { const p = S.prod.find(x => x.id === +id); if (p) { p.s = p.s ? 0 : 1; save(); } },
   edit_prod: (v, k, id) => {
@@ -1861,7 +2062,8 @@ const A = {
       if (idx >= 0) S.prod[idx] = { ...S.prod[idx], n, p, mrp, c, nv, h, hot, img };
       ED_P = null;
     } else {
-      S.prod.unshift({ id: Date.now(), n, p, mrp, c, nv, h, hot, img, s: 1 });
+      const nextId = S.prod.reduce((m, x) => Math.max(m, +x.id || 0), 0) + 1;
+      S.prod.unshift({ id: nextId, n, p, mrp, c, nv, h, hot, img, s: 1 });
     }
     save(); toast('Product Saved!');
   },
@@ -1873,15 +2075,15 @@ const A = {
   },
   cancel_edsv: () => { ED_SV = null; render(); },
   save_svc: () => {
-    const n = $('#es_n').value.trim(), p = +$('#es_p').value, u = $('#es_u').value.trim() || '/event';
+    const n = $('#es_n').value.trim(), c = $('#es_c').value, p = +$('#es_p').value, u = $('#es_u').value.trim() || '/event';
     const d = $('#es_d').value.trim(), img = $('#es_img').value.trim() || IMG.cam;
     if (!n || !(p > 0)) { toast('Enter Service Name & Price'); return; }
     if (ED_SV) {
       const idx = S.svcList.findIndex(x => x.id === ED_SV);
-      if (idx >= 0) S.svcList[idx] = { ...S.svcList[idx], n, p, u, d, img };
+      if (idx >= 0) S.svcList[idx] = { ...S.svcList[idx], c, n, p, u, d, img };
       ED_SV = null;
     } else {
-      S.svcList.push({ id: uid('sv'), n, p, u, d, img });
+      S.svcList.push({ id: uid('sv'), c, n, p, u, d, img });
     }
     save(); toast('Service Saved!');
   },
@@ -1907,6 +2109,13 @@ const A = {
   logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'plan'; render(); }
 };
 
+window.addEventListener('popstate', () => {
+  if (VIEW_PROOF || SV_BOOK || PAY_BOX || CART_OPEN || PQ) {
+    VIEW_PROOF = null; SV_BOOK = null; CART_OPEN = false; PQ = null;
+    render();
+  }
+});
+
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-a]'); if (!b) return;
   const f = A[b.dataset.a]; if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id, e); }
@@ -1915,7 +2124,7 @@ document.addEventListener('click', e => {
 $('#proof_file').addEventListener('change', e => {
   const file = e.target.files && e.target.files[0];
   if (!file) return;
-  if (file.size < 6000) {
+  if (file.size < 4000) {
     toast('⚠️ Invalid / Empty image file!');
     return;
   }
@@ -1938,7 +2147,7 @@ $('#proof_file').addEventListener('change', e => {
         return;
       }
 
-      const dataUrl = c.toDataURL('image/jpeg', 0.62);
+      const dataUrl = c.toDataURL('image/jpeg', 0.6);
       const h = strHash(dataUrl);
       if ((S.usedImgHash || []).includes(h)) {
         PROOF_IMG = null;
@@ -1957,14 +2166,31 @@ $('#proof_file').addEventListener('change', e => {
   r.readAsDataURL(file);
 });
 
+document.addEventListener('change', e => {
+  if (e.target.id === 'menu_dt') {
+    MENU_DATE = e.target.value || iso(D0());
+    render();
+  }
+});
+
 document.addEventListener('input', e => {
-  if (e.target.dataset.f) F[e.target.dataset.f] = e.target.value;
+  if (e.target.dataset.f) {
+    F[e.target.dataset.f] = e.target.value;
+    if (e.target.dataset.f === 'start') render();
+  }
   if (e.target.id === 'utr_inp') DRAFT_UTR = e.target.value;
   if (e.target.id === 'sq') {
     SQ = e.target.value;
     const pos = e.target.selectionStart;
     render();
     const el = $('#sq');
+    if (el) { el.focus(); el.setSelectionRange(pos, pos); }
+  }
+  if (e.target.id === 'oq') {
+    O_Q = e.target.value;
+    const pos = e.target.selectionStart;
+    render();
+    const el = $('#oq');
     if (el) { el.focus(); el.setSelectionRange(pos, pos); }
   }
 });
@@ -1974,10 +2200,10 @@ $('#mark').addEventListener('click', () => {
   taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 1800);
   if (taps >= 5) {
     taps = 0;
-    const pin = prompt('Owner PIN (4827) ya Kitchen/Delivery PIN (7788) daalein:');
+    const pin = prompt('Enter Staff / Owner Security PIN:');
     if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner Master Control Unlocked'); }
     else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Staff Mode Unlocked'); }
-    else if (pin !== null) toast('Galat PIN');
+    else if (pin !== null) toast('Invalid Security PIN');
   }
 });
 
