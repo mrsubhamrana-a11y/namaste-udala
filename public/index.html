@@ -12,11 +12,13 @@
 :root{--bg:#f9f5ec;--sf:#fffdf8;--sf2:#f1eadc;--ink:#16241c;--mu:#626d65;--ln:#e2d9c5;--o:#d94e1f;--g:#113221;--g2:#1b5e3a;--bad:#dc2626;--serif:'Fraunces',Georgia,serif;--sh-card:0 16px 32px -10px rgba(22,36,28,.12),inset 0 2px 0 #fff;--sh-3d-o:0 5px 0 #8f2d0b,0 10px 20px rgba(217,78,31,.3);--sh-3d-g:0 5px 0 #081c11,0 10px 20px rgba(17,50,33,.28);--sh-3d-w:0 4px 0 #d5cbb4;--sh-in:inset 0 3px 6px rgba(22,36,28,.08)}
 [data-theme=dark]{--bg:#0c130f;--sf:#142019;--sf2:#0f1813;--ink:#f4f1ea;--mu:#9ca89f;--ln:#233329;--sh-card:0 20px 36px -10px rgba(0,0,0,.7);--sh-3d-w:0 4px 0 #070b09;--sh-in:inset 0 3px 7px rgba(0,0,0,.6)}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:150px;min-height:100vh}
+body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:160px;min-height:100vh}
 body.modal-open{overflow:hidden}
 img{display:block;object-fit:cover}
 button,input,select{font:inherit;color:inherit}
-svg.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none}
+button{cursor:pointer;touch-action:manipulation;user-select:none}
+button svg,button span,button i,button b,button small{pointer-events:none}
+svg.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none;pointer-events:none}
 header{position:sticky;top:0;z-index:60;background:linear-gradient(145deg,#163f2a,#0b2216);color:#f9f5ec;padding:12px 16px;box-shadow:0 6px 20px rgba(11,34,22,.35);display:flex;align-items:center;gap:12px}
 .logo{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-weight:800;font-size:16px;color:#fff;box-shadow:0 4px 0 #7a2205;cursor:pointer;user-select:none}
 .logo:active{transform:translateY(3px);box-shadow:0 1px 0 #7a2205}
@@ -43,6 +45,7 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 @keyframes sRise{0%{transform:translateY(8px) scale(.5);opacity:0}35%{opacity:.8}100%{transform:translateY(-70px) scale(2.5) translateX(10px);opacity:0}}
 .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0 16px}
 .p-tier{position:relative;border-radius:20px;padding:15px 6px 12px;text-align:center;background:linear-gradient(180deg,var(--sf),var(--sf2));border:2px solid var(--ln);box-shadow:var(--sh-3d-w);cursor:pointer;transition:.18s}
+.p-tier *{pointer-events:none}
 .p-tier.on{background:linear-gradient(180deg,#fff9f2,#fde6d2);border-color:var(--o);box-shadow:0 5px 0 #8f2d0b,0 14px 24px rgba(217,78,31,.25);transform:translateY(-5px)}
 [data-theme=dark] .p-tier.on{background:linear-gradient(180deg,#2b180e,#1a100b)}
 .p-tier .p-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--g);color:#fbbf24;font-size:8.5px;font-weight:800;padding:3px 8px;border-radius:99px;white-space:nowrap}
@@ -91,7 +94,7 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chips button{flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 13px 5px 5px;border-radius:99px;border:1px solid var(--ln);background:var(--sf);font-weight:800;font-size:11.5px;box-shadow:var(--sh-3d-w);cursor:pointer}
-.chips button img{width:25px;height:25px;border-radius:50%}
+.chips button img{width:25px;height:25px;border-radius:50%;pointer-events:none}
 .chips button.on{background:var(--g);color:#fff;border-color:transparent}
 .area-chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
 .area-chips::-webkit-scrollbar{display:none}
@@ -100,24 +103,25 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
 .pcard{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:22px;padding:9px;box-shadow:var(--sh-card);display:flex;flex-direction:column;position:relative}
 .pimg{height:128px;border-radius:16px;position:relative;cursor:pointer;box-shadow:0 8px 18px rgba(22,36,28,.14);background:#1c2826;margin-bottom:8px;overflow:hidden}
-.pimg img{width:100%;height:100%;transition:transform .3s}
+.pimg img{width:100%;height:100%;transition:transform .3s;pointer-events:none}
 .pcard:hover .pimg img{transform:scale(1.07)}
-.badge{position:absolute;top:6px;left:6px;background:#16a34a;color:#fff;font-size:8.5px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6}
-.hot-tag{position:absolute;bottom:6px;right:6px;background:rgba(17,50,33,.9);color:#fbbf24;font-size:8px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6}
-.half-tag{position:absolute;bottom:6px;left:6px;background:var(--o);color:#fff;font-size:8px;font-weight:800;padding:3px 6px;border-radius:99px;z-index:6}
+.badge{position:absolute;top:6px;left:6px;background:#16a34a;color:#fff;font-size:8.5px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6;pointer-events:none}
+.hot-tag{position:absolute;bottom:6px;right:6px;background:rgba(17,50,33,.9);color:#fbbf24;font-size:8px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6;pointer-events:none}
+.half-tag{position:absolute;bottom:6px;left:6px;background:var(--o);color:#fff;font-size:8px;font-weight:800;padding:3px 6px;border-radius:99px;z-index:6;pointer-events:none}
 .pname{font-size:12.5px;font-weight:800;line-height:1.3;height:33px;overflow:hidden;display:flex;align-items:flex-start;gap:5px;cursor:pointer}
+.pname *{pointer-events:none}
 .pprice{display:flex;align-items:baseline;justify-content:space-between;margin:3px 0 7px}
 .pprice b{font-family:var(--serif);font-size:16.5px;font-weight:800;color:var(--o)}
 .pprice s{font-size:10.5px;color:var(--mu);margin-left:4px}
 .qty{display:flex;align-items:center;justify-content:space-between;background:var(--sf2);padding:3px;border-radius:99px;box-shadow:var(--sh-in);margin-top:auto}
-.qty button{width:29px;height:29px;border-radius:50%;border:0;background:var(--o);color:#fff;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 #8f2d0b}
-.qty b{font-size:12.5px;font-weight:800}
+.qty button{width:30px;height:30px;border-radius:50%;border:0;background:var(--o);color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 #8f2d0b;display:grid;place-items:center}
+.qty b{font-size:12.5px;font-weight:800;padding:0 4px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px dashed var(--ln)}
 .row:last-child{border-bottom:0}
 .tot{display:flex;justify-content:space-between;align-items:center;padding-top:11px;margin-top:5px;border-top:2px solid var(--ln)}
 .tot b{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--o)}
 .ov{position:fixed;inset:0;z-index:200;background:rgba(11,22,16,.82);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
-.sh{background:var(--sf);width:100%;max-width:510px;max-height:91vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:18px;box-shadow:0 -10px 40px rgba(0,0,0,.45);animation:sUp .22s ease-out}
+.sh{background:var(--sf);width:100%;max-width:510px;max-height:88vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:18px 18px 30px;box-shadow:0 -10px 40px rgba(0,0,0,.45);animation:sUp .2s ease-out}
 @keyframes sUp{from{transform:translateY(100%)}}
 .pop-stage{position:relative;height:205px;margin:4px 0 12px;border-radius:22px;background:radial-gradient(circle at 50% 60%,#1d4d34,#091810 78%);display:flex;align-items:center;justify-content:center;overflow:visible}
 .pop-plate{width:180px;height:180px;border-radius:50%;object-fit:cover;border:4px solid #fffdf8;box-shadow:0 20px 34px rgba(0,0,0,.7);animation:pOut .42s cubic-bezier(.18,1.25,.4,1) forwards;z-index:2}
@@ -128,12 +132,13 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .pop-steam span:nth-child(2){left:46%;width:56px;height:56px;animation-delay:.6s}
 .pop-steam span:nth-child(3){left:56%;animation-delay:1.2s}
 @keyframes bSteam{0%{transform:translateY(22px) scale(.4);opacity:0}35%{opacity:.9}100%{transform:translateY(-85px) scale(2.5) translateX(10px);opacity:0}}
-.cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:75;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 0 #071c10,0 14px 28px rgba(11,34,22,.5);cursor:pointer;font-weight:800;font-size:13px}
-nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:80;max-width:640px;margin:0 auto;background:var(--sf);border:1px solid var(--ln);border-radius:99px;display:flex;gap:4px;padding:5px 8px;box-shadow:0 7px 0 rgba(22,36,28,.1),0 16px 34px rgba(22,36,28,.22)}
-nav button{flex:1;border:0;background:transparent;border-radius:99px;padding:7px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mu);font-weight:800;position:relative;transition:.15s}
+.cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:190;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 0 #071c10,0 14px 28px rgba(11,34,22,.5);cursor:pointer;font-weight:800;font-size:13px}
+.cbar-fixed *{pointer-events:none}
+nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:250;max-width:640px;margin:0 auto;background:var(--sf);border:1.5px solid var(--ln);border-radius:99px;display:flex;gap:4px;padding:5px 8px;box-shadow:0 7px 0 rgba(22,36,28,.12),0 16px 34px rgba(22,36,28,.28)}
+nav button{flex:1;border:0;background:transparent;border-radius:99px;padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mu);font-weight:800;position:relative;transition:.15s}
 nav button.on{background:var(--g);color:#fbbf24;transform:translateY(-2px)}
-nav .nl{font-size:9px}
-nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff}
+nav .nl{font-size:9.5px;pointer-events:none}
+nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff;pointer-events:none}
 .pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:pAnim 1.4s infinite}
 @keyframes pAnim{50%{transform:scale(1.35);opacity:.5}}
 #toast{position:fixed;left:50%;top:72px;transform:translateX(-50%) translateY(-16px);background:var(--g);color:#fff;padding:11px 18px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:900;opacity:0;pointer-events:none;transition:.25s;text-align:center;max-width:92vw;box-shadow:0 10px 24px rgba(0,0,0,.35);border:1.5px solid #fbbf24}
@@ -152,7 +157,7 @@ nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-
     <small>NAMASTE UDALA · EST. KITCHEN</small>
     <h1 id="ttl">Ghar Jaisa Khana · Roz Time Pe</h1>
   </div>
-  <button class="btn w sm" id="thm" data-a="theme">🌙</button>
+  <button type="button" class="btn w sm" id="thm" data-a="theme">🌙</button>
 </header>
 
 <div class="marquee">
@@ -169,10 +174,7 @@ nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-
 <div id="toast"></div>
 <div id="printArea"></div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
-
+<script>
 const FB = {
   apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",
   authDomain: "namaste-udala.firebaseapp.com",
@@ -234,6 +236,7 @@ const numOr = (val, def) => { const n = parseFloat(val); return Number.isFinite(
 const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
+const safePushHistory = () => { try { history.pushState({ modal: 1 }, ''); } catch (e) {} };
 
 if (localStorage.getItem('nu_theme') === 'dark') {
   document.documentElement.dataset.theme = 'dark';
@@ -514,15 +517,12 @@ let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null, ED_SUB = null, ED
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
 
+// Clear any stale stuck PAY_BOX from previous session so bottom nav is never blocked on load
 let PAY_BOX = null;
-try { PAY_BOX = JSON.parse(localStorage.getItem('nu_paybox')) || null; } catch (e) {}
+localStorage.removeItem('nu_paybox');
 const setPayBox = b => {
   PAY_BOX = b;
   if (!b) DRAFT_UTR = '';
-  try {
-    if (b) localStorage.setItem('nu_paybox', JSON.stringify(b));
-    else localStorage.removeItem('nu_paybox');
-  } catch (e) {}
 };
 
 const F = {
@@ -573,32 +573,40 @@ function syncCustomerProfile() {
   }
 }
 
-let db = null;
-try {
-  const app = initializeApp(FB); db = getDatabase(app);
-  onValue(ref(db, NODE), sn => {
-    const v = sn.val();
-    if (v && v.prod) {
-      S = {
-        ...seed(),
-        ...v,
-        subs: v.subs || [],
-        orders: v.orders || [],
-        exp: v.exp || [],
-        svBookings: v.svBookings || [],
-        usedUtr: v.usedUtr || [],
-        usedImgHash: v.usedImgHash || []
-      };
-      ensureIntegrity();
-      checkAutoPaymentMatch();
-      const active = document.activeElement;
-      const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK || PAY_BOX;
-      if (!isEditing && (!active || (active.tagName !== 'INPUT' && active.tagName !== 'SELECT'))) {
-        render();
+// Non-blocking Dynamic Firebase Loader (Never blocks UI or buttons if offline)
+let db = null, fbSet = null, fbRef = null;
+(async () => {
+  try {
+    const [{ initializeApp }, { getDatabase, ref, set, onValue }] = await Promise.all([
+      import("https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js")
+    ]);
+    const app = initializeApp(FB);
+    db = getDatabase(app); fbSet = set; fbRef = ref;
+    onValue(ref(db, NODE), sn => {
+      const v = sn.val();
+      if (v && v.prod) {
+        S = {
+          ...seed(),
+          ...v,
+          subs: v.subs || [],
+          orders: v.orders || [],
+          exp: v.exp || [],
+          svBookings: v.svBookings || [],
+          usedUtr: v.usedUtr || [],
+          usedImgHash: v.usedImgHash || []
+        };
+        ensureIntegrity();
+        checkAutoPaymentMatch();
+        const active = document.activeElement;
+        const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK || PAY_BOX;
+        if (!isEditing && (!active || (active.tagName !== 'INPUT' && active.tagName !== 'SELECT'))) {
+          render();
+        }
       }
-    }
-  });
-} catch (e) {}
+    });
+  } catch (e) {}
+})();
 
 function checkAutoPaymentMatch() {
   if (!PAY_BOX || !S.auto_amt) return;
@@ -612,7 +620,7 @@ function checkAutoPaymentMatch() {
 function save() {
   S.rev = Date.now();
   try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
-  if (db) set(ref(db, NODE), S).catch(() => {});
+  if (db && fbSet && fbRef) fbSet(fbRef(db, NODE), S).catch(() => {});
   render();
 }
 
@@ -674,7 +682,7 @@ function getMyOrders() {
 function userFormHTML() {
   return `
   <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
-    <button class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'GPS Location Saved' : 'Detect My GPS'}</button>
+    <button type="button" class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'GPS Location Saved' : 'Detect My GPS'}</button>
     <span style="font-size:11px;color:var(--mu)">${F.lat ? `${Number(F.lat).toFixed(4)}, ${Number(F.lng).toFixed(4)}` : '1-Tap Fast Delivery'}</span>
   </div>
   <div class="area-chips">
@@ -723,8 +731,8 @@ function vPlan() {
   <div class="card">
     <h3>1. Apna Tiffin Plan Chunein <span>Veg / Non-Veg</span></h3>
     <div class="seg" style="margin-bottom:14px">
-      <button class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">🟢 Pure Veg Plans</button>
-      <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">🔴 Non-Veg Plans (Chicken/Egg)</button>
+      <button type="button" class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">🟢 Pure Veg Plans</button>
+      <button type="button" class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">🔴 Non-Veg Plans (Chicken/Egg)</button>
     </div>
 
     <div class="plan-grid">
@@ -747,29 +755,29 @@ function vPlan() {
 
     <span class="lbl">2. Kitne Time Khana Chahiye?</span>
     <div class="seg">
-      <button class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">3 Time (Nashta + Lunch + Dinner)</button>
-      <button class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">2 Time (Lunch + Dinner)</button>
+      <button type="button" class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">3 Time (Nashta + Lunch + Dinner)</button>
+      <button type="button" class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">2 Time (Lunch + Dinner)</button>
     </div>
 
     <span class="lbl">3. Dopahar (Lunch) Preference</span>
     <div class="seg">
-      <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Chawal</button>
-      <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">4 Roti</button>
-      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹${numOr(S.cfg.bothAddon, 10)}/d)</button>
+      <button type="button" class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Chawal</button>
+      <button type="button" class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">4 Roti</button>
+      <button type="button" class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹${numOr(S.cfg.bothAddon, 10)}/d)</button>
     </div>
 
     <span class="lbl">4. Raat (Dinner) Preference</span>
     <div class="seg">
-      <button class="${F.dinner === 'roti' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="roti">4 Roti</button>
-      <button class="${F.dinner === 'chawal' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="chawal">Chawal</button>
-      <button class="${F.dinner === 'both' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="both">Dono (+₹${numOr(S.cfg.bothAddon, 10)}/d)</button>
+      <button type="button" class="${F.dinner === 'roti' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="roti">4 Roti</button>
+      <button type="button" class="${F.dinner === 'chawal' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="chawal">Chawal</button>
+      <button type="button" class="${F.dinner === 'both' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="both">Dono (+₹${numOr(S.cfg.bothAddon, 10)}/d)</button>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin:10px 0 4px">
       <div>
         <span class="lbl" style="margin:0 0 4px">5. Extra Roti (+₹${numOr(S.cfg.rotiAddon, 5)}/d)</span>
         <div class="qty">
-          <button data-a="er_dec">−</button><b>${F.extraRoti}</b><button data-a="er_inc">+</button>
+          <button type="button" data-a="er_dec">−</button><b>${F.extraRoti}</b><button type="button" data-a="er_inc">+</button>
         </div>
       </div>
       <div>
@@ -784,8 +792,8 @@ function vPlan() {
       <span>Selected: ${F.days} Din (${F.type === 'nv' ? 'Non-Veg' : 'Pure Veg'})</span>
       <b>${inr(pr)}</b>
     </div>
-    <button class="btn" data-a="pay_sub">Activate ${F.days} Days Plan · ${inr(pr)}</button>
-    <button class="btn g" data-a="pay_trial">Book 1-Day Trial Tiffin · ${inr(trialPr)}</button>
+    <button type="button" class="btn" data-a="pay_sub">Activate ${F.days} Days Plan · ${inr(pr)}</button>
+    <button type="button" class="btn g" data-a="pay_trial">Book 1-Day Trial Tiffin · ${inr(trialPr)}</button>
   </div>
 
   ${calHTML}
@@ -825,7 +833,7 @@ function vShop() {
   <input class="inp" id="sq" placeholder="Search Doodh, Atta, Chicken, Paneer, Surf..." value="${esc(SQ)}" style="margin-bottom:10px">
 
   <div class="chips">
-    ${CATS.map(c => `<button class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${esc(c[2])}" alt=""><span>${c[1]}</span></button>`).join('')}
+    ${CATS.map(c => `<button type="button" class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${esc(c[2])}" alt=""><span>${c[1]}</span></button>`).join('')}
   </div>
 
   <div class="grid">
@@ -844,9 +852,9 @@ function vShop() {
         <div class="pprice">
           <div><b>${inr(p.p)}</b>${p.mrp && p.mrp > p.p ? `<s>${inr(p.mrp)}</s>` : ''}</div>
         </div>
-        ${!p.s ? `<button class="btn w" disabled>Out of Stock</button>` :
-          qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` :
-          `<button class="btn g" style="margin-top:auto;padding:9px" data-a="inc" data-id="${p.id}">+ ADD</button>`}
+        ${!p.s ? `<button type="button" class="btn w" disabled>Out of Stock</button>` :
+          qty ? `<div class="qty"><button type="button" data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button type="button" data-a="inc" data-id="${p.id}">+</button></div>` :
+          `<button type="button" class="btn g" style="margin-top:auto;padding:9px" data-a="inc" data-id="${p.id}">+ ADD</button>`}
       </div>`;
     }).join('')}
   </div>`;
@@ -869,14 +877,14 @@ function vServices() {
         <p style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.d)}</p>
         <div style="display:flex;justify-content:space-between;align-items:center">
           <b style="font-family:var(--serif);color:var(--o);font-size:16.5px">${inr(s.p)}<span style="font-size:11px;color:var(--mu)">${esc(s.u)}</span></b>
-          <button class="btn sm" data-a="open_svb" data-id="${s.id}">Book Now</button>
+          <button type="button" class="btn sm" data-a="open_svb" data-id="${s.id}">Book Now</button>
         </div>
       </div>
     </div>
   `).join('')}`;
 }
 
-/* --- 4. COMPLETE CUSTOMER PROFILE VIEW (PRIVACY LOCKED TO DEVICE) --- */
+/* --- 4. COMPLETE CUSTOMER PROFILE VIEW --- */
 function vProfile() {
   const cleanP = ph(F.phone);
   const prof = S.profiles[cleanP] || {};
@@ -926,17 +934,17 @@ function vProfile() {
     <input class="inp" data-f="addr" placeholder="House No, Street, Landmark" value="${esc(F.addr)}">
 
     <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
-      <button class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'Update Doorstep GPS' : 'Lock Doorstep GPS'}</button>
+      <button type="button" class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'Update Doorstep GPS' : 'Lock Doorstep GPS'}</button>
       <span style="font-size:11.5px;color:var(--mu)">GPS: ${F.lat ? `${Number(F.lat).toFixed(4)}, ${Number(F.lng).toFixed(4)}` : 'Not locked'}</span>
     </div>
 
     <span class="lbl">Spice Level & Kitchen Instructions</span>
     <div class="seg">
-      ${['Low', 'Medium', 'Spicy'].map(sp => `<button class="${F.spice === sp ? 'on' : ''}" data-a="fset" data-k="spice" data-v="${sp}">${sp} Masala</button>`).join('')}
+      ${['Low', 'Medium', 'Spicy'].map(sp => `<button type="button" class="${F.spice === sp ? 'on' : ''}" data-a="fset" data-k="spice" data-v="${sp}">${sp} Masala</button>`).join('')}
     </div>
     <input class="inp" data-f="notes" placeholder="Special kitchen note (e.g. Less oil, गरम रोटी)" value="${esc(F.notes)}">
 
-    <button class="btn g" data-a="save_prof">Save My Complete Profile ✓</button>
+    <button type="button" class="btn g" data-a="save_prof">Save My Complete Profile ✓</button>
   </div>
 
   <div class="card">
@@ -953,10 +961,10 @@ function vProfile() {
         </div>
         <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">Start: ${s.start} · L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'} · Skips: ${usedSkips}/${maxSkips} · UTR: ${esc(s.utr)}</div>
         <div class="btn-row">
-          ${s.proof ? `<button class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
-          <button class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨 Bill</button>
+          ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
+          <button type="button" class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨 Bill</button>
           <a class="btn sm w" href="https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(`Namaste Udala! Mera ${s.days}d Tiffin Plan (#${s.id.slice(-4)}) UTR: ${s.utr} verify kar dein.`)}" target="_blank">📲 WhatsApp</a>
-          ${(s.paid || s.vStat === 'cod') && (activeToday || paused) ? `<button class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
+          ${(s.paid || s.vStat === 'cod') && (activeToday || paused) ? `<button type="button" class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
         </div>
       </div>`;
     }).join('') || '<p style="color:var(--mu);font-size:13px">Is device par koi active tiffin plan nahi hai.</p>'}
@@ -973,16 +981,16 @@ function vProfile() {
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;gap:6px;flex-wrap:wrap">
         <span style="font-size:11px;font-weight:700;color:var(--mu)">Status: <b>${o.dlv ? 'Delivered ✓' : o.packed ? 'Packed & Out for Delivery' : o.vStat === 'bad' ? 'Cancelled' : 'Preparing'}</b> · UTR: ${esc(o.utr)}</span>
         <div style="display:flex;gap:5px">
-          ${o.proof ? `<button class="btn w sm" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam}</button>` : ''}
-          <button class="btn w sm" data-a="prt" data-id="${o.id}">🖨 Bill</button>
-          <button class="btn w sm" data-a="reorder" data-id="${o.id}">↻ Reorder</button>
+          ${o.proof ? `<button type="button" class="btn w sm" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam}</button>` : ''}
+          <button type="button" class="btn w sm" data-a="prt" data-id="${o.id}">🖨 Bill</button>
+          <button type="button" class="btn w sm" data-a="reorder" data-id="${o.id}">↻ Reorder</button>
         </div>
       </div>
     </div>`).join('') || '<p style="color:var(--mu);font-size:13px">Abhi tak koi shop order nahi hai.</p>'}
   </div>`;
 }
 
-/* --- 5. KITCHEN VIEW (WITH 3-TIME MEAL SLOT SWITCHER & EXACT ROTI COUNT) --- */
+/* --- 5. KITCHEN VIEW --- */
 function vKitchen() {
   const k = iso(D0());
   const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
@@ -1006,9 +1014,9 @@ function vKitchen() {
   </div>` : ''}
 
   <div class="seg" style="margin-bottom:12px">
-    <button class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">🌅 Subah Nashta</button>
-    <button class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">☀️ Dopahar Lunch</button>
-    <button class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">🌙 Raat Dinner</button>
+    <button type="button" class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">🌅 Subah Nashta</button>
+    <button type="button" class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">☀️ Dopahar Lunch</button>
+    <button type="button" class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">🌙 Raat Dinner</button>
   </div>
 
   <div class="kpi">
@@ -1040,12 +1048,12 @@ function vKitchen() {
         <b>${esc(o.name)} (${esc(o.area)})</b>
         <div style="font-size:12.5px;color:var(--o);font-weight:800">${(o.items || []).map(i => i.n + ' ×' + i.q).join(', ')}</div>
       </div>
-      <button class="btn sm ${o.packed ? 'w' : 'g'}" data-a="opack" data-id="${o.id}">${o.packed ? 'Packed ✓ (On Route)' : 'Mark Packed ✓'}</button>
+      <button type="button" class="btn sm ${o.packed ? 'w' : 'g'}" data-a="opack" data-id="${o.id}">${o.packed ? 'Packed ✓ (On Route)' : 'Mark Packed ✓'}</button>
     </div>`).join('') || '<p style="color:var(--mu);font-size:13px">All verified orders packed & delivered.</p>'}
   </div>`;
 }
 
-/* --- 6. DELIVERY ROUTE VIEW (SLOT-WISE TIFFIN DROP + PACKED ORDER DROP) --- */
+/* --- 6. DELIVERY ROUTE VIEW --- */
 function vRoute() {
   const k = iso(D0());
   const subs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
@@ -1054,13 +1062,13 @@ function vRoute() {
   return `
   <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
     <div><small style="color:#fbbf24;font-weight:800">DELIVERY ROUTE</small><h2 style="font-family:var(--serif);font-size:18px">Verified Tiffin & Shop Drops</h2></div>
-    <button class="btn w sm" data-a="logout_staff">Exit</button>
+    <button type="button" class="btn w sm" data-a="logout_staff">Exit</button>
   </div>
 
   <div class="seg" style="margin-bottom:12px">
-    <button class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">🌅 Nashta Drop</button>
-    <button class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">☀️ Lunch Drop</button>
-    <button class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">🌙 Dinner Drop</button>
+    <button type="button" class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">🌅 Nashta Drop</button>
+    <button type="button" class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">☀️ Lunch Drop</button>
+    <button type="button" class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">🌙 Dinner Drop</button>
   </div>
 
   <div class="card">
@@ -1077,7 +1085,7 @@ function vRoute() {
         <div class="btn-row">
           <a class="btn w sm" href="${esc(mapUrl)}" target="_blank">GPS Map</a>
           <a class="btn w sm" href="tel:+91${esc(s.phone)}">Call</a>
-          <button class="btn sm ${done ? 'w' : 'g'}" data-a="sdone" data-k="${K_SLOT}" data-id="${s.id}">${done ? `${K_SLOT.toUpperCase()} Delivered ✓` : `Mark ${K_SLOT.toUpperCase()} Done ✓`}</button>
+          <button type="button" class="btn sm ${done ? 'w' : 'g'}" data-a="sdone" data-k="${K_SLOT}" data-id="${s.id}">${done ? `${K_SLOT.toUpperCase()} Delivered ✓` : `Mark ${K_SLOT.toUpperCase()} Done ✓`}</button>
         </div>
       </div>`;
     }).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffin drops for this slot.</p>'}
@@ -1096,7 +1104,7 @@ function vRoute() {
         <div class="btn-row">
           <a class="btn w sm" href="${esc(mapUrl)}" target="_blank">GPS Map</a>
           <a class="btn w sm" href="tel:+91${esc(o.phone)}">Call</a>
-          <button class="btn g sm" data-a="odlv" data-id="${o.id}">Delivered & Cash/QR Collected ✓</button>
+          <button type="button" class="btn g sm" data-a="odlv" data-id="${o.id}">Delivered & Cash/QR Collected ✓</button>
         </div>
       </div>`;
     }).join('') || '<p style="color:var(--mu);font-size:13px">No pending shop drops.</p>'}
@@ -1145,19 +1153,19 @@ function vOwner() {
       <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Bank SMS mein aaya exact amount (jaise <b>305.24</b>) yahan push karein—oldest matching order turant <b>Verified Paid ✓</b> ho jayega:</p>
       <div style="display:flex;gap:8px">
         <input class="inp" id="wh_amt" type="number" step="0.01" placeholder="Exact ₹ Amount (e.g. 305.24)" style="flex:1;margin:0">
-        <button class="btn g sm" data-a="push_auto_amt">Auto-Match</button>
+        <button type="button" class="btn g sm" data-a="push_auto_amt">Auto-Match</button>
       </div>
     </div>
 
     <div style="display:flex;gap:6px;margin-bottom:10px;align-items:center">
       <input class="inp" id="oq" placeholder="Search Name, Phone, UTR..." value="${esc(O_Q)}" style="margin:0;flex:1">
-      <button class="btn sm ${O_FILTER === 'all' ? 'g' : 'w'}" data-a="ofilter" data-v="all">All</button>
-      <button class="btn sm ${O_FILTER === 'hold' ? 'g' : 'w'}" data-a="ofilter" data-v="hold">Hold (${pendVerifyCount})</button>
+      <button type="button" class="btn sm ${O_FILTER === 'all' ? 'g' : 'w'}" data-a="ofilter" data-v="all">All</button>
+      <button type="button" class="btn sm ${O_FILTER === 'hold' ? 'g' : 'w'}" data-a="ofilter" data-v="hold">Hold (${pendVerifyCount})</button>
     </div>
 
     ${eoObj ? `
     <div class="card" id="ord_edit_box" style="border:2px solid var(--o)">
-      <h3>Edit Order #${String(eoObj.id).slice(-4)} <button class="btn w sm" data-a="cancel_edord">Cancel</button></h3>
+      <h3>Edit Order #${String(eoObj.id).slice(-4)} <button type="button" class="btn w sm" data-a="cancel_edord">Cancel</button></h3>
       <div class="btn-row">
         <input class="inp" id="eo_name" placeholder="Customer Name" value="${esc(eoObj.name)}">
         <input class="inp" id="eo_phone" placeholder="Mobile" value="${esc(eoObj.phone)}">
@@ -1167,7 +1175,7 @@ function vOwner() {
         <input class="inp" id="eo_utr" placeholder="UTR / Ref" value="${esc(eoObj.utr)}">
       </div>
       <input class="inp" id="eo_addr" placeholder="Delivery Address" value="${esc(eoObj.addr)}">
-      <button class="btn g" data-a="save_edord">Update Order Details ✓</button>
+      <button type="button" class="btn g" data-a="save_edord">Update Order Details ✓</button>
     </div>` : ''}
 
     <div class="card">
@@ -1183,20 +1191,20 @@ function vOwner() {
           Items: <b style="color:var(--ink)">${(o.items || []).map(i => i.n + '×' + i.q).join(', ')}</b>
         </div>
         <div class="btn-row">
-          ${o.proof ? `<button class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} Proof</button>` : ''}
-          <button class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Unmark Paid' : '✓ Approve'}</button>
-          ${o.vStat !== 'bad' ? `<button class="btn sm r" data-a="o_reject" data-id="${o.id}">✕ Fake</button>` : ''}
-          <button class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
-          <button class="btn sm w" data-a="edit_ord" data-id="${o.id}">Edit</button>
-          <button class="btn sm w" data-a="prt" data-id="${o.id}">🖨</button>
-          <button class="btn sm w" data-a="o_del" data-id="${o.id}">🗑</button>
+          ${o.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} Proof</button>` : ''}
+          <button type="button" class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Unmark Paid' : '✓ Approve'}</button>
+          ${o.vStat !== 'bad' ? `<button type="button" class="btn sm r" data-a="o_reject" data-id="${o.id}">✕ Fake</button>` : ''}
+          <button type="button" class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
+          <button type="button" class="btn sm w" data-a="edit_ord" data-id="${o.id}">Edit</button>
+          <button type="button" class="btn sm w" data-a="prt" data-id="${o.id}">🖨</button>
+          <button type="button" class="btn sm w" data-a="o_del" data-id="${o.id}">🗑</button>
         </div>
       </div>`).join('') || '<p style="color:var(--mu)">No matching shop orders.</p>'}
     </div>
 
     ${esObj ? `
     <div class="card" id="sub_edit_box" style="border:2px solid var(--o)">
-      <h3>Edit Tiffin Subscription <button class="btn w sm" data-a="cancel_edsub">Cancel</button></h3>
+      <h3>Edit Tiffin Subscription <button type="button" class="btn w sm" data-a="cancel_edsub">Cancel</button></h3>
       <div class="btn-row">
         <input class="inp" id="esub_name" placeholder="Name" value="${esc(esObj.name)}">
         <select class="inp" id="esub_type">
@@ -1209,7 +1217,7 @@ function vOwner() {
         <input class="inp" id="esub_price" type="number" placeholder="Price ₹" value="${esObj.price}">
         <input class="inp" id="esub_start" type="date" value="${esObj.start || iso(D0())}">
       </div>
-      <button class="btn g" data-a="save_edsub">Update Subscription ✓</button>
+      <button type="button" class="btn g" data-a="save_edsub">Update Subscription ✓</button>
     </div>` : ''}
 
     <div class="card">
@@ -1221,13 +1229,13 @@ function vOwner() {
         </div>
         <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">${s.days}d (${s.type === 'nv' ? 'NV' : 'Veg'}) · Start: ${s.start} · ${esc(s.area)} · UTR: <b>${esc(s.utr)}</b></div>
         <div class="btn-row">
-          ${s.proof ? `<button class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
-          <button class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Unmark' : '✓ Approve'}</button>
-          ${s.vStat !== 'bad' ? `<button class="btn sm r" data-a="s_reject" data-id="${s.id}">✕ Fake</button>` : ''}
-          <button class="btn sm w" data-a="edit_sub" data-id="${s.id}">Edit</button>
-          <button class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1d</button>
-          <button class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨</button>
-          <button class="btn sm w" data-a="s_del" data-id="${s.id}">🗑</button>
+          ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
+          <button type="button" class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Unmark' : '✓ Approve'}</button>
+          ${s.vStat !== 'bad' ? `<button type="button" class="btn sm r" data-a="s_reject" data-id="${s.id}">✕ Fake</button>` : ''}
+          <button type="button" class="btn sm w" data-a="edit_sub" data-id="${s.id}">Edit</button>
+          <button type="button" class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1d</button>
+          <button type="button" class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨</button>
+          <button type="button" class="btn sm w" data-a="s_del" data-id="${s.id}">🗑</button>
         </div>
       </div>`).join('') || '<p style="color:var(--mu)">No matching tiffin plans.</p>'}
     </div>`;
@@ -1236,7 +1244,7 @@ function vOwner() {
     body = `
     <input class="inp" id="oq" placeholder="Search Customer Name, Phone, Locality..." value="${esc(O_Q)}" style="margin-bottom:10px">
     <div class="card" id="cust_form">
-      <h3>${ED_CUST ? 'Edit Customer Profile: ' + esc(ED_CUST) : 'Add / Update Customer Profile'} ${ED_CUST ? `<button class="btn w sm" data-a="cancel_edcust">Cancel</button>` : ''}</h3>
+      <h3>${ED_CUST ? 'Edit Customer Profile: ' + esc(ED_CUST) : 'Add / Update Customer Profile'} ${ED_CUST ? `<button type="button" class="btn w sm" data-a="cancel_edcust">Cancel</button>` : ''}</h3>
       <div class="btn-row">
         <input class="inp" id="ec_name" placeholder="Full Name" value="${esc(ecObj.name || '')}">
         <input class="inp" id="ec_phone" type="tel" maxlength="10" placeholder="10-Digit Mobile" value="${esc(ecObj.phone || '')}">
@@ -1259,7 +1267,7 @@ function vOwner() {
         <input class="inp" id="ec_dues" type="number" placeholder="Manual Khata Due ₹" value="${numOr(ecObj.dues, 0)}">
       </div>
       <input class="inp" id="ec_notes" placeholder="Kitchen / Delivery Note (e.g. Less oil, 2nd floor)" value="${esc(ecObj.notes || '')}">
-      <button class="btn g" data-a="save_cust">${ED_CUST ? 'Update Customer Profile ✓' : '+ Save Customer Profile'}</button>
+      <button type="button" class="btn g" data-a="save_cust">${ED_CUST ? 'Update Customer Profile ✓' : '+ Save Customer Profile'}</button>
     </div>
 
     <div class="card">
@@ -1291,8 +1299,8 @@ function vOwner() {
             <a class="btn sm w" href="tel:+91${esc(c.phone)}">Call</a>
             <a class="btn sm w" href="https://wa.me/91${esc(c.phone)}?text=${encodeURIComponent('Namaste ' + c.name + ' ji! Namaste Udala se update.')}" target="_blank">WhatsApp</a>
             <a class="btn sm w" href="${esc(mapUrl)}" target="_blank">GPS Map</a>
-            <button class="btn sm g" data-a="edit_cust" data-id="${c.phone}">Edit All</button>
-            <button class="btn sm r" data-a="del_cust" data-id="${c.phone}">✕</button>
+            <button type="button" class="btn sm g" data-a="edit_cust" data-id="${c.phone}">Edit All</button>
+            <button type="button" class="btn sm r" data-a="del_cust" data-id="${c.phone}">✕</button>
           </div>
         </div>`;
       }).join('')}
@@ -1305,8 +1313,8 @@ function vOwner() {
         <input class="inp" id="exp_n" placeholder="Expense (e.g. Sabzi, Gas, Petrol)" style="flex:1">
         <input class="inp" id="exp_a" type="number" placeholder="₹ Amt" style="width:110px">
       </div>
-      <button class="btn" data-a="add_exp">+ Add Daily Expense</button>
-      ${(S.exp || []).slice(-10).reverse().map(x => `<div class="row"><span>${esc(x.n)} (${x.d})</span><div style="display:flex;align-items:center;gap:8px"><b style="color:#dc2626">−${inr(x.amt)}</b><button class="btn sm r" data-a="del_exp" data-id="${x.id}">✕</button></div></div>`).join('')}
+      <button type="button" class="btn" data-a="add_exp">+ Add Daily Expense</button>
+      ${(S.exp || []).slice(-10).reverse().map(x => `<div class="row"><span>${esc(x.n)} (${x.d})</span><div style="display:flex;align-items:center;gap:8px"><b style="color:#dc2626">−${inr(x.amt)}</b><button type="button" class="btn sm r" data-a="del_exp" data-id="${x.id}">✕</button></div></div>`).join('')}
     </div>
 
     <div class="card">
@@ -1335,7 +1343,7 @@ function vOwner() {
         <input class="inp" id="cfg_fmin" type="number" value="${numOr(S.cfg.freeMin, 300)}" placeholder="Free Min ₹">
         <input class="inp" id="cfg_dfee" type="number" value="${numOr(S.cfg.dlvFee, 25)}" placeholder="Dlv Fee ₹">
       </div>
-      <button class="btn g" data-a="save_rates">Save All Plan Rates & Fees ✓</button>
+      <button type="button" class="btn g" data-a="save_rates">Save All Plan Rates & Fees ✓</button>
     </div>
 
     <div class="card">
@@ -1346,13 +1354,13 @@ function vOwner() {
       <input class="inp" id="m_veg" value="${esc(menu('veg', MENU_DATE))}">
       <span class="lbl">Non-Veg Menu</span>
       <input class="inp" id="m_nv" value="${esc(menu('nv', MENU_DATE))}">
-      <button class="btn g" data-a="savem">Save Live Menu for ${MENU_DATE} ✓</button>
+      <button type="button" class="btn g" data-a="savem">Save Live Menu for ${MENU_DATE} ✓</button>
     </div>`;
   } else if (O_TAB === 'prod') {
     const epObj = ED_P ? (S.prod.find(x => x.id === ED_P) || {}) : {};
     body = `
     <div class="card" id="prod_form">
-      <h3>${ED_P ? 'Edit Product' : 'Add New Shop Product'} ${ED_P ? `<button class="btn w sm" data-a="cancel_edp">Cancel</button>` : ''}</h3>
+      <h3>${ED_P ? 'Edit Product' : 'Add New Shop Product'} ${ED_P ? `<button type="button" class="btn w sm" data-a="cancel_edp">Cancel</button>` : ''}</h3>
       <input class="inp" id="ep_n" placeholder="Item Name (e.g. Paneer 200g)" value="${esc(epObj.n || '')}">
       <div class="btn-row">
         <input class="inp" id="ep_p" type="number" placeholder="Selling Price ₹" value="${epObj.p || ''}">
@@ -1376,7 +1384,7 @@ function vOwner() {
         </select>
       </div>
       <input class="inp" id="ep_img" placeholder="Photo URL (Leave blank for auto category photo)" value="${esc(epObj.img || '')}">
-      <button class="btn g" data-a="save_prod">${ED_P ? 'Update Product' : '+ Add Product to Shop'}</button>
+      <button type="button" class="btn g" data-a="save_prod">${ED_P ? 'Update Product' : '+ Add Product to Shop'}</button>
     </div>
 
     <div class="card">
@@ -1387,9 +1395,9 @@ function vOwner() {
           <div style="font-size:11px;color:var(--mu)">${esc(p.c)} · MRP: ${p.mrp ? inr(p.mrp) : '-'} ${p.h ? '· Half Avail' : ''}</div>
         </div>
         <div style="display:flex;gap:5px">
-          <button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'Stock' : 'Out'}</button>
-          <button class="btn sm w" data-a="edit_prod" data-id="${p.id}">Edit</button>
-          <button class="btn sm r" data-a="del_prod" data-id="${p.id}">✕</button>
+          <button type="button" class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'Stock' : 'Out'}</button>
+          <button type="button" class="btn sm w" data-a="edit_prod" data-id="${p.id}">Edit</button>
+          <button type="button" class="btn sm r" data-a="del_prod" data-id="${p.id}">✕</button>
         </div>
       </div>`).join('')}
     </div>`;
@@ -1404,15 +1412,15 @@ function vOwner() {
           <div style="font-size:11.5px;color:var(--mu)">Date: ${esc(b.date)} · Area: ${esc(b.area)} · Note: ${esc(b.note || '-')}</div>
         </div>
         <div style="display:flex;gap:5px">
-          <button class="btn sm ${b.done ? 'w' : 'g'}" data-a="done_svb" data-id="${b.id}">${b.done ? 'Confirmed ✓' : 'Confirm'}</button>
+          <button type="button" class="btn sm ${b.done ? 'w' : 'g'}" data-a="done_svb" data-id="${b.id}">${b.done ? 'Confirmed ✓' : 'Confirm'}</button>
           <a class="btn sm g" href="tel:+91${esc(b.phone)}">Call</a>
-          <button class="btn sm r" data-a="del_svb" data-id="${b.id}">✕</button>
+          <button type="button" class="btn sm r" data-a="del_svb" data-id="${b.id}">✕</button>
         </div>
       </div>`).join('') || '<p style="color:var(--mu);font-size:13px">No service bookings yet.</p>'}
     </div>
 
     <div class="card" id="svc_form">
-      <h3>${ED_SV ? 'Edit Service' : 'Add New Service'} ${ED_SV ? `<button class="btn w sm" data-a="cancel_edsv">Cancel</button>` : ''}</h3>
+      <h3>${ED_SV ? 'Edit Service' : 'Add New Service'} ${ED_SV ? `<button type="button" class="btn w sm" data-a="cancel_edsv">Cancel</button>` : ''}</h3>
       <input class="inp" id="es_n" placeholder="Service Title (e.g. Home Tuition)" value="${esc(esvObj.n || '')}">
       <div class="btn-row">
         <select class="inp" id="es_c">
@@ -1423,7 +1431,7 @@ function vOwner() {
       </div>
       <input class="inp" id="es_d" placeholder="Short Description" value="${esc(esvObj.d || '')}">
       <input class="inp" id="es_img" placeholder="Photo URL (Optional)" value="${esc(esvObj.img || '')}">
-      <button class="btn g" data-a="save_svc">${ED_SV ? 'Update Service' : '+ Add Service'}</button>
+      <button type="button" class="btn g" data-a="save_svc">${ED_SV ? 'Update Service' : '+ Add Service'}</button>
     </div>
 
     <div class="card">
@@ -1431,8 +1439,8 @@ function vOwner() {
       ${(S.svcList || []).map(s => `<div class="row">
         <div><b>${esc(s.n)} (${inr(s.p)}${esc(s.u)})</b><div style="font-size:11px;color:var(--mu)">${esc(s.c || 'Local')} · ${esc(s.d)}</div></div>
         <div style="display:flex;gap:5px">
-          <button class="btn sm w" data-a="edit_svc" data-id="${s.id}">Edit</button>
-          <button class="btn sm r" data-a="del_svc" data-id="${s.id}">✕</button>
+          <button type="button" class="btn sm w" data-a="edit_svc" data-id="${s.id}">Edit</button>
+          <button type="button" class="btn sm r" data-a="del_svc" data-id="${s.id}">✕</button>
         </div>
       </div>`).join('')}
     </div>
@@ -1443,15 +1451,15 @@ function vOwner() {
       <input class="inp" id="cfg_upi" value="${esc(S.cfg.upi)}">
       <span class="lbl">WhatsApp Number (10 Digits)</span>
       <input class="inp" id="cfg_wa" value="${esc(S.cfg.wa)}">
-      <button class="btn g" data-a="save_app_cfg">Save UPI & WhatsApp</button>
-      <button class="btn w sm" style="margin-top:10px" data-a="reset_seed">Restore Original Demo Data</button>
+      <button type="button" class="btn g" data-a="save_app_cfg">Save UPI & WhatsApp</button>
+      <button type="button" class="btn w sm" style="margin-top:10px" data-a="reset_seed">Restore Original Demo Data</button>
     </div>`;
   }
 
   return `
   <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
     <div><small style="color:#fbbf24;font-weight:800">OWNER MASTER CONTROL</small><h2 style="font-family:var(--serif);font-size:18px">Anti-Fraud & Full CRM</h2></div>
-    <button class="btn w sm" data-a="logout_staff">Exit</button>
+    <button type="button" class="btn w sm" data-a="logout_staff">Exit</button>
   </div>
 
   <div class="kpi">
@@ -1473,7 +1481,7 @@ function sheet() {
     return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <b>📸 Uploaded Payment Proof</b>
-        <button class="btn w sm" data-a="close_proof">Close</button>
+        <button type="button" class="btn w sm" data-a="close_proof">Close</button>
       </div>
       <img src="${esc(VIEW_PROOF)}" style="max-width:100%;max-height:68vh;margin:0 auto;border-radius:16px;border:2px solid var(--ln)">
     </div></div>`;
@@ -1484,14 +1492,14 @@ function sheet() {
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <h3 style="font-family:var(--serif)">Book ${esc(s.n)}</h3>
-        <button class="btn w sm" data-a="close">Close</button>
+        <button type="button" class="btn w sm" data-a="close">Close</button>
       </div>
       <div style="font-size:18px;font-weight:800;color:var(--o);margin-bottom:8px">${inr(s.p)}${esc(s.u)}</div>
       <span class="lbl">Preferred Start / Event Date</span>
       <input class="inp" id="sv_date" type="date" min="${iso(D0())}" value="${iso(addD(D0(), 1))}">
       <input class="inp" id="sv_note" placeholder="Timing / Batch / Event Details">
       ${userFormHTML()}
-      <button class="btn g" data-a="confirm_svb">Confirm Service Booking ✓</button>
+      <button type="button" class="btn g" data-a="confirm_svb">Confirm Service Booking ✓</button>
     </div></div>`;
   }
 
@@ -1501,14 +1509,14 @@ function sheet() {
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <span style="display:flex;align-items:center;gap:6px;color:var(--g2);font-size:12px;font-weight:800"><i class="pulse-dot"></i> ANTI-FRAUD PAYMENT HUB</span>
-        <button class="btn w sm" data-a="cancel_pay">Cancel</button>
+        <button type="button" class="btn w sm" data-a="cancel_pay">Cancel</button>
       </div>
       <h2 style="font-family:var(--serif);font-size:19px;font-weight:800;text-align:center">${esc(g.title)}</h2>
 
       <div class="seg" style="margin:10px 0">
-        <button class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. UPI + 12-Digit UTR</button>
-        <button class="${PAY_MODE === 'proof' ? 'on' : ''}" data-a="pmode" data-v="proof">2. Screenshot + UTR</button>
-        <button class="${PAY_MODE === 'cod' ? 'on' : ''}" data-a="pmode" data-v="cod">3. Pay at Door</button>
+        <button type="button" class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. UPI + 12-Digit UTR</button>
+        <button type="button" class="${PAY_MODE === 'proof' ? 'on' : ''}" data-a="pmode" data-v="proof">2. Screenshot + UTR</button>
+        <button type="button" class="${PAY_MODE === 'cod' ? 'on' : ''}" data-a="pmode" data-v="cod">3. Pay at Door</button>
       </div>
 
       ${PAY_MODE === 'upi' ? `
@@ -1522,30 +1530,30 @@ function sheet() {
             <div style="font-size:11px;color:#16241c;font-weight:800;margin-top:4px">UPI ID: ${esc(S.cfg.upi)}</div>
           </div>
           <div class="btn-row">
-            <button class="btn w sm" data-a="copy_upi">Copy UPI ID</button>
-            <button class="btn w sm" data-a="copy_amt">Copy ${inr(g.exactAmt)}</button>
+            <button type="button" class="btn w sm" data-a="copy_upi">Copy UPI ID</button>
+            <button type="button" class="btn w sm" data-a="copy_amt">Copy ${inr(g.exactAmt)}</button>
           </div>
           <span class="lbl" style="margin-top:10px">Enter Valid 12-Digit Bank UTR / UPI Ref No:</span>
           <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="12-Digit UPI UTR (e.g. 431982746192)" value="${esc(DRAFT_UTR)}">
-          <button class="btn g" data-a="confirm_paid">Submit 12-Digit UTR for Verification ✓</button>
+          <button type="button" class="btn g" data-a="confirm_paid">Submit 12-Digit UTR for Verification ✓</button>
         </div>
       ` : PAY_MODE === 'proof' ? `
         <div style="text-align:center;padding:6px 0">
           <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:4px">${inr(g.exactAmt)}</div>
           <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Sirf <b>Asli UPI Screenshot</b> + usme likha <b>12-Digit UTR</b> dono lagayein:</p>
-          <button class="btn w" data-a="pick_proof" style="margin-bottom:8px">
+          <button type="button" class="btn w" data-a="pick_proof" style="margin-bottom:8px">
             ${IC.cam} <span>${PROOF_IMG ? 'Verified Screenshot Attached ✓' : '1. Select UPI Payment Screenshot'}</span>
           </button>
           ${PROOF_IMG ? `<img src="${esc(PROOF_IMG)}" style="max-height:120px;margin:6px auto;border-radius:12px;border:2px solid #16a34a">` : ''}
           <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="2. Enter 12-Digit UTR shown in Screenshot" value="${esc(DRAFT_UTR)}">
-          <button class="btn g" data-a="confirm_paid">Submit Screenshot + UTR for Approval ✓</button>
+          <button type="button" class="btn g" data-a="confirm_paid">Submit Screenshot + UTR for Approval ✓</button>
         </div>
       ` : `
         <div style="text-align:center;padding:12px 0">
           <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:6px">${inr(g.amt)}</div>
           <p style="font-size:12.5px;color:var(--mu);line-height:1.5;margin-bottom:12px">Delivery Boy jab aapke darwaze par aayega, tab aap <b>Rider QR Scan</b> ya <b>Cash</b> dekar verify karayenge.</p>
           <input class="inp" id="utr_inp" placeholder="Delivery Note (e.g. Bring change of ₹500)" value="${esc(DRAFT_UTR)}">
-          <button class="btn g" data-a="confirm_paid">Book Pay on Delivery Order ✓</button>
+          <button type="button" class="btn g" data-a="confirm_paid">Book Pay on Delivery Order ✓</button>
         </div>
       `}
     </div></div>`;
@@ -1556,7 +1564,7 @@ function sheet() {
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <h3 style="font-family:var(--serif)">Aapka Cart (${n} Items)</h3>
-        <button class="btn w sm" data-a="close">Close</button>
+        <button type="button" class="btn w sm" data-a="close">Close</button>
       </div>
       <div style="max-height:200px;overflow-y:auto">
         ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
@@ -1566,7 +1574,7 @@ function sheet() {
           const pr = isH ? Math.round(p.p * 0.6) : p.p;
           return `<div class="row">
             <div><b>${esc(p.n)}${isH ? ' (1/2 Half)' : ''}</b><div style="font-size:11.5px;color:var(--mu)">${inr(pr)} × ${q}</div></div>
-            <div class="qty" style="width:105px;margin:0"><button data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div>
+            <div class="qty" style="width:105px;margin:0"><button type="button" data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button type="button" data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div>
           </div>`;
         }).join('') || '<p style="color:var(--mu);font-size:13px;padding:10px 0">Aapka cart khali hai.</p>'}
       </div>
@@ -1576,7 +1584,7 @@ function sheet() {
       </div>
       <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
       ${userFormHTML()}
-      <button class="btn" data-a="pay_ord" ${tot <= 0 ? 'disabled' : ''}>Proceed to Payment · ${inr(tot)}</button>
+      <button type="button" class="btn" data-a="pay_ord" ${tot <= 0 ? 'disabled' : ''}>Proceed to Payment · ${inr(tot)}</button>
     </div></div>`;
   }
 
@@ -1586,7 +1594,7 @@ function sheet() {
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <b style="color:var(--o);font-size:12px">${p.hot ? 'GARMA-GARAM KITCHEN DISH' : 'PRODUCT DETAILS'}</b>
-        <button class="btn w sm" data-a="close">Close</button>
+        <button type="button" class="btn w sm" data-a="close">Close</button>
       </div>
       <div class="pop-stage">
         ${p.hot ? `<div class="pop-steam"><span></span><span></span><span></span></div>` : ''}
@@ -1595,13 +1603,13 @@ function sheet() {
       <h2 style="font-family:var(--serif);font-size:20px;font-weight:800;text-align:center">${esc(p.n)}</h2>
       <div class="row" style="margin-top:10px">
         <div><b>Full Plate / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div>
-        <div class="qty" style="width:115px;margin:0"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button data-a="inc" data-id="${p.id}">+</button></div>
+        <div class="qty" style="width:115px;margin:0"><button type="button" data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button type="button" data-a="inc" data-id="${p.id}">+</button></div>
       </div>
       ${p.h ? `<div class="row">
         <div><b>1/2 Half Plate</b><div style="font-size:12px;color:var(--mu)">${inr(Math.round(p.p * 0.6))}</div></div>
-        <div class="qty" style="width:115px;margin:0"><button data-a="dh" data-id="${p.id}">−</button><b>${qh}</b><button data-a="ih" data-id="${p.id}">+</button></div>
+        <div class="qty" style="width:115px;margin:0"><button type="button" data-a="dh" data-id="${p.id}">−</button><b>${qh}</b><button type="button" data-a="ih" data-id="${p.id}">+</button></div>
       </div>` : ''}
-      <button class="btn g" data-a="add_open_cart" data-id="${p.id}" ${!p.s ? 'disabled' : ''}>${p.s ? 'Open Cart & Checkout' : 'Out of Stock'}</button>
+      <button type="button" class="btn g" data-a="add_open_cart" data-id="${p.id}" ${!p.s ? 'disabled' : ''}>${p.s ? 'Open Cart & Checkout' : 'Out of Stock'}</button>
     </div></div>`;
   }
   return '';
@@ -1633,7 +1641,7 @@ function render() {
   }
   if (ROLE === 'owner') TABS.push(['owner', IC.owner, 'Owner']);
 
-  $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
+  $('#nav').innerHTML = TABS.map(x => `<button type="button" class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
 }
 
 function checkUser() {
@@ -1692,7 +1700,12 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
 }
 
 const A = {
-  tab: v => { tab = v; PQ = null; CART_OPEN = false; SV_BOOK = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
+  tab: v => {
+    tab = v;
+    PQ = null; CART_OPEN = false; SV_BOOK = null; VIEW_PROOF = null; setPayBox(null);
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
   otab: v => { O_TAB = v; ED_P = null; ED_SV = null; ED_CUST = null; ED_SUB = null; ED_ORD = null; render(); },
   ofilter: v => { O_FILTER = v; render(); },
   kslot: v => { K_SLOT = v; render(); },
@@ -1702,8 +1715,8 @@ const A = {
   er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
   set_area: v => { F.area = v; syncCustomerProfile(); render(); },
   cat: v => { SCAT = v; render(); },
-  pq: (v, k, id) => { history.pushState({ modal: 1 }, ''); PQ = +id; render(); },
-  open_cart: () => { history.pushState({ modal: 1 }, ''); PQ = null; CART_OPEN = true; render(); },
+  pq: (v, k, id) => { safePushHistory(); PQ = +id; render(); },
+  open_cart: () => { safePushHistory(); PQ = null; CART_OPEN = true; render(); },
   add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; saveCart(); PQ = null; CART_OPEN = true; render(); },
   close: () => { PQ = null; CART_OPEN = false; SV_BOOK = null; render(); },
   cancel_pay: () => { setPayBox(null); PROOF_IMG = null; PROOF_META = null; render(); },
@@ -1720,7 +1733,7 @@ const A = {
     if (inp) { inp.value = ''; inp.click(); }
   },
 
-  open_svb: (v, k, id) => { history.pushState({ modal: 1 }, ''); SV_BOOK = id; render(); },
+  open_svb: (v, k, id) => { safePushHistory(); SV_BOOK = id; render(); },
   confirm_svb: () => {
     const s = (S.svcList || []).find(x => x.id === SV_BOOK);
     if (!s || !checkUser()) return;
@@ -1797,7 +1810,7 @@ const A = {
 
   pay_sub: () => {
     if (!checkUser()) return;
-    history.pushState({ modal: 1 }, '');
+    safePushHistory();
     const base = tierPrice(+F.days);
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
@@ -1806,7 +1819,7 @@ const A = {
   },
   pay_trial: () => {
     if (!checkUser()) return;
-    history.pushState({ modal: 1 }, '');
+    safePushHistory();
     const base = tierPrice(1);
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
@@ -2111,14 +2124,19 @@ const A = {
 
 window.addEventListener('popstate', () => {
   if (VIEW_PROOF || SV_BOOK || PAY_BOX || CART_OPEN || PQ) {
-    VIEW_PROOF = null; SV_BOOK = null; CART_OPEN = false; PQ = null;
+    VIEW_PROOF = null; SV_BOOK = null; CART_OPEN = false; PQ = null; setPayBox(null);
     render();
   }
 });
 
 document.addEventListener('click', e => {
-  const b = e.target.closest('[data-a]'); if (!b) return;
-  const f = A[b.dataset.a]; if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id, e); }
+  const b = e.target.closest('[data-a]');
+  if (!b) return;
+  const f = A[b.dataset.a];
+  if (f) {
+    e.preventDefault();
+    f(b.dataset.v, b.dataset.k, b.dataset.id, e);
+  }
 });
 
 $('#proof_file').addEventListener('change', e => {
