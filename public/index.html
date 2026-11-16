@@ -12,7 +12,7 @@
 :root{--bg:#f9f5ec;--sf:#fffdf8;--sf2:#f1eadc;--ink:#16241c;--mu:#626d65;--ln:#e2d9c5;--o:#d94e1f;--g:#113221;--g2:#1b5e3a;--bad:#dc2626;--serif:'Fraunces',Georgia,serif;--sh-card:0 16px 32px -10px rgba(22,36,28,.12),inset 0 2px 0 #fff;--sh-3d-o:0 5px 0 #8f2d0b,0 10px 20px rgba(217,78,31,.3);--sh-3d-g:0 5px 0 #081c11,0 10px 20px rgba(17,50,33,.28);--sh-3d-w:0 4px 0 #d5cbb4;--sh-in:inset 0 3px 6px rgba(22,36,28,.08)}
 [data-theme=dark]{--bg:#0c130f;--sf:#142019;--sf2:#0f1813;--ink:#f4f1ea;--mu:#9ca89f;--ln:#233329;--sh-card:0 20px 36px -10px rgba(0,0,0,.7);--sh-3d-w:0 4px 0 #070b09;--sh-in:inset 0 3px 7px rgba(0,0,0,.6)}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:165px;min-height:100vh}
+body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:175px;min-height:100vh}
 body.modal-open{overflow:hidden}
 img{display:block;object-fit:cover;pointer-events:none}
 button,input,select{font:inherit;color:inherit}
@@ -88,8 +88,17 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .btn-row{display:flex;gap:7px;flex-wrap:wrap}
 .btn-row>*{flex:1}
+/* Dedicated UPI Brand Buttons */
+.upi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.upi-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 10px;border-radius:16px;font-weight:800;font-size:12.5px;color:#fff;border:0;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.28)}
+.upi-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.28)}
+.upi-pp{background:linear-gradient(180deg,#6739b7,#4e2696)}
+.upi-gp{background:linear-gradient(180deg,#2563eb,#1d4ed8)}
+.upi-pt{background:linear-gradient(180deg,#0284c7,#0369a1)}
+.upi-bh{background:linear-gradient(180deg,#ea580c,#c2410c)}
 .inp{width:100%;padding:11px 13px;border:1.5px solid var(--ln);border-radius:13px;background:var(--sf2);color:var(--ink);font-weight:700;font-size:13px;box-shadow:var(--sh-in);margin:4px 0;outline:none}
 .inp:focus{border-color:var(--o);background:var(--sf)}
+.inp.pulse-hi{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.25)}
 .lbl{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:800;color:var(--mu);margin:9px 0 3px;text-transform:uppercase;letter-spacing:.4px}
 .seg{display:flex;gap:5px;background:var(--sf2);padding:4px;border-radius:99px;box-shadow:var(--sh-in);margin:4px 0}
 .seg button{flex:1;padding:9px 6px;border:0;border-radius:99px;background:transparent;font-weight:800;font-size:11px;color:var(--mu);cursor:pointer}
@@ -128,7 +137,7 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .tot{display:flex;justify-content:space-between;align-items:center;padding-top:11px;margin-top:5px;border-top:2px solid var(--ln)}
 .tot b{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--o)}
 .ov{position:fixed;inset:0;z-index:300;background:rgba(11,22,16,.82);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
-.sh{background:var(--sf);width:100%;max-width:510px;max-height:88vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:18px 18px 30px;box-shadow:0 -10px 40px rgba(0,0,0,.45);animation:sUp .2s ease-out}
+.sh{background:var(--sf);width:100%;max-width:510px;max-height:90vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:18px 18px 30px;box-shadow:0 -10px 40px rgba(0,0,0,.45);animation:sUp .2s ease-out}
 @keyframes sUp{from{transform:translateY(100%)}}
 .pop-stage{position:relative;height:195px;margin:4px 0 12px;border-radius:22px;background:radial-gradient(circle at 50% 60%,#1d4d34,#091810 78%);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .pop-plate{width:170px;height:170px;border-radius:50%;object-fit:cover;border:4px solid #fffdf8;box-shadow:0 20px 34px rgba(0,0,0,.7);animation:pOut .42s cubic-bezier(.18,1.25,.4,1) forwards;z-index:2}
@@ -139,8 +148,8 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .pop-steam span:nth-child(2){left:46%;width:56px;height:56px;animation-delay:.6s}
 .pop-steam span:nth-child(3){left:56%;animation-delay:1.2s}
 @keyframes bSteam{0%{transform:translateY(22px) scale(.4);opacity:0}35%{opacity:.9}100%{transform:translateY(-75px) scale(2.3) translateX(10px);opacity:0}}
-.cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:190;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 0 #071c10,0 14px 28px rgba(11,34,22,.5);cursor:pointer;font-weight:800;font-size:13px;border:0;width:calc(100% - 24px)}
-nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:250;max-width:640px;margin:0 auto;background:var(--sf);border:1.5px solid var(--ln);border-radius:99px;display:flex;gap:4px;padding:5px 8px;box-shadow:0 7px 0 rgba(22,36,28,.12),0 16px 34px rgba(22,36,28,.28)}
+.cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(86px + env(safe-area-inset-bottom, 0px));z-index:190;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 0 #071c10,0 14px 28px rgba(11,34,22,.5);cursor:pointer;font-weight:800;font-size:13px;border:0;width:calc(100% - 24px)}
+nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:250;max-width:640px;margin:0 auto;background:var(--sf);border:1.5px solid var(--ln);border-radius:99px;display:flex;gap:4px;padding:5px 8px;box-shadow:0 7px 0 rgba(22,36,28,.12),0 16px 34px rgba(22,36,28,.28)}
 nav button{flex:1;border:0;background:transparent;border-radius:99px;padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mu);font-weight:800;position:relative;transition:.15s}
 nav button.on{background:var(--g);color:#fbbf24;transform:translateY(-2px)}
 nav .nl{font-size:9.5px}
@@ -169,8 +178,8 @@ nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-
 
 <div class="marquee">
   <div class="marquee-track">
-    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · USE CODE: WELCOME30 OR TIFFIN100 · EARN 2% CASHBACK POINTS ON EVERY ORDER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
-    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · USE CODE: WELCOME30 OR TIFFIN100 · EARN 2% CASHBACK POINTS ON EVERY ORDER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
+    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · USE CODE: WELCOME30 OR TIFFIN100 · EARN 2% CASHBACK POINTS ON EVERY VERIFIED ORDER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
+    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · USE CODE: WELCOME30 OR TIFFIN100 · EARN 2% CASHBACK POINTS ON EVERY VERIFIED ORDER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
   </div>
 </div>
 
@@ -204,7 +213,26 @@ const AREA_COORDS = {
   'Bhanjpur': [21.5810, 86.5720]
 };
 const KITCHEN_HQ = [21.5732, 86.5675];
-const NODE = 'udala_phase2', OPIN = '4827', DPIN = '7788';
+const NODE = 'udala_phase2';
+
+/* FIX #11, #12, #13: Obfuscated PIN hash check + Brute-force rate limiter (4827 = owner, 7788 = staff) */
+let PIN_FAILS = 0, PIN_LOCK_UNTIL = 0;
+function pinHash(str) {
+  let h = 2166136261;
+  const s = 'nu_salt_' + String(str).trim();
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0).toString(16);
+}
+const ROLE_HASHES = { owner: pinHash('4827'), staff: pinHash('7788') };
+function verifyPinRole(pin) {
+  const h = pinHash(pin);
+  if (h === ROLE_HASHES.owner) return 'owner';
+  if (h === ROLE_HASHES.staff) return 'staff';
+  return '';
+}
 
 const COUPONS = {
   'WELCOME30': { disc: 30, min: 199, desc: '₹30 OFF above ₹199' },
@@ -248,23 +276,26 @@ const IMG = {
 
 const $ = s => document.querySelector(s);
 const sameId = (a, b) => String(a ?? '') === String(b ?? '');
-const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+/* FIX #51: Escapes single quotes and backticks to prevent attribute breakage/XSS */
+const esc = s => String(s ?? '').replace(/[&<>"'`]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const D0 = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
 const inr = n => '₹' + (+n || 0).toLocaleString('en-IN', { minimumFractionDigits: (+n % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 });
 const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
 const isValidPhone = s => /^[6-9]\d{9}$/.test(ph(s));
-const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const amtKey = n => Number(n || 0).toFixed(2).replace('.', '_');
 const numOr = (val, def) => { const n = parseFloat(val); return Number.isFinite(n) && n >= 0 ? n : def; };
-const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
+const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=' + encodeURIComponent(u);
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
 
+/* FIX #54: Synchronous dark mode icon initialization */
 if (localStorage.getItem('nu_theme') === 'dark') {
   document.documentElement.dataset.theme = 'dark';
-  setTimeout(() => { if ($('#thm')) $('#thm').textContent = '☀️'; }, 20);
+  const thmBtn = document.getElementById('thm');
+  if (thmBtn) thmBtn.textContent = '☀️';
 }
 
 /* --- ALGORITHM 1: HAVERSINE SHORTEST-PATH DISTANCE & ETA ENGINE --- */
@@ -300,8 +331,8 @@ function sortRouteNearestFirst(list) {
   return ordered;
 }
 
-/* --- ALGORITHM 2: SMART KITCHEN RAW MATERIAL PROCUREMENT ENGINE --- */
-function calcKitchenProcurement(activeSubs, slot) {
+/* --- ALGORITHM 2: SMART KITCHEN RAW MATERIAL PROCUREMENT ENGINE (FIX #30, #32, #33: Includes Shop Orders) --- */
+function calcKitchenProcurement(activeSubs, pendOrds, slot) {
   let riceG = 0, attaG = 0, dalG = 0, vegG = 0, paneerG = 0, chickenG = 0;
   activeSubs.forEach(s => {
     const rCount = calcRotiForSub(s, slot);
@@ -316,6 +347,18 @@ function calcKitchenProcurement(activeSubs, slot) {
       if (s.type === 'nv') chickenG += 180;
       else { paneerG += 85; vegG += 140; }
     }
+  });
+  // Include active Shop Kitchen Orders
+  (pendOrds || []).forEach(o => {
+    if (+o.packed) return;
+    (o.items || []).forEach(it => {
+      const n = (it.n || '').toLowerCase();
+      const mult = (it.h ? 0.5 : 1) * (+it.q || 1);
+      if (n.includes('chicken')) chickenG += Math.round(250 * mult);
+      if (n.includes('paneer')) paneerG += Math.round(150 * mult);
+      if (n.includes('roti')) attaG += Math.round(350 * mult);
+      if (n.includes('chawal')) riceG += Math.round(180 * mult);
+    });
   });
   const fmt = g => g >= 1000 ? (g / 1000).toFixed(2) + ' kg' : g + ' g';
   return { rice: fmt(riceG), atta: fmt(attaG), dal: fmt(dalG), chicken: fmt(chickenG), paneer: fmt(paneerG), sabzi: fmt(vegG) };
@@ -354,24 +397,26 @@ function fallbackCopy(txt, msg) {
   document.body.removeChild(ta);
 }
 
+/* FIX #16: Full-coverage image hash to prevent crop/header collision */
 function strHash(s) {
   let h1 = 0xdeadbeef ^ s.length, h2 = 0x41c6ce57 ^ s.length;
-  const step = Math.max(1, Math.floor(s.length / 2000));
+  const step = Math.max(1, Math.floor(s.length / 6000));
   for (let i = 0; i < s.length; i += step) {
     const ch = s.charCodeAt(i);
     h1 = Math.imul(h1 ^ ch, 2654435761);
     h2 = Math.imul(h2 ^ ch, 1597334677);
   }
-  return 'IMG-' + (h1 >>> 0).toString(16) + '-' + (h2 >>> 0).toString(16);
+  return 'IMG-' + s.length + '-' + (h1 >>> 0).toString(16) + '-' + (h2 >>> 0).toString(16);
 }
 
+/* FIX #14: Blocks repeating patterns like 121212121212 or 123123123123 */
 function validateStrictUTR(raw, usedList) {
   const clean = String(raw || '').replace(/\D/g, '');
   if (clean.length !== 12) return { ok: false, msg: '⚠️ Bank UPI Ref/UTR hamesha poore 12-digit ka hota hai!' };
-  if (/^(\d)\1{7,}$/.test(clean) || /^(012345678901|123456789012|987654321098)$/.test(clean)) {
+  if (/^(\d)\1{6,}$/.test(clean) || /^(\d{2,4})\1+$/.test(clean) || /^(012345678901|123456789012|987654321098)$/.test(clean)) {
     return { ok: false, msg: '⚠️ Fake sequence UTR detected! Asli bank SMS/UPI UTR daalein.' };
   }
-  if (new Set(clean.split('')).size < 3) {
+  if (new Set(clean.split('')).size < 4) {
     return { ok: false, msg: '⚠️ Invalid UTR pattern! Sahi 12-digit UTR number daalein.' };
   }
   if ((usedList || []).includes(clean)) {
@@ -405,6 +450,7 @@ function inspectReceiptCanvas(canvas, origW, origH) {
   return { ok: true };
 }
 
+/* FIX #55: Clean oscillator disconnect to prevent AudioContext memory leak */
 let _audioCtx = null;
 function playChime() {
   try {
@@ -416,13 +462,14 @@ function playChime() {
       g.gain.setValueAtTime(0.18, _audioCtx.currentTime + i * 0.09);
       g.gain.exponentialRampToValueAtTime(0.001, _audioCtx.currentTime + i * 0.09 + 0.35);
       o.connect(g); g.connect(_audioCtx.destination);
+      o.onended = () => { try { o.disconnect(); g.disconnect(); } catch (e) {} };
       o.start(_audioCtx.currentTime + i * 0.09); o.stop(_audioCtx.currentTime + i * 0.09 + 0.35);
     });
   } catch (e) {}
 }
 
 let _t;
-const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 3200); };
+const toast = m => { const t = $('#toast'); if (!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 3300); };
 addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== IMG.thali) e.target.src = IMG.thali; }, true);
 
 const CATS = [
@@ -515,17 +562,18 @@ function seed() {
     exp: [],
     usedUtr: ['402312345678', '402398765432', '402311112222', '402333334444'],
     usedImgHash: [],
+    deletedCust: [],
     auto_amt: {},
     profiles: JSON.parse(JSON.stringify(CUST_SEED)),
     cfg: JSON.parse(JSON.stringify(DEFAULT_CFG)),
     subs: [
-      { id: 's1', ts: NOW - 5 * 864e5, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, origDays: 30, times: 3, start: iso(addD(D0(), -5)), price: 2899, paid: 1, vStat: 'ok', pMode: 'UPI Verified', utr: '402312345678', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] },
-      { id: 's2', ts: NOW - 3 * 864e5, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, origDays: 15, times: 3, start: iso(addD(D0(), -3)), price: 1849, paid: 1, vStat: 'ok', pMode: 'UPI Verified', utr: '402398765432', lunch: 'both', dinner: 'roti', extraRoti: 1, skip: [] }
+      { id: 's1', ts: NOW - 5 * 864e5, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, origDays: 30, times: 3, start: iso(addD(D0(), -5)), price: 2899, paid: 1, ptsAwarded: 1, vStat: 'ok', pMode: 'UPI Verified', utr: '402312345678', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] },
+      { id: 's2', ts: NOW - 3 * 864e5, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, origDays: 15, times: 3, start: iso(addD(D0(), -3)), price: 1849, paid: 1, ptsAwarded: 1, vStat: 'ok', pMode: 'UPI Verified', utr: '402398765432', lunch: 'both', dinner: 'roti', extraRoti: 1, skip: [] }
     ],
     orders: [
-      { id: 'o1', ts: NOW - 3 * 36e5, date: iso(D0()), name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ id: 16, n: 'Atta 5 kg', q: 1, p: 245, h: 0 }, { id: 8, n: 'Doodh 500 ml', q: 2, p: 30, h: 0 }], total: 305, paid: 1, vStat: 'ok', packed: 1, dlv: 0, pMode: 'UPI Verified', utr: '402311112222' },
-      { id: 'o2', ts: NOW - 26 * 36e5, date: iso(addD(D0(), -1)), name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ id: 2, n: 'Chicken curry 500g', q: 1, p: 260, h: 0 }, { id: 6, n: 'Roti (10)', q: 1, p: 50, h: 0 }], total: 310, paid: 1, vStat: 'ok', packed: 1, dlv: 1, pMode: 'UPI Verified', utr: '402333334444' },
-      { id: 'o3', ts: NOW - 40 * 6e4, date: iso(D0()), name: 'Anita Sahoo', phone: '9937055555', area: 'Market Square', addr: 'Market Square', items: [{ id: 4, n: 'Paneer sabzi', q: 2, p: 110, h: 0 }, { id: 17, n: 'Chawal 5 kg', q: 1, p: 340, h: 0 }], total: 560, paid: 0, vStat: 'cod', packed: 0, dlv: 0, pMode: 'Pay on Delivery', utr: 'Doorstep Due' }
+      { id: 'o1', ts: NOW - 3 * 36e5, date: iso(D0()), name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ id: 16, n: 'Atta 5 kg', q: 1, p: 245, h: 0 }, { id: 8, n: 'Doodh 500 ml', q: 2, p: 30, h: 0 }], total: 305, paid: 1, ptsAwarded: 1, vStat: 'ok', packed: 1, dlv: 0, pMode: 'UPI Verified', utr: '402311112222' },
+      { id: 'o2', ts: NOW - 26 * 36e5, date: iso(addD(D0(), -1)), name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ id: 2, n: 'Chicken curry 500g', q: 1, p: 260, h: 0 }, { id: 6, n: 'Roti (10)', q: 1, p: 50, h: 0 }], total: 310, paid: 1, ptsAwarded: 1, vStat: 'ok', packed: 1, dlv: 1, pMode: 'UPI Verified', utr: '402333334444' },
+      { id: 'o3', ts: NOW - 40 * 6e4, date: iso(D0()), name: 'Anita Sahoo', phone: '9937055555', area: 'Market Square', addr: 'Market Square', items: [{ id: 4, n: 'Paneer sabzi', q: 2, p: 110, h: 0 }, { id: 17, n: 'Chawal 5 kg', q: 1, p: 340, h: 0 }], total: 560, paid: 0, ptsAwarded: 0, vStat: 'cod', packed: 0, dlv: 0, pMode: 'Pay on Delivery', utr: 'Doorstep Due' }
     ],
     done: {}, mset: {}
   };
@@ -542,7 +590,6 @@ function getPlRate(type, d) {
   return numOr(pl['d' + d] ?? pl[d], DEFAULT_CFG.pl[type]['d' + d] || 1499);
 }
 
-// Convert Firebase sparse objects back into clean arrays
 function toArr(v) {
   if (!v) return [];
   if (Array.isArray(v)) return v.filter(Boolean);
@@ -562,6 +609,7 @@ function ensureIntegrity() {
   S.usedUtr = toArr(S.usedUtr);
   if (!S.usedUtr.length) S.usedUtr = ['402312345678', '402398765432', '402311112222', '402333334444'];
   S.usedImgHash = toArr(S.usedImgHash);
+  S.deletedCust = toArr(S.deletedCust);
 
   S.subs.forEach(s => { s.skip = toArr(s.skip); s.paid = +s.paid ? 1 : 0; });
   S.orders.forEach(o => { o.items = toArr(o.items); o.paid = +o.paid ? 1 : 0; o.dlv = +o.dlv ? 1 : 0; o.packed = +o.packed ? 1 : 0; });
@@ -572,10 +620,8 @@ function ensureIntegrity() {
   S.auto_amt = cleanAuto;
 
   S.profiles = { ...CUST_SEED, ...(S.profiles || {}) };
+  (S.deletedCust || []).forEach(p => { delete S.profiles[p]; });
   Object.values(S.profiles).forEach(p => { if (p && p.pts === undefined) p.pts = 25; });
-  if (S.profiles['9937055555'] && S.profiles['9937055555'].dues === 560 && S.orders.some(o => sameId(o.id, 'o3') && !o.paid)) {
-    S.profiles['9937055555'].dues = 0;
-  }
 
   S.cfg = { ...DEFAULT_CFG, ...(S.cfg || {}) };
   const rawVeg = (S.cfg.pl && S.cfg.pl.veg) || {};
@@ -588,6 +634,21 @@ function ensureIntegrity() {
   S.mset = S.mset || {};
 }
 ensureIntegrity();
+
+/* FIX #3, #4, #5: Central Loyalty Cashback Crediting & Reversal Engine */
+function syncOrderPoints(item, isApproved) {
+  const p = ph(item.phone);
+  if (!p || !S.profiles[p]) return;
+  const amt = +(item.total || item.price || 0);
+  const earn = Math.max(2, Math.round(amt * 0.02));
+  if (isApproved && !item.ptsAwarded) {
+    S.profiles[p].pts = (S.profiles[p].pts || 0) + earn;
+    item.ptsAwarded = earn;
+  } else if (!isApproved && item.ptsAwarded) {
+    S.profiles[p].pts = Math.max(0, (S.profiles[p].pts || 0) - (+item.ptsAwarded || earn));
+    item.ptsAwarded = 0;
+  }
+}
 
 function isSubActiveOn(s, d, slot) {
   if (!s || s.vStat === 'bad') return false;
@@ -602,11 +663,12 @@ function isSubActiveOn(s, d, slot) {
 function getSubDaysRemaining(s) {
   const startStr = s.start || iso(D0());
   const endD = addD(new Date(startStr + 'T12:00:00'), (+s.days || 30) - 1);
-  return Math.ceil((endD - D0()) / 864e5) + 1;
+  return Math.round((endD - D0()) / 864e5) + 1;
 }
 
+/* FIX #37: Scoped per-slot delivery check */
 function isSubSlotDone(subId, dateStr, slot) {
-  return !!(S.done[`${dateStr}_${subId}_${slot}`] || S.done[`${dateStr}_${subId}`]);
+  return !!S.done[`${dateStr}_${subId}_${slot}`];
 }
 
 function calcRotiForSub(s, slot) {
@@ -623,7 +685,9 @@ function statusPillHTML(item) {
   return `<span class="st-pill st-wait">Pay at Door (${inr(item.total || item.price)})</span>`;
 }
 
-let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
+let tab = 'plan';
+/* FIX #13: Verify session role token with hash instead of plain string */
+let ROLE = (sessionStorage.getItem('nu_role_tok') === ROLE_HASHES.owner) ? 'owner' : (sessionStorage.getItem('nu_role_tok') === ROLE_HASHES.staff) ? 'staff' : '';
 let SCAT = 'all', S_FILT = 'all', SQ = '', PQ = null, CART_OPEN = false, PIN_OPEN = false, PAY_MODE = 'upi', PROOF_IMG = null, PROOF_META = null, VIEW_PROOF = null, SV_BOOK = null;
 let DRAFT_UTR = '', O_Q = '', O_FILTER = 'all', COUPON_CODE = '', USE_PTS = false, ROUTE_SMART = true;
 let K_SLOT = new Date().getHours() < 11 ? 'bf' : new Date().getHours() < 16 ? 'lunch' : 'dinner';
@@ -631,10 +695,10 @@ let MENU_DATE = iso(D0());
 let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null, ED_SUB = null, ED_ORD = null;
 let LOGO_TAPS = 0, LOGO_TIMER = null, LAST_SAVE_TS = 0;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
-let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
+/* FIX #44 & #45: Don't force-expose s1/o1 to strangers unless phone matches */
+let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || []; } catch (e) {}
 
 let PAY_BOX = null;
-localStorage.removeItem('nu_paybox');
 const setPayBox = b => {
   PAY_BOX = b;
   if (!b) DRAFT_UTR = '';
@@ -675,6 +739,7 @@ function syncCustomerProfile() {
 
   const cleanP = ph(F.phone);
   if (isValidPhone(cleanP)) {
+    S.deletedCust = (S.deletedCust || []).filter(x => x !== cleanP);
     const existing = S.profiles[cleanP] || { joined: iso(D0()), dues: 0, pts: 25 };
     S.profiles[cleanP] = {
       ...existing,
@@ -703,10 +768,9 @@ let db = null, fbSet = null, fbRef = null;
     const app = initializeApp(FB);
     db = getDatabase(app); fbSet = set; fbRef = ref;
     onValue(ref(db, NODE), sn => {
-      // Prevent stale Firebase snapshot from undoing local Owner Approve/Reject clicks
-      if (Date.now() - LAST_SAVE_TS < 2500) return;
+      if (Date.now() - LAST_SAVE_TS < 2000) return;
       const v = sn.val();
-      if (v && v.prod && (+v.rev || 0) > (+S.rev || 0)) {
+      if (v && v.prod && (+v.rev || 0) !== (+S.rev || 0)) {
         S = {
           ...seed(),
           ...v,
@@ -715,10 +779,11 @@ let db = null, fbSet = null, fbRef = null;
           exp: toArr(v.exp),
           svBookings: toArr(v.svBookings),
           usedUtr: toArr(v.usedUtr),
-          usedImgHash: toArr(v.usedImgHash)
+          usedImgHash: toArr(v.usedImgHash),
+          deletedCust: toArr(v.deletedCust)
         };
         ensureIntegrity();
-        try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
+        safeLocalSave();
         checkAutoPaymentMatch();
         const active = document.activeElement;
         const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK || PAY_BOX || PIN_OPEN;
@@ -739,16 +804,98 @@ function checkAutoPaymentMatch() {
   }
 }
 
+/* FIX #21: Safe LocalStorage Quota handler that trims old verified screenshots if full */
+function safeLocalSave() {
+  try {
+    localStorage.setItem('nu5', JSON.stringify(S));
+  } catch (e) {
+    (S.orders || []).forEach(o => { if (+o.paid && o.proof) { o.proof = ''; o.proofMeta = '[Verified & Archived]'; } });
+    (S.subs || []).forEach(s => { if (+s.paid && s.proof) { s.proof = ''; s.proofMeta = '[Verified & Archived]'; } });
+    try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e2) {}
+  }
+}
+
 function save() {
   LAST_SAVE_TS = Date.now();
-  S.rev = LAST_SAVE_TS;
+  S.rev = (Math.max(+S.rev || 0, LAST_SAVE_TS)) + 1;
   ensureIntegrity();
-  try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
+  safeLocalSave();
   if (db && fbSet && fbRef) fbSet(fbRef(db, NODE), S).catch(() => {});
   render();
 }
 
-const upiLink = (a, n) => 'upi://pay?pa=' + encodeURIComponent(S.cfg.upi || '9583937047@jio') + '&pn=' + encodeURIComponent('Namaste Udala') + '&cu=INR&am=' + (+a).toFixed(2) + '&tn=' + encodeURIComponent(n || 'Order');
+/* ============================================================================
+   DIRECT UPI DEEP-LINK & ANDROID INTENT ENGINE (Fixes PhonePe / GPay Not Opening)
+   ============================================================================ */
+function buildUpiQuery(amt, note, trId) {
+  const pa = (S.cfg.upi || '9583937047@jio').trim();
+  const pn = 'Namaste Udala';
+  const am = Number(amt || 0).toFixed(2);
+  const cleanNote = String(note || 'NamasteUdalaOrder').replace(/[^a-zA-Z0-9 ]/g, '').slice(0, 28).trim() || 'Order';
+  const tr = trId || ('NU' + Date.now().toString().slice(-8));
+  return `pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${am}&cu=INR&tn=${encodeURIComponent(cleanNote)}&tr=${encodeURIComponent(tr)}`;
+}
+
+const upiLink = (a, n, tr) => 'upi://pay?' + buildUpiQuery(a, n, tr);
+
+function launchUpiApp(appType) {
+  if (!PAY_BOX) return;
+  if ($('#utr_inp')) DRAFT_UTR = $('#utr_inp').value;
+  const q = buildUpiQuery(PAY_BOX.exactAmt, PAY_BOX.title, PAY_BOX.trId);
+  const isAndroid = /Android/i.test(navigator.userAgent);
+
+  let targetUrl = 'upi://pay?' + q;
+  if (appType === 'phonepe') {
+    targetUrl = isAndroid
+      ? `intent://pay?${q}#Intent;scheme=upi;package=com.phonepe.app;S.browser_fallback_url=${encodeURIComponent('upi://pay?' + q)};end`
+      : `phonepe://pay?${q}`;
+  } else if (appType === 'gpay') {
+    targetUrl = isAndroid
+      ? `intent://upi/pay?${q}#Intent;scheme=tez;package=com.google.android.apps.nbu.paisa.user;S.browser_fallback_url=${encodeURIComponent('upi://pay?' + q)};end`
+      : `tez://upi/pay?${q}`;
+  } else if (appType === 'paytm') {
+    targetUrl = isAndroid
+      ? `intent://pay?${q}#Intent;scheme=paytmmp;package=net.one97.paytm;S.browser_fallback_url=${encodeURIComponent('upi://pay?' + q)};end`
+      : `paytmmp://pay?${q}`;
+  }
+
+  copyText(Number(PAY_BOX.exactAmt).toFixed(2), `Opening ${appType.toUpperCase()}... (₹${Number(PAY_BOX.exactAmt).toFixed(2)} Copied)`);
+
+  // Trigger native navigation without e.preventDefault() interference
+  const a = document.createElement('a');
+  a.href = targetUrl;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { try { document.body.removeChild(a); } catch (e) {} }, 600);
+}
+
+/* Auto-Highlight UTR input when customer switches back from PhonePe/GPay */
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && PAY_BOX && PAY_MODE === 'upi') {
+    setTimeout(() => {
+      const inp = $('#utr_inp');
+      if (inp) {
+        inp.classList.add('pulse-hi');
+        inp.focus();
+        toast('👋 Welcome back! Apna 12-Digit UPI UTR paste karke Verify dabayein.');
+      }
+    }, 300);
+  }
+});
+
+/* FIX #8: Guarantees no two pending orders have the exact same paise amount */
+function generateUniqueExactAmt(base) {
+  const usedKeys = new Set();
+  (S.orders || []).forEach(o => { if (!o.paid && o.vStat !== 'bad') usedKeys.add(amtKey(o.total)); });
+  (S.subs || []).forEach(s => { if (!s.paid && s.vStat !== 'bad') usedKeys.add(amtKey(s.price)); });
+  for (let tries = 0; tries < 85; tries++) {
+    const p = +(Math.floor(11 + Math.random() * 88) / 100).toFixed(2);
+    const candidate = +(base + p).toFixed(2);
+    if (!usedKeys.has(amtKey(candidate))) return candidate;
+  }
+  return +(base + 0.49).toFixed(2);
+}
 
 const parsePid = k => Number(String(k).replace('h', ''));
 const saveCart = () => {
@@ -775,16 +922,24 @@ const dlvFee = () => {
   const st = subTot(), fMin = numOr(S.cfg.freeMin, 300), dFee = numOr(S.cfg.dlvFee, 25);
   return (st > 0 && st < fMin) ? dFee : 0;
 };
-const getDiscountAmt = rawAmt => {
-  let d = 0;
+/* FIX #1 & #2: Exact breakdown of Coupon Discount vs Loyalty Points on Item Subtotal */
+function getDiscountBreakdown(itemSubTotal) {
+  let cpnDisc = 0, ptsDisc = 0;
   const c = COUPONS[COUPON_CODE];
-  if (c && rawAmt >= c.min) d += c.disc;
-  if (USE_PTS) d += Math.min(getMyPts(), Math.floor(rawAmt * 0.25));
-  return Math.min(d, Math.max(0, rawAmt - 10));
-};
+  if (c && itemSubTotal >= c.min) cpnDisc = c.disc;
+  const afterCpn = Math.max(0, itemSubTotal - cpnDisc);
+  if (USE_PTS && afterCpn > 10) {
+    ptsDisc = Math.min(getMyPts(), Math.floor(itemSubTotal * 0.25), Math.max(0, afterCpn - 10));
+  }
+  const totalDisc = Math.min(cpnDisc + ptsDisc, Math.max(0, itemSubTotal - 10));
+  return { cpnDisc, ptsDisc, totalDisc };
+}
+const getDiscountAmt = rawAmt => getDiscountBreakdown(rawAmt).totalDisc;
 const ct = () => {
-  const raw = subTot() + dlvFee();
-  return Math.max(0, raw - getDiscountAmt(raw));
+  const st = subTot();
+  if (st <= 0) return 0;
+  const disc = getDiscountAmt(st);
+  return Math.max(10, st - disc) + dlvFee();
 };
 
 const menu = (t, dt) => {
@@ -794,39 +949,44 @@ const menu = (t, dt) => {
   return t === 'nv' ? 'Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Shahi Paneer + Dal Tadka + Rice + 4 Roti';
 };
 
+/* FIX #31: Extra Roti is priced per meal-day clearly */
 const tierPrice = d => {
   let b = d === 1 ? numOr(S.cfg.trialPrice, 49) : getPlRate(F.type, d);
   if (d === 1 && F.type === 'nv') b += 20;
   if (+F.times === 3) b += d * numOr(S.cfg.bfAddon, 20);
   if (F.lunch === 'both') b += d * numOr(S.cfg.bothAddon, 10);
   if (F.dinner === 'both') b += d * numOr(S.cfg.bothAddon, 10);
-  b += (+F.extraRoti || 0) * numOr(S.cfg.rotiAddon, 5) * d;
+  b += (+F.extraRoti || 0) * numOr(S.cfg.rotiAddon, 5) * 2 * d;
   return b;
 };
 
 function getMySubs() {
   const cleanP = ph(F.phone);
-  return (S.subs || []).filter(s => MY.some(m => sameId(m, s.id)) || ((ROLE === 'owner' || sameId(s.id, 's1')) && cleanP === ph(s.phone))).slice().reverse();
+  return (S.subs || []).filter(s => MY.some(m => sameId(m, s.id)) || (isValidPhone(cleanP) && cleanP === ph(s.phone))).slice().reverse();
 }
 function getMyOrders() {
   const cleanP = ph(F.phone);
-  return (S.orders || []).filter(o => MY.some(m => sameId(m, o.id)) || ((ROLE === 'owner' || sameId(o.id, 'o1')) && cleanP === ph(o.phone))).slice().reverse();
+  return (S.orders || []).filter(o => MY.some(m => sameId(m, o.id)) || (isValidPhone(cleanP) && cleanP === ph(o.phone))).slice().reverse();
+}
+function getMyServiceBookings() {
+  const cleanP = ph(F.phone);
+  return (S.svBookings || []).filter(b => isValidPhone(cleanP) && cleanP === ph(b.phone)).slice().reverse();
 }
 
 function userFormHTML(rawAmt = 0) {
   const pts = getMyPts();
-  const disc = getDiscountAmt(rawAmt);
+  const { cpnDisc, ptsDisc, totalDisc } = getDiscountBreakdown(rawAmt);
   return `
   <div style="background:var(--sf2);padding:10px;border-radius:14px;margin:10px 0;border:1px dashed var(--ln)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
       <span style="font-size:11px;font-weight:800;color:var(--g2)">🎁 Promo & Loyalty Wallet (${pts} Pts = ₹${pts})</span>
-      <button type="button" class="btn sm ${USE_PTS ? 'g' : 'w'}" data-a="toggle_pts" style="padding:4px 9px;font-size:10px">${USE_PTS ? '✓ Using Points' : 'Use Points'}</button>
+      <button type="button" class="btn sm ${USE_PTS ? 'g' : 'w'}" data-a="toggle_pts" style="padding:4px 9px;font-size:10px">${USE_PTS ? `✓ Using ${ptsDisc} Pts` : 'Use Points'}</button>
     </div>
     <div style="display:flex;gap:6px">
       <input class="inp" id="cpn_inp" placeholder="Promo: WELCOME30 / UDALA50 / TIFFIN100" value="${esc(COUPON_CODE)}" style="margin:0;flex:1;padding:8px 10px;font-size:11.5px">
       <button type="button" class="btn sm g" data-a="apply_cpn">Apply</button>
     </div>
-    ${disc > 0 ? `<div style="font-size:11px;color:#16a34a;font-weight:800;margin-top:5px">🎉 Total Savings Applied: −${inr(disc)}</div>` : ''}
+    ${totalDisc > 0 ? `<div style="font-size:11px;color:#16a34a;font-weight:800;margin-top:5px">🎉 Discount Applied: −${inr(totalDisc)} (${cpnDisc ? `Promo: ₹${cpnDisc} ` : ''}${ptsDisc ? `Points: ₹${ptsDisc}` : ''})</div>` : ''}
   </div>
   <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
     <button type="button" class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} <span>${F.lat ? 'GPS Location Saved' : 'Detect My GPS'}</span></button>
@@ -842,15 +1002,18 @@ function userFormHTML(rawAmt = 0) {
 
 /* --- 1. FRONT MAIN FOCUS: MONTHLY (30d), 15-DAY & 7-DAY TIFFIN PLANS --- */
 function vPlan() {
+  const todayStr = iso(D0());
+  if (!F.start || F.start < todayStr) F.start = todayStr;
   const rawPr = tierPrice(+F.days);
   const pr = Math.max(10, rawPr - getDiscountAmt(rawPr));
-  const trialPr = tierPrice(1);
+  const rawTrial = tierPrice(1);
+  const trialPr = Math.max(10, rawTrial - getDiscountAmt(rawTrial));
   const mySubs = getMySubs();
-  const todayStr = iso(D0());
 
   const calHTML = mySubs.map(activeSub => {
     const startD = new Date((activeSub.start || todayStr) + 'T12:00:00');
     const remDays = getSubDaysRemaining(activeSub);
+    const skipLen = (activeSub.skip || []).length;
     const daysArr = Array.from({ length: +activeSub.days || 30 }, (_, i) => {
       const d = addD(startD, i), k = iso(d);
       const isSk = (activeSub.skip || []).includes(k);
@@ -860,7 +1023,7 @@ function vPlan() {
     }).join('');
     return `
     <div class="card">
-      <h3>Mera Tiffin Calendar: ${activeSub.days}d (${remDays > 0 ? remDays + 'd left' : 'Completed'}) ${statusPillHTML(activeSub)}</h3>
+      <h3>Mera Tiffin Calendar: ${activeSub.origDays || activeSub.days}d ${skipLen ? `(+${skipLen}d skip bonus)` : ''} · ${remDays > 0 ? remDays + 'd left' : 'Completed'} ${statusPillHTML(activeSub)}</h3>
       <div class="cal-grid">${daysArr}</div>
     </div>`;
   }).join('');
@@ -923,14 +1086,14 @@ function vPlan() {
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin:10px 0 4px">
       <div>
-        <span class="lbl" style="margin:0 0 4px">5. Extra Roti (+₹${numOr(S.cfg.rotiAddon, 5)}/d)</span>
+        <span class="lbl" style="margin:0 0 4px">5. Extra Roti (+₹${numOr(S.cfg.rotiAddon, 5)}/meal)</span>
         <div class="qty">
-          <button type="button" data-a="er_dec">−</button><b>${F.extraRoti}</b><button type="button" data-a="er_inc">+</button>
+          <button type="button" data-a="er_dec">−</button><b>${F.extraRoti} / meal</b><button type="button" data-a="er_inc">+</button>
         </div>
       </div>
       <div>
         <span class="lbl" style="margin:0 0 4px">Start Date</span>
-        <input class="inp" type="date" data-f="start" min="${todayStr}" value="${F.start < todayStr ? todayStr : F.start}" style="margin:0">
+        <input class="inp" type="date" data-f="start" min="${todayStr}" value="${F.start}" style="margin:0">
       </div>
     </div>
 
@@ -947,9 +1110,9 @@ function vPlan() {
   ${calHTML}
 
   <div class="card">
-    <h3>Aaj Ka 3-Time Fresh Menu <span>${todayStr}</span></h3>
-    <div style="background:var(--sf2);padding:10px 12px;border-radius:14px;margin-bottom:8px;font-size:13px">
-      <b style="color:var(--o)">Subah Nashta:</b> ${esc(menu('bf'))}
+    <h3>Aaj Ka Fresh Menu (${+F.times === 3 ? '3-Time' : '2-Time Lunch & Dinner'}) <span>${todayStr}</span></h3>
+    <div style="background:var(--sf2);padding:10px 12px;border-radius:14px;margin-bottom:8px;font-size:13px;opacity:${+F.times === 3 ? '1' : '.55'}">
+      <b style="color:var(--o)">Subah Nashta ${+F.times === 2 ? '(Excluded in 2-Time)' : ''}:</b> ${esc(menu('bf'))}
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <div style="background:var(--sf2);padding:10px;border-radius:14px">
@@ -1049,12 +1212,13 @@ function vServices() {
   `).join('')}`;
 }
 
-/* --- 4. COMPLETE CUSTOMER PROFILE VIEW --- */
+/* --- 4. COMPLETE CUSTOMER PROFILE VIEW (FIX #23, #24, #59) --- */
 function vProfile() {
   const cleanP = ph(F.phone);
   const prof = S.profiles[cleanP] || {};
   const mySubs = getMySubs();
   const myOrds = getMyOrders();
+  const mySvcs = getMyServiceBookings();
   const totSpent = mySubs.reduce((a, s) => a + (+s.paid ? s.price : 0), 0) + myOrds.reduce((a, o) => a + (+o.paid ? o.total : 0), 0);
   const totDue = (+prof.dues || 0) + myOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? o.total : 0), 0) + mySubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? s.price : 0), 0);
   const initials = (F.name || 'N U').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
@@ -1119,10 +1283,11 @@ function vProfile() {
       const paused = (s.skip || []).includes(todayStr);
       const maxSkips = (+s.origDays || +s.days || 30) >= 30 ? 5 : (+s.origDays || 15) >= 15 ? 3 : 2;
       const usedSkips = (s.skip || []).length;
-      const activeToday = isSubActiveOn(s, D0());
+      const rem = getSubDaysRemaining(s);
+      const canToggleSkip = (+s.paid || s.vStat === 'cod') && rem > 0;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <b>🍱 ${s.days} Din ${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} (${s.times || 3} Time/Day)</b>
+          <b>🍱 ${s.origDays || s.days} Din ${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} (${s.times || 3} Time/Day)</b>
           ${statusPillHTML(s)}
         </div>
         <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">Start: ${s.start} · L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'} · Skips: ${usedSkips}/${maxSkips} · UTR: ${esc(s.utr)}</div>
@@ -1130,10 +1295,10 @@ function vProfile() {
           ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} <span>Proof</span></button>` : ''}
           <button type="button" class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨 Bill</button>
           <a class="btn sm w" href="https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(`Namaste Udala! Mera ${s.days}d Tiffin Plan (#${String(s.id).slice(-4)}) UTR: ${s.utr} verify kar dein.`)}" target="_blank">📲 WhatsApp</a>
-          ${(+s.paid || s.vStat === 'cod') && (activeToday || paused) ? `<button type="button" class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
+          ${canToggleSkip ? `<button type="button" class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? '▶ Resume Today' : `⏸ Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
         </div>
       </div>`;
-    }).join('') || '<p style="color:var(--mu);font-size:13px">Is device par koi active tiffin plan nahi hai.</p>'}
+    }).join('') || '<p style="color:var(--mu);font-size:13px">Is number par koi active tiffin plan nahi hai.</p>'}
   </div>
 
   <div class="card">
@@ -1153,24 +1318,36 @@ function vProfile() {
         </div>
       </div>
     </div>`).join('') || '<p style="color:var(--mu);font-size:13px">Abhi tak koi shop order nahi hai.</p>'}
-  </div>`;
+  </div>
+
+  ${mySvcs.length ? `
+  <div class="card">
+    <h3>4. My Service Bookings (${mySvcs.length})</h3>
+    ${mySvcs.map(b => `<div class="row">
+      <div>
+        <b>✨ ${esc(b.svName)} — ${inr(b.price)}</b>
+        <div style="font-size:11.5px;color:var(--mu)">Event/Start Date: ${esc(b.date)} · Note: ${esc(b.note || '-')}</div>
+      </div>
+      <span class="st-pill ${b.done ? 'st-ok' : 'st-wait'}">${b.done ? 'Confirmed ✓' : 'Requested'}</span>
+    </div>`).join('')}
+  </div>` : ''}`;
 }
 
 /* --- 5. KITCHEN VIEW --- */
 function vKitchen() {
   const k = iso(D0());
   const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (+s.paid || s.vStat === 'cod'));
+  const pendOrds = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (+o.paid || o.vStat === 'cod'));
   const veg = activeSubs.filter(s => s.type === 'veg').length, nv = activeSubs.length - veg;
   const roti = activeSubs.reduce((a, s) => a + calcRotiForSub(s, K_SLOT), 0);
-  const prep = calcKitchenProcurement(activeSubs, K_SLOT);
-  const pendOrds = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (+o.paid || o.vStat === 'cod'));
+  const prep = calcKitchenProcurement(activeSubs, pendOrds, K_SLOT);
   const holdCount = (S.orders || []).filter(o => !o.paid && o.vStat === 'verify').length + (S.subs || []).filter(s => !s.paid && s.vStat === 'verify').length;
 
   return `
   <div class="hero3d">
     ${steamHTML()}
     <h2>Kitchen Production & Prep AI</h2>
-    <p>Aaj (${k}) ke Verified Active Tiffins & Raw Material Forecast</p>
+    <p>Aaj (${k}) ke Verified Active Tiffins & Shop Orders Forecast</p>
     <img class="hero-plate" src="${esc(IMG.thali)}" alt="Kitchen">
   </div>
 
@@ -1193,7 +1370,7 @@ function vKitchen() {
   </div>
 
   <div class="card">
-    <h3>🧠 Smart Raw Material Calculator (${K_SLOT.toUpperCase()} Slot)</h3>
+    <h3>🧠 Smart Raw Material Calculator (${K_SLOT.toUpperCase()} + Shop)</h3>
     <div class="prep-grid">
       <div class="prep-box"><b>${prep.rice}</b><span>Raw Chawal</span></div>
       <div class="prep-box"><b>${prep.atta}</b><span>Atta Dough</span></div>
@@ -1304,13 +1481,15 @@ function vOwner() {
   const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
   const pendVerifyCount = ords.filter(o => !o.paid && o.vStat !== 'bad').length + subs.filter(s => !s.paid && s.vStat !== 'bad').length;
 
+  /* FIX #46: Respects S.deletedCust so deleted customers don't resurrect automatically */
+  const delSet = new Set(S.deletedCust || []);
   const allCust = { ...(S.profiles || {}) };
   subs.forEach(s => {
-    const p = ph(s.phone); if (!p) return;
+    const p = ph(s.phone); if (!p || delSet.has(p)) return;
     allCust[p] = { phone: p, name: s.name, area: s.area, addr: s.addr, lat: s.lat, lng: s.lng, diet: s.type, spice: 'Medium', family: 1, dues: 0, pts: 25, ...(allCust[p] || {}) };
   });
   ords.forEach(o => {
-    const p = ph(o.phone); if (!p) return;
+    const p = ph(o.phone); if (!p || delSet.has(p)) return;
     allCust[p] = { phone: p, name: o.name, area: o.area, addr: o.addr, lat: o.lat, lng: o.lng, diet: 'veg', spice: 'Medium', family: 1, dues: 0, pts: 25, ...(allCust[p] || {}) };
   });
   const q = O_Q.trim().toLowerCase();
@@ -1336,7 +1515,7 @@ function vOwner() {
     body = `
     <div class="card" style="border:2px solid #16a34a">
       <h3><span style="display:flex;align-items:center;gap:6px"><i class="pulse-dot"></i> Bank SMS Exact Paise Auto-Matcher</span></h3>
-      <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Bank SMS mein aaya exact amount (jaise <b>305.24</b>) yahan push karein—oldest matching order turant <b>Verified Paid ✓</b> ho jayega:</p>
+      <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Bank SMS mein aaya exact amount (jaise <b>305.24</b>) yahan push karein—matching order turant <b>Verified Paid ✓</b> ho jayega:</p>
       <div style="display:flex;gap:8px">
         <input class="inp" id="wh_amt" type="number" step="0.01" placeholder="Exact ₹ Amount (e.g. 305.24)" style="flex:1;margin:0">
         <button type="button" class="btn g sm" data-a="push_auto_amt">Auto-Match</button>
@@ -1354,10 +1533,10 @@ function vOwner() {
       <h3>Edit Order #${String(eoObj.id).slice(-4)} <button type="button" class="btn w sm" data-a="cancel_edord">Cancel</button></h3>
       <div class="btn-row">
         <input class="inp" id="eo_name" placeholder="Customer Name" value="${esc(eoObj.name)}">
-        <input class="inp" id="eo_phone" placeholder="Mobile" value="${esc(eoObj.phone)}">
+        <input class="inp" id="eo_phone" placeholder="10-Digit Mobile" value="${esc(eoObj.phone)}">
       </div>
       <div class="btn-row">
-        <input class="inp" id="eo_total" type="number" placeholder="Total Bill ₹" value="${eoObj.total}">
+        <input class="inp" id="eo_total" type="number" min="1" placeholder="Total Bill ₹" value="${eoObj.total}">
         <input class="inp" id="eo_utr" placeholder="UTR / Ref" value="${esc(eoObj.utr)}">
       </div>
       <input class="inp" id="eo_addr" placeholder="Delivery Address" value="${esc(eoObj.addr)}">
@@ -1402,8 +1581,8 @@ function vOwner() {
         </select>
       </div>
       <div class="btn-row">
-        <input class="inp" id="esub_days" type="number" placeholder="Days (7/15/30)" value="${esObj.days}">
-        <input class="inp" id="esub_price" type="number" placeholder="Price ₹" value="${esObj.price}">
+        <input class="inp" id="esub_days" type="number" min="1" placeholder="Days (7/15/30)" value="${esObj.days}">
+        <input class="inp" id="esub_price" type="number" min="1" placeholder="Price ₹" value="${esObj.price}">
         <input class="inp" id="esub_start" type="date" value="${esObj.start || iso(D0())}">
       </div>
       <button type="button" class="btn g" data-a="save_edsub">Update Subscription ✓</button>
@@ -1449,8 +1628,8 @@ function vOwner() {
     body = `
     <div class="card">
       <h3>📲 1-Tap CEO Daily WhatsApp Summary</h3>
-      <p style="font-size:12px;color:var(--mu);margin-bottom:8px">Aaj ka total revenue, active tiffins, expenses aur net profit report apne WhatsApp par bhejein:</p>
-      <button type="button" class="btn g" data-a="wa_ceo_report">Send Today's CEO Report on WhatsApp →</button>
+      <p style="font-size:12px;color:var(--mu);margin-bottom:8px">Aaj ka aur All-Time revenue, active tiffins, expenses aur net profit report apne WhatsApp par bhejein:</p>
+      <button type="button" class="btn g" data-a="wa_ceo_report">Send CEO Report on WhatsApp →</button>
     </div>
 
     <div class="card">
@@ -1575,7 +1754,7 @@ function vOwner() {
         <input class="inp" id="nvp_15" type="number" value="${getPlRate('nv', 15)}" placeholder="15d NV">
         <input class="inp" id="nvp_30" type="number" value="${getPlRate('nv', 30)}" placeholder="30d NV">
       </div>
-      <span class="lbl">1-Day Trial (₹) · Nashta/d (₹) · Dono/d (₹) · Extra Roti (₹)</span>
+      <span class="lbl">1-Day Trial (₹) · Nashta/d (₹) · Dono/d (₹) · Extra Roti/meal (₹)</span>
       <div class="btn-row">
         <input class="inp" id="cfg_trial" type="number" value="${numOr(S.cfg.trialPrice, 49)}" placeholder="Trial ₹">
         <input class="inp" id="cfg_bf" type="number" value="${numOr(S.cfg.bfAddon, 20)}" placeholder="Nashta ₹">
@@ -1690,16 +1869,17 @@ function vOwner() {
     </div>
 
     <div class="card">
-      <h3>App Payment, Cloud Backup & Restore</h3>
-      <span class="lbl">Owner UPI ID (For QR & Payments)</span>
+      <h3>App Payment, Storage Cleanup & Cloud Backup</h3>
+      <span class="lbl">Owner UPI ID (For QR & Direct App Intents)</span>
       <input class="inp" id="cfg_upi" value="${esc(S.cfg.upi)}">
       <span class="lbl">WhatsApp Number (10 Digits)</span>
       <input class="inp" id="cfg_wa" value="${esc(S.cfg.wa)}">
       <button type="button" class="btn g" data-a="save_app_cfg">Save UPI & WhatsApp</button>
       <div class="btn-row" style="margin-top:10px">
+        <button type="button" class="btn w sm" data-a="clean_proofs">🧹 Clean Paid Proofs</button>
         <button type="button" class="btn w sm" data-a="export_json">⬇ Backup JSON</button>
         <button type="button" class="btn w sm" data-a="import_json">⬆ Restore JSON</button>
-        <button type="button" class="btn w sm" data-a="reset_seed">↻ Reset Demo</button>
+        <button type="button" class="btn r sm" data-a="reset_seed">↻ Reset Demo</button>
       </div>
     </div>`;
   }
@@ -1765,17 +1945,17 @@ function sheet() {
   }
 
   if (PAY_BOX) {
-    const g = PAY_BOX, uLink = upiLink(g.exactAmt, g.title);
+    const g = PAY_BOX, uLink = upiLink(g.exactAmt, g.title, g.trId);
     const over2k = g.exactAmt > 2000;
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <span style="display:flex;align-items:center;gap:6px;color:var(--g2);font-size:12px;font-weight:800"><i class="pulse-dot"></i> ANTI-FRAUD PAYMENT HUB</span>
+        <span style="display:flex;align-items:center;gap:6px;color:var(--g2);font-size:12px;font-weight:800"><i class="pulse-dot"></i> DIRECT UPI PAYMENT HUB</span>
         <button type="button" class="btn w sm" data-a="cancel_pay">Cancel</button>
       </div>
-      <h2 style="font-family:var(--serif);font-size:19px;font-weight:800;text-align:center">${esc(g.title)}</h2>
+      <h2 style="font-family:var(--serif);font-size:18.5px;font-weight:800;text-align:center">${esc(g.title)}</h2>
 
       <div class="seg" style="margin:10px 0">
-        <button type="button" class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. UPI + 12-Digit UTR</button>
+        <button type="button" class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. Direct UPI App</button>
         <button type="button" class="${PAY_MODE === 'proof' ? 'on' : ''}" data-a="pmode" data-v="proof">2. Screenshot + UTR</button>
         <button type="button" class="${PAY_MODE === 'cod' ? 'on' : ''}" data-a="pmode" data-v="cod">3. Pay at Door</button>
       </div>
@@ -1784,18 +1964,33 @@ function sheet() {
         <div style="text-align:center">
           <div style="font-family:var(--serif);font-size:26px;font-weight:800;color:var(--o)">${inr(g.exactAmt)}</div>
           <div style="font-size:11px;color:var(--g2);font-weight:800">⚡ Auto-Verifies in 0s on Bank SMS of ${inr(g.exactAmt)}</div>
-          ${over2k ? `<div style="background:#fef3c7;color:#92400e;font-size:11px;padding:7px 10px;border-radius:10px;margin:6px 0;font-weight:700">💡 ₹2,000+ ke plan ke liye Gallery QR scan ki jagah niche <b>Open UPI App</b> ya <b>Copy UPI ID</b> se direct pay karein.</div>` : ''}
-          <a class="btn" href="${esc(uLink)}" style="margin:8px 0">⚡ 1-Tap Open GPay / PhonePe / Paytm</a>
+
+          <span class="lbl" style="justify-content:center;margin-top:8px">Tap Your UPI App to Open Directly:</span>
+          <div class="upi-grid">
+            <button type="button" class="upi-btn upi-pp" data-a="open_upi_app" data-v="phonepe">🟣 PhonePe Direct</button>
+            <button type="button" class="upi-btn upi-gp" data-a="open_upi_app" data-v="gpay">🔵 Google Pay</button>
+            <button type="button" class="upi-btn upi-pt" data-a="open_upi_app" data-v="paytm">🔷 Paytm UPI</button>
+            <button type="button" class="upi-btn upi-bh" data-a="open_upi_app" data-v="any">🟠 BHIM / Other UPI</button>
+          </div>
+
+          ${over2k ? `<div style="background:#fef3c7;color:#92400e;font-size:11px;padding:7px 10px;border-radius:10px;margin:6px 0;font-weight:700">💡 ₹2,000+ ke plan ke liye upar <b>PhonePe / GPay button</b> dabayein ya <b>Copy UPI ID</b> se app ke andar pay karein.</div>` : ''}
+
           <div style="background:#fff;padding:10px;border-radius:18px;width:fit-content;margin:6px auto;border:2px solid var(--ln)">
-            <img src="${esc(qrUrl(uLink))}" style="width:142px;height:142px;margin:0 auto" alt="QR">
+            <img src="${esc(qrUrl(uLink))}" style="width:136px;height:136px;margin:0 auto" alt="QR">
             <div style="font-size:11px;color:#16241c;font-weight:800;margin-top:4px">UPI ID: ${esc(S.cfg.upi)}</div>
           </div>
+
           <div class="btn-row">
-            <button type="button" class="btn w sm" data-a="copy_upi">Copy UPI ID</button>
-            <button type="button" class="btn w sm" data-a="copy_amt">Copy ${inr(g.exactAmt)}</button>
+            <button type="button" class="btn w sm" data-a="copy_upi">📋 Copy UPI ID</button>
+            <button type="button" class="btn w sm" data-a="copy_amt">📋 Copy ${inr(g.exactAmt)}</button>
+            <button type="button" class="btn w sm" data-a="dl_qr">⬇ Save QR</button>
           </div>
-          <span class="lbl" style="margin-top:10px">Enter Valid 12-Digit Bank UTR / UPI Ref No:</span>
-          <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="12-Digit UPI UTR (e.g. 431982746192)" value="${esc(DRAFT_UTR)}">
+
+          <span class="lbl" style="margin-top:10px">Step 2: Pay karne ke baad 12-Digit UTR daalein:</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="12-Digit UPI UTR (e.g. 431982746192)" value="${esc(DRAFT_UTR)}" style="margin:0;flex:1">
+            <button type="button" class="btn w sm" data-a="paste_utr" style="padding:11px 12px">📋 Paste</button>
+          </div>
           <button type="button" class="btn g" data-a="confirm_paid">Submit 12-Digit UTR for Verification ✓</button>
         </div>
       ` : PAY_MODE === 'proof' ? `
@@ -1806,7 +2001,10 @@ function sheet() {
             ${IC.cam} <span>${PROOF_IMG ? 'Verified Screenshot Attached ✓' : '1. Select UPI Payment Screenshot'}</span>
           </button>
           ${PROOF_IMG ? `<img src="${esc(PROOF_IMG)}" style="max-height:120px;margin:6px auto;border-radius:12px;border:2px solid #16a34a">` : ''}
-          <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="2. Enter 12-Digit UTR shown in Screenshot" value="${esc(DRAFT_UTR)}">
+          <div style="display:flex;gap:6px;align-items:center">
+            <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="2. Enter 12-Digit UTR shown in Screenshot" value="${esc(DRAFT_UTR)}" style="margin:0;flex:1">
+            <button type="button" class="btn w sm" data-a="paste_utr" style="padding:11px 12px">📋 Paste</button>
+          </div>
           <button type="button" class="btn g" data-a="confirm_paid">Submit Screenshot + UTR for Approval ✓</button>
         </div>
       ` : `
@@ -1821,7 +2019,7 @@ function sheet() {
   }
 
   if (CART_OPEN) {
-    const n = cc(), st = subTot(), df = dlvFee(), rawTot = st + df, tot = ct();
+    const n = cc(), st = subTot(), df = dlvFee(), tot = ct();
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <h3 style="font-family:var(--serif)">Aapka Cart (${n} Items)</h3>
@@ -1840,10 +2038,10 @@ function sheet() {
         }).join('') || '<p style="color:var(--mu);font-size:13px;padding:10px 0">Aapka cart khali hai.</p>'}
       </div>
       <div style="font-size:12px;color:var(--mu);padding-top:8px;display:flex;justify-content:space-between">
-        <span>Items: ${inr(st)}</span>
+        <span>Items Subtotal: ${inr(st)}</span>
         <span>Delivery: <b>${df ? inr(df) + ' (Free above ' + inr(numOr(S.cfg.freeMin, 300)) + ')' : 'FREE'}</b></span>
       </div>
-      ${userFormHTML(rawTot)}
+      ${userFormHTML(st)}
       <div class="tot"><span>Final Payable Bill</span><b>${inr(tot)}</b></div>
       <button type="button" class="btn" data-a="pay_ord" ${tot <= 0 ? 'disabled' : ''}>Proceed to Payment · ${inr(tot)}</button>
     </div></div>`;
@@ -1878,11 +2076,16 @@ function sheet() {
 
 function render() {
   saveCart();
+  const scrollY = window.scrollY;
   const V = { plan: vPlan, shop: vShop, services: vServices, profile: vProfile, kitchen: vKitchen, route: vRoute, owner: vOwner };
-  $('#v').innerHTML = (V[tab] || vPlan)();
-  const shHTML = sheet();
-  $('#sheet').innerHTML = shHTML;
-  document.body.classList.toggle('modal-open', !!shHTML);
+  try {
+    $('#v').innerHTML = (V[tab] || vPlan)();
+    const shHTML = sheet();
+    $('#sheet').innerHTML = shHTML;
+    document.body.classList.toggle('modal-open', !!shHTML);
+  } catch (e) {
+    document.body.classList.remove('modal-open');
+  }
 
   const n = cc(), tot = ct();
   $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX && !PIN_OPEN) ? `
@@ -1903,6 +2106,7 @@ function render() {
   if (ROLE === 'owner') TABS.push(['owner', IC.owner, 'Owner']);
 
   $('#nav').innerHTML = TABS.map(x => `<button type="button" class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
+  if (SQ || O_Q) window.scrollTo(0, scrollY);
 }
 
 function checkUser() {
@@ -1914,15 +2118,15 @@ function checkUser() {
   return true;
 }
 
+/* FIX #2, #3: Accurate Points Deduction & Verified-Only Cashback Award */
 function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
   if (!PAY_BOX) return;
   const finalPrice = PAY_MODE === 'cod' ? PAY_BOX.amt : PAY_BOX.exactAmt;
   syncCustomerProfile();
 
   const cleanP = ph(F.phone);
-  if (S.profiles[cleanP]) {
-    if (USE_PTS) S.profiles[cleanP].pts = Math.max(0, (S.profiles[cleanP].pts || 0) - Math.floor(PAY_BOX.amt * 0.25));
-    S.profiles[cleanP].pts = (S.profiles[cleanP].pts || 0) + Math.max(2, Math.round(finalPrice * 0.02));
+  if (S.profiles[cleanP] && PAY_BOX.ptsUsed > 0) {
+    S.profiles[cleanP].pts = Math.max(0, (S.profiles[cleanP].pts || 0) - PAY_BOX.ptsUsed);
   }
   USE_PTS = false; COUPON_CODE = '';
 
@@ -1934,16 +2138,19 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
 
   if (PAY_BOX.kind === 'sub') {
     const id = uid('s');
-    S.subs.push({
+    const newSub = {
       id, ts: Date.now(), name: F.name.trim(), phone: cleanP, area: F.area, addr: F.addr.trim(),
       lat: F.lat, lng: F.lng, type: F.type, days: PAY_BOX.days, origDays: PAY_BOX.days, times: F.times,
       lunch: F.lunch, dinner: F.dinner, extraRoti: F.extraRoti,
-      start: safeStart, price: finalPrice, paid: isPaid, vStat, pMode: modeLabel, utr: refNo,
+      start: safeStart, price: finalPrice, subTotal: PAY_BOX.rawSub, disc: PAY_BOX.discAmt,
+      paid: isPaid, ptsAwarded: 0, vStat, pMode: modeLabel, utr: refNo,
       proof: PROOF_IMG || '', proofMeta: PROOF_META || '', skip: []
-    });
+    };
+    if (isPaid) syncOrderPoints(newSub, true);
+    S.subs.push(newSub);
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
     setPayBox(null); PROOF_IMG = null; PROOF_META = null; playChime(); save();
-    toast(isPaid ? '🎉 Payment Auto-Verified! Tiffin Activated + Cashback Added.' : '⏳ Plan Submitted! Verification + Cashback Points Added.');
+    toast(isPaid ? '🎉 Payment Verified! Tiffin Activated + Cashback Added.' : '⏳ Plan Submitted! Verification ke baad Cashback Points milenge.');
   } else {
     const items = [];
     Object.entries(C).forEach(([k, q]) => {
@@ -1955,18 +2162,22 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
     });
     if (!items.length) { toast('Cart is empty!'); setPayBox(null); render(); return; }
     const id = uid('o');
-    S.orders.push({
+    const newOrd = {
       id, ts: Date.now(), date: todayStr, name: F.name.trim(), phone: cleanP, area: F.area, addr: F.addr.trim(),
-      lat: F.lat, lng: F.lng, items, total: finalPrice, paid: isPaid, vStat, packed: 0, dlv: 0,
+      lat: F.lat, lng: F.lng, items, subTotal: PAY_BOX.rawSub, dlvFee: PAY_BOX.dlvFee || 0, disc: PAY_BOX.discAmt || 0,
+      total: finalPrice, paid: isPaid, ptsAwarded: 0, vStat, packed: 0, dlv: 0,
       pMode: modeLabel, utr: refNo, proof: PROOF_IMG || '', proofMeta: PROOF_META || ''
-    });
+    };
+    if (isPaid) syncOrderPoints(newOrd, true);
+    S.orders.push(newOrd);
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
     C = {}; saveCart();
     setPayBox(null); PROOF_IMG = null; PROOF_META = null; playChime(); save();
-    toast(isPaid ? '🎉 Payment Verified! Order Sent to Kitchen.' : '⏳ Order Received! Verification hold + Cashback Points Added.');
+    toast(isPaid ? '🎉 Payment Verified! Order Sent to Kitchen.' : '⏳ Order Received! Verification ke baad Cashback Points milenge.');
   }
 }
 
+let _activeSR = null;
 const A = {
   tab: v => {
     tab = v;
@@ -1974,7 +2185,6 @@ const A = {
     render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
-  // Hidden 5-Tap on NU Logo to unlock Staff / Owner Modal
   logo_tap: () => {
     LOGO_TAPS++;
     clearTimeout(LOGO_TIMER);
@@ -1990,15 +2200,22 @@ const A = {
   },
   close_pin: () => { PIN_OPEN = false; render(); },
   submit_pin: () => {
+    if (Date.now() < PIN_LOCK_UNTIL) {
+      toast(`⏳ Too many wrong attempts! Wait ${Math.ceil((PIN_LOCK_UNTIL - Date.now()) / 1000)}s.`);
+      return;
+    }
     const pin = ($('#pin_inp') ? $('#pin_inp').value.trim() : '');
-    if (pin === OPIN) {
-      ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner');
+    const role = verifyPinRole(pin);
+    if (role === 'owner') {
+      PIN_FAILS = 0; ROLE = 'owner'; sessionStorage.setItem('nu_role_tok', ROLE_HASHES.owner);
       PIN_OPEN = false; tab = 'owner'; render(); toast('🔓 Owner Master Control Unlocked!');
-    } else if (pin === DPIN) {
-      ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff');
+    } else if (role === 'staff') {
+      PIN_FAILS = 0; ROLE = 'staff'; sessionStorage.setItem('nu_role_tok', ROLE_HASHES.staff);
       PIN_OPEN = false; tab = 'kitchen'; render(); toast('🔓 Kitchen & Delivery Mode Unlocked!');
     } else {
-      toast('⚠️ Galat Security PIN!');
+      PIN_FAILS++;
+      if (PIN_FAILS >= 5) { PIN_LOCK_UNTIL = Date.now() + 30000; toast('🔒 5 Wrong Attempts! Locked for 30 seconds.'); }
+      else toast('⚠️ Galat Security PIN!');
     }
   },
   otab: v => { O_TAB = v; ED_P = null; ED_SV = null; ED_CUST = null; ED_SUB = null; ED_ORD = null; render(); },
@@ -2012,26 +2229,45 @@ const A = {
     if (COUPONS[raw]) { COUPON_CODE = raw; render(); toast(`🎉 Promo ${raw} Applied (${COUPONS[raw].desc})!`); }
     else { COUPON_CODE = ''; render(); toast('⚠️ Invalid Coupon! Use WELCOME30, UDALA50 or TIFFIN100'); }
   },
+  /* FIX #41 & #42: Safe SpeechRecognition wrapper with error feedback */
   voice_search: () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) { toast('Voice search is browser mein supported nahi hai.'); return; }
-    const rec = new SR();
-    rec.lang = 'en-IN';
-    toast('🎤 Boliye (e.g. Chicken, Paneer, Milk, Atta)...');
-    rec.onresult = e => {
-      const txt = e.results[0][0].transcript.replace(/[.,]/g, '');
-      SQ = txt; render(); toast(`🔍 Searching: "${txt}"`);
-    };
-    rec.start();
+    try {
+      if (_activeSR) { try { _activeSR.stop(); } catch (e) {} }
+      const rec = new SR();
+      _activeSR = rec;
+      rec.lang = 'en-IN';
+      toast('🎤 Boliye (e.g. Chicken, Paneer, Doodh, Atta)...');
+      rec.onresult = e => {
+        const txt = e.results[0][0].transcript.replace(/[.,]/g, '');
+        SQ = txt; render(); toast(`🔍 Searching: "${txt}"`);
+      };
+      rec.onerror = () => toast('⚠️ Awaz samajh nahi aayi ya Mic permission off hai.');
+      rec.start();
+    } catch (e) {
+      toast('🎤 Voice search already active...');
+    }
   },
+  /* FIX #50: Separates Today's Revenue vs All-Time Net Profit */
   wa_ceo_report: () => {
     const todayStr = iso(D0());
     const activeTiffins = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (+s.paid || s.vStat === 'cod')).length;
-    const totIn = (S.orders || []).reduce((a, o) => a + (+o.paid ? +o.total : 0), 0) + (S.subs || []).reduce((a, s) => a + (+s.paid ? +s.price : 0), 0);
-    const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
+    const todayIn = (S.orders || []).filter(o => o.date === todayStr && +o.paid).reduce((a, o) => a + (+o.total || 0), 0) +
+                    (S.subs || []).filter(s => iso(new Date(s.ts || Date.now())) === todayStr && +s.paid).reduce((a, s) => a + (+s.price || 0), 0);
+    const todayExp = (S.exp || []).filter(x => x.d === todayStr).reduce((a, x) => a + (+x.amt || 0), 0);
+    const allIn = (S.orders || []).reduce((a, o) => a + (+o.paid ? +o.total : 0), 0) + (S.subs || []).reduce((a, s) => a + (+s.paid ? +s.price : 0), 0);
+    const allOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
     const hold = (S.orders || []).filter(o => !o.paid && o.vStat !== 'bad').length + (S.subs || []).filter(s => !s.paid && s.vStat !== 'bad').length;
-    const msg = `*📊 NAMASTE UDALA — CEO DAILY REPORT (${todayStr})*\n\n✅ Verified Collection: ${inr(totIn)}\n📉 Total Expenses: ${inr(totOut)}\n💰 Net Profit: ${inr(totIn - totOut)}\n🍱 Today's Active Tiffins: ${activeTiffins}\n⏳ Pending Verification: ${hold}`;
+    const msg = `*📊 NAMASTE UDALA — CEO REPORT (${todayStr})*\n\n*📅 TODAY'S PERFORMANCE:*\n✅ Today's Collection: ${inr(todayIn)}\n📉 Today's Expense: ${inr(todayExp)}\n🍱 Today's Active Tiffins: ${activeTiffins}\n\n*🏦 ALL-TIME LEDGER:*\n💰 Total Verified Collection: ${inr(allIn)}\n📉 Total Expenses: ${inr(allOut)}\n📈 Net Profit: ${inr(allIn - allOut)}\n⏳ Pending Verification: ${hold}`;
     window.open(`https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(msg)}`, '_blank');
+  },
+  clean_proofs: () => {
+    let cleaned = 0;
+    (S.orders || []).forEach(o => { if (+o.paid && o.proof) { o.proof = ''; o.proofMeta = '[Verified & Archived]'; cleaned++; } });
+    (S.subs || []).forEach(s => { if (+s.paid && s.proof) { s.proof = ''; s.proofMeta = '[Verified & Archived]'; cleaned++; } });
+    save();
+    toast(`🧹 Cleaned ${cleaned} old screenshots! App speed boosted.`);
   },
   export_json: () => {
     const blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' });
@@ -2044,6 +2280,29 @@ const A = {
   import_json: () => { const inp = $('#restore_file'); if (inp) { inp.value = ''; inp.click(); } },
 
   pmode: v => { if ($('#utr_inp')) DRAFT_UTR = $('#utr_inp').value; PAY_MODE = v; render(); },
+  open_upi_app: v => launchUpiApp(v),
+  paste_utr: async () => {
+    try {
+      const txt = await navigator.clipboard.readText();
+      const digits = String(txt || '').replace(/\D/g, '').slice(0, 12);
+      if (digits) {
+        DRAFT_UTR = digits;
+        if ($('#utr_inp')) $('#utr_inp').value = digits;
+        toast(`📋 Pasted UTR: ${digits}`);
+      } else {
+        toast('⚠️ Clipboard mein koi 12-digit number nahi mila!');
+      }
+    } catch (e) {
+      const inp = $('#utr_inp');
+      if (inp) { inp.focus(); toast('Box par long-press karke Paste karein'); }
+    }
+  },
+  dl_qr: () => {
+    if (!PAY_BOX) return;
+    const uLink = upiLink(PAY_BOX.exactAmt, PAY_BOX.title, PAY_BOX.trId);
+    window.open(qrUrl(uLink), '_blank');
+    toast('QR Image opened! Long-press to save or scan from PhonePe/GPay.');
+  },
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
   er_inc: () => { F.extraRoti = Math.min(10, (+F.extraRoti || 0) + 1); render(); },
   er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
@@ -2051,7 +2310,12 @@ const A = {
   cat: v => { SCAT = v; render(); },
   pq: (v, k, id) => { PQ = id; render(); },
   open_cart: () => { PQ = null; CART_OPEN = true; render(); },
-  add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; saveCart(); PQ = null; CART_OPEN = true; render(); },
+  add_open_cart: (v, k, id) => {
+    const p = S.prod.find(x => sameId(x.id, id));
+    if (!p || !p.s) { toast('Item Out of Stock!'); return; }
+    if (!C[id] && !C[id + 'h']) C[id] = 1;
+    saveCart(); PQ = null; CART_OPEN = true; render();
+  },
   close: () => { PQ = null; CART_OPEN = false; SV_BOOK = null; PIN_OPEN = false; render(); },
   cancel_pay: () => { setPayBox(null); PROOF_IMG = null; PROOF_META = null; render(); },
   close_proof: () => { VIEW_PROOF = null; render(); },
@@ -2075,7 +2339,7 @@ const A = {
       id: uid('sb'), svName: s.n, price: s.p, date: $('#sv_date').value,
       note: $('#sv_note').value.trim(), name: F.name.trim(), phone: ph(F.phone), area: F.area, done: 0
     });
-    SV_BOOK = null; playChime(); save(); toast('Service Booking Saved! Hum aapko call karenge.');
+    SV_BOOK = null; playChime(); save(); toast('Service Booking Saved! Profile mein status dekhein.');
   },
   done_svb: (v, k, id) => { const b = (S.svBookings || []).find(x => sameId(x.id, id)); if (b) { b.done = b.done ? 0 : 1; save(); toast('Booking Updated ✓'); } },
   del_svb: (v, k, id) => { S.svBookings = (S.svBookings || []).filter(x => !sameId(x.id, id)); save(); toast('Booking Deleted'); },
@@ -2104,31 +2368,33 @@ const A = {
     else toast('Yeh items abhi out of stock hain.');
   },
 
+  /* FIX #23: Supports both Pause AND Resume before 10:00 AM */
   cust_skip: (v, k, id) => {
     const s = S.subs.find(x => sameId(x.id, id)); if (!s) return;
-    if (!MY.some(m => sameId(m, s.id)) && ROLE !== 'owner') { toast('Unauthorized action!'); return; }
+    if (!MY.some(m => sameId(m, s.id)) && ph(F.phone) !== ph(s.phone) && ROLE !== 'owner') { toast('Unauthorized action!'); return; }
     if (!s.paid && s.vStat !== 'cod' && ROLE !== 'owner') { toast('Plan abhi verification hold par hai!'); return; }
     if (new Date().getHours() >= 10 && ROLE !== 'owner') {
-      toast('Subah 10:00 AM ke baad aaj ka tiffin skip nahi ho sakta!');
+      toast('Subah 10:00 AM ke baad aaj ka tiffin pause/resume nahi ho sakta!');
       return;
     }
     const td = iso(D0());
-    if (!isSubActiveOn(s, D0()) && !(s.skip || []).includes(td)) {
-      toast('Yeh plan aaj ki date par active nahi hai!');
+    s.skip = s.skip || [];
+    if (s.skip.includes(td)) {
+      s.skip = s.skip.filter(d => d !== td);
+      s.days = Math.max(1, (+s.days || 30) - 1);
+      save();
+      toast('▶ Aaj ka Tiffin Resume ho gaya!');
       return;
     }
-    s.skip = s.skip || [];
     const maxSkips = (+s.origDays || +s.days || 30) >= 30 ? 5 : (+s.origDays || 15) >= 15 ? 3 : 2;
     if (s.skip.length >= maxSkips && ROLE !== 'owner') {
       toast(`Max ${maxSkips} skips allowed in this plan!`);
       return;
     }
-    if (!s.skip.includes(td)) {
-      s.skip.push(td);
-      s.days = (+s.days || 30) + 1;
-      save();
-      toast('Aaj ka Tiffin Paused & +1 Extra Day Added!');
-    }
+    s.skip.push(td);
+    s.days = (+s.days || 30) + 1;
+    save();
+    toast('⏸ Aaj ka Tiffin Paused & +1 Extra Day Added!');
   },
 
   getgps: () => {
@@ -2145,28 +2411,46 @@ const A = {
   pay_sub: () => {
     if (!checkUser()) return;
     const raw = tierPrice(+F.days);
-    const base = Math.max(10, raw - getDiscountAmt(raw));
-    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+    const { ptsDisc, totalDisc } = getDiscountBreakdown(raw);
+    const base = Math.max(10, raw - totalDisc);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
-    setPayBox({ kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: +F.days, title: `${F.days} Din Tiffin (${F.times} Time)` });
+    setPayBox({
+      kind: 'sub', rawSub: raw, discAmt: totalDisc, ptsUsed: ptsDisc,
+      amt: base, exactAmt: generateUniqueExactAmt(base),
+      days: +F.days, trId: 'NUSUB' + Date.now().toString().slice(-7),
+      title: `${F.days} Din Tiffin (${F.times} Time)`
+    });
     render();
   },
+  /* FIX #6: Applies wallet points/discounts properly on 1-Day Trial too */
   pay_trial: () => {
     if (!checkUser()) return;
-    const base = tierPrice(1);
-    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+    const raw = tierPrice(1);
+    const { ptsDisc, totalDisc } = getDiscountBreakdown(raw);
+    const base = Math.max(10, raw - totalDisc);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
-    setPayBox({ kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: 1, title: `1 Din Trial Tiffin (${F.times} Time)` });
+    setPayBox({
+      kind: 'sub', rawSub: raw, discAmt: totalDisc, ptsUsed: ptsDisc,
+      amt: base, exactAmt: generateUniqueExactAmt(base),
+      days: 1, trId: 'NUTRL' + Date.now().toString().slice(-7),
+      title: `1 Din Trial Tiffin (${F.times} Time)`
+    });
     render();
   },
   pay_ord: () => {
     if (!checkUser()) return;
-    const base = ct();
-    if (base <= 0) { toast('Cart is empty!'); return; }
+    const st = subTot(), df = dlvFee();
+    if (st <= 0) { toast('Cart is empty!'); return; }
+    const { ptsDisc, totalDisc } = getDiscountBreakdown(st);
+    const base = Math.max(10, st - totalDisc) + df;
     CART_OPEN = false;
-    const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
-    setPayBox({ kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)` });
+    setPayBox({
+      kind: 'ord', rawSub: st, dlvFee: df, discAmt: totalDisc, ptsUsed: ptsDisc,
+      amt: base, exactAmt: generateUniqueExactAmt(base),
+      trId: 'NUORD' + Date.now().toString().slice(-7),
+      title: `Shop Order (${cc()} Items)`
+    });
     render();
   },
 
@@ -2220,13 +2504,17 @@ const A = {
     let matched = false;
     for (const o of (S.orders || [])) {
       if (!o.paid && o.vStat !== 'bad' && amtKey(o.total) === key) {
-        o.paid = 1; o.vStat = 'ok'; o.pMode = 'Bank Auto-Matched'; matched = true; break;
+        o.paid = 1; o.vStat = 'ok'; o.pMode = 'Bank Auto-Matched';
+        syncOrderPoints(o, true);
+        matched = true; break;
       }
     }
     if (!matched) {
       for (const s of (S.subs || [])) {
         if (!s.paid && s.vStat !== 'bad' && amtKey(s.price) === key) {
-          s.paid = 1; s.vStat = 'ok'; s.pMode = 'Bank Auto-Matched'; matched = true; break;
+          s.paid = 1; s.vStat = 'ok'; s.pMode = 'Bank Auto-Matched';
+          syncOrderPoints(s, true);
+          matched = true; break;
         }
       }
     }
@@ -2244,16 +2532,18 @@ const A = {
     render();
   },
 
+  /* FIX #52 & #53: Full Bill Breakdown (Subtotal, Delivery, Discount) + Delayed Print for Mobile Chrome */
   prt: (v, k, id) => {
     const o = S.orders.find(x => sameId(x.id, id)); if (!o) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Shop Bill #${String(o.id).slice(-4)} · ${esc(o.date)}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Area: ${esc(o.area)} · ${esc(o.addr)}<br>Status: ${+o.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(o.utr)})</p><hr>${(o.items || []).map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
-    window.print();
+    const itemSum = (o.items || []).reduce((a, i) => a + (i.p * i.q), 0);
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Shop Bill #${String(o.id).slice(-4)} · ${esc(o.date)}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Area: ${esc(o.area)} · ${esc(o.addr)}<br>Status: ${+o.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(o.utr)})</p><hr>${(o.items || []).map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><div>Items Subtotal: ${inr(o.subTotal || itemSum)}</div>${o.dlvFee ? `<div>Delivery Fee: +${inr(o.dlvFee)}</div>` : ''}${o.disc ? `<div>Promo/Points Discount: -${inr(o.disc)}</div>` : ''}<h3>FINAL TOTAL: ${inr(o.total)}</h3>`;
+    setTimeout(() => window.print(), 80);
   },
 
   prt_sub: (v, k, id) => {
     const s = S.subs.find(x => sameId(x.id, id)); if (!s) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Tiffin Subscription #${String(s.id).slice(-4)} · Start: ${esc(s.start)}</p><p>Customer: ${esc(s.name)} (${esc(s.phone)})<br>Area: ${esc(s.area)} · ${esc(s.addr)}<br>Plan: ${s.days} Days (${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} · ${s.times || 3} Time)<br>Status: ${+s.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(s.utr)})</p><hr><h3>TOTAL PLAN AMOUNT: ${inr(s.price)}</h3>`;
-    window.print();
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Tiffin Subscription #${String(s.id).slice(-4)} · Start: ${esc(s.start)}</p><p>Customer: ${esc(s.name)} (${esc(s.phone)})<br>Area: ${esc(s.area)} · ${esc(s.addr)}<br>Plan: ${s.days} Days (${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} · ${s.times || 3} Time)<br>Status: ${+s.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(s.utr)})</p><hr>${s.disc ? `<div>Promo/Points Discount: -${inr(s.disc)}</div>` : ''}<h3>TOTAL PLAN AMOUNT: ${inr(s.price)}</h3>`;
+    setTimeout(() => window.print(), 80);
   },
 
   edit_ord: (v, k, id) => {
@@ -2261,11 +2551,14 @@ const A = {
     setTimeout(() => { const el = $('#ord_edit_box'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 40);
   },
   cancel_edord: () => { ED_ORD = null; render(); },
+  /* FIX #47 & #48: Validates phone & positive amount on Owner Order Edit */
   save_edord: () => {
     const o = S.orders.find(x => sameId(x.id, ED_ORD)); if (!o) return;
+    const newP = ph($('#eo_phone').value);
+    if (!isValidPhone(newP)) { toast('Enter valid 10-digit mobile number!'); return; }
     o.name = $('#eo_name').value.trim() || o.name;
-    o.phone = ph($('#eo_phone').value) || o.phone;
-    o.total = numOr($('#eo_total').value, o.total);
+    o.phone = newP;
+    o.total = Math.max(1, numOr($('#eo_total').value, o.total));
     o.utr = $('#eo_utr').value.trim() || o.utr;
     o.addr = $('#eo_addr').value.trim() || o.addr;
     ED_ORD = null; save(); toast('Order Updated ✓');
@@ -2276,13 +2569,16 @@ const A = {
     setTimeout(() => { const el = $('#sub_edit_box'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 40);
   },
   cancel_edsub: () => { ED_SUB = null; render(); },
+  /* FIX #26: Preserves skip history when editing subscription */
   save_edsub: () => {
     const s = S.subs.find(x => sameId(x.id, ED_SUB)); if (!s) return;
     s.name = $('#esub_name').value.trim() || s.name;
     s.type = $('#esub_type').value;
-    s.days = Math.max(1, +$('#esub_days').value || s.days);
-    s.origDays = s.days;
-    s.price = numOr($('#esub_price').value, s.price);
+    const newDays = Math.max(1, +$('#esub_days').value || s.days);
+    const skipBonus = (s.skip || []).length;
+    s.days = newDays;
+    s.origDays = Math.max(1, newDays - skipBonus);
+    s.price = Math.max(1, numOr($('#esub_price').value, s.price));
     s.start = $('#esub_start').value || s.start;
     ED_SUB = null; save(); toast('Subscription Updated ✓');
   },
@@ -2292,14 +2588,16 @@ const A = {
     if (!o) { toast('Order not found!'); return; }
     o.paid = +o.paid ? 0 : 1;
     o.vStat = o.paid ? 'ok' : 'verify';
+    syncOrderPoints(o, !!o.paid);
     if (o.paid) playChime();
     save();
-    toast(o.paid ? '✓ Order Approved & Sent to Kitchen!' : '⏳ Order Moved to Verification Hold');
+    toast(o.paid ? '✓ Order Approved & Cashback Points Credited!' : '⏳ Order Moved to Verification Hold');
   },
   o_reject: (v, k, id) => {
     const o = (S.orders || []).find(x => sameId(x.id, id));
     if (!o) return;
     if (o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
+    syncOrderPoints(o, false);
     o.paid = 0; o.vStat = 'bad'; o.pMode = 'Rejected Fake Proof';
     save(); toast('✕ Order Rejected & UTR Released!');
   },
@@ -2307,13 +2605,29 @@ const A = {
     const o = (S.orders || []).find(x => sameId(x.id, id));
     if (o) { o.packed = +o.packed ? 0 : 1; save(); toast(o.packed ? '📦 Order Packed & Ready for Rider ✓' : 'Unpacked'); }
   },
+  /* FIX #35: Records COD Collection Mode & Credits Points on Delivery */
   odlv: (v, k, id) => {
     const o = (S.orders || []).find(x => sameId(x.id, id));
-    if (o) { o.dlv = +o.dlv ? 0 : 1; if (o.dlv) { o.packed = 1; o.paid = 1; o.vStat = 'ok'; } save(); toast(o.dlv ? '✓ Order Delivered & Paid!' : 'Marked Undelivered'); }
+    if (o) {
+      o.dlv = +o.dlv ? 0 : 1;
+      if (o.dlv) {
+        o.packed = 1;
+        if (!o.paid) { o.pMode = 'Doorstep Collected ✓'; o.utr = 'COD-' + iso(D0()); }
+        o.paid = 1; o.vStat = 'ok';
+        syncOrderPoints(o, true);
+      }
+      save();
+      toast(o.dlv ? '✓ Order Delivered & Payment Verified!' : 'Marked Undelivered');
+    }
   },
+  /* FIX #60: Confirmation prompt before deleting order */
   o_del: (v, k, id) => {
+    if (!confirm('Delete this Shop Order permanently?')) return;
     const o = (S.orders || []).find(x => sameId(x.id, id));
-    if (o && o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
+    if (o) {
+      if (o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
+      syncOrderPoints(o, false);
+    }
     S.orders = (S.orders || []).filter(x => !sameId(x.id, id));
     save(); toast('🗑 Order Deleted');
   },
@@ -2323,21 +2637,31 @@ const A = {
     if (!s) { toast('Subscription not found!'); return; }
     s.paid = +s.paid ? 0 : 1;
     s.vStat = s.paid ? 'ok' : 'verify';
+    syncOrderPoints(s, !!s.paid);
     if (s.paid) playChime();
     save();
-    toast(s.paid ? '✓ Tiffin Plan Approved & Activated!' : '⏳ Plan Moved to Verification Hold');
+    toast(s.paid ? '✓ Tiffin Plan Approved & Cashback Credited!' : '⏳ Plan Moved to Verification Hold');
   },
   s_reject: (v, k, id) => {
     const s = (S.subs || []).find(x => sameId(x.id, id));
     if (!s) return;
     if (s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
+    syncOrderPoints(s, false);
     s.paid = 0; s.vStat = 'bad'; s.pMode = 'Rejected Fake Proof';
     save(); toast('✕ Plan Rejected & UTR Released!');
   },
-  s_add_day: (v, k, id) => { const s = (S.subs || []).find(x => sameId(x.id, id)); if (s) { s.days = (+s.days || 30) + 1; save(); toast('+1 Day Added to Plan ✓'); } },
-  s_del: (v, k, id) => {
+  /* FIX #25: Updates origDays alongside days when Owner extends plan */
+  s_add_day: (v, k, id) => {
     const s = (S.subs || []).find(x => sameId(x.id, id));
-    if (s && s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
+    if (s) { s.days = (+s.days || 30) + 1; s.origDays = (+s.origDays || 30) + 1; save(); toast('+1 Day Added to Plan ✓'); }
+  },
+  s_del: (v, k, id) => {
+    if (!confirm('Delete this Tiffin Subscription permanently?')) return;
+    const s = (S.subs || []).find(x => sameId(x.id, id));
+    if (s) {
+      if (s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
+      syncOrderPoints(s, false);
+    }
     S.subs = (S.subs || []).filter(x => !sameId(x.id, id));
     save(); toast('🗑 Subscription Deleted');
   },
@@ -2364,6 +2688,7 @@ const A = {
   save_cust: () => {
     const p = ph($('#ec_phone').value), n = $('#ec_name').value.trim();
     if (!isValidPhone(p) || !n) { toast('Enter Valid Name & 10-Digit Mobile (6-9 se shuru)'); return; }
+    S.deletedCust = (S.deletedCust || []).filter(x => x !== p);
     S.profiles[p] = {
       ...(S.profiles[p] || { joined: iso(D0()), pts: 25 }),
       phone: p,
@@ -2379,7 +2704,11 @@ const A = {
     ED_CUST = null; save(); toast('Customer Profile Saved ✓');
   },
   del_cust: (v, k, id) => {
-    delete S.profiles[id]; save(); toast('Customer Profile Deleted');
+    if (!confirm('Remove this customer from Directory?')) return;
+    delete S.profiles[id];
+    S.deletedCust = S.deletedCust || [];
+    if (!S.deletedCust.includes(id)) S.deletedCust.push(id);
+    save(); toast('Customer Profile Removed');
   },
 
   save_rates: () => {
@@ -2406,6 +2735,7 @@ const A = {
     setTimeout(() => { const el = $('#prod_form'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 50);
   },
   cancel_edp: () => { ED_P = null; render(); },
+  /* FIX #49: Unique product ID generation */
   save_prod: () => {
     const n = $('#ep_n').value.trim(), p = +$('#ep_p').value, mrp = +$('#ep_m').value || null;
     const c = $('#ep_c').value, nv = +$('#ep_nv').value, h = +$('#ep_h').value, hot = +$('#ep_hot').value;
@@ -2417,12 +2747,17 @@ const A = {
       if (idx >= 0) S.prod[idx] = { ...S.prod[idx], n, p, mrp, c, nv, h, hot, img };
       ED_P = null;
     } else {
-      const nextId = S.prod.reduce((m, x) => Math.max(m, +x.id || 0), 0) + 1;
+      const nextId = Date.now();
       S.prod.unshift({ id: nextId, n, p, mrp, c, nv, h, hot, img, s: 1 });
     }
     save(); toast('Product Saved!');
   },
-  del_prod: (v, k, id) => { S.prod = S.prod.filter(x => !sameId(x.id, id)); save(); toast('Product Deleted'); },
+  del_prod: (v, k, id) => {
+    if (!confirm('Delete this product from Shop?')) return;
+    S.prod = S.prod.filter(x => !sameId(x.id, id));
+    delete C[id]; delete C[id + 'h'];
+    save(); toast('Product Deleted');
+  },
 
   edit_svc: (v, k, id) => {
     ED_SV = id; render();
@@ -2451,6 +2786,7 @@ const A = {
   },
 
   reset_seed: () => {
+    if (!confirm('Reset all orders & plans back to demo seed data?')) return;
     S = seed(); save(); toast('Demo Data Restored ✓');
   },
 
@@ -2460,7 +2796,7 @@ const A = {
     localStorage.setItem('nu_theme', d ? 'dark' : '');
     $('#thm').textContent = d ? '☀️' : '🌙';
   },
-  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); PIN_OPEN = false; tab = 'plan'; render(); toast('Logged Out of Staff/Owner Mode'); }
+  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role_tok'); PIN_OPEN = false; tab = 'plan'; render(); toast('Logged Out of Staff/Owner Mode'); }
 };
 
 document.addEventListener('click', e => {
@@ -2503,6 +2839,7 @@ $('#restore_file').addEventListener('change', e => {
   r.readAsText(file);
 });
 
+/* FIX #57: Handles img.onerror for unsupported/corrupted screenshot files */
 $('#proof_file').addEventListener('change', e => {
   const file = e.target.files && e.target.files[0];
   if (!file) return;
@@ -2511,8 +2848,10 @@ $('#proof_file').addEventListener('change', e => {
     return;
   }
   const r = new FileReader();
+  r.onerror = () => toast('⚠️ Error reading image file!');
   r.onload = ev => {
     const img = new Image();
+    img.onerror = () => toast('⚠️ Unsupported image format! Please select a PNG or JPG screenshot.');
     img.onload = () => {
       const c = document.createElement('canvas'), max = 380;
       const sc = Math.min(1, max / Math.max(img.width, img.height));
@@ -2558,7 +2897,7 @@ document.addEventListener('change', e => {
 document.addEventListener('input', e => {
   if (e.target.id === 'pin_inp') {
     const v = e.target.value.trim();
-    if (v === OPIN || v === DPIN) A.submit_pin();
+    if (v.length === 4 && verifyPinRole(v)) A.submit_pin();
     return;
   }
   if (e.target.dataset.f) {
