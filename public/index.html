@@ -215,7 +215,7 @@ const AREA_COORDS = {
 const KITCHEN_HQ = [21.5732, 86.5675];
 const NODE = 'udala_phase2';
 
-/* FIX #11, #12, #13: Obfuscated PIN hash check + Brute-force rate limiter (4827 = owner, 7788 = staff) */
+/* PIN hash check + Brute-force rate limiter (4827 = owner, 7788 = staff) */
 let PIN_FAILS = 0, PIN_LOCK_UNTIL = 0;
 function pinHash(str) {
   let h = 2166136261;
@@ -276,7 +276,6 @@ const IMG = {
 
 const $ = s => document.querySelector(s);
 const sameId = (a, b) => String(a ?? '') === String(b ?? '');
-/* FIX #51: Escapes single quotes and backticks to prevent attribute breakage/XSS */
 const esc = s => String(s ?? '').replace(/[&<>"'`]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
@@ -291,14 +290,13 @@ const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&mar
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
 
-/* FIX #54: Synchronous dark mode icon initialization */
 if (localStorage.getItem('nu_theme') === 'dark') {
   document.documentElement.dataset.theme = 'dark';
   const thmBtn = document.getElementById('thm');
   if (thmBtn) thmBtn.textContent = '☀️';
 }
 
-/* --- ALGORITHM 1: HAVERSINE SHORTEST-PATH DISTANCE & ETA ENGINE --- */
+/* --- HAVERSINE ROUTE ENGINE --- */
 function getCustomerCoords(item) {
   if (item.lat && item.lng) return [+item.lat, +item.lng];
   return AREA_COORDS[item.area] || KITCHEN_HQ;
@@ -331,7 +329,7 @@ function sortRouteNearestFirst(list) {
   return ordered;
 }
 
-/* --- ALGORITHM 2: SMART KITCHEN RAW MATERIAL PROCUREMENT ENGINE (FIX #30, #32, #33: Includes Shop Orders) --- */
+/* --- SMART KITCHEN RAW MATERIAL PROCUREMENT ENGINE --- */
 function calcKitchenProcurement(activeSubs, pendOrds, slot) {
   let riceG = 0, attaG = 0, dalG = 0, vegG = 0, paneerG = 0, chickenG = 0;
   activeSubs.forEach(s => {
@@ -348,7 +346,6 @@ function calcKitchenProcurement(activeSubs, pendOrds, slot) {
       else { paneerG += 85; vegG += 140; }
     }
   });
-  // Include active Shop Kitchen Orders
   (pendOrds || []).forEach(o => {
     if (+o.packed) return;
     (o.items || []).forEach(it => {
@@ -364,7 +361,7 @@ function calcKitchenProcurement(activeSubs, pendOrds, slot) {
   return { rice: fmt(riceG), atta: fmt(attaG), dal: fmt(dalG), chicken: fmt(chickenG), paneer: fmt(paneerG), sabzi: fmt(vegG) };
 }
 
-/* --- ALGORITHM 3: MULTI-FACTOR PAYMENT FRAUD RISK SCORING ENGINE (0-100) --- */
+/* --- FRAUD RISK SCORING --- */
 function evaluateFraudRisk(item) {
   if (item.paid && item.pMode && item.pMode.includes('Auto-Matched')) return { score: 0, label: '🟢 0% Risk (Bank Matched)', cls: 'st-ok' };
   if (item.vStat === 'cod') return { score: 10, label: '🟢 Doorstep Collect', cls: 'st-wait' };
@@ -397,7 +394,6 @@ function fallbackCopy(txt, msg) {
   document.body.removeChild(ta);
 }
 
-/* FIX #16: Full-coverage image hash to prevent crop/header collision */
 function strHash(s) {
   let h1 = 0xdeadbeef ^ s.length, h2 = 0x41c6ce57 ^ s.length;
   const step = Math.max(1, Math.floor(s.length / 6000));
@@ -409,7 +405,6 @@ function strHash(s) {
   return 'IMG-' + s.length + '-' + (h1 >>> 0).toString(16) + '-' + (h2 >>> 0).toString(16);
 }
 
-/* FIX #14: Blocks repeating patterns like 121212121212 or 123123123123 */
 function validateStrictUTR(raw, usedList) {
   const clean = String(raw || '').replace(/\D/g, '');
   if (clean.length !== 12) return { ok: false, msg: '⚠️ Bank UPI Ref/UTR hamesha poore 12-digit ka hota hai!' };
@@ -450,7 +445,6 @@ function inspectReceiptCanvas(canvas, origW, origH) {
   return { ok: true };
 }
 
-/* FIX #55: Clean oscillator disconnect to prevent AudioContext memory leak */
 let _audioCtx = null;
 function playChime() {
   try {
@@ -635,7 +629,6 @@ function ensureIntegrity() {
 }
 ensureIntegrity();
 
-/* FIX #3, #4, #5: Central Loyalty Cashback Crediting & Reversal Engine */
 function syncOrderPoints(item, isApproved) {
   const p = ph(item.phone);
   if (!p || !S.profiles[p]) return;
@@ -666,7 +659,6 @@ function getSubDaysRemaining(s) {
   return Math.round((endD - D0()) / 864e5) + 1;
 }
 
-/* FIX #37: Scoped per-slot delivery check */
 function isSubSlotDone(subId, dateStr, slot) {
   return !!S.done[`${dateStr}_${subId}_${slot}`];
 }
@@ -686,7 +678,6 @@ function statusPillHTML(item) {
 }
 
 let tab = 'plan';
-/* FIX #13: Verify session role token with hash instead of plain string */
 let ROLE = (sessionStorage.getItem('nu_role_tok') === ROLE_HASHES.owner) ? 'owner' : (sessionStorage.getItem('nu_role_tok') === ROLE_HASHES.staff) ? 'staff' : '';
 let SCAT = 'all', S_FILT = 'all', SQ = '', PQ = null, CART_OPEN = false, PIN_OPEN = false, PAY_MODE = 'upi', PROOF_IMG = null, PROOF_META = null, VIEW_PROOF = null, SV_BOOK = null;
 let DRAFT_UTR = '', O_Q = '', O_FILTER = 'all', COUPON_CODE = '', USE_PTS = false, ROUTE_SMART = true;
@@ -695,7 +686,6 @@ let MENU_DATE = iso(D0());
 let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null, ED_SUB = null, ED_ORD = null;
 let LOGO_TAPS = 0, LOGO_TIMER = null, LAST_SAVE_TS = 0;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
-/* FIX #44 & #45: Don't force-expose s1/o1 to strangers unless phone matches */
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || []; } catch (e) {}
 
 let PAY_BOX = null;
@@ -804,7 +794,6 @@ function checkAutoPaymentMatch() {
   }
 }
 
-/* FIX #21: Safe LocalStorage Quota handler that trims old verified screenshots if full */
 function safeLocalSave() {
   try {
     localStorage.setItem('nu5', JSON.stringify(S));
@@ -824,9 +813,7 @@ function save() {
   render();
 }
 
-/* ============================================================================
-   DIRECT UPI DEEP-LINK & ANDROID INTENT ENGINE (Fixes PhonePe / GPay Not Opening)
-   ============================================================================ */
+/* --- DIRECT UPI DEEP-LINK & ANDROID INTENT ENGINE --- */
 function buildUpiQuery(amt, note, trId) {
   const pa = (S.cfg.upi || '9583937047@jio').trim();
   const pn = 'Namaste Udala';
@@ -861,7 +848,6 @@ function launchUpiApp(appType) {
 
   copyText(Number(PAY_BOX.exactAmt).toFixed(2), `Opening ${appType.toUpperCase()}... (₹${Number(PAY_BOX.exactAmt).toFixed(2)} Copied)`);
 
-  // Trigger native navigation without e.preventDefault() interference
   const a = document.createElement('a');
   a.href = targetUrl;
   a.style.display = 'none';
@@ -870,7 +856,6 @@ function launchUpiApp(appType) {
   setTimeout(() => { try { document.body.removeChild(a); } catch (e) {} }, 600);
 }
 
-/* Auto-Highlight UTR input when customer switches back from PhonePe/GPay */
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible' && PAY_BOX && PAY_MODE === 'upi') {
     setTimeout(() => {
@@ -884,7 +869,6 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-/* FIX #8: Guarantees no two pending orders have the exact same paise amount */
 function generateUniqueExactAmt(base) {
   const usedKeys = new Set();
   (S.orders || []).forEach(o => { if (!o.paid && o.vStat !== 'bad') usedKeys.add(amtKey(o.total)); });
@@ -922,7 +906,7 @@ const dlvFee = () => {
   const st = subTot(), fMin = numOr(S.cfg.freeMin, 300), dFee = numOr(S.cfg.dlvFee, 25);
   return (st > 0 && st < fMin) ? dFee : 0;
 };
-/* FIX #1 & #2: Exact breakdown of Coupon Discount vs Loyalty Points on Item Subtotal */
+
 function getDiscountBreakdown(itemSubTotal) {
   let cpnDisc = 0, ptsDisc = 0;
   const c = COUPONS[COUPON_CODE];
@@ -949,7 +933,6 @@ const menu = (t, dt) => {
   return t === 'nv' ? 'Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Shahi Paneer + Dal Tadka + Rice + 4 Roti';
 };
 
-/* FIX #31: Extra Roti is priced per meal-day clearly */
 const tierPrice = d => {
   let b = d === 1 ? numOr(S.cfg.trialPrice, 49) : getPlRate(F.type, d);
   if (d === 1 && F.type === 'nv') b += 20;
@@ -1000,7 +983,7 @@ function userFormHTML(rawAmt = 0) {
   <input class="inp" data-f="addr" placeholder="Pura Address (House No / Landmark)" value="${esc(F.addr)}">`;
 }
 
-/* --- 1. FRONT MAIN FOCUS: MONTHLY (30d), 15-DAY & 7-DAY TIFFIN PLANS --- */
+/* --- 1. TIFFIN PLANS VIEW --- */
 function vPlan() {
   const todayStr = iso(D0());
   if (!F.start || F.start < todayStr) F.start = todayStr;
@@ -1212,7 +1195,7 @@ function vServices() {
   `).join('')}`;
 }
 
-/* --- 4. COMPLETE CUSTOMER PROFILE VIEW (FIX #23, #24, #59) --- */
+/* --- 4. PROFILE VIEW --- */
 function vProfile() {
   const cleanP = ph(F.phone);
   const prof = S.profiles[cleanP] || {};
@@ -1481,7 +1464,6 @@ function vOwner() {
   const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
   const pendVerifyCount = ords.filter(o => !o.paid && o.vStat !== 'bad').length + subs.filter(s => !s.paid && s.vStat !== 'bad').length;
 
-  /* FIX #46: Respects S.deletedCust so deleted customers don't resurrect automatically */
   const delSet = new Set(S.deletedCust || []);
   const allCust = { ...(S.profiles || {}) };
   subs.forEach(s => {
@@ -2118,7 +2100,6 @@ function checkUser() {
   return true;
 }
 
-/* FIX #2, #3: Accurate Points Deduction & Verified-Only Cashback Award */
 function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
   if (!PAY_BOX) return;
   const finalPrice = PAY_MODE === 'cod' ? PAY_BOX.amt : PAY_BOX.exactAmt;
@@ -2229,7 +2210,6 @@ const A = {
     if (COUPONS[raw]) { COUPON_CODE = raw; render(); toast(`🎉 Promo ${raw} Applied (${COUPONS[raw].desc})!`); }
     else { COUPON_CODE = ''; render(); toast('⚠️ Invalid Coupon! Use WELCOME30, UDALA50 or TIFFIN100'); }
   },
-  /* FIX #41 & #42: Safe SpeechRecognition wrapper with error feedback */
   voice_search: () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) { toast('Voice search is browser mein supported nahi hai.'); return; }
@@ -2249,7 +2229,6 @@ const A = {
       toast('🎤 Voice search already active...');
     }
   },
-  /* FIX #50: Separates Today's Revenue vs All-Time Net Profit */
   wa_ceo_report: () => {
     const todayStr = iso(D0());
     const activeTiffins = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (+s.paid || s.vStat === 'cod')).length;
@@ -2368,7 +2347,6 @@ const A = {
     else toast('Yeh items abhi out of stock hain.');
   },
 
-  /* FIX #23: Supports both Pause AND Resume before 10:00 AM */
   cust_skip: (v, k, id) => {
     const s = S.subs.find(x => sameId(x.id, id)); if (!s) return;
     if (!MY.some(m => sameId(m, s.id)) && ph(F.phone) !== ph(s.phone) && ROLE !== 'owner') { toast('Unauthorized action!'); return; }
@@ -2422,7 +2400,6 @@ const A = {
     });
     render();
   },
-  /* FIX #6: Applies wallet points/discounts properly on 1-Day Trial too */
   pay_trial: () => {
     if (!checkUser()) return;
     const raw = tierPrice(1);
@@ -2532,7 +2509,6 @@ const A = {
     render();
   },
 
-  /* FIX #52 & #53: Full Bill Breakdown (Subtotal, Delivery, Discount) + Delayed Print for Mobile Chrome */
   prt: (v, k, id) => {
     const o = S.orders.find(x => sameId(x.id, id)); if (!o) return;
     const itemSum = (o.items || []).reduce((a, i) => a + (i.p * i.q), 0);
@@ -2551,7 +2527,6 @@ const A = {
     setTimeout(() => { const el = $('#ord_edit_box'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 40);
   },
   cancel_edord: () => { ED_ORD = null; render(); },
-  /* FIX #47 & #48: Validates phone & positive amount on Owner Order Edit */
   save_edord: () => {
     const o = S.orders.find(x => sameId(x.id, ED_ORD)); if (!o) return;
     const newP = ph($('#eo_phone').value);
@@ -2569,7 +2544,6 @@ const A = {
     setTimeout(() => { const el = $('#sub_edit_box'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 40);
   },
   cancel_edsub: () => { ED_SUB = null; render(); },
-  /* FIX #26: Preserves skip history when editing subscription */
   save_edsub: () => {
     const s = S.subs.find(x => sameId(x.id, ED_SUB)); if (!s) return;
     s.name = $('#esub_name').value.trim() || s.name;
@@ -2605,7 +2579,6 @@ const A = {
     const o = (S.orders || []).find(x => sameId(x.id, id));
     if (o) { o.packed = +o.packed ? 0 : 1; save(); toast(o.packed ? '📦 Order Packed & Ready for Rider ✓' : 'Unpacked'); }
   },
-  /* FIX #35: Records COD Collection Mode & Credits Points on Delivery */
   odlv: (v, k, id) => {
     const o = (S.orders || []).find(x => sameId(x.id, id));
     if (o) {
@@ -2620,7 +2593,6 @@ const A = {
       toast(o.dlv ? '✓ Order Delivered & Payment Verified!' : 'Marked Undelivered');
     }
   },
-  /* FIX #60: Confirmation prompt before deleting order */
   o_del: (v, k, id) => {
     if (!confirm('Delete this Shop Order permanently?')) return;
     const o = (S.orders || []).find(x => sameId(x.id, id));
@@ -2650,7 +2622,6 @@ const A = {
     s.paid = 0; s.vStat = 'bad'; s.pMode = 'Rejected Fake Proof';
     save(); toast('✕ Plan Rejected & UTR Released!');
   },
-  /* FIX #25: Updates origDays alongside days when Owner extends plan */
   s_add_day: (v, k, id) => {
     const s = (S.subs || []).find(x => sameId(x.id, id));
     if (s) { s.days = (+s.days || 30) + 1; s.origDays = (+s.origDays || 30) + 1; save(); toast('+1 Day Added to Plan ✓'); }
@@ -2735,7 +2706,6 @@ const A = {
     setTimeout(() => { const el = $('#prod_form'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 50);
   },
   cancel_edp: () => { ED_P = null; render(); },
-  /* FIX #49: Unique product ID generation */
   save_prod: () => {
     const n = $('#ep_n').value.trim(), p = +$('#ep_p').value, mrp = +$('#ep_m').value || null;
     const c = $('#ep_c').value, nv = +$('#ep_nv').value, h = +$('#ep_h').value, hot = +$('#ep_hot').value;
@@ -2839,7 +2809,6 @@ $('#restore_file').addEventListener('change', e => {
   r.readAsText(file);
 });
 
-/* FIX #57: Handles img.onerror for unsupported/corrupted screenshot files */
 $('#proof_file').addEventListener('change', e => {
   const file = e.target.files && e.target.files[0];
   if (!file) return;
