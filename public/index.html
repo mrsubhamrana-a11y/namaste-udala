@@ -19,12 +19,12 @@ button,input,select{font:inherit;color:inherit}
 button{cursor:pointer;touch-action:manipulation;user-select:none;position:relative}
 button *{pointer-events:none}
 svg.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none;pointer-events:none}
-header{position:sticky;top:0;z-index:100;background:linear-gradient(145deg,#163f2a,#0b2216);color:#f9f5ec;padding:10px 14px;box-shadow:0 6px 20px rgba(11,34,22,.35);display:flex;align-items:center;gap:10px}
-.logo{width:42px;height:42px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-weight:800;font-size:15px;color:#fff;box-shadow:0 4px 0 #7a2205;cursor:pointer;user-select:none;border:0;flex:none}
+header{position:sticky;top:0;z-index:100;background:linear-gradient(145deg,#163f2a,#0b2216);color:#f9f5ec;padding:12px 16px;box-shadow:0 6px 20px rgba(11,34,22,.35);display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-weight:800;font-size:16px;color:#fff;box-shadow:0 4px 0 #7a2205;cursor:pointer;user-select:none;border:0;flex:none}
 .logo:active{transform:translateY(3px);box-shadow:0 1px 0 #7a2205}
 .brand{flex:1;min-width:0}
-.brand small{display:block;color:#fbbf24;font-size:8.5px;letter-spacing:1.6px;font-weight:800}
-.brand h1{font-family:var(--serif);font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;color:#fbbf24;font-size:9px;letter-spacing:1.8px;font-weight:800}
+.brand h1{font-family:var(--serif);font-size:18.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .marquee{background:#e9dfc8;color:#163f2a;overflow:hidden;white-space:nowrap;padding:6px 0;border-bottom:1px solid var(--ln);font-size:10px;font-weight:800;letter-spacing:1.3px}
 [data-theme=dark] .marquee{background:#18271e;color:#fbbf24}
 .marquee-track{display:inline-block;animation:mRoll 24s linear infinite}
@@ -159,13 +159,12 @@ nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-
 <input type="file" id="restore_file" accept=".json" style="display:none">
 
 <header>
-  <button type="button" class="logo" data-a="open_pin" title="Tap for Owner / Staff Login">NU</button>
+  <button type="button" class="logo" data-a="logo_tap" title="5 Tap for Owner/Staff">NU</button>
   <div class="brand">
     <small>NAMASTE UDALA · EST. KITCHEN</small>
     <h1 id="ttl">Ghar Jaisa Khana · Roz Time Pe</h1>
   </div>
-  <button type="button" class="btn w sm" data-a="open_pin" style="padding:7px 10px;font-size:10.5px">🔑 Staff/Owner</button>
-  <button type="button" class="btn w sm" id="thm" data-a="theme" style="padding:7px 10px">🌙</button>
+  <button type="button" class="btn w sm" id="thm" data-a="theme">🌙</button>
 </header>
 
 <div class="marquee">
@@ -194,7 +193,6 @@ const FB = {
 };
 
 const UDALA_AREAS = ['Udala Bus Stand', 'Market Square', 'High School Rd', 'College Rd', 'Block Office', 'Hospital Rd', 'Ward 1–6', 'Bhanjpur'];
-// Area approximate coordinates for Smart Route Optimization when customer hasn't locked exact GPS
 const AREA_COORDS = {
   'Udala Bus Stand': [21.5732, 86.5675],
   'Market Square': [21.5718, 86.5648],
@@ -205,7 +203,7 @@ const AREA_COORDS = {
   'Ward 1–6': [21.5768, 86.5688],
   'Bhanjpur': [21.5810, 86.5720]
 };
-const KITCHEN_HQ = [21.5732, 86.5675]; // Namaste Udala Central Kitchen
+const KITCHEN_HQ = [21.5732, 86.5675];
 const NODE = 'udala_phase2', OPIN = '4827', DPIN = '7788';
 
 const COUPONS = {
@@ -249,6 +247,7 @@ const IMG = {
 };
 
 const $ = s => document.querySelector(s);
+const sameId = (a, b) => String(a ?? '') === String(b ?? '');
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
@@ -282,7 +281,7 @@ function haversineKm(c1, c2) {
   return +(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2);
 }
 function sortRouteNearestFirst(list) {
-  if (! list || !list.length) return [];
+  if (!list || !list.length) return [];
   const remaining = list.map(item => ({ item, coords: getCustomerCoords(item) }));
   const ordered = [];
   let curr = KITCHEN_HQ;
@@ -306,7 +305,7 @@ function calcKitchenProcurement(activeSubs, slot) {
   let riceG = 0, attaG = 0, dalG = 0, vegG = 0, paneerG = 0, chickenG = 0;
   activeSubs.forEach(s => {
     const rCount = calcRotiForSub(s, slot);
-    attaG += rCount * 35; // 35g whole wheat flour per roti
+    attaG += rCount * 35;
     if (slot === 'bf') {
       attaG += 100; vegG += 120;
     } else {
@@ -543,17 +542,29 @@ function getPlRate(type, d) {
   return numOr(pl['d' + d] ?? pl[d], DEFAULT_CFG.pl[type]['d' + d] || 1499);
 }
 
+// Convert Firebase sparse objects back into clean arrays
+function toArr(v) {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.filter(Boolean);
+  if (typeof v === 'object') return Object.values(v).filter(Boolean);
+  return [];
+}
+
 function ensureIntegrity() {
-  if (!Array.isArray(S.prod) || !S.prod.length) S.prod = JSON.parse(JSON.stringify(SEED));
-  if (!Array.isArray(S.subs)) S.subs = [];
-  if (!Array.isArray(S.orders)) S.orders = [];
-  if (!Array.isArray(S.svcList) || !S.svcList.length) S.svcList = JSON.parse(JSON.stringify(SVC_SEED));
-  if (!Array.isArray(S.svBookings)) S.svBookings = [];
-  if (!Array.isArray(S.exp)) S.exp = [];
-  if (!Array.isArray(S.usedUtr)) S.usedUtr = ['402312345678', '402398765432', '402311112222', '402333334444'];
-  if (!Array.isArray(S.usedImgHash)) S.usedImgHash = [];
-  S.subs.forEach(s => { if (!Array.isArray(s.skip)) s.skip = []; });
-  S.orders.forEach(o => { if (!Array.isArray(o.items)) o.items = []; if (o.packed === undefined) o.packed = 0; });
+  S.prod = toArr(S.prod);
+  if (!S.prod.length) S.prod = JSON.parse(JSON.stringify(SEED));
+  S.subs = toArr(S.subs);
+  S.orders = toArr(S.orders);
+  S.svcList = toArr(S.svcList);
+  if (!S.svcList.length) S.svcList = JSON.parse(JSON.stringify(SVC_SEED));
+  S.svBookings = toArr(S.svBookings);
+  S.exp = toArr(S.exp);
+  S.usedUtr = toArr(S.usedUtr);
+  if (!S.usedUtr.length) S.usedUtr = ['402312345678', '402398765432', '402311112222', '402333334444'];
+  S.usedImgHash = toArr(S.usedImgHash);
+
+  S.subs.forEach(s => { s.skip = toArr(s.skip); s.paid = +s.paid ? 1 : 0; });
+  S.orders.forEach(o => { o.items = toArr(o.items); o.paid = +o.paid ? 1 : 0; o.dlv = +o.dlv ? 1 : 0; o.packed = +o.packed ? 1 : 0; });
   S.exp.forEach((x, i) => { if (!x.id) x.id = 'ex_' + i + '_' + Date.now(); });
 
   const cleanAuto = {};
@@ -561,8 +572,8 @@ function ensureIntegrity() {
   S.auto_amt = cleanAuto;
 
   S.profiles = { ...CUST_SEED, ...(S.profiles || {}) };
-  Object.values(S.profiles).forEach(p => { if (p.pts === undefined) p.pts = 25; });
-  if (S.profiles['9937055555'] && S.profiles['9937055555'].dues === 560 && S.orders.some(o => o.id === 'o3' && !o.paid)) {
+  Object.values(S.profiles).forEach(p => { if (p && p.pts === undefined) p.pts = 25; });
+  if (S.profiles['9937055555'] && S.profiles['9937055555'].dues === 560 && S.orders.some(o => sameId(o.id, 'o3') && !o.paid)) {
     S.profiles['9937055555'].dues = 0;
   }
 
@@ -607,7 +618,7 @@ function calcRotiForSub(s, slot) {
 
 function statusPillHTML(item) {
   if (item.vStat === 'bad') return `<span class="st-pill st-bad">✕ Rejected (Fake Proof)</span>`;
-  if (item.paid) return `<span class="st-pill st-ok">✓ Verified Paid</span>`;
+  if (+item.paid) return `<span class="st-pill st-ok">✓ Verified Paid</span>`;
   if (item.vStat === 'verify') return `<span class="st-pill st-wait">⏳ Verification Hold</span>`;
   return `<span class="st-pill st-wait">Pay at Door (${inr(item.total || item.price)})</span>`;
 }
@@ -618,6 +629,7 @@ let DRAFT_UTR = '', O_Q = '', O_FILTER = 'all', COUPON_CODE = '', USE_PTS = fals
 let K_SLOT = new Date().getHours() < 11 ? 'bf' : new Date().getHours() < 16 ? 'lunch' : 'dinner';
 let MENU_DATE = iso(D0());
 let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null, ED_SUB = null, ED_ORD = null;
+let LOGO_TAPS = 0, LOGO_TIMER = null, LAST_SAVE_TS = 0;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
 
@@ -691,19 +703,22 @@ let db = null, fbSet = null, fbRef = null;
     const app = initializeApp(FB);
     db = getDatabase(app); fbSet = set; fbRef = ref;
     onValue(ref(db, NODE), sn => {
+      // Prevent stale Firebase snapshot from undoing local Owner Approve/Reject clicks
+      if (Date.now() - LAST_SAVE_TS < 2500) return;
       const v = sn.val();
-      if (v && v.prod) {
+      if (v && v.prod && (+v.rev || 0) > (+S.rev || 0)) {
         S = {
           ...seed(),
           ...v,
-          subs: v.subs || [],
-          orders: v.orders || [],
-          exp: v.exp || [],
-          svBookings: v.svBookings || [],
-          usedUtr: v.usedUtr || [],
-          usedImgHash: v.usedImgHash || []
+          subs: toArr(v.subs),
+          orders: toArr(v.orders),
+          exp: toArr(v.exp),
+          svBookings: toArr(v.svBookings),
+          usedUtr: toArr(v.usedUtr),
+          usedImgHash: toArr(v.usedImgHash)
         };
         ensureIntegrity();
+        try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
         checkAutoPaymentMatch();
         const active = document.activeElement;
         const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK || PAY_BOX || PIN_OPEN;
@@ -725,7 +740,9 @@ function checkAutoPaymentMatch() {
 }
 
 function save() {
-  S.rev = Date.now();
+  LAST_SAVE_TS = Date.now();
+  S.rev = LAST_SAVE_TS;
+  ensureIntegrity();
   try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
   if (db && fbSet && fbRef) fbSet(fbRef(db, NODE), S).catch(() => {});
   render();
@@ -736,7 +753,7 @@ const upiLink = (a, n) => 'upi://pay?pa=' + encodeURIComponent(S.cfg.upi || '958
 const parsePid = k => Number(String(k).replace('h', ''));
 const saveCart = () => {
   Object.keys(C).forEach(k => {
-    const p = S.prod.find(x => x.id === parsePid(k));
+    const p = S.prod.find(x => sameId(x.id, parsePid(k)));
     const isH = String(k).endsWith('h');
     if (!C[k] || C[k] < 1 || !p || !p.s || (isH && !p.h)) delete C[k];
     else if (C[k] > 50) C[k] = 50;
@@ -744,12 +761,12 @@ const saveCart = () => {
   localStorage.setItem('nu5c', JSON.stringify(C));
 };
 const cc = () => Object.entries(C).reduce((a, [k, q]) => {
-  const p = S.prod.find(x => x.id === parsePid(k));
+  const p = S.prod.find(x => sameId(x.id, parsePid(k)));
   const isH = String(k).endsWith('h');
   return (p && p.s && (!isH || p.h) && q > 0) ? a + (+q) : a;
 }, 0);
 const subTot = () => Object.entries(C).reduce((a, [k, q]) => {
-  const p = S.prod.find(x => x.id === parsePid(k));
+  const p = S.prod.find(x => sameId(x.id, parsePid(k)));
   const isH = String(k).endsWith('h');
   if (!p || !p.s || (isH && !p.h) || q < 1) return a;
   return a + (isH ? Math.round(p.p * 0.6) : p.p) * q;
@@ -789,11 +806,11 @@ const tierPrice = d => {
 
 function getMySubs() {
   const cleanP = ph(F.phone);
-  return (S.subs || []).filter(s => MY.includes(s.id) || ((ROLE === 'owner' || s.id === 's1') && cleanP === s.phone)).slice().reverse();
+  return (S.subs || []).filter(s => MY.some(m => sameId(m, s.id)) || ((ROLE === 'owner' || sameId(s.id, 's1')) && cleanP === ph(s.phone))).slice().reverse();
 }
 function getMyOrders() {
   const cleanP = ph(F.phone);
-  return (S.orders || []).filter(o => MY.includes(o.id) || ((ROLE === 'owner' || o.id === 'o1') && cleanP === o.phone)).slice().reverse();
+  return (S.orders || []).filter(o => MY.some(m => sameId(m, o.id)) || ((ROLE === 'owner' || sameId(o.id, 'o1')) && cleanP === ph(o.phone))).slice().reverse();
 }
 
 function userFormHTML(rawAmt = 0) {
@@ -947,7 +964,7 @@ function vPlan() {
   </div>`;
 }
 
-/* --- 2. SHOP VIEW (WITH VOICE SEARCH & SMART QUICK FILTERS) --- */
+/* --- 2. SHOP VIEW --- */
 function vShop() {
   const q = SQ.trim().toLowerCase();
   const list = S.prod.filter(p => {
@@ -1038,7 +1055,7 @@ function vProfile() {
   const prof = S.profiles[cleanP] || {};
   const mySubs = getMySubs();
   const myOrds = getMyOrders();
-  const totSpent = mySubs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) + myOrds.reduce((a, o) => a + (o.paid ? o.total : 0), 0);
+  const totSpent = mySubs.reduce((a, s) => a + (+s.paid ? s.price : 0), 0) + myOrds.reduce((a, o) => a + (+o.paid ? o.total : 0), 0);
   const totDue = (+prof.dues || 0) + myOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? o.total : 0), 0) + mySubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? s.price : 0), 0);
   const initials = (F.name || 'N U').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
   const todayStr = iso(D0());
@@ -1112,8 +1129,8 @@ function vProfile() {
         <div class="btn-row">
           ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} <span>Proof</span></button>` : ''}
           <button type="button" class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨 Bill</button>
-          <a class="btn sm w" href="https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(`Namaste Udala! Mera ${s.days}d Tiffin Plan (#${s.id.slice(-4)}) UTR: ${s.utr} verify kar dein.`)}" target="_blank">📲 WhatsApp</a>
-          ${(s.paid || s.vStat === 'cod') && (activeToday || paused) ? `<button type="button" class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
+          <a class="btn sm w" href="https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(`Namaste Udala! Mera ${s.days}d Tiffin Plan (#${String(s.id).slice(-4)}) UTR: ${s.utr} verify kar dein.`)}" target="_blank">📲 WhatsApp</a>
+          ${(+s.paid || s.vStat === 'cod') && (activeToday || paused) ? `<button type="button" class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
         </div>
       </div>`;
     }).join('') || '<p style="color:var(--mu);font-size:13px">Is device par koi active tiffin plan nahi hai.</p>'}
@@ -1128,7 +1145,7 @@ function vProfile() {
       </div>
       <div style="font-size:12px;color:var(--mu);margin:4px 0">${(o.items || []).map(i => i.n + ' ×' + i.q).join(', ')}</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;gap:6px;flex-wrap:wrap">
-        <span style="font-size:11px;font-weight:700;color:var(--mu)">Status: <b>${o.dlv ? 'Delivered ✓' : o.packed ? 'Packed & Out for Delivery' : o.vStat === 'bad' ? 'Cancelled' : 'Preparing'}</b> · UTR: ${esc(o.utr)}</span>
+        <span style="font-size:11px;font-weight:700;color:var(--mu)">Status: <b>${+o.dlv ? 'Delivered ✓' : +o.packed ? 'Packed & Out for Delivery' : o.vStat === 'bad' ? 'Cancelled' : 'Preparing'}</b> · UTR: ${esc(o.utr)}</span>
         <div style="display:flex;gap:5px">
           ${o.proof ? `<button type="button" class="btn w sm" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam}</button>` : ''}
           <button type="button" class="btn w sm" data-a="prt" data-id="${o.id}">🖨 Bill</button>
@@ -1139,14 +1156,14 @@ function vProfile() {
   </div>`;
 }
 
-/* --- 5. KITCHEN VIEW (WITH RAW MATERIAL FORECASTING ALGORITHM) --- */
+/* --- 5. KITCHEN VIEW --- */
 function vKitchen() {
   const k = iso(D0());
-  const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
+  const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (+s.paid || s.vStat === 'cod'));
   const veg = activeSubs.filter(s => s.type === 'veg').length, nv = activeSubs.length - veg;
   const roti = activeSubs.reduce((a, s) => a + calcRotiForSub(s, K_SLOT), 0);
   const prep = calcKitchenProcurement(activeSubs, K_SLOT);
-  const pendOrds = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod'));
+  const pendOrds = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (+o.paid || o.vStat === 'cod'));
   const holdCount = (S.orders || []).filter(o => !o.paid && o.vStat === 'verify').length + (S.subs || []).filter(s => !s.paid && s.vStat === 'verify').length;
 
   return `
@@ -1208,16 +1225,16 @@ function vKitchen() {
         <b>${esc(o.name)} (${esc(o.area)})</b>
         <div style="font-size:12.5px;color:var(--o);font-weight:800">${(o.items || []).map(i => i.n + ' ×' + i.q).join(', ')}</div>
       </div>
-      <button type="button" class="btn sm ${o.packed ? 'w' : 'g'}" data-a="opack" data-id="${o.id}">${o.packed ? 'Packed ✓ (On Route)' : 'Mark Packed ✓'}</button>
+      <button type="button" class="btn sm ${+o.packed ? 'w' : 'g'}" data-a="opack" data-id="${o.id}">${+o.packed ? 'Packed ✓ (On Route)' : 'Mark Packed ✓'}</button>
     </div>`).join('') || '<p style="color:var(--mu);font-size:13px">All verified orders packed & delivered.</p>'}
   </div>`;
 }
 
-/* --- 6. DELIVERY ROUTE VIEW (WITH HAVERSINE SHORTEST-PATH OPTIMIZER) --- */
+/* --- 6. DELIVERY ROUTE VIEW --- */
 function vRoute() {
   const k = iso(D0());
-  let subs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
-  let ords = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod'));
+  let subs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (+s.paid || s.vStat === 'cod'));
+  let ords = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (+o.paid || o.vStat === 'cod'));
 
   if (ROUTE_SMART) {
     subs = sortRouteNearestFirst(subs);
@@ -1265,8 +1282,8 @@ function vRoute() {
       const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(o.lat + ',' + o.lng)}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' ' + (o.area || 'Udala'))}`;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
-          <b>#${idx + 1} · ${esc(o.name)} — ${inr(o.total)} ${o.packed ? '<span class="st-pill st-ok">📦 Packed</span>' : '<span class="st-pill st-wait">⏳ In Kitchen</span>'}</b>
-          <span style="font-size:11px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'VERIFIED PAID' : 'COLLECT: ' + inr(o.total)}</span>
+          <b>#${idx + 1} · ${esc(o.name)} — ${inr(o.total)} ${+o.packed ? '<span class="st-pill st-ok">📦 Packed</span>' : '<span class="st-pill st-wait">⏳ In Kitchen</span>'}</b>
+          <span style="font-size:11px;font-weight:800;color:${+o.paid ? '#16a34a' : '#dc2626'}">${+o.paid ? 'VERIFIED PAID' : 'COLLECT: ' + inr(o.total)}</span>
         </div>
         <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(o.addr)} ${o._distKm ? `(${o._distKm} km)` : ''} · ${(o.items || []).map(i => i.n + '×' + i.q).join(', ')}</div>
         <div class="btn-row">
@@ -1279,13 +1296,13 @@ function vRoute() {
   </div>`;
 }
 
-/* --- 7. OWNER MASTER CONTROL (WITH ANALYTICS RADAR & FRAUD ENGINE) --- */
+/* --- 7. OWNER MASTER CONTROL --- */
 function vOwner() {
   const subs = (S.subs || []).slice().reverse();
   const ords = (S.orders || []).slice().reverse();
-  const totIn = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
+  const totIn = ords.reduce((a, o) => a + (+o.paid ? +o.total : 0), 0) + subs.reduce((a, s) => a + (+s.paid ? +s.price : 0), 0);
   const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
-  const pendVerifyCount = ords.filter(o => o.vStat === 'verify' && !o.paid).length + subs.filter(s => s.vStat === 'verify' && !s.paid).length;
+  const pendVerifyCount = ords.filter(o => !o.paid && o.vStat !== 'bad').length + subs.filter(s => !s.paid && s.vStat !== 'bad').length;
 
   const allCust = { ...(S.profiles || {}) };
   subs.forEach(s => {
@@ -1311,10 +1328,10 @@ function vOwner() {
   let body = '';
 
   if (O_TAB === 'ords') {
-    const eoObj = ED_ORD ? S.orders.find(x => x.id === ED_ORD) : null;
-    const esObj = ED_SUB ? S.subs.find(x => x.id === ED_SUB) : null;
-    const filtOrds = ords.filter(o => (O_FILTER === 'all' || (O_FILTER === 'hold' && o.vStat === 'verify' && !o.paid) || (O_FILTER === 'unpaid' && !o.paid)) && (!q || (o.name || '').toLowerCase().includes(q) || (o.phone || '').includes(q) || String(o.utr || '').toLowerCase().includes(q)));
-    const filtSubs = subs.filter(s => (O_FILTER === 'all' || (O_FILTER === 'hold' && s.vStat === 'verify' && !s.paid) || (O_FILTER === 'unpaid' && !s.paid)) && (!q || (s.name || '').toLowerCase().includes(q) || (s.phone || '').includes(q) || String(s.utr || '').toLowerCase().includes(q)));
+    const eoObj = ED_ORD ? S.orders.find(x => sameId(x.id, ED_ORD)) : null;
+    const esObj = ED_SUB ? S.subs.find(x => sameId(x.id, ED_SUB)) : null;
+    const filtOrds = ords.filter(o => (O_FILTER === 'all' || (O_FILTER === 'hold' && !o.paid && o.vStat !== 'bad')) && (!q || (o.name || '').toLowerCase().includes(q) || (o.phone || '').includes(q) || String(o.utr || '').toLowerCase().includes(q)));
+    const filtSubs = subs.filter(s => (O_FILTER === 'all' || (O_FILTER === 'hold' && !s.paid && s.vStat !== 'bad')) && (!q || (s.name || '').toLowerCase().includes(q) || (s.phone || '').includes(q) || String(s.utr || '').toLowerCase().includes(q)));
 
     body = `
     <div class="card" style="border:2px solid #16a34a">
@@ -1329,7 +1346,7 @@ function vOwner() {
     <div style="display:flex;gap:6px;margin-bottom:10px;align-items:center">
       <input class="inp" id="oq" placeholder="Search Name, Phone, UTR..." value="${esc(O_Q)}" style="margin:0;flex:1">
       <button type="button" class="btn sm ${O_FILTER === 'all' ? 'g' : 'w'}" data-a="ofilter" data-v="all">All</button>
-      <button type="button" class="btn sm ${O_FILTER === 'hold' ? 'g' : 'w'}" data-a="ofilter" data-v="hold">Hold (${pendVerifyCount})</button>
+      <button type="button" class="btn sm ${O_FILTER === 'hold' ? 'g' : 'w'}" data-a="ofilter" data-v="hold">Pending (${pendVerifyCount})</button>
     </div>
 
     ${eoObj ? `
@@ -1363,9 +1380,9 @@ function vOwner() {
           </div>
           <div class="btn-row">
             ${o.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} <span>Proof</span></button>` : ''}
-            <button type="button" class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Unmark Paid' : '✓ Approve'}</button>
+            <button type="button" class="btn sm ${+o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${+o.paid ? 'Unmark Paid' : '✓ Approve'}</button>
             ${o.vStat !== 'bad' ? `<button type="button" class="btn sm r" data-a="o_reject" data-id="${o.id}">✕ Fake</button>` : ''}
-            <button type="button" class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
+            <button type="button" class="btn sm ${+o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${+o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
             <button type="button" class="btn sm w" data-a="edit_ord" data-id="${o.id}">Edit</button>
             <button type="button" class="btn sm w" data-a="prt" data-id="${o.id}">🖨</button>
             <button type="button" class="btn sm r" data-a="o_del" data-id="${o.id}">🗑</button>
@@ -1404,7 +1421,7 @@ function vOwner() {
           <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">${s.days}d (${s.type === 'nv' ? 'NV' : 'Veg'}) · Start: ${s.start} · ${esc(s.area)} · UTR: <b>${esc(s.utr)}</b></div>
           <div class="btn-row">
             ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} <span>Proof</span></button>` : ''}
-            <button type="button" class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Unmark' : '✓ Approve'}</button>
+            <button type="button" class="btn sm ${+s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${+s.paid ? 'Unmark' : '✓ Approve'}</button>
             ${s.vStat !== 'bad' ? `<button type="button" class="btn sm r" data-a="s_reject" data-id="${s.id}">✕ Fake</button>` : ''}
             <button type="button" class="btn sm w" data-a="edit_sub" data-id="${s.id}">Edit</button>
             <button type="button" class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1d</button>
@@ -1415,14 +1432,13 @@ function vOwner() {
       }).join('') || '<p style="color:var(--mu)">No matching tiffin plans.</p>'}
     </div>`;
   } else if (O_TAB === 'radar') {
-    // CartRadar / Instamart Metrics Engine
     const itemMap = {}, areaMap = {};
     ords.filter(o => o.vStat !== 'bad').forEach(o => {
-      areaMap[o.area || 'Udala'] = (areaMap[o.area || 'Udala'] || 0) + o.total;
+      areaMap[o.area || 'Udala'] = (areaMap[o.area || 'Udala'] || 0) + (+o.total || 0);
       (o.items || []).forEach(i => { itemMap[i.n] = (itemMap[i.n] || 0) + (+i.q || 1); });
     });
     subs.filter(s => s.vStat !== 'bad').forEach(s => {
-      areaMap[s.area || 'Udala'] = (areaMap[s.area || 'Udala'] || 0) + s.price;
+      areaMap[s.area || 'Udala'] = (areaMap[s.area || 'Udala'] || 0) + (+s.price || 0);
     });
     const topItems = Object.entries(itemMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
     const maxItemQty = topItems.length ? topItems[0][1] : 1;
@@ -1503,8 +1519,8 @@ function vOwner() {
       ${custList.map(c => {
         const cSubs = subs.filter(s => ph(s.phone) === c.phone);
         const cOrds = ords.filter(o => ph(o.phone) === c.phone);
-        const totalPaid = cSubs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) + cOrds.reduce((a, o) => a + (o.paid ? o.total : 0), 0);
-        const calcDue = (+c.dues || 0) + cOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? o.total : 0), 0) + cSubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? s.price : 0), 0);
+        const totalPaid = cSubs.reduce((a, s) => a + (+s.paid ? +s.price : 0), 0) + cOrds.reduce((a, o) => a + (+o.paid ? +o.total : 0), 0);
+        const calcDue = (+c.dues || 0) + cOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? +o.total : 0), 0) + cSubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? +s.price : 0), 0);
         const mapUrl = c.lat ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(c.lat + ',' + c.lng)}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((c.addr || '') + ' ' + (c.area || 'Udala'))}`;
 
         return `<div class="row" style="flex-direction:column;align-items:stretch">
@@ -1585,7 +1601,7 @@ function vOwner() {
       <button type="button" class="btn g" data-a="savem">Save Live Menu for ${MENU_DATE} ✓</button>
     </div>`;
   } else if (O_TAB === 'prod') {
-    const epObj = ED_P ? (S.prod.find(x => x.id === ED_P) || {}) : {};
+    const epObj = ED_P ? (S.prod.find(x => sameId(x.id, ED_P)) || {}) : {};
     body = `
     <div class="card" id="prod_form">
       <h3>${ED_P ? 'Edit Product' : 'Add New Shop Product'} ${ED_P ? `<button type="button" class="btn w sm" data-a="cancel_edp">Cancel</button>` : ''}</h3>
@@ -1630,7 +1646,7 @@ function vOwner() {
       </div>`).join('')}
     </div>`;
   } else {
-    const esvObj = ED_SV ? (S.svcList.find(x => x.id === ED_SV) || {}) : {};
+    const esvObj = ED_SV ? (S.svcList.find(x => sameId(x.id, ED_SV)) || {}) : {};
     body = `
     <div class="card">
       <h3>Service Bookings Received (${(S.svBookings || []).length})</h3>
@@ -1712,13 +1728,13 @@ function sheet() {
   if (PIN_OPEN) {
     return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <b style="font-family:var(--serif);font-size:17px">🔑 Staff / Owner Security Login</b>
+        <b style="font-family:var(--serif);font-size:17px">🔒 Security PIN Access</b>
         <button type="button" class="btn w sm" data-a="close_pin">Close</button>
       </div>
-      <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Apna 4-Digit Security PIN daalein (Owner ya Kitchen/Rider):</p>
+      <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Enter 4-Digit Security PIN:</p>
       <input class="inp" id="pin_inp" type="password" inputmode="numeric" maxlength="4" placeholder="••••" style="text-align:center;font-size:22px;letter-spacing:8px;max-width:200px;margin:0 auto 12px;display:block">
       <button type="button" class="btn g" data-a="submit_pin">Unlock Panel ✓</button>
-      ${ROLE ? `<button type="button" class="btn r sm" style="margin-top:10px" data-a="logout_staff">Logout Current Role (${ROLE.toUpperCase()})</button>` : ''}
+      ${ROLE ? `<button type="button" class="btn r sm" style="margin-top:10px" data-a="logout_staff">Logout (${ROLE.toUpperCase()})</button>` : ''}
     </div></div>`;
   }
 
@@ -1733,7 +1749,7 @@ function sheet() {
   }
 
   if (SV_BOOK) {
-    const s = (S.svcList || []).find(x => x.id === SV_BOOK); if (!s) return '';
+    const s = (S.svcList || []).find(x => sameId(x.id, SV_BOOK)); if (!s) return '';
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <h3 style="font-family:var(--serif)">Book ${esc(s.n)}</h3>
@@ -1813,7 +1829,7 @@ function sheet() {
       </div>
       <div style="max-height:185px;overflow-y:auto">
         ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
-          const p = S.prod.find(x => x.id === parsePid(k));
+          const p = S.prod.find(x => sameId(x.id, parsePid(k)));
           const isH = String(k).endsWith('h');
           if (!p || !p.s || (isH && !p.h)) return '';
           const pr = isH ? Math.round(p.p * 0.6) : p.p;
@@ -1834,7 +1850,7 @@ function sheet() {
   }
 
   if (PQ) {
-    const p = S.prod.find(x => x.id === +PQ); if (!p) return '';
+    const p = S.prod.find(x => sameId(x.id, PQ)); if (!p) return '';
     const qf = C[p.id] || 0, qh = p.h ? (C[p.id + 'h'] || 0) : 0;
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
@@ -1906,7 +1922,6 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
   const cleanP = ph(F.phone);
   if (S.profiles[cleanP]) {
     if (USE_PTS) S.profiles[cleanP].pts = Math.max(0, (S.profiles[cleanP].pts || 0) - Math.floor(PAY_BOX.amt * 0.25));
-    // Earn 2% Loyalty Cashback Points on every order
     S.profiles[cleanP].pts = (S.profiles[cleanP].pts || 0) + Math.max(2, Math.round(finalPrice * 0.02));
   }
   USE_PTS = false; COUPON_CODE = '';
@@ -1932,7 +1947,7 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
   } else {
     const items = [];
     Object.entries(C).forEach(([k, q]) => {
-      const p = S.prod.find(x => x.id === parsePid(k));
+      const p = S.prod.find(x => sameId(x.id, parsePid(k)));
       const isH = String(k).endsWith('h');
       if (!p || !p.s || (isH && !p.h) || q < 1) return;
       const pr = isH ? Math.round(p.p * 0.6) : p.p;
@@ -1959,10 +1974,19 @@ const A = {
     render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
-  open_pin: () => {
-    PIN_OPEN = true; PQ = null; CART_OPEN = false; SV_BOOK = null;
-    render();
-    setTimeout(() => { const el = $('#pin_inp'); if (el) el.focus(); }, 60);
+  // Hidden 5-Tap on NU Logo to unlock Staff / Owner Modal
+  logo_tap: () => {
+    LOGO_TAPS++;
+    clearTimeout(LOGO_TIMER);
+    LOGO_TIMER = setTimeout(() => { LOGO_TAPS = 0; }, 2200);
+    if (LOGO_TAPS >= 5) {
+      LOGO_TAPS = 0;
+      PIN_OPEN = true; PQ = null; CART_OPEN = false; SV_BOOK = null;
+      render();
+      setTimeout(() => { const el = $('#pin_inp'); if (el) el.focus(); }, 60);
+    } else if (LOGO_TAPS >= 3) {
+      toast(`${5 - LOGO_TAPS} more tap(s) for Staff/Owner Login`);
+    }
   },
   close_pin: () => { PIN_OPEN = false; render(); },
   submit_pin: () => {
@@ -2002,11 +2026,11 @@ const A = {
   },
   wa_ceo_report: () => {
     const todayStr = iso(D0());
-    const activeTiffins = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (s.paid || s.vStat === 'cod')).length;
-    const totIn = (S.orders || []).reduce((a, o) => a + (o.paid ? o.total : 0), 0) + (S.subs || []).reduce((a, s) => a + (s.paid ? s.price : 0), 0);
+    const activeTiffins = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (+s.paid || s.vStat === 'cod')).length;
+    const totIn = (S.orders || []).reduce((a, o) => a + (+o.paid ? +o.total : 0), 0) + (S.subs || []).reduce((a, s) => a + (+s.paid ? +s.price : 0), 0);
     const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
-    const hold = (S.orders || []).filter(o => !o.paid && o.vStat === 'verify').length + (S.subs || []).filter(s => !s.paid && s.vStat === 'verify').length;
-    const msg = `*📊 NAMASTE UDALA — CEO DAILY REPORT (${todayStr})*\n\n✅ Verified Collection: ${inr(totIn)}\n📉 Total Expenses: ${inr(totOut)}\n💰 Net Profit: ${inr(totIn - totOut)}\n🍱 Today's Active Tiffins: ${activeTiffins}\n⏳ Verification Hold: ${hold}`;
+    const hold = (S.orders || []).filter(o => !o.paid && o.vStat !== 'bad').length + (S.subs || []).filter(s => !s.paid && s.vStat !== 'bad').length;
+    const msg = `*📊 NAMASTE UDALA — CEO DAILY REPORT (${todayStr})*\n\n✅ Verified Collection: ${inr(totIn)}\n📉 Total Expenses: ${inr(totOut)}\n💰 Net Profit: ${inr(totIn - totOut)}\n🍱 Today's Active Tiffins: ${activeTiffins}\n⏳ Pending Verification: ${hold}`;
     window.open(`https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(msg)}`, '_blank');
   },
   export_json: () => {
@@ -2025,7 +2049,7 @@ const A = {
   er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
   set_area: v => { F.area = v; syncCustomerProfile(); render(); },
   cat: v => { SCAT = v; render(); },
-  pq: (v, k, id) => { PQ = +id; render(); },
+  pq: (v, k, id) => { PQ = id; render(); },
   open_cart: () => { PQ = null; CART_OPEN = true; render(); },
   add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; saveCart(); PQ = null; CART_OPEN = true; render(); },
   close: () => { PQ = null; CART_OPEN = false; SV_BOOK = null; PIN_OPEN = false; render(); },
@@ -2045,7 +2069,7 @@ const A = {
 
   open_svb: (v, k, id) => { SV_BOOK = id; render(); },
   confirm_svb: () => {
-    const s = (S.svcList || []).find(x => x.id === SV_BOOK);
+    const s = (S.svcList || []).find(x => sameId(x.id, SV_BOOK));
     if (!s || !checkUser()) return;
     S.svBookings.push({
       id: uid('sb'), svName: s.n, price: s.p, date: $('#sv_date').value,
@@ -2053,8 +2077,8 @@ const A = {
     });
     SV_BOOK = null; playChime(); save(); toast('Service Booking Saved! Hum aapko call karenge.');
   },
-  done_svb: (v, k, id) => { const b = (S.svBookings || []).find(x => x.id === id); if (b) { b.done = b.done ? 0 : 1; save(); toast('Booking Updated'); } },
-  del_svb: (v, k, id) => { S.svBookings = (S.svBookings || []).filter(x => x.id !== id); save(); toast('Booking Deleted'); },
+  done_svb: (v, k, id) => { const b = (S.svBookings || []).find(x => sameId(x.id, id)); if (b) { b.done = b.done ? 0 : 1; save(); toast('Booking Updated ✓'); } },
+  del_svb: (v, k, id) => { S.svBookings = (S.svBookings || []).filter(x => !sameId(x.id, id)); save(); toast('Booking Deleted'); },
 
   save_prof: () => {
     if (!checkUser()) return;
@@ -2062,10 +2086,10 @@ const A = {
   },
 
   reorder: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id); if (!o) return;
+    const o = S.orders.find(x => sameId(x.id, id)); if (!o) return;
     let added = 0, skipped = 0;
     (o.items || []).forEach(i => {
-      const p = S.prod.find(x => x.id === i.id) || S.prod.find(x => x.n === i.n.replace(' (Half)', ''));
+      const p = S.prod.find(x => sameId(x.id, i.id)) || S.prod.find(x => x.n === i.n.replace(' (Half)', ''));
       const isH = !!(i.h || i.n.includes('(Half)'));
       if (p && p.s && (!isH || p.h)) {
         const key = isH ? (p.id + 'h') : p.id;
@@ -2081,8 +2105,8 @@ const A = {
   },
 
   cust_skip: (v, k, id) => {
-    const s = S.subs.find(x => x.id === id); if (!s) return;
-    if (!MY.includes(s.id) && ROLE !== 'owner') { toast('Unauthorized action!'); return; }
+    const s = S.subs.find(x => sameId(x.id, id)); if (!s) return;
+    if (!MY.some(m => sameId(m, s.id)) && ROLE !== 'owner') { toast('Unauthorized action!'); return; }
     if (!s.paid && s.vStat !== 'cod' && ROLE !== 'owner') { toast('Plan abhi verification hold par hai!'); return; }
     if (new Date().getHours() >= 10 && ROLE !== 'owner') {
       toast('Subah 10:00 AM ke baad aaj ka tiffin skip nahi ho sakta!');
@@ -2214,21 +2238,21 @@ const A = {
   },
 
   view_proof: (v, k, id) => {
-    const item = (k === 'sub' ? S.subs : S.orders).find(x => x.id === id);
+    const item = (k === 'sub' ? S.subs : S.orders).find(x => sameId(x.id, id));
     if (!item || !item.proof) { toast('No screenshot attached'); return; }
     VIEW_PROOF = item.proof;
     render();
   },
 
   prt: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id); if (!o) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Shop Bill #${String(o.id).slice(-4)} · ${esc(o.date)}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Area: ${esc(o.area)} · ${esc(o.addr)}<br>Status: ${o.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(o.utr)})</p><hr>${(o.items || []).map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
+    const o = S.orders.find(x => sameId(x.id, id)); if (!o) return;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Shop Bill #${String(o.id).slice(-4)} · ${esc(o.date)}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Area: ${esc(o.area)} · ${esc(o.addr)}<br>Status: ${+o.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(o.utr)})</p><hr>${(o.items || []).map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3>`;
     window.print();
   },
 
   prt_sub: (v, k, id) => {
-    const s = S.subs.find(x => x.id === id); if (!s) return;
-    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Tiffin Subscription #${String(s.id).slice(-4)} · Start: ${esc(s.start)}</p><p>Customer: ${esc(s.name)} (${esc(s.phone)})<br>Area: ${esc(s.area)} · ${esc(s.addr)}<br>Plan: ${s.days} Days (${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} · ${s.times || 3} Time)<br>Status: ${s.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(s.utr)})</p><hr><h3>TOTAL PLAN AMOUNT: ${inr(s.price)}</h3>`;
+    const s = S.subs.find(x => sameId(x.id, id)); if (!s) return;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Tiffin Subscription #${String(s.id).slice(-4)} · Start: ${esc(s.start)}</p><p>Customer: ${esc(s.name)} (${esc(s.phone)})<br>Area: ${esc(s.area)} · ${esc(s.addr)}<br>Plan: ${s.days} Days (${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} · ${s.times || 3} Time)<br>Status: ${+s.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(s.utr)})</p><hr><h3>TOTAL PLAN AMOUNT: ${inr(s.price)}</h3>`;
     window.print();
   },
 
@@ -2238,7 +2262,7 @@ const A = {
   },
   cancel_edord: () => { ED_ORD = null; render(); },
   save_edord: () => {
-    const o = S.orders.find(x => x.id === ED_ORD); if (!o) return;
+    const o = S.orders.find(x => sameId(x.id, ED_ORD)); if (!o) return;
     o.name = $('#eo_name').value.trim() || o.name;
     o.phone = ph($('#eo_phone').value) || o.phone;
     o.total = numOr($('#eo_total').value, o.total);
@@ -2253,7 +2277,7 @@ const A = {
   },
   cancel_edsub: () => { ED_SUB = null; render(); },
   save_edsub: () => {
-    const s = S.subs.find(x => x.id === ED_SUB); if (!s) return;
+    const s = S.subs.find(x => sameId(x.id, ED_SUB)); if (!s) return;
     s.name = $('#esub_name').value.trim() || s.name;
     s.type = $('#esub_type').value;
     s.days = Math.max(1, +$('#esub_days').value || s.days);
@@ -2264,46 +2288,58 @@ const A = {
   },
 
   o_paid: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id);
-    if (o) { o.paid = o.paid ? 0 : 1; o.vStat = o.paid ? 'ok' : 'verify'; save(); toast(o.paid ? 'Order Approved as Genuine Paid ✓' : 'Marked Unpaid'); }
+    const o = (S.orders || []).find(x => sameId(x.id, id));
+    if (!o) { toast('Order not found!'); return; }
+    o.paid = +o.paid ? 0 : 1;
+    o.vStat = o.paid ? 'ok' : 'verify';
+    if (o.paid) playChime();
+    save();
+    toast(o.paid ? '✓ Order Approved & Sent to Kitchen!' : '⏳ Order Moved to Verification Hold');
   },
   o_reject: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id);
-    if (o) {
-      if (o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
-      o.paid = 0; o.vStat = 'bad'; o.pMode = 'Rejected Fake Proof'; save(); toast('Order Rejected & UTR Released!');
-    }
+    const o = (S.orders || []).find(x => sameId(x.id, id));
+    if (!o) return;
+    if (o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
+    o.paid = 0; o.vStat = 'bad'; o.pMode = 'Rejected Fake Proof';
+    save(); toast('✕ Order Rejected & UTR Released!');
   },
   opack: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id);
-    if (o) { o.packed = o.packed ? 0 : 1; save(); toast(o.packed ? 'Order Packed & Ready for Rider ✓' : 'Unpacked'); }
+    const o = (S.orders || []).find(x => sameId(x.id, id));
+    if (o) { o.packed = +o.packed ? 0 : 1; save(); toast(o.packed ? '📦 Order Packed & Ready for Rider ✓' : 'Unpacked'); }
   },
   odlv: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id);
-    if (o) { o.dlv = o.dlv ? 0 : 1; if (o.dlv) { o.packed = 1; o.paid = 1; o.vStat = 'ok'; } save(); toast(o.dlv ? 'Order Delivered & Paid ✓' : 'Marked Undelivered'); }
+    const o = (S.orders || []).find(x => sameId(x.id, id));
+    if (o) { o.dlv = +o.dlv ? 0 : 1; if (o.dlv) { o.packed = 1; o.paid = 1; o.vStat = 'ok'; } save(); toast(o.dlv ? '✓ Order Delivered & Paid!' : 'Marked Undelivered'); }
   },
   o_del: (v, k, id) => {
-    const o = S.orders.find(x => x.id === id);
+    const o = (S.orders || []).find(x => sameId(x.id, id));
     if (o && o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
-    S.orders = S.orders.filter(x => x.id !== id); save(); toast('Order Deleted');
+    S.orders = (S.orders || []).filter(x => !sameId(x.id, id));
+    save(); toast('🗑 Order Deleted');
   },
 
   s_paid: (v, k, id) => {
-    const s = S.subs.find(x => x.id === id);
-    if (s) { s.paid = s.paid ? 0 : 1; s.vStat = s.paid ? 'ok' : 'verify'; save(); toast(s.paid ? 'Tiffin Plan Approved ✓' : 'Marked Unpaid'); }
+    const s = (S.subs || []).find(x => sameId(x.id, id));
+    if (!s) { toast('Subscription not found!'); return; }
+    s.paid = +s.paid ? 0 : 1;
+    s.vStat = s.paid ? 'ok' : 'verify';
+    if (s.paid) playChime();
+    save();
+    toast(s.paid ? '✓ Tiffin Plan Approved & Activated!' : '⏳ Plan Moved to Verification Hold');
   },
   s_reject: (v, k, id) => {
-    const s = S.subs.find(x => x.id === id);
-    if (s) {
-      if (s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
-      s.paid = 0; s.vStat = 'bad'; s.pMode = 'Rejected Fake Proof'; save(); toast('Plan Rejected & UTR Released!');
-    }
+    const s = (S.subs || []).find(x => sameId(x.id, id));
+    if (!s) return;
+    if (s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
+    s.paid = 0; s.vStat = 'bad'; s.pMode = 'Rejected Fake Proof';
+    save(); toast('✕ Plan Rejected & UTR Released!');
   },
-  s_add_day: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.days = (+s.days || 30) + 1; save(); toast('+1 Day Added to Plan'); } },
+  s_add_day: (v, k, id) => { const s = (S.subs || []).find(x => sameId(x.id, id)); if (s) { s.days = (+s.days || 30) + 1; save(); toast('+1 Day Added to Plan ✓'); } },
   s_del: (v, k, id) => {
-    const s = S.subs.find(x => x.id === id);
+    const s = (S.subs || []).find(x => sameId(x.id, id));
     if (s && s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
-    S.subs = S.subs.filter(x => x.id !== id); save(); toast('Subscription Deleted');
+    S.subs = (S.subs || []).filter(x => !sameId(x.id, id));
+    save(); toast('🗑 Subscription Deleted');
   },
   sdone: (v, k, id) => {
     const slot = k || K_SLOT || 'lunch';
@@ -2316,9 +2352,9 @@ const A = {
     const n = $('#exp_n').value.trim(), a = +$('#exp_a').value;
     if (!n || !(a > 0)) { toast('Enter Expense Name & Amount'); return; }
     S.exp.push({ id: uid('ex'), d: iso(D0()), n, amt: a });
-    save(); toast('Expense Added');
+    save(); toast('Expense Added ✓');
   },
-  del_exp: (v, k, id) => { S.exp = (S.exp || []).filter(x => x.id !== id); save(); toast('Expense Removed'); },
+  del_exp: (v, k, id) => { S.exp = (S.exp || []).filter(x => !sameId(x.id, id)); save(); toast('Expense Removed'); },
 
   edit_cust: (v, k, id) => {
     ED_CUST = id; render();
@@ -2364,7 +2400,7 @@ const A = {
     save(); toast('Menu Saved for ' + dt + ' ✓');
   },
 
-  stk: (v, k, id) => { const p = S.prod.find(x => x.id === +id); if (p) { p.s = p.s ? 0 : 1; save(); } },
+  stk: (v, k, id) => { const p = S.prod.find(x => sameId(x.id, id)); if (p) { p.s = p.s ? 0 : 1; save(); } },
   edit_prod: (v, k, id) => {
     ED_P = +id; render();
     setTimeout(() => { const el = $('#prod_form'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 50);
@@ -2377,7 +2413,7 @@ const A = {
     const img = $('#ep_img').value.trim() || defImg;
     if (!n || !(p > 0)) { toast('Enter Name & Selling Price'); return; }
     if (ED_P) {
-      const idx = S.prod.findIndex(x => x.id === ED_P);
+      const idx = S.prod.findIndex(x => sameId(x.id, ED_P));
       if (idx >= 0) S.prod[idx] = { ...S.prod[idx], n, p, mrp, c, nv, h, hot, img };
       ED_P = null;
     } else {
@@ -2386,7 +2422,7 @@ const A = {
     }
     save(); toast('Product Saved!');
   },
-  del_prod: (v, k, id) => { S.prod = S.prod.filter(x => x.id !== +id); save(); toast('Product Deleted'); },
+  del_prod: (v, k, id) => { S.prod = S.prod.filter(x => !sameId(x.id, id)); save(); toast('Product Deleted'); },
 
   edit_svc: (v, k, id) => {
     ED_SV = id; render();
@@ -2398,7 +2434,7 @@ const A = {
     const d = $('#es_d').value.trim(), img = $('#es_img').value.trim() || IMG.cam;
     if (!n || !(p > 0)) { toast('Enter Service Name & Price'); return; }
     if (ED_SV) {
-      const idx = S.svcList.findIndex(x => x.id === ED_SV);
+      const idx = S.svcList.findIndex(x => sameId(x.id, ED_SV));
       if (idx >= 0) S.svcList[idx] = { ...S.svcList[idx], c, n, p, u, d, img };
       ED_SV = null;
     } else {
@@ -2406,7 +2442,7 @@ const A = {
     }
     save(); toast('Service Saved!');
   },
-  del_svc: (v, k, id) => { S.svcList = S.svcList.filter(x => x.id !== id); save(); toast('Service Deleted'); },
+  del_svc: (v, k, id) => { S.svcList = S.svcList.filter(x => !sameId(x.id, id)); save(); toast('Service Deleted'); },
 
   save_app_cfg: () => {
     S.cfg.upi = $('#cfg_upi').value.trim() || '9583937047@jio';
@@ -2520,6 +2556,11 @@ document.addEventListener('change', e => {
 });
 
 document.addEventListener('input', e => {
+  if (e.target.id === 'pin_inp') {
+    const v = e.target.value.trim();
+    if (v === OPIN || v === DPIN) A.submit_pin();
+    return;
+  }
   if (e.target.dataset.f) {
     F[e.target.dataset.f] = e.target.value;
     if (e.target.dataset.f === 'start') render();
