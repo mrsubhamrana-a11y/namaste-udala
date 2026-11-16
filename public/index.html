@@ -12,47 +12,46 @@
 :root{--bg:#f9f5ec;--sf:#fffdf8;--sf2:#f1eadc;--ink:#16241c;--mu:#626d65;--ln:#e2d9c5;--o:#d94e1f;--g:#113221;--g2:#1b5e3a;--bad:#dc2626;--serif:'Fraunces',Georgia,serif;--sh-card:0 16px 32px -10px rgba(22,36,28,.12),inset 0 2px 0 #fff;--sh-3d-o:0 5px 0 #8f2d0b,0 10px 20px rgba(217,78,31,.3);--sh-3d-g:0 5px 0 #081c11,0 10px 20px rgba(17,50,33,.28);--sh-3d-w:0 4px 0 #d5cbb4;--sh-in:inset 0 3px 6px rgba(22,36,28,.08)}
 [data-theme=dark]{--bg:#0c130f;--sf:#142019;--sf2:#0f1813;--ink:#f4f1ea;--mu:#9ca89f;--ln:#233329;--sh-card:0 20px 36px -10px rgba(0,0,0,.7);--sh-3d-w:0 4px 0 #070b09;--sh-in:inset 0 3px 7px rgba(0,0,0,.6)}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:160px;min-height:100vh}
+body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:165px;min-height:100vh}
 body.modal-open{overflow:hidden}
-img{display:block;object-fit:cover}
+img{display:block;object-fit:cover;pointer-events:none}
 button,input,select{font:inherit;color:inherit}
-button{cursor:pointer;touch-action:manipulation;user-select:none}
-button svg,button span,button i,button b,button small{pointer-events:none}
+button{cursor:pointer;touch-action:manipulation;user-select:none;position:relative}
+button *{pointer-events:none}
 svg.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none;pointer-events:none}
-header{position:sticky;top:0;z-index:60;background:linear-gradient(145deg,#163f2a,#0b2216);color:#f9f5ec;padding:12px 16px;box-shadow:0 6px 20px rgba(11,34,22,.35);display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-weight:800;font-size:16px;color:#fff;box-shadow:0 4px 0 #7a2205;cursor:pointer;user-select:none}
+header{position:sticky;top:0;z-index:100;background:linear-gradient(145deg,#163f2a,#0b2216);color:#f9f5ec;padding:10px 14px;box-shadow:0 6px 20px rgba(11,34,22,.35);display:flex;align-items:center;gap:10px}
+.logo{width:42px;height:42px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-weight:800;font-size:15px;color:#fff;box-shadow:0 4px 0 #7a2205;cursor:pointer;user-select:none;border:0;flex:none}
 .logo:active{transform:translateY(3px);box-shadow:0 1px 0 #7a2205}
 .brand{flex:1;min-width:0}
-.brand small{display:block;color:#fbbf24;font-size:9px;letter-spacing:1.8px;font-weight:800}
-.brand h1{font-family:var(--serif);font-size:18.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;color:#fbbf24;font-size:8.5px;letter-spacing:1.6px;font-weight:800}
+.brand h1{font-family:var(--serif);font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .marquee{background:#e9dfc8;color:#163f2a;overflow:hidden;white-space:nowrap;padding:6px 0;border-bottom:1px solid var(--ln);font-size:10px;font-weight:800;letter-spacing:1.3px}
 [data-theme=dark] .marquee{background:#18271e;color:#fbbf24}
 .marquee-track{display:inline-block;animation:mRoll 24s linear infinite}
 @keyframes mRoll{to{transform:translateX(-50%)}}
 main{padding:15px 14px 0;max-width:650px;margin:0 auto}
-.hero3d{position:relative;border-radius:26px;padding:20px 18px;margin-bottom:18px;color:#fffdf8;background:linear-gradient(132deg,#113221 0%,#1d4d34 58%,#2a6a48 100%);box-shadow:0 7px 0 #091c12,0 18px 34px rgba(17,50,33,.3);min-height:152px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;overflow:visible}
+.hero3d{position:relative;border-radius:26px;padding:20px 18px;margin-bottom:18px;color:#fffdf8;background:linear-gradient(132deg,#113221 0%,#1d4d34 58%,#2a6a48 100%);box-shadow:0 7px 0 #091c12,0 18px 34px rgba(17,50,33,.3);min-height:148px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
 .hero3d.terracotta{background:linear-gradient(132deg,#2b1208 0%,#7c280d 55%,#d94e1f 100%);box-shadow:0 7px 0 #421304,0 18px 34px rgba(217,78,31,.3)}
 .hero-pill{display:inline-block;width:fit-content;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:99px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;border:1px solid rgba(255,255,255,.25)}
-.hero3d h2{font-family:var(--serif);font-size:21px;font-weight:800;max-width:64%;line-height:1.15;margin-bottom:5px}
-.hero3d p{font-size:12px;opacity:.92;max-width:64%;font-weight:600}
-.hero-plate{position:absolute;right:12px;bottom:-8px;width:116px;height:116px;border-radius:50%;border:4px solid #fffdf8;background:#1e293b;box-shadow:0 16px 28px rgba(0,0,0,.55);animation:fPlate 3.5s ease-in-out infinite;z-index:3}
-@keyframes fPlate{50%{transform:translateY(-8px) scale(1.04) rotate(2deg)}}
-.steam-wrap{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:visible}
-.steam-wrap i{position:absolute;bottom:28%;width:26px;height:26px;background:radial-gradient(circle,rgba(255,255,255,.88) 0%,rgba(255,255,255,0) 70%);border-radius:50%;filter:blur(5px);opacity:0;animation:sRise 2.4s infinite ease-out}
+.hero3d h2{font-family:var(--serif);font-size:20px;font-weight:800;max-width:65%;line-height:1.15;margin-bottom:5px}
+.hero3d p{font-size:12px;opacity:.92;max-width:65%;font-weight:600}
+.hero-plate{position:absolute;right:12px;bottom:10px;width:106px;height:106px;border-radius:50%;border:4px solid #fffdf8;background:#1e293b;box-shadow:0 12px 24px rgba(0,0,0,.5);animation:fPlate 3.5s ease-in-out infinite;z-index:2;pointer-events:none}
+@keyframes fPlate{50%{transform:translateY(-5px) scale(1.03) rotate(2deg)}}
+.steam-wrap{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+.steam-wrap i{position:absolute;bottom:25%;width:24px;height:24px;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,rgba(255,255,255,0) 70%);border-radius:50%;filter:blur(5px);opacity:0;animation:sRise 2.4s infinite ease-out;pointer-events:none}
 .steam-wrap i:nth-child(1){left:28%;animation-delay:0s}
-.steam-wrap i:nth-child(2){left:48%;width:34px;height:34px;animation-delay:.7s}
+.steam-wrap i:nth-child(2){left:48%;width:32px;height:32px;animation-delay:.7s}
 .steam-wrap i:nth-child(3){left:62%;animation-delay:1.4s}
-@keyframes sRise{0%{transform:translateY(8px) scale(.5);opacity:0}35%{opacity:.8}100%{transform:translateY(-70px) scale(2.5) translateX(10px);opacity:0}}
-.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0 16px}
-.p-tier{position:relative;border-radius:20px;padding:15px 6px 12px;text-align:center;background:linear-gradient(180deg,var(--sf),var(--sf2));border:2px solid var(--ln);box-shadow:var(--sh-3d-w);cursor:pointer;transition:.18s}
-.p-tier *{pointer-events:none}
-.p-tier.on{background:linear-gradient(180deg,#fff9f2,#fde6d2);border-color:var(--o);box-shadow:0 5px 0 #8f2d0b,0 14px 24px rgba(217,78,31,.25);transform:translateY(-5px)}
+@keyframes sRise{0%{transform:translateY(8px) scale(.5);opacity:0}35%{opacity:.75}100%{transform:translateY(-55px) scale(2.2) translateX(8px);opacity:0}}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0 16px}
+.p-tier{position:relative;border-radius:20px;padding:16px 6px 12px;text-align:center;background:linear-gradient(180deg,var(--sf),var(--sf2));border:2px solid var(--ln);box-shadow:var(--sh-3d-w);cursor:pointer;transition:.15s;display:block;width:100%}
+.p-tier.on{background:linear-gradient(180deg,#fff9f2,#fde6d2);border-color:var(--o);box-shadow:0 5px 0 #8f2d0b,0 14px 24px rgba(217,78,31,.25);transform:translateY(-3px)}
 [data-theme=dark] .p-tier.on{background:linear-gradient(180deg,#2b180e,#1a100b)}
 .p-tier .p-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--g);color:#fbbf24;font-size:8.5px;font-weight:800;padding:3px 8px;border-radius:99px;white-space:nowrap}
 .p-tier.on .p-badge{background:var(--o);color:#fff}
 .p-tier .p-days{font-family:var(--serif);font-size:17px;font-weight:800;display:block}
 .p-tier .p-sub{font-size:9px;font-weight:800;color:var(--mu);text-transform:uppercase;margin-bottom:5px;display:block}
-.p-tier .p-amt{font-family:var(--serif);font-size:19px;font-weight:800;color:var(--o);display:block}
+.p-tier .p-amt{font-family:var(--serif);font-size:18.5px;font-weight:800;color:var(--o);display:block}
 .p-tier .p-per{font-size:10px;font-weight:800;color:var(--g2);margin-top:2px;display:block}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
 .cal-d{padding:5px 2px;border-radius:8px;text-align:center;font-size:9.5px;font-weight:800;background:var(--sf2);border:1px solid var(--ln)}
@@ -65,6 +64,14 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .kpi div{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:10px 6px;text-align:center;box-shadow:var(--sh-card)}
 .kpi b{font-family:var(--serif);display:block;font-size:17px;font-weight:800;color:var(--o)}
 .kpi span{font-size:9.5px;font-weight:800;color:var(--mu);text-transform:uppercase}
+.prep-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.prep-box{background:var(--sf2);border:1px solid var(--ln);border-radius:12px;padding:8px 4px;text-align:center}
+.prep-box b{display:block;font-size:14px;color:var(--g2);font-family:var(--serif)}
+.prep-box span{font-size:9px;font-weight:800;color:var(--mu);text-transform:uppercase}
+.bar-wrap{margin:6px 0}
+.bar-lbl{display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin-bottom:3px}
+.bar-bg{height:8px;background:var(--sf2);border-radius:99px;overflow:hidden;border:1px solid var(--ln)}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--g2),var(--o));border-radius:99px}
 .prof-head{display:flex;align-items:center;gap:14px;padding:16px;background:linear-gradient(135deg,#163f2a,#0b2216);color:#fff;border-radius:22px;margin-bottom:15px}
 .prof-av{width:58px;height:58px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-size:22px;font-weight:800;border:3px solid rgba(255,255,255,.85);flex:none}
 .prof-badge{display:inline-block;background:rgba(251,191,36,.2);color:#fbbf24;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:800;margin-top:4px;border:1px solid rgba(251,191,36,.4)}
@@ -85,25 +92,25 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .inp:focus{border-color:var(--o);background:var(--sf)}
 .lbl{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:800;color:var(--mu);margin:9px 0 3px;text-transform:uppercase;letter-spacing:.4px}
 .seg{display:flex;gap:5px;background:var(--sf2);padding:4px;border-radius:99px;box-shadow:var(--sh-in);margin:4px 0}
-.seg button{flex:1;padding:8px 5px;border:0;border-radius:99px;background:transparent;font-weight:800;font-size:11px;color:var(--mu);cursor:pointer}
+.seg button{flex:1;padding:9px 6px;border:0;border-radius:99px;background:transparent;font-weight:800;font-size:11px;color:var(--mu);cursor:pointer}
 .seg button.on{background:var(--g);color:#fff;box-shadow:0 3px 8px rgba(17,50,33,.3)}
-.sym{display:inline-grid;place-items:center;width:14px;height:14px;border:2px solid #16a34a;border-radius:3px;background:#fff;flex:none}
+.sym{display:inline-grid;place-items:center;width:14px;height:14px;border:2px solid #16a34a;border-radius:3px;background:#fff;flex:none;pointer-events:none}
 .sym i{width:6px;height:6px;border-radius:50%;background:#16a34a}
 .sym.nv{border-color:#dc2626}
 .sym.nv i{background:#dc2626}
 .chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chips button{flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 13px 5px 5px;border-radius:99px;border:1px solid var(--ln);background:var(--sf);font-weight:800;font-size:11.5px;box-shadow:var(--sh-3d-w);cursor:pointer}
-.chips button img{width:25px;height:25px;border-radius:50%;pointer-events:none}
+.chips button img{width:25px;height:25px;border-radius:50%}
 .chips button.on{background:var(--g);color:#fff;border-color:transparent}
 .area-chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
 .area-chips::-webkit-scrollbar{display:none}
-.area-chips span{flex:none;padding:6px 11px;border-radius:99px;font-size:11px;font-weight:800;background:var(--sf2);border:1px solid var(--ln);color:var(--mu);cursor:pointer}
-.area-chips span.on{background:var(--o);color:#fff;border-color:var(--o)}
+.area-chips button{flex:none;padding:7px 12px;border-radius:99px;font-size:11px;font-weight:800;background:var(--sf2);border:1px solid var(--ln);color:var(--mu);cursor:pointer}
+.area-chips button.on{background:var(--o);color:#fff;border-color:var(--o)}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
 .pcard{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:22px;padding:9px;box-shadow:var(--sh-card);display:flex;flex-direction:column;position:relative}
 .pimg{height:128px;border-radius:16px;position:relative;cursor:pointer;box-shadow:0 8px 18px rgba(22,36,28,.14);background:#1c2826;margin-bottom:8px;overflow:hidden}
-.pimg img{width:100%;height:100%;transition:transform .3s;pointer-events:none}
+.pimg img{width:100%;height:100%;transition:transform .3s}
 .pcard:hover .pimg img{transform:scale(1.07)}
 .badge{position:absolute;top:6px;left:6px;background:#16a34a;color:#fff;font-size:8.5px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6;pointer-events:none}
 .hot-tag{position:absolute;bottom:6px;right:6px;background:rgba(17,50,33,.9);color:#fbbf24;font-size:8px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6;pointer-events:none}
@@ -114,31 +121,30 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .pprice b{font-family:var(--serif);font-size:16.5px;font-weight:800;color:var(--o)}
 .pprice s{font-size:10.5px;color:var(--mu);margin-left:4px}
 .qty{display:flex;align-items:center;justify-content:space-between;background:var(--sf2);padding:3px;border-radius:99px;box-shadow:var(--sh-in);margin-top:auto}
-.qty button{width:30px;height:30px;border-radius:50%;border:0;background:var(--o);color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 #8f2d0b;display:grid;place-items:center}
+.qty button{width:32px;height:32px;border-radius:50%;border:0;background:var(--o);color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 #8f2d0b;display:grid;place-items:center}
 .qty b{font-size:12.5px;font-weight:800;padding:0 4px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px dashed var(--ln)}
 .row:last-child{border-bottom:0}
 .tot{display:flex;justify-content:space-between;align-items:center;padding-top:11px;margin-top:5px;border-top:2px solid var(--ln)}
 .tot b{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--o)}
-.ov{position:fixed;inset:0;z-index:200;background:rgba(11,22,16,.82);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
+.ov{position:fixed;inset:0;z-index:300;background:rgba(11,22,16,.82);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
 .sh{background:var(--sf);width:100%;max-width:510px;max-height:88vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:18px 18px 30px;box-shadow:0 -10px 40px rgba(0,0,0,.45);animation:sUp .2s ease-out}
 @keyframes sUp{from{transform:translateY(100%)}}
-.pop-stage{position:relative;height:205px;margin:4px 0 12px;border-radius:22px;background:radial-gradient(circle at 50% 60%,#1d4d34,#091810 78%);display:flex;align-items:center;justify-content:center;overflow:visible}
-.pop-plate{width:180px;height:180px;border-radius:50%;object-fit:cover;border:4px solid #fffdf8;box-shadow:0 20px 34px rgba(0,0,0,.7);animation:pOut .42s cubic-bezier(.18,1.25,.4,1) forwards;z-index:2}
-@keyframes pOut{0%{transform:scale(.3) translateY(45px);opacity:0}100%{transform:scale(1.03) translateY(-5px);opacity:1}}
-.pop-steam{position:absolute;top:-16px;left:0;right:0;height:130px;pointer-events:none;z-index:4}
+.pop-stage{position:relative;height:195px;margin:4px 0 12px;border-radius:22px;background:radial-gradient(circle at 50% 60%,#1d4d34,#091810 78%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pop-plate{width:170px;height:170px;border-radius:50%;object-fit:cover;border:4px solid #fffdf8;box-shadow:0 20px 34px rgba(0,0,0,.7);animation:pOut .42s cubic-bezier(.18,1.25,.4,1) forwards;z-index:2}
+@keyframes pOut{0%{transform:scale(.3) translateY(45px);opacity:0}100%{transform:scale(1.02) translateY(-2px);opacity:1}}
+.pop-steam{position:absolute;top:0;left:0;right:0;height:120px;pointer-events:none;z-index:4}
 .pop-steam span{position:absolute;bottom:8px;width:44px;height:44px;background:radial-gradient(circle,rgba(255,255,255,.9) 0%,rgba(255,255,255,0) 70%);border-radius:50%;filter:blur(6px);opacity:0;animation:bSteam 2s infinite ease-out}
 .pop-steam span:nth-child(1){left:32%;animation-delay:0s}
 .pop-steam span:nth-child(2){left:46%;width:56px;height:56px;animation-delay:.6s}
 .pop-steam span:nth-child(3){left:56%;animation-delay:1.2s}
-@keyframes bSteam{0%{transform:translateY(22px) scale(.4);opacity:0}35%{opacity:.9}100%{transform:translateY(-85px) scale(2.5) translateX(10px);opacity:0}}
-.cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:190;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 0 #071c10,0 14px 28px rgba(11,34,22,.5);cursor:pointer;font-weight:800;font-size:13px}
-.cbar-fixed *{pointer-events:none}
+@keyframes bSteam{0%{transform:translateY(22px) scale(.4);opacity:0}35%{opacity:.9}100%{transform:translateY(-75px) scale(2.3) translateX(10px);opacity:0}}
+.cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:190;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 0 #071c10,0 14px 28px rgba(11,34,22,.5);cursor:pointer;font-weight:800;font-size:13px;border:0;width:calc(100% - 24px)}
 nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:250;max-width:640px;margin:0 auto;background:var(--sf);border:1.5px solid var(--ln);border-radius:99px;display:flex;gap:4px;padding:5px 8px;box-shadow:0 7px 0 rgba(22,36,28,.12),0 16px 34px rgba(22,36,28,.28)}
 nav button{flex:1;border:0;background:transparent;border-radius:99px;padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mu);font-weight:800;position:relative;transition:.15s}
 nav button.on{background:var(--g);color:#fbbf24;transform:translateY(-2px)}
-nav .nl{font-size:9.5px;pointer-events:none}
-nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff;pointer-events:none}
+nav .nl{font-size:9.5px}
+nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff}
 .pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:pAnim 1.4s infinite}
 @keyframes pAnim{50%{transform:scale(1.35);opacity:.5}}
 #toast{position:fixed;left:50%;top:72px;transform:translateX(-50%) translateY(-16px);background:var(--g);color:#fff;padding:11px 18px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:900;opacity:0;pointer-events:none;transition:.25s;text-align:center;max-width:92vw;box-shadow:0 10px 24px rgba(0,0,0,.35);border:1.5px solid #fbbf24}
@@ -150,20 +156,22 @@ nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-
 <body>
 
 <input type="file" id="proof_file" accept="image/*" style="display:none">
+<input type="file" id="restore_file" accept=".json" style="display:none">
 
 <header>
-  <div class="logo" id="mark" title="Namaste Udala">NU</div>
+  <button type="button" class="logo" data-a="open_pin" title="Tap for Owner / Staff Login">NU</button>
   <div class="brand">
     <small>NAMASTE UDALA · EST. KITCHEN</small>
     <h1 id="ttl">Ghar Jaisa Khana · Roz Time Pe</h1>
   </div>
-  <button type="button" class="btn w sm" id="thm" data-a="theme">🌙</button>
+  <button type="button" class="btn w sm" data-a="open_pin" style="padding:7px 10px;font-size:10.5px">🔑 Staff/Owner</button>
+  <button type="button" class="btn w sm" id="thm" data-a="theme" style="padding:7px 10px">🌙</button>
 </header>
 
 <div class="marquee">
   <div class="marquee-track">
-    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
-    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
+    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · USE CODE: WELCOME30 OR TIFFIN100 · EARN 2% CASHBACK POINTS ON EVERY ORDER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
+    <span>✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · USE CODE: WELCOME30 OR TIFFIN100 · EARN 2% CASHBACK POINTS ON EVERY ORDER · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
   </div>
 </div>
 
@@ -186,7 +194,25 @@ const FB = {
 };
 
 const UDALA_AREAS = ['Udala Bus Stand', 'Market Square', 'High School Rd', 'College Rd', 'Block Office', 'Hospital Rd', 'Ward 1–6', 'Bhanjpur'];
+// Area approximate coordinates for Smart Route Optimization when customer hasn't locked exact GPS
+const AREA_COORDS = {
+  'Udala Bus Stand': [21.5732, 86.5675],
+  'Market Square': [21.5718, 86.5648],
+  'High School Rd': [21.5755, 86.5630],
+  'College Rd': [21.5790, 86.5612],
+  'Block Office': [21.5702, 86.5695],
+  'Hospital Rd': [21.5740, 86.5710],
+  'Ward 1–6': [21.5768, 86.5688],
+  'Bhanjpur': [21.5810, 86.5720]
+};
+const KITCHEN_HQ = [21.5732, 86.5675]; // Namaste Udala Central Kitchen
 const NODE = 'udala_phase2', OPIN = '4827', DPIN = '7788';
+
+const COUPONS = {
+  'WELCOME30': { disc: 30, min: 199, desc: '₹30 OFF above ₹199' },
+  'UDALA50': { disc: 50, min: 399, desc: '₹50 OFF above ₹399' },
+  'TIFFIN100': { disc: 100, min: 1400, desc: '₹100 OFF on 15d/30d Tiffin' }
+};
 
 const IC = {
   tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/></svg>`,
@@ -236,11 +262,82 @@ const numOr = (val, def) => { const n = parseFloat(val); return Number.isFinite(
 const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
 const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
 const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
-const safePushHistory = () => { try { history.pushState({ modal: 1 }, ''); } catch (e) {} };
 
 if (localStorage.getItem('nu_theme') === 'dark') {
   document.documentElement.dataset.theme = 'dark';
   setTimeout(() => { if ($('#thm')) $('#thm').textContent = '☀️'; }, 20);
+}
+
+/* --- ALGORITHM 1: HAVERSINE SHORTEST-PATH DISTANCE & ETA ENGINE --- */
+function getCustomerCoords(item) {
+  if (item.lat && item.lng) return [+item.lat, +item.lng];
+  return AREA_COORDS[item.area] || KITCHEN_HQ;
+}
+function haversineKm(c1, c2) {
+  const toRad = x => (x * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(c2[0] - c1[0]);
+  const dLon = toRad(c2[1] - c1[1]);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(c1[0])) * Math.cos(toRad(c2[0])) * Math.sin(dLon / 2) ** 2;
+  return +(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2);
+}
+function sortRouteNearestFirst(list) {
+  if (! list || !list.length) return [];
+  const remaining = list.map(item => ({ item, coords: getCustomerCoords(item) }));
+  const ordered = [];
+  let curr = KITCHEN_HQ;
+  while (remaining.length > 0) {
+    let bestIdx = 0, bestDist = Infinity;
+    for (let i = 0; i < remaining.length; i++) {
+      const d = haversineKm(curr, remaining[i].coords);
+      if (d < bestDist) { bestDist = d; bestIdx = i; }
+    }
+    const next = remaining.splice(bestIdx, 1)[0];
+    next.item._distKm = Math.max(0.2, bestDist);
+    next.item._etaMin = Math.max(4, Math.round(bestDist * 4 + 3));
+    ordered.push(next.item);
+    curr = next.coords;
+  }
+  return ordered;
+}
+
+/* --- ALGORITHM 2: SMART KITCHEN RAW MATERIAL PROCUREMENT ENGINE --- */
+function calcKitchenProcurement(activeSubs, slot) {
+  let riceG = 0, attaG = 0, dalG = 0, vegG = 0, paneerG = 0, chickenG = 0;
+  activeSubs.forEach(s => {
+    const rCount = calcRotiForSub(s, slot);
+    attaG += rCount * 35; // 35g whole wheat flour per roti
+    if (slot === 'bf') {
+      attaG += 100; vegG += 120;
+    } else {
+      const pref = slot === 'lunch' ? (s.lunch || 'chawal') : (s.dinner || 'roti');
+      if (pref === 'chawal') riceG += 160;
+      else if (pref === 'both') riceG += 100;
+      dalG += 60;
+      if (s.type === 'nv') chickenG += 180;
+      else { paneerG += 85; vegG += 140; }
+    }
+  });
+  const fmt = g => g >= 1000 ? (g / 1000).toFixed(2) + ' kg' : g + ' g';
+  return { rice: fmt(riceG), atta: fmt(attaG), dal: fmt(dalG), chicken: fmt(chickenG), paneer: fmt(paneerG), sabzi: fmt(vegG) };
+}
+
+/* --- ALGORITHM 3: MULTI-FACTOR PAYMENT FRAUD RISK SCORING ENGINE (0-100) --- */
+function evaluateFraudRisk(item) {
+  if (item.paid && item.pMode && item.pMode.includes('Auto-Matched')) return { score: 0, label: '🟢 0% Risk (Bank Matched)', cls: 'st-ok' };
+  if (item.vStat === 'cod') return { score: 10, label: '🟢 Doorstep Collect', cls: 'st-wait' };
+  let risk = 15;
+  const utr = String(item.utr || '');
+  const uniqueDigits = new Set(utr.split('')).size;
+  if (uniqueDigits <= 4) risk += 35;
+  if (!item.proof) risk += 20;
+  if ((item.total || item.price) > 2000 && !item.proof) risk += 25;
+  const hr = new Date(item.ts || Date.now()).getHours();
+  if (hr >= 0 && hr <= 5) risk += 15;
+  risk = Math.min(98, risk);
+  if (risk >= 60) return { score: risk, label: `🔴 High Risk (${risk}%)`, cls: 'st-bad' };
+  if (risk >= 35) return { score: risk, label: `🟡 Medium Risk (${risk}%)`, cls: 'st-wait' };
+  return { score: risk, label: `🟢 Low Risk (${risk}%)`, cls: 'st-ok' };
 }
 
 function copyText(txt, msg) {
@@ -395,17 +492,17 @@ const CUST_SEED = {
   '8073721357': {
     phone: '8073721357', name: 'Subham Rana', altPhone: '9583937047', area: 'Udala Bus Stand',
     addr: 'Near Bus Stand, Main Road, Udala', lat: 21.5732, lng: 86.5675,
-    diet: 'veg', spice: 'Medium', family: 3, notes: 'Prefers गरम रोटी in dinner', dues: 0, joined: iso(addD(D0(), -15))
+    diet: 'veg', spice: 'Medium', family: 3, notes: 'Prefers गरम रोटी in dinner', dues: 0, pts: 65, joined: iso(addD(D0(), -15))
   },
   '9437012345': {
     phone: '9437012345', name: 'Priyanka Das', altPhone: '', area: 'Bhanjpur',
     addr: 'Ward 4, Near Temple, Bhanjpur', lat: 21.5810, lng: 86.5720,
-    diet: 'nv', spice: 'Spicy', family: 2, notes: 'Extra gravy in chicken', dues: 0, joined: iso(addD(D0(), -8))
+    diet: 'nv', spice: 'Spicy', family: 2, notes: 'Extra gravy in chicken', dues: 0, pts: 42, joined: iso(addD(D0(), -8))
   },
   '9937055555': {
     phone: '9937055555', name: 'Anita Sahoo', altPhone: '', area: 'Market Square',
     addr: 'Shop No 12, Market Square, Udala', lat: 21.5718, lng: 86.5648,
-    diet: 'veg', spice: 'Low', family: 4, notes: 'Less oil in sabzi', dues: 0, joined: iso(addD(D0(), -4))
+    diet: 'veg', spice: 'Low', family: 4, notes: 'Less oil in sabzi', dues: 0, pts: 15, joined: iso(addD(D0(), -4))
   }
 };
 
@@ -464,6 +561,7 @@ function ensureIntegrity() {
   S.auto_amt = cleanAuto;
 
   S.profiles = { ...CUST_SEED, ...(S.profiles || {}) };
+  Object.values(S.profiles).forEach(p => { if (p.pts === undefined) p.pts = 25; });
   if (S.profiles['9937055555'] && S.profiles['9937055555'].dues === 560 && S.orders.some(o => o.id === 'o3' && !o.paid)) {
     S.profiles['9937055555'].dues = 0;
   }
@@ -490,6 +588,12 @@ function isSubActiveOn(s, d, slot) {
   return k >= startStr && k <= endStr;
 }
 
+function getSubDaysRemaining(s) {
+  const startStr = s.start || iso(D0());
+  const endD = addD(new Date(startStr + 'T12:00:00'), (+s.days || 30) - 1);
+  return Math.ceil((endD - D0()) / 864e5) + 1;
+}
+
 function isSubSlotDone(subId, dateStr, slot) {
   return !!(S.done[`${dateStr}_${subId}_${slot}`] || S.done[`${dateStr}_${subId}`]);
 }
@@ -509,15 +613,14 @@ function statusPillHTML(item) {
 }
 
 let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
-let SCAT = 'all', SQ = '', PQ = null, CART_OPEN = false, PAY_MODE = 'upi', PROOF_IMG = null, PROOF_META = null, VIEW_PROOF = null, SV_BOOK = null;
-let DRAFT_UTR = '', O_Q = '', O_FILTER = 'all';
+let SCAT = 'all', S_FILT = 'all', SQ = '', PQ = null, CART_OPEN = false, PIN_OPEN = false, PAY_MODE = 'upi', PROOF_IMG = null, PROOF_META = null, VIEW_PROOF = null, SV_BOOK = null;
+let DRAFT_UTR = '', O_Q = '', O_FILTER = 'all', COUPON_CODE = '', USE_PTS = false, ROUTE_SMART = true;
 let K_SLOT = new Date().getHours() < 11 ? 'bf' : new Date().getHours() < 16 ? 'lunch' : 'dinner';
 let MENU_DATE = iso(D0());
 let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null, ED_SUB = null, ED_ORD = null;
 let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
 let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
 
-// Clear any stale stuck PAY_BOX from previous session so bottom nav is never blocked on load
 let PAY_BOX = null;
 localStorage.removeItem('nu_paybox');
 const setPayBox = b => {
@@ -540,6 +643,11 @@ const F = {
   lng: +(localStorage.getItem('nu_lng') || 86.5675)
 };
 
+function getMyPts() {
+  const p = S.profiles[ph(F.phone)];
+  return p ? (+p.pts || 0) : 25;
+}
+
 function syncCustomerProfile() {
   F.family = Math.min(50, Math.max(1, +F.family || 1));
   localStorage.setItem('nu_n', F.name);
@@ -555,7 +663,7 @@ function syncCustomerProfile() {
 
   const cleanP = ph(F.phone);
   if (isValidPhone(cleanP)) {
-    const existing = S.profiles[cleanP] || { joined: iso(D0()), dues: 0 };
+    const existing = S.profiles[cleanP] || { joined: iso(D0()), dues: 0, pts: 25 };
     S.profiles[cleanP] = {
       ...existing,
       phone: cleanP,
@@ -573,7 +681,6 @@ function syncCustomerProfile() {
   }
 }
 
-// Non-blocking Dynamic Firebase Loader (Never blocks UI or buttons if offline)
 let db = null, fbSet = null, fbRef = null;
 (async () => {
   try {
@@ -599,7 +706,7 @@ let db = null, fbSet = null, fbRef = null;
         ensureIntegrity();
         checkAutoPaymentMatch();
         const active = document.activeElement;
-        const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK || PAY_BOX;
+        const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK || PAY_BOX || PIN_OPEN;
         if (!isEditing && (!active || (active.tagName !== 'INPUT' && active.tagName !== 'SELECT'))) {
           render();
         }
@@ -651,7 +758,17 @@ const dlvFee = () => {
   const st = subTot(), fMin = numOr(S.cfg.freeMin, 300), dFee = numOr(S.cfg.dlvFee, 25);
   return (st > 0 && st < fMin) ? dFee : 0;
 };
-const ct = () => subTot() + dlvFee();
+const getDiscountAmt = rawAmt => {
+  let d = 0;
+  const c = COUPONS[COUPON_CODE];
+  if (c && rawAmt >= c.min) d += c.disc;
+  if (USE_PTS) d += Math.min(getMyPts(), Math.floor(rawAmt * 0.25));
+  return Math.min(d, Math.max(0, rawAmt - 10));
+};
+const ct = () => {
+  const raw = subTot() + dlvFee();
+  return Math.max(0, raw - getDiscountAmt(raw));
+};
 
 const menu = (t, dt) => {
   const o = (S.mset || {})[dt || iso(D0())];
@@ -679,14 +796,27 @@ function getMyOrders() {
   return (S.orders || []).filter(o => MY.includes(o.id) || ((ROLE === 'owner' || o.id === 'o1') && cleanP === o.phone)).slice().reverse();
 }
 
-function userFormHTML() {
+function userFormHTML(rawAmt = 0) {
+  const pts = getMyPts();
+  const disc = getDiscountAmt(rawAmt);
   return `
+  <div style="background:var(--sf2);padding:10px;border-radius:14px;margin:10px 0;border:1px dashed var(--ln)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <span style="font-size:11px;font-weight:800;color:var(--g2)">🎁 Promo & Loyalty Wallet (${pts} Pts = ₹${pts})</span>
+      <button type="button" class="btn sm ${USE_PTS ? 'g' : 'w'}" data-a="toggle_pts" style="padding:4px 9px;font-size:10px">${USE_PTS ? '✓ Using Points' : 'Use Points'}</button>
+    </div>
+    <div style="display:flex;gap:6px">
+      <input class="inp" id="cpn_inp" placeholder="Promo: WELCOME30 / UDALA50 / TIFFIN100" value="${esc(COUPON_CODE)}" style="margin:0;flex:1;padding:8px 10px;font-size:11.5px">
+      <button type="button" class="btn sm g" data-a="apply_cpn">Apply</button>
+    </div>
+    ${disc > 0 ? `<div style="font-size:11px;color:#16a34a;font-weight:800;margin-top:5px">🎉 Total Savings Applied: −${inr(disc)}</div>` : ''}
+  </div>
   <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
-    <button type="button" class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'GPS Location Saved' : 'Detect My GPS'}</button>
+    <button type="button" class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} <span>${F.lat ? 'GPS Location Saved' : 'Detect My GPS'}</span></button>
     <span style="font-size:11px;color:var(--mu)">${F.lat ? `${Number(F.lat).toFixed(4)}, ${Number(F.lng).toFixed(4)}` : '1-Tap Fast Delivery'}</span>
   </div>
   <div class="area-chips">
-    ${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}
+    ${UDALA_AREAS.map(a => `<button type="button" class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</button>`).join('')}
   </div>
   <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
   <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number (6-9 se shuru)" value="${esc(F.phone)}">
@@ -695,13 +825,15 @@ function userFormHTML() {
 
 /* --- 1. FRONT MAIN FOCUS: MONTHLY (30d), 15-DAY & 7-DAY TIFFIN PLANS --- */
 function vPlan() {
-  const pr = tierPrice(+F.days);
+  const rawPr = tierPrice(+F.days);
+  const pr = Math.max(10, rawPr - getDiscountAmt(rawPr));
   const trialPr = tierPrice(1);
   const mySubs = getMySubs();
   const todayStr = iso(D0());
 
   const calHTML = mySubs.map(activeSub => {
     const startD = new Date((activeSub.start || todayStr) + 'T12:00:00');
+    const remDays = getSubDaysRemaining(activeSub);
     const daysArr = Array.from({ length: +activeSub.days || 30 }, (_, i) => {
       const d = addD(startD, i), k = iso(d);
       const isSk = (activeSub.skip || []).includes(k);
@@ -711,16 +843,15 @@ function vPlan() {
     }).join('');
     return `
     <div class="card">
-      <h3>Mera Tiffin Calendar: ${activeSub.days}d (${activeSub.type === 'nv' ? 'Non-Veg' : 'Veg'}) ${statusPillHTML(activeSub)}</h3>
+      <h3>Mera Tiffin Calendar: ${activeSub.days}d (${remDays > 0 ? remDays + 'd left' : 'Completed'}) ${statusPillHTML(activeSub)}</h3>
       <div class="cal-grid">${daysArr}</div>
     </div>`;
   }).join('');
 
-  const heroDishId = F.type === 'veg' ? 4 : 1;
   const heroImg = F.type === 'veg' ? IMG.paneer : IMG.leg;
 
   return `
-  <div class="hero3d terracotta" data-a="pq" data-id="${heroDishId}">
+  <div class="hero3d terracotta">
     ${steamHTML()}
     <span class="hero-pill">ARTISANAL HOME KITCHEN</span>
     <h2>Monthly · 15 Days · 7 Days Tiffin Plan</h2>
@@ -743,13 +874,13 @@ function vPlan() {
       ].map(([d, label, tag]) => {
         const p = tierPrice(d);
         const perDay = Math.round(p / d);
-        return `<div class="p-tier ${+F.days === d ? 'on' : ''}" data-a="fset" data-k="days" data-v="${d}">
+        return `<button type="button" class="p-tier ${+F.days === d ? 'on' : ''}" data-a="fset" data-k="days" data-v="${d}">
           <span class="p-badge">${tag}</span>
           <span class="p-days">${d} Din</span>
           <span class="p-sub">${label}</span>
           <span class="p-amt">${inr(p)}</span>
           <span class="p-per">₹${perDay} / din</span>
-        </div>`;
+        </button>`;
       }).join('')}
     </div>
 
@@ -786,7 +917,7 @@ function vPlan() {
       </div>
     </div>
 
-    ${userFormHTML()}
+    ${userFormHTML(rawPr)}
 
     <div class="tot">
       <span>Selected: ${F.days} Din (${F.type === 'nv' ? 'Non-Veg' : 'Pure Veg'})</span>
@@ -804,11 +935,11 @@ function vPlan() {
       <b style="color:var(--o)">Subah Nashta:</b> ${esc(menu('bf'))}
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <div style="background:var(--sf2);padding:10px;border-radius:14px;cursor:pointer" data-a="pq" data-id="4">
+      <div style="background:var(--sf2);padding:10px;border-radius:14px">
         <div style="display:flex;align-items:center;gap:5px;color:#16a34a;font-size:11px;font-weight:800">${symHTML(0)} VEG THALI</div>
         <div style="font-weight:700;font-size:12px;margin-top:3px">${esc(menu('veg'))}</div>
       </div>
-      <div style="background:var(--sf2);padding:10px;border-radius:14px;cursor:pointer" data-a="pq" data-id="1">
+      <div style="background:var(--sf2);padding:10px;border-radius:14px">
         <div style="display:flex;align-items:center;gap:5px;color:#dc2626;font-size:11px;font-weight:800">${symHTML(1)} NON-VEG THALI</div>
         <div style="font-weight:700;font-size:12px;margin-top:3px">${esc(menu('nv'))}</div>
       </div>
@@ -816,13 +947,20 @@ function vPlan() {
   </div>`;
 }
 
-/* --- 2. SHOP VIEW --- */
+/* --- 2. SHOP VIEW (WITH VOICE SEARCH & SMART QUICK FILTERS) --- */
 function vShop() {
   const q = SQ.trim().toLowerCase();
-  const list = S.prod.filter(p => (SCAT === 'all' || p.c === SCAT) && (!q || p.n.toLowerCase().includes(q)));
+  const list = S.prod.filter(p => {
+    if (SCAT !== 'all' && p.c !== SCAT) return false;
+    if (S_FILT === 'veg' && p.nv) return false;
+    if (S_FILT === 'hot' && !p.hot) return false;
+    if (S_FILT === 'u100' && p.p > 100) return false;
+    if (q && !p.n.toLowerCase().includes(q) && !p.c.toLowerCase().includes(q)) return false;
+    return true;
+  });
 
   return `
-  <div class="hero3d" data-a="pq" data-id="1">
+  <div class="hero3d">
     ${steamHTML()}
     <span class="hero-pill">FRESH KITCHEN & PANTRY</span>
     <h2>Garma-Garam Khana & Daily Kirana</h2>
@@ -830,7 +968,17 @@ function vShop() {
     <img class="hero-plate" src="${esc(IMG.chick)}" alt="Chicken">
   </div>
 
-  <input class="inp" id="sq" placeholder="Search Doodh, Atta, Chicken, Paneer, Surf..." value="${esc(SQ)}" style="margin-bottom:10px">
+  <div style="display:flex;gap:6px;margin-bottom:8px">
+    <input class="inp" id="sq" placeholder="Search Doodh, Atta, Chicken, Paneer..." value="${esc(SQ)}" style="margin:0;flex:1">
+    <button type="button" class="btn w sm" data-a="voice_search" title="Voice Search" style="padding:0 14px;font-size:16px">🎤</button>
+  </div>
+
+  <div class="area-chips" style="margin-bottom:6px">
+    <button type="button" class="${S_FILT === 'all' ? 'on' : ''}" data-a="sfilt" data-v="all">✨ All Items</button>
+    <button type="button" class="${S_FILT === 'hot' ? 'on' : ''}" data-a="sfilt" data-v="hot">🔥 Garma-Garam</button>
+    <button type="button" class="${S_FILT === 'veg' ? 'on' : ''}" data-a="sfilt" data-v="veg">🟢 Pure Veg Only</button>
+    <button type="button" class="${S_FILT === 'u100' ? 'on' : ''}" data-a="sfilt" data-v="u100">⚡ Under ₹100</button>
+  </div>
 
   <div class="chips">
     ${CATS.map(c => `<button type="button" class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${esc(c[2])}" alt=""><span>${c[1]}</span></button>`).join('')}
@@ -894,6 +1042,7 @@ function vProfile() {
   const totDue = (+prof.dues || 0) + myOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? o.total : 0), 0) + mySubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? s.price : 0), 0);
   const initials = (F.name || 'N U').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
   const todayStr = iso(D0());
+  const pts = getMyPts();
 
   return `
   <div class="prof-head">
@@ -901,14 +1050,14 @@ function vProfile() {
     <div style="flex:1;min-width:0">
       <h2 style="font-family:var(--serif);font-size:20px;font-weight:800">${esc(F.name || 'Guest Customer')}</h2>
       <div style="font-size:12px;opacity:.9">+91 ${esc(cleanP || 'Add Mobile Number')} · ${esc(F.area)}</div>
-      <span class="prof-badge">★ Verified Namaste Udala Member</span>
+      <span class="prof-badge">★ ${pts} Namaste Cashback Points (₹${pts})</span>
     </div>
   </div>
 
   <div class="kpi">
     <div><b>${inr(totSpent)}</b><span>Verified Paid</span></div>
     <div><b style="color:${totDue > 0 ? '#dc2626' : '#16a34a'}">${inr(totDue)}</b><span>Pending / Hold</span></div>
-    <div><b>${mySubs.length + myOrds.length}</b><span>My Orders</span></div>
+    <div><b>₹${pts}</b><span>Wallet Points</span></div>
   </div>
 
   <div class="card">
@@ -927,14 +1076,14 @@ function vProfile() {
 
     <span class="lbl">Select Udala Locality / Ward</span>
     <div class="area-chips">
-      ${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}
+      ${UDALA_AREAS.map(a => `<button type="button" class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</button>`).join('')}
     </div>
 
     <span class="lbl">Complete House Address & Landmark</span>
     <input class="inp" data-f="addr" placeholder="House No, Street, Landmark" value="${esc(F.addr)}">
 
     <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
-      <button type="button" class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'Update Doorstep GPS' : 'Lock Doorstep GPS'}</button>
+      <button type="button" class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} <span>${F.lat ? 'Update Doorstep GPS' : 'Lock Doorstep GPS'}</span></button>
       <span style="font-size:11.5px;color:var(--mu)">GPS: ${F.lat ? `${Number(F.lat).toFixed(4)}, ${Number(F.lng).toFixed(4)}` : 'Not locked'}</span>
     </div>
 
@@ -961,7 +1110,7 @@ function vProfile() {
         </div>
         <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">Start: ${s.start} · L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'} · Skips: ${usedSkips}/${maxSkips} · UTR: ${esc(s.utr)}</div>
         <div class="btn-row">
-          ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
+          ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} <span>Proof</span></button>` : ''}
           <button type="button" class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨 Bill</button>
           <a class="btn sm w" href="https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(`Namaste Udala! Mera ${s.days}d Tiffin Plan (#${s.id.slice(-4)}) UTR: ${s.utr} verify kar dein.`)}" target="_blank">📲 WhatsApp</a>
           ${(s.paid || s.vStat === 'cod') && (activeToday || paused) ? `<button type="button" class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${Math.max(0, maxSkips - usedSkips)} left)`}</button>` : ''}
@@ -990,20 +1139,21 @@ function vProfile() {
   </div>`;
 }
 
-/* --- 5. KITCHEN VIEW --- */
+/* --- 5. KITCHEN VIEW (WITH RAW MATERIAL FORECASTING ALGORITHM) --- */
 function vKitchen() {
   const k = iso(D0());
   const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
   const veg = activeSubs.filter(s => s.type === 'veg').length, nv = activeSubs.length - veg;
   const roti = activeSubs.reduce((a, s) => a + calcRotiForSub(s, K_SLOT), 0);
+  const prep = calcKitchenProcurement(activeSubs, K_SLOT);
   const pendOrds = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod'));
   const holdCount = (S.orders || []).filter(o => !o.paid && o.vStat === 'verify').length + (S.subs || []).filter(s => !s.paid && s.vStat === 'verify').length;
 
   return `
   <div class="hero3d">
     ${steamHTML()}
-    <h2>Kitchen Production Counter</h2>
-    <p>Aaj (${k}) ke Verified Active Tiffins & Shop Orders</p>
+    <h2>Kitchen Production & Prep AI</h2>
+    <p>Aaj (${k}) ke Verified Active Tiffins & Raw Material Forecast</p>
     <img class="hero-plate" src="${esc(IMG.thali)}" alt="Kitchen">
   </div>
 
@@ -1023,6 +1173,16 @@ function vKitchen() {
     <div><b>${activeSubs.length}</b><span>${K_SLOT.toUpperCase()} Dabbe</span></div>
     <div><b>${veg} / ${nv}</b><span>Veg / NV</span></div>
     <div><b>${roti}</b><span>Slot Kul Roti</span></div>
+  </div>
+
+  <div class="card">
+    <h3>🧠 Smart Raw Material Calculator (${K_SLOT.toUpperCase()} Slot)</h3>
+    <div class="prep-grid">
+      <div class="prep-box"><b>${prep.rice}</b><span>Raw Chawal</span></div>
+      <div class="prep-box"><b>${prep.atta}</b><span>Atta Dough</span></div>
+      <div class="prep-box"><b>${prep.chicken}</b><span>Chicken/NV</span></div>
+      <div class="prep-box"><b>${prep.paneer}</b><span>Paneer/Veg</span></div>
+    </div>
   </div>
 
   <div class="card">
@@ -1053,33 +1213,41 @@ function vKitchen() {
   </div>`;
 }
 
-/* --- 6. DELIVERY ROUTE VIEW --- */
+/* --- 6. DELIVERY ROUTE VIEW (WITH HAVERSINE SHORTEST-PATH OPTIMIZER) --- */
 function vRoute() {
   const k = iso(D0());
-  const subs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
-  const ords = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod'));
+  let subs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && (s.paid || s.vStat === 'cod'));
+  let ords = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod'));
+
+  if (ROUTE_SMART) {
+    subs = sortRouteNearestFirst(subs);
+    ords = sortRouteNearestFirst(ords);
+  }
 
   return `
   <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
-    <div><small style="color:#fbbf24;font-weight:800">DELIVERY ROUTE</small><h2 style="font-family:var(--serif);font-size:18px">Verified Tiffin & Shop Drops</h2></div>
+    <div><small style="color:#fbbf24;font-weight:800">SMART DELIVERY ROUTE</small><h2 style="font-family:var(--serif);font-size:18px">GPS Shortest-Path Drops</h2></div>
     <button type="button" class="btn w sm" data-a="logout_staff">Exit</button>
   </div>
 
-  <div class="seg" style="margin-bottom:12px">
-    <button type="button" class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">🌅 Nashta Drop</button>
-    <button type="button" class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">☀️ Lunch Drop</button>
-    <button type="button" class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">🌙 Dinner Drop</button>
+  <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+    <div class="seg" style="flex:1;margin:0">
+      <button type="button" class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">🌅 Nashta</button>
+      <button type="button" class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">☀️ Lunch</button>
+      <button type="button" class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">🌙 Dinner</button>
+    </div>
+    <button type="button" class="btn sm ${ROUTE_SMART ? 'g' : 'w'}" data-a="toggle_route_ai">⚡ ${ROUTE_SMART ? 'AI Sorted' : 'Sort Route'}</button>
   </div>
 
   <div class="card">
     <h3>${K_SLOT.toUpperCase()} Tiffin Deliveries (${subs.length})</h3>
-    ${subs.map(s => {
+    ${subs.map((s, idx) => {
       const done = isSubSlotDone(s.id, k, K_SLOT);
       const mapUrl = s.lat ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.lat + ',' + s.lng)}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' ' + (s.area || 'Udala'))}`;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
-          <b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
-          <span style="font-size:11.5px;font-weight:800;color:var(--o)">${esc(s.area)}</span>
+          <b>#${idx + 1} · ${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'})</b>
+          <span style="font-size:11px;font-weight:800;color:var(--o)">${esc(s.area)} ${s._distKm ? `· ${s._distKm} km (~${s._etaMin}m)` : ''}</span>
         </div>
         <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.addr)}</div>
         <div class="btn-row">
@@ -1093,14 +1261,14 @@ function vRoute() {
 
   <div class="card">
     <h3>Shop Order Drops (${ords.length})</h3>
-    ${ords.map(o => {
+    ${ords.map((o, idx) => {
       const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(o.lat + ',' + o.lng)}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' ' + (o.area || 'Udala'))}`;
       return `<div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between">
-          <b>${esc(o.name)} — ${inr(o.total)} ${o.packed ? '<span class="st-pill st-ok">📦 Packed</span>' : '<span class="st-pill st-wait">⏳ In Kitchen</span>'}</b>
-          <span style="font-size:11.5px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'VERIFIED PAID' : 'COLLECT CASH/QR: ' + inr(o.total)}</span>
+          <b>#${idx + 1} · ${esc(o.name)} — ${inr(o.total)} ${o.packed ? '<span class="st-pill st-ok">📦 Packed</span>' : '<span class="st-pill st-wait">⏳ In Kitchen</span>'}</b>
+          <span style="font-size:11px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'VERIFIED PAID' : 'COLLECT: ' + inr(o.total)}</span>
         </div>
-        <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(o.addr)} · ${(o.items || []).map(i => i.n + '×' + i.q).join(', ')}</div>
+        <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(o.addr)} ${o._distKm ? `(${o._distKm} km)` : ''} · ${(o.items || []).map(i => i.n + '×' + i.q).join(', ')}</div>
         <div class="btn-row">
           <a class="btn w sm" href="${esc(mapUrl)}" target="_blank">GPS Map</a>
           <a class="btn w sm" href="tel:+91${esc(o.phone)}">Call</a>
@@ -1111,7 +1279,7 @@ function vRoute() {
   </div>`;
 }
 
-/* --- 7. OWNER MASTER CONTROL --- */
+/* --- 7. OWNER MASTER CONTROL (WITH ANALYTICS RADAR & FRAUD ENGINE) --- */
 function vOwner() {
   const subs = (S.subs || []).slice().reverse();
   const ords = (S.orders || []).slice().reverse();
@@ -1122,21 +1290,22 @@ function vOwner() {
   const allCust = { ...(S.profiles || {}) };
   subs.forEach(s => {
     const p = ph(s.phone); if (!p) return;
-    allCust[p] = { phone: p, name: s.name, area: s.area, addr: s.addr, lat: s.lat, lng: s.lng, diet: s.type, spice: 'Medium', family: 1, dues: 0, ...(allCust[p] || {}) };
+    allCust[p] = { phone: p, name: s.name, area: s.area, addr: s.addr, lat: s.lat, lng: s.lng, diet: s.type, spice: 'Medium', family: 1, dues: 0, pts: 25, ...(allCust[p] || {}) };
   });
   ords.forEach(o => {
     const p = ph(o.phone); if (!p) return;
-    allCust[p] = { phone: p, name: o.name, area: o.area, addr: o.addr, lat: o.lat, lng: o.lng, diet: 'veg', spice: 'Medium', family: 1, dues: 0, ...(allCust[p] || {}) };
+    allCust[p] = { phone: p, name: o.name, area: o.area, addr: o.addr, lat: o.lat, lng: o.lng, diet: 'veg', spice: 'Medium', family: 1, dues: 0, pts: 25, ...(allCust[p] || {}) };
   });
   const q = O_Q.trim().toLowerCase();
   const custList = Object.values(allCust).filter(c => !q || (c.name || '').toLowerCase().includes(q) || (c.phone || '').includes(q) || (c.area || '').toLowerCase().includes(q));
 
   const ownerTabs = [
     ['ords', `Orders & Verify ${pendVerifyCount ? '(' + pendVerifyCount + ')' : ''}`],
+    ['radar', '📊 Metrics Radar'],
     ['cust', `Customers (${Object.keys(allCust).length})`],
     ['plans', 'Rates, Menu & Kharcha'],
     ['prod', 'Shop Products'],
-    ['svc', 'Services & UPI']
+    ['svc', 'Services & Backup']
   ];
 
   let body = '';
@@ -1179,27 +1348,30 @@ function vOwner() {
     </div>` : ''}
 
     <div class="card">
-      <h3>Shop Orders & Anti-Fraud Verification (${filtOrds.length})</h3>
-      ${filtOrds.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
-          ${statusPillHTML(o)}
-        </div>
-        <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">
-          ${esc(o.area)} · ${esc(o.addr)}<br>
-          Mode: <b>${esc(o.pMode || 'UPI')}</b> · UTR: <b>${esc(o.utr)}</b> ${o.proofMeta ? `· ${esc(o.proofMeta)}` : ''}<br>
-          Items: <b style="color:var(--ink)">${(o.items || []).map(i => i.n + '×' + i.q).join(', ')}</b>
-        </div>
-        <div class="btn-row">
-          ${o.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} Proof</button>` : ''}
-          <button type="button" class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Unmark Paid' : '✓ Approve'}</button>
-          ${o.vStat !== 'bad' ? `<button type="button" class="btn sm r" data-a="o_reject" data-id="${o.id}">✕ Fake</button>` : ''}
-          <button type="button" class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
-          <button type="button" class="btn sm w" data-a="edit_ord" data-id="${o.id}">Edit</button>
-          <button type="button" class="btn sm w" data-a="prt" data-id="${o.id}">🖨</button>
-          <button type="button" class="btn sm w" data-a="o_del" data-id="${o.id}">🗑</button>
-        </div>
-      </div>`).join('') || '<p style="color:var(--mu)">No matching shop orders.</p>'}
+      <h3>Shop Orders & Fraud Risk Engine (${filtOrds.length})</h3>
+      ${filtOrds.map(o => {
+        const risk = evaluateFraudRisk(o);
+        return `<div class="row" style="flex-direction:column;align-items:stretch">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px">
+            <b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>
+            <div style="display:flex;gap:4px">${!o.paid && o.vStat === 'verify' ? `<span class="st-pill ${risk.cls}">${risk.label}</span>` : ''}${statusPillHTML(o)}</div>
+          </div>
+          <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">
+            ${esc(o.area)} · ${esc(o.addr)}<br>
+            Mode: <b>${esc(o.pMode || 'UPI')}</b> · UTR: <b>${esc(o.utr)}</b> ${o.proofMeta ? `· ${esc(o.proofMeta)}` : ''}<br>
+            Items: <b style="color:var(--ink)">${(o.items || []).map(i => i.n + '×' + i.q).join(', ')}</b>
+          </div>
+          <div class="btn-row">
+            ${o.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} <span>Proof</span></button>` : ''}
+            <button type="button" class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Unmark Paid' : '✓ Approve'}</button>
+            ${o.vStat !== 'bad' ? `<button type="button" class="btn sm r" data-a="o_reject" data-id="${o.id}">✕ Fake</button>` : ''}
+            <button type="button" class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Delivered ✓' : 'Mark Delivered'}</button>
+            <button type="button" class="btn sm w" data-a="edit_ord" data-id="${o.id}">Edit</button>
+            <button type="button" class="btn sm w" data-a="prt" data-id="${o.id}">🖨</button>
+            <button type="button" class="btn sm r" data-a="o_del" data-id="${o.id}">🗑</button>
+          </div>
+        </div>`;
+      }).join('') || '<p style="color:var(--mu)">No matching shop orders.</p>'}
     </div>
 
     ${esObj ? `
@@ -1222,22 +1394,78 @@ function vOwner() {
 
     <div class="card">
       <h3>Tiffin Subscriptions Verification (${filtSubs.length})</h3>
-      ${filtSubs.map(s => `<div class="row" style="flex-direction:column;align-items:stretch">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <b>${esc(s.name)} (${esc(s.phone)}) — ${inr(s.price)}</b>
-          ${statusPillHTML(s)}
+      ${filtSubs.map(s => {
+        const risk = evaluateFraudRisk(s);
+        return `<div class="row" style="flex-direction:column;align-items:stretch">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px">
+            <b>${esc(s.name)} (${esc(s.phone)}) — ${inr(s.price)}</b>
+            <div style="display:flex;gap:4px">${!s.paid && s.vStat === 'verify' ? `<span class="st-pill ${risk.cls}">${risk.label}</span>` : ''}${statusPillHTML(s)}</div>
+          </div>
+          <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">${s.days}d (${s.type === 'nv' ? 'NV' : 'Veg'}) · Start: ${s.start} · ${esc(s.area)} · UTR: <b>${esc(s.utr)}</b></div>
+          <div class="btn-row">
+            ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} <span>Proof</span></button>` : ''}
+            <button type="button" class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Unmark' : '✓ Approve'}</button>
+            ${s.vStat !== 'bad' ? `<button type="button" class="btn sm r" data-a="s_reject" data-id="${s.id}">✕ Fake</button>` : ''}
+            <button type="button" class="btn sm w" data-a="edit_sub" data-id="${s.id}">Edit</button>
+            <button type="button" class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1d</button>
+            <button type="button" class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨</button>
+            <button type="button" class="btn sm r" data-a="s_del" data-id="${s.id}">🗑</button>
+          </div>
+        </div>`;
+      }).join('') || '<p style="color:var(--mu)">No matching tiffin plans.</p>'}
+    </div>`;
+  } else if (O_TAB === 'radar') {
+    // CartRadar / Instamart Metrics Engine
+    const itemMap = {}, areaMap = {};
+    ords.filter(o => o.vStat !== 'bad').forEach(o => {
+      areaMap[o.area || 'Udala'] = (areaMap[o.area || 'Udala'] || 0) + o.total;
+      (o.items || []).forEach(i => { itemMap[i.n] = (itemMap[i.n] || 0) + (+i.q || 1); });
+    });
+    subs.filter(s => s.vStat !== 'bad').forEach(s => {
+      areaMap[s.area || 'Udala'] = (areaMap[s.area || 'Udala'] || 0) + s.price;
+    });
+    const topItems = Object.entries(itemMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const maxItemQty = topItems.length ? topItems[0][1] : 1;
+    const topAreas = Object.entries(areaMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const maxAreaRev = topAreas.length ? topAreas[0][1] : 1;
+    const expiringSubs = subs.filter(s => { const rem = getSubDaysRemaining(s); return rem >= 0 && rem <= 5 && s.vStat !== 'bad'; });
+
+    body = `
+    <div class="card">
+      <h3>📲 1-Tap CEO Daily WhatsApp Summary</h3>
+      <p style="font-size:12px;color:var(--mu);margin-bottom:8px">Aaj ka total revenue, active tiffins, expenses aur net profit report apne WhatsApp par bhejein:</p>
+      <button type="button" class="btn g" data-a="wa_ceo_report">Send Today's CEO Report on WhatsApp →</button>
+    </div>
+
+    <div class="card">
+      <h3>🔥 Top Selling Shop Items (Velocity Radar)</h3>
+      ${topItems.map(([name, qty]) => `
+        <div class="bar-wrap">
+          <div class="bar-lbl"><span>${esc(name)}</span><b>${qty} Sold</b></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:${Math.round((qty / maxItemQty) * 100)}%"></div></div>
         </div>
-        <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">${s.days}d (${s.type === 'nv' ? 'NV' : 'Veg'}) · Start: ${s.start} · ${esc(s.area)} · UTR: <b>${esc(s.utr)}</b></div>
-        <div class="btn-row">
-          ${s.proof ? `<button type="button" class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
-          <button type="button" class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Unmark' : '✓ Approve'}</button>
-          ${s.vStat !== 'bad' ? `<button type="button" class="btn sm r" data-a="s_reject" data-id="${s.id}">✕ Fake</button>` : ''}
-          <button type="button" class="btn sm w" data-a="edit_sub" data-id="${s.id}">Edit</button>
-          <button type="button" class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1d</button>
-          <button type="button" class="btn sm w" data-a="prt_sub" data-id="${s.id}">🖨</button>
-          <button type="button" class="btn sm w" data-a="s_del" data-id="${s.id}">🗑</button>
+      `).join('') || '<p style="color:var(--mu)">No item sales recorded yet.</p>'}
+    </div>
+
+    <div class="card">
+      <h3>📍 Udala Area Revenue Demand Radar</h3>
+      ${topAreas.map(([area, rev]) => `
+        <div class="bar-wrap">
+          <div class="bar-lbl"><span>${esc(area)}</span><b>${inr(rev)}</b></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:${Math.round((rev / maxAreaRev) * 100)}%"></div></div>
         </div>
-      </div>`).join('') || '<p style="color:var(--mu)">No matching tiffin plans.</p>'}
+      `).join('') || '<p style="color:var(--mu)">No area data yet.</p>'}
+    </div>
+
+    <div class="card">
+      <h3>⏳ Expiring Tiffin Plans (Renewal Alert ≤ 5 Days)</h3>
+      ${expiringSubs.map(s => {
+        const rem = getSubDaysRemaining(s);
+        return `<div class="row">
+          <div><b>${esc(s.name)} (${esc(s.phone)})</b><div style="font-size:11.5px;color:#dc2626;font-weight:800">Only ${rem} day(s) left in ${s.days}d plan</div></div>
+          <a class="btn sm g" href="https://wa.me/91${esc(s.phone)}?text=${encodeURIComponent(`Namaste ${s.name} ji! Aapka Namaste Udala Tiffin Plan ${rem} din mein khatam hone wala hai. Bina ruke garma-garam tiffin paane ke liye aaj hi renew karein!`)}" target="_blank">📲 Remind</a>
+        </div>`;
+      }).join('') || '<p style="color:var(--mu);font-size:12.5px">Sabhi active plans mein 5+ din baaki hain.</p>'}
     </div>`;
   } else if (O_TAB === 'cust') {
     const ecObj = ED_CUST ? (S.profiles[ED_CUST] || { phone: ED_CUST }) : {};
@@ -1290,7 +1518,7 @@ function vOwner() {
 
           <div style="background:var(--sf2);padding:8px 10px;border-radius:12px;margin:6px 0;font-size:11.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">
             <span>Verified Paid: <b style="color:var(--g2)">${inr(totalPaid)}</b></span>
-            <span>Plans: <b>${cSubs.length}</b> · Orders: <b>${cOrds.length}</b></span>
+            <span>Plans: <b>${cSubs.length}</b> · Orders: <b>${cOrds.length}</b> · Pts: <b>${c.pts || 0}</b></span>
             <span>Taste: <b>${c.diet === 'nv' ? 'Non-Veg' : 'Veg'} (${esc(c.spice || 'Medium')})</b></span>
             ${c.notes ? `<span style="width:100%;color:var(--o)">Note: "${esc(c.notes)}"</span>` : ''}
           </div>
@@ -1446,20 +1674,24 @@ function vOwner() {
     </div>
 
     <div class="card">
-      <h3>App Payment, WhatsApp & Demo Reset</h3>
+      <h3>App Payment, Cloud Backup & Restore</h3>
       <span class="lbl">Owner UPI ID (For QR & Payments)</span>
       <input class="inp" id="cfg_upi" value="${esc(S.cfg.upi)}">
       <span class="lbl">WhatsApp Number (10 Digits)</span>
       <input class="inp" id="cfg_wa" value="${esc(S.cfg.wa)}">
       <button type="button" class="btn g" data-a="save_app_cfg">Save UPI & WhatsApp</button>
-      <button type="button" class="btn w sm" style="margin-top:10px" data-a="reset_seed">Restore Original Demo Data</button>
+      <div class="btn-row" style="margin-top:10px">
+        <button type="button" class="btn w sm" data-a="export_json">⬇ Backup JSON</button>
+        <button type="button" class="btn w sm" data-a="import_json">⬆ Restore JSON</button>
+        <button type="button" class="btn w sm" data-a="reset_seed">↻ Reset Demo</button>
+      </div>
     </div>`;
   }
 
   return `
   <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
     <div><small style="color:#fbbf24;font-weight:800">OWNER MASTER CONTROL</small><h2 style="font-family:var(--serif);font-size:18px">Anti-Fraud & Full CRM</h2></div>
-    <button type="button" class="btn w sm" data-a="logout_staff">Exit</button>
+    <button type="button" class="btn w sm" data-a="logout_staff">Exit Owner Mode</button>
   </div>
 
   <div class="kpi">
@@ -1469,7 +1701,7 @@ function vOwner() {
   </div>
 
   <div class="area-chips" style="margin-bottom:12px">
-    ${ownerTabs.map(t => `<span class="${O_TAB === t[0] ? 'on' : ''}" data-a="otab" data-v="${t[0]}">${t[1]}</span>`).join('')}
+    ${ownerTabs.map(t => `<button type="button" class="${O_TAB === t[0] ? 'on' : ''}" data-a="otab" data-v="${t[0]}">${t[1]}</button>`).join('')}
   </div>
 
   ${body}`;
@@ -1477,6 +1709,19 @@ function vOwner() {
 
 /* --- MODALS --- */
 function sheet() {
+  if (PIN_OPEN) {
+    return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <b style="font-family:var(--serif);font-size:17px">🔑 Staff / Owner Security Login</b>
+        <button type="button" class="btn w sm" data-a="close_pin">Close</button>
+      </div>
+      <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Apna 4-Digit Security PIN daalein (Owner ya Kitchen/Rider):</p>
+      <input class="inp" id="pin_inp" type="password" inputmode="numeric" maxlength="4" placeholder="••••" style="text-align:center;font-size:22px;letter-spacing:8px;max-width:200px;margin:0 auto 12px;display:block">
+      <button type="button" class="btn g" data-a="submit_pin">Unlock Panel ✓</button>
+      ${ROLE ? `<button type="button" class="btn r sm" style="margin-top:10px" data-a="logout_staff">Logout Current Role (${ROLE.toUpperCase()})</button>` : ''}
+    </div></div>`;
+  }
+
   if (VIEW_PROOF) {
     return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -1498,7 +1743,7 @@ function sheet() {
       <span class="lbl">Preferred Start / Event Date</span>
       <input class="inp" id="sv_date" type="date" min="${iso(D0())}" value="${iso(addD(D0(), 1))}">
       <input class="inp" id="sv_note" placeholder="Timing / Batch / Event Details">
-      ${userFormHTML()}
+      ${userFormHTML(0)}
       <button type="button" class="btn g" data-a="confirm_svb">Confirm Service Booking ✓</button>
     </div></div>`;
   }
@@ -1560,13 +1805,13 @@ function sheet() {
   }
 
   if (CART_OPEN) {
-    const n = cc(), st = subTot(), df = dlvFee(), tot = ct();
+    const n = cc(), st = subTot(), df = dlvFee(), rawTot = st + df, tot = ct();
     return `<div class="ov" data-a="close_bg"><div class="sh">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <h3 style="font-family:var(--serif)">Aapka Cart (${n} Items)</h3>
         <button type="button" class="btn w sm" data-a="close">Close</button>
       </div>
-      <div style="max-height:200px;overflow-y:auto">
+      <div style="max-height:185px;overflow-y:auto">
         ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
           const p = S.prod.find(x => x.id === parsePid(k));
           const isH = String(k).endsWith('h');
@@ -1582,8 +1827,8 @@ function sheet() {
         <span>Items: ${inr(st)}</span>
         <span>Delivery: <b>${df ? inr(df) + ' (Free above ' + inr(numOr(S.cfg.freeMin, 300)) + ')' : 'FREE'}</b></span>
       </div>
-      <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
-      ${userFormHTML()}
+      ${userFormHTML(rawTot)}
+      <div class="tot"><span>Final Payable Bill</span><b>${inr(tot)}</b></div>
       <button type="button" class="btn" data-a="pay_ord" ${tot <= 0 ? 'disabled' : ''}>Proceed to Payment · ${inr(tot)}</button>
     </div></div>`;
   }
@@ -1624,11 +1869,11 @@ function render() {
   document.body.classList.toggle('modal-open', !!shHTML);
 
   const n = cc(), tot = ct();
-  $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX) ? `
-    <div class="cbar-fixed" data-a="open_cart">
+  $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX && !PIN_OPEN) ? `
+    <button type="button" class="cbar-fixed" data-a="open_cart">
       <span>${n} Item · ${inr(tot)}</span>
       <span>View Cart & Order →</span>
-    </div>` : '';
+    </button>` : '';
 
   const TABS = [
     ['plan', IC.tiffin, 'Plans'],
@@ -1658,6 +1903,14 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
   const finalPrice = PAY_MODE === 'cod' ? PAY_BOX.amt : PAY_BOX.exactAmt;
   syncCustomerProfile();
 
+  const cleanP = ph(F.phone);
+  if (S.profiles[cleanP]) {
+    if (USE_PTS) S.profiles[cleanP].pts = Math.max(0, (S.profiles[cleanP].pts || 0) - Math.floor(PAY_BOX.amt * 0.25));
+    // Earn 2% Loyalty Cashback Points on every order
+    S.profiles[cleanP].pts = (S.profiles[cleanP].pts || 0) + Math.max(2, Math.round(finalPrice * 0.02));
+  }
+  USE_PTS = false; COUPON_CODE = '';
+
   if (refNo && /^\d{12}$/.test(refNo)) S.usedUtr.push(refNo);
   if (PROOF_IMG) S.usedImgHash.push(strHash(PROOF_IMG));
 
@@ -1667,7 +1920,7 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
   if (PAY_BOX.kind === 'sub') {
     const id = uid('s');
     S.subs.push({
-      id, ts: Date.now(), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+      id, ts: Date.now(), name: F.name.trim(), phone: cleanP, area: F.area, addr: F.addr.trim(),
       lat: F.lat, lng: F.lng, type: F.type, days: PAY_BOX.days, origDays: PAY_BOX.days, times: F.times,
       lunch: F.lunch, dinner: F.dinner, extraRoti: F.extraRoti,
       start: safeStart, price: finalPrice, paid: isPaid, vStat, pMode: modeLabel, utr: refNo,
@@ -1675,7 +1928,7 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
     });
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
     setPayBox(null); PROOF_IMG = null; PROOF_META = null; playChime(); save();
-    toast(isPaid ? '🎉 Payment Auto-Verified! Tiffin Activated.' : '⏳ Plan Submitted! Owner verification ke baad active hoga.');
+    toast(isPaid ? '🎉 Payment Auto-Verified! Tiffin Activated + Cashback Added.' : '⏳ Plan Submitted! Verification + Cashback Points Added.');
   } else {
     const items = [];
     Object.entries(C).forEach(([k, q]) => {
@@ -1688,40 +1941,97 @@ function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
     if (!items.length) { toast('Cart is empty!'); setPayBox(null); render(); return; }
     const id = uid('o');
     S.orders.push({
-      id, ts: Date.now(), date: todayStr, name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+      id, ts: Date.now(), date: todayStr, name: F.name.trim(), phone: cleanP, area: F.area, addr: F.addr.trim(),
       lat: F.lat, lng: F.lng, items, total: finalPrice, paid: isPaid, vStat, packed: 0, dlv: 0,
       pMode: modeLabel, utr: refNo, proof: PROOF_IMG || '', proofMeta: PROOF_META || ''
     });
     MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
     C = {}; saveCart();
     setPayBox(null); PROOF_IMG = null; PROOF_META = null; playChime(); save();
-    toast(isPaid ? '🎉 Payment Verified! Order Sent to Kitchen.' : '⏳ Order Received! Verification hold par hai.');
+    toast(isPaid ? '🎉 Payment Verified! Order Sent to Kitchen.' : '⏳ Order Received! Verification hold + Cashback Points Added.');
   }
 }
 
 const A = {
   tab: v => {
     tab = v;
-    PQ = null; CART_OPEN = false; SV_BOOK = null; VIEW_PROOF = null; setPayBox(null);
+    PQ = null; CART_OPEN = false; SV_BOOK = null; VIEW_PROOF = null; PIN_OPEN = false; setPayBox(null);
     render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
+  open_pin: () => {
+    PIN_OPEN = true; PQ = null; CART_OPEN = false; SV_BOOK = null;
+    render();
+    setTimeout(() => { const el = $('#pin_inp'); if (el) el.focus(); }, 60);
+  },
+  close_pin: () => { PIN_OPEN = false; render(); },
+  submit_pin: () => {
+    const pin = ($('#pin_inp') ? $('#pin_inp').value.trim() : '');
+    if (pin === OPIN) {
+      ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner');
+      PIN_OPEN = false; tab = 'owner'; render(); toast('🔓 Owner Master Control Unlocked!');
+    } else if (pin === DPIN) {
+      ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff');
+      PIN_OPEN = false; tab = 'kitchen'; render(); toast('🔓 Kitchen & Delivery Mode Unlocked!');
+    } else {
+      toast('⚠️ Galat Security PIN!');
+    }
+  },
   otab: v => { O_TAB = v; ED_P = null; ED_SV = null; ED_CUST = null; ED_SUB = null; ED_ORD = null; render(); },
   ofilter: v => { O_FILTER = v; render(); },
+  sfilt: v => { S_FILT = v; render(); },
   kslot: v => { K_SLOT = v; render(); },
+  toggle_route_ai: () => { ROUTE_SMART = !ROUTE_SMART; render(); toast(ROUTE_SMART ? '⚡ GPS Shortest-Path Sorting Activated!' : 'Default Order Restored'); },
+  toggle_pts: () => { USE_PTS = !USE_PTS; render(); toast(USE_PTS ? '🎁 Cashback Points Applied!' : 'Points Removed'); },
+  apply_cpn: () => {
+    const raw = ($('#cpn_inp') ? $('#cpn_inp').value.trim().toUpperCase() : '');
+    if (COUPONS[raw]) { COUPON_CODE = raw; render(); toast(`🎉 Promo ${raw} Applied (${COUPONS[raw].desc})!`); }
+    else { COUPON_CODE = ''; render(); toast('⚠️ Invalid Coupon! Use WELCOME30, UDALA50 or TIFFIN100'); }
+  },
+  voice_search: () => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { toast('Voice search is browser mein supported nahi hai.'); return; }
+    const rec = new SR();
+    rec.lang = 'en-IN';
+    toast('🎤 Boliye (e.g. Chicken, Paneer, Milk, Atta)...');
+    rec.onresult = e => {
+      const txt = e.results[0][0].transcript.replace(/[.,]/g, '');
+      SQ = txt; render(); toast(`🔍 Searching: "${txt}"`);
+    };
+    rec.start();
+  },
+  wa_ceo_report: () => {
+    const todayStr = iso(D0());
+    const activeTiffins = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (s.paid || s.vStat === 'cod')).length;
+    const totIn = (S.orders || []).reduce((a, o) => a + (o.paid ? o.total : 0), 0) + (S.subs || []).reduce((a, s) => a + (s.paid ? s.price : 0), 0);
+    const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
+    const hold = (S.orders || []).filter(o => !o.paid && o.vStat === 'verify').length + (S.subs || []).filter(s => !s.paid && s.vStat === 'verify').length;
+    const msg = `*📊 NAMASTE UDALA — CEO DAILY REPORT (${todayStr})*\n\n✅ Verified Collection: ${inr(totIn)}\n📉 Total Expenses: ${inr(totOut)}\n💰 Net Profit: ${inr(totIn - totOut)}\n🍱 Today's Active Tiffins: ${activeTiffins}\n⏳ Verification Hold: ${hold}`;
+    window.open(`https://wa.me/91${esc(S.cfg.wa || '9583937047')}?text=${encodeURIComponent(msg)}`, '_blank');
+  },
+  export_json: () => {
+    const blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `namaste-udala-backup-${iso(D0())}.json`;
+    a.click();
+    toast('💾 Database Backup Downloaded ✓');
+  },
+  import_json: () => { const inp = $('#restore_file'); if (inp) { inp.value = ''; inp.click(); } },
+
   pmode: v => { if ($('#utr_inp')) DRAFT_UTR = $('#utr_inp').value; PAY_MODE = v; render(); },
   fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
   er_inc: () => { F.extraRoti = Math.min(10, (+F.extraRoti || 0) + 1); render(); },
   er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
   set_area: v => { F.area = v; syncCustomerProfile(); render(); },
   cat: v => { SCAT = v; render(); },
-  pq: (v, k, id) => { safePushHistory(); PQ = +id; render(); },
-  open_cart: () => { safePushHistory(); PQ = null; CART_OPEN = true; render(); },
+  pq: (v, k, id) => { PQ = +id; render(); },
+  open_cart: () => { PQ = null; CART_OPEN = true; render(); },
   add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; saveCart(); PQ = null; CART_OPEN = true; render(); },
-  close: () => { PQ = null; CART_OPEN = false; SV_BOOK = null; render(); },
+  close: () => { PQ = null; CART_OPEN = false; SV_BOOK = null; PIN_OPEN = false; render(); },
   cancel_pay: () => { setPayBox(null); PROOF_IMG = null; PROOF_META = null; render(); },
   close_proof: () => { VIEW_PROOF = null; render(); },
-  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = null; CART_OPEN = false; SV_BOOK = null; VIEW_PROOF = null; render(); } },
+  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = null; CART_OPEN = false; SV_BOOK = null; VIEW_PROOF = null; PIN_OPEN = false; render(); } },
   inc: (v, k, id) => { C[id] = Math.min(50, (C[id] || 0) + 1); saveCart(); render(); },
   dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); saveCart(); render(); },
   ih: (v, k, id) => { C[id + 'h'] = Math.min(50, (C[id + 'h'] || 0) + 1); saveCart(); render(); },
@@ -1733,7 +2043,7 @@ const A = {
     if (inp) { inp.value = ''; inp.click(); }
   },
 
-  open_svb: (v, k, id) => { safePushHistory(); SV_BOOK = id; render(); },
+  open_svb: (v, k, id) => { SV_BOOK = id; render(); },
   confirm_svb: () => {
     const s = (S.svcList || []).find(x => x.id === SV_BOOK);
     if (!s || !checkUser()) return;
@@ -1810,8 +2120,8 @@ const A = {
 
   pay_sub: () => {
     if (!checkUser()) return;
-    safePushHistory();
-    const base = tierPrice(+F.days);
+    const raw = tierPrice(+F.days);
+    const base = Math.max(10, raw - getDiscountAmt(raw));
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
     setPayBox({ kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: +F.days, title: `${F.days} Din Tiffin (${F.times} Time)` });
@@ -1819,7 +2129,6 @@ const A = {
   },
   pay_trial: () => {
     if (!checkUser()) return;
-    safePushHistory();
     const base = tierPrice(1);
     const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
@@ -1974,7 +2283,6 @@ const A = {
     if (o) { o.dlv = o.dlv ? 0 : 1; if (o.dlv) { o.packed = 1; o.paid = 1; o.vStat = 'ok'; } save(); toast(o.dlv ? 'Order Delivered & Paid ✓' : 'Marked Undelivered'); }
   },
   o_del: (v, k, id) => {
-    if (!confirm('Delete this order?')) return;
     const o = S.orders.find(x => x.id === id);
     if (o && o.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== o.utr);
     S.orders = S.orders.filter(x => x.id !== id); save(); toast('Order Deleted');
@@ -1993,7 +2301,6 @@ const A = {
   },
   s_add_day: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.days = (+s.days || 30) + 1; save(); toast('+1 Day Added to Plan'); } },
   s_del: (v, k, id) => {
-    if (!confirm('Delete this tiffin subscription?')) return;
     const s = S.subs.find(x => x.id === id);
     if (s && s.utr) S.usedUtr = (S.usedUtr || []).filter(u => u !== s.utr);
     S.subs = S.subs.filter(x => x.id !== id); save(); toast('Subscription Deleted');
@@ -2022,7 +2329,7 @@ const A = {
     const p = ph($('#ec_phone').value), n = $('#ec_name').value.trim();
     if (!isValidPhone(p) || !n) { toast('Enter Valid Name & 10-Digit Mobile (6-9 se shuru)'); return; }
     S.profiles[p] = {
-      ...(S.profiles[p] || { joined: iso(D0()) }),
+      ...(S.profiles[p] || { joined: iso(D0()), pts: 25 }),
       phone: p,
       name: n,
       altPhone: ph($('#ec_alt').value),
@@ -2036,7 +2343,6 @@ const A = {
     ED_CUST = null; save(); toast('Customer Profile Saved ✓');
   },
   del_cust: (v, k, id) => {
-    if (!confirm('Delete customer profile?')) return;
     delete S.profiles[id]; save(); toast('Customer Profile Deleted');
   },
 
@@ -2080,7 +2386,7 @@ const A = {
     }
     save(); toast('Product Saved!');
   },
-  del_prod: (v, k, id) => { if (!confirm('Delete product?')) return; S.prod = S.prod.filter(x => x.id !== +id); save(); toast('Product Deleted'); },
+  del_prod: (v, k, id) => { S.prod = S.prod.filter(x => x.id !== +id); save(); toast('Product Deleted'); },
 
   edit_svc: (v, k, id) => {
     ED_SV = id; render();
@@ -2100,7 +2406,7 @@ const A = {
     }
     save(); toast('Service Saved!');
   },
-  del_svc: (v, k, id) => { if (!confirm('Delete service?')) return; S.svcList = S.svcList.filter(x => x.id !== id); save(); toast('Service Deleted'); },
+  del_svc: (v, k, id) => { S.svcList = S.svcList.filter(x => x.id !== id); save(); toast('Service Deleted'); },
 
   save_app_cfg: () => {
     S.cfg.upi = $('#cfg_upi').value.trim() || '9583937047@jio';
@@ -2109,7 +2415,6 @@ const A = {
   },
 
   reset_seed: () => {
-    if (!confirm('Restore original demo orders, plans & products?')) return;
     S = seed(); save(); toast('Demo Data Restored ✓');
   },
 
@@ -2119,15 +2424,8 @@ const A = {
     localStorage.setItem('nu_theme', d ? 'dark' : '');
     $('#thm').textContent = d ? '☀️' : '🌙';
   },
-  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'plan'; render(); }
+  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); PIN_OPEN = false; tab = 'plan'; render(); toast('Logged Out of Staff/Owner Mode'); }
 };
-
-window.addEventListener('popstate', () => {
-  if (VIEW_PROOF || SV_BOOK || PAY_BOX || CART_OPEN || PQ) {
-    VIEW_PROOF = null; SV_BOOK = null; CART_OPEN = false; PQ = null; setPayBox(null);
-    render();
-  }
-});
 
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-a]');
@@ -2135,8 +2433,38 @@ document.addEventListener('click', e => {
   const f = A[b.dataset.a];
   if (f) {
     e.preventDefault();
+    e.stopPropagation();
     f(b.dataset.v, b.dataset.k, b.dataset.id, e);
   }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && PIN_OPEN && $('#pin_inp')) {
+    e.preventDefault();
+    A.submit_pin();
+  }
+});
+
+$('#restore_file').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      if (parsed && parsed.prod) {
+        S = { ...seed(), ...parsed };
+        ensureIntegrity();
+        save();
+        toast('🎉 Database Backup Restored Successfully!');
+      } else {
+        toast('⚠️ Invalid Backup JSON File!');
+      }
+    } catch (err) {
+      toast('⚠️ Error reading JSON file!');
+    }
+  };
+  r.readAsText(file);
 });
 
 $('#proof_file').addEventListener('change', e => {
@@ -2197,6 +2525,7 @@ document.addEventListener('input', e => {
     if (e.target.dataset.f === 'start') render();
   }
   if (e.target.id === 'utr_inp') DRAFT_UTR = e.target.value;
+  if (e.target.id === 'cpn_inp') COUPON_CODE = e.target.value.toUpperCase();
   if (e.target.id === 'sq') {
     SQ = e.target.value;
     const pos = e.target.selectionStart;
@@ -2210,18 +2539,6 @@ document.addEventListener('input', e => {
     render();
     const el = $('#oq');
     if (el) { el.focus(); el.setSelectionRange(pos, pos); }
-  }
-});
-
-let taps = 0, tapT;
-$('#mark').addEventListener('click', () => {
-  taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 1800);
-  if (taps >= 5) {
-    taps = 0;
-    const pin = prompt('Enter Staff / Owner Security PIN:');
-    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner Master Control Unlocked'); }
-    else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Staff Mode Unlocked'); }
-    else if (pin !== null) toast('Invalid Security PIN');
   }
 });
 
