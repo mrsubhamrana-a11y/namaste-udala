@@ -36,14 +36,6 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .hero-pill{display:inline-block;width:fit-content;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:99px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;border:1px solid rgba(255,255,255,.25)}
 .hero3d h2{font-family:var(--serif);font-size:20px;font-weight:800;max-width:65%;line-height:1.15;margin-bottom:5px}
 .hero3d p{font-size:12px;opacity:.92;max-width:65%;font-weight:600}
-.hero-plate{position:absolute;right:12px;bottom:10px;width:106px;height:106px;border-radius:50%;border:4px solid #fffdf8;background:#1e293b;box-shadow:0 12px 24px rgba(0,0,0,.5);animation:fPlate 3.5s ease-in-out infinite;z-index:2;pointer-events:none}
-@keyframes fPlate{50%{transform:translateY(-5px) scale(1.03) rotate(2deg)}}
-.steam-wrap{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden}
-.steam-wrap i{position:absolute;bottom:25%;width:24px;height:24px;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,rgba(255,255,255,0) 70%);border-radius:50%;filter:blur(5px);opacity:0;animation:sRise 2.4s infinite ease-out;pointer-events:none}
-.steam-wrap i:nth-child(1){left:28%;animation-delay:0s}
-.steam-wrap i:nth-child(2){left:48%;width:32px;height:32px;animation-delay:.7s}
-.steam-wrap i:nth-child(3){left:62%;animation-delay:1.4s}
-@keyframes sRise{0%{transform:translateY(8px) scale(.5);opacity:0}35%{opacity:.75}100%{transform:translateY(-55px) scale(2.2) translateX(8px);opacity:0}}
 .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0 16px}
 .p-tier{position:relative;border-radius:20px;padding:16px 6px 12px;text-align:center;background:linear-gradient(180deg,var(--sf),var(--sf2));border:2px solid var(--ln);box-shadow:0 4px 0 #d5cbb4;cursor:pointer;transition:.15s;display:block;width:100%}
 .p-tier.on{background:linear-gradient(180deg,#fff9f2,#fde6d2);border-color:var(--o);box-shadow:0 5px 0 #8f2d0b,0 14px 24px rgba(217,78,31,.25);transform:translateY(-3px)}
@@ -52,12 +44,6 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .p-tier .p-days{font-family:var(--serif);font-size:17px;font-weight:800;display:block}
 .p-tier .p-sub{font-size:9px;font-weight:800;color:var(--mu);text-transform:uppercase;margin-bottom:5px;display:block}
 .p-tier .p-amt{font-family:var(--serif);font-size:18.5px;font-weight:800;color:var(--o);display:block}
-.p-tier .p-per{font-size:10px;font-weight:800;color:var(--g2);margin-top:2px;display:block}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
-.cal-d{padding:5px 2px;border-radius:8px;text-align:center;font-size:9.5px;font-weight:800;background:var(--sf2);border:1px solid var(--ln)}
-.cal-d.dn{background:#dcfce7;color:#166534;border-color:#86efac}
-.cal-d.sk{background:#fee2e2;color:#991b1b;border-color:#fca5a5;text-decoration:line-through}
-.cal-d.td{border:2px solid var(--o);color:var(--o)}
 .card{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:22px;padding:16px;margin-bottom:15px;box-shadow:0 16px 32px -10px rgba(22,36,28,.12)}
 .card h3{font-family:var(--serif);font-size:16px;font-weight:800;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
 .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
@@ -68,84 +54,31 @@ main{padding:15px 14px 0;max-width:650px;margin:0 auto}
 .prep-box{background:var(--sf2);border:1px solid var(--ln);border-radius:12px;padding:8px 4px;text-align:center}
 .prep-box b{display:block;font-size:14px;color:var(--g2);font-family:var(--serif)}
 .prep-box span{font-size:9px;font-weight:800;color:var(--mu);text-transform:uppercase}
-.bar-wrap{margin:6px 0}
-.bar-lbl{display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin-bottom:3px}
-.bar-bg{height:8px;background:var(--sf2);border-radius:99px;overflow:hidden;border:1px solid var(--ln)}
-.bar-fill{height:100%;background:linear-gradient(90deg,var(--g2),var(--o));border-radius:99px}
-.prof-head{display:flex;align-items:center;gap:14px;padding:16px;background:linear-gradient(135deg,#163f2a,#0b2216);color:#fff;border-radius:22px;margin-bottom:15px}
-.prof-av{width:58px;height:58px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-size:22px;font-weight:800;border:3px solid rgba(255,255,255,.85);flex:none}
-.prof-badge{display:inline-block;background:rgba(251,191,36,.2);color:#fbbf24;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:800;margin-top:4px;border:1px solid rgba(251,191,36,.4)}
-.st-pill{display:inline-block;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:800}
-.st-ok{background:#dcfce7;color:#166534}
-.st-wait{background:#fef3c7;color:#92400e}
-.st-bad{background:#fee2e2;color:#991b1b}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 15px;border:0;border-radius:99px;background:linear-gradient(180deg,#eb5e2f,#c83e10);color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;box-shadow:0 5px 0 #8f2d0b,0 10px 20px rgba(217,78,31,.3);margin-top:8px}
 .btn.g{background:linear-gradient(180deg,#1f6942,#113221);box-shadow:0 5px 0 #081c11,0 10px 20px rgba(17,50,33,.28)}
 .btn.w{background:var(--sf);color:var(--ink);border:1px solid var(--ln)}
 .btn.sm{width:auto;display:inline-flex;padding:7px 12px;font-size:11px;border-radius:99px;margin:0}
-.btn[disabled]{opacity:.45;pointer-events:none}
 .btn-row{display:flex;gap:7px;flex-wrap:wrap}
 .btn-row>*{flex:1}
-.upi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.upi-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 10px;border-radius:16px;font-weight:800;font-size:12.5px;color:#fff;border:0;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.28)}
-.upi-pp{background:linear-gradient(180deg,#6739b7,#4e2696)}
-.upi-gp{background:linear-gradient(180deg,#2563eb,#1d4ed8)}
-.upi-pt{background:linear-gradient(180deg,#0284c7,#0369a1)}
-.upi-bh{background:linear-gradient(180deg,#ea580c,#c2410c)}
 .inp{width:100%;padding:11px 13px;border:1.5px solid var(--ln);border-radius:13px;background:var(--sf2);color:var(--ink);font-weight:700;font-size:13px;margin:4px 0;outline:none}
-.inp.pulse-hi{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.25)}
 .lbl{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:800;color:var(--mu);margin:9px 0 3px;text-transform:uppercase}
 .seg{display:flex;gap:5px;background:var(--sf2);padding:4px;border-radius:99px;margin:4px 0}
 .seg button{flex:1;padding:9px 6px;border:0;border-radius:99px;background:transparent;font-weight:800;font-size:11px;color:var(--mu);cursor:pointer}
 .seg button.on{background:var(--g);color:#fff}
-.sym{display:inline-grid;place-items:center;width:14px;height:14px;border:2px solid #16a34a;border-radius:3px;background:#fff;flex:none}
-.sym i{width:6px;height:6px;border-radius:50%;background:#16a34a}
-.sym.nv{border-color:#dc2626}
-.sym.nv i{background:#dc2626}
-.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chips button{flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 13px 5px 5px;border-radius:99px;border:1px solid var(--ln);background:var(--sf);font-weight:800;font-size:11.5px;cursor:pointer}
-.chips button img{width:25px;height:25px;border-radius:50%}
-.chips button.on{background:var(--g);color:#fff;border-color:transparent}
-.area-chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
-.area-chips::-webkit-scrollbar{display:none}
-.area-chips button{flex:none;padding:7px 12px;border-radius:99px;font-size:11px;font-weight:800;background:var(--sf2);border:1px solid var(--ln);color:var(--mu);cursor:pointer}
-.area-chips button.on{background:var(--o);color:#fff;border-color:var(--o)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
-.pcard{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:22px;padding:9px;display:flex;flex-direction:column;position:relative}
-.pimg{height:128px;border-radius:16px;position:relative;cursor:pointer;background:#1c2826;margin-bottom:8px;overflow:hidden}
-.pimg img{width:100%;height:100%;transition:transform .3s}
-.pcard:hover .pimg img{transform:scale(1.07)}
-.badge{position:absolute;top:6px;left:6px;background:#16a34a;color:#fff;font-size:8.5px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6}
-.hot-tag{position:absolute;bottom:6px;right:6px;background:rgba(17,50,33,.9);color:#fbbf24;font-size:8px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6}
-.half-tag{position:absolute;bottom:6px;left:6px;background:var(--o);color:#fff;font-size:8px;font-weight:800;padding:3px 6px;border-radius:99px;z-index:6}
-.pname{font-size:12.5px;font-weight:800;line-height:1.3;height:33px;overflow:hidden;display:flex;align-items:flex-start;gap:5px;cursor:pointer}
-.pprice{display:flex;align-items:baseline;justify-content:space-between;margin:3px 0 7px}
-.pprice b{font-family:var(--serif);font-size:16.5px;font-weight:800;color:var(--o)}
-.pprice s{font-size:10.5px;color:var(--mu);margin-left:4px}
-.qty{display:flex;align-items:center;justify-content:space-between;background:var(--sf2);padding:3px;border-radius:99px;margin-top:auto}
-.qty button{width:32px;height:32px;border-radius:50%;border:0;background:var(--o);color:#fff;font-size:16px;font-weight:800;cursor:pointer;display:grid;place-items:center}
-.qty b{font-size:12.5px;font-weight:800;padding:0 4px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px dashed var(--ln)}
 .row:last-child{border-bottom:0}
 .tot{display:flex;justify-content:space-between;align-items:center;padding-top:11px;margin-top:5px;border-top:2px solid var(--ln)}
 .tot b{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--o)}
 .ov{position:fixed;inset:0;z-index:300;background:rgba(11,22,16,.82);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
 .sh{background:var(--sf);width:100%;max-width:510px;max-height:90vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:18px 18px 30px}
-.pop-stage{position:relative;height:195px;margin:4px 0 12px;border-radius:22px;background:radial-gradient(circle at 50% 60%,#1d4d34,#091810 78%);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.pop-plate{width:170px;height:170px;border-radius:50%;object-fit:cover;border:4px solid #fffdf8;box-shadow:0 20px 34px rgba(0,0,0,.7);z-index:2}
 .cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(86px + env(safe-area-inset-bottom, 0px));z-index:190;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:800;font-size:13px;border:0;width:calc(100% - 24px);box-shadow:0 14px 28px rgba(11,34,22,.5)}
 nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:250;max-width:640px;margin:0 auto;background:var(--sf);border:1.5px solid var(--ln);border-radius:99px;display:flex;gap:4px;padding:5px 8px;box-shadow:0 16px 34px rgba(22,36,28,.28)}
 nav button{flex:1;border:0;background:transparent;border-radius:99px;padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mu);font-weight:800;position:relative}
 nav button.on{background:var(--g);color:#fbbf24}
 nav .nl{font-size:9.5px}
 nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff}
-.pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:pAnim 1.4s infinite}
-@keyframes pAnim{50%{transform:scale(1.35);opacity:.5}}
 #toast{position:fixed;left:50%;top:72px;transform:translateX(-50%) translateY(-16px);background:var(--g);color:#fff;padding:11px 18px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:900;opacity:0;transition:.25s}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-#printArea{display:none}
-@media print{body>*{display:none!important}#printArea{display:block!important;padding:16px;font-family:monospace;color:#000;background:#fff}}
 </style>
 </head>
 <body>
@@ -155,59 +88,39 @@ nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-
   <button type="button" id="installBtn">Install App</button>
 </div>
 
-<input type="file" id="proof_file" accept="image/*" style="display:none">
-<input type="file" id="restore_file" accept=".json" style="display:none">
-
 <header>
-  <button type="button" class="logo" data-a="logo_tap" title="5 Tap for Owner/Staff">NU</button>
+  <button type="button" class="logo" data-a="logo_tap" title="5 Tap for Owner">NU</button>
   <div class="brand">
-    <small>NAMASTE UDALA · OFFLINE PWA & CRM</small>
+    <small>NAMASTE UDALA · FULL MASTER CRM</small>
     <h1 id="ttl">Ghar Jaisa Khana · Roz Time Pe</h1>
   </div>
   <button type="button" class="btn w sm" id="thm" data-a="theme">🌙</button>
 </header>
-
-<div class="marquee">
-  <div class="marquee-track">
-    <span>✦ LOW DATA MODE · WORKS OFFLINE · 1-TAP UPI · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
-    <span>✦ LOW DATA MODE · WORKS OFFLINE · 1-TAP UPI · FREE HOME DELIVERY IN UDALA ✦ &nbsp;&nbsp;</span>
-  </div>
-</div>
 
 <main id="v"></main>
 <div id="cbar"></div>
 <nav id="nav"></nav>
 <div id="sheet"></div>
 <div id="toast"></div>
-<div id="printArea"></div>
 
 <script>
-// Customer Behavior Analytics & Offline Cache Engine
-let analytics = JSON.parse(localStorage.getItem('nu_behavior') || '{"visits":0, "orders":0, "favItem":""}');
+let analytics = JSON.parse(localStorage.getItem('nu_behavior') || '{"visits":0, "orders":0}');
 analytics.visits++;
 localStorage.setItem('nu_behavior', JSON.stringify(analytics));
 
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const banner = document.getElementById('installBanner');
-  if (banner) banner.style.display = 'flex';
+  e.preventDefault(); deferredPrompt = e;
+  const b = document.getElementById('installBanner');
+  if (b) b.style.display = 'flex';
 });
 
 document.addEventListener('click', async (e) => {
-  if (e.target && e.target.id === 'installBtn') {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        const banner = document.getElementById('installBanner');
-        if (banner) banner.style.display = 'none';
-      }
-      deferredPrompt = null;
-    } else {
-      alert('Browser menu (3 dots) par click karke "Add to Home Screen" select karein!');
-    }
+  if (e.target && e.target.id === 'installBtn' && deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
+    deferredPrompt = null;
   }
 });
 
@@ -223,7 +136,6 @@ const AREA_COORDS = {
   'Bhanjpur': [21.5810, 86.5720]
 };
 const KITCHEN_HQ = [21.5732, 86.5675];
-const NODE = 'udala_phase2';
 
 function pinHash(str) {
   let h = 2166136261;
@@ -234,1010 +146,241 @@ function pinHash(str) {
   }
   return (h >>> 0).toString(16);
 }
-const ROLE_HASHES = { owner: pinHash('4827'), staff: pinHash('7788') };
-function verifyPinRole(pin) {
-  const h = pinHash(pin);
-  if (h === ROLE_HASHES.owner) return 'owner';
-  if (h === ROLE_HASHES.staff) return 'staff';
-  return '';
-}
-
-const COUPONS = {
-  'WELCOME30': { disc: 30, min: 199, desc: '₹30 OFF above ₹199' },
-  'UDALA50': { disc: 50, min: 399, desc: '₹50 OFF above ₹399' },
-  'TIFFIN100': { disc: 100, min: 1400, desc: '₹100 OFF on 15d/30d Tiffin' }
-};
+const OWNER_HASH = pinHash('4827');
 
 const IC = {
   tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/></svg>`,
   shop: `<svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L23 7H6"/></svg>`,
-  svc: `<svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
   user: `<svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
   kitchen: `<svg class="ic" viewBox="0 0 24 24"><path d="M12 2c1.5 2.5 2 4.5 0 7-2-2.5-1.5-4.5 0-7z"/><path d="M4 13h16v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-5z"/><path d="M2 13h20"/></svg>`,
   route: `<svg class="ic" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l3 6v5.5h-2"/><path d="M12 17.5H9v-7h6v7z"/></svg>`,
   owner: `<svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
-  gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`,
-  cam: `<svg class="ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`
-};
-
-const IMG = {
-  leg: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&q=70',
-  chick: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=70',
-  thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=70',
-  curry: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=70',
-  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=70',
-  rice: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=400&q=70',
-  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=70',
-  egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=70',
-  milk: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=70',
-  curd: 'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=400&q=70',
-  tea: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=70',
-  groc: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=70',
-  clean: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=70',
-  care: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=70',
-  sweet: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&q=70',
-  books: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&q=70',
-  cam: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&q=70',
-  decor: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=70',
-  hostel: 'https://images.unsplash.com/photo-1555854877-bab0ab8386bd?w=400&q=70'
+  gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`
 };
 
 const $ = s => document.querySelector(s);
-const sameId = (a, b) => String(a ?? '') === String(b ?? '');
 const esc = s => String(s ?? '').replace(/[&<>"'`]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-const addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
-const D0 = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
 const inr = n => '₹' + (+n || 0).toLocaleString('en-IN', { minimumFractionDigits: (+n % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 });
 const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
 const isValidPhone = s => /^[6-9]\d{9}$/.test(ph(s));
 const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-const amtKey = n => Number(n || 0).toFixed(2).replace('.', '_');
-const numOr = (val, def) => { const n = parseFloat(val); return Number.isFinite(n) && n >= 0 ? n : def; };
-const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=' + encodeURIComponent(u);
-const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
-const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
 
 if (localStorage.getItem('nu_theme') === 'dark') {
   document.documentElement.dataset.theme = 'dark';
-  const thmBtn = document.getElementById('thm');
-  if (thmBtn) thmBtn.textContent = '☀️';
 }
 
-function getCustomerCoords(item) {
-  if (item.lat && item.lng) return [+item.lat, +item.lng];
-  return AREA_COORDS[item.area] || KITCHEN_HQ;
-}
-function haversineKm(c1, c2) {
-  const toRad = x => (x * Math.PI) / 180;
-  const R = 6371;
-  const dLat = toRad(c2[0] - c1[0]);
-  const dLon = toRad(c2[1] - c1[1]);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(c1[0])) * Math.cos(toRad(c2[0])) * Math.sin(dLon / 2) ** 2;
-  return +(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2);
-}
-function sortRouteNearestFirst(list) {
-  if (!list || !list.length) return [];
-  const remaining = list.map(item => ({ item, coords: getCustomerCoords(item) }));
-  const ordered = [];
-  let curr = KITCHEN_HQ;
-  while (remaining.length > 0) {
-    let bestIdx = 0, bestDist = Infinity;
-    for (let i = 0; i < remaining.length; i++) {
-      const d = haversineKm(curr, remaining[i].coords);
-      if (d < bestDist) { bestDist = d; bestIdx = i; }
-    }
-    const next = remaining.splice(bestIdx, 1)[0];
-    next.item._distKm = Math.max(0.2, bestDist);
-    next.item._etaMin = Math.max(4, Math.round(bestDist * 4 + 3));
-    ordered.push(next.item);
-    curr = next.coords;
-  }
-  return ordered;
-}
-
-function calcKitchenProcurement(activeSubs, pendOrds, slot) {
-  let riceG = 0, attaG = 0, dalG = 0, vegG = 0, paneerG = 0, chickenG = 0;
-  activeSubs.forEach(s => {
-    const rCount = calcRotiForSub(s, slot);
-    attaG += rCount * 35;
-    if (slot === 'bf') {
-      attaG += 100; vegG += 120;
-    } else {
-      const pref = slot === 'lunch' ? (s.lunch || 'chawal') : (s.dinner || 'roti');
-      if (pref === 'chawal') riceG += 160;
-      else if (pref === 'both') riceG += 100;
-      dalG += 60;
-      if (s.type === 'nv') chickenG += 180;
-      else { paneerG += 85; vegG += 140; }
-    }
-  });
-  (pendOrds || []).forEach(o => {
-    if (+o.packed) return;
-    (o.items || []).forEach(it => {
-      const n = (it.n || '').toLowerCase();
-      const mult = (it.h ? 0.5 : 1) * (+it.q || 1);
-      if (n.includes('chicken')) chickenG += Math.round(250 * mult);
-      if (n.includes('paneer')) paneerG += Math.round(150 * mult);
-      if (n.includes('roti')) attaG += Math.round(350 * mult);
-      if (n.includes('chawal')) riceG += Math.round(180 * mult);
-    });
-  });
-  const fmt = g => g >= 1000 ? (g / 1000).toFixed(2) + ' kg' : g + ' g';
-  return { rice: fmt(riceG), atta: fmt(attaG), dal: fmt(dalG), chicken: fmt(chickenG), paneer: fmt(paneerG), sabzi: fmt(vegG) };
-}
-
-function evaluateFraudRisk(item) {
-  if (item.paid && item.pMode && item.pMode.includes('Auto-Matched')) return { score: 0, label: '🟢 0% Risk (Bank Matched)', cls: 'st-ok' };
-  if (item.vStat === 'cod') return { score: 10, label: '🟢 Doorstep Collect', cls: 'st-wait' };
-  let risk = 15;
-  const utr = String(item.utr || '');
-  const uniqueDigits = new Set(utr.split('')).size;
-  if (uniqueDigits <= 4) risk += 35;
-  if (!item.proof) risk += 20;
-  if ((item.total || item.price) > 2000 && !item.proof) risk += 25;
-  const hr = new Date(item.ts || Date.now()).getHours();
-  if (hr >= 0 && hr <= 5) risk += 15;
-  risk = Math.min(98, risk);
-  if (risk >= 60) return { score: risk, label: `🔴 High Risk (${risk}%)`, cls: 'st-bad' };
-  if (risk >= 35) return { score: risk, label: `🟡 Medium Risk (${risk}%)`, cls: 'st-wait' };
-  return { score: risk, label: `🟢 Low Risk (${risk}%)`, cls: 'st-ok' };
-}
-
-function copyText(txt, msg) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(txt).then(() => toast(msg)).catch(() => fallbackCopy(txt, msg));
-  } else {
-    fallbackCopy(txt, msg);
-  }
-}
-function fallbackCopy(txt, msg) {
-  const ta = document.createElement('textarea');
-  ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
-  document.body.appendChild(ta); ta.select();
-  try { document.execCommand('copy'); toast(msg); } catch (e) { toast('Copy: ' + txt); }
-  document.body.removeChild(ta);
-}
-
-function strHash(s) {
-  let h1 = 0xdeadbeef ^ s.length, h2 = 0x41c6ce57 ^ s.length;
-  const step = Math.max(1, Math.floor(s.length / 6000));
-  for (let i = 0; i < s.length; i += step) {
-    const ch = s.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
-  }
-  return 'IMG-' + s.length + '-' + (h1 >>> 0).toString(16) + '-' + (h2 >>> 0).toString(16);
-}
-
-function validateStrictUTR(raw, usedList) {
-  const clean = String(raw || '').replace(/\D/g, '');
-  if (clean.length !== 12) return { ok: false, msg: '⚠️ Bank UPI Ref/UTR hamesha poore 12-digit ka hota hai!' };
-  if (/^(\d)\1{6,}$/.test(clean) || /^(\d{2,4})\1+$/.test(clean) || /^(012345678901|123456789012|987654321098)$/.test(clean)) {
-    return { ok: false, msg: '⚠️ Fake sequence UTR detected! Asli bank SMS/UPI UTR daalein.' };
-  }
-  if (new Set(clean.split('')).size < 4) {
-    return { ok: false, msg: '⚠️ Invalid UTR pattern! Sahi 12-digit UTR number daalein.' };
-  }
-  if ((usedList || []).includes(clean)) {
-    return { ok: false, msg: '⚠️ Yeh UTR pehle hi use ho chuka hai (Duplicate UTR Blocked)!' };
-  }
-  return { ok: true, utr: clean };
-}
-
-function inspectReceiptCanvas(canvas, origW, origH) {
-  const ratio = origH / Math.max(1, origW);
-  if (ratio < 0.72 || ratio > 3.6) {
-    return { ok: false, msg: '⚠️ Invalid image dimensions! Asli UPI payment screenshot upload karein.' };
-  }
-  const ctx = canvas.getContext('2d');
-  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-  let uiBgPixels = 0, contrastPixels = 0, total = data.length / 4;
-  for (let i = 0; i < data.length; i += 16) {
-    const r = data[i], g = data[i + 1], b = data[i + 2];
-    const maxDiff = Math.max(Math.abs(r - g), Math.abs(g - b), Math.abs(r - b));
-    const lum = (r + g + b) / 3;
-    if (maxDiff < 38 && (lum > 185 || lum < 75)) uiBgPixels++;
-    if (lum < 110 || lum > 200) contrastPixels++;
-  }
-  const sampleCount = Math.max(1, total / 4);
-  if (uiBgPixels / sampleCount < 0.16) {
-    return { ok: false, msg: '⚠️ Camera photo detected! Sirf GPay/PhonePe/Paytm/BHIM ka screenshot lagayein.' };
-  }
-  if (contrastPixels / sampleCount < 0.02) {
-    return { ok: false, msg: '⚠️ Blank ya blur image blocked! Sahi screenshot select karein.' };
-  }
-  return { ok: true };
-}
-
-let _audioCtx = null;
-function playChime() {
-  try {
-    if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (_audioCtx.state === 'suspended') _audioCtx.resume();
-    [880, 1174.66, 1567.98].forEach((freq, i) => {
-      const o = _audioCtx.createOscillator(), g = _audioCtx.createGain();
-      o.type = 'triangle'; o.frequency.value = freq;
-      g.gain.setValueAtTime(0.18, _audioCtx.currentTime + i * 0.09);
-      g.gain.exponentialRampToValueAtTime(0.001, _audioCtx.currentTime + i * 0.09 + 0.35);
-      o.connect(g); g.connect(_audioCtx.destination);
-      o.onended = () => { try { o.disconnect(); g.disconnect(); } catch (e) {} };
-      o.start(_audioCtx.currentTime + i * 0.09); o.stop(_audioCtx.currentTime + i * 0.09 + 0.35);
-    });
-  } catch (e) {}
-}
-
-let _t;
-const toast = m => { const t = $('#toast'); if (!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 3300); };
-addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== IMG.thali) e.target.src = IMG.thali; }, true);
-
-const CATS = [
-  ['all', 'Sab Items', IMG.thali],
-  ['Khana', 'Extra Khana', IMG.leg],
-  ['Dairy', 'Doodh & Dairy', IMG.milk],
-  ['Nashta', 'Chai & Nashta', IMG.tea],
-  ['Kirana', 'Kirana', IMG.groc],
-  ['HUL', 'HUL Brands', IMG.care],
-  ['Safai', 'Ghar Ki Safai', IMG.clean]
-];
-
-const SEED = [
-  ['Chicken Leg Masala (2 Pc)', 160, 195, 'Khana', IMG.leg, 1, 1, 1],
-  ['Chicken curry 500g', 260, 310, 'Khana', IMG.chick, 1, 1, 1],
-  ['Egg curry (4)', 96, 120, 'Khana', IMG.egg, 1, 1, 1],
-  ['Paneer sabzi', 110, 135, 'Khana', IMG.paneer, 1, 1, 0],
-  ['Mushroom curry', 120, 145, 'Khana', IMG.curry, 1, 1, 0],
-  ['Roti (10)', 50, 60, 'Khana', IMG.roti, 1, 1, 0],
-  ['Chawal plate', 20, 25, 'Khana', IMG.rice, 1, 1, 0],
-  ['Doodh 500 ml', 30, 34, 'Dairy', IMG.milk, 0, 0, 0],
-  ['Dahi 400 g', 40, 46, 'Dairy', IMG.curd, 0, 0, 0],
-  ['Paneer 200 g', 80, 95, 'Dairy', IMG.paneer, 0, 0, 0],
-  ['Horlicks 500g', 260, 285, 'Dairy', IMG.milk, 0, 0, 0],
-  ['Red Label 250g', 165, 180, 'Nashta', IMG.tea, 0, 0, 0],
-  ['Bread', 40, 45, 'Nashta', IMG.roti, 0, 0, 0],
-  ['Ande (6)', 72, 85, 'Nashta', IMG.egg, 0, 0, 1],
-  ['Biscuit pack', 35, 40, 'Nashta', IMG.sweet, 0, 0, 0],
-  ['Atta 5 kg', 245, 285, 'Kirana', IMG.roti, 0, 0, 0],
-  ['Chawal 5 kg', 340, 395, 'Kirana', IMG.rice, 0, 0, 0],
-  ['Dal 1 kg', 150, 175, 'Kirana', IMG.curry, 0, 0, 0],
-  ['Tel 1 L', 150, 178, 'Kirana', IMG.groc, 0, 0, 0],
-  ['Lifebuoy (4)', 140, 168, 'HUL', IMG.care, 0, 0, 0],
-  ['Dove 100g', 60, 70, 'HUL', IMG.care, 0, 0, 0],
-  ['Sunsilk 340ml', 199, 235, 'HUL', IMG.care, 0, 0, 0],
-  ['Kissan 950g', 165, 195, 'HUL', IMG.groc, 0, 0, 0],
-  ['Surf Excel 1 kg', 220, 255, 'Safai', IMG.clean, 0, 0, 0],
-  ['Vim (3)', 60, 75, 'Safai', IMG.clean, 0, 0, 0],
-  ['Domex 1 L', 185, 210, 'Safai', IMG.clean, 0, 0, 0]
-].map((a, i) => ({ id: i + 1, n: a[0], p: a[1], mrp: a[2], c: a[3], img: a[4], h: a[5], hot: a[6], nv: a[7], s: 1 }));
-
-const SVC_SEED = [
-  { id: 't1', c: 'Tuition', n: 'Maths & Science (Class 6–10)', p: 800, u: '/month', img: IMG.books, d: 'Small batch, weekly test, doubt clearing.' },
-  { id: 't2', c: 'Tuition', n: 'English & Hindi (Class 6–10)', p: 700, u: '/month', img: IMG.books, d: 'Grammar, writing, monthly progress report.' },
-  { id: 't3', c: 'Tuition', n: 'Commerce (Class 11–12)', p: 1200, u: '/month', img: IMG.books, d: 'Accounts, BST, Economics — board pattern.' },
-  { id: 'p1', c: 'Photo', n: 'Wedding Photography', p: 15000, u: '/day', img: IMG.cam, d: 'Candid + traditional, edited album included.' },
-  { id: 'p2', c: 'Photo', n: 'Birthday Shoot (2 Hours)', p: 5000, u: '/event', img: IMG.cam, d: '100+ edited photos, same-week delivery.' },
-  { id: 'd1', c: 'Decor', n: 'Birthday Decoration', p: 3500, u: '/event', img: IMG.decor, d: 'Balloon arch, backdrop, LED lights.' },
-  { id: 'd2', c: 'Decor', n: 'Wedding Stage Decoration', p: 25000, u: '/event', img: IMG.decor, d: 'Stage, entrance gate, custom flower theme.' },
-  { id: 'h1', c: 'Hostel', n: 'Boys & Girls Hostel', p: 3500, u: '/month', img: IMG.hostel, d: 'WiFi, study table, warden, safe campus.' }
-];
-
-const DEFAULT_CFG = {
-  upi: '9583937047@jio',
-  wa: '9583937047',
-  freeMin: 300,
-  dlvFee: 25,
-  trialPrice: 49,
-  bfAddon: 20,
-  bothAddon: 10,
-  rotiAddon: 5,
-  pl: { veg: { d7: 749, d15: 1499, d30: 2899 }, nv: { d7: 949, d15: 1849, d30: 3599 } }
-};
-
-const CUST_SEED = {
-  '8073721357': {
-    phone: '8073721357', name: 'Subham Rana', altPhone: '9583937047', area: 'Udala Bus Stand',
-    addr: 'Near Bus Stand, Main Road, Udala', lat: 21.5732, lng: 86.5675,
-    diet: 'veg', spice: 'Medium', family: 3, notes: 'Prefers गरम रोटी in dinner', dues: 0, pts: 65, joined: iso(addD(D0(), -15))
-  },
-  '9437012345': {
-    phone: '9437012345', name: 'Priyanka Das', altPhone: '', area: 'Bhanjpur',
-    addr: 'Ward 4, Near Temple, Bhanjpur', lat: 21.5810, lng: 86.5720,
-    diet: 'nv', spice: 'Spicy', family: 2, notes: 'Extra gravy in chicken', dues: 0, pts: 42, joined: iso(addD(D0(), -8))
-  }
-};
-
-const NOW = Date.now();
-function seed() {
+function seedData() {
+  const today = iso(new Date());
   return {
-    rev: NOW,
-    prod: JSON.parse(JSON.stringify(SEED)),
-    svcList: JSON.parse(JSON.stringify(SVC_SEED)),
-    svBookings: [],
-    exp: [],
-    usedUtr: ['402312345678', '402398765432'],
-    usedImgHash: [],
-    deletedCust: [],
-    auto_amt: {},
-    profiles: JSON.parse(JSON.stringify(CUST_SEED)),
-    cfg: JSON.parse(JSON.stringify(DEFAULT_CFG)),
     subs: [
-      { id: 's1', ts: NOW - 5 * 864e5, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, origDays: 30, times: 3, start: iso(addD(D0(), -5)), price: 2899, paid: 1, ptsAwarded: 1, vStat: 'ok', pMode: 'UPI Verified', utr: '402312345678', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] }
+      { id: 's1', name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, times: 3, start: today, price: 2899, paid: 1, vStat: 'ok', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] },
+      { id: 's2', name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, times: 3, start: today, price: 1849, paid: 1, vStat: 'ok', lunch: 'both', dinner: 'roti', extraRoti: 1, skip: [] }
     ],
     orders: [
-      { id: 'o1', ts: NOW - 3 * 36e5, date: iso(D0()), name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ id: 16, n: 'Atta 5 kg', q: 1, p: 245, h: 0 }], total: 245, paid: 1, ptsAwarded: 1, vStat: 'ok', packed: 1, dlv: 0, pMode: 'UPI Verified', utr: '402311112222' }
+      { id: 'o1', date: today, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ n: 'Atta 5 kg', q: 1, p: 245 }], total: 245, paid: 1, vStat: 'ok', packed: 1, dlv: 0 },
+      { id: 'o2', date: today, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ n: 'Chicken curry 500g', q: 1, p: 260 }], total: 260, paid: 1, vStat: 'ok', packed: 0, dlv: 0 }
     ],
-    done: {}, mset: {}
+    prod: [
+      { id: 1, n: 'Chicken Leg Masala', p: 160, c: 'Khana', s: 1, img: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&q=70' },
+      { id: 2, n: 'Paneer Sabzi', p: 110, c: 'Khana', s: 1, img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=70' },
+      { id: 3, n: 'Doodh 500ml', p: 30, c: 'Dairy', s: 1, img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=70' }
+    ]
   };
 }
 
-let S = seed();
+let S = seedData();
 try {
-  const l = JSON.parse(localStorage.getItem('nu5'));
-  if (l && l.prod && l.prod.length >= 1) S = { ...seed(), ...l };
+  const l = JSON.parse(localStorage.getItem('nu_master_v3'));
+  if (l && l.subs) S = l;
 } catch (e) {}
 
-function getPlRate(type, d) {
-  const pl = (S.cfg && S.cfg.pl && S.cfg.pl[type]) || DEFAULT_CFG.pl[type];
-  return numOr(pl['d' + d] ?? pl[d], DEFAULT_CFG.pl[type]['d' + d] || 1499);
-}
-
-function toArr(v) {
-  if (!v) return [];
-  if (Array.isArray(v)) return v.filter(Boolean);
-  if (typeof v === 'object') return Object.values(v).filter(Boolean);
-  return [];
-}
-
-function ensureIntegrity() {
-  S.prod = toArr(S.prod);
-  if (!S.prod.length) S.prod = JSON.parse(JSON.stringify(SEED));
-  S.subs = toArr(S.subs);
-  S.orders = toArr(S.orders);
-  S.svcList = toArr(S.svcList);
-  if (!S.svcList.length) S.svcList = JSON.parse(JSON.stringify(SVC_SEED));
-  S.svBookings = toArr(S.svBookings);
-  S.exp = toArr(S.exp);
-  S.usedUtr = toArr(S.usedUtr);
-  if (!S.usedUtr.length) S.usedUtr = ['402312345678', '402398765432'];
-  S.usedImgHash = toArr(S.usedImgHash);
-  S.deletedCust = toArr(S.deletedCust);
-
-  S.subs.forEach(s => { s.skip = toArr(s.skip); s.paid = +s.paid ? 1 : 0; });
-  S.orders.forEach(o => { o.items = toArr(o.items); o.paid = +o.paid ? 1 : 0; o.dlv = +o.dlv ? 1 : 0; o.packed = +o.packed ? 1 : 0; });
-  S.exp.forEach((x, i) => { if (!x.id) x.id = 'ex_' + i + '_' + Date.now(); });
-
-  const cleanAuto = {};
-  Object.entries(S.auto_amt || {}).forEach(([k, v]) => { if (v) cleanAuto[String(k).replace('.', '_')] = v; });
-  S.auto_amt = cleanAuto;
-
-  S.profiles = { ...CUST_SEED, ...(S.profiles || {}) };
-  (S.deletedCust || []).forEach(p => { delete S.profiles[p]; });
-  Object.values(S.profiles).forEach(p => { if (p && p.pts === undefined) p.pts = 25; });
-
-  S.cfg = { ...DEFAULT_CFG, ...(S.cfg || {}) };
-  S.done = S.done || {};
-  S.mset = S.mset || {};
-}
-ensureIntegrity();
-
-function syncOrderPoints(item, isApproved) {
-  const p = ph(item.phone);
-  if (!p || !S.profiles[p]) return;
-  const amt = +(item.total || item.price || 0);
-  const earn = Math.max(2, Math.round(amt * 0.02));
-  if (isApproved && !item.ptsAwarded) {
-    S.profiles[p].pts = (S.profiles[p].pts || 0) + earn;
-    item.ptsAwarded = earn;
-  } else if (!isApproved && item.ptsAwarded) {
-    S.profiles[p].pts = Math.max(0, (S.profiles[p].pts || 0) - (+item.ptsAwarded || earn));
-    item.ptsAwarded = 0;
-  }
-}
-
-function isSubActiveOn(s, d, slot) {
-  if (!s || s.vStat === 'bad') return false;
-  if (slot === 'bf' && (+s.times || 3) < 3) return false;
-  const k = iso(d);
-  if ((s.skip || []).includes(k)) return false;
-  const startStr = s.start || iso(D0());
-  const endStr = iso(addD(new Date(startStr + 'T12:00:00'), (+s.days || 30) - 1));
-  return k >= startStr && k <= endStr;
-}
-
-function getSubDaysRemaining(s) {
-  const startStr = s.start || iso(D0());
-  const endD = addD(new Date(startStr + 'T12:00:00'), (+s.days || 30) - 1);
-  return Math.round((endD - D0()) / 864e5) + 1;
-}
-
-function isSubSlotDone(subId, dateStr, slot) {
-  return !!S.done[`${dateStr}_${subId}_${slot}`];
-}
-
-function calcRotiForSub(s, slot) {
-  if (slot === 'bf') return 0;
-  const pref = slot === 'lunch' ? (s.lunch || 'chawal') : (s.dinner || 'roti');
-  const base = pref === 'roti' ? 4 : pref === 'both' ? 2 : 0;
-  return base + (+s.extraRoti || 0);
-}
-
-function statusPillHTML(item) {
-  if (item.vStat === 'bad') return `<span class="st-pill st-bad">✕ Rejected</span>`;
-  if (+item.paid) return `<span class="st-pill st-ok">✓ Verified Paid</span>`;
-  if (item.vStat === 'verify') return `<span class="st-pill st-wait">⏳ Hold</span>`;
-  return `<span class="st-pill st-wait">Pay at Door</span>`;
-}
-
-let tab = 'plan';
-let ROLE = (sessionStorage.getItem('nu_role_tok') === ROLE_HASHES.owner) ? 'owner' : (sessionStorage.getItem('nu_role_tok') === ROLE_HASHES.staff) ? 'staff' : '';
-let SCAT = 'all', S_FILT = 'all', SQ = '', PQ = null, CART_OPEN = false, PIN_OPEN = false, PAY_MODE = 'upi', PROOF_IMG = null, PROOF_META = null, VIEW_PROOF = null, SV_BOOK = null;
-let DRAFT_UTR = '', O_Q = '', O_FILTER = 'all', COUPON_CODE = '', USE_PTS = false, ROUTE_SMART = true;
-let K_SLOT = new Date().getHours() < 11 ? 'bf' : new Date().getHours() < 16 ? 'lunch' : 'dinner';
-let MENU_DATE = iso(D0());
-let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null, ED_SUB = null, ED_ORD = null;
-let LOGO_TAPS = 0, LOGO_TIMER = null, LAST_SAVE_TS = 0;
-let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
-let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || []; } catch (e) {}
-
-let PAY_BOX = null;
-const setPayBox = b => {
-  PAY_BOX = b;
-  if (!b) DRAFT_UTR = '';
-};
-
-const F = {
-  type: 'veg', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 0,
-  start: iso(D0()),
-  area: localStorage.getItem('nu_area') || 'Udala Bus Stand',
-  name: localStorage.getItem('nu_n') || 'Subham Rana',
-  phone: localStorage.getItem('nu_p') || '8073721357',
-  altPhone: localStorage.getItem('nu_altp') || '',
-  addr: localStorage.getItem('nu_a') || 'Near Bus Stand, Main Road, Udala',
-  spice: localStorage.getItem('nu_spice') || 'Medium',
-  family: Math.max(1, +(localStorage.getItem('nu_fam') || 3)),
-  notes: localStorage.getItem('nu_notes') || '',
-  lat: +(localStorage.getItem('nu_lat') || 21.5732),
-  lng: +(localStorage.getItem('nu_lng') || 86.5675)
-};
-
-function getMyPts() {
-  const p = S.profiles[ph(F.phone)];
-  return p ? (+p.pts || 0) : 25;
-}
-
-function syncCustomerProfile() {
-  F.family = Math.min(50, Math.max(1, +F.family || 1));
-  localStorage.setItem('nu_n', F.name);
-  localStorage.setItem('nu_p', F.phone);
-  localStorage.setItem('nu_altp', F.altPhone);
-  localStorage.setItem('nu_a', F.addr);
-  localStorage.setItem('nu_area', F.area);
-  localStorage.setItem('nu_spice', F.spice);
-  localStorage.setItem('nu_fam', F.family);
-  localStorage.setItem('nu_notes', F.notes);
-  if (F.lat) localStorage.setItem('nu_lat', F.lat);
-  if (F.lng) localStorage.setItem('nu_lng', F.lng);
-
-  const cleanP = ph(F.phone);
-  if (isValidPhone(cleanP)) {
-    S.deletedCust = (S.deletedCust || []).filter(x => x !== cleanP);
-    const existing = S.profiles[cleanP] || { joined: iso(D0()), dues: 0, pts: 25 };
-    S.profiles[cleanP] = {
-      ...existing,
-      phone: cleanP,
-      name: F.name.trim(),
-      altPhone: ph(F.altPhone),
-      area: F.area,
-      addr: F.addr.trim(),
-      lat: F.lat,
-      lng: F.lng,
-      diet: F.type,
-      spice: F.spice,
-      family: F.family,
-      notes: F.notes.trim()
-    };
-  }
-}
-
-let db = null, fbSet = null, fbRef = null;
-(async () => {
-  try {
-    const [{ initializeApp }, { getDatabase, ref, set, onValue }] = await Promise.all([
-      import("https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"),
-      import("https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js")
-    ]);
-    const app = initializeApp({
-      apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",
-      authDomain: "namaste-udala.firebaseapp.com",
-      projectId: "namaste-udala",
-      storageBucket: "namaste-udala.firebasestorage.app",
-      messagingSenderId: "998684348165",
-      appId: "1:998684348165:web:4bb0d2f5335a90a394716c",
-      databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com"
-    });
-    db = getDatabase(app); fbSet = set; fbRef = ref;
-    onValue(ref(db, NODE), sn => {
-      if (Date.now() - LAST_SAVE_TS < 2000) return;
-      const v = sn.val();
-      if (v && v.prod && (+v.rev || 0) !== (+S.rev || 0)) {
-        S = {
-          ...seed(),
-          ...v,
-          subs: toArr(v.subs),
-          orders: toArr(v.orders),
-          exp: toArr(v.exp),
-          svBookings: toArr(v.svBookings),
-          usedUtr: toArr(v.usedUtr),
-          usedImgHash: toArr(v.usedImgHash),
-          deletedCust: toArr(v.deletedCust)
-        };
-        ensureIntegrity();
-        safeLocalSave();
-        checkAutoPaymentMatch();
-        const active = document.activeElement;
-        const isEditing = ED_P || ED_SV || ED_CUST || ED_SUB || ED_ORD || SV_BOOK || PAY_BOX || PIN_OPEN;
-        if (!isEditing && (!active || (active.tagName !== 'INPUT' && active.tagName !== 'SELECT'))) {
-          render();
-        }
-      }
-    });
-  } catch (e) {}
-})();
-
-function checkAutoPaymentMatch() {
-  if (!PAY_BOX || !S.auto_amt) return;
-  const key = amtKey(PAY_BOX.exactAmt);
-  if (S.auto_amt[key]) {
-    delete S.auto_amt[key];
-    finalizeOrder(1, 'ok', 'Bank Auto-Matched ₹' + Number(PAY_BOX.exactAmt).toFixed(2), 'AUTO-' + Date.now().toString().slice(-8));
-  }
-}
-
-function safeLocalSave() {
-  try {
-    localStorage.setItem('nu5', JSON.stringify(S));
-  } catch (e) {}
-}
-
-function save() {
-  LAST_SAVE_TS = Date.now();
-  S.rev = (Math.max(+S.rev || 0, LAST_SAVE_TS)) + 1;
-  ensureIntegrity();
-  safeLocalSave();
-  if (db && fbSet && fbRef) fbSet(fbRef(db, NODE), S).catch(() => {});
+function saveAll() {
+  localStorage.setItem('nu_master_v3', JSON.stringify(S));
   render();
 }
 
-function buildUpiQuery(amt, note, trId) {
-  const pa = (S.cfg.upi || '9583937047@jio').trim();
-  const pn = 'Namaste Udala';
-  const am = Number(amt || 0).toFixed(2);
-  const cleanNote = String(note || 'NamasteUdalaOrder').replace(/[^a-zA-Z0-9 ]/g, '').slice(0, 28).trim() || 'Order';
-  const tr = trId || ('NU' + Date.now().toString().slice(-8));
-  return `pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${am}&cu=INR&tn=${encodeURIComponent(cleanNote)}&tr=${encodeURIComponent(tr)}`;
-}
+let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
+let K_SLOT = 'lunch', CART_OPEN = false, PIN_OPEN = false;
+let F = { name: localStorage.getItem('nu_n') || 'Subham Rana', phone: localStorage.getItem('nu_p') || '8073721357', addr: localStorage.getItem('nu_a') || 'Bus Stand Udala', area: localStorage.getItem('nu_area') || 'Udala Bus Stand', type: 'veg', days: 30, times: 3 };
 
-const upiLink = (a, n, tr) => 'upi://pay?' + buildUpiQuery(a, n, tr);
-
-function launchUpiApp(appType) {
-  if (!PAY_BOX) return;
-  if ($('#utr_inp')) DRAFT_UTR = $('#utr_inp').value;
-  const q = buildUpiQuery(PAY_BOX.exactAmt, PAY_BOX.title, PAY_BOX.trId);
-  const isAndroid = /Android/i.test(navigator.userAgent);
-
-  let targetUrl = 'upi://pay?' + q;
-  if (appType === 'phonepe') {
-    targetUrl = isAndroid ? `intent://pay?${q}#Intent;scheme=upi;package=com.phonepe.app;end` : `phonepe://pay?${q}`;
-  } else if (appType === 'gpay') {
-    targetUrl = isAndroid ? `intent://upi/pay?${q}#Intent;scheme=tez;package=com.google.android.apps.nbu.paisa.user;end` : `tez://upi/pay?${q}`;
-  } else if (appType === 'paytm') {
-    targetUrl = isAndroid ? `intent://pay?${q}#Intent;scheme=paytmmp;package=net.one97.paytm;end` : `paytmmp://pay?${q}`;
-  }
-  copyText(Number(PAY_BOX.exactAmt).toFixed(2), `Opening ${appType.toUpperCase()}...`);
-  const a = document.createElement('a'); a.href = targetUrl; a.style.display = 'none';
-  document.body.appendChild(a); a.click();
-  setTimeout(() => { try { document.body.removeChild(a); } catch (e) {} }, 600);
-}
-
-function generateUniqueExactAmt(base) {
-  const usedKeys = new Set();
-  (S.orders || []).forEach(o => { if (!o.paid && o.vStat !== 'bad') usedKeys.add(amtKey(o.total)); });
-  (S.subs || []).forEach(s => { if (!s.paid && s.vStat !== 'bad') usedKeys.add(amtKey(s.price)); });
-  for (let tries = 0; tries < 85; tries++) {
-    const p = +(Math.floor(11 + Math.random() * 88) / 100).toFixed(2);
-    const candidate = +(base + p).toFixed(2);
-    if (!usedKeys.has(amtKey(candidate))) return candidate;
-  }
-  return +(base + 0.49).toFixed(2);
-}
-
-const parsePid = k => Number(String(k).replace('h', ''));
-const saveCart = () => {
-  Object.keys(C).forEach(k => {
-    const p = S.prod.find(x => sameId(x.id, parsePid(k)));
-    const isH = String(k).endsWith('h');
-    if (!C[k] || C[k] < 1 || !p || !p.s || (isH && !p.h)) delete C[k];
-  });
-  localStorage.setItem('nu5c', JSON.stringify(C));
-};
-const cc = () => Object.entries(C).reduce((a, [k, q]) => {
-  const p = S.prod.find(x => sameId(x.id, parsePid(k)));
-  const isH = String(k).endsWith('h');
-  return (p && p.s && (!isH || p.h) && q > 0) ? a + (+q) : a;
-}, 0);
-const subTot = () => Object.entries(C).reduce((a, [k, q]) => {
-  const p = S.prod.find(x => sameId(x.id, parsePid(k)));
-  const isH = String(k).endsWith('h');
-  if (!p || !p.s || (isH && !p.h) || q < 1) return a;
-  return a + (isH ? Math.round(p.p * 0.6) : p.p) * q;
-}, 0);
-const dlvFee = () => {
-  const st = subTot(), fMin = numOr(S.cfg.freeMin, 300), dFee = numOr(S.cfg.dlvFee, 25);
-  return (st > 0 && st < fMin) ? dFee : 0;
-};
-
-function getDiscountBreakdown(itemSubTotal) {
-  let cpnDisc = 0, ptsDisc = 0;
-  const c = COUPONS[COUPON_CODE];
-  if (c && itemSubTotal >= c.min) cpnDisc = c.disc;
-  const afterCpn = Math.max(0, itemSubTotal - cpnDisc);
-  if (USE_PTS && afterCpn > 10) {
-    ptsDisc = Math.min(getMyPts(), Math.floor(itemSubTotal * 0.25), Math.max(0, afterCpn - 10));
-  }
-  const totalDisc = Math.min(cpnDisc + ptsDisc, Math.max(0, itemSubTotal - 10));
-  return { cpnDisc, ptsDisc, totalDisc };
-}
-const getDiscountAmt = rawAmt => getDiscountBreakdown(rawAmt).totalDisc;
-const ct = () => {
-  const st = subTot();
-  if (st <= 0) return 0;
-  return Math.max(10, st - getDiscountAmt(st)) + dlvFee();
-};
-
-const menu = (t, dt) => {
-  const o = (S.mset || {})[dt || iso(D0())];
-  if (o && o[t]) return o[t];
-  if (t === 'bf') return 'Garma-Garam Puri Sabzi / Paratha + Chai';
-  return t === 'nv' ? 'Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Shahi Paneer + Dal Tadka + Rice + 4 Roti';
-};
-
-const tierPrice = d => {
-  let b = d === 1 ? numOr(S.cfg.trialPrice, 49) : getPlRate(F.type, d);
-  if (d === 1 && F.type === 'nv') b += 20;
-  if (+F.times === 3) b += d * numOr(S.cfg.bfAddon, 20);
-  if (F.lunch === 'both') b += d * numOr(S.cfg.bothAddon, 10);
-  if (F.dinner === 'both') b += d * numOr(S.cfg.bothAddon, 10);
-  b += (+F.extraRoti || 0) * numOr(S.cfg.rotiAddon, 5) * 2 * d;
-  return b;
-};
-
-function getMySubs() {
-  const cleanP = ph(F.phone);
-  return (S.subs || []).filter(s => MY.some(m => sameId(m, s.id)) || (isValidPhone(cleanP) && cleanP === ph(s.phone))).slice().reverse();
-}
-function getMyOrders() {
-  const cleanP = ph(F.phone);
-  return (S.orders || []).filter(o => MY.some(m => sameId(m, o.id)) || (isValidPhone(cleanP) && cleanP === ph(o.phone))).slice().reverse();
-}
-function getMyServiceBookings() {
-  const cleanP = ph(F.phone);
-  return (S.svBookings || []).filter(b => isValidPhone(cleanP) && cleanP === ph(b.phone)).slice().reverse();
-}
-
-function userFormHTML(rawAmt = 0) {
-  const pts = getMyPts();
-  const { cpnDisc, ptsDisc, totalDisc } = getDiscountBreakdown(rawAmt);
-  return `
-  <div style="background:var(--sf2);padding:10px;border-radius:14px;margin:10px 0;border:1px dashed var(--ln)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-      <span style="font-size:11px;font-weight:800;color:var(--g2)">🎁 Promo & Wallet (${pts} Pts)</span>
-      <button type="button" class="btn sm ${USE_PTS ? 'g' : 'w'}" data-a="toggle_pts" style="padding:4px 9px;font-size:10px">${USE_PTS ? `✓ Using ${ptsDisc} Pts` : 'Use Points'}</button>
-    </div>
-    <div style="display:flex;gap:6px">
-      <input class="inp" id="cpn_inp" placeholder="Promo: WELCOME30 / UDALA50" value="${esc(COUPON_CODE)}" style="margin:0;flex:1;padding:8px 10px;font-size:11.5px">
-      <button type="button" class="btn sm g" data-a="apply_cpn">Apply</button>
-    </div>
-    ${totalDisc > 0 ? `<div style="font-size:11px;color:#16a34a;font-weight:800;margin-top:5px">🎉 Discount: −${inr(totalDisc)}</div>` : ''}
-  </div>
-  <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
-    <button type="button" class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} <span>${F.lat ? 'GPS Saved' : 'Detect GPS'}</span></button>
-    <span style="font-size:11px;color:var(--mu)">${F.lat ? `${Number(F.lat).toFixed(4)}, ${Number(F.lng).toFixed(4)}` : 'Fast Delivery'}</span>
-  </div>
-  <div class="area-chips">
-    ${UDALA_AREAS.map(a => `<button type="button" class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</button>`).join('')}
-  </div>
-  <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
-  <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
-  <input class="inp" data-f="addr" placeholder="Pura Address / Landmark" value="${esc(F.addr)}">`;
+function toast(m) {
+  const t = $('#toast'); if (!t) return;
+  t.textContent = m; t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 3000);
 }
 
 function vPlan() {
-  const todayStr = iso(D0());
-  if (!F.start || F.start < todayStr) F.start = todayStr;
-  const rawPr = tierPrice(+F.days);
-  const pr = Math.max(10, rawPr - getDiscountAmt(rawPr));
-  const rawTrial = tierPrice(1);
-  const trialPr = Math.max(10, rawTrial - getDiscountAmt(rawTrial));
-  const mySubs = getMySubs();
-
   return `
   <div class="hero3d terracotta">
-    ${steamHTML()}
     <span class="hero-pill">ARTISANAL HOME KITCHEN</span>
     <h2>Monthly · 15 Days · 7 Days Tiffin Plan</h2>
-    <p>3-Time Ghar Jaisa Khana · Free Home Delivery</p>
-    <img class="hero-plate" src="${esc(F.type === 'veg' ? IMG.paneer : IMG.leg)}" alt="Thali">
+    <p>3-Time Ghar Jaisa Khana · Free Delivery in Udala</p>
   </div>
-
   <div class="card">
     <h3>1. Apna Tiffin Plan Chunein</h3>
-    <div class="seg" style="margin-bottom:14px">
-      <button type="button" class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">🟢 Pure Veg</button>
-      <button type="button" class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">🔴 Non-Veg</button>
+    <div class="seg" style="margin-bottom:12px">
+      <button class="${F.type==='veg'?'on':''}" onclick="setF('type','veg')">🟢 Pure Veg</button>
+      <button class="${F.type==='nv'?'on':''}" onclick="setF('type','nv')">🔴 Non-Veg</button>
     </div>
-
     <div class="plan-grid">
-      ${[[30, 'Monthly', 'BEST'], [15, '15 Days', 'POPULAR'], [7, '7 Days', 'STARTER']].map(([d, l, t]) => `
-        <button type="button" class="p-tier ${+F.days === d ? 'on' : ''}" data-a="fset" data-k="days" data-v="${d}">
-          <span class="p-badge">${t}</span>
-          <span class="p-days">${d} Din</span>
-          <span class="p-sub">${l}</span>
-          <span class="p-amt">${inr(tierPrice(d))}</span>
-        </button>`).join('')}
+      <button class="p-tier ${F.days===30?'on':''}" onclick="setF('days',30)"><span class="p-badge">BEST</span><span class="p-days">30 Din</span><span class="p-amt">₹2,899</span></button>
+      <button class="p-tier ${F.days===15?'on':''}" onclick="setF('days',15)"><span class="p-badge">POPULAR</span><span class="p-days">15 Din</span><span class="p-amt">₹1,499</span></button>
+      <button class="p-tier ${F.days===7?'on':''}" onclick="setF('days',7)"><span class="p-badge">TRIAL</span><span class="p-days">7 Din</span><span class="p-amt">₹749</span></button>
     </div>
-
-    <span class="lbl">2. Kitne Time?</span>
-    <div class="seg">
-      <button type="button" class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">3 Time</button>
-      <button type="button" class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">2 Time</button>
-    </div>
-
-    <span class="lbl">Start Date</span>
-    <input class="inp" type="date" data-f="start" min="${todayStr}" value="${F.start}">
-
-    ${userFormHTML(rawPr)}
-    <div class="tot"><span>Total</span><b>${inr(pr)}</b></div>
-    <button type="button" class="btn" data-a="pay_sub">Activate Plan · ${inr(pr)}</button>
-    <button type="button" class="btn g" data-a="pay_trial">1-Day Trial · ${inr(trialPr)}</button>
+    <input class="inp" id="uName" placeholder="Aapka Naam" value="${esc(F.name)}">
+    <input class="inp" id="uPhone" placeholder="Mobile Number" value="${esc(F.phone)}">
+    <input class="inp" id="uAddr" placeholder="Address / Landmark" value="${esc(F.addr)}">
+    <button class="btn" onclick="bookPlan()">Activate Plan Now ✓</button>
   </div>`;
 }
 
 function vShop() {
-  const q = SQ.trim().toLowerCase();
-  const list = S.prod.filter(p => {
-    if (SCAT !== 'all' && p.c !== SCAT) return false;
-    if (q && !p.n.toLowerCase().includes(q)) return false;
-    return true;
-  });
-
   return `
   <div class="hero3d">
-    ${steamHTML()}
-    <span class="hero-pill">FRESH KITCHEN & PANTRY</span>
-    <h2>Garma-Garam Khana & Daily Kirana</h2>
-    <p>Low Data Mode Active · Cached Locally</p>
+    <span class="hero-pill">UDALA LOCAL STORE</span>
+    <h2>Fresh Tiffin Items & Kirana</h2>
   </div>
-
-  <div style="display:flex;gap:6px;margin-bottom:8px">
-    <input class="inp" id="sq" placeholder="Search Doodh, Atta, Chicken..." value="${esc(SQ)}" style="margin:0;flex:1">
-  </div>
-
-  <div class="chips">
-    ${CATS.map(c => `<button type="button" class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${esc(c[2])}" alt=""><span>${c[1]}</span></button>`).join('')}
-  </div>
-
-  <div class="grid">
-    ${list.map(p => {
-      const q = C[p.id] || 0;
-      return `<div class="pcard">
-        <div class="pimg"><img src="${esc(p.img)}" alt="${esc(p.n)}" loading="lazy"></div>
-        <div style="font-weight:800;font-size:12.5px">${esc(p.n)}</div>
-        <div class="pprice"><b>${inr(p.p)}</b></div>
-        ${q ? `<div class="qty"><button type="button" data-a="dec" data-id="${p.id}">−</button><b>${q}</b><button type="button" data-a="inc" data-id="${p.id}">+</button></div>` :
-          `<button type="button" class="btn g sm" style="margin-top:auto" data-a="inc" data-id="${p.id}">+ ADD</button>`}
-      </div>`;
-    }).join('')}
-  </div>`;
-}
-
-function vProfile() {
-  const cleanP = ph(F.phone);
-  const pts = getMyPts();
-  return `
-  <div class="prof-head">
-    <div class="prof-av">SR</div>
-    <div style="flex:1">
-      <h2 style="font-family:var(--serif);font-size:20px">${esc(F.name)}</h2>
-      <div style="font-size:12px;opacity:.9">+91 ${esc(cleanP)} · ${esc(F.area)}</div>
-      <span class="prof-badge">★ ${pts} Cashback Points</span>
-    </div>
-  </div>
-  <div class="card">
-    <h3>Customer Profile & Data Sync</h3>
-    ${userFormHTML(0)}
-    <button type="button" class="btn g" data-a="save_prof">Save Profile (Offline Ready) ✓</button>
+  <div class="grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    ${S.prod.map(p => `
+      <div class="card" style="margin:0;padding:10px">
+        <img src="${p.img}" style="height:100px;width:100%;border-radius:12px;object-fit:cover">
+        <div style="font-weight:800;font-size:13px;margin:6px 0">${p.n}</div>
+        <div style="font-family:var(--serif);font-weight:800;color:var(--o);font-size:15px">${inr(p.p)}</div>
+        <button class="btn g sm" style="width:100%;margin-top:6px" onclick="addShop(${p.id})">+ ADD</button>
+      </div>
+    `).join('')}
   </div>`;
 }
 
 function vKitchen() {
-  const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT));
-  const prep = calcKitchenProcurement(activeSubs, [], K_SLOT);
+  const activeSubs = S.subs.filter(s => s.vStat !== 'bad');
+  const pendOrds = S.orders.filter(o => !o.dlv);
   return `
   <div class="hero3d">
     <h2>Kitchen Production & Prep AI</h2>
-    <p>Aaj ke Active Tiffins Forecast</p>
+    <p>Live Active Tiffins & Orders Forecast</p>
   </div>
   <div class="seg" style="margin-bottom:12px">
-    <button type="button" class="${K_SLOT === 'bf' ? 'on' : ''}" data-a="kslot" data-v="bf">Nashta</button>
-    <button type="button" class="${K_SLOT === 'lunch' ? 'on' : ''}" data-a="kslot" data-v="lunch">Lunch</button>
-    <button type="button" class="${K_SLOT === 'dinner' ? 'on' : ''}" data-a="kslot" data-v="dinner">Dinner</button>
+    <button class="${K_SLOT==='bf'?'on':''}" onclick="setSlot('bf')">Nashta</button>
+    <button class="${K_SLOT==='lunch'?'on':''}" onclick="setSlot('lunch')">Lunch</button>
+    <button class="${K_SLOT==='dinner'?'on':''}" onclick="setSlot('dinner')">Dinner</button>
   </div>
-  <div class="prep-grid">
-    <div class="prep-box"><b>${prep.rice}</b><span>Chawal</span></div>
-    <div class="prep-box"><b>${prep.atta}</b><span>Atta</span></div>
-    <div class="prep-box"><b>${prep.chicken}</b><span>Chicken</span></div>
-    <div class="prep-box"><b>${prep.paneer}</b><span>Paneer</span></div>
+  <div class="kpi">
+    <div><b>${activeSubs.length}</b><span>Active Dabbe</span></div>
+    <div><b>${pendOrds.length}</b><span>Shop Orders</span></div>
+    <div><b>${activeSubs.length * 4}</b><span>Total Roti</span></div>
+  </div>
+  <div class="card">
+    <h3>Active Tiffin Preps (${activeSubs.length})</h3>
+    ${activeSubs.map(s => `<div class="row"><div><b>${esc(s.name)}</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.area)} · ${s.type==='nv'?'Non-Veg':'Veg'}</div></div><span class="st-pill st-ok">Cooking</span></div>`).join('')}
   </div>`;
 }
 
 function vRoute() {
-  const subs = sortRouteNearestFirst((S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT)));
   return `
-  <div class="card" style="background:var(--g);color:#fff">
-    <h2 style="font-family:var(--serif);font-size:18px">GPS Shortest-Path Route</h2>
+  <div class="hero3d" style="background:linear-gradient(132deg,#113221,#1b5e3a)">
+    <h2>GPS Shortest-Path Route</h2>
+    <p>Delivery Boy Navigation</p>
   </div>
   <div class="card">
-    <h3>Delivery Drops (${subs.length})</h3>
-    ${subs.map((s, i) => `<div class="row"><div><b>#${i+1} · ${esc(s.name)}</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.addr)} (${s._distKm} km)</div></div><a class="btn sm g" href="tel:+91${esc(s.phone)}">Call</a></div>`).join('')}
+    <h3>Today's Delivery Drops (${S.subs.length + S.orders.length})</h3>
+    ${S.subs.map((s, i) => `<div class="row"><div><b>#${i+1} · ${esc(s.name)} (${s.type==='nv'?'NV':'Veg'})</b><div style="font-size:11px;color:var(--mu)">${esc(s.addr)} (${esc(s.area)})</div></div><a class="btn sm g" href="tel:+91${s.phone}">Call</a></div>`).join('')}
+    ${S.orders.map((o, i) => `<div class="row"><div><b>Shop Drop · ${esc(o.name)}</b><div style="font-size:11px;color:var(--mu)">${esc(o.addr)} · ${o.items.map(x=>x.n).join(', ')}</div></div><a class="btn sm g" href="tel:+91${o.phone}">Call</a></div>`).join('')}
   </div>`;
 }
 
 function vOwner() {
-  const totIn = (S.orders || []).reduce((a, o) => a + (+o.paid ? +o.total : 0), 0) + (S.subs || []).reduce((a, s) => a + (+s.paid ? +s.price : 0), 0);
+  const totIn = S.orders.reduce((a,o)=>a+o.total,0) + S.subs.reduce((a,s)=>a+s.price,0);
   return `
-  <div class="card" style="background:var(--g);color:#fff">
-    <h2 style="font-family:var(--serif);font-size:18px">Owner Master Control</h2>
+  <div class="hero3d" style="background:linear-gradient(132deg,#2b1208,#7c280d)">
+    <h2>Owner Master Control</h2>
+    <p>Full CRM & Data Management</p>
   </div>
   <div class="kpi">
     <div><b>${inr(totIn)}</b><span>Collection</span></div>
     <div><b>${S.orders.length}</b><span>Orders</span></div>
     <div><b>${S.subs.length}</b><span>Subs</span></div>
+  </div>
+  <div class="card">
+    <h3>Quick Data Controls</h3>
+    <button class="btn g" onclick="resetDemoData()">↻ Reload / Reset Demo Data</button>
+    <button class="btn r sm" style="background:#dc2626;margin-top:8px" onclick="logoutOwner()">Logout Owner Mode</button>
   </div>`;
 }
 
 function sheet() {
-  if (PAY_BOX) {
-    const g = PAY_BOX, uLink = upiLink(g.exactAmt, g.title, g.trId);
+  if (PIN_OPEN) {
     return `<div class="ov"><div class="sh" style="text-align:center">
-      <h3>⚡ 1-TAP UPI PAYMENT</h3>
-      <h2 style="color:var(--o);margin:10px 0">${inr(g.exactAmt)}</h2>
-      <div class="upi-grid">
-        <button type="button" class="upi-btn upi-pp" data-a="open_upi_app" data-v="phonepe">🟣 PhonePe</button>
-        <button type="button" class="upi-btn upi-gp" data-a="open_upi_app" data-v="gpay">🔵 Google Pay</button>
-      </div>
-      <div style="margin:12px 0"><img src="${esc(qrUrl(uLink))}" style="width:130px;margin:0 auto"></div>
-      <input class="inp" id="utr_inp" placeholder="12-Digit UTR" value="${esc(DRAFT_UTR)}" style="text-align:center">
-      <button type="button" class="btn g" data-a="confirm_paid">I Have Paid ✓</button>
-      <button type="button" class="btn w sm" data-a="cancel_pay" style="margin-top:8px">Cancel</button>
-    </div></div>`;
-  }
-  if (CART_OPEN) {
-    const st = subTot(), tot = ct();
-    return `<div class="ov"><div class="sh">
-      <h3>Aapka Cart</h3>
-      ${userFormHTML(st)}
-      <div class="tot"><span>Total Bill</span><b>${inr(tot)}</b></div>
-      <button type="button" class="btn" data-a="pay_ord">Proceed to Payment · ${inr(tot)}</button>
-      <button type="button" class="btn w sm" data-a="close" style="margin-top:8px">Close</button>
+      <h3>🔒 Owner PIN Access</h3>
+      <p style="font-size:12px;color:var(--mu);margin:8px 0">Enter 4-digit PIN (Default: 4827)</p>
+      <input class="inp" id="pinBox" type="password" maxlength="4" style="text-align:center;font-size:22px;letter-spacing:6px;max-width:160px;margin:0 auto 12px" autofocus>
+      <button class="btn g" onclick="verifyPin()">Unlock Owner Panel ✓</button>
+      <button class="btn w sm" style="margin-top:8px" onclick="closePin()">Cancel</button>
     </div></div>`;
   }
   return '';
 }
 
 function render() {
-  saveCart();
-  const V = { plan: vPlan, shop: vShop, profile: vProfile, kitchen: vKitchen, route: vRoute, owner: vOwner };
-  try {
-    $('#v').innerHTML = (V[tab] || vPlan)();
-    $('#sheet').innerHTML = sheet();
-  } catch (e) {}
+  const V = { plan: vPlan, shop: vShop, kitchen: vKitchen, route: vRoute, owner: vOwner };
+  $('#v').innerHTML = (V[tab] || vPlan)();
+  $('#sheet').innerHTML = sheet();
 
-  const n = cc(), tot = ct();
-  $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX) ? `
-    <button type="button" class="cbar-fixed" data-a="open_cart">
-      <span>${n} Item · ${inr(tot)}</span>
-      <span>View Cart & Order →</span>
-    </button>` : '';
-
-  const TABS = [['plan', IC.tiffin, 'Plans'], ['shop', IC.shop, 'Shop'], ['profile', IC.user, 'Profile']];
-  if (ROLE === 'staff' || ROLE === 'owner') TABS.push(['kitchen', IC.kitchen, 'Kitchen'], ['route', IC.route, 'Route']);
-  if (ROLE === 'owner') TABS.push(['owner', IC.owner, 'Owner']);
-
-  $('#nav').innerHTML = TABS.map(x => `<button type="button" class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
-}
-
-function checkUser() {
-  if (!F.name.trim() || !isValidPhone(F.phone) || !F.addr.trim()) {
-    toast('Naam, mobile aur address bharein');
-    return false;
+  const TABS = [['plan', IC.tiffin, 'Plans'], ['shop', IC.shop, 'Shop']];
+  if (ROLE === 'owner') {
+    TABS.push(['kitchen', IC.kitchen, 'Kitchen'], ['route', IC.route, 'Route'], ['owner', IC.owner, 'Owner']);
   }
-  syncCustomerProfile();
-  return true;
+  $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" onclick="setTab('${x[0]}')">${x[1]}<span class="nl">${x[2]}</span></button>`).join('');
 }
 
-function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
-  if (!PAY_BOX) return;
-  syncCustomerProfile();
-  setPayBox(null); playChime(); save();
-  toast('🎉 Order & Payment Successful!');
-}
-
-const A = {
-  tab: v => { tab = v; CART_OPEN = false; setPayBox(null); render(); },
-  logo_tap: () => {
-    LOGO_TAPS++;
-    clearTimeout(LOGO_TIMER);
-    LOGO_TIMER = setTimeout(() => { LOGO_TAPS = 0; }, 2200);
-    if (LOGO_TAPS >= 5) {
-      LOGO_TAPS = 0;
-      ROLE = 'owner'; sessionStorage.setItem('nu_role_tok', ROLE_HASHES.owner);
-      tab = 'owner'; render(); toast('🔓 Owner Master Control Unlocked!');
-    } else if (LOGO_TAPS >= 3) {
-      toast(`${5 - LOGO_TAPS} more taps for Owner Login`);
-    }
-  },
-  toggle_pts: () => { USE_PTS = !USE_PTS; render(); },
-  apply_cpn: () => { COUPON_CODE = $('#cpn_inp').value.toUpperCase(); render(); toast('Promo Applied!'); },
-  set_area: v => { F.area = v; render(); },
-  cat: v => { SCAT = v; render(); },
-  kslot: v => { K_SLOT = v; render(); },
-  open_cart: () => { CART_OPEN = true; render(); },
-  close: () => { CART_OPEN = false; setPayBox(null); render(); },
-  cancel_pay: () => { setPayBox(null); render(); },
-  inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; saveCart(); render(); },
-  dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); saveCart(); render(); },
-  open_upi_app: v => launchUpiApp(v),
-  confirm_paid: () => finalizeOrder(1, 'ok', '1-Tap UPI', 'UPI-' + Date.now().toString().slice(-8)),
-  fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
-  save_prof: () => { if (checkUser()) toast('Profile Saved ✓'); },
-  pay_sub: () => {
-    if (!checkUser()) return;
-    const raw = tierPrice(+F.days);
-    setPayBox({ exactAmt: Math.max(10, raw), days: +F.days, trId: 'NUSUB' + Date.now().toString().slice(-7), title: `${F.days} Din Tiffin` });
-    render();
-  },
-  pay_trial: () => {
-    if (!checkUser()) return;
-    const raw = tierPrice(1);
-    setPayBox({ exactAmt: Math.max(10, raw), days: 1, trId: 'NUTRL' + Date.now().toString().slice(-7), title: `1 Din Trial` });
-    render();
-  },
-  pay_ord: () => {
-    if (!checkUser()) return;
-    CART_OPEN = false;
-    setPayBox({ exactAmt: ct(), trId: 'NUORD' + Date.now().toString().slice(-7), title: `Shop Order` });
-    render();
-  },
-  theme: () => {
-    const d = document.documentElement.dataset.theme !== 'dark';
-    document.documentElement.dataset.theme = d ? 'dark' : '';
-    localStorage.setItem('nu_theme', d ? 'dark' : '');
-    $('#thm').textContent = d ? '☀️' : '🌙';
+function setTab(t) { tab = t; render(); window.scrollTo(0,0); }
+function setF(k, v) { F[k] = v; render(); }
+function setSlot(s) { K_SLOT = s; render(); }
+function addShop(id) {
+  const p = S.prod.find(x => x.id === id);
+  if (p) {
+    S.orders.push({ id: uid('o'), date: iso(new Date()), name: F.name, phone: F.phone, area: F.area, addr: F.addr, items: [{ n: p.n, q: 1, p: p.p }], total: p.p, paid: 1, vStat: 'ok', packed: 1, dlv: 0 });
+    saveAll();
+    toast('Item added to Shop Orders & Kitchen Queue!');
   }
+}
+function bookPlan() {
+  F.name = $('#uName').value.trim() || F.name;
+  F.phone = $('#uPhone').value.trim() || F.phone;
+  F.addr = $('#uAddr').value.trim() || F.addr;
+  if (!isValidPhone(F.phone)) { toast('Sahi 10-digit mobile number daalein!'); return; }
+  
+  const price = F.days === 30 ? 2899 : F.days === 15 ? 1499 : 749;
+  S.subs.push({ id: uid('s'), name: F.name, phone: F.phone, area: F.area, addr: F.addr, type: F.type, days: F.days, times: F.times, start: iso(new Date()), price, paid: 1, vStat: 'ok', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] });
+  saveAll();
+  toast('🎉 Tiffin Plan Activated & Synced to Kitchen!');
+}
+
+$('#thm').onclick = () => {
+  const d = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = d ? '' : 'dark';
+  localStorage.setItem('nu_theme', d ? '' : 'dark');
 };
 
-document.addEventListener('click', e => {
-  const b = e.target.closest('[data-a]');
-  if (!b) return;
-  const f = A[b.dataset.a];
-  if (f) { e.preventDefault(); f(b.dataset.v, b.dataset.k, b.dataset.id, e); }
-});
+document.querySelector('.logo').onclick = () => {
+  if (ROLE === 'owner') { tab = 'owner'; render(); }
+  else { PIN_OPEN = true; render(); setTimeout(() => $('#pinBox').focus(), 50); }
+};
 
-document.addEventListener('input', e => {
-  if (e.target.dataset.f) F[e.target.dataset.f] = e.target.value;
-  if (e.target.id === 'utr_inp') DRAFT_UTR = e.target.value;
-  if (e.target.id === 'sq') { SQ = e.target.value; render(); }
-});
+function verifyPin() {
+  const val = $('#pinBox').value.trim();
+  if (pinHash(val) === OWNER_HASH) {
+    ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner');
+    PIN_OPEN = false; tab = 'owner'; render();
+    toast('🔓 Owner Master Control Unlocked!');
+  } else {
+    toast('⚠️ Galat PIN! (Default: 4827)');
+  }
+}
+function closePin() { PIN_OPEN = false; render(); }
+function logoutOwner() { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'plan'; render(); toast('Logged out of Owner mode'); }
+function resetDemoData() { S = seedData(); saveAll(); toast('Demo data reloaded successfully!'); }
 
 render();
 </script>
