@@ -1406,7 +1406,267 @@ $('#mark').addEventListener('click', () => {
     else if (pin !== null) toast('Galat PIN');
   }
 });
+/* === PACK 1: 25 HIGH-POWER WORKING FEATURES (SINGLE-FILE EXTENSION) === */
+document.head.insertAdjacentHTML('beforeend', `<style>
+body.low-data img{display:none!important}
+.v7-bar{background:#dc2626;color:#fff;text-align:center;padding:7px 12px;font-size:11.5px;font-weight:800}
+.v7-tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.v7-tag{padding:5px 10px;border-radius:99px;font-size:10.5px;font-weight:800;border:1px solid var(--ln);background:var(--sf2);cursor:pointer}
+.v7-tag.on{background:var(--g);color:#fbbf24;border-color:var(--g)}
+.v7-step{display:flex;justify-content:space-between;position:relative;margin:10px 0 4px;font-size:9.5px;font-weight:800;color:var(--mu)}
+.v7-step span.on{color:var(--g2)}
+.v7-chart{display:flex;align-items:flex-end;gap:6px;height:88px;padding-top:10px}
+.v7-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:800}
+.v7-col i{width:100%;background:linear-gradient(180deg,var(--o),var(--g));border-radius:6px 6px 0 0;min-height:4px;display:block}
+</style>`);
 
+let LOW_DATA = localStorage.getItem('nu_lowdata') === '1';
+if (LOW_DATA) document.body.classList.add('low-data');
+let APPLIED_CPN = null;
+const DIET_OPTS = ['No Onion-Garlic', 'Low Oil', 'Less Salt', 'Diabetic Friendly', 'Extra Gravy'];
+F.dietTags = JSON.parse(localStorage.getItem('nu_dtags') || '[]');
+
+function ensureV7() {
+  if (!Array.isArray(S.coupons)) S.coupons = [{ code: 'UDALA50', off: 50, min: 250 }, { code: 'RAJA20', off: 20, min: 100 }];
+  if (!Array.isArray(S.ratings)) S.ratings = [{ id: 'r1', name: 'Priyanka Das', star: 5, text: 'Ghar jaisa swad aur time pe delivery!', d: iso(D0()) }];
+  if (!Array.isArray(S.tickets)) S.tickets = [];
+  if (!Array.isArray(S.wastage)) S.wastage = [];
+  if (!Array.isArray(S.marketList)) S.marketList = [{ id: 'm1', n: 'Aloo 5 kg', done: 0 }, { id: 'm2', n: 'Pyaaz 3 kg', done: 0 }, { id: 'm3', n: 'Paneer 2 kg', done: 0 }];
+  if (!Array.isArray(S.staffPay)) S.staffPay = [];
+  if (!Array.isArray(S.vendors)) S.vendors = [];
+  if (!Array.isArray(S.riderLog)) S.riderLog = [];
+  if (!S.weeklyMenu) S.weeklyMenu = { Mon: 'Dalma + Rice + Bhaja', Tue: 'Paneer + Dal + 4 Roti', Wed: 'Chicken Curry / Mushroom', Thu: 'Mix Veg + Kheer', Fri: 'Egg Masala / Chana', Sat: 'Khichdi + Dahi + Papad', Sun: 'Special Dum Biryani' };
+}
+ensureV7();
+
+/* Coupon-aware Shop Checkout override */
+const _origPayOrd = A.pay_ord;
+A.pay_ord = () => {
+  if (!checkUser()) return;
+  let base = Math.max(0, ct()); if (base <= 0) { toast('Cart is empty!'); return; }
+  let disc = 0;
+  if (APPLIED_CPN && subTot() >= APPLIED_CPN.min) disc = Math.min(base, +APPLIED_CPN.off || 0);
+  base = Math.max(1, base - disc);
+  CART_OPEN = false; const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+  PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
+  setPayBox({ kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)${disc ? ' · -₹' + disc + ' CPN' : ''}` });
+  APPLIED_CPN = null; render();
+};
+
+Object.assign(A, {
+  toggle_lowdata: () => { LOW_DATA = !LOW_DATA; localStorage.setItem('nu_lowdata', LOW_DATA ? '1' : '0'); document.body.classList.toggle('low-data', LOW_DATA); render(); toast(LOW_DATA ? 'Low-Data Mode ON (Fast)' : 'Images ON'); },
+  toggle_dtag: v => {
+    const i = F.dietTags.indexOf(v); if (i >= 0) F.dietTags.splice(i, 1); else F.dietTags.push(v);
+    localStorage.setItem('nu_dtags', JSON.stringify(F.dietTags));
+    F.notes = F.dietTags.join(', '); syncCustomerProfile(); save();
+  },
+  voice_sq: () => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { toast('Is browser mein Voice Search support nahi hai'); return; }
+    const rec = new SR(); rec.lang = 'hi-IN'; toast('🎤 Bol kar item search karein...');
+    rec.onresult = e => { SQ = e.results[0][0].transcript; render(); };
+    rec.start();
+  },
+  apply_cpn: () => {
+    const code = ($('#cpn_inp')?.value || '').trim().toUpperCase();
+    const c = (S.coupons || []).find(x => x.code.toUpperCase() === code);
+    if (!c) { toast('⚠️ Invalid Coupon Code!'); return; }
+    if (subTot() < c.min) { toast(`⚠️ Min order ${inr(c.min)} chahiye is coupon ke liye`); return; }
+    APPLIED_CPN = c; render(); toast(`🎉 Coupon ${c.code} Applied (−${inr(c.off)})!`);
+  },
+  vac_pause: () => {
+    const days = Math.min(15, Math.max(1, +($('#vac_days')?.value || 0)));
+    const cleanP = ph(F.phone);
+    const sub = (S.subs || []).find(s => s.phone === cleanP && s.vStat !== 'bad');
+    if (!sub) { toast('Koi active tiffin plan nahi mila'); return; }
+    sub.skip = sub.skip || [];
+    for (let i = 1; i <= days; i++) { const k = iso(addD(D0(), i)); if (!sub.skip.includes(k)) { sub.skip.push(k); sub.days = (+sub.days || 30) + 1; } }
+    save(); toast(`✈️ Vacation Mode: Agle ${days} din pause + extend ho gaye!`);
+  },
+  guest_dabba: () => {
+    if (!checkUser()) return;
+    const qty = Math.max(1, +($('#g_qty')?.value || 1));
+    const amt = qty * 90;
+    S.orders.push({ id: uid('o'), ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), items: [{ id: 99, n: `Guest Extra Dabba (${F.type === 'nv' ? 'NV' : 'Veg'})`, q: qty, p: 90, h: 0 }], total: amt, paid: 0, vStat: 'cod', dlv: 0, pMode: 'Pay on Delivery', utr: 'Guest Meal' });
+    save(); toast(`🍱 ${qty} Guest Dabba aaj ke kitchen queue mein jud gaya!`);
+  },
+  add_rating: () => {
+    const star = Math.min(5, Math.max(1, +($('#rt_star')?.value || 5))), txt = ($('#rt_txt')?.value || '').trim();
+    if (!txt) { toast('Chhota sa review likhein'); return; }
+    S.ratings.unshift({ id: uid('rt'), name: F.name || 'Udala Customer', star, text: txt, d: iso(D0()) });
+    save(); toast('⭐ Review ke liye Dhanyawad!');
+  },
+  add_ticket: () => {
+    const msg = ($('#tk_msg')?.value || '').trim(); if (!msg) { toast('Apni shikayat ya sawaal likhein'); return; }
+    S.tickets.unshift({ id: uid('tk'), name: F.name, phone: ph(F.phone), msg, d: iso(D0()), done: 0 });
+    save(); toast('📩 Owner ko message bhej diya gaya!');
+  },
+  done_ticket: (v, k, id) => { const t = S.tickets.find(x => x.id === id); if (t) { t.done = 1; save(); } },
+  add_mkt: () => { const n = ($('#mkt_n')?.value || '').trim(); if (!n) return; S.marketList.push({ id: uid('m'), n, done: 0 }); save(); },
+  tog_mkt: (v, k, id) => { const m = S.marketList.find(x => x.id === id); if (m) { m.done = m.done ? 0 : 1; save(); } },
+  add_waste: () => { const n = ($('#wst_n')?.value || '').trim(); if (!n) return; S.wastage.unshift({ id: uid('w'), d: iso(D0()), n }); save(); toast('Wastage Logged'); },
+  add_rlog: () => { const n = ($('#rl_n')?.value || '').trim(), amt = +($('#rl_a')?.value || 0); if (!n) return; S.riderLog.unshift({ id: uid('rl'), d: iso(D0()), n, amt }); save(); toast('Rider Log Saved'); },
+  save_banners: () => { S.cfg.rainBanner = ($('#cfg_rain')?.value || '').trim(); S.cfg.marquee = ($('#cfg_marq')?.value || '').trim(); save(); toast('Live Banners Updated ✓'); },
+  add_cpn: () => { const code = ($('#nc_code')?.value || '').trim().toUpperCase(), off = +($('#nc_off')?.value || 0), min = +($('#nc_min')?.value || 0); if (!code || off <= 0) return; S.coupons.push({ code, off, min }); save(); toast('Coupon Added ✓'); },
+  del_cpn: (v, k, id) => { S.coupons = S.coupons.filter(x => x.code !== id); save(); },
+  add_staffpay: () => { const n = ($('#sp_n')?.value || '').trim(), a = +($('#sp_a')?.value || 0); if (!n || a <= 0) return; S.staffPay.unshift({ id: uid('sp'), d: iso(D0()), n, a }); save(); toast('Staff Payment Saved'); },
+  add_vendor: () => { const n = ($('#vn_n')?.value || '').trim(), a = +($('#vn_a')?.value || 0); if (!n || a <= 0) return; S.vendors.unshift({ id: uid('vn'), d: iso(D0()), n, a }); save(); toast('Vendor Khata Saved'); },
+  backup_json: () => {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' }));
+    a.download = `namaste-udala-backup-${iso(D0())}.json`; a.click(); toast('💾 Full JSON Cloud Backup Downloaded!');
+  },
+  copy_wa_nums: () => {
+    const nums = [...new Set([...(S.subs || []).map(s => ph(s.phone)), ...(S.orders || []).map(o => ph(o.phone))])].filter(x => x.length === 10);
+    navigator.clipboard.writeText(nums.join(', ')).catch(() => {});
+    toast(`📋 ${nums.length} Customer Numbers Copied for Broadcast!`);
+  }
+});
+
+const _origRenderV7 = render;
+render = function () {
+  ensureV7();
+  _origRenderV7();
+
+  /* Live Editable Marquee & Rain/Weather Banner */
+  if (S.cfg.marquee) { const mt = $('.marquee-track'); if (mt) mt.textContent = `✦ ${S.cfg.marquee} ✦ ${S.cfg.marquee} ✦`; }
+  let rb = $('#rainBar');
+  if (S.cfg.rainBanner) {
+    if (!rb) { $('header').insertAdjacentHTML('afterend', `<div id="rainBar" class="v7-bar"></div>`); rb = $('#rainBar'); }
+    rb.textContent = '🌧️ ' + S.cfg.rainBanner;
+  } else if (rb) rb.remove();
+
+  const v = $('#v'); if (!v) return;
+
+  /* Top Low-Data Toggle inside lang-bar */
+  const lb = $('.lang-bar');
+  if (lb) lb.insertAdjacentHTML('afterbegin', `<button class="${LOW_DATA ? 'on' : ''}" data-a="toggle_lowdata">${LOW_DATA ? '⚡ Data Saver ON' : '⚡ Data Saver'}</button>`);
+
+  if (tab === 'plan') {
+    const refCode = ph(F.phone) || 'UDALA';
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card reveal3d">
+        <h3>📅 Weekly Menu Calendar (Mon–Sun)</h3>
+        ${Object.entries(S.weeklyMenu).map(([d, m]) => `<div class="row"><b style="color:var(--o)">${d}</b><span style="font-size:12px;font-weight:700">${esc(m)}</span></div>`).join('')}
+      </div>
+      <div class="card reveal3d">
+        <h3>🥗 Diet & Taste Tags + Vacation / Guest Dabba</h3>
+        <div class="v7-tags">${DIET_OPTS.map(t => `<span class="v7-tag ${F.dietTags.includes(t) ? 'on' : ''}" data-a="toggle_dtag" data-v="${t}">${t}</span>`).join('')}</div>
+        <div class="btn-row" style="margin-top:8px">
+          <input class="inp" id="vac_days" type="number" placeholder="Vacation Days (e.g. 5)" style="margin:0">
+          <button class="btn w sm" data-a="vac_pause">✈️ Pause Vacation</button>
+        </div>
+        <div class="btn-row" style="margin-top:8px">
+          <input class="inp" id="g_qty" type="number" value="1" placeholder="Extra Dabba Qty" style="margin:0">
+          <button class="btn g sm" data-a="guest_dabba">🍱 +Guest Dabba (₹90)</button>
+        </div>
+      </div>
+      <div class="card reveal3d" style="border:2px dashed var(--o)">
+        <h3>🎁 Refer & Earn (+1 Free Tiffin Day)</h3>
+        <p style="font-size:12px;color:var(--mu);margin-bottom:8px">Aapka Referral Code: <b style="color:var(--o)">${esc(refCode)}</b> — Dost ko share karein aur dono +1 Free Day paayein!</p>
+        <a class="btn g sm" href="https://wa.me/?text=${encodeURIComponent(`Namaste Udala se ghar jaisa tiffin order karo! Mera referral code ${refCode} use karne par free extra day milega!`)}" target="_blank">📲 Share on WhatsApp</a>
+      </div>
+      <div class="card reveal3d">
+        <h3>⭐ Udala Customer Reviews (${S.ratings.length})</h3>
+        ${S.ratings.slice(0, 3).map(r => `<div class="row"><div><b>${esc(r.name)}</b> <span style="color:#d97706">${'★'.repeat(r.star)}</span><div style="font-size:11.5px;color:var(--mu)">${esc(r.text)}</div></div></div>`).join('')}
+        <div class="btn-row" style="margin-top:8px">
+          <select class="inp" id="rt_star" style="max-width:95px;margin:0"><option value="5">5 ★</option><option value="4">4 ★</option><option value="3">3 ★</option></select>
+          <input class="inp" id="rt_txt" placeholder="Aaj ka khana kaisa laga?" style="margin:0">
+          <button class="btn sm" data-a="add_rating">Post</button>
+        </div>
+      </div>
+      <div class="card reveal3d">
+        <h3>🚨 Udala Emergency Helpline</h3>
+        <div class="btn-row">
+          <a class="btn w sm" href="tel:112">🚓 Police 112</a>
+          <a class="btn w sm" href="tel:108">🚑 Ambulance 108</a>
+          <a class="btn w sm" href="tel:101">🔥 Fire 101</a>
+        </div>
+      </div>
+    `);
+  } else if (tab === 'shop') {
+    const sqEl = $('#sq');
+    if (sqEl) sqEl.insertAdjacentHTML('afterend', `<div style="display:flex;gap:6px;margin:-4px 0 10px"><button class="btn w sm" data-a="voice_sq">🎤 Voice Search</button><input class="inp" id="cpn_inp" placeholder="Coupon (e.g. UDALA50)" style="margin:0;padding:7px 10px;flex:1"><button class="btn g sm" data-a="apply_cpn">${APPLIED_CPN ? '✓ ' + APPLIED_CPN.code : 'Apply'}</button></div>`);
+    const pastItems = (S.orders || []).filter(o => ph(o.phone) === ph(F.phone)).flatMap(o => o.items || []).slice(0, 4);
+    if (pastItems.length && sqEl) {
+      sqEl.insertAdjacentHTML('beforebegin', `<div class="card" style="padding:10px 12px;margin-bottom:10px"><b style="font-size:11.5px;color:var(--g2)">⚡ 1-Tap Buy Again</b><div class="chips" style="padding:6px 0 0">${pastItems.map(i => `<button data-a="inc" data-id="${i.id}"><span>+ ${esc(i.n)}</span></button>`).join('')}</div></div>`);
+    }
+  } else if (tab === 'profile') {
+    const myLast = (S.orders || []).filter(o => ph(o.phone) === ph(F.phone)).slice(-1)[0];
+    if (myLast) {
+      const stg = myLast.dlv ? 3 : myLast.paid ? 2 : 1;
+      v.insertAdjacentHTML('beforeend', `<div class="card reveal3d">
+        <h3>🛵 Live Order Stepper (#${String(myLast.id).slice(-4)})</h3>
+        <div class="v7-step"><span class="on">✓ Placed</span><span class="${stg >= 2 ? 'on' : ''}">${stg >= 2 ? '✓' : '○'} Cooking</span><span class="${stg >= 3 ? 'on' : ''}">${stg >= 3 ? '✓' : '○'} Delivered</span></div>
+      </div>`);
+    }
+    v.insertAdjacentHTML('beforeend', `<div class="card reveal3d">
+      <h3>🆘 Quick Help / Complaint Box</h3>
+      <div class="btn-row"><input class="inp" id="tk_msg" placeholder="Khane ya delivery ki koi shikayat?" style="margin:0"><button class="btn sm" data-a="add_ticket">Send</button></div>
+    </div>`);
+  } else if (tab === 'kitchen') {
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <h3>🛒 Daily Market Purchase List</h3>
+        ${S.marketList.map(m => `<div class="row"><span style="${m.done ? 'text-decoration:line-through;opacity:.6' : ''}">${esc(m.n)}</span><button class="btn sm ${m.done ? 'w' : 'g'}" data-a="tog_mkt" data-id="${m.id}">${m.done ? 'Bought ✓' : 'Mark'}</button></div>`).join('')}
+        <div class="btn-row" style="margin-top:8px"><input class="inp" id="mkt_n" placeholder="Add item (e.g. Tel 5L)" style="margin:0"><button class="btn sm g" data-a="add_mkt">+ Add</button></div>
+      </div>
+      <div class="card">
+        <h3>♻️ Daily Food Wastage Tracker</h3>
+        <div class="btn-row"><input class="inp" id="wst_n" placeholder="e.g. 6 Roti bachi" style="margin:0"><button class="btn sm r" data-a="add_waste">Log</button></div>
+        ${S.wastage.slice(0, 4).map(w => `<div class="row"><span>${esc(w.n)}</span><small>${w.d}</small></div>`).join('')}
+      </div>
+    `);
+  } else if (tab === 'route') {
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <h3>⛽ Rider Attendance & Petrol Log</h3>
+        <div class="btn-row"><input class="inp" id="rl_n" placeholder="Note (e.g. Present / Petrol)" style="margin:0"><input class="inp" id="rl_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm g" data-a="add_rlog">Save</button></div>
+        ${S.riderLog.slice(0, 4).map(r => `<div class="row"><span>${esc(r.n)} (${r.d})</span><b>${inr(r.amt)}</b></div>`).join('')}
+      </div>
+    `);
+    /* Add 1-Tap "I'm Outside" WA alert on each delivery row */
+    document.querySelectorAll('#v a[href^="tel:+91"]').forEach(a => {
+      const p = a.getAttribute('href').replace('tel:+91', '');
+      a.insertAdjacentHTML('afterend', `<a class="btn sm w" href="https://wa.me/91${p}?text=${encodeURIComponent('Namaste! Namaste Udala delivery boy aapke gate ke bahar hai.')}" target="_blank">🚪 Outside</a>`);
+    });
+  } else if (tab === 'owner') {
+    const days7 = Array.from({ length: 7 }, (_, i) => iso(addD(D0(), i - 6)));
+    const sales7 = days7.map(d => (S.orders || []).filter(o => o.date === d && o.paid).reduce((a, o) => a + (+o.total || 0), 0) + (S.subs || []).filter(s => s.start === d && s.paid).reduce((a, s) => a + (+s.price || 0), 0));
+    const maxS = Math.max(100, ...sales7);
+    const inactive = Object.values(S.profiles || {}).filter(c => !(S.orders || []).some(o => ph(o.phone) === c.phone && o.date >= iso(addD(D0(), -14))));
+
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <h3>📊 Last 7 Days Sales Chart</h3>
+        <div class="v7-chart">${days7.map((d, i) => `<div class="v7-col"><span>${Math.round(sales7[i])}</span><i style="height:${Math.round((sales7[i] / maxS) * 60)}px"></i><span>${d.slice(8)}</span></div>`).join('')}</div>
+      </div>
+      <div class="card">
+        <h3>📢 Live Rain Banner, Marquee & Coupons</h3>
+        <input class="inp" id="cfg_rain" placeholder="Rain/Delay Alert (Khali chhodein hatane ke liye)" value="${esc(S.cfg.rainBanner || '')}">
+        <input class="inp" id="cfg_marq" placeholder="Top Marquee Strip Text" value="${esc(S.cfg.marquee || '')}">
+        <button class="btn g sm" data-a="save_banners">Save Live Banners ✓</button>
+        <div class="btn-row" style="margin-top:10px"><input class="inp" id="nc_code" placeholder="Code" style="margin:0"><input class="inp" id="nc_off" type="number" placeholder="₹ Off" style="margin:0"><input class="inp" id="nc_min" type="number" placeholder="Min ₹" style="margin:0"><button class="btn sm" data-a="add_cpn">+Cpn</button></div>
+        ${S.coupons.map(c => `<div class="row"><b>${esc(c.code)} (−${inr(c.off)} on ${inr(c.min)}+)</b><button class="btn sm r" data-a="del_cpn" data-id="${c.code}">✕</button></div>`).join('')}
+      </div>
+      <div class="card">
+        <h3>📩 Customer Complaints (${S.tickets.filter(t => !t.done).length}) & Inactive (${inactive.length})</h3>
+        ${S.tickets.filter(t => !t.done).map(t => `<div class="row"><div><b>${esc(t.name)} (${t.phone})</b><div style="font-size:11.5px;color:var(--mu)">${esc(t.msg)}</div></div><button class="btn sm g" data-a="done_ticket" data-id="${t.id}">Solve ✓</button></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No open complaints ✓</p>'}
+      </div>
+      <div class="card">
+        <h3>📒 Staff Salary & Vendor Khata</h3>
+        <div class="btn-row"><input class="inp" id="sp_n" placeholder="Staff Name/Adv" style="margin:0"><input class="inp" id="sp_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm g" data-a="add_staffpay">+Staff</button></div>
+        <div class="btn-row" style="margin-top:6px"><input class="inp" id="vn_n" placeholder="Vendor/Sabziwala" style="margin:0"><input class="inp" id="vn_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm" data-a="add_vendor">+Vendor</button></div>
+      </div>
+      <div class="card">
+        <h3>💾 Database Backup & WhatsApp Broadcast</h3>
+        <div class="btn-row">
+          <button class="btn g sm" data-a="backup_json">⬇ Full JSON Backup</button>
+          <button class="btn w sm" data-a="copy_wa_nums">📋 Copy All Numbers</button>
+        </div>
+      </div>
+    `);
+  }
+};
 render();
 </script>
 </body>
