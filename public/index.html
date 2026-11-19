@@ -5,387 +5,1409 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Namaste Udala — Ghar Jaisa Khana · Daily Shop · Services</title>
 <meta name="theme-color" content="#113221">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="manifest" href="./manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f9f5ec;--sf:#fffdf8;--sf2:#f1eadc;--ink:#16241c;--mu:#626d65;--ln:#e2d9c5;--o:#d94e1f;--g:#113221;--g2:#1b5e3a;--bad:#dc2626;--serif:'Fraunces',Georgia,serif;--sh-card:0 16px 32px -10px rgba(22,36,28,.12),inset 0 2px 0 #fff;--sh-3d-o:0 5px 0 #8f2d0b,0 10px 20px rgba(217,78,31,.3);--sh-3d-g:0 5px 0 #081c11,0 10px 20px rgba(17,50,33,.28);--sh-3d-w:0 4px 0 #d5cbb4;--sh-in:inset 0 3px 6px rgba(22,36,28,.08)}
 [data-theme=dark]{--bg:#0c130f;--sf:#142019;--sf2:#0f1813;--ink:#f4f1ea;--mu:#9ca89f;--ln:#233329;--sh-card:0 20px 36px -10px rgba(0,0,0,.7);--sh-3d-w:0 4px 0 #070b09;--sh-in:inset 0 3px 7px rgba(0,0,0,.6)}
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:175px;min-height:100vh}
-body.modal-open{overflow:hidden}
-img{display:block;object-fit:cover;pointer-events:none}
-button,input,select{font:inherit;color:inherit}
-button{cursor:pointer;touch-action:manipulation;user-select:none;position:relative}
-button *{pointer-events:none}
-svg.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none;pointer-events:none}
-header{position:sticky;top:0;z-index:100;background:linear-gradient(145deg,#163f2a,#0b2216);color:#f9f5ec;padding:12px 16px;box-shadow:0 6px 20px rgba(11,34,22,.35);display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-weight:800;font-size:16px;color:#fff;box-shadow:0 4px 0 #7a2205;cursor:pointer;user-select:none;border:0;flex:none}
-.brand{flex:1;min-width:0}
-.brand small{display:block;color:#fbbf24;font-size:9px;letter-spacing:1.8px;font-weight:800}
-.brand h1{font-family:var(--serif);font-size:18.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.install-banner{background:linear-gradient(135deg,#d94e1f,#a63510);color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;font-weight:800;border-bottom:1px solid rgba(255,255,255,.2);box-shadow:0 4px 12px rgba(217,78,31,.3)}
-.install-banner button{background:#fff;color:#d94e1f;border:0;padding:6px 12px;border-radius:99px;font-size:11px;font-weight:800;cursor:pointer}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:155px;min-height:100vh;overflow-x:hidden}
+img{display:block;object-fit:cover} button,input,select,textarea{font:inherit;color:inherit}
+svg.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none}
+
+/* 1. PeachWeb-Style Cinematic 3D Splash Loader */
+#splash{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 40%,#1d4d34,#091810 80%);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fffdf8;transition:opacity .45s ease,transform .45s ease}
+#splash.hide{opacity:0;transform:scale(1.06);pointer-events:none}
+.sp-plate{width:110px;height:110px;border-radius:50%;border:4px solid #fbbf24;box-shadow:0 20px 45px rgba(0,0,0,.65);animation:spSpin 1.6s ease-in-out infinite}
+@keyframes spSpin{0%{transform:perspective(400px) rotateY(0deg) translateY(0)}50%{transform:perspective(400px) rotateY(18deg) translateY(-10px)}100%{transform:perspective(400px) rotateY(0deg) translateY(0)}}
+.sp-bar{width:160px;height:4px;background:rgba(255,255,255,.15);border-radius:99px;margin-top:16px;overflow:hidden}
+.sp-bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#fbbf24,#f06434);animation:spLoad 1.1s ease-out forwards;transform-origin:left}
+@keyframes spLoad{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* Install Banner & Header */
+.install-banner{background:linear-gradient(135deg,#d94e1f,#a63510);color:#fff;padding:9px 14px;display:none;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;font-weight:800}
+.install-banner button{background:#fff;color:#d94e1f;border:0;padding:5px 12px;border-radius:99px;font-size:11px;font-weight:800;cursor:pointer}
+header{position:sticky;top:0;z-index:60;background:linear-gradient(145deg,#163f2a,#0b2216);color:#f9f5ec;padding:11px 14px;box-shadow:0 6px 20px rgba(11,34,22,.35);display:flex;align-items:center;gap:10px}
+.logo{width:42px;height:42px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-weight:800;font-size:15px;color:#fff;box-shadow:0 4px 0 #7a2205;cursor:pointer;flex:none}
+.logo:active{transform:translateY(3px);box-shadow:0 1px 0 #7a2205}
+.brand{flex:1;min-width:0} .brand small{display:block;color:#fbbf24;font-size:8.5px;letter-spacing:1.6px;font-weight:800} .brand h1{font-family:var(--serif);font-size:17.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .marquee{background:#e9dfc8;color:#163f2a;overflow:hidden;white-space:nowrap;padding:6px 0;border-bottom:1px solid var(--ln);font-size:10px;font-weight:800;letter-spacing:1.3px}
 [data-theme=dark] .marquee{background:#18271e;color:#fbbf24}
-.marquee-track{display:inline-block;animation:mRoll 24s linear infinite}
-@keyframes mRoll{to{transform:translateX(-50%)}}
-main{padding:15px 14px 0;max-width:650px;margin:0 auto}
-.hero3d{position:relative;border-radius:26px;padding:20px 18px;margin-bottom:18px;color:#fffdf8;background:linear-gradient(132deg,#113221 0%,#1d4d34 58%,#2a6a48 100%);box-shadow:0 7px 0 #091c12,0 18px 34px rgba(17,50,33,.3);min-height:148px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.marquee-track{display:inline-block;animation:mRoll 24s linear infinite} @keyframes mRoll{to{transform:translateX(-50%)}}
+main{padding:14px 14px 0;max-width:650px;margin:0 auto}
+
+/* 2. PeachWeb-Style 3D Hero, Tilt Cards & Scroll Reveal */
+.hero3d{position:relative;border-radius:26px;padding:20px 18px;margin-bottom:16px;color:#fffdf8;background:linear-gradient(132deg,#113221 0%,#1d4d34 58%,#2a6a48 100%);box-shadow:0 7px 0 #091c12,0 18px 34px rgba(17,50,33,.3);min-height:152px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;overflow:visible;transform-style:preserve-3d;transition:transform .2s ease}
 .hero3d.terracotta{background:linear-gradient(132deg,#2b1208 0%,#7c280d 55%,#d94e1f 100%);box-shadow:0 7px 0 #421304,0 18px 34px rgba(217,78,31,.3)}
 .hero-pill{display:inline-block;width:fit-content;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:99px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;border:1px solid rgba(255,255,255,.25)}
-.hero3d h2{font-family:var(--serif);font-size:20px;font-weight:800;max-width:65%;line-height:1.15;margin-bottom:5px}
-.hero3d p{font-size:12px;opacity:.92;max-width:65%;font-weight:600}
-.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0 16px}
-.p-tier{position:relative;border-radius:20px;padding:16px 6px 12px;text-align:center;background:linear-gradient(180deg,var(--sf),var(--sf2));border:2px solid var(--ln);box-shadow:0 4px 0 #d5cbb4;cursor:pointer;transition:.15s;display:block;width:100%}
-.p-tier.on{background:linear-gradient(180deg,#fff9f2,#fde6d2);border-color:var(--o);box-shadow:0 5px 0 #8f2d0b,0 14px 24px rgba(217,78,31,.25);transform:translateY(-3px)}
+.hero3d h2{font-family:var(--serif);font-size:20.5px;font-weight:800;max-width:64%;line-height:1.15;margin-bottom:5px} .hero3d p{font-size:12px;opacity:.92;max-width:64%;font-weight:600}
+.hero-plate{position:absolute;right:12px;bottom:-8px;width:114px;height:114px;border-radius:50%;border:4px solid #fffdf8;background:#1e293b;box-shadow:0 16px 28px rgba(0,0,0,.55);animation:fPlate 3.5s ease-in-out infinite;z-index:3}
+@keyframes fPlate{50%{transform:translateY(-8px) scale(1.04) rotate(2deg)}}
+.steam-wrap{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:visible} .steam-wrap i{position:absolute;bottom:28%;width:26px;height:26px;background:radial-gradient(circle,rgba(255,255,255,.88) 0%,rgba(255,255,255,0) 70%);border-radius:50%;filter:blur(5px);opacity:0;animation:sRise 2.4s infinite ease-out}
+.steam-wrap i:nth-child(1){left:28%;animation-delay:0s} .steam-wrap i:nth-child(2){left:48%;width:34px;height:34px;animation-delay:.7s} .steam-wrap i:nth-child(3){left:62%;animation-delay:1.4s}
+@keyframes sRise{0%{transform:translateY(8px) scale(.5);opacity:0} 35%{opacity:.8} 100%{transform:translateY(-70px) scale(2.5) translateX(10px);opacity:0}}
+
+.tilt3d{transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease;transform-style:preserve-3d;will-change:transform}
+.reveal3d{animation:rev3d .45s cubic-bezier(.16,1,.3,1) both}
+@keyframes rev3d{from{opacity:0;transform:perspective(700px) translateY(18px) rotateX(6deg)}to{opacity:1;transform:perspective(700px) translateY(0) rotateX(0)}}
+
+/* 3-Step Storytelling Strip */
+.story-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.story-step{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:16px;padding:10px 6px;text-align:center;box-shadow:var(--sh-3d-w)}
+.story-step b{display:block;font-size:11px;font-weight:800;color:var(--o);margin-bottom:2px}
+.story-step span{font-size:10px;font-weight:700;color:var(--ink);line-height:1.25;display:block}
+
+/* Free Delivery Progress Bar */
+.fdel-bar{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:9px 12px;margin-bottom:12px;font-size:11.5px;font-weight:800}
+.fdel-track{height:7px;background:var(--sf2);border-radius:99px;margin-top:6px;overflow:hidden}
+.fdel-fill{height:100%;background:linear-gradient(90deg,#d94e1f,#16a34a);border-radius:99px;transition:width .3s ease}
+
+/* Language Bar */
+.lang-bar{display:flex;justify-content:flex-end;gap:5px;margin-bottom:10px}
+.lang-bar button{padding:4px 10px;border-radius:99px;font-size:10.5px;font-weight:800;border:1px solid var(--ln);background:var(--sf);color:var(--ink);cursor:pointer}
+.lang-bar button.on{background:var(--g);color:#fbbf24;border-color:var(--g)}
+
+/* Core Components */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0 16px}
+.p-tier{position:relative;border-radius:20px;padding:15px 6px 12px;text-align:center;background:linear-gradient(180deg,var(--sf),var(--sf2));border:2px solid var(--ln);box-shadow:var(--sh-3d-w);cursor:pointer;transition:.18s}
+.p-tier.on{background:linear-gradient(180deg,#fff9f2,#fde6d2);border-color:var(--o);box-shadow:0 5px 0 #8f2d0b,0 14px 24px rgba(217,78,31,.25);transform:translateY(-5px)}
+[data-theme=dark] .p-tier.on{background:linear-gradient(180deg,#2b180e,#1a100b)}
 .p-tier .p-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--g);color:#fbbf24;font-size:8.5px;font-weight:800;padding:3px 8px;border-radius:99px;white-space:nowrap}
 .p-tier.on .p-badge{background:var(--o);color:#fff}
-.p-tier .p-days{font-family:var(--serif);font-size:17px;font-weight:800;display:block}
-.p-tier .p-sub{font-size:9px;font-weight:800;color:var(--mu);text-transform:uppercase;margin-bottom:5px;display:block}
-.p-tier .p-amt{font-family:var(--serif);font-size:18.5px;font-weight:800;color:var(--o);display:block}
-.card{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:22px;padding:16px;margin-bottom:15px;box-shadow:0 16px 32px -10px rgba(22,36,28,.12)}
+.p-tier .p-days{font-family:var(--serif);font-size:17px;font-weight:800;display:block} .p-tier .p-sub{font-size:9px;font-weight:800;color:var(--mu);text-transform:uppercase;margin-bottom:5px;display:block} .p-tier .p-amt{font-family:var(--serif);font-size:19px;font-weight:800;color:var(--o);display:block} .p-tier .p-per{font-size:10px;font-weight:800;color:var(--g2);margin-top:2px;display:block}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px} .cal-d{padding:5px 2px;border-radius:8px;text-align:center;font-size:9.5px;font-weight:800;background:var(--sf2);border:1px solid var(--ln)} .cal-d.dn{background:#dcfce7;color:#166534;border-color:#86efac} .cal-d.sk{background:#fee2e2;color:#991b1b;border-color:#fca5a5;text-decoration:line-through} .cal-d.td{border:2px solid var(--o);color:var(--o)}
+.card{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:22px;padding:16px;margin-bottom:15px;box-shadow:var(--sh-card)}
 .card h3{font-family:var(--serif);font-size:16px;font-weight:800;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.kpi div{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:10px 6px;text-align:center}
-.kpi b{font-family:var(--serif);display:block;font-size:17px;font-weight:800;color:var(--o)}
-.kpi span{font-size:9.5px;font-weight:800;color:var(--mu);text-transform:uppercase}
-.prep-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
-.prep-box{background:var(--sf2);border:1px solid var(--ln);border-radius:12px;padding:8px 4px;text-align:center}
-.prep-box b{display:block;font-size:14px;color:var(--g2);font-family:var(--serif)}
-.prep-box span{font-size:9px;font-weight:800;color:var(--mu);text-transform:uppercase}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 15px;border:0;border-radius:99px;background:linear-gradient(180deg,#eb5e2f,#c83e10);color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;box-shadow:0 5px 0 #8f2d0b,0 10px 20px rgba(217,78,31,.3);margin-top:8px}
-.btn.g{background:linear-gradient(180deg,#1f6942,#113221);box-shadow:0 5px 0 #081c11,0 10px 20px rgba(17,50,33,.28)}
-.btn.w{background:var(--sf);color:var(--ink);border:1px solid var(--ln)}
-.btn.sm{width:auto;display:inline-flex;padding:7px 12px;font-size:11px;border-radius:99px;margin:0}
-.btn-row{display:flex;gap:7px;flex-wrap:wrap}
-.btn-row>*{flex:1}
-.inp{width:100%;padding:11px 13px;border:1.5px solid var(--ln);border-radius:13px;background:var(--sf2);color:var(--ink);font-weight:700;font-size:13px;margin:4px 0;outline:none}
-.lbl{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:800;color:var(--mu);margin:9px 0 3px;text-transform:uppercase}
-.seg{display:flex;gap:5px;background:var(--sf2);padding:4px;border-radius:99px;margin:4px 0}
-.seg button{flex:1;padding:9px 6px;border:0;border-radius:99px;background:transparent;font-weight:800;font-size:11px;color:var(--mu);cursor:pointer}
-.seg button.on{background:var(--g);color:#fff}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px dashed var(--ln)}
-.row:last-child{border-bottom:0}
-.tot{display:flex;justify-content:space-between;align-items:center;padding-top:11px;margin-top:5px;border-top:2px solid var(--ln)}
-.tot b{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--o)}
-.ov{position:fixed;inset:0;z-index:300;background:rgba(11,22,16,.82);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
-.sh{background:var(--sf);width:100%;max-width:510px;max-height:90vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:18px 18px 30px}
-.cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(86px + env(safe-area-inset-bottom, 0px));z-index:190;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:800;font-size:13px;border:0;width:calc(100% - 24px);box-shadow:0 14px 28px rgba(11,34,22,.5)}
-nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:250;max-width:640px;margin:0 auto;background:var(--sf);border:1.5px solid var(--ln);border-radius:99px;display:flex;gap:4px;padding:5px 8px;box-shadow:0 16px 34px rgba(22,36,28,.28)}
-nav button{flex:1;border:0;background:transparent;border-radius:99px;padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mu);font-weight:800;position:relative}
-nav button.on{background:var(--g);color:#fbbf24}
-nav .nl{font-size:9.5px}
-nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff}
-#toast{position:fixed;left:50%;top:72px;transform:translateX(-50%) translateY(-16px);background:var(--g);color:#fff;padding:11px 18px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:900;opacity:0;transition:.25s}
-#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px} .kpi div{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:10px 6px;text-align:center;box-shadow:var(--sh-card)} .kpi b{font-family:var(--serif);display:block;font-size:17px;font-weight:800;color:var(--o)} .kpi span{font-size:9.5px;font-weight:800;color:var(--mu);text-transform:uppercase}
+.prof-head{display:flex;align-items:center;gap:14px;padding:16px;background:linear-gradient(135deg,#163f2a,#0b2216);color:#fff;border-radius:22px;margin-bottom:15px} .prof-av{width:58px;height:58px;border-radius:50%;background:linear-gradient(145deg,#f06434,#c43c10);display:grid;place-items:center;font-family:var(--serif);font-size:22px;font-weight:800;border:3px solid rgba(255,255,255,.85);flex:none}
+.st-pill{display:inline-block;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:800} .st-ok{background:#dcfce7;color:#166534} .st-wait{background:#fef3c7;color:#92400e} .st-bad{background:#fee2e2;color:#991b1b}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 15px;border:0;border-radius:99px;background:linear-gradient(180deg,#eb5e2f,#c83e10);color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;text-decoration:none;box-shadow:var(--sh-3d-o);margin-top:8px} .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8f2d0b} .btn.g{background:linear-gradient(180deg,#1f6942,#113221);box-shadow:var(--sh-3d-g)} .btn.r{background:linear-gradient(180deg,#ef4444,#b91c1c);box-shadow:0 4px 0 #7f1d1d;color:#fff} .btn.w{background:var(--sf);color:var(--ink);border:1px solid var(--ln);box-shadow:var(--sh-3d-w)} .btn.sm{width:auto;display:inline-flex;padding:7px 12px;font-size:11px;margin:0} .btn[disabled]{opacity:.45;pointer-events:none} .btn-row{display:flex;gap:7px;flex-wrap:wrap} .btn-row>*{flex:1}
+.inp{width:100%;padding:11px 13px;border:1.5px solid var(--ln);border-radius:13px;background:var(--sf2);color:var(--ink);font-weight:700;font-size:13px;box-shadow:var(--sh-in);margin:4px 0;outline:none} .inp:focus{border-color:var(--o);background:var(--sf)}
+.lbl{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:800;color:var(--mu);margin:9px 0 3px;text-transform:uppercase;letter-spacing:.4px}
+.seg{display:flex;gap:5px;background:var(--sf2);padding:4px;border-radius:99px;box-shadow:var(--sh-in);margin:4px 0} .seg button{flex:1;padding:8px 5px;border:0;border-radius:99px;background:transparent;font-weight:800;font-size:11px;color:var(--mu);cursor:pointer} .seg button.on{background:var(--g);color:#fff;box-shadow:0 3px 8px rgba(17,50,33,.3)}
+.sym{display:inline-grid;place-items:center;width:14px;height:14px;border:2px solid #16a34a;border-radius:3px;background:#fff;flex:none} .sym i{width:6px;height:6px;border-radius:50%;background:#16a34a} .sym.nv{border-color:#dc2626} .sym.nv i{background:#dc2626}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none} .chips::-webkit-scrollbar{display:none} .chips button{flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 13px 5px 5px;border-radius:99px;border:1px solid var(--ln);background:var(--sf);font-weight:800;font-size:11.5px;box-shadow:var(--sh-3d-w);cursor:pointer} .chips button img{width:25px;height:25px;border-radius:50%} .chips button.on{background:var(--g);color:#fff;border-color:transparent}
+.area-chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none} .area-chips::-webkit-scrollbar{display:none} .area-chips span{flex:none;padding:6px 11px;border-radius:99px;font-size:11px;font-weight:800;background:var(--sf2);border:1px solid var(--ln);color:var(--mu);cursor:pointer} .area-chips span.on{background:var(--o);color:#fff;border-color:var(--o)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+.pcard{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:22px;padding:9px;box-shadow:var(--sh-card);display:flex;flex-direction:column;position:relative}
+.pimg{height:128px;border-radius:16px;position:relative;cursor:pointer;box-shadow:0 8px 18px rgba(22,36,28,.14);background:#1c2826;margin-bottom:8px;overflow:hidden} .pimg img{width:100%;height:100%;transition:transform .3s} .pcard:hover .pimg img{transform:scale(1.07)}
+.badge{position:absolute;top:6px;left:6px;background:#16a34a;color:#fff;font-size:8.5px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6} .hot-tag{position:absolute;bottom:6px;right:6px;background:rgba(17,50,33,.9);color:#fbbf24;font-size:8px;font-weight:800;padding:3px 7px;border-radius:99px;z-index:6} .half-tag{position:absolute;bottom:6px;left:6px;background:var(--o);color:#fff;font-size:8px;font-weight:800;padding:3px 6px;border-radius:99px;z-index:6}
+.pname{font-size:12.5px;font-weight:800;line-height:1.3;height:33px;overflow:hidden;display:flex;align-items:flex-start;gap:5px;cursor:pointer} .pprice{display:flex;align-items:baseline;justify-content:space-between;margin:3px 0 7px} .pprice b{font-family:var(--serif);font-size:16.5px;font-weight:800;color:var(--o)} .pprice s{font-size:10.5px;color:var(--mu);margin-left:4px}
+.qty{display:flex;align-items:center;justify-content:space-between;background:var(--sf2);padding:3px;border-radius:99px;box-shadow:var(--sh-in);margin-top:auto} .qty button{width:29px;height:29px;border-radius:50%;border:0;background:var(--o);color:#fff;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 #8f2d0b} .qty b{font-size:12.5px;font-weight:800}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px dashed var(--ln)} .row:last-child{border-bottom:0}
+.tot{display:flex;justify-content:space-between;align-items:center;padding-top:11px;margin-top:5px;border-top:2px solid var(--ln)} .tot b{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--o)}
+.ov{position:fixed;inset:0;z-index:200;background:rgba(11,22,16,.82);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
+.sh{background:var(--sf);width:100%;max-width:510px;max-height:91vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:18px;box-shadow:0 -10px 40px rgba(0,0,0,.45);animation:sUp .22s ease-out} @keyframes sUp{from{transform:translateY(100%)}}
+.pop-stage{position:relative;height:210px;margin:4px 0 12px;border-radius:22px;background:radial-gradient(circle at 50% 60%,#1d4d34,#091810 78%);display:flex;align-items:center;justify-content:center;overflow:hidden;perspective:650px;touch-action:none}
+.pop-plate{width:176px;height:176px;border-radius:50%;object-fit:cover;border:4px solid #fffdf8;box-shadow:0 20px 34px rgba(0,0,0,.7);transition:transform .12s ease-out;z-index:2;cursor:grab}
+.pop-hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:9.5px;font-weight:800;color:#fbbf24;background:rgba(0,0,0,.45);padding:3px 10px;border-radius:99px;pointer-events:none;z-index:6}
+.cbar-fixed{position:fixed;left:12px;right:12px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:75;max-width:620px;margin:0 auto;background:linear-gradient(145deg,#1b5e3a,#0d311d);color:#fff;border-radius:99px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 0 #071c10,0 14px 28px rgba(11,34,22,.5);cursor:pointer;font-weight:800;font-size:13px}
+nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:80;max-width:640px;margin:0 auto;background:var(--sf);border:1px solid var(--ln);border-radius:99px;display:flex;gap:4px;padding:5px 8px;box-shadow:0 7px 0 rgba(22,36,28,.1),0 16px 34px rgba(22,36,28,.22)}
+nav button{flex:1;border:0;background:transparent;border-radius:99px;padding:7px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mu);font-weight:800;position:relative;transition:.15s} nav button.on{background:var(--g);color:#fbbf24;transform:translateY(-2px)} nav .nl{font-size:9px} nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff}
+.pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:pAnim 1.4s infinite} @keyframes pAnim{50%{transform:scale(1.35);opacity:.5}}
+#toast{position:fixed;left:50%;bottom:140px;transform:translateX(-50%) translateY(20px);background:var(--g);color:#fff;padding:11px 18px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:900;opacity:0;pointer-events:none;transition:.25s;text-align:center;max-width:92vw} #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* 58mm Thermal Bill & Bulk KOT Print Fix */
+#printArea{display:none}
+@media print{
+  body>*:not(#printArea){display:none!important}
+  #printArea{display:block!important;width:58mm;margin:0;padding:4px;font-family:monospace;font-size:11px;color:#000;background:#fff}
+  #printArea h2,#printArea h3{margin:4px 0;text-align:center}
+  #printArea hr{border:0;border-top:1px dashed #000;margin:6px 0}
+}
 </style>
 </head>
 <body>
 
-<div id="installBanner" class="install-banner" style="display:none">
-  <span>📱 Namaste Udala App phone par install karein (Bina Play Store ke!)</span>
+<div id="splash">
+  <img class="sp-plate" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80" alt="Namaste Udala">
+  <h2 style="font-family:var(--serif);font-size:22px;margin-top:14px;color:#fbbf24">Namaste Udala</h2>
+  <p style="font-size:11.5px;opacity:.85;margin-top:4px">Ghar Jaisa Khana · Kitchen Taiyar Ho Raha Hai...</p>
+  <div class="sp-bar"><i></i></div>
+</div>
+
+<div id="installBanner" class="install-banner">
+  <span>📱 Namaste Udala App phone par install karein!</span>
   <button type="button" id="installBtn">Install App</button>
 </div>
 
+<input type="file" id="proof_file" accept="image/*" style="display:none">
+
 <header>
-  <button type="button" class="logo" data-a="logo_tap" title="5 Tap for Owner">NU</button>
+  <div class="logo" id="mark" title="5 Tap for Owner/Staff">NU</div>
   <div class="brand">
-    <small>NAMASTE UDALA · FULL MASTER CRM</small>
+    <small>NAMASTE UDALA · EST. KITCHEN</small>
     <h1 id="ttl">Ghar Jaisa Khana · Roz Time Pe</h1>
   </div>
-  <button type="button" class="btn w sm" id="thm" data-a="theme">🌙</button>
+  <button class="btn w sm" id="thm" data-a="theme">🌙</button>
 </header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    ✦ TAZA GHAR JAISA KHANA · ZERO PRESERVATIVES · SUBAH NASHTA · DOPAHAR LUNCH · RAAT DINNER · FREE HOME DELIVERY IN UDALA · SUNDAY SPECIAL BIRYANI PRE-ORDER OPEN ✦ TAZA GHAR JAISA KHANA · FREE HOME DELIVERY IN UDALA ✦
+  </div>
+</div>
 
 <main id="v"></main>
 <div id="cbar"></div>
 <nav id="nav"></nav>
 <div id="sheet"></div>
 <div id="toast"></div>
+<div id="printArea"></div>
 
-<script>
-let analytics = JSON.parse(localStorage.getItem('nu_behavior') || '{"visits":0, "orders":0}');
-analytics.visits++;
-localStorage.setItem('nu_behavior', JSON.stringify(analytics));
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 
+/* Hide Cinematic Splash Loader smoothly */
+setTimeout(() => { const sp = document.getElementById('splash'); if (sp) sp.classList.add('hide'); }, 1150);
+
+/* PWA Install Prompt */
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
+window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault(); deferredPrompt = e;
-  const b = document.getElementById('installBanner');
-  if (b) b.style.display = 'flex';
+  const b = document.getElementById('installBanner'); if (b) b.style.display = 'flex';
 });
-
-document.addEventListener('click', async (e) => {
-  if (e.target && e.target.id === 'installBtn' && deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
-    deferredPrompt = null;
-  }
-});
-
-const UDALA_AREAS = ['Udala Bus Stand', 'Market Square', 'High School Rd', 'College Rd', 'Block Office', 'Hospital Rd', 'Ward 1–6', 'Bhanjpur'];
-const AREA_COORDS = {
-  'Udala Bus Stand': [21.5732, 86.5675],
-  'Market Square': [21.5718, 86.5648],
-  'High School Rd': [21.5755, 86.5630],
-  'College Rd': [21.5790, 86.5612],
-  'Block Office': [21.5702, 86.5695],
-  'Hospital Rd': [21.5740, 86.5710],
-  'Ward 1–6': [21.5768, 86.5688],
-  'Bhanjpur': [21.5810, 86.5720]
+document.getElementById('installBtn').onclick = async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
+  deferredPrompt = null;
 };
-const KITCHEN_HQ = [21.5732, 86.5675];
 
-function pinHash(str) {
-  let h = 2166136261;
-  const s = 'nu_salt_' + String(str).trim();
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return (h >>> 0).toString(16);
-}
-const OWNER_HASH = pinHash('4827');
+const FB = { apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y", authDomain: "namaste-udala.firebaseapp.com", projectId: "namaste-udala", storageBucket: "namaste-udala.firebasestorage.app", messagingSenderId: "998684348165", appId: "1:998684348165:web:4bb0d2f5335a90a394716c", databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com" };
+const UDALA_AREAS = ['Udala Bus Stand', 'Market Square', 'High School Rd', 'College Rd', 'Block Office', 'Hospital Rd', 'Ward 1–6', 'Bhanjpur'];
+const NODE = 'udala_phase2', OPIN = '4827', DPIN = '7788';
 
 const IC = {
   tiffin: `<svg class="ic" viewBox="0 0 24 24"><path d="M6 9h12v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M5 9h14"/><path d="M8 5h8v4H8z"/></svg>`,
   shop: `<svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L23 7H6"/></svg>`,
+  svc: `<svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
   user: `<svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
   kitchen: `<svg class="ic" viewBox="0 0 24 24"><path d="M12 2c1.5 2.5 2 4.5 0 7-2-2.5-1.5-4.5 0-7z"/><path d="M4 13h16v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-5z"/><path d="M2 13h20"/></svg>`,
   route: `<svg class="ic" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l3 6v5.5h-2"/><path d="M12 17.5H9v-7h6v7z"/></svg>`,
   owner: `<svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
-  gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`
+  gps: `<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><circle cx="12" cy="12" r="7"/></svg>`,
+  cam: `<svg class="ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`
 };
 
+const IMG = {
+  leg: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=80', chick: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=80',
+  thali: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80', curry: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80',
+  roti: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80', rice: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=600&q=80',
+  paneer: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=80', egg: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',
+  milk: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&q=80', curd: 'https://images.unsplash.com/photo-1571212515416-f781d098922d?w=600&q=80',
+  tea: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&q=80', groc: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80',
+  clean: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=80', care: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80',
+  sweet: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80', books: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80',
+  cam: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=80', decor: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80',
+  hostel: 'https://images.unsplash.com/photo-1555854877-bab0ab8386bd?w=600&q=80'
+};
+
+const LANG_TXT = {
+  hi: { plan: 'Plans', shop: 'Shop', services: 'Services', profile: 'Profile', s1: '1. Plan Chunein', s1d: 'Veg ya Non-Veg', s2: '2. Taste Set', s2d: 'Roti / Chawal', s3: '3. Time Pe Khana', s3d: 'Free Udala Delivery' },
+  or: { plan: 'ଟିଫିନ୍', shop: 'ଦୋକାନ', services: 'ସେବା', profile: 'ପ୍ରୋଫାଇଲ୍', s1: '୧. ପ୍ଲାନ୍ ବାଛନ୍ତୁ', s1d: 'ଭେଜ୍ / ନନ୍-ଭେଜ୍', s2: '୨. ସ୍ୱାଦ ସେଟ୍', s2d: 'ରୋଟି / ଭାତ', s3: '୩. ସମୟରେ ଖାଦ୍ୟ', s3d: 'ମାଗଣା ଡେଲିଭରି' },
+  en: { plan: 'Plans', shop: 'Shop', services: 'Services', profile: 'Profile', s1: '1. Pick Plan', s1d: 'Veg or Non-Veg', s2: '2. Set Taste', s2d: 'Roti / Rice', s3: '3. On-Time Food', s3d: 'Free Udala Delivery' }
+};
+let LANG = localStorage.getItem('nu_lang') || 'hi';
+const L = k => (LANG_TXT[LANG] || LANG_TXT.hi)[k] || k;
+
 const $ = s => document.querySelector(s);
-const esc = s => String(s ?? '').replace(/[&<>"'`]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-const inr = n => '₹' + (+n || 0).toLocaleString('en-IN', { minimumFractionDigits: (+n % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 });
+const addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const D0 = () => { const d = new Date(); d.setHours(12, 0, 0, 0); return d; };
+const inr = n => '₹' + Math.max(0, +n || 0).toLocaleString('en-IN', { minimumFractionDigits: (+n % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 });
 const ph = s => String(s || '').replace(/\D/g, '').slice(-10);
-const isValidPhone = s => /^[6-9]\d{9}$/.test(ph(s));
-const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
+const qrUrl = u => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=' + encodeURIComponent(u);
+const steamHTML = () => `<div class="steam-wrap"><i></i><i></i><i></i></div>`;
+const symHTML = nv => `<span class="sym ${nv ? 'nv' : ''}"><i></i></span>`;
 
 if (localStorage.getItem('nu_theme') === 'dark') {
   document.documentElement.dataset.theme = 'dark';
+  setTimeout(() => { if ($('#thm')) $('#thm').textContent = '☀️'; }, 20);
 }
 
-function seedData() {
-  const today = iso(new Date());
+function strHash(s) {
+  let h = 5381;
+  for (let i = 0; i < s.length; i += Math.max(1, Math.floor(s.length / 450))) { h = ((h << 5) + h) ^ s.charCodeAt(i); }
+  return 'IMG-' + (h >>> 0).toString(16);
+}
+
+function validateStrictUTR(raw, usedList) {
+  const clean = String(raw || '').replace(/\D/g, '');
+  if (clean.length !== 12) return { ok: false, msg: '⚠️ Bank UPI UTR hamesha poore 12-digit ka hota hai!' };
+  if (/^(\d)\1{6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean) || /^00/.test(clean)) {
+    return { ok: false, msg: '⚠️ Fake sequence UTR detected! Asli bank SMS/UPI UTR daalein.' };
+  }
+  if (new Set(clean.split('')).size < 4) return { ok: false, msg: '⚠️ Invalid UTR pattern! Sahi 12-digit UTR number daalein.' };
+  if ((usedList || []).includes(clean)) return { ok: false, msg: '⚠️ Yeh UTR pehle hi use ho chuka hai (Duplicate UTR Blocked)!' };
+  return { ok: true, utr: clean };
+}
+
+function inspectReceiptCanvas(canvas, origW, origH) {
+  const ratio = origH / Math.max(1, origW);
+  if (ratio < 1.05 || ratio > 3.2) return { ok: false, msg: '⚠️ Yeh mobile UPI screenshot nahi hai! (Landscape photo blocked).' };
+  const ctx = canvas.getContext('2d');
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  let uiBgPixels = 0, contrastPixels = 0, total = data.length / 4;
+  for (let i = 0; i < data.length; i += 16) {
+    const r = data[i], g = data[i + 1], b = data[i + 2], maxDiff = Math.max(Math.abs(r - g), Math.abs(g - b), Math.abs(r - b)), lum = (r + g + b) / 3;
+    if (maxDiff < 38 && (lum > 195 || lum < 75)) uiBgPixels++;
+    if (lum < 100 || lum > 200) contrastPixels++;
+  }
+  const sampleCount = Math.max(1, total / 4);
+  if ((uiBgPixels / sampleCount) < 0.18) return { ok: false, msg: '⚠️ Random camera photo detected! Sirf GPay/PhonePe/Paytm ka screenshot lagayein.' };
+  if ((contrastPixels / sampleCount) < 0.05) return { ok: false, msg: '⚠️ Blank ya blurry image blocked! Saaf payment screenshot lagayein.' };
+  return { ok: true };
+}
+
+function playChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [880, 1174.66, 1567.98].forEach((freq, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'triangle'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.09); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.09 + 0.35);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime + i * 0.09); o.stop(ctx.currentTime + i * 0.09 + 0.35);
+    });
+  } catch (e) {}
+}
+
+let _t;
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(_t); _t = setTimeout(() => t.classList.remove('on'), 3100); };
+addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG' && e.target.src !== IMG.thali) e.target.src = IMG.thali; }, true);
+
+const CATS = [['all', 'Sab Items', IMG.thali], ['Khana', 'Extra Khana', IMG.leg], ['Dairy', 'Doodh & Dairy', IMG.milk], ['Nashta', 'Chai & Nashta', IMG.tea], ['Kirana', 'Kirana', IMG.groc], ['HUL', 'HUL Brands', IMG.care], ['Safai', 'Ghar Ki Safai', IMG.clean]];
+const SEED = [['Chicken Leg Masala (2 Pc)',160,195,'Khana',IMG.leg,1,1,1],['Chicken curry 500g',260,310,'Khana',IMG.chick,1,1,1],['Egg curry (4)',96,120,'Khana',IMG.egg,1,1,1],['Paneer sabzi',110,135,'Khana',IMG.paneer,1,1,0],['Mushroom curry',120,145,'Khana',IMG.curry,1,1,0],['Roti (10)',50,60,'Khana',IMG.roti,1,1,0],['Chawal plate',20,25,'Khana',IMG.rice,1,1,0],['Doodh 500 ml',30,34,'Dairy',IMG.milk,0,0,0],['Dahi 400 g',40,46,'Dairy',IMG.curd,0,0,0],['Paneer 200 g',80,95,'Dairy',IMG.paneer,0,0,0],['Horlicks 500g',260,285,'Dairy',IMG.milk,0,0,0],['Red Label 250g',165,180,'Nashta',IMG.tea,0,0,0],['Bread',40,45,'Nashta',IMG.roti,0,0,0],['Ande (6)',72,85,'Nashta',IMG.egg,0,0,1],['Biscuit pack',35,40,'Nashta',IMG.sweet,0,0,0],['Atta 5 kg',245,285,'Kirana',IMG.roti,0,0,0],['Chawal 5 kg',340,395,'Kirana',IMG.rice,0,0,0],['Dal 1 kg',150,175,'Kirana',IMG.curry,0,0,0],['Tel 1 L',150,178,'Kirana',IMG.groc,0,0,0],['Lifebuoy (4)',140,168,'HUL',IMG.care,0,0,0],['Dove 100g',60,70,'HUL',IMG.care,0,0,0],['Sunsilk 340ml',199,235,'HUL',IMG.care,0,0,0],['Kissan 950g',165,195,'HUL',IMG.groc,0,0,0],['Surf Excel 1 kg',220,255,'Safai',IMG.clean,0,0,0],['Vim (3)',60,75,'Safai',IMG.clean,0,0,0],['Domex 1 L',185,210,'Safai',IMG.clean,0,0,0]].map((a,i)=>({id:i+1,n:a[0],p:a[1],mrp:a[2],c:a[3],img:a[4],h:a[5],hot:a[6],nv:a[7],s:1}));
+const SVC_SEED = [{id:'t1',c:'Tuition',n:'Maths & Science (Class 6–10)',p:800,u:'/month',img:IMG.books,d:'Small batch, weekly test, doubt clearing.'},{id:'t2',c:'Tuition',n:'English & Hindi (Class 6–10)',p:700,u:'/month',img:IMG.books,d:'Grammar, writing, monthly progress report.'},{id:'t3',c:'Tuition',n:'Commerce (Class 11–12)',p:1200,u:'/month',img:IMG.books,d:'Accounts, BST, Economics — board pattern.'},{id:'p1',c:'Photo',n:'Wedding Photography',p:15000,u:'/day',img:IMG.cam,d:'Candid + traditional, edited album included.'},{id:'p2',c:'Photo',n:'Birthday Shoot (2 Hours)',p:5000,u:'/event',img:IMG.cam,d:'100+ edited photos, same-week delivery.'},{id:'d1',c:'Decor',n:'Birthday Decoration',p:3500,u:'/event',img:IMG.decor,d:'Balloon arch, backdrop, LED lights.'},{id:'d2',c:'Decor',n:'Wedding Stage Decoration',p:25000,u:'/event',img:IMG.decor,d:'Stage, entrance gate, custom flower theme.'},{id:'h1',c:'Hostel',n:'Boys & Girls Hostel',p:3500,u:'/month',img:IMG.hostel,d:'WiFi, study table, warden, safe campus.'}];
+const DEFAULT_CFG = {upi:'9583937047@jio',wa:'9583937047',freeMin:300,dlvFee:25,trialPrice:49,bfAddon:20,bothAddon:10,rotiAddon:5,pl:{veg:{7:749,15:1499,30:2899},nv:{7:949,15:1849,30:3599}}};
+const CUST_SEED = {'8073721357':{phone:'8073721357',name:'Subham Rana',altPhone:'9583937047',area:'Udala Bus Stand',addr:'Near Bus Stand, Main Road, Udala',lat:21.5732,lng:86.5675,diet:'veg',spice:'Medium',family:3,notes:'Prefers गरम रोटी in dinner',dues:0,joined:'2026-10-01'},'9437012345':{phone:'9437012345',name:'Priyanka Das',altPhone:'',area:'Bhanjpur',addr:'Ward 4, Near Temple, Bhanjpur',lat:21.5810,lng:86.5720,diet:'nv',spice:'Spicy',family:2,notes:'Extra gravy in chicken',dues:0,joined:'2026-10-12'},'9937055555':{phone:'9937055555',name:'Anita Sahoo',altPhone:'',area:'Market Square',addr:'Shop No 12, Market Square, Udala',lat:21.5718,lng:86.5648,diet:'veg',spice:'Low',family:4,notes:'Less oil in sabzi',dues:560,joined:'2026-10-20'}};
+
+const NOW = Date.now();
+function seed() {
   return {
+    rev: NOW, prod: SEED, svcList: SVC_SEED, svBookings: [], exp: [],
+    usedUtr: ['402312345678', '402398765432', '402311112222', '402333334444'], usedImgHash: [], auto_amt: {},
+    profiles: JSON.parse(JSON.stringify(CUST_SEED)), cfg: JSON.parse(JSON.stringify(DEFAULT_CFG)),
     subs: [
-      { id: 's1', name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, times: 3, start: today, price: 2899, paid: 1, vStat: 'ok', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] },
-      { id: 's2', name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, times: 3, start: today, price: 1849, paid: 1, vStat: 'ok', lunch: 'both', dinner: 'roti', extraRoti: 1, skip: [] }
+      { id: 's1', ts: NOW - 5 * 864e5, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', type: 'veg', days: 30, origDays: 30, times: 3, start: iso(addD(D0(), -5)), price: 2899, paid: 1, vStat: 'ok', pMode: 'UPI Verified', utr: '402312345678', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] },
+      { id: 's2', ts: NOW - 3 * 864e5, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', type: 'nv', days: 15, origDays: 15, times: 3, start: iso(addD(D0(), -3)), price: 1849, paid: 1, vStat: 'ok', pMode: 'UPI Verified', utr: '402398765432', lunch: 'both', dinner: 'roti', extraRoti: 1, skip: [] }
     ],
     orders: [
-      { id: 'o1', date: today, name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ n: 'Atta 5 kg', q: 1, p: 245 }], total: 245, paid: 1, vStat: 'ok', packed: 1, dlv: 0 },
-      { id: 'o2', date: today, name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ n: 'Chicken curry 500g', q: 1, p: 260 }], total: 260, paid: 1, vStat: 'ok', packed: 0, dlv: 0 }
+      { id: 'o1', ts: NOW - 3 * 36e5, date: iso(D0()), name: 'Subham Rana', phone: '8073721357', area: 'Udala Bus Stand', addr: 'Near Bus Stand', items: [{ id: 16, n: 'Atta 5 kg', q: 1, p: 245, h: 0 }, { id: 8, n: 'Doodh 500 ml', q: 2, p: 30, h: 0 }], total: 305, paid: 1, vStat: 'ok', dlv: 0, pMode: 'UPI Verified', utr: '402311112222' },
+      { id: 'o2', ts: NOW - 26 * 36e5, date: iso(addD(D0(), -1)), name: 'Priyanka Das', phone: '9437012345', area: 'Bhanjpur', addr: 'Ward 4', items: [{ id: 2, n: 'Chicken curry 500g', q: 1, p: 260, h: 0 }, { id: 6, n: 'Roti (10)', q: 1, p: 50, h: 0 }], total: 310, paid: 1, vStat: 'ok', dlv: 1, pMode: 'UPI Verified', utr: '402333334444' },
+      { id: 'o3', ts: NOW - 40 * 6e4, date: iso(D0()), name: 'Anita Sahoo', phone: '9937055555', area: 'Market Square', addr: 'Market Square', items: [{ id: 4, n: 'Paneer sabzi', q: 2, p: 110, h: 0 }, { id: 17, n: 'Chawal 5 kg', q: 1, p: 340, h: 0 }], total: 560, paid: 0, vStat: 'cod', dlv: 0, pMode: 'Pay on Delivery', utr: 'Doorstep Due' }
     ],
-    prod: [
-      { id: 1, n: 'Chicken Leg Masala', p: 160, c: 'Khana', s: 1, img: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&q=70' },
-      { id: 2, n: 'Paneer Sabzi', p: 110, c: 'Khana', s: 1, img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=70' },
-      { id: 3, n: 'Doodh 500ml', p: 30, c: 'Dairy', s: 1, img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=70' }
-    ]
+    done: {}, dabba: {}, mset: {}
   };
 }
 
-let S = seedData();
-try {
-  const l = JSON.parse(localStorage.getItem('nu_master_v3'));
-  if (l && l.subs) S = l;
-} catch (e) {}
+let S = seed();
+try { const l = JSON.parse(localStorage.getItem('nu5')); if (l && l.prod && l.prod.length >= 10) S = { ...seed(), ...l }; } catch (e) {}
 
-function saveAll() {
-  localStorage.setItem('nu_master_v3', JSON.stringify(S));
-  render();
+function ensureIntegrity() {
+  if (!S.prod || !Array.isArray(S.prod) || S.prod.length < 5) S.prod = SEED;
+  if (!Array.isArray(S.subs)) S.subs = seed().subs; if (!Array.isArray(S.orders)) S.orders = seed().orders;
+  if (!S.svcList || !Array.isArray(S.svcList) || !S.svcList.length) S.svcList = SVC_SEED;
+  if (!Array.isArray(S.svBookings)) S.svBookings = []; if (!Array.isArray(S.exp)) S.exp = [];
+  if (!Array.isArray(S.usedUtr)) S.usedUtr = seed().usedUtr; if (!Array.isArray(S.usedImgHash)) S.usedImgHash = [];
+  S.auto_amt = S.auto_amt || {}; S.profiles = { ...CUST_SEED, ...(S.profiles || {}) }; S.cfg = { ...DEFAULT_CFG, ...(S.cfg || {}) };
+  S.cfg.pl = S.cfg.pl || DEFAULT_CFG.pl; S.cfg.pl.veg = { ...DEFAULT_CFG.pl.veg, ...(S.cfg.pl.veg || {}) }; S.cfg.pl.nv = { ...DEFAULT_CFG.pl.nv, ...(S.cfg.pl.nv || {}) };
+  S.done = S.done || {}; S.dabba = S.dabba || {}; S.mset = S.mset || {};
+}
+ensureIntegrity();
+
+function isSubActiveOn(s, d) {
+  if (!s || s.vStat === 'bad') return false;
+  const k = iso(d); if ((s.skip || []).includes(k)) return false;
+  const startStr = s.start || iso(D0());
+  const endStr = iso(addD(new Date(startStr + 'T12:00:00'), Math.max(1, +s.days || 30) - 1));
+  return k >= startStr && k <= endStr;
+}
+function subDaysLeft(s) {
+  const startD = new Date((s.start || iso(D0())) + 'T12:00:00');
+  const endD = addD(startD, Math.max(1, +s.days || 30) - 1);
+  return Math.ceil((endD - D0()) / 864e5) + 1;
+}
+function calcSubRoti(s) {
+  let r = 0;
+  if (s.lunch === 'roti' || s.lunch === 'both') r += 4;
+  if ((s.dinner || 'roti') === 'roti' || s.dinner === 'both') r += 4;
+  return r + Math.max(0, +s.extraRoti || 0);
+}
+function statusPillHTML(item) {
+  if (item.vStat === 'bad') return `<span class="st-pill st-bad">✕ Rejected (Fake Proof)</span>`;
+  if (item.paid) return `<span class="st-pill st-ok">✓ Verified Paid</span>`;
+  if (item.vStat === 'verify') return `<span class="st-pill st-wait">⏳ Verification Hold</span>`;
+  return `<span class="st-pill st-wait">Pay at Door (${inr(item.total || item.price)})</span>`;
 }
 
 let tab = 'plan', ROLE = sessionStorage.getItem('nu_role') || '';
-let K_SLOT = 'lunch', CART_OPEN = false, PIN_OPEN = false;
-let F = { name: localStorage.getItem('nu_n') || 'Subham Rana', phone: localStorage.getItem('nu_p') || '8073721357', addr: localStorage.getItem('nu_a') || 'Bus Stand Udala', area: localStorage.getItem('nu_area') || 'Udala Bus Stand', type: 'veg', days: 30, times: 3 };
+let SCAT = 'all', SQ = '', PQ = null, CART_OPEN = false, PAY_MODE = 'upi', PROOF_IMG = null, PROOF_META = null, VIEW_PROOF = null, SV_BOOK = null, LAST_WA = null;
+let DRAFT_UTR = '';
+let O_TAB = 'ords', ED_P = null, ED_SV = null, ED_CUST = null, ED_SUB = null, ED_ORD = null;
+let C = {}; try { C = JSON.parse(localStorage.getItem('nu5c')) || {}; } catch (e) {}
+let MY = []; try { MY = JSON.parse(localStorage.getItem('nu5my')) || ['s1', 'o1']; } catch (e) {}
 
-function toast(m) {
-  const t = $('#toast'); if (!t) return;
-  t.textContent = m; t.classList.add('on');
-  setTimeout(() => t.classList.remove('on'), 3000);
+let PAY_BOX = null;
+try { PAY_BOX = JSON.parse(localStorage.getItem('nu_paybox')) || null; } catch (e) {}
+const setPayBox = b => {
+  PAY_BOX = b; if (!b) DRAFT_UTR = '';
+  try { if (b) localStorage.setItem('nu_paybox', JSON.stringify(b)); else localStorage.removeItem('nu_paybox'); } catch (e) {}
+};
+
+const F = {
+  type: 'veg', days: 30, times: 3, lunch: 'chawal', dinner: 'roti', extraRoti: 0, start: iso(D0()),
+  area: localStorage.getItem('nu_area') || 'Udala Bus Stand', name: localStorage.getItem('nu_n') || 'Subham Rana',
+  phone: localStorage.getItem('nu_p') || '8073721357', altPhone: localStorage.getItem('nu_altp') || '',
+  addr: localStorage.getItem('nu_a') || 'Near Bus Stand, Main Road, Udala', spice: localStorage.getItem('nu_spice') || 'Medium',
+  family: +(localStorage.getItem('nu_fam') || 3), notes: localStorage.getItem('nu_notes') || '',
+  lat: +(localStorage.getItem('nu_lat') || 21.5732), lng: +(localStorage.getItem('nu_lng') || 86.5675)
+};
+
+function syncCustomerProfile() {
+  localStorage.setItem('nu_n', F.name); localStorage.setItem('nu_p', F.phone); localStorage.setItem('nu_altp', F.altPhone);
+  localStorage.setItem('nu_a', F.addr); localStorage.setItem('nu_area', F.area); localStorage.setItem('nu_spice', F.spice);
+  localStorage.setItem('nu_fam', F.family); localStorage.setItem('nu_notes', F.notes);
+  if (F.lat) localStorage.setItem('nu_lat', F.lat); if (F.lng) localStorage.setItem('nu_lng', F.lng);
+  const p = ph(F.phone);
+  if (p.length === 10) {
+    const ex = S.profiles[p] || { joined: iso(D0()), dues: 0 };
+    S.profiles[p] = { ...ex, phone: p, name: F.name.trim(), altPhone: ph(F.altPhone), area: F.area, addr: F.addr.trim(), lat: F.lat, lng: F.lng, diet: F.type, spice: F.spice, family: Math.max(1, +F.family || 1), notes: F.notes.trim() };
+  }
+}
+
+let db = null;
+try {
+  const app = initializeApp(FB); db = getDatabase(app);
+  onValue(ref(db, NODE), sn => {
+    const v = sn.val();
+    if (v && v.prod && (+v.rev || 0) >= (+S.rev || 0)) {
+      S = { ...seed(), ...v }; ensureIntegrity(); checkAutoPaymentMatch();
+      const ae = document.activeElement;
+      if (!ae || (ae.tagName !== 'INPUT' && ae.tagName !== 'SELECT')) render();
+    }
+  });
+} catch (e) {}
+
+function checkAutoPaymentMatch() {
+  if (!PAY_BOX || !S.auto_amt) return;
+  const key = Number(PAY_BOX.exactAmt).toFixed(2);
+  if (S.auto_amt[key]) {
+    delete S.auto_amt[key];
+    finalizeOrder(1, 'ok', 'Bank Auto-Matched ₹' + key, 'AUTO-' + Date.now().toString().slice(-8));
+  }
+}
+
+function save() {
+  S.rev = Date.now();
+  try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
+  if (db) set(ref(db, NODE), S).catch(() => {});
+  render();
+}
+
+const upiLink = (a, n) => 'upi://pay?pa=' + (S.cfg.upi || '9583937047@jio') + '&pn=Namaste%20Udala&cu=INR&am=' + (+a).toFixed(2) + '&tn=' + encodeURIComponent(n || 'Order');
+const parsePid = k => Number(String(k).replace('h', ''));
+const cc = () => Object.entries(C).reduce((a, [k, q]) => { const p = S.prod.find(x => x.id === parsePid(k)); return (p && p.s && q > 0) ? a + (+q) : a; }, 0);
+const subTot = () => Object.entries(C).reduce((a, [k, q]) => {
+  const p = S.prod.find(x => x.id === parsePid(k));
+  if (!p || !p.s || q < 1) return a;
+  return a + (String(k).endsWith('h') ? Math.round(p.p * 0.6) : p.p) * q;
+}, 0);
+const dlvFee = () => { const st = subTot(); return (st > 0 && st < (+S.cfg.freeMin || 300)) ? (+S.cfg.dlvFee || 25) : 0; };
+const ct = () => subTot() + dlvFee();
+const menu = t => {
+  const o = (S.mset || {})[iso(D0())]; if (o && o[t]) return o[t];
+  if (t === 'bf') return 'Garma-Garam Puri Sabzi / Paratha + Chai';
+  return t === 'nv' ? 'Chicken Leg Curry / Egg Masala + Rice + 4 Roti' : 'Shahi Paneer + Dal Tadka + Rice + 4 Roti';
+};
+const tierPrice = d => {
+  let b = +(S.cfg.pl[F.type][d] || 1499);
+  if (+F.times === 3) b += d * (+S.cfg.bfAddon || 20);
+  if (F.lunch === 'both') b += d * (+S.cfg.bothAddon || 10);
+  if (F.dinner === 'both') b += d * (+S.cfg.bothAddon || 10);
+  b += (+F.extraRoti || 0) * (+S.cfg.rotiAddon || 5) * d;
+  return Math.max(0, b);
+};
+
+function freeDlvBarHTML() {
+  const st = subTot(), min = +S.cfg.freeMin || 300;
+  if (st <= 0) return '';
+  const pct = Math.min(100, Math.round((st / min) * 100));
+  const rem = Math.max(0, min - st);
+  return `<div class="fdel-bar">${rem > 0 ? `🚚 <b>${inr(rem)}</b> aur add karein <b>FREE Delivery</b> ke liye!` : `🎉 Badhai ho! Aapka <b>FREE Delivery</b> unlock ho gaya!`}
+    <div class="fdel-track"><div class="fdel-fill" style="width:${pct}%"></div></div></div>`;
+}
+
+function userFormHTML() {
+  return `
+  <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
+    <button class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'GPS Saved' : 'Detect GPS'}</button>
+    <span style="font-size:11px;color:var(--mu)">${F.lat ? `${F.lat.toFixed(4)}, ${F.lng.toFixed(4)}` : '1-Tap Fast Delivery'}</span>
+  </div>
+  <div class="area-chips">${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}</div>
+  <input class="inp" data-f="name" placeholder="Aapka Naam" value="${esc(F.name)}">
+  <input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(F.phone)}">
+  <input class="inp" data-f="addr" placeholder="Pura Address (House No / Landmark)" value="${esc(F.addr)}">`;
 }
 
 function vPlan() {
+  const pr = tierPrice(+F.days);
+  const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (F.phone && s.phone === ph(F.phone))).slice().reverse();
+  const activeSub = mySubs[0];
+  let calHTML = '';
+  if (activeSub) {
+    const startD = new Date((activeSub.start || iso(D0())) + 'T12:00:00');
+    const daysArr = Array.from({ length: Math.min(60, Math.max(1, +activeSub.days || 30)) }, (_, i) => {
+      const d = addD(startD, i), k = iso(d);
+      const isSk = (activeSub.skip || []).includes(k), isDn = S.done[k + '_' + activeSub.id], isTd = k === iso(D0());
+      return `<div class="cal-d ${isDn ? 'dn' : isSk ? 'sk' : ''} ${isTd ? 'td' : ''}">${d.getDate()}/${d.getMonth() + 1}<br>${isDn ? '✓' : isSk ? 'Skip' : '•'}</div>`;
+    }).join('');
+    calHTML = `<div class="card reveal3d"><h3>Mera Tiffin Attendance Calendar (${activeSub.days}d) ${statusPillHTML(activeSub)}</h3><div class="cal-grid">${daysArr}</div></div>`;
+  }
+
   return `
-  <div class="hero3d terracotta">
+  <div class="hero3d terracotta tilt3d" data-a="pq" data-id="1">
+    ${steamHTML()}
     <span class="hero-pill">ARTISANAL HOME KITCHEN</span>
     <h2>Monthly · 15 Days · 7 Days Tiffin Plan</h2>
-    <p>3-Time Ghar Jaisa Khana · Free Delivery in Udala</p>
+    <p>3-Time Ghar Jaisa Garma-Garam Khana · Free Delivery</p>
+    <img class="hero-plate" src="${IMG.leg}" alt="Hot Chicken">
   </div>
-  <div class="card">
-    <h3>1. Apna Tiffin Plan Chunein</h3>
-    <div class="seg" style="margin-bottom:12px">
-      <button class="${F.type==='veg'?'on':''}" onclick="setF('type','veg')">🟢 Pure Veg</button>
-      <button class="${F.type==='nv'?'on':''}" onclick="setF('type','nv')">🔴 Non-Veg</button>
+  <div class="story-strip reveal3d">
+    <div class="story-step"><b>${L('s1')}</b><span>${L('s1d')}</span></div>
+    <div class="story-step"><b>${L('s2')}</b><span>${L('s2d')}</span></div>
+    <div class="story-step"><b>${L('s3')}</b><span>${L('s3d')}</span></div>
+  </div>
+  <div class="card reveal3d" style="border:2px solid var(--o);background:linear-gradient(135deg,#fff7ed,#ffedd5);color:#16241c">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div><span class="st-pill st-wait" style="background:#d94e1f;color:#fff">SUNDAY SPECIAL</span><h3 style="margin:6px 0 2px;font-size:15.5px">🍛 Dum Chicken Biryani + Raita</h3><p style="font-size:11.5px;color:#626d65">Saturday raat tak pre-book karein · ₹160 / Plate</p></div>
+      <a class="btn sm" style="margin:0;white-space:nowrap" href="https://wa.me/91${esc(S.cfg.wa)}?text=${encodeURIComponent(`Namaste Udala! Mujhe Sunday Special Chicken Biryani (₹160) pre-book karni hai.\nNaam: ${F.name}\nPhone: ${F.phone}\nArea: ${F.area}`)}" target="_blank">Pre-Book ✓</a>
+    </div>
+  </div>
+  <div class="card reveal3d">
+    <h3>1. Apna Tiffin Plan Chunein <span>Veg / Non-Veg</span></h3>
+    <div class="seg" style="margin-bottom:14px">
+      <button class="${F.type === 'veg' ? 'on' : ''}" data-a="fset" data-k="type" data-v="veg">🟢 Pure Veg Plans</button>
+      <button class="${F.type === 'nv' ? 'on' : ''}" data-a="fset" data-k="type" data-v="nv">🔴 Non-Veg Plans (Chicken/Egg)</button>
     </div>
     <div class="plan-grid">
-      <button class="p-tier ${F.days===30?'on':''}" onclick="setF('days',30)"><span class="p-badge">BEST</span><span class="p-days">30 Din</span><span class="p-amt">₹2,899</span></button>
-      <button class="p-tier ${F.days===15?'on':''}" onclick="setF('days',15)"><span class="p-badge">POPULAR</span><span class="p-days">15 Din</span><span class="p-amt">₹1,499</span></button>
-      <button class="p-tier ${F.days===7?'on':''}" onclick="setF('days',7)"><span class="p-badge">TRIAL</span><span class="p-days">7 Din</span><span class="p-amt">₹749</span></button>
+      ${[[30, 'Monthly Plan', 'BEST VALUE'], [15, '15 Days Plan', 'POPULAR'], [7, '7 Days Plan', 'STARTER']].map(([d, l, t]) => `<div class="p-tier tilt3d ${+F.days === d ? 'on' : ''}" data-a="fset" data-k="days" data-v="${d}"><span class="p-badge">${t}</span><span class="p-days">${d} Din</span><span class="p-sub">${l}</span><span class="p-amt">${inr(tierPrice(d))}</span><span class="p-per">₹${Math.round(tierPrice(d)/d)} / din</span></div>`).join('')}
     </div>
-    <input class="inp" id="uName" placeholder="Aapka Naam" value="${esc(F.name)}">
-    <input class="inp" id="uPhone" placeholder="Mobile Number" value="${esc(F.phone)}">
-    <input class="inp" id="uAddr" placeholder="Address / Landmark" value="${esc(F.addr)}">
-    <button class="btn" onclick="bookPlan()">Activate Plan Now ✓</button>
+    <span class="lbl">2. Kitne Time Khana Chahiye?</span>
+    <div class="seg">
+      <button class="${+F.times === 3 ? 'on' : ''}" data-a="fset" data-k="times" data-v="3">3 Time (Nashta + Lunch + Dinner)</button>
+      <button class="${+F.times === 2 ? 'on' : ''}" data-a="fset" data-k="times" data-v="2">2 Time (Lunch + Dinner)</button>
+    </div>
+    <span class="lbl">3. Dopahar (Lunch) Preference</span>
+    <div class="seg">
+      <button class="${F.lunch === 'chawal' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="chawal">Chawal</button>
+      <button class="${F.lunch === 'roti' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="roti">4 Roti</button>
+      <button class="${F.lunch === 'both' ? 'on' : ''}" data-a="fset" data-k="lunch" data-v="both">Dono (+₹${S.cfg.bothAddon}/d)</button>
+    </div>
+    <span class="lbl">4. Raat (Dinner) Preference</span>
+    <div class="seg">
+      <button class="${F.dinner === 'roti' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="roti">4 Roti</button>
+      <button class="${F.dinner === 'chawal' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="chawal">Chawal</button>
+      <button class="${F.dinner === 'both' ? 'on' : ''}" data-a="fset" data-k="dinner" data-v="both">Dono (+₹${S.cfg.bothAddon}/d)</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin:10px 0 4px">
+      <div><span class="lbl" style="margin:0 0 4px">5. Extra Roti (+₹${S.cfg.rotiAddon}/d)</span><div class="qty"><button data-a="er_dec">−</button><b>${F.extraRoti}</b><button data-a="er_inc">+</button></div></div>
+      <div><span class="lbl" style="margin:0 0 4px">Start Date</span><input class="inp" type="date" data-f="start" value="${F.start}" style="margin:0"></div>
+    </div>
+    ${userFormHTML()}
+    <div class="tot"><span>Selected: ${F.days} Din (${F.type === 'nv' ? 'Non-Veg' : 'Pure Veg'})</span><b>${inr(pr)}</b></div>
+    <button class="btn" data-a="pay_sub">Activate ${F.days} Days Plan · ${inr(pr)}</button>
+    <button class="btn g" data-a="pay_trial">Book 1-Day Trial Tiffin · ${inr(S.cfg.trialPrice)}</button>
+  </div>
+  ${calHTML}
+  <div class="card reveal3d">
+    <h3>Aaj Ka 3-Time Fresh Menu <span>${iso(D0())}</span></h3>
+    <div style="background:var(--sf2);padding:10px 12px;border-radius:14px;margin-bottom:8px;font-size:13px"><b style="color:var(--o)">Subah Nashta:</b> ${esc(menu('bf'))}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:var(--sf2);padding:10px;border-radius:14px;cursor:pointer" data-a="pq" data-id="4"><div style="display:flex;align-items:center;gap:5px;color:#16a34a;font-size:11px;font-weight:800">${symHTML(0)} VEG THALI</div><div style="font-weight:700;font-size:12px;margin-top:3px">${esc(menu('veg'))}</div></div>
+      <div style="background:var(--sf2);padding:10px;border-radius:14px;cursor:pointer" data-a="pq" data-id="1"><div style="display:flex;align-items:center;gap:5px;color:#dc2626;font-size:11px;font-weight:800">${symHTML(1)} NON-VEG THALI</div><div style="font-weight:700;font-size:12px;margin-top:3px">${esc(menu('nv'))}</div></div>
+    </div>
   </div>`;
 }
 
 function vShop() {
+  const q = SQ.trim().toLowerCase();
+  const list = S.prod.filter(p => (SCAT === 'all' || p.c === SCAT) && (!q || p.n.toLowerCase().includes(q)));
   return `
-  <div class="hero3d">
-    <span class="hero-pill">UDALA LOCAL STORE</span>
-    <h2>Fresh Tiffin Items & Kirana</h2>
+  <div class="hero3d tilt3d" data-a="pq" data-id="1">
+    ${steamHTML()}<span class="hero-pill">FRESH KITCHEN & PANTRY</span>
+    <h2>Garma-Garam Khana & Daily Kirana</h2>
+    <p>Full & Half-Plate available · Free Delivery above ${inr(S.cfg.freeMin)}</p>
+    <img class="hero-plate" src="${IMG.chick}" alt="Chicken">
   </div>
-  <div class="grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-    ${S.prod.map(p => `
-      <div class="card" style="margin:0;padding:10px">
-        <img src="${p.img}" style="height:100px;width:100%;border-radius:12px;object-fit:cover">
-        <div style="font-weight:800;font-size:13px;margin:6px 0">${p.n}</div>
-        <div style="font-family:var(--serif);font-weight:800;color:var(--o);font-size:15px">${inr(p.p)}</div>
-        <button class="btn g sm" style="width:100%;margin-top:6px" onclick="addShop(${p.id})">+ ADD</button>
+  ${freeDlvBarHTML()}
+  <input class="inp" id="sq" placeholder="Search Doodh, Atta, Chicken, Paneer, Surf..." value="${esc(SQ)}" style="margin-bottom:10px">
+  <div class="chips">${CATS.map(c => `<button class="${SCAT === c[0] ? 'on' : ''}" data-a="cat" data-v="${c[0]}"><img src="${c[2]}" alt=""><span>${c[1]}</span></button>`).join('')}</div>
+  <div class="grid">
+    ${list.map(p => {
+      const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0, qty = qf + qh;
+      const off = (p.mrp && p.mrp > p.p) ? Math.round((1 - p.p / p.mrp) * 100) : 0;
+      return `<div class="pcard tilt3d reveal3d">
+        <div class="pimg" data-a="pq" data-id="${p.id}">${p.hot ? steamHTML() : ''}<img src="${p.img}" alt="${esc(p.n)}" loading="lazy">
+          ${off > 0 ? `<span class="badge">${off}% OFF</span>` : ''}${p.h ? `<span class="half-tag">1/2 Half</span>` : ''}${p.hot ? `<span class="hot-tag">GARMA-GARAM</span>` : ''}
+        </div>
+        <div class="pname" data-a="pq" data-id="${p.id}">${symHTML(p.nv)}<span>${esc(p.n)}</span></div>
+        <div class="pprice"><div><b>${inr(p.p)}</b>${p.mrp ? `<s>${inr(p.mrp)}</s>` : ''}</div></div>
+        ${!p.s ? `<button class="btn w" disabled>Out of Stock</button>` : qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn g" style="margin-top:auto;padding:9px" data-a="inc" data-id="${p.id}">+ ADD</button>`}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function vServices() {
+  return `
+  <div class="hero3d terracotta tilt3d">
+    <span class="hero-pill">VERIFIED LOCAL PARTNERS</span>
+    <h2>Udala Local Services & Catering</h2>
+    <p>Tuition · Photography · Stage Decor · Hostel · Party Order</p>
+    <img class="hero-plate" src="${IMG.cam}" alt="Services">
+  </div>
+  ${(S.svcList || []).map(s => `
+    <div class="card tilt3d reveal3d" style="display:flex;gap:14px;align-items:center">
+      <img src="${s.img}" style="width:84px;height:84px;border-radius:16px">
+      <div style="flex:1"><div style="font-family:var(--serif);font-weight:800;font-size:15.5px">${esc(s.n)}</div><p style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.d)}</p>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <b style="font-family:var(--serif);color:var(--o);font-size:16.5px">${inr(s.p)}<span style="font-size:11px;color:var(--mu)">${esc(s.u)}</span></b>
+          <button class="btn sm" data-a="open_svb" data-id="${s.id}">Book Now</button>
+        </div>
       </div>
-    `).join('')}
+    </div>
+  `).join('')}`;
+}
+
+function vProfile() {
+  const cleanP = ph(F.phone); const prof = S.profiles[cleanP] || {};
+  const mySubs = (S.subs || []).filter(s => MY.includes(s.id) || (cleanP && s.phone === cleanP)).slice().reverse();
+  const myOrds = (S.orders || []).filter(o => MY.includes(o.id) || (cleanP && o.phone === cleanP)).slice().reverse();
+  const totSpent = mySubs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) + myOrds.reduce((a, o) => a + (o.paid ? o.total : 0), 0);
+  const totDue = (+prof.dues || 0) + myOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? o.total : 0), 0) + mySubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? s.price : 0), 0);
+  const initials = (F.name || 'N U').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+  return `
+  <div class="prof-head reveal3d">
+    <div class="prof-av">${esc(initials)}</div>
+    <div style="flex:1;min-width:0">
+      <h2 style="font-family:var(--serif);font-size:20px;font-weight:800">${esc(F.name || 'Guest Customer')}</h2>
+      <div style="font-size:12px;opacity:.9">+91 ${esc(cleanP || 'Add Mobile Number')} · ${esc(F.area)}</div>
+      <span style="font-size:10.5px;color:#fbbf24;font-weight:800">★ Verified Namaste Udala Member</span>
+    </div>
+  </div>
+  <div class="kpi">
+    <div><b>${inr(totSpent)}</b><span>Verified Paid</span></div>
+    <div><b style="color:${totDue > 0 ? '#dc2626' : '#16a34a'}">${inr(totDue)}</b><span>Pending / Hold</span></div>
+    <div><b>${mySubs.length + myOrds.length}</b><span>Total Orders</span></div>
+  </div>
+  <div class="card reveal3d">
+    <h3>1. Personal, Address & Taste Profile</h3>
+    <span class="lbl">Full Name & Primary 10-Digit Mobile</span>
+    <div class="btn-row"><input class="inp" data-f="name" placeholder="Full Name" value="${esc(F.name)}"><input class="inp" data-f="phone" type="tel" maxlength="10" placeholder="Mobile Number" value="${esc(F.phone)}"></div>
+    <span class="lbl">Alternate Mobile / WhatsApp & Family Members Count</span>
+    <div class="btn-row"><input class="inp" data-f="altPhone" type="tel" maxlength="10" placeholder="Alternate Number" value="${esc(F.altPhone)}"><input class="inp" data-f="family" type="number" placeholder="Family Size (e.g. 3)" value="${esc(F.family)}"></div>
+    <span class="lbl">Select Udala Locality / Ward</span>
+    <div class="area-chips">${UDALA_AREAS.map(a => `<span class="${F.area === a ? 'on' : ''}" data-a="set_area" data-v="${a}">${a}</span>`).join('')}</div>
+    <span class="lbl">Complete House Address & Landmark</span>
+    <input class="inp" data-f="addr" placeholder="House No, Street, Landmark" value="${esc(F.addr)}">
+    <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
+      <button class="btn sm ${F.lat ? 'g' : 'w'}" data-a="getgps">${IC.gps} ${F.lat ? 'Update Doorstep GPS' : 'Lock Doorstep GPS'}</button>
+      <span style="font-size:11.5px;color:var(--mu)">GPS: ${F.lat ? `${F.lat.toFixed(4)}, ${F.lng.toFixed(4)}` : 'Not locked'}</span>
+    </div>
+    <span class="lbl">Spice Level & Kitchen Instructions</span>
+    <div class="seg">${['Low', 'Medium', 'Spicy'].map(sp => `<button class="${F.spice === sp ? 'on' : ''}" data-a="fset" data-k="spice" data-v="${sp}">${sp} Masala</button>`).join('')}</div>
+    <input class="inp" data-f="notes" placeholder="Special kitchen note (e.g. Less oil, गरम रोटी)" value="${esc(F.notes)}">
+    <button class="btn g" data-a="save_prof">Save My Complete Profile ✓</button>
+  </div>
+  <div class="card reveal3d">
+    <h3>2. My Tiffin Subscriptions (${mySubs.length})</h3>
+    ${mySubs.map(s => {
+      const paused = (s.skip || []).includes(iso(D0()));
+      const maxSkips = (+s.origDays || +s.days || 30) >= 30 ? 5 : (+s.origDays || 15) >= 15 ? 3 : 2;
+      const usedSkips = (s.skip || []).length;
+      return `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between;align-items:center"><b>🍱 ${s.days} Din ${s.type === 'nv' ? 'Non-Veg' : 'Pure Veg'} (${s.times || 3} Time/Day)</b>${statusPillHTML(s)}</div>
+        <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">Start: ${s.start} · L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'} · Skips: ${usedSkips}/${maxSkips} · UTR: ${esc(s.utr)}</div>
+        <div class="btn-row">
+          ${s.proof ? `<button class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
+          ${s.vStat !== 'bad' ? `<button class="btn sm ${paused ? 'w' : 'g'}" data-a="cust_skip" data-id="${s.id}">${paused ? 'Paused Today (+1d)' : `Pause Today (${maxSkips - usedSkips} left)`}</button>` : ''}
+        </div>
+      </div>`;
+    }).join('') || '<p style="color:var(--mu);font-size:13px">Koi active tiffin plan nahi hai.</p>'}
+  </div>
+  <div class="card reveal3d">
+    <h3>3. Shop Order History & Bills (${myOrds.length})</h3>
+    ${myOrds.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
+      <div style="display:flex;justify-content:space-between;align-items:center"><b>🛒 Order #${String(o.id).slice(-4)} (${o.date}) — ${inr(o.total)}</b>${statusPillHTML(o)}</div>
+      <div style="font-size:12px;color:var(--mu);margin:4px 0">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;gap:6px">
+        <span style="font-size:11px;font-weight:700;color:var(--mu)">Status: <b>${o.dlv ? 'Delivered ✓' : o.vStat === 'bad' ? 'Cancelled' : 'Preparing'}</b> · UTR: ${esc(o.utr)}</span>
+        <div style="display:flex;gap:5px">
+          ${o.proof ? `<button class="btn w sm" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam}</button>` : ''}
+          <button class="btn w sm" data-a="prt" data-id="${o.id}">🖨 Bill</button>
+          <button class="btn w sm" data-a="reorder" data-id="${o.id}">↻ Reorder</button>
+        </div>
+      </div>
+    </div>`).join('') || '<p style="color:var(--mu);font-size:13px">Abhi tak koi shop order nahi hai.</p>'}
   </div>`;
 }
 
 function vKitchen() {
-  const activeSubs = S.subs.filter(s => s.vStat !== 'bad');
-  const pendOrds = S.orders.filter(o => !o.dlv);
+  const k = iso(D0());
+  const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (s.paid || s.vStat === 'cod'));
+  const veg = activeSubs.filter(s => s.type === 'veg').length, nv = activeSubs.length - veg;
+  const roti = activeSubs.reduce((a, s) => a + calcSubRoti(s), 0);
+  const attaKg = (roti * 0.035).toFixed(1), riceKg = (activeSubs.length * 0.16).toFixed(1);
+  const pendOrds = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod'));
+  const holdCount = (S.orders || []).filter(o => !o.paid && o.vStat === 'verify').length + (S.subs || []).filter(s => !s.paid && s.vStat === 'verify').length;
+
   return `
-  <div class="hero3d">
-    <h2>Kitchen Production & Prep AI</h2>
-    <p>Live Active Tiffins & Orders Forecast</p>
-  </div>
-  <div class="seg" style="margin-bottom:12px">
-    <button class="${K_SLOT==='bf'?'on':''}" onclick="setSlot('bf')">Nashta</button>
-    <button class="${K_SLOT==='lunch'?'on':''}" onclick="setSlot('lunch')">Lunch</button>
-    <button class="${K_SLOT==='dinner'?'on':''}" onclick="setSlot('dinner')">Dinner</button>
-  </div>
-  <div class="kpi">
-    <div><b>${activeSubs.length}</b><span>Active Dabbe</span></div>
-    <div><b>${pendOrds.length}</b><span>Shop Orders</span></div>
-    <div><b>${activeSubs.length * 4}</b><span>Total Roti</span></div>
+  <div class="hero3d">${steamHTML()}<h2>Kitchen Production Counter</h2><p>Aaj (${k}) ke Verified Active Tiffins & Shop Orders</p><img class="hero-plate" src="${IMG.thali}" alt="Kitchen"></div>
+  ${holdCount ? `<div class="card" style="border:2px solid #f59e0b;background:#fffbeb"><b style="color:#92400e;font-size:13px">⚠️ ${holdCount} Order/Plan Verification Hold Par Hain!</b><p style="font-size:11.5px;color:#b45309;margin-top:3px">Owner Panel se screenshot/UTR check karke Approve karne par woh Kitchen list mein aayenge.</p></div>` : ''}
+  <div class="kpi"><div><b>${activeSubs.length}</b><span>Active Dabbe</span></div><div><b>${veg} / ${nv}</b><span>Veg / NV</span></div><div><b>${roti}</b><span>Kul Roti</span></div></div>
+  <div class="card" style="border:2px solid var(--g2)">
+    <h3>🔥 Raw Material Estimate & Bulk KOT <button class="btn sm g" data-a="print_kot">🖨 Print Bulk KOT</button></h3>
+    <div class="kpi" style="margin:0">
+      <div><b>${attaKg} kg</b><span>Atta Approx</span></div>
+      <div><b>${riceKg} kg</b><span>Chawal Approx</span></div>
+      <div><b>${pendOrds.length}</b><span>Shop Orders</span></div>
+    </div>
   </div>
   <div class="card">
-    <h3>Active Tiffin Preps (${activeSubs.length})</h3>
-    ${activeSubs.map(s => `<div class="row"><div><b>${esc(s.name)}</b><div style="font-size:11.5px;color:var(--mu)">${esc(s.area)} · ${s.type==='nv'?'Non-Veg':'Veg'}</div></div><span class="st-pill st-ok">Cooking</span></div>`).join('')}
+    <h3>Today's Active Tiffins to Cook (${activeSubs.length})</h3>
+    ${activeSubs.map(s => {
+      const prof = S.profiles[ph(s.phone)] || {};
+      return `<div class="row"><div><b>${esc(s.name)} (${s.type === 'nv' ? 'Non-Veg' : 'Veg'} · ${s.times || 3} Time)</b><div style="font-size:12px;color:var(--mu)">L: ${s.lunch || 'chawal'} · D: ${s.dinner || 'roti'}${s.extraRoti ? ` (+${s.extraRoti} Roti)` : ''} · Spice: <b>${esc(prof.spice || 'Medium')}</b> ${prof.notes ? `· <b style="color:#dc2626">"${esc(prof.notes)}"</b>` : ''}</div></div><span class="st-pill st-ok">${calcSubRoti(s)} Roti</span></div>`;
+    }).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffins for today.</p>'}
+  </div>
+  <div class="card">
+    <h3>Verified Shop Orders to Pack (${pendOrds.length})</h3>
+    ${pendOrds.map(o => `<div class="row"><div><b>${esc(o.name)} (${esc(o.area)})</b><div style="font-size:12.5px;color:var(--o);font-weight:800">${o.items.map(i => i.n + ' ×' + i.q).join(', ')}</div></div><button class="btn g sm" data-a="odlv" data-id="${o.id}">Packed & Ready ✓</button></div>`).join('') || '<p style="color:var(--mu);font-size:13px">All verified orders packed.</p>'}
   </div>`;
 }
 
 function vRoute() {
+  const k = iso(D0());
+  const subs = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (s.paid || s.vStat === 'cod')).sort((a, b) => (a.area || '').localeCompare(b.area || ''));
+  const ords = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad' && (o.paid || o.vStat === 'cod')).sort((a, b) => (a.area || '').localeCompare(b.area || ''));
+  const codToday = (S.orders || []).filter(o => o.date === k && o.dlv && (o.pMode || '').includes('Delivery')).reduce((a, o) => a + (+o.total || 0), 0);
+  const dabbaBack = subs.filter(s => S.dabba[k + '_' + s.id]).length;
+  const stops = [...subs, ...ords].map(x => x.lat ? `${x.lat},${x.lng}` : `${x.addr || ''} ${x.area || 'Udala'} Odisha`).slice(0, 8);
+  const multiMapUrl = stops.length ? `https://www.google.com/maps/dir/${stops.map(encodeURIComponent).join('/')}` : '#';
+
   return `
-  <div class="hero3d" style="background:linear-gradient(132deg,#113221,#1b5e3a)">
-    <h2>GPS Shortest-Path Route</h2>
-    <p>Delivery Boy Navigation</p>
+  <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
+    <div><small style="color:#fbbf24;font-weight:800">AREA-SORTED DELIVERY ROUTE</small><h2 style="font-family:var(--serif);font-size:18px">Tiffin, Dabba & COD Drops</h2></div>
+    <button class="btn w sm" data-a="logout_staff">Exit</button>
+  </div>
+  <div class="kpi">
+    <div><b style="color:#d97706">${inr(codToday)}</b><span>Rider COD Cash</span></div>
+    <div><b style="color:#16a34a">${dabbaBack}/${subs.length}</b><span>Dabba Wapas</span></div>
+    <div><b>${subs.length + ords.length}</b><span>Total Drops</span></div>
+  </div>
+  ${stops.length ? `<a class="btn g" style="margin-bottom:14px" href="${multiMapUrl}" target="_blank">🗺 Open Multi-Stop Google Maps Route (${stops.length} Stops)</a>` : ''}
+  <div class="card">
+    <h3>Today's Tiffin Deliveries (Area-Wise)</h3>
+    ${subs.map(s => {
+      const done = S.done[k + '_' + s.id], dab = S.dabba[k + '_' + s.id];
+      const mapUrl = s.lat ? `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.addr + ' ' + (s.area || 'Udala'))}`;
+      return `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between"><b>${esc(s.name)} (${s.type === 'nv' ? 'NV' : 'Veg'})</b><span style="font-size:11.5px;font-weight:800;color:var(--o)">${esc(s.area)}</span></div>
+        <div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(s.addr)}</div>
+        <div class="btn-row">
+          <a class="btn w sm" href="${mapUrl}" target="_blank">GPS</a>
+          <a class="btn w sm" href="tel:+91${esc(s.phone)}">Call</a>
+          <button class="btn sm ${dab ? 'g' : 'w'}" data-a="sdabba" data-id="${s.id}">${dab ? 'Dabba ✓' : 'Empty Dabba?'}</button>
+          <button class="btn sm ${done ? 'w' : 'g'}" data-a="sdone" data-id="${s.id}">${done ? 'Delivered ✓' : 'Deliver'}</button>
+        </div>
+      </div>`;
+    }).join('') || '<p style="color:var(--mu);font-size:13px">No active tiffin drops.</p>'}
   </div>
   <div class="card">
-    <h3>Today's Delivery Drops (${S.subs.length + S.orders.length})</h3>
-    ${S.subs.map((s, i) => `<div class="row"><div><b>#${i+1} · ${esc(s.name)} (${s.type==='nv'?'NV':'Veg'})</b><div style="font-size:11px;color:var(--mu)">${esc(s.addr)} (${esc(s.area)})</div></div><a class="btn sm g" href="tel:+91${s.phone}">Call</a></div>`).join('')}
-    ${S.orders.map((o, i) => `<div class="row"><div><b>Shop Drop · ${esc(o.name)}</b><div style="font-size:11px;color:var(--mu)">${esc(o.addr)} · ${o.items.map(x=>x.n).join(', ')}</div></div><a class="btn sm g" href="tel:+91${o.phone}">Call</a></div>`).join('')}
+    <h3>Shop Order Drops (${ords.length})</h3>
+    ${ords.map(o => {
+      const mapUrl = o.lat ? `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.addr + ' ' + (o.area || 'Udala'))}`;
+      return `<div class="row" style="flex-direction:column;align-items:stretch"><div style="display:flex;justify-content:space-between"><b>${esc(o.name)} — ${inr(o.total)}</b><span style="font-size:11.5px;font-weight:800;color:${o.paid ? '#16a34a' : '#dc2626'}">${o.paid ? 'VERIFIED PAID' : 'COLLECT CASH/QR: ' + inr(o.total)}</span></div><div style="font-size:12px;color:var(--mu);margin:3px 0 8px">${esc(o.area)} · ${esc(o.addr)} · ${o.items.map(i => i.n + '×' + i.q).join(', ')}</div><div class="btn-row"><a class="btn w sm" href="${mapUrl}" target="_blank">GPS Map</a><a class="btn w sm" href="tel:+91${esc(o.phone)}">Call</a><button class="btn g sm" data-a="odlv" data-id="${o.id}">Delivered & Paid ✓</button></div></div>`;
+    }).join('') || '<p style="color:var(--mu);font-size:13px">No pending shop drops.</p>'}
   </div>`;
 }
 
 function vOwner() {
-  const totIn = S.orders.reduce((a,o)=>a+o.total,0) + S.subs.reduce((a,s)=>a+s.price,0);
+  const td = iso(D0());
+  const subs = (S.subs || []).slice().reverse(), ords = (S.orders || []).slice().reverse();
+  const totIn = ords.reduce((a, o) => a + (o.paid ? o.total : 0), 0) + subs.reduce((a, s) => a + (s.paid ? s.price : 0), 0);
+  const totOut = (S.exp || []).reduce((a, x) => a + (+x.amt || 0), 0);
+  const upiToday = ords.filter(o => o.date === td && o.paid && !(o.pMode || '').includes('Delivery')).reduce((a, o) => a + (+o.total || 0), 0) + subs.filter(s => s.start === td && s.paid).reduce((a, s) => a + (+s.price || 0), 0);
+  const cashToday = ords.filter(o => o.date === td && o.paid && (o.pMode || '').includes('Delivery')).reduce((a, o) => a + (+o.total || 0), 0);
+  const expToday = (S.exp || []).filter(x => x.d === td).reduce((a, x) => a + (+x.amt || 0), 0);
+  const expiring = subs.filter(s => s.vStat !== 'bad' && subDaysLeft(s) >= 0 && subDaysLeft(s) <= 3);
+  const pendVerifyCount = ords.filter(o => o.vStat === 'verify' && !o.paid).length + subs.filter(s => s.vStat === 'verify' && !s.paid).length;
+
+  const allCust = { ...(S.profiles || {}) };
+  subs.forEach(s => { const p = ph(s.phone); if (p) allCust[p] = { phone: p, name: s.name, area: s.area, addr: s.addr, lat: s.lat, lng: s.lng, diet: s.type, spice: 'Medium', family: 1, dues: 0, ...(allCust[p] || {}) }; });
+  ords.forEach(o => { const p = ph(o.phone); if (p) allCust[p] = { phone: p, name: o.name, area: o.area, addr: o.addr, lat: o.lat, lng: o.lng, diet: 'veg', spice: 'Medium', family: 1, dues: 0, ...(allCust[p] || {}) }; });
+  const custList = Object.values(allCust);
+  const ownerTabs = [['ords', `Orders & Verify ${pendVerifyCount ? '(' + pendVerifyCount + ')' : ''}`], ['cust', `Customers (${custList.length})`], ['plans', 'Rates, Menu & Kharcha'], ['prod', 'Shop Products'], ['svc', 'Services & UPI']];
+
+  let body = '';
+  if (O_TAB === 'ords') {
+    body = `
+    ${expiring.length ? `<div class="card" style="border:2px solid #dc2626;background:#fef2f2"><h3 style="color:#991b1b">⏰ Expiring Soon (${expiring.length} Plans)</h3>
+      ${expiring.map(s => `<div class="row"><div><b>${esc(s.name)}</b> <span class="st-pill st-bad">${subDaysLeft(s)}d left</span></div>
+        <a class="btn sm g" href="https://wa.me/91${esc(s.phone)}?text=${encodeURIComponent(`Namaste ${s.name} ji! Aapka Namaste Udala tiffin plan ${subDaysLeft(s)} din mein khatam hone wala hai. Continue karne ke liye UPI ID ${S.cfg.upi} par renew karein.`)}" target="_blank">Renew WA</a></div>`).join('')}
+    </div>` : ''}
+    <div class="card" style="border:2px solid #16a34a">
+      <h3><span style="display:flex;align-items:center;gap:6px"><i class="pulse-dot"></i> Bank SMS Exact Paise Auto-Matcher</span></h3>
+      <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Bank SMS mein aaya exact amount (jaise <b>305.24</b>) yahan push karein:</p>
+      <div style="display:flex;gap:8px"><input class="inp" id="wh_amt" type="number" step="0.01" placeholder="Exact ₹ Amount (e.g. 305.24)" style="flex:1;margin:0"><button class="btn g sm" data-a="push_auto_amt">Auto-Match</button></div>
+    </div>
+    ${ED_ORD ? `<div class="card" id="ord_edit_box" style="border:2px solid var(--o)"><h3>Edit Order #${String(ED_ORD).slice(-4)} <button class="btn w sm" data-a="cancel_edord">Cancel</button></h3><div class="btn-row"><input class="inp" id="eo_name" placeholder="Customer Name"><input class="inp" id="eo_phone" placeholder="Mobile"></div><div class="btn-row"><input class="inp" id="eo_total" type="number" placeholder="Total Bill ₹"><input class="inp" id="eo_utr" placeholder="UTR / Ref"></div><input class="inp" id="eo_addr" placeholder="Delivery Address"><button class="btn g" data-a="save_edord">Update Order Details ✓</button></div>` : ''}
+    <div class="card">
+      <h3>Shop Orders & Anti-Fraud Verification (${ords.length})</h3>
+      ${ords.map(o => `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between;align-items:center"><b>${esc(o.name)} (${esc(o.phone)}) — ${inr(o.total)}</b>${statusPillHTML(o)}</div>
+        <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">${esc(o.area)} · ${esc(o.addr)}<br>Mode: <b>${esc(o.pMode || 'UPI')}</b> · UTR: <b>${esc(o.utr)}</b> ${o.proofMeta ? `· ${esc(o.proofMeta)}` : ''}<br>Items: <b style="color:var(--ink)">${o.items.map(i => i.n + '×' + i.q).join(', ')}</b></div>
+        <div class="btn-row">
+          ${o.proof ? `<button class="btn sm w" data-a="view_proof" data-k="ord" data-id="${o.id}">${IC.cam} Proof</button>` : ''}
+          <button class="btn sm ${o.paid ? 'w' : 'g'}" data-a="o_paid" data-id="${o.id}">${o.paid ? 'Unmark' : '✓ Approve'}</button>
+          ${o.vStat !== 'bad' ? `<button class="btn sm r" data-a="o_reject" data-id="${o.id}">✕ Fake</button>` : ''}
+          <button class="btn sm ${o.dlv ? 'w' : 'g'}" data-a="odlv" data-id="${o.id}">${o.dlv ? 'Done ✓' : 'Deliver'}</button>
+          <button class="btn sm w" data-a="edit_ord" data-id="${o.id}">Edit</button>
+          <button class="btn sm w" data-a="prt" data-id="${o.id}">🖨</button>
+          <button class="btn sm w" data-a="o_del" data-id="${o.id}">🗑</button>
+        </div>
+      </div>`).join('') || '<p style="color:var(--mu)">No shop orders.</p>'}
+    </div>
+    ${ED_SUB ? `<div class="card" id="sub_edit_box" style="border:2px solid var(--o)"><h3>Edit Tiffin Subscription <button class="btn w sm" data-a="cancel_edsub">Cancel</button></h3><div class="btn-row"><input class="inp" id="esub_name" placeholder="Name"><select class="inp" id="esub_type"><option value="veg">🟢 Pure Veg</option><option value="nv">🔴 Non-Veg</option></select></div><div class="btn-row"><input class="inp" id="esub_days" type="number" placeholder="Days (7/15/30)"><input class="inp" id="esub_price" type="number" placeholder="Price ₹"><input class="inp" id="esub_start" type="date"></div><div class="btn-row"><select class="inp" id="esub_lunch"><option value="chawal">Lunch Chawal</option><option value="roti">Lunch 4 Roti</option><option value="both">Both (+10)</option></select><select class="inp" id="esub_dinner"><option value="roti">Dinner 4 Roti</option><option value="chawal">Dinner Chawal</option><option value="both">Both (+10)</option></select><input class="inp" id="esub_extra" type="number" placeholder="Extra Roti/d"></div><button class="btn g" data-a="save_edsub">Update Subscription ✓</button></div>` : ''}
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3>Tiffin Subscriptions (${subs.length})</h3><button class="btn g sm" data-a="manual_sub" style="margin:0">+ Add Manual Tiffin</button></div>
+      ${subs.map(s => `<div class="row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between;align-items:center"><b>${esc(s.name)} (${esc(s.phone)}) — ${inr(s.price)}</b>${statusPillHTML(s)}</div>
+        <div style="font-size:11.5px;color:var(--mu);margin:4px 0 8px">${s.days}d (${s.type === 'nv' ? 'NV' : 'Veg'}) · Start: ${s.start} · ${esc(s.area)} · Mode: ${esc(s.pMode || 'UPI')} · UTR: <b>${esc(s.utr)}</b></div>
+        <div class="btn-row">
+          ${s.proof ? `<button class="btn sm w" data-a="view_proof" data-k="sub" data-id="${s.id}">${IC.cam} Proof</button>` : ''}
+          <button class="btn sm ${s.paid ? 'w' : 'g'}" data-a="s_paid" data-id="${s.id}">${s.paid ? 'Unmark' : '✓ Approve'}</button>
+          ${s.vStat !== 'bad' ? `<button class="btn sm r" data-a="s_reject" data-id="${s.id}">✕ Fake</button>` : ''}
+          <button class="btn sm w" data-a="edit_sub" data-id="${s.id}">Edit</button>
+          <button class="btn sm w" data-a="s_add_day" data-id="${s.id}">+1d</button>
+          <button class="btn sm w" data-a="s_del" data-id="${s.id}">🗑</button>
+        </div>
+      </div>`).join('') || '<p style="color:var(--mu)">No active tiffin plans.</p>'}
+    </div>`;
+  } else if (O_TAB === 'cust') {
+    body = `
+    <div class="card" id="cust_form">
+      <h3>${ED_CUST ? 'Edit Customer Profile: ' + esc(ED_CUST) : 'Add / Update Customer Profile'} ${ED_CUST ? `<button class="btn w sm" data-a="cancel_edcust">Cancel</button>` : ''}</h3>
+      <div class="btn-row"><input class="inp" id="ec_name" placeholder="Full Name"><input class="inp" id="ec_phone" type="tel" maxlength="10" placeholder="10-Digit Mobile"></div>
+      <div class="btn-row"><input class="inp" id="ec_alt" type="tel" maxlength="10" placeholder="Alternate / WhatsApp"><select class="inp" id="ec_area">${UDALA_AREAS.map(a => `<option value="${a}">${a}</option>`).join('')}</select></div>
+      <input class="inp" id="ec_addr" placeholder="Complete House Address & Landmark">
+      <div class="btn-row">
+        <select class="inp" id="ec_diet"><option value="veg">🟢 Pure Veg</option><option value="nv">🔴 Non-Veg</option></select>
+        <select class="inp" id="ec_spice"><option value="Medium">Medium Spice</option><option value="Low">Low Spice</option><option value="Spicy">Extra Spicy</option></select>
+        <input class="inp" id="ec_dues" type="number" placeholder="Extra Due ₹">
+      </div>
+      <input class="inp" id="ec_notes" placeholder="Kitchen / Delivery Note (e.g. Less oil, 2nd floor)">
+      <button class="btn g" data-a="save_cust">${ED_CUST ? 'Update Customer Profile ✓' : '+ Save Customer Profile'}</button>
+    </div>
+    <div class="card">
+      <h3>All Customers Directory & 1-Tap Udhaar Reminder (${custList.length})</h3>
+      ${custList.map(c => {
+        const cSubs = subs.filter(s => ph(s.phone) === c.phone), cOrds = ords.filter(o => ph(o.phone) === c.phone);
+        const totalPaid = cSubs.reduce((a, s) => a + (s.paid ? s.price : 0), 0) + cOrds.reduce((a, o) => a + (o.paid ? o.total : 0), 0);
+        const calcDue = (+c.dues || 0) + cOrds.reduce((a, o) => a + (!o.paid && o.vStat !== 'bad' ? o.total : 0), 0) + cSubs.reduce((a, s) => a + (!s.paid && s.vStat !== 'bad' ? s.price : 0), 0);
+        const mapUrl = c.lat ? `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((c.addr || '') + ' ' + (c.area || 'Udala'))}`;
+        const waMsg = calcDue > 0 ? `Namaste ${c.name} ji! Aapka Namaste Udala ka ${inr(calcDue)} payment pending hai. Kripya UPI ID ${S.cfg.upi} par pay karein. Dhanyawad!` : `Namaste ${c.name} ji! Namaste Udala se update.`;
+        return `<div class="row" style="flex-direction:column;align-items:stretch">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><b style="font-size:14.5px">${esc(c.name)} (+91 ${esc(c.phone)})</b><div style="font-size:11.5px;color:var(--mu)">Area: <b>${esc(c.area || 'Udala')}</b> · ${esc(c.addr || '')}</div></div><span style="font-size:11.5px;font-weight:800;color:${calcDue > 0 ? '#dc2626' : '#16a34a'}">${calcDue > 0 ? 'Pending: ' + inr(calcDue) : 'Clear ✓'}</span></div>
+          <div style="background:var(--sf2);padding:8px 10px;border-radius:12px;margin:6px 0;font-size:11.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px"><span>Verified Paid: <b style="color:var(--g2)">${inr(totalPaid)}</b></span><span>Plans: <b>${cSubs.length}</b> · Orders: <b>${cOrds.length}</b></span><span>Taste: <b>${c.diet === 'nv' ? 'Non-Veg' : 'Veg'} (${esc(c.spice || 'Medium')})</b></span>${c.notes ? `<span style="width:100%;color:var(--o)">Note: "${esc(c.notes)}"</span>` : ''}</div>
+          <div class="btn-row"><a class="btn sm w" href="tel:+91${esc(c.phone)}">Call</a><a class="btn sm ${calcDue > 0 ? 'r' : 'w'}" href="https://wa.me/91${esc(c.phone)}?text=${encodeURIComponent(waMsg)}" target="_blank">${calcDue > 0 ? '💰 Remind Due' : 'WhatsApp'}</a><a class="btn sm w" href="${mapUrl}" target="_blank">GPS</a><button class="btn sm g" data-a="edit_cust" data-id="${c.phone}">Edit</button><button class="btn sm r" data-a="del_cust" data-id="${c.phone}">✕</button></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  } else if (O_TAB === 'plans') {
+    const vp = S.cfg.pl.veg, nvp = S.cfg.pl.nv;
+    body = `
+    <div class="card">
+      <h3>Daily Kharcha (Expense) & Net Profit Ledger</h3>
+      <div style="display:flex;gap:8px"><input class="inp" id="exp_n" placeholder="Expense (e.g. Sabzi, Gas)" style="flex:1"><input class="inp" id="exp_a" type="number" placeholder="₹ Amt" style="width:110px"></div>
+      <button class="btn" data-a="add_exp">+ Add Daily Expense</button>
+      ${(S.exp || []).slice().reverse().map(x => `<div class="row"><span>${esc(x.n)} (${x.d})</span><div style="display:flex;align-items:center;gap:8px"><b style="color:#dc2626">−${inr(x.amt)}</b><button class="btn sm r" data-a="del_exp" data-id="${x.id}">✕</button></div></div>`).join('')}
+    </div>
+    <div class="card">
+      <h3>Edit Tiffin Plan Prices (₹)</h3>
+      <span class="lbl">Pure Veg Base Prices (7 Din / 15 Din / 30 Din)</span>
+      <div class="btn-row"><input class="inp" id="vp_7" type="number" value="${vp[7]}"><input class="inp" id="vp_15" type="number" value="${vp[15]}"><input class="inp" id="vp_30" type="number" value="${vp[30]}"></div>
+      <span class="lbl">Non-Veg Base Prices (7 Din / 15 Din / 30 Din)</span>
+      <div class="btn-row"><input class="inp" id="nvp_7" type="number" value="${nvp[7]}"><input class="inp" id="nvp_15" type="number" value="${nvp[15]}"><input class="inp" id="nvp_30" type="number" value="${nvp[30]}"></div>
+      <span class="lbl">1-Day Trial Price (₹) & 3-Time Nashta Addon/Day (₹)</span>
+      <div class="btn-row"><input class="inp" id="cfg_trial" type="number" value="${S.cfg.trialPrice}"><input class="inp" id="cfg_bf" type="number" value="${S.cfg.bfAddon}"></div>
+      <span class="lbl">Free Delivery Min Order (₹) & Delivery Fee (₹)</span>
+      <div class="btn-row"><input class="inp" id="cfg_fmin" type="number" value="${S.cfg.freeMin}"><input class="inp" id="cfg_dfee" type="number" value="${S.cfg.dlvFee}"></div>
+      <button class="btn g" data-a="save_rates">Save All Plan Rates & Fees</button>
+    </div>
+    <div class="card">
+      <h3>Edit Today's 3-Time Menu (${iso(D0())})</h3>
+      <span class="lbl">Subah Nashta</span><input class="inp" id="m_bf" value="${esc(menu('bf'))}">
+      <span class="lbl">Pure Veg Menu</span><input class="inp" id="m_veg" value="${esc(menu('veg'))}">
+      <span class="lbl">Non-Veg Menu</span><input class="inp" id="m_nv" value="${esc(menu('nv'))}">
+      <button class="btn g" data-a="savem">Save Live Menu</button>
+    </div>`;
+  } else if (O_TAB === 'prod') {
+    body = `
+    <div class="card" id="prod_form">
+      <h3>${ED_P ? 'Edit Product' : 'Add New Shop Product'} ${ED_P ? `<button class="btn w sm" data-a="cancel_edp">Cancel</button>` : ''}</h3>
+      <input class="inp" id="ep_n" placeholder="Item Name (e.g. Paneer 200g)">
+      <div class="btn-row"><input class="inp" id="ep_p" type="number" placeholder="Selling Price ₹"><input class="inp" id="ep_m" type="number" placeholder="MRP ₹"></div>
+      <div class="btn-row">
+        <select class="inp" id="ep_c">${CATS.slice(1).map(c => `<option value="${c[0]}">${c[1]}</option>`).join('')}</select>
+        <select class="inp" id="ep_nv"><option value="0">🟢 Pure Veg</option><option value="1">🔴 Non-Veg</option></select>
+      </div>
+      <div class="btn-row">
+        <select class="inp" id="ep_h"><option value="0">Full Pack Only</option><option value="1">1/2 Half Plate Available</option></select>
+        <select class="inp" id="ep_hot"><option value="0">Normal Item</option><option value="1">Garma-Garam Steam</option></select>
+      </div>
+      <input class="inp" id="ep_img" placeholder="Photo URL (Leave blank for auto category photo)">
+      <button class="btn g" data-a="save_prod">${ED_P ? 'Update Product' : '+ Add Product to Shop'}</button>
+    </div>
+    <div class="card">
+      <h3>All Shop Products (${S.prod.length})</h3>
+      ${S.prod.map(p => `<div class="row">
+        <div><b>${esc(p.n)} (${inr(p.p)})</b><div style="font-size:11px;color:var(--mu)">${esc(p.c)} · MRP: ${p.mrp ? inr(p.mrp) : '-'} ${p.h ? '· Half Avail' : ''}</div></div>
+        <div style="display:flex;gap:5px"><button class="btn sm ${p.s ? 'g' : 'w'}" data-a="stk" data-id="${p.id}">${p.s ? 'Stock' : 'Out'}</button><button class="btn sm w" data-a="edit_prod" data-id="${p.id}">Edit</button><button class="btn sm r" data-a="del_prod" data-id="${p.id}">✕</button></div>
+      </div>`).join('')}
+    </div>`;
+  } else {
+    body = `
+    <div class="card">
+      <h3>Service Bookings Received (${(S.svBookings || []).length})</h3>
+      ${(S.svBookings || []).slice().reverse().map(b => `<div class="row"><div><b>${esc(b.svName)} — ${esc(b.name)} (${esc(b.phone)})</b><div style="font-size:11.5px;color:var(--mu)">Date: ${esc(b.date)} · Area: ${esc(b.area)} · Note: ${esc(b.note || '-')}</div></div><div style="display:flex;gap:5px"><a class="btn sm g" href="tel:+91${esc(b.phone)}">Call</a><button class="btn sm r" data-a="del_svb" data-id="${b.id}">✕</button></div></div>`).join('') || '<p style="color:var(--mu);font-size:13px">No service bookings yet.</p>'}
+    </div>
+    <div class="card" id="svc_form">
+      <h3>${ED_SV ? 'Edit Service' : 'Add New Service'} ${ED_SV ? `<button class="btn w sm" data-a="cancel_edsv">Cancel</button>` : ''}</h3>
+      <input class="inp" id="es_n" placeholder="Service Title (e.g. Home Tuition)">
+      <div class="btn-row"><input class="inp" id="es_p" type="number" placeholder="Price ₹"><input class="inp" id="es_u" placeholder="Unit (e.g. /month, /event)"></div>
+      <input class="inp" id="es_d" placeholder="Short Description">
+      <input class="inp" id="es_img" placeholder="Photo URL (Optional)">
+      <button class="btn g" data-a="save_svc">${ED_SV ? 'Update Service' : '+ Add Service'}</button>
+    </div>
+    <div class="card">
+      <h3>All Local Services (${(S.svcList || []).length})</h3>
+      ${(S.svcList || []).map(s => `<div class="row"><div><b>${esc(s.n)} (${inr(s.p)}${esc(s.u)})</b><div style="font-size:11px;color:var(--mu)">${esc(s.d)}</div></div><div style="display:flex;gap:5px"><button class="btn sm w" data-a="edit_svc" data-id="${s.id}">Edit</button><button class="btn sm r" data-a="del_svc" data-id="${s.id}">✕</button></div></div>`).join('')}
+    </div>
+    <div class="card">
+      <h3>App Payment, WhatsApp & Demo Reset</h3>
+      <span class="lbl">Owner UPI ID (For QR & Payments)</span><input class="inp" id="cfg_upi" value="${esc(S.cfg.upi)}">
+      <span class="lbl">WhatsApp Number (10 Digits)</span><input class="inp" id="cfg_wa" value="${esc(S.cfg.wa)}">
+      <button class="btn g" data-a="save_app_cfg">Save UPI & WhatsApp</button>
+      <button class="btn w sm" style="margin-top:10px" data-a="reset_seed">Restore Original Demo Data</button>
+    </div>`;
+  }
+
   return `
-  <div class="hero3d" style="background:linear-gradient(132deg,#2b1208,#7c280d)">
-    <h2>Owner Master Control</h2>
-    <p>Full CRM & Data Management</p>
+  <div class="card" style="background:var(--g);color:#fff;display:flex;justify-content:space-between;align-items:center">
+    <div><small style="color:#fbbf24;font-weight:800">OWNER MASTER CONTROL</small><h2 style="font-family:var(--serif);font-size:18px">Anti-Fraud & Full CRM</h2></div><button class="btn w sm" data-a="logout_staff">Exit</button>
   </div>
-  <div class="kpi">
-    <div><b>${inr(totIn)}</b><span>Collection</span></div>
-    <div><b>${S.orders.length}</b><span>Orders</span></div>
-    <div><b>${S.subs.length}</b><span>Subs</span></div>
+  <div class="card" style="border:2px solid var(--g2)">
+    <h3>🧾 Today's Closing Tally (${td}) <button class="btn sm g" data-a="export_csv">⬇ Export CSV</button></h3>
+    <div class="kpi" style="margin:4px 0 8px">
+      <div><b style="color:#16a34a">${inr(upiToday)}</b><span>UPI Bank</span></div>
+      <div><b style="color:#d97706">${inr(cashToday)}</b><span>Cash COD</span></div>
+      <div><b style="color:#dc2626">${inr(expToday)}</b><span>Kharcha</span></div>
+    </div>
+    <div style="font-size:12px;font-weight:800;display:flex;justify-content:space-between">
+      <span>Today Net: <b style="color:var(--g2)">${inr(upiToday + cashToday - expToday)}</b></span>
+      <span>All-Time Profit: <b style="color:var(--o)">${inr(totIn - totOut)}</b></span>
+    </div>
   </div>
-  <div class="card">
-    <h3>Quick Data Controls</h3>
-    <button class="btn g" onclick="resetDemoData()">↻ Reload / Reset Demo Data</button>
-    <button class="btn r sm" style="background:#dc2626;margin-top:8px" onclick="logoutOwner()">Logout Owner Mode</button>
-  </div>`;
+  <div class="area-chips" style="margin-bottom:12px">${ownerTabs.map(t => `<span class="${O_TAB === t[0] ? 'on' : ''}" data-a="otab" data-v="${t[0]}">${t[1]}</span>`).join('')}</div>
+  ${body}`;
 }
 
 function sheet() {
-  if (PIN_OPEN) {
-    return `<div class="ov"><div class="sh" style="text-align:center">
-      <h3>🔒 Owner PIN Access</h3>
-      <p style="font-size:12px;color:var(--mu);margin:8px 0">Enter 4-digit PIN (Default: 4827)</p>
-      <input class="inp" id="pinBox" type="password" maxlength="4" style="text-align:center;font-size:22px;letter-spacing:6px;max-width:160px;margin:0 auto 12px" autofocus>
-      <button class="btn g" onclick="verifyPin()">Unlock Owner Panel ✓</button>
-      <button class="btn w sm" style="margin-top:8px" onclick="closePin()">Cancel</button>
+  if (LAST_WA) {
+    return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center">
+      <h3 style="justify-content:center;color:var(--g2)">🎉 Order Successfully Submitted!</h3>
+      <p style="font-size:12.5px;color:var(--mu);margin:8px 0 14px">${esc(LAST_WA.msg)}</p>
+      <a class="btn g" href="${LAST_WA.url}" target="_blank" data-a="close_wa">📲 Send WhatsApp Confirmation</a>
+      <button class="btn w sm" style="margin-top:8px" data-a="close_wa">Done</button>
+    </div></div>`;
+  }
+  if (VIEW_PROOF) {
+    return `<div class="ov" data-a="close_bg"><div class="sh" style="text-align:center"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><b>📸 Uploaded Payment Proof</b><button class="btn w sm" data-a="close_proof">Close</button></div><img src="${VIEW_PROOF}" style="max-width:100%;max-height:68vh;margin:0 auto;border-radius:16px;border:2px solid var(--ln)"></div></div>`;
+  }
+  if (SV_BOOK) {
+    const s = (S.svcList || []).find(x => x.id === SV_BOOK); if (!s) return '';
+    return `<div class="ov" data-a="close_bg"><div class="sh"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="font-family:var(--serif)">Book ${esc(s.n)}</h3><button class="btn w sm" data-a="close">Close</button></div><div style="font-size:18px;font-weight:800;color:var(--o);margin-bottom:8px">${inr(s.p)}${esc(s.u)}</div><span class="lbl">Preferred Start / Event Date</span><input class="inp" id="sv_date" type="date" value="${iso(addD(D0(), 1))}"><input class="inp" id="sv_note" placeholder="Timing / Batch / Event Details">${userFormHTML()}<button class="btn g" data-a="confirm_svb">Confirm Service Booking ✓</button></div></div>`;
+  }
+  if (PAY_BOX) {
+    const g = PAY_BOX, uLink = upiLink(g.exactAmt, g.title);
+    return `<div class="ov" data-a="close_bg"><div class="sh">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="display:flex;align-items:center;gap:6px;color:var(--g2);font-size:12px;font-weight:800"><i class="pulse-dot"></i> ANTI-FRAUD PAYMENT HUB</span><button class="btn w sm" data-a="cancel_pay">Cancel</button></div>
+      <h2 style="font-family:var(--serif);font-size:19px;font-weight:800;text-align:center">${esc(g.title)}</h2>
+      <div class="seg" style="margin:10px 0"><button class="${PAY_MODE === 'upi' ? 'on' : ''}" data-a="pmode" data-v="upi">1. QR + 12-Digit UTR</button><button class="${PAY_MODE === 'proof' ? 'on' : ''}" data-a="pmode" data-v="proof">2. Screenshot + UTR</button><button class="${PAY_MODE === 'cod' ? 'on' : ''}" data-a="pmode" data-v="cod">3. Pay at Door</button></div>
+      ${PAY_MODE === 'upi' ? `
+        <div style="text-align:center">
+          <div style="font-family:var(--serif);font-size:26px;font-weight:800;color:var(--o)">${inr(g.exactAmt)}</div>
+          <div style="font-size:11px;color:var(--g2);font-weight:800">⚡ Auto-Verifies in 0s on Bank SMS of ${inr(g.exactAmt)}</div>
+          <div style="background:#fff;padding:12px;border-radius:18px;width:fit-content;margin:8px auto;border:2px solid var(--ln)"><img src="${qrUrl(uLink)}" style="width:152px;height:152px" alt="QR"><div style="font-size:11px;color:#16241c;font-weight:800;margin-top:4px">UPI ID: ${esc(S.cfg.upi)}</div></div>
+          <div class="btn-row"><button class="btn w sm" data-a="copy_upi">Copy UPI ID</button><button class="btn w sm" data-a="copy_amt">Copy ${inr(g.exactAmt)}</button></div>
+          <span class="lbl" style="margin-top:10px">Enter Valid 12-Digit Bank UTR / UPI Ref No:</span>
+          <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="12-Digit UPI UTR (e.g. 431982746192)" value="${esc(DRAFT_UTR)}">
+          <button class="btn g" data-a="confirm_paid">Submit 12-Digit UTR for Verification ✓</button>
+        </div>` : PAY_MODE === 'proof' ? `
+        <div style="text-align:center;padding:6px 0">
+          <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:4px">${inr(g.exactAmt)}</div>
+          <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Fake photo block hai! Sirf <b>Asli UPI Screenshot</b> + usme likha <b>12-Digit UTR</b> dono lagayein:</p>
+          <button class="btn w" data-a="pick_proof" style="margin-bottom:8px">${IC.cam} <span>${PROOF_IMG ? 'Verified Screenshot Attached ✓' : '1. Select UPI Payment Screenshot'}</span></button>
+          ${PROOF_IMG ? `<img src="${PROOF_IMG}" style="max-height:120px;margin:6px auto;border-radius:12px;border:2px solid #16a34a">` : ''}
+          <input class="inp" id="utr_inp" inputmode="numeric" maxlength="12" placeholder="2. Enter 12-Digit UTR shown in Screenshot" value="${esc(DRAFT_UTR)}">
+          <button class="btn g" data-a="confirm_paid">Submit Screenshot + UTR for Approval ✓</button>
+        </div>` : `
+        <div style="text-align:center;padding:12px 0">
+          <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--o);margin-bottom:6px">${inr(g.amt)}</div>
+          <p style="font-size:12.5px;color:var(--mu);line-height:1.5;margin-bottom:12px">Delivery Boy jab aapke darwaze par aayega, tab aap <b>Rider QR Scan</b> ya <b>Cash</b> dekar verify karayenge.</p>
+          <input class="inp" id="utr_inp" placeholder="Delivery Note (e.g. Bring change of ₹500)" value="${esc(DRAFT_UTR)}">
+          <button class="btn g" data-a="confirm_paid">Book Pay on Delivery Order ✓</button>
+        </div>`}
+    </div></div>`;
+  }
+  if (CART_OPEN) {
+    const n = cc(), st = subTot(), df = dlvFee(), tot = ct();
+    return `<div class="ov" data-a="close_bg"><div class="sh">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="font-family:var(--serif)">Aapka Cart (${n} Items)</h3><button class="btn w sm" data-a="close">Close</button></div>
+      ${freeDlvBarHTML()}
+      <div style="max-height:200px;overflow-y:auto">
+        ${Object.entries(C).filter(x => x[1] > 0).map(([k, q]) => {
+          const p = S.prod.find(x => x.id === parsePid(k)); if (!p || !p.s) return '';
+          const isH = String(k).endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+          return `<div class="row"><div><b>${esc(p.n)}${isH ? ' (1/2 Half)' : ''}</b><div style="font-size:11.5px;color:var(--mu)">${inr(pr)} × ${q}</div></div><div class="qty" style="width:105px;margin:0"><button data-a="${isH ? 'dh' : 'dec'}" data-id="${p.id}">−</button><b>${q}</b><button data-a="${isH ? 'ih' : 'inc'}" data-id="${p.id}">+</button></div></div>`;
+        }).join('')}
+      </div>
+      <div style="font-size:12px;color:var(--mu);padding-top:8px;display:flex;justify-content:space-between"><span>Items: ${inr(st)}</span><span>Delivery: <b>${df ? inr(df) + ' (Free above ' + inr(S.cfg.freeMin) + ')' : 'FREE'}</b></span></div>
+      <div class="tot"><span>Kul Bill</span><b>${inr(tot)}</b></div>
+      ${userFormHTML()}
+      <button class="btn" data-a="pay_ord">Proceed to Payment · ${inr(tot)}</button>
+    </div></div>`;
+  }
+  if (PQ) {
+    const p = S.prod.find(x => x.id === +PQ); if (!p) return '';
+    const qf = C[p.id] || 0, qh = C[p.id + 'h'] || 0;
+    return `<div class="ov" data-a="close_bg"><div class="sh">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:var(--o);font-size:12px">${p.hot ? 'GARMA-GARAM KITCHEN DISH' : '3D PRODUCT VIEW'}</b><button class="btn w sm" data-a="close">Close</button></div>
+      <div class="pop-stage" id="plateStage">${p.hot ? steamHTML() : ''}<img class="pop-plate" id="plate3d" src="${p.img}" alt="${esc(p.n)}"><span class="pop-hint">👆 Drag to Rotate 3D Plate</span></div>
+      <h2 style="font-family:var(--serif);font-size:20px;font-weight:800;text-align:center">${esc(p.n)}</h2>
+      <div class="row" style="margin-top:10px"><div><b>Full Plate / Pack</b><div style="font-size:12px;color:var(--mu)">${inr(p.p)}</div></div><div class="qty" style="width:115px;margin:0"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}</b><button data-a="inc" data-id="${p.id}">+</button></div></div>
+      ${p.h ? `<div class="row"><div><b>1/2 Half Plate</b><div style="font-size:12px;color:var(--mu)">${inr(Math.round(p.p * 0.6))}</div></div><div class="qty" style="width:115px;margin:0"><button data-a="dh" data-id="${p.id}">−</button><b>${qh}</b><button data-a="ih" data-id="${p.id}">+</button></div></div>` : ''}
+      <button class="btn g" data-a="add_open_cart" data-id="${p.id}">Open Cart & Checkout</button>
     </div></div>`;
   }
   return '';
 }
 
+function attach3DInteractions() {
+  /* Interactive 3D Plate Drag in Dish Popup */
+  const stage = $('#plateStage'), plate = $('#plate3d');
+  if (stage && plate) {
+    const move = (cx, cy) => {
+      const r = stage.getBoundingClientRect();
+      const x = ((cx - r.left) / r.width - 0.5) * 38;
+      const y = ((cy - r.top) / r.height - 0.5) * -38;
+      plate.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.06)`;
+    };
+    stage.onpointermove = e => { if (e.buttons || e.pointerType === 'touch') move(e.clientX, e.clientY); };
+    stage.onpointerup = () => { plate.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)'; };
+  }
+}
+
 function render() {
-  const V = { plan: vPlan, shop: vShop, kitchen: vKitchen, route: vRoute, owner: vOwner };
-  $('#v').innerHTML = (V[tab] || vPlan)();
+  const langBar = `<div class="lang-bar">${[['hi','Hinglish'],['or','ଓଡ଼ିଆ'],['en','English']].map(([k,l])=>`<button class="${LANG===k?'on':''}" data-a="set_lang" data-v="${k}">${l}</button>`).join('')}</div>`;
+  const V = { plan: vPlan, shop: vShop, services: vServices, profile: vProfile, kitchen: vKitchen, route: vRoute, owner: vOwner };
+  $('#v').innerHTML = langBar + (V[tab] || vPlan)();
   $('#sheet').innerHTML = sheet();
+  attach3DInteractions();
 
-  const TABS = [['plan', IC.tiffin, 'Plans'], ['shop', IC.shop, 'Shop']];
-  if (ROLE === 'owner') {
-    TABS.push(['kitchen', IC.kitchen, 'Kitchen'], ['route', IC.route, 'Route'], ['owner', IC.owner, 'Owner']);
-  }
-  $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" onclick="setTab('${x[0]}')">${x[1]}<span class="nl">${x[2]}</span></button>`).join('');
+  const n = cc(), tot = ct();
+  $('#cbar').innerHTML = (n > 0 && !CART_OPEN && !PAY_BOX) ? `<div class="cbar-fixed" data-a="open_cart"><span>${n} Item · ${inr(tot)}</span><span>View Cart & Order →</span></div>` : '';
+
+  const TABS = [['plan', IC.tiffin, L('plan')], ['shop', IC.shop, L('shop')], ['services', IC.svc, L('services')], ['profile', IC.user, L('profile')]];
+  if (ROLE === 'staff' || ROLE === 'owner') TABS.push(['kitchen', IC.kitchen, 'Kitchen'], ['route', IC.route, 'Route']);
+  if (ROLE === 'owner') TABS.push(['owner', IC.owner, 'Owner']);
+  $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
 }
 
-function setTab(t) { tab = t; render(); window.scrollTo(0,0); }
-function setF(k, v) { F[k] = v; render(); }
-function setSlot(s) { K_SLOT = s; render(); }
-function addShop(id) {
-  const p = S.prod.find(x => x.id === id);
-  if (p) {
-    S.orders.push({ id: uid('o'), date: iso(new Date()), name: F.name, phone: F.phone, area: F.area, addr: F.addr, items: [{ n: p.n, q: 1, p: p.p }], total: p.p, paid: 1, vStat: 'ok', packed: 1, dlv: 0 });
-    saveAll();
-    toast('Item added to Shop Orders & Kitchen Queue!');
-  }
-}
-function bookPlan() {
-  F.name = $('#uName').value.trim() || F.name;
-  F.phone = $('#uPhone').value.trim() || F.phone;
-  F.addr = $('#uAddr').value.trim() || F.addr;
-  if (!isValidPhone(F.phone)) { toast('Sahi 10-digit mobile number daalein!'); return; }
-  
-  const price = F.days === 30 ? 2899 : F.days === 15 ? 1499 : 749;
-  S.subs.push({ id: uid('s'), name: F.name, phone: F.phone, area: F.area, addr: F.addr, type: F.type, days: F.days, times: F.times, start: iso(new Date()), price, paid: 1, vStat: 'ok', lunch: 'chawal', dinner: 'roti', extraRoti: 0, skip: [] });
-  saveAll();
-  toast('🎉 Tiffin Plan Activated & Synced to Kitchen!');
+function checkUser() {
+  if (!F.name.trim() || ph(F.phone).length !== 10 || !F.addr.trim()) { toast('Naam, 10-digit Mobile Number aur Address bharein'); return false; }
+  syncCustomerProfile(); return true;
 }
 
-$('#thm').onclick = () => {
-  const d = document.documentElement.dataset.theme === 'dark';
-  document.documentElement.dataset.theme = d ? '' : 'dark';
-  localStorage.setItem('nu_theme', d ? '' : 'dark');
-};
+function finalizeOrder(isPaid, vStat, modeLabel, refNo) {
+  if (!PAY_BOX) return;
+  const finalPrice = Math.max(0, PAY_MODE === 'cod' ? PAY_BOX.amt : PAY_BOX.exactAmt);
+  syncCustomerProfile();
+  if (refNo && /^\d{12}$/.test(refNo)) S.usedUtr.push(refNo);
+  if (PROOF_IMG) S.usedImgHash.push(strHash(PROOF_IMG));
 
-document.querySelector('.logo').onclick = () => {
-  if (ROLE === 'owner') { tab = 'owner'; render(); }
-  else { PIN_OPEN = true; render(); setTimeout(() => $('#pinBox').focus(), 50); }
-};
-
-function verifyPin() {
-  const val = $('#pinBox').value.trim();
-  if (pinHash(val) === OWNER_HASH) {
-    ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner');
-    PIN_OPEN = false; tab = 'owner'; render();
-    toast('🔓 Owner Master Control Unlocked!');
+  if (PAY_BOX.kind === 'sub') {
+    const id = uid('s');
+    S.subs.push({
+      id, ts: Date.now(), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+      lat: F.lat, lng: F.lng, type: F.type, days: PAY_BOX.days, origDays: PAY_BOX.days, times: F.times,
+      lunch: F.lunch, dinner: F.dinner, extraRoti: Math.max(0, F.extraRoti),
+      start: PAY_BOX.start || F.start || iso(D0()), price: finalPrice, paid: isPaid, vStat, pMode: modeLabel, utr: refNo,
+      proof: PROOF_IMG || '', proofMeta: PROOF_META || '', skip: []
+    });
+    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
+    setPayBox(null); PROOF_IMG = null; PROOF_META = null; playChime();
+    if (S.cfg.wa && ROLE !== 'owner') {
+      LAST_WA = { msg: isPaid ? 'Payment Verified! Tiffin Activated.' : 'Plan Submitted! WhatsApp par confirm bhej dein.', url: `https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`New Tiffin Plan Booked by ${F.name.trim()} (${ph(F.phone)}). UTR: ${refNo}`)}` };
+    }
+    save();
   } else {
-    toast('⚠️ Galat PIN! (Default: 4827)');
+    const items = [];
+    Object.entries(C).forEach(([k, q]) => {
+      const p = S.prod.find(x => x.id === parsePid(k)); if (!p || !p.s || q < 1) return;
+      const isH = String(k).endsWith('h'), pr = isH ? Math.round(p.p * 0.6) : p.p;
+      items.push({ id: p.id, h: isH ? 1 : 0, n: p.n + (isH ? ' (Half)' : ''), q, p: pr });
+    });
+    if (!items.length) { toast('Cart is empty!'); setPayBox(null); render(); return; }
+    const id = uid('o');
+    S.orders.push({
+      id, ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(),
+      lat: F.lat, lng: F.lng, items, total: finalPrice, paid: isPaid, vStat, dlv: 0,
+      pMode: modeLabel, utr: refNo, proof: PROOF_IMG || '', proofMeta: PROOF_META || ''
+    });
+    MY.push(id); localStorage.setItem('nu5my', JSON.stringify(MY));
+    C = {}; localStorage.setItem('nu5c', '{}');
+    setPayBox(null); PROOF_IMG = null; PROOF_META = null; playChime();
+    if (S.cfg.wa && ROLE !== 'owner') {
+      LAST_WA = { msg: isPaid ? 'Payment Verified! Order Sent to Kitchen.' : 'Order Received! WhatsApp par confirm bhej dein.', url: `https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`New Shop Order #${String(id).slice(-4)} by ${F.name.trim()} (${ph(F.phone)}). Total: ${inr(finalPrice)}`)}` };
+    }
+    save();
   }
 }
-function closePin() { PIN_OPEN = false; render(); }
-function logoutOwner() { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'plan'; render(); toast('Logged out of Owner mode'); }
-function resetDemoData() { S = seedData(); saveAll(); toast('Demo data reloaded successfully!'); }
+
+const A = {
+  set_lang: v => { LANG = v; localStorage.setItem('nu_lang', v); render(); },
+  tab: v => { tab = v; PQ = null; CART_OPEN = false; SV_BOOK = null; render(); scrollTo({ top: 0, behavior: 'smooth' }); },
+  otab: v => { O_TAB = v; ED_P = null; ED_SV = null; ED_CUST = null; ED_SUB = null; ED_ORD = null; render(); },
+  pmode: v => { if ($('#utr_inp')) DRAFT_UTR = $('#utr_inp').value; PAY_MODE = v; render(); },
+  fset: (v, k) => { F[k] = (k === 'days' || k === 'times') ? +v : v; render(); },
+  er_inc: () => { F.extraRoti = Math.min(10, (+F.extraRoti || 0) + 1); render(); },
+  er_dec: () => { F.extraRoti = Math.max(0, (+F.extraRoti || 0) - 1); render(); },
+  set_area: v => { F.area = v; syncCustomerProfile(); render(); },
+  cat: v => { SCAT = v; render(); },
+  pq: (v, k, id) => { PQ = +id; render(); },
+  open_cart: () => { PQ = null; CART_OPEN = true; render(); },
+  add_open_cart: (v, k, id) => { if (!C[id] && !C[id + 'h']) C[id] = 1; localStorage.setItem('nu5c', JSON.stringify(C)); PQ = null; CART_OPEN = true; render(); },
+  close: () => { PQ = null; CART_OPEN = false; SV_BOOK = null; render(); },
+  close_wa: () => { LAST_WA = null; render(); },
+  cancel_pay: () => { setPayBox(null); PROOF_IMG = null; PROOF_META = null; render(); },
+  close_proof: () => { VIEW_PROOF = null; render(); },
+  close_bg: (v, k, id, e) => { if (e && e.target.classList.contains('ov')) { PQ = null; CART_OPEN = false; SV_BOOK = null; VIEW_PROOF = null; LAST_WA = null; if (PAY_BOX) { setPayBox(null); PROOF_IMG = null; PROOF_META = null; } render(); } },
+  inc: (v, k, id) => { C[id] = (C[id] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+  dec: (v, k, id) => { C[id] = Math.max(0, (C[id] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+  ih: (v, k, id) => { C[id + 'h'] = (C[id + 'h'] || 0) + 1; localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+  dh: (v, k, id) => { C[id + 'h'] = Math.max(0, (C[id + 'h'] || 0) - 1); localStorage.setItem('nu5c', JSON.stringify(C)); render(); },
+
+  pick_proof: () => { if ($('#utr_inp')) DRAFT_UTR = $('#utr_inp').value; const inp = $('#proof_file'); if (inp) { inp.value = ''; inp.click(); } },
+  open_svb: (v, k, id) => { SV_BOOK = id; render(); },
+  confirm_svb: () => {
+    const s = (S.svcList || []).find(x => x.id === SV_BOOK); if (!s || !checkUser()) return;
+    S.svBookings.push({ id: uid('sb'), svName: s.n, price: s.p, date: $('#sv_date').value, note: $('#sv_note').value.trim(), name: F.name.trim(), phone: ph(F.phone), area: F.area });
+    SV_BOOK = null; playChime(); save(); toast('Service Booking Saved! Hum aapko call karenge.');
+  },
+  del_svb: (v, k, id) => { S.svBookings = (S.svBookings || []).filter(x => x.id !== id); save(); toast('Booking Deleted'); },
+
+  save_prof: () => {
+    if (!checkUser()) return;
+    const p = ph(F.phone);
+    (S.subs || []).forEach(s => { if (ph(s.phone) === p) { s.name = F.name.trim(); s.area = F.area; s.addr = F.addr.trim(); s.lat = F.lat; s.lng = F.lng; } });
+    (S.orders || []).forEach(o => { if (ph(o.phone) === p) { o.name = F.name.trim(); o.area = F.area; o.addr = F.addr.trim(); o.lat = F.lat; o.lng = F.lng; } });
+    save(); toast('Aapka Complete Profile Save Ho Gaya ✓');
+  },
+  reorder: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id); if (!o) return;
+    o.items.forEach(i => {
+      const p = S.prod.find(x => x.id === i.id || i.n.startsWith(x.n));
+      if (p && p.s) { const key = (i.h || i.n.includes('(Half)')) ? (p.id + 'h') : p.id; C[key] = (C[key] || 0) + i.q; }
+    });
+    localStorage.setItem('nu5c', JSON.stringify(C)); CART_OPEN = true; render(); toast('Items Cart Mein Jud Gaye!');
+  },
+  cust_skip: (v, k, id) => {
+    const s = S.subs.find(x => x.id === id); if (!s) return;
+    /* Fixed 9:30 AM Cut-Off Logic */
+    const now = new Date();
+    if ((now.getHours() > 9 || (now.getHours() === 9 && now.getMinutes() >= 30)) && ROLE !== 'owner') {
+      toast('Subah 9:30 AM ke baad aaj ka tiffin skip nahi ho sakta!'); return;
+    }
+    s.skip = s.skip || [];
+    const maxSkips = (+s.origDays || +s.days || 30) >= 30 ? 5 : (+s.origDays || 15) >= 15 ? 3 : 2;
+    if (s.skip.length >= maxSkips && ROLE !== 'owner') { toast(`Max ${maxSkips} skips allowed in this plan!`); return; }
+    const td = iso(D0());
+    if (!s.skip.includes(td)) { s.skip.push(td); s.days = (+s.days || 30) + 1; save(); toast('Aaj ka Tiffin Paused & +1 Extra Day Added!'); }
+  },
+  getgps: () => {
+    if (!navigator.geolocation) { F.lat = 21.5742; F.lng = 86.5681; syncCustomerProfile(); save(); toast('GPS Saved'); return; }
+    toast('Detecting GPS...');
+    navigator.geolocation.getCurrentPosition(pos => { F.lat = pos.coords.latitude; F.lng = pos.coords.longitude; syncCustomerProfile(); save(); toast('Exact Doorstep GPS Saved!'); }, () => { F.lat = 21.5742; F.lng = 86.5681; syncCustomerProfile(); save(); toast('Udala GPS Pin Saved'); }, { enableHighAccuracy: true, timeout: 6000 });
+  },
+
+  pay_sub: () => {
+    if (!checkUser()) return;
+    const base = Math.max(0, tierPrice(+F.days)); const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+    PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
+    setPayBox({ kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: +F.days, start: F.start || iso(D0()), title: `${F.days} Din Tiffin (${F.times} Time)` });
+    render();
+  },
+  pay_trial: () => {
+    if (!checkUser()) return;
+    const base = Math.max(0, +S.cfg.trialPrice || 49); const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+    PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
+    setPayBox({ kind: 'sub', amt: base, exactAmt: +(base + paise).toFixed(2), days: 1, start: F.start || iso(D0()), title: `1 Din Trial Tiffin (${F.times} Time)` });
+    render();
+  },
+  pay_ord: () => {
+    if (!checkUser()) return;
+    const base = Math.max(0, ct()); if (base <= 0) { toast('Cart is empty!'); return; }
+    CART_OPEN = false; const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
+    PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
+    setPayBox({ kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)` });
+    render();
+  },
+  manual_sub: () => {
+    if (!checkUser()) return;
+    const base = Math.max(0, tierPrice(+F.days));
+    if (!confirm(`Add Manual ${F.days} Din Tiffin for ${F.name.trim()}? (Owner Only)`)) return;
+    setPayBox({ kind: 'sub', amt: base, exactAmt: base, days: +F.days, start: F.start || iso(D0()), title: `Manual Tiffin` });
+    finalizeOrder(1, 'ok', 'Cash/Direct Verification', 'Manual-Entry');
+  },
+  copy_upi: () => { navigator.clipboard.writeText(S.cfg.upi || '9583937047@jio').catch(() => {}); toast('UPI ID Copied!'); },
+  copy_amt: () => { if (PAY_BOX) { navigator.clipboard.writeText(Number(PAY_BOX.exactAmt).toFixed(2)).catch(() => {}); toast('Exact Amount Copied: ₹' + Number(PAY_BOX.exactAmt).toFixed(2)); } },
+
+  confirm_paid: () => {
+    if (!PAY_BOX) return;
+    const rawInput = ($('#utr_inp') ? $('#utr_inp').value.trim() : DRAFT_UTR);
+    if (PAY_MODE === 'cod') { finalizeOrder(0, 'cod', 'Pay on Delivery', rawInput || 'Doorstep Due'); return; }
+    const vCheck = validateStrictUTR(rawInput, S.usedUtr);
+    if (!vCheck.ok) { toast(vCheck.msg); return; }
+    if (PAY_MODE === 'proof') {
+      if (!PROOF_IMG) { toast('⚠️ Pehle asli UPI Payment Screenshot upload karein!'); return; }
+      const imgH = strHash(PROOF_IMG);
+      if ((S.usedImgHash || []).includes(imgH)) { toast('⚠️ Duplicate Screenshot Blocked! Yeh photo pehle use ho chuki hai.'); return; }
+    }
+    const key = Number(PAY_BOX.exactAmt).toFixed(2);
+    if (S.auto_amt && S.auto_amt[key]) {
+      delete S.auto_amt[key];
+      finalizeOrder(1, 'ok', 'Auto-Matched + UTR', vCheck.utr);
+      return;
+    }
+    const label = PAY_MODE === 'proof' ? 'Screenshot + UTR (Verify Hold)' : '12-Digit UTR (Verify Hold)';
+    finalizeOrder(0, 'verify', label, vCheck.utr);
+  },
+
+  push_auto_amt: () => {
+    const val = +($('#wh_amt') ? $('#wh_amt').value : 0); if (!(val > 0)) { toast('Valid exact amount daalein (e.g. 305.24)'); return; }
+    const key = val.toFixed(2); S.auto_amt[key] = 1;
+    let matched = 0;
+    (S.orders || []).forEach(o => { if (!o.paid && Number(o.total).toFixed(2) === key) { o.paid = 1; o.vStat = 'ok'; o.pMode = 'Bank Auto-Matched'; matched++; } });
+    (S.subs || []).forEach(s => { if (!s.paid && Number(s.price).toFixed(2) === key) { s.paid = 1; s.vStat = 'ok'; s.pMode = 'Bank Auto-Matched'; matched++; } });
+    checkAutoPaymentMatch(); save();
+    toast(matched ? `🎉 Auto-Verified ${matched} Pending Order(s) of ₹${key}!` : `₹${key} pushed to Live Auto-Matcher!`);
+  },
+
+  view_proof: (v, k, id) => {
+    const item = (k === 'sub' ? S.subs : S.orders).find(x => x.id === id);
+    if (!item || !item.proof) { toast('No screenshot attached'); return; }
+    VIEW_PROOF = item.proof; render();
+  },
+  prt: (v, k, id) => {
+    const o = S.orders.find(x => x.id === id); if (!o) return;
+    $('#printArea').innerHTML = `<h2>NAMASTE UDALA</h2><p>Bill #${String(o.id).slice(-4)} · ${o.date}</p><p>Customer: ${esc(o.name)} (${esc(o.phone)})<br>Area: ${esc(o.area)} · ${esc(o.addr)}<br>Status: ${o.paid ? 'VERIFIED PAID' : 'PENDING'} (${esc(o.utr)})</p><hr>${o.items.map(i => `<div>${esc(i.n)} x ${i.q} = ${inr(i.p * i.q)}</div>`).join('')}<hr><h3>TOTAL: ${inr(o.total)}</h3><p style="text-align:center">Thank You! UPI: ${esc(S.cfg.upi)}</p>`;
+    window.print();
+  },
+  print_kot: () => {
+    const k = iso(D0());
+    const activeSubs = (S.subs || []).filter(s => isSubActiveOn(s, D0()) && (s.paid || s.vStat === 'cod'));
+    const roti = activeSubs.reduce((a, s) => a + calcSubRoti(s), 0);
+    $('#printArea').innerHTML = `<h2>KITCHEN BULK KOT</h2><p>Date: ${k}</p><hr><div>Total Dabbe: ${activeSubs.length}</div><div>Total Roti: ${roti}</div><hr>${activeSubs.map(s => `<div>* ${esc(s.name)} (${s.type === 'nv' ? 'NV' : 'Veg'}) L:${s.lunch} D:${s.dinner}</div>`).join('')}<hr>`;
+    window.print();
+  },
+  export_csv: () => {
+    const rows = [['Date', 'Type', 'Customer', 'Phone', 'Area', 'Amount', 'Status', 'UTR']];
+    (S.orders || []).forEach(o => rows.push([o.date, 'Shop', o.name, o.phone, o.area, o.total, o.paid ? 'Paid' : o.vStat, o.utr || '']));
+    (S.subs || []).forEach(s => rows.push([s.start, `Tiffin-${s.days}d`, s.name, s.phone, s.area, s.price, s.paid ? 'Paid' : s.vStat, s.utr || '']));
+    const csv = rows.map(r => r.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+    a.download = `namaste-udala-sales-${iso(D0())}.csv`; a.click(); toast('CSV Sales Report Downloaded ✓');
+  },
+
+  edit_ord: (v, k, id) => {
+    ED_ORD = id; const o = S.orders.find(x => x.id === id); if (!o) return; render();
+    setTimeout(() => { $('#eo_name').value = o.name || ''; $('#eo_phone').value = o.phone || ''; $('#eo_total').value = o.total || 0; $('#eo_utr').value = o.utr || ''; $('#eo_addr').value = o.addr || ''; $('#ord_edit_box').scrollIntoView({ behavior: 'smooth' }); }, 40);
+  },
+  cancel_edord: () => { ED_ORD = null; render(); },
+  save_edord: () => {
+    const o = S.orders.find(x => x.id === ED_ORD); if (!o) return;
+    o.name = $('#eo_name').value.trim() || o.name; o.phone = ph($('#eo_phone').value) || o.phone; o.total = Math.max(0, +$('#eo_total').value || o.total); o.utr = $('#eo_utr').value.trim() || o.utr; o.addr = $('#eo_addr').value.trim() || o.addr;
+    ED_ORD = null; save(); toast('Order Updated ✓');
+  },
+
+  edit_sub: (v, k, id) => {
+    ED_SUB = id; const s = S.subs.find(x => x.id === id); if (!s) return; render();
+    setTimeout(() => { $('#esub_name').value = s.name || ''; $('#esub_type').value = s.type || 'veg'; $('#esub_days').value = s.days || 30; $('#esub_price').value = s.price || 0; $('#esub_start').value = s.start || iso(D0()); $('#esub_lunch').value = s.lunch || 'chawal'; $('#esub_dinner').value = s.dinner || 'roti'; $('#esub_extra').value = s.extraRoti || 0; $('#sub_edit_box').scrollIntoView({ behavior: 'smooth' }); }, 40);
+  },
+  cancel_edsub: () => { ED_SUB = null; render(); },
+  save_edsub: () => {
+    const s = S.subs.find(x => x.id === ED_SUB); if (!s) return;
+    s.name = $('#esub_name').value.trim() || s.name; s.type = $('#esub_type').value; s.days = Math.max(1, +$('#esub_days').value || s.days); s.price = Math.max(0, +$('#esub_price').value || s.price); s.start = $('#esub_start').value || s.start; s.lunch = $('#esub_lunch').value; s.dinner = $('#esub_dinner').value; s.extraRoti = Math.max(0, +$('#esub_extra').value || 0);
+    ED_SUB = null; save(); toast('Subscription Updated ✓');
+  },
+
+  o_paid: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.paid = o.paid ? 0 : 1; o.vStat = o.paid ? 'ok' : 'verify'; save(); toast(o.paid ? 'Order Approved as Genuine Paid ✓' : 'Marked Unpaid'); } },
+  o_reject: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.paid = 0; o.vStat = 'bad'; o.pMode = 'Rejected Fake Proof'; save(); toast('Order Rejected as Fake Proof!'); } },
+  odlv: (v, k, id) => { const o = S.orders.find(x => x.id === id); if (o) { o.dlv = o.dlv ? 0 : 1; if (o.dlv) { o.paid = 1; o.vStat = 'ok'; } save(); toast('Delivery Status Updated'); } },
+  o_del: (v, k, id) => { if (!confirm('Delete this order?')) return; S.orders = S.orders.filter(x => x.id !== id); save(); toast('Order Deleted'); },
+
+  s_paid: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.paid = s.paid ? 0 : 1; s.vStat = s.paid ? 'ok' : 'verify'; save(); toast(s.paid ? 'Tiffin Plan Approved ✓' : 'Marked Unpaid'); } },
+  s_reject: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.paid = 0; s.vStat = 'bad'; s.pMode = 'Rejected Fake Proof'; save(); toast('Plan Rejected as Fake Proof!'); } },
+  s_add_day: (v, k, id) => { const s = S.subs.find(x => x.id === id); if (s) { s.days = (+s.days || 30) + 1; save(); toast('+1 Day Added to Plan'); } },
+  s_del: (v, k, id) => { if (!confirm('Delete this tiffin subscription?')) return; S.subs = S.subs.filter(x => x.id !== id); save(); toast('Subscription Deleted'); },
+  sdone: (v, k, id) => { const key = iso(D0()) + '_' + id; S.done[key] = S.done[key] ? 0 : 1; save(); toast('Tiffin Status Updated ✓'); },
+  sdabba: (v, k, id) => { const key = iso(D0()) + '_' + id; S.dabba[key] = S.dabba[key] ? 0 : 1; save(); toast(S.dabba[key] ? 'Empty Dabba Collected ✓' : 'Dabba Unmarked'); },
+
+  add_exp: () => { const n = $('#exp_n').value.trim(), a = Math.max(0, +$('#exp_a').value); if (!n || !(a > 0)) { toast('Enter Expense Name & Amount'); return; } S.exp.push({ id: uid('ex'), d: iso(D0()), n, amt: a }); save(); toast('Expense Added'); },
+  del_exp: (v, k, id) => { S.exp = (S.exp || []).filter(x => x.id !== id); save(); toast('Expense Removed'); },
+
+  edit_cust: (v, k, id) => {
+    ED_CUST = id; const c = S.profiles[id] || {}; render();
+    setTimeout(() => { $('#ec_name').value = c.name || ''; $('#ec_phone').value = c.phone || id; $('#ec_alt').value = c.altPhone || ''; $('#ec_area').value = c.area || 'Udala Bus Stand'; $('#ec_addr').value = c.addr || ''; $('#ec_diet').value = c.diet || 'veg'; $('#ec_spice').value = c.spice || 'Medium'; $('#ec_dues').value = c.dues || 0; $('#ec_notes').value = c.notes || ''; $('#cust_form').scrollIntoView({ behavior: 'smooth' }); }, 50);
+  },
+  cancel_edcust: () => { ED_CUST = null; render(); },
+  save_cust: () => {
+    const p = ph($('#ec_phone').value), n = $('#ec_name').value.trim();
+    if (p.length !== 10 || !n) { toast('Enter Valid Name & 10-Digit Mobile'); return; }
+    const areaVal = $('#ec_area').value, addrVal = $('#ec_addr').value.trim();
+    S.profiles[p] = { ...(S.profiles[p] || { joined: iso(D0()) }), phone: p, name: n, altPhone: ph($('#ec_alt').value), area: areaVal, addr: addrVal, diet: $('#ec_diet').value, spice: $('#ec_spice').value, dues: Math.max(0, +$('#ec_dues').value || 0), notes: $('#ec_notes').value.trim() };
+    (S.subs || []).forEach(s => { if (ph(s.phone) === p) { s.name = n; s.area = areaVal; if (addrVal) s.addr = addrVal; } });
+    (S.orders || []).forEach(o => { if (ph(o.phone) === p) { o.name = n; o.area = areaVal; if (addrVal) o.addr = addrVal; } });
+    ED_CUST = null; save(); toast('Customer Profile & Orders Synced ✓');
+  },
+  del_cust: (v, k, id) => { if (!confirm('Delete customer profile?')) return; delete S.profiles[id]; save(); toast('Customer Profile Deleted'); },
+
+  save_rates: () => {
+    S.cfg.pl.veg = { 7: Math.max(0, +$('#vp_7').value || 749), 15: Math.max(0, +$('#vp_15').value || 1499), 30: Math.max(0, +$('#vp_30').value || 2899) };
+    S.cfg.pl.nv = { 7: Math.max(0, +$('#nvp_7').value || 949), 15: Math.max(0, +$('#nvp_15').value || 1849), 30: Math.max(0, +$('#nvp_30').value || 3599) };
+    S.cfg.trialPrice = Math.max(0, +$('#cfg_trial').value || 49); S.cfg.bfAddon = Math.max(0, +$('#cfg_bf').value || 20); S.cfg.freeMin = Math.max(0, +$('#cfg_fmin').value || 300); S.cfg.dlvFee = Math.max(0, +$('#cfg_dfee').value || 25);
+    save(); toast('All Plan Rates & Fees Saved!');
+  },
+  savem: () => { S.mset[iso(D0())] = { bf: $('#m_bf').value.trim(), veg: $('#m_veg').value.trim(), nv: $('#m_nv').value.trim() }; save(); toast('Menu Saved'); },
+
+  stk: (v, k, id) => { const p = S.prod.find(x => x.id === +id); if (p) { p.s = p.s ? 0 : 1; save(); } },
+  edit_prod: (v, k, id) => {
+    ED_P = +id; const p = S.prod.find(x => x.id === ED_P); if (!p) return; render();
+    setTimeout(() => { $('#ep_n').value = p.n; $('#ep_p').value = p.p; $('#ep_m').value = p.mrp || ''; $('#ep_c').value = p.c; $('#ep_nv').value = p.nv ? '1' : '0'; $('#ep_h').value = p.h ? '1' : '0'; $('#ep_hot').value = p.hot ? '1' : '0'; $('#ep_img').value = p.img || ''; $('#prod_form').scrollIntoView({ behavior: 'smooth' }); }, 50);
+  },
+  cancel_edp: () => { ED_P = null; render(); },
+  save_prod: () => {
+    const n = $('#ep_n').value.trim(), p = Math.max(0, +$('#ep_p').value), mrp = Math.max(0, +$('#ep_m').value || 0) || null;
+    const c = $('#ep_c').value, nv = +$('#ep_nv').value, h = +$('#ep_h').value, hot = +$('#ep_hot').value;
+    const defImg = (CATS.find(x => x[0] === c) || ['', '', IMG.groc])[2], img = $('#ep_img').value.trim() || defImg;
+    if (!n || !(p > 0)) { toast('Enter Name & Selling Price'); return; }
+    if (ED_P) {
+      const idx = S.prod.findIndex(x => x.id === ED_P);
+      if (idx >= 0) S.prod[idx] = { ...S.prod[idx], n, p, mrp, c, nv, h, hot, img };
+      ED_P = null;
+    } else {
+      const maxId = S.prod.reduce((a, b) => Math.max(a, b.id), 0);
+      S.prod.unshift({ id: maxId + 1, n, p, mrp, c, nv, h, hot, img, s: 1 });
+    }
+    save(); toast('Product Saved!');
+  },
+  del_prod: (v, k, id) => {
+    if (!confirm('Delete product?')) return;
+    const pId = +id; S.prod = S.prod.filter(x => x.id !== pId);
+    if (C[pId]) delete C[pId]; if (C[pId + 'h']) delete C[pId + 'h'];
+    save(); localStorage.setItem('nu5c', JSON.stringify(C)); toast('Product Deleted');
+  },
+
+  edit_svc: (v, k, id) => {
+    ED_SV = id; const s = S.svcList.find(x => x.id === id); if (!s) return; render();
+    setTimeout(() => { $('#es_n').value = s.n; $('#es_p').value = s.p; $('#es_u').value = s.u || '/month'; $('#es_d').value = s.d || ''; $('#es_img').value = s.img || ''; $('#svc_form').scrollIntoView({ behavior: 'smooth' }); }, 50);
+  },
+  cancel_edsv: () => { ED_SV = null; render(); },
+  save_svc: () => {
+    const n = $('#es_n').value.trim(), p = Math.max(0, +$('#es_p').value), u = $('#es_u').value.trim() || '/event', d = $('#es_d').value.trim(), img = $('#es_img').value.trim() || IMG.cam;
+    if (!n || !(p > 0)) { toast('Enter Service Name & Price'); return; }
+    if (ED_SV) { const idx = S.svcList.findIndex(x => x.id === ED_SV); if (idx >= 0) S.svcList[idx] = { ...S.svcList[idx], n, p, u, d, img }; ED_SV = null; } else { S.svcList.push({ id: uid('sv'), n, p, u, d, img }); }
+    save(); toast('Service Saved!');
+  },
+  del_svc: (v, k, id) => { if (!confirm('Delete service?')) return; S.svcList = S.svcList.filter(x => x.id !== id); save(); toast('Service Deleted'); },
+
+  save_app_cfg: () => { S.cfg.upi = $('#cfg_upi').value.trim() || '9583937047@jio'; S.cfg.wa = ph($('#cfg_wa').value) || '9583937047'; save(); toast('UPI & WhatsApp Updated!'); },
+  reset_seed: () => { if (!confirm('Restore original demo orders, plans & products?')) return; S = seed(); save(); toast('Demo Data Restored ✓'); },
+
+  theme: () => {
+    const d = document.documentElement.dataset.theme !== 'dark';
+    document.documentElement.dataset.theme = d ? 'dark' : '';
+    localStorage.setItem('nu_theme', d ? 'dark' : '');
+    $('#thm').textContent = d ? '☀️' : '🌙';
+  },
+  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'plan'; render(); }
+};
+
+document.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (b && A[b.dataset.a]) { if (b.tagName !== 'A') e.preventDefault(); A[b.dataset.a](b.dataset.v, b.dataset.k, b.dataset.id, e); } });
+
+$('#proof_file').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0]; if (!file) return;
+  if (file.size < 6000) { toast('⚠️ Invalid / Empty image file!'); return; }
+  const r = new FileReader();
+  r.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas'), max = 380, sc = Math.min(1, max / Math.max(img.width, img.height));
+      c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      const check = inspectReceiptCanvas(c, img.width, img.height);
+      if (!check.ok) { PROOF_IMG = null; render(); toast(check.msg); return; }
+      const dataUrl = c.toDataURL('image/jpeg', 0.62), h = strHash(dataUrl);
+      if ((S.usedImgHash || []).includes(h)) { PROOF_IMG = null; render(); toast('⚠️ Duplicate Screenshot Blocked! Yeh photo pehle use ho chuki hai.'); return; }
+      PROOF_IMG = dataUrl; PROOF_META = `${file.name.slice(0, 16)} (${Math.round(file.size / 1024)}KB)`;
+      render(); toast('✓ Receipt Screenshot Verified! Ab 12-Digit UTR daalein.');
+    };
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(file);
+});
+
+document.addEventListener('change', e => {
+  if (e.target.dataset.f === 'start') { F.start = e.target.value; render(); }
+});
+
+document.addEventListener('input', e => {
+  if (e.target.dataset.f && e.target.dataset.f !== 'start') F[e.target.dataset.f] = e.target.value;
+  if (e.target.id === 'utr_inp') DRAFT_UTR = e.target.value;
+  if (e.target.id === 'sq') { SQ = e.target.value; const pos = e.target.selectionStart; render(); const el = $('#sq'); if (el) { el.focus(); el.setSelectionRange(pos, pos); } }
+});
+
+let taps = 0, tapT;
+$('#mark').addEventListener('click', () => {
+  taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 1800);
+  if (taps >= 5) {
+    taps = 0; const pin = prompt('Owner PIN (4827) ya Kitchen/Delivery PIN (7788) daalein:');
+    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner Master Control Unlocked'); }
+    else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Staff Mode Unlocked'); }
+    else if (pin !== null) toast('Galat PIN');
+  }
+});
 
 render();
-</script> 
-  <script src="./nu-v6-patch.js"></script>
-<script src="./nu-v6-ui.js"></script>
-<script src="./nu-v6-i18n.js"></script>
+</script>
 </body>
 </html>
