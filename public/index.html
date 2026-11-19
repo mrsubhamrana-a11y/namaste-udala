@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -14,8 +15,9 @@
 body{background:radial-gradient(circle at 15% 4%,rgba(217,78,31,.1),transparent 40%),var(--bg);color:var(--ink);padding-bottom:155px;min-height:100vh;overflow-x:hidden}
 img{display:block;object-fit:cover} button,input,select,textarea{font:inherit;color:inherit}
 svg.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none}
+body.low-data img{display:none!important}
 
-/* 1. PeachWeb-Style Cinematic 3D Splash Loader */
+/* 1. Cinematic 3D Splash Loader */
 #splash{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 40%,#1d4d34,#091810 80%);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fffdf8;transition:opacity .45s ease,transform .45s ease}
 #splash.hide{opacity:0;transform:scale(1.06);pointer-events:none}
 .sp-plate{width:110px;height:110px;border-radius:50%;border:4px solid #fbbf24;box-shadow:0 20px 45px rgba(0,0,0,.65);animation:spSpin 1.6s ease-in-out infinite}
@@ -36,7 +38,7 @@ header{position:sticky;top:0;z-index:60;background:linear-gradient(145deg,#163f2
 .marquee-track{display:inline-block;animation:mRoll 24s linear infinite} @keyframes mRoll{to{transform:translateX(-50%)}}
 main{padding:14px 14px 0;max-width:650px;margin:0 auto}
 
-/* 2. PeachWeb-Style 3D Hero, Tilt Cards & Scroll Reveal */
+/* 2. 3D Hero, Tilt Cards & Scroll Reveal */
 .hero3d{position:relative;border-radius:26px;padding:20px 18px;margin-bottom:16px;color:#fffdf8;background:linear-gradient(132deg,#113221 0%,#1d4d34 58%,#2a6a48 100%);box-shadow:0 7px 0 #091c12,0 18px 34px rgba(17,50,33,.3);min-height:152px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;overflow:visible;transform-style:preserve-3d;transition:transform .2s ease}
 .hero3d.terracotta{background:linear-gradient(132deg,#2b1208 0%,#7c280d 55%,#d94e1f 100%);box-shadow:0 7px 0 #421304,0 18px 34px rgba(217,78,31,.3)}
 .hero-pill{display:inline-block;width:fit-content;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:99px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;border:1px solid rgba(255,255,255,.25)}
@@ -51,23 +53,19 @@ main{padding:14px 14px 0;max-width:650px;margin:0 auto}
 .reveal3d{animation:rev3d .45s cubic-bezier(.16,1,.3,1) both}
 @keyframes rev3d{from{opacity:0;transform:perspective(700px) translateY(18px) rotateX(6deg)}to{opacity:1;transform:perspective(700px) translateY(0) rotateX(0)}}
 
-/* 3-Step Storytelling Strip */
+/* 3-Step Storytelling Strip & Free Delivery Bar */
 .story-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .story-step{background:linear-gradient(180deg,var(--sf),var(--sf2));border:1px solid var(--ln);border-radius:16px;padding:10px 6px;text-align:center;box-shadow:var(--sh-3d-w)}
 .story-step b{display:block;font-size:11px;font-weight:800;color:var(--o);margin-bottom:2px}
 .story-step span{font-size:10px;font-weight:700;color:var(--ink);line-height:1.25;display:block}
-
-/* Free Delivery Progress Bar */
 .fdel-bar{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:9px 12px;margin-bottom:12px;font-size:11.5px;font-weight:800}
 .fdel-track{height:7px;background:var(--sf2);border-radius:99px;margin-top:6px;overflow:hidden}
 .fdel-fill{height:100%;background:linear-gradient(90deg,#d94e1f,#16a34a);border-radius:99px;transition:width .3s ease}
 
-/* Language Bar */
-.lang-bar{display:flex;justify-content:flex-end;gap:5px;margin-bottom:10px}
+/* Language Bar & Core UI */
+.lang-bar{display:flex;justify-content:flex-end;gap:5px;margin-bottom:10px;flex-wrap:wrap}
 .lang-bar button{padding:4px 10px;border-radius:99px;font-size:10.5px;font-weight:800;border:1px solid var(--ln);background:var(--sf);color:var(--ink);cursor:pointer}
 .lang-bar button.on{background:var(--g);color:#fbbf24;border-color:var(--g)}
-
-/* Core Components */
 .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0 16px}
 .p-tier{position:relative;border-radius:20px;padding:15px 6px 12px;text-align:center;background:linear-gradient(180deg,var(--sf),var(--sf2));border:2px solid var(--ln);box-shadow:var(--sh-3d-w);cursor:pointer;transition:.18s}
 .p-tier.on{background:linear-gradient(180deg,#fff9f2,#fde6d2);border-color:var(--o);box-shadow:0 5px 0 #8f2d0b,0 14px 24px rgba(217,78,31,.25);transform:translateY(-5px)}
@@ -106,6 +104,24 @@ nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-b
 nav button{flex:1;border:0;background:transparent;border-radius:99px;padding:7px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mu);font-weight:800;position:relative;transition:.15s} nav button.on{background:var(--g);color:#fbbf24;transform:translateY(-2px)} nav .nl{font-size:9px} nav .nb{position:absolute;top:2px;right:14%;background:var(--o);color:#fff;font-size:8.5px;padding:1px 5px;border-radius:99px;border:1.5px solid #fff}
 .pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:pAnim 1.4s infinite} @keyframes pAnim{50%{transform:scale(1.35);opacity:.5}}
 #toast{position:fixed;left:50%;bottom:140px;transform:translateX(-50%) translateY(20px);background:var(--g);color:#fff;padding:11px 18px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:900;opacity:0;pointer-events:none;transition:.25s;text-align:center;max-width:92vw} #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Feature Packs Extra Styles */
+.v7-bar{background:#dc2626;color:#fff;text-align:center;padding:7px 12px;font-size:11.5px;font-weight:800}
+.v7-tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.v7-tag{padding:5px 10px;border-radius:99px;font-size:10.5px;font-weight:800;border:1px solid var(--ln);background:var(--sf2);cursor:pointer}
+.v7-tag.on{background:var(--g);color:#fbbf24;border-color:var(--g)}
+.v7-step{display:flex;justify-content:space-between;position:relative;margin:10px 0 4px;font-size:9.5px;font-weight:800;color:var(--mu)}
+.v7-step span.on{color:var(--g2)}
+.v7-chart{display:flex;align-items:flex-end;gap:6px;height:88px;padding-top:10px}
+.v7-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:800}
+.v7-col i{width:100%;background:linear-gradient(180deg,var(--o),var(--g));border-radius:6px 6px 0 0;min-height:4px;display:block}
+.v8-flash{background:linear-gradient(135deg,#7c2d12,#ea580c);color:#fff;border-radius:18px;padding:12px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.v8-badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:800;background:#fbbf24;color:#113221}
+.v8-faq summary{font-weight:800;font-size:12.5px;padding:8px 0;cursor:pointer;list-style:none}
+.v8-faq p{font-size:11.5px;color:var(--mu);padding-bottom:8px;border-bottom:1px dashed var(--ln)}
+.v8-late{border:2px solid #dc2626!important;background:#fef2f2!important}
+.v9-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.v9-pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:9.5px;font-weight:800;background:#e0f2fe;color:#0369a1}
 
 /* 58mm Thermal Bill & Bulk KOT Print Fix */
 #printArea{display:none}
@@ -239,7 +255,7 @@ function strHash(s) {
 function validateStrictUTR(raw, usedList) {
   const clean = String(raw || '').replace(/\D/g, '');
   if (clean.length !== 12) return { ok: false, msg: '⚠️ Bank UPI UTR hamesha poore 12-digit ka hota hai!' };
-  if (/^(\d)\1{6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean) || /^00/.test(clean)) {
+  if (/^(\d) {6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean) || /^00/.test(clean)) {
     return { ok: false, msg: '⚠️ Fake sequence UTR detected! Asli bank SMS/UPI UTR daalein.' };
   }
   if (new Set(clean.split('')).size < 4) return { ok: false, msg: '⚠️ Invalid UTR pattern! Sahi 12-digit UTR number daalein.' };
@@ -309,6 +325,15 @@ function seed() {
 let S = seed();
 try { const l = JSON.parse(localStorage.getItem('nu5')); if (l && l.prod && l.prod.length >= 10) S = { ...seed(), ...l }; } catch (e) {}
 
+let LOW_DATA = localStorage.getItem('nu_lowdata') === '1';
+if (LOW_DATA) document.body.classList.add('low-data');
+let APPLIED_CPN = null;
+const DIET_OPTS = ['No Onion-Garlic', 'Low Oil', 'Less Salt', 'Diabetic Friendly', 'Extra Gravy'];
+let DLV_SLOT = localStorage.getItem('nu_slot') || 'Express (30-45 min)';
+let LEAVE_GATE = localStorage.getItem('nu_gate') === '1';
+let SVC_WARRANTY = localStorage.getItem('nu_warr') || '15 Days Service Guarantee';
+let MULTI_RIDER = localStorage.getItem('nu_rider') || 'Rider 1 (Bus Stand / Market)';
+
 function ensureIntegrity() {
   if (!S.prod || !Array.isArray(S.prod) || S.prod.length < 5) S.prod = SEED;
   if (!Array.isArray(S.subs)) S.subs = seed().subs; if (!Array.isArray(S.orders)) S.orders = seed().orders;
@@ -318,8 +343,47 @@ function ensureIntegrity() {
   S.auto_amt = S.auto_amt || {}; S.profiles = { ...CUST_SEED, ...(S.profiles || {}) }; S.cfg = { ...DEFAULT_CFG, ...(S.cfg || {}) };
   S.cfg.pl = S.cfg.pl || DEFAULT_CFG.pl; S.cfg.pl.veg = { ...DEFAULT_CFG.pl.veg, ...(S.cfg.pl.veg || {}) }; S.cfg.pl.nv = { ...DEFAULT_CFG.pl.nv, ...(S.cfg.pl.nv || {}) };
   S.done = S.done || {}; S.dabba = S.dabba || {}; S.mset = S.mset || {};
+
+  if (!Array.isArray(S.coupons)) S.coupons = [{ code: 'UDALA50', off: 50, min: 250 }, { code: 'RAJA20', off: 20, min: 100 }];
+  if (!Array.isArray(S.ratings)) S.ratings = [{ id: 'r1', name: 'Priyanka Das', star: 5, text: 'Ghar jaisa swad aur time pe delivery!', d: iso(D0()) }];
+  if (!Array.isArray(S.tickets)) S.tickets = [];
+  if (!Array.isArray(S.wastage)) S.wastage = [];
+  if (!Array.isArray(S.marketList)) S.marketList = [{ id: 'm1', n: 'Aloo 5 kg', done: 0 }, { id: 'm2', n: 'Pyaaz 3 kg', done: 0 }, { id: 'm3', n: 'Paneer 2 kg', done: 0 }];
+  if (!Array.isArray(S.staffPay)) S.staffPay = [];
+  if (!Array.isArray(S.vendors)) S.vendors = [];
+  if (!Array.isArray(S.riderLog)) S.riderLog = [];
+  if (!S.weeklyMenu) S.weeklyMenu = { Mon: 'Dalma + Rice + Bhaja', Tue: 'Paneer + Dal + 4 Roti', Wed: 'Chicken Curry / Mushroom', Thu: 'Mix Veg + Kheer', Fri: 'Egg Masala / Chana', Sat: 'Khichdi + Dahi + Papad', Sun: 'Special Dum Biryani' };
+
+  if (!S.wallet) S.wallet = {};
+  if (!Array.isArray(S.milkSubs)) S.milkSubs = [];
+  if (!S.wishlist || Array.isArray(S.wishlist)) S.wishlist = {};
+  if (!Array.isArray(S.notifyMe)) S.notifyMe = [];
+  if (!Array.isArray(S.lowStock)) S.lowStock = [{ id: 'ls1', n: 'LPG Gas Cylinder', ok: 1 }, { id: 'ls2', n: 'Mustard Oil 15L', ok: 1 }, { id: 'ls3', n: 'Atta 50kg Bag', ok: 1 }];
+  if (!S.ratesTicker) S.ratesTicker = 'Chicken ₹210/kg · Paneer ₹360/kg · Aloo ₹25/kg · Pyaaz ₹38/kg';
+  if (!S.savedAddrs) S.savedAddrs = {};
+  if (!S.packedItems) S.packedItems = {};
+
+  if (!Array.isArray(S.dlvProofs)) S.dlvProofs = [];
+  if (!Array.isArray(S.auditLog)) S.auditLog = [];
+  if (!S.cashback) S.cashback = {};
+  if (!S.badges) S.badges = {};
+  if (!S.hostelRooms) S.hostelRooms = [
+    { id: 'r1', n: '2-Bed AC/Cooler Room', rate: '₹4,500/mo', info: 'WiFi · Study Desk · Attached Bath' },
+    { id: 'r2', n: '3-Bed Student Room', rate: '₹3,200/mo', info: 'WiFi · Locker · Warden Security' }
+  ];
+  if (!S.photoPkgs) S.photoPkgs = [
+    { id: 'pk1', n: 'Silver Shoot', rate: '₹4,999', info: '80+ Edited Photos · 2 Hours' },
+    { id: 'pk2', n: 'Gold Event', rate: '₹11,999', info: '250+ Photos · Candid + Highlight Video' },
+    { id: 'pk3', n: 'Platinum Wedding', rate: '₹24,999', info: 'Full Day · Album + Drone/Cinematic' }
+  ];
 }
 ensureIntegrity();
+
+function addAudit(msg) {
+  S.auditLog = S.auditLog || [];
+  S.auditLog.unshift({ t: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }), d: iso(D0()), m: msg });
+  if (S.auditLog.length > 40) S.auditLog.length = 40;
+}
 
 function isSubActiveOn(s, d) {
   if (!s || s.vStat === 'bad') return false;
@@ -366,7 +430,8 @@ const F = {
   phone: localStorage.getItem('nu_p') || '8073721357', altPhone: localStorage.getItem('nu_altp') || '',
   addr: localStorage.getItem('nu_a') || 'Near Bus Stand, Main Road, Udala', spice: localStorage.getItem('nu_spice') || 'Medium',
   family: +(localStorage.getItem('nu_fam') || 3), notes: localStorage.getItem('nu_notes') || '',
-  lat: +(localStorage.getItem('nu_lat') || 21.5732), lng: +(localStorage.getItem('nu_lng') || 86.5675)
+  lat: +(localStorage.getItem('nu_lat') || 21.5732), lng: +(localStorage.getItem('nu_lng') || 86.5675),
+  dietTags: JSON.parse(localStorage.getItem('nu_dtags') || '[]')
 };
 
 function syncCustomerProfile() {
@@ -404,6 +469,7 @@ function checkAutoPaymentMatch() {
 }
 
 function save() {
+  ensureIntegrity();
   S.rev = Date.now();
   try { localStorage.setItem('nu5', JSON.stringify(S)); } catch (e) {}
   if (db) set(ref(db, NODE), S).catch(() => {});
@@ -486,7 +552,10 @@ function vPlan() {
   <div class="card reveal3d" style="border:2px solid var(--o);background:linear-gradient(135deg,#fff7ed,#ffedd5);color:#16241c">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
       <div><span class="st-pill st-wait" style="background:#d94e1f;color:#fff">SUNDAY SPECIAL</span><h3 style="margin:6px 0 2px;font-size:15.5px">🍛 Dum Chicken Biryani + Raita</h3><p style="font-size:11.5px;color:#626d65">Saturday raat tak pre-book karein · ₹160 / Plate</p></div>
-      <a class="btn sm" style="margin:0;white-space:nowrap" href="https://wa.me/91${esc(S.cfg.wa)}?text=${encodeURIComponent(`Namaste Udala! Mujhe Sunday Special Chicken Biryani (₹160) pre-book karni hai.\nNaam: ${F.name}\nPhone: ${F.phone}\nArea: ${F.area}`)}" target="_blank">Pre-Book ✓</a>
+      <a class="btn sm" style="margin:0;white-space:nowrap" href="https://wa.me/91${esc(S.cfg.wa)}?text=${encodeURIComponent(`Namaste Udala! Mujhe Sunday Special Chicken Biryani (₹160) pre-book karni hai.
+Naam: ${F.name}
+Phone: ${F.phone}
+Area: ${F.area}`)}" target="_blank">Pre-Book ✓</a>
     </div>
   </div>
   <div class="card reveal3d">
@@ -558,7 +627,7 @@ function vShop() {
         </div>
         <div class="pname" data-a="pq" data-id="${p.id}">${symHTML(p.nv)}<span>${esc(p.n)}</span></div>
         <div class="pprice"><div><b>${inr(p.p)}</b>${p.mrp ? `<s>${inr(p.mrp)}</s>` : ''}</div></div>
-        ${!p.s ? `<button class="btn w" disabled>Out of Stock</button>` : qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn g" style="margin-top:auto;padding:9px" data-a="inc" data-id="${p.id}">+ ADD</button>`}
+        ${!p.s ? `<button class="btn w" data-a="notify_oos" data-id="${p.id}">🔔 Notify Me</button>` : qty ? `<div class="qty"><button data-a="dec" data-id="${p.id}">−</button><b>${qf}${qh ? ' +½' : ''}</b><button data-a="inc" data-id="${p.id}">+</button></div>` : `<button class="btn g" style="margin-top:auto;padding:9px" data-a="inc" data-id="${p.id}">+ ADD</button>`}
       </div>`;
     }).join('')}
   </div>`;
@@ -1012,7 +1081,6 @@ function sheet() {
 }
 
 function attach3DInteractions() {
-  /* Interactive 3D Plate Drag in Dish Popup */
   const stage = $('#plateStage'), plate = $('#plate3d');
   if (stage && plate) {
     const move = (cx, cy) => {
@@ -1026,7 +1094,7 @@ function attach3DInteractions() {
   }
 }
 
-function render() {
+function renderBase() {
   const langBar = `<div class="lang-bar">${[['hi','Hinglish'],['or','ଓଡ଼ିଆ'],['en','English']].map(([k,l])=>`<button class="${LANG===k?'on':''}" data-a="set_lang" data-v="${k}">${l}</button>`).join('')}</div>`;
   const V = { plan: vPlan, shop: vShop, services: vServices, profile: vProfile, kitchen: vKitchen, route: vRoute, owner: vOwner };
   $('#v').innerHTML = langBar + (V[tab] || vPlan)();
@@ -1040,6 +1108,317 @@ function render() {
   if (ROLE === 'staff' || ROLE === 'owner') TABS.push(['kitchen', IC.kitchen, 'Kitchen'], ['route', IC.route, 'Route']);
   if (ROLE === 'owner') TABS.push(['owner', IC.owner, 'Owner']);
   $('#nav').innerHTML = TABS.map(x => `<button class="${tab === x[0] ? 'on' : ''}" data-a="tab" data-v="${x[0]}">${x[1]}<span class="nl">${x[2]}</span>${x[0] === 'shop' && n ? `<span class="nb">${n}</span>` : ''}</button>`).join('');
+}
+
+function render() {
+  ensureIntegrity();
+  renderBase();
+
+  if (S.cfg.marquee) { const mt = $('.marquee-track'); if (mt) mt.textContent = `✦ ${S.cfg.marquee} ✦ ${S.cfg.marquee} ✦`; }
+  let rb = $('#rainBar');
+  if (S.cfg.rainBanner) {
+    if (!rb) { $('header').insertAdjacentHTML('afterend', `<div id="rainBar" class="v7-bar"></div>`); rb = $('#rainBar'); }
+    rb.textContent = '🌧️ ' + S.cfg.rainBanner;
+  } else if (rb) rb.remove();
+
+  const v = $('#v'); if (!v) return;
+  const cleanP = ph(F.phone);
+
+  const lb = $('.lang-bar');
+  if (lb) lb.insertAdjacentHTML('afterbegin', `<button class="${LOW_DATA ? 'on' : ''}" data-a="toggle_lowdata">${LOW_DATA ? '⚡ Data Saver ON' : '⚡ Data Saver'}</button>`);
+
+  if (tab === 'plan') {
+    const refCode = cleanP || 'UDALA';
+    const myBadge = S.badges[cleanP] || '';
+    v.insertAdjacentHTML('beforeend', `
+      <div class="v8-flash reveal3d">
+        <div><b>⚡ Happy Hour Offer (4 PM – 6 PM)</b><div style="font-size:11px;opacity:.9">Chai, Nashta & Extra Roti par ₹20 OFF · Code: RAJA20</div></div>
+        <button class="btn w sm" data-a="tab" data-v="shop">Order →</button>
+      </div>
+      <div class="card reveal3d">
+        <h3>🍽️ Custom Thali Builder + Quick Plans</h3>
+        <div class="btn-row">
+          <select class="inp" id="th_base" style="margin:0"><option>4 Roti + Rice</option><option>6 Roti Only</option><option>Full Rice Only</option></select>
+          <select class="inp" id="th_sabzi" style="margin:0"><option>Paneer Sabzi</option><option>Chicken Curry</option><option>Egg Masala</option><option>Dalma + Bhaja</option></select>
+          <select class="inp" id="th_ext" style="margin:0"><option>Dahi</option><option>Papad + Salad</option><option>Gulab Jamun</option></select>
+        </div>
+        <div class="btn-row" style="margin-top:8px">
+          <button class="btn g sm" data-a="add_thali">Order Custom Thali</button>
+          <button class="btn w sm" data-a="swap_meal">🔄 Swap L↔D</button>
+          <button class="btn w sm" data-a="student_plan">🎓 Student Plan</button>
+        </div>
+      </div>
+      <div class="card reveal3d">
+        <h3>🏢 Office / Group Tiffin (5+ Log · 10% OFF)</h3>
+        <div class="btn-row"><input class="inp" id="grp_cnt" type="number" value="5" min="5" placeholder="Kitne log?" style="margin:0"><button class="btn g sm" data-a="group_quote">Get Group Quote</button></div>
+      </div>
+      <div class="card reveal3d">
+        <h3>📅 Weekly Menu Calendar (Mon–Sun)</h3>
+        ${Object.entries(S.weeklyMenu).map(([d, m]) => `<div class="row"><b style="color:var(--o)">${d}</b><span style="font-size:12px;font-weight:700">${esc(m)}</span></div>`).join('')}
+      </div>
+      <div class="card reveal3d">
+        <h3>🥗 Diet & Taste Tags + Vacation / Guest Dabba</h3>
+        <div class="v7-tags">${DIET_OPTS.map(t => `<span class="v7-tag ${F.dietTags.includes(t) ? 'on' : ''}" data-a="toggle_dtag" data-v="${t}">${t}</span>`).join('')}</div>
+        <div class="btn-row" style="margin-top:8px">
+          <input class="inp" id="vac_days" type="number" placeholder="Vacation Days (e.g. 5)" style="margin:0">
+          <button class="btn w sm" data-a="vac_pause">✈️ Pause Vacation</button>
+        </div>
+        <div class="btn-row" style="margin-top:8px">
+          <input class="inp" id="g_qty" type="number" value="1" placeholder="Extra Dabba Qty" style="margin:0">
+          <button class="btn g sm" data-a="guest_dabba">🍱 +Guest Dabba (₹90)</button>
+        </div>
+      </div>
+      <div class="card reveal3d" style="border:2px dashed var(--o)">
+        <h3>🎁 Refer & Earn (+1 Free Tiffin Day)</h3>
+        <p style="font-size:12px;color:var(--mu);margin-bottom:8px">Aapka Referral Code: <b style="color:var(--o)">${esc(refCode)}</b> — Dost ko share karein aur dono +1 Free Day paayein!</p>
+        <a class="btn g sm" href="https://wa.me/?text=${encodeURIComponent(`Namaste Udala se ghar jaisa tiffin order karo! Mera referral code ${refCode} use karne par free extra day milega!`)}" target="_blank">📲 Share on WhatsApp</a>
+      </div>
+      <div class="card reveal3d">
+        <h3>📢 Share Aaj Ka Menu & Kitchen Hygiene</h3>
+        <div style="font-size:11.5px;color:var(--mu);margin-bottom:8px">
+          ${myBadge ? `<span class="v9-pill" style="margin-right:6px">🏅 ${esc(myBadge)}</span>` : ''}
+          ${S.hygieneOkDate === iso(D0()) ? `<span class="st-pill st-ok">✓ Kitchen Sanitized & Fresh Today</span>` : `<span class="st-pill st-wait">Freshly Cooked Daily</span>`}
+        </div>
+        <button class="btn g sm" data-a="share_menu_wa">📤 Share Aaj Ka Menu on WhatsApp</button>
+      </div>
+      <div class="card reveal3d">
+        <h3>⭐ Udala Customer Reviews (${S.ratings.length})</h3>
+        ${S.ratings.slice(0, 3).map(r => `<div class="row"><div><b>${esc(r.name)}</b> <span style="color:#d97706">${'★'.repeat(r.star)}</span><div style="font-size:11.5px;color:var(--mu)">${esc(r.text)}</div></div></div>`).join('')}
+        <div class="btn-row" style="margin-top:8px">
+          <select class="inp" id="rt_star" style="max-width:95px;margin:0"><option value="5">5 ★</option><option value="4">4 ★</option><option value="3">3 ★</option></select>
+          <input class="inp" id="rt_txt" placeholder="Aaj ka khana kaisa laga?" style="margin:0">
+          <button class="btn sm" data-a="add_rating">Post</button>
+        </div>
+      </div>
+      <div class="card reveal3d v8-faq">
+        <h3>❓ FAQ & Timing Guide</h3>
+        <details><summary>⏰ Tiffin Skip / Pause ka last time kya hai?</summary><p>Subah 9:30 AM se pehle Profile tab se 1 tap mein aaj ka tiffin skip kar sakte hain (+1 day free extend hoga).</p></details>
+        <details><summary>🚚 Delivery charge kitna lagta hai?</summary><p>Tiffin plans par delivery 100% FREE hai. Shop orders par ${inr(S.cfg.freeMin)} se upar FREE delivery hai.</p></details>
+      </div>
+      <div class="card reveal3d">
+        <h3>🚨 Udala Emergency Helpline</h3>
+        <div class="btn-row">
+          <a class="btn w sm" href="tel:112">🚓 Police 112</a>
+          <a class="btn w sm" href="tel:108">🚑 Ambulance 108</a>
+          <a class="btn w sm" href="tel:101">🔥 Fire 101</a>
+        </div>
+      </div>
+    `);
+  } else if (tab === 'shop') {
+    v.insertAdjacentHTML('afterbegin', `<div class="card" style="padding:8px 12px;margin-bottom:10px;background:var(--sf2);font-size:11px;font-weight:800">📈 Aaj Ka Udala Rate: <span style="color:var(--o)">${esc(S.ratesTicker)}</span></div>`);
+    const sqEl = $('#sq');
+    if (sqEl) sqEl.insertAdjacentHTML('afterend', `<div style="display:flex;gap:6px;margin:-4px 0 10px"><button class="btn w sm" data-a="voice_sq">🎤 Voice Search</button><input class="inp" id="cpn_inp" placeholder="Coupon (e.g. UDALA50)" style="margin:0;padding:7px 10px;flex:1"><button class="btn g sm" data-a="apply_cpn">${APPLIED_CPN ? '✓ ' + APPLIED_CPN.code : 'Apply'}</button></div>`);
+    const pastItems = (S.orders || []).filter(o => ph(o.phone) === cleanP).flatMap(o => o.items || []).slice(0, 4);
+    if (pastItems.length && sqEl) {
+      sqEl.insertAdjacentHTML('beforebegin', `<div class="card" style="padding:10px 12px;margin-bottom:10px"><b style="font-size:11.5px;color:var(--g2)">⚡ 1-Tap Buy Again</b><div class="chips" style="padding:6px 0 0">${pastItems.map(i => `<button data-a="inc" data-id="${i.id}"><span>+ ${esc(i.n)}</span></button>`).join('')}</div></div>`);
+    }
+    const bulkTargets = S.prod.filter(p => ['Atta 5 kg', 'Chawal 5 kg', 'Dal 1 kg', 'Tel 1 L'].includes(p.n));
+    v.insertAdjacentHTML('beforeend', `
+      ${bulkTargets.length ? `<div class="card reveal3d"><h3>📦 Bulk Kirana 5-Pack Quick Add</h3><div class="v9-grid2">${bulkTargets.map(p => `<button class="btn w sm" data-a="add_bulk_5" data-id="${p.id}">+5× ${esc(p.n)}</button>`).join('')}</div></div>` : ''}
+      <div class="card reveal3d">
+        <h3>🥛 Daily Subah 6 AM Milk & Bread Subscription</h3>
+        <div class="btn-row">
+          <select class="inp" id="mk_item" style="margin:0"><option>Doodh 500ml (₹30/day)</option><option>Doodh 1L (₹60/day)</option><option>Doodh 500ml + Bread (₹70/day)</option></select>
+          <button class="btn g sm" data-a="add_milksub">Start Daily</button>
+        </div>
+      </div>
+      <div class="card reveal3d">
+        <h3>📦 Family Kirana Combo & Monthly Wishlist</h3>
+        <div class="btn-row">
+          <button class="btn sm" data-a="add_combo">+ Add Combo Pack</button>
+          <button class="btn w sm" data-a="save_wish">❤️ Save List</button>
+          <button class="btn g sm" data-a="load_wish">↻ Load List</button>
+        </div>
+        <span class="lbl" style="margin-top:10px">Delivery Slot Chunein</span>
+        <div class="seg">${['Express (30-45 min)', 'Shaam 6 PM', 'Subah 8 AM'].map(sl => `<button class="${DLV_SLOT === sl ? 'on' : ''}" data-a="set_slot" data-v="${sl}">${sl}</button>`).join('')}</div>
+      </div>
+    `);
+  } else if (tab === 'services') {
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card reveal3d">
+        <h3>📷 Photography Packages Compare</h3>
+        ${S.photoPkgs.map(pk => `<div class="row"><div><b>${esc(pk.n)}</b><div style="font-size:11px;color:var(--mu)">${esc(pk.info)}</div></div><b style="color:var(--o)">${esc(pk.rate)}</b></div>`).join('')}
+      </div>
+      <div class="card reveal3d">
+        <h3>🏠 Hostel Room Options & Free Tuition Demo</h3>
+        ${S.hostelRooms.map(rm => `<div class="row"><div><b>${esc(rm.n)}</b><div style="font-size:11px;color:var(--mu)">${esc(rm.info)}</div></div><b style="color:var(--g2)">${esc(rm.rate)}</b></div>`).join('')}
+        <div class="btn-row" style="margin-top:8px">
+          <button class="btn g sm" data-a="book_demo_class">🎓 Book Free Tuition Demo</button>
+        </div>
+        <input class="inp" id="sv_issue_txt" placeholder="Repair / Service details (e.g. Fan switch / Pipe leak)" style="margin-top:8px">
+        <div class="btn-row">
+          <select class="inp" id="sv_warr_sel" style="margin:0"><option>15 Days Service Guarantee</option><option>30 Days Service Guarantee</option><option>Standard Visit Only</option></select>
+          <button class="btn sm" data-a="send_issue_wa">Send via WA</button>
+        </div>
+      </div>
+      <div class="card reveal3d">
+        <h3>🍛 Instant Party / Catering Quote & Time-Slot</h3>
+        <div class="btn-row">
+          <input class="inp" id="cat_g" type="number" value="50" placeholder="Guests" style="margin:0">
+          <input class="inp" id="cat_r" type="number" value="180" placeholder="₹/Plate" style="margin:0">
+          <select class="inp" id="sv_slot" style="margin:0"><option>Subah (9-12)</option><option>Dopahar (12-3)</option><option>Shaam (5-9)</option></select>
+        </div>
+        <button class="btn g" data-a="cater_wa">Get Instant Catering Quote on WA ✓</button>
+      </div>
+      <div class="card reveal3d" style="border:2px solid #dc2626">
+        <h3 style="color:#dc2626">🚨 Emergency SOS Repair (Urgent)</h3>
+        <div class="btn-row"><input class="inp" id="sos_txt" placeholder="e.g. Inverter/Motor kharab hai" style="margin:0"><button class="btn r sm" data-a="sos_svc">SOS Call/WA</button></div>
+      </div>
+    `);
+  } else if (tab === 'profile') {
+    const spent = (S.orders || []).filter(o => ph(o.phone) === cleanP && o.paid).reduce((a, o) => a + (+o.total || 0), 0) + (S.subs || []).filter(s => ph(s.phone) === cleanP && s.paid).reduce((a, s) => a + (+s.price || 0), 0);
+    const tier = spent >= 5000 ? '🥇 Gold Member' : spent >= 2000 ? '🥈 Silver Member' : '🥉 Bronze Member';
+    const wal = +S.wallet[cleanP] || 0;
+    const cbAmt = +S.cashback[cleanP] || 0;
+    const bday = (S.profiles[cleanP] || {}).bday || '';
+    const myLast = (S.orders || []).filter(o => ph(o.phone) === cleanP).slice(-1)[0];
+
+    if (myLast) {
+      const stg = myLast.dlv ? 3 : myLast.paid ? 2 : 1;
+      v.insertAdjacentHTML('beforeend', `<div class="card reveal3d">
+        <h3>🛵 Live Order Stepper (#${String(myLast.id).slice(-4)})</h3>
+        <div class="v7-step"><span class="on">✓ Placed</span><span class="${stg >= 2 ? 'on' : ''}">${stg >= 2 ? '✓' : '○'} Cooking</span><span class="${stg >= 3 ? 'on' : ''}">${stg >= 3 ? '✓' : '○'} Delivered</span></div>
+      </div>`);
+    }
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card reveal3d">
+        <h3>💳 Namaste Udala Wallet <span class="v8-badge">${tier}</span></h3>
+        <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--g2);margin-bottom:8px">${inr(wal)}</div>
+        <div class="btn-row"><input class="inp" id="wal_amt" type="number" value="500" placeholder="₹ Amount" style="margin:0"><button class="btn g sm" data-a="add_wallet">+ Add Money</button></div>
+      </div>
+      <div class="card reveal3d">
+        <h3>🎁 Cashback Rewards (₹20 per ₹500 Paid)</h3>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:8px">Total Cashback Claimed: <b style="color:var(--g2)">${inr(cbAmt)}</b></div>
+        <button class="btn g sm" data-a="claim_cb">Claim Eligible Cashback to Wallet ✓</button>
+      </div>
+      <div class="card reveal3d">
+        <h3>📍 Saved Addresses, Gate Drop & Birthday</h3>
+        <div class="btn-row">${['Ghar', 'Office', 'Dukaan'].map(t => `<button class="btn w sm" data-a="pick_addr_tag" data-v="${t}">${t}</button>`).join('')}</div>
+        <div class="btn-row" style="margin-top:6px">${['Ghar', 'Office', 'Dukaan'].map(t => `<button class="btn g sm" data-a="save_addr_tag" data-v="${t}">Save as ${t}</button>`).join('')}</div>
+        <div class="row" style="margin-top:8px"><span>🚪 Contactless "Leave at Gate"</span><button class="btn sm ${LEAVE_GATE ? 'g' : 'w'}" data-a="tog_gate">${LEAVE_GATE ? 'ON ✓' : 'OFF'}</button></div>
+        <div class="btn-row" style="margin-top:8px"><input class="inp" id="prof_bday" type="date" value="${bday}" style="margin:0"><button class="btn sm" data-a="save_bday">🎂 Save Bday</button></div>
+      </div>
+      <div class="card reveal3d">
+        <h3>🆘 Quick Help / Complaint Box</h3>
+        <div class="btn-row"><input class="inp" id="tk_msg" placeholder="Khane ya delivery ki koi shikayat?" style="margin:0"><button class="btn sm" data-a="add_ticket">Send</button></div>
+      </div>
+    `);
+    document.querySelectorAll('#v [data-a="prt"]').forEach(btn => {
+      btn.insertAdjacentHTML('afterend', `<button class="btn w sm" data-a="share_bill_wa" data-id="${btn.dataset.id}">📲 WA Bill</button>`);
+    });
+  } else if (tab === 'kitchen') {
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <h3>🧼 Daily Kitchen Hygiene & KOT Ready</h3>
+        <div class="btn-row">
+          <button class="btn g sm" data-a="confirm_hygiene">${S.hygieneOkDate === iso(D0()) ? 'Hygiene Verified ✓' : 'Verify Hygiene Today'}</button>
+          <button class="btn w sm" data-a="print_kot">🖨 Print Bulk KOT</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>⚠️ Kitchen Low-Stock Alerts (Gas / Tel / Atta)</h3>
+        ${S.lowStock.map(x => `<div class="row"><b>${esc(x.n)}</b><button class="btn sm ${x.ok ? 'g' : 'r'}" data-a="tog_ls" data-id="${x.id}">${x.ok ? 'In Stock ✓' : 'LOW STOCK!'}</button></div>`).join('')}
+      </div>
+      <div class="card">
+        <h3>🛒 Daily Market Purchase List</h3>
+        ${S.marketList.map(m => `<div class="row"><span style="${m.done ? 'text-decoration:line-through;opacity:.6' : ''}">${esc(m.n)}</span><button class="btn sm ${m.done ? 'w' : 'g'}" data-a="tog_mkt" data-id="${m.id}">${m.done ? 'Bought ✓' : 'Mark'}</button></div>`).join('')}
+        <div class="btn-row" style="margin-top:8px"><input class="inp" id="mkt_n" placeholder="Add item (e.g. Tel 5L)" style="margin:0"><button class="btn sm g" data-a="add_mkt">+ Add</button></div>
+      </div>
+      <div class="card">
+        <h3>♻️ Daily Food Wastage Tracker</h3>
+        <div class="btn-row"><input class="inp" id="wst_n" placeholder="e.g. 6 Roti bachi" style="margin:0"><button class="btn sm r" data-a="add_waste">Log</button></div>
+        ${S.wastage.slice(0, 4).map(w => `<div class="row"><span>${esc(w.n)}</span><small>${w.d}</small></div>`).join('')}
+      </div>
+    `);
+  } else if (tab === 'route') {
+    const isLate = new Date().getHours() > 13 || (new Date().getHours() === 13 && new Date().getMinutes() >= 30);
+    if (isLate) document.querySelectorAll('#v .card .row').forEach(r => { if (r.textContent.includes('Deliver') && !r.textContent.includes('Delivered ✓')) r.classList.add('v8-late'); });
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <h3>🚴 Multi-Rider Assignment & Delivery Proof Log</h3>
+        <div class="seg">
+          ${['Rider 1 (Bus Stand / Market)', 'Rider 2 (Bhanjpur / College)'].map(r => `<button class="${MULTI_RIDER === r ? 'on' : ''}" data-a="set_rider" data-v="${r}">${r.split(' (')[0]}</button>`).join('')}
+        </div>
+        <div class="btn-row" style="margin-top:8px">
+          <input class="inp" id="dlv_proof_note" placeholder="Proof note (e.g. Gate par rakha / Photo li)" style="margin:0">
+          <button class="btn g sm" data-a="log_dlv_proof" data-id="${iso(D0())}">📸 Log Proof</button>
+        </div>
+        ${S.dlvProofs.slice(0, 3).map(dp => `<div class="row"><span>${esc(dp.note)}</span><small>${esc(dp.t)}</small></div>`).join('')}
+      </div>
+      <div class="card">
+        <h3>⛽ Rider Attendance & Petrol Log</h3>
+        <div class="btn-row"><input class="inp" id="rl_n" placeholder="Note (e.g. Present / Petrol)" style="margin:0"><input class="inp" id="rl_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm g" data-a="add_rlog">Save</button></div>
+        ${S.riderLog.slice(0, 4).map(r => `<div class="row"><span>${esc(r.n)} (${r.d})</span><b>${inr(r.amt)}</b></div>`).join('')}
+      </div>
+    `);
+    document.querySelectorAll('#v a[href^="tel:+91"]').forEach(a => {
+      const p = a.getAttribute('href').replace('tel:+91', '');
+      a.insertAdjacentHTML('afterend', `<a class="btn sm w" href="https://wa.me/91${p}?text=${encodeURIComponent('Namaste! Namaste Udala delivery boy aapke gate ke bahar hai.')}" target="_blank">🚪 Outside</a>`);
+    });
+  } else if (tab === 'owner') {
+    const days7 = Array.from({ length: 7 }, (_, i) => iso(addD(D0(), i - 6)));
+    const sales7 = days7.map(d => (S.orders || []).filter(o => o.date === d && o.paid).reduce((a, o) => a + (+o.total || 0), 0) + (S.subs || []).filter(s => s.start === d && s.paid).reduce((a, s) => a + (+s.price || 0), 0));
+    const maxS = Math.max(100, ...sales7);
+    const inactive = Object.values(S.profiles || {}).filter(c => !(S.orders || []).some(o => ph(o.phone) === c.phone && o.date >= iso(addD(D0(), -14))));
+    const areaMap = {};
+    (S.orders || []).forEach(o => { areaMap[o.area || 'Udala'] = (areaMap[o.area || 'Udala'] || 0) + (+o.total || 0); });
+    const topAreas = Object.entries(areaMap).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    const custPhones = [...new Set([...(S.subs || []).map(s => ph(s.phone)), ...(S.orders || []).map(o => ph(o.phone))])].filter(x => x.length === 10);
+
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <h3>📊 Last 7 Days Sales Chart</h3>
+        <div class="v7-chart">${days7.map((d, i) => `<div class="v7-col"><span>${Math.round(sales7[i])}</span><i style="height:${Math.round((sales7[i] / maxS) * 60)}px"></i><span>${d.slice(8)}</span></div>`).join('')}</div>
+      </div>
+      <div class="card">
+        <h3>📢 Live Rain Banner, Marquee & Coupons</h3>
+        <input class="inp" id="cfg_rain" placeholder="Rain/Delay Alert (Khali chhodein hatane ke liye)" value="${esc(S.cfg.rainBanner || '')}">
+        <input class="inp" id="cfg_marq" placeholder="Top Marquee Strip Text" value="${esc(S.cfg.marquee || '')}">
+        <button class="btn g sm" data-a="save_banners">Save Live Banners ✓</button>
+        <div class="btn-row" style="margin-top:10px"><input class="inp" id="nc_code" placeholder="Code" style="margin:0"><input class="inp" id="nc_off" type="number" placeholder="₹ Off" style="margin:0"><input class="inp" id="nc_min" type="number" placeholder="Min ₹" style="margin:0"><button class="btn sm" data-a="add_cpn">+Cpn</button></div>
+        ${S.coupons.map(c => `<div class="row"><b>${esc(c.code)} (−${inr(c.off)} on ${inr(c.min)}+)</b><button class="btn sm r" data-a="del_cpn" data-id="${c.code}">✕</button></div>`).join('')}
+      </div>
+      <div class="card">
+        <h3>📩 Customer Complaints (${S.tickets.filter(t => !t.done).length}) & Inactive (${inactive.length})</h3>
+        ${S.tickets.filter(t => !t.done).map(t => `<div class="row"><div><b>${esc(t.name)} (${t.phone})</b><div style="font-size:11.5px;color:var(--mu)">${esc(t.msg)}</div></div><button class="btn sm g" data-a="done_ticket" data-id="${t.id}">Solve ✓</button></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No open complaints ✓</p>'}
+      </div>
+      <div class="card">
+        <h3>📒 Staff Salary & Vendor Khata</h3>
+        <div class="btn-row"><input class="inp" id="sp_n" placeholder="Staff Name/Adv" style="margin:0"><input class="inp" id="sp_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm g" data-a="add_staffpay">+Staff</button></div>
+        <div class="btn-row" style="margin-top:6px"><input class="inp" id="vn_n" placeholder="Vendor/Sabziwala" style="margin:0"><input class="inp" id="vn_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm" data-a="add_vendor">+Vendor</button></div>
+      </div>
+      <div class="card">
+        <h3>🏆 Top Udala Areas & QR Standee</h3>
+        ${topAreas.map(([a, t]) => `<div class="row"><b>${esc(a)}</b><b style="color:var(--g2)">${inr(t)}</b></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No area data yet.</p>'}
+        <button class="btn g" data-a="print_qr_standee">🖨 Print App QR Standee (For Dukaan/Dabba)</button>
+      </div>
+      <div class="card">
+        <h3>🎉 Festival Theme Banner & Demo Mode</h3>
+        <div class="btn-row">
+          <button class="btn w sm" data-a="set_fest_banner" data-v="Raja Parba">Raja</button>
+          <button class="btn w sm" data-a="set_fest_banner" data-v="Rath Yatra">Rath Yatra</button>
+          <button class="btn w sm" data-a="set_fest_banner" data-v="Durga Puja">Puja</button>
+          <button class="btn r sm" data-a="set_fest_banner" data-v="">Clear</button>
+        </div>
+        <button class="btn w sm" style="margin-top:8px" data-a="toggle_demo_mode">🧪 Toggle Sample Demo Data</button>
+      </div>
+      <div class="card">
+        <h3>🏅 Customer Loyalty Badges</h3>
+        ${custPhones.map(p => `<div class="row"><div><b>+91 ${esc(p)}</b> <span class="v9-pill">${esc(S.badges[p] || 'Standard')}</span></div><div style="display:flex;gap:5px"><select class="inp" id="bdg_${p}" style="width:auto;padding:5px 8px;margin:0"><option>VIP Regular</option><option>Gold Tiffin</option><option>Priority Family</option></select><button class="btn g sm" data-a="assign_badge" data-id="${p}">Set</button></div></div>`).join('')}
+      </div>
+      <div class="card">
+        <h3>📜 Recent Activity Audit Log (${S.auditLog.length})</h3>
+        ${S.auditLog.slice(0, 6).map(al => `<div class="row"><span>${esc(al.m)}</span><small>${esc(al.t)}</small></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No recent logs.</p>'}
+      </div>
+      <div class="card">
+        <h3>💾 Database Backup & WhatsApp Broadcast</h3>
+        <div class="btn-row">
+          <button class="btn g sm" data-a="backup_json">⬇ Full JSON Backup</button>
+          <button class="btn w sm" data-a="copy_wa_nums">📋 Copy All Numbers</button>
+        </div>
+      </div>
+    `);
+  }
 }
 
 function checkUser() {
@@ -1142,7 +1521,6 @@ const A = {
   },
   cust_skip: (v, k, id) => {
     const s = S.subs.find(x => x.id === id); if (!s) return;
-    /* Fixed 9:30 AM Cut-Off Logic */
     const now = new Date();
     if ((now.getHours() > 9 || (now.getHours() === 9 && now.getMinutes() >= 30)) && ROLE !== 'owner') {
       toast('Subah 9:30 AM ke baad aaj ka tiffin skip nahi ho sakta!'); return;
@@ -1175,11 +1553,14 @@ const A = {
   },
   pay_ord: () => {
     if (!checkUser()) return;
-    const base = Math.max(0, ct()); if (base <= 0) { toast('Cart is empty!'); return; }
+    let base = Math.max(0, ct()); if (base <= 0) { toast('Cart is empty!'); return; }
+    let disc = 0;
+    if (APPLIED_CPN && subTot() >= APPLIED_CPN.min) disc = Math.min(base, +APPLIED_CPN.off || 0);
+    base = Math.max(1, base - disc);
     CART_OPEN = false; const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
     PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
-    setPayBox({ kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)` });
-    render();
+    setPayBox({ kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)${disc ? ' · -₹' + disc + ' CPN' : ''}` });
+    APPLIED_CPN = null; render();
   },
   manual_sub: () => {
     if (!checkUser()) return;
@@ -1243,7 +1624,8 @@ const A = {
     const rows = [['Date', 'Type', 'Customer', 'Phone', 'Area', 'Amount', 'Status', 'UTR']];
     (S.orders || []).forEach(o => rows.push([o.date, 'Shop', o.name, o.phone, o.area, o.total, o.paid ? 'Paid' : o.vStat, o.utr || '']));
     (S.subs || []).forEach(s => rows.push([s.start, `Tiffin-${s.days}d`, s.name, s.phone, s.area, s.price, s.paid ? 'Paid' : s.vStat, s.utr || '']));
-    const csv = rows.map(r => r.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+    const csv = rows.map(r => r.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('
+');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
     a.download = `namaste-udala-sales-${iso(D0())}.csv`; a.click(); toast('CSV Sales Report Downloaded ✓');
   },
@@ -1359,101 +1741,8 @@ const A = {
     localStorage.setItem('nu_theme', d ? 'dark' : '');
     $('#thm').textContent = d ? '☀️' : '🌙';
   },
-  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'plan'; render(); }
-};
+  logout_staff: () => { ROLE = ''; sessionStorage.removeItem('nu_role'); tab = 'plan'; render(); },
 
-document.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (b && A[b.dataset.a]) { if (b.tagName !== 'A') e.preventDefault(); A[b.dataset.a](b.dataset.v, b.dataset.k, b.dataset.id, e); } });
-
-$('#proof_file').addEventListener('change', e => {
-  const file = e.target.files && e.target.files[0]; if (!file) return;
-  if (file.size < 6000) { toast('⚠️ Invalid / Empty image file!'); return; }
-  const r = new FileReader();
-  r.onload = ev => {
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement('canvas'), max = 380, sc = Math.min(1, max / Math.max(img.width, img.height));
-      c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
-      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-      const check = inspectReceiptCanvas(c, img.width, img.height);
-      if (!check.ok) { PROOF_IMG = null; render(); toast(check.msg); return; }
-      const dataUrl = c.toDataURL('image/jpeg', 0.62), h = strHash(dataUrl);
-      if ((S.usedImgHash || []).includes(h)) { PROOF_IMG = null; render(); toast('⚠️ Duplicate Screenshot Blocked! Yeh photo pehle use ho chuki hai.'); return; }
-      PROOF_IMG = dataUrl; PROOF_META = `${file.name.slice(0, 16)} (${Math.round(file.size / 1024)}KB)`;
-      render(); toast('✓ Receipt Screenshot Verified! Ab 12-Digit UTR daalein.');
-    };
-    img.src = ev.target.result;
-  };
-  r.readAsDataURL(file);
-});
-
-document.addEventListener('change', e => {
-  if (e.target.dataset.f === 'start') { F.start = e.target.value; render(); }
-});
-
-document.addEventListener('input', e => {
-  if (e.target.dataset.f && e.target.dataset.f !== 'start') F[e.target.dataset.f] = e.target.value;
-  if (e.target.id === 'utr_inp') DRAFT_UTR = e.target.value;
-  if (e.target.id === 'sq') { SQ = e.target.value; const pos = e.target.selectionStart; render(); const el = $('#sq'); if (el) { el.focus(); el.setSelectionRange(pos, pos); } }
-});
-
-let taps = 0, tapT;
-$('#mark').addEventListener('click', () => {
-  taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 1800);
-  if (taps >= 5) {
-    taps = 0; const pin = prompt('Owner PIN (4827) ya Kitchen/Delivery PIN (7788) daalein:');
-    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner Master Control Unlocked'); }
-    else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Staff Mode Unlocked'); }
-    else if (pin !== null) toast('Galat PIN');
-  }
-});
-/* === PACK 1: 25 HIGH-POWER WORKING FEATURES (SINGLE-FILE EXTENSION) === */
-document.head.insertAdjacentHTML('beforeend', `<style>
-body.low-data img{display:none!important}
-.v7-bar{background:#dc2626;color:#fff;text-align:center;padding:7px 12px;font-size:11.5px;font-weight:800}
-.v7-tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
-.v7-tag{padding:5px 10px;border-radius:99px;font-size:10.5px;font-weight:800;border:1px solid var(--ln);background:var(--sf2);cursor:pointer}
-.v7-tag.on{background:var(--g);color:#fbbf24;border-color:var(--g)}
-.v7-step{display:flex;justify-content:space-between;position:relative;margin:10px 0 4px;font-size:9.5px;font-weight:800;color:var(--mu)}
-.v7-step span.on{color:var(--g2)}
-.v7-chart{display:flex;align-items:flex-end;gap:6px;height:88px;padding-top:10px}
-.v7-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:800}
-.v7-col i{width:100%;background:linear-gradient(180deg,var(--o),var(--g));border-radius:6px 6px 0 0;min-height:4px;display:block}
-</style>`);
-
-let LOW_DATA = localStorage.getItem('nu_lowdata') === '1';
-if (LOW_DATA) document.body.classList.add('low-data');
-let APPLIED_CPN = null;
-const DIET_OPTS = ['No Onion-Garlic', 'Low Oil', 'Less Salt', 'Diabetic Friendly', 'Extra Gravy'];
-F.dietTags = JSON.parse(localStorage.getItem('nu_dtags') || '[]');
-
-function ensureV7() {
-  if (!Array.isArray(S.coupons)) S.coupons = [{ code: 'UDALA50', off: 50, min: 250 }, { code: 'RAJA20', off: 20, min: 100 }];
-  if (!Array.isArray(S.ratings)) S.ratings = [{ id: 'r1', name: 'Priyanka Das', star: 5, text: 'Ghar jaisa swad aur time pe delivery!', d: iso(D0()) }];
-  if (!Array.isArray(S.tickets)) S.tickets = [];
-  if (!Array.isArray(S.wastage)) S.wastage = [];
-  if (!Array.isArray(S.marketList)) S.marketList = [{ id: 'm1', n: 'Aloo 5 kg', done: 0 }, { id: 'm2', n: 'Pyaaz 3 kg', done: 0 }, { id: 'm3', n: 'Paneer 2 kg', done: 0 }];
-  if (!Array.isArray(S.staffPay)) S.staffPay = [];
-  if (!Array.isArray(S.vendors)) S.vendors = [];
-  if (!Array.isArray(S.riderLog)) S.riderLog = [];
-  if (!S.weeklyMenu) S.weeklyMenu = { Mon: 'Dalma + Rice + Bhaja', Tue: 'Paneer + Dal + 4 Roti', Wed: 'Chicken Curry / Mushroom', Thu: 'Mix Veg + Kheer', Fri: 'Egg Masala / Chana', Sat: 'Khichdi + Dahi + Papad', Sun: 'Special Dum Biryani' };
-}
-ensureV7();
-
-/* Coupon-aware Shop Checkout override */
-const _origPayOrd = A.pay_ord;
-A.pay_ord = () => {
-  if (!checkUser()) return;
-  let base = Math.max(0, ct()); if (base <= 0) { toast('Cart is empty!'); return; }
-  let disc = 0;
-  if (APPLIED_CPN && subTot() >= APPLIED_CPN.min) disc = Math.min(base, +APPLIED_CPN.off || 0);
-  base = Math.max(1, base - disc);
-  CART_OPEN = false; const paise = +(Math.floor(11 + Math.random() * 78) / 100).toFixed(2);
-  PAY_MODE = 'upi'; PROOF_IMG = null; PROOF_META = null; DRAFT_UTR = '';
-  setPayBox({ kind: 'ord', amt: base, exactAmt: +(base + paise).toFixed(2), title: `Shop Order (${cc()} Items)${disc ? ' · -₹' + disc + ' CPN' : ''}` });
-  APPLIED_CPN = null; render();
-};
-
-Object.assign(A, {
   toggle_lowdata: () => { LOW_DATA = !LOW_DATA; localStorage.setItem('nu_lowdata', LOW_DATA ? '1' : '0'); document.body.classList.toggle('low-data', LOW_DATA); render(); toast(LOW_DATA ? 'Low-Data Mode ON (Fast)' : 'Images ON'); },
   toggle_dtag: v => {
     const i = F.dietTags.indexOf(v); if (i >= 0) F.dietTags.splice(i, 1); else F.dietTags.push(v);
@@ -1519,180 +1808,8 @@ Object.assign(A, {
     const nums = [...new Set([...(S.subs || []).map(s => ph(s.phone)), ...(S.orders || []).map(o => ph(o.phone))])].filter(x => x.length === 10);
     navigator.clipboard.writeText(nums.join(', ')).catch(() => {});
     toast(`📋 ${nums.length} Customer Numbers Copied for Broadcast!`);
-  }
-});
+  },
 
-const _origRenderV7 = render;
-render = function () {
-  ensureV7();
-  _origRenderV7();
-
-  /* Live Editable Marquee & Rain/Weather Banner */
-  if (S.cfg.marquee) { const mt = $('.marquee-track'); if (mt) mt.textContent = `✦ ${S.cfg.marquee} ✦ ${S.cfg.marquee} ✦`; }
-  let rb = $('#rainBar');
-  if (S.cfg.rainBanner) {
-    if (!rb) { $('header').insertAdjacentHTML('afterend', `<div id="rainBar" class="v7-bar"></div>`); rb = $('#rainBar'); }
-    rb.textContent = '🌧️ ' + S.cfg.rainBanner;
-  } else if (rb) rb.remove();
-
-  const v = $('#v'); if (!v) return;
-
-  /* Top Low-Data Toggle inside lang-bar */
-  const lb = $('.lang-bar');
-  if (lb) lb.insertAdjacentHTML('afterbegin', `<button class="${LOW_DATA ? 'on' : ''}" data-a="toggle_lowdata">${LOW_DATA ? '⚡ Data Saver ON' : '⚡ Data Saver'}</button>`);
-
-  if (tab === 'plan') {
-    const refCode = ph(F.phone) || 'UDALA';
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>📅 Weekly Menu Calendar (Mon–Sun)</h3>
-        ${Object.entries(S.weeklyMenu).map(([d, m]) => `<div class="row"><b style="color:var(--o)">${d}</b><span style="font-size:12px;font-weight:700">${esc(m)}</span></div>`).join('')}
-      </div>
-      <div class="card reveal3d">
-        <h3>🥗 Diet & Taste Tags + Vacation / Guest Dabba</h3>
-        <div class="v7-tags">${DIET_OPTS.map(t => `<span class="v7-tag ${F.dietTags.includes(t) ? 'on' : ''}" data-a="toggle_dtag" data-v="${t}">${t}</span>`).join('')}</div>
-        <div class="btn-row" style="margin-top:8px">
-          <input class="inp" id="vac_days" type="number" placeholder="Vacation Days (e.g. 5)" style="margin:0">
-          <button class="btn w sm" data-a="vac_pause">✈️ Pause Vacation</button>
-        </div>
-        <div class="btn-row" style="margin-top:8px">
-          <input class="inp" id="g_qty" type="number" value="1" placeholder="Extra Dabba Qty" style="margin:0">
-          <button class="btn g sm" data-a="guest_dabba">🍱 +Guest Dabba (₹90)</button>
-        </div>
-      </div>
-      <div class="card reveal3d" style="border:2px dashed var(--o)">
-        <h3>🎁 Refer & Earn (+1 Free Tiffin Day)</h3>
-        <p style="font-size:12px;color:var(--mu);margin-bottom:8px">Aapka Referral Code: <b style="color:var(--o)">${esc(refCode)}</b> — Dost ko share karein aur dono +1 Free Day paayein!</p>
-        <a class="btn g sm" href="https://wa.me/?text=${encodeURIComponent(`Namaste Udala se ghar jaisa tiffin order karo! Mera referral code ${refCode} use karne par free extra day milega!`)}" target="_blank">📲 Share on WhatsApp</a>
-      </div>
-      <div class="card reveal3d">
-        <h3>⭐ Udala Customer Reviews (${S.ratings.length})</h3>
-        ${S.ratings.slice(0, 3).map(r => `<div class="row"><div><b>${esc(r.name)}</b> <span style="color:#d97706">${'★'.repeat(r.star)}</span><div style="font-size:11.5px;color:var(--mu)">${esc(r.text)}</div></div></div>`).join('')}
-        <div class="btn-row" style="margin-top:8px">
-          <select class="inp" id="rt_star" style="max-width:95px;margin:0"><option value="5">5 ★</option><option value="4">4 ★</option><option value="3">3 ★</option></select>
-          <input class="inp" id="rt_txt" placeholder="Aaj ka khana kaisa laga?" style="margin:0">
-          <button class="btn sm" data-a="add_rating">Post</button>
-        </div>
-      </div>
-      <div class="card reveal3d">
-        <h3>🚨 Udala Emergency Helpline</h3>
-        <div class="btn-row">
-          <a class="btn w sm" href="tel:112">🚓 Police 112</a>
-          <a class="btn w sm" href="tel:108">🚑 Ambulance 108</a>
-          <a class="btn w sm" href="tel:101">🔥 Fire 101</a>
-        </div>
-      </div>
-    `);
-  } else if (tab === 'shop') {
-    const sqEl = $('#sq');
-    if (sqEl) sqEl.insertAdjacentHTML('afterend', `<div style="display:flex;gap:6px;margin:-4px 0 10px"><button class="btn w sm" data-a="voice_sq">🎤 Voice Search</button><input class="inp" id="cpn_inp" placeholder="Coupon (e.g. UDALA50)" style="margin:0;padding:7px 10px;flex:1"><button class="btn g sm" data-a="apply_cpn">${APPLIED_CPN ? '✓ ' + APPLIED_CPN.code : 'Apply'}</button></div>`);
-    const pastItems = (S.orders || []).filter(o => ph(o.phone) === ph(F.phone)).flatMap(o => o.items || []).slice(0, 4);
-    if (pastItems.length && sqEl) {
-      sqEl.insertAdjacentHTML('beforebegin', `<div class="card" style="padding:10px 12px;margin-bottom:10px"><b style="font-size:11.5px;color:var(--g2)">⚡ 1-Tap Buy Again</b><div class="chips" style="padding:6px 0 0">${pastItems.map(i => `<button data-a="inc" data-id="${i.id}"><span>+ ${esc(i.n)}</span></button>`).join('')}</div></div>`);
-    }
-  } else if (tab === 'profile') {
-    const myLast = (S.orders || []).filter(o => ph(o.phone) === ph(F.phone)).slice(-1)[0];
-    if (myLast) {
-      const stg = myLast.dlv ? 3 : myLast.paid ? 2 : 1;
-      v.insertAdjacentHTML('beforeend', `<div class="card reveal3d">
-        <h3>🛵 Live Order Stepper (#${String(myLast.id).slice(-4)})</h3>
-        <div class="v7-step"><span class="on">✓ Placed</span><span class="${stg >= 2 ? 'on' : ''}">${stg >= 2 ? '✓' : '○'} Cooking</span><span class="${stg >= 3 ? 'on' : ''}">${stg >= 3 ? '✓' : '○'} Delivered</span></div>
-      </div>`);
-    }
-    v.insertAdjacentHTML('beforeend', `<div class="card reveal3d">
-      <h3>🆘 Quick Help / Complaint Box</h3>
-      <div class="btn-row"><input class="inp" id="tk_msg" placeholder="Khane ya delivery ki koi shikayat?" style="margin:0"><button class="btn sm" data-a="add_ticket">Send</button></div>
-    </div>`);
-  } else if (tab === 'kitchen') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>🛒 Daily Market Purchase List</h3>
-        ${S.marketList.map(m => `<div class="row"><span style="${m.done ? 'text-decoration:line-through;opacity:.6' : ''}">${esc(m.n)}</span><button class="btn sm ${m.done ? 'w' : 'g'}" data-a="tog_mkt" data-id="${m.id}">${m.done ? 'Bought ✓' : 'Mark'}</button></div>`).join('')}
-        <div class="btn-row" style="margin-top:8px"><input class="inp" id="mkt_n" placeholder="Add item (e.g. Tel 5L)" style="margin:0"><button class="btn sm g" data-a="add_mkt">+ Add</button></div>
-      </div>
-      <div class="card">
-        <h3>♻️ Daily Food Wastage Tracker</h3>
-        <div class="btn-row"><input class="inp" id="wst_n" placeholder="e.g. 6 Roti bachi" style="margin:0"><button class="btn sm r" data-a="add_waste">Log</button></div>
-        ${S.wastage.slice(0, 4).map(w => `<div class="row"><span>${esc(w.n)}</span><small>${w.d}</small></div>`).join('')}
-      </div>
-    `);
-  } else if (tab === 'route') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>⛽ Rider Attendance & Petrol Log</h3>
-        <div class="btn-row"><input class="inp" id="rl_n" placeholder="Note (e.g. Present / Petrol)" style="margin:0"><input class="inp" id="rl_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm g" data-a="add_rlog">Save</button></div>
-        ${S.riderLog.slice(0, 4).map(r => `<div class="row"><span>${esc(r.n)} (${r.d})</span><b>${inr(r.amt)}</b></div>`).join('')}
-      </div>
-    `);
-    /* Add 1-Tap "I'm Outside" WA alert on each delivery row */
-    document.querySelectorAll('#v a[href^="tel:+91"]').forEach(a => {
-      const p = a.getAttribute('href').replace('tel:+91', '');
-      a.insertAdjacentHTML('afterend', `<a class="btn sm w" href="https://wa.me/91${p}?text=${encodeURIComponent('Namaste! Namaste Udala delivery boy aapke gate ke bahar hai.')}" target="_blank">🚪 Outside</a>`);
-    });
-  } else if (tab === 'owner') {
-    const days7 = Array.from({ length: 7 }, (_, i) => iso(addD(D0(), i - 6)));
-    const sales7 = days7.map(d => (S.orders || []).filter(o => o.date === d && o.paid).reduce((a, o) => a + (+o.total || 0), 0) + (S.subs || []).filter(s => s.start === d && s.paid).reduce((a, s) => a + (+s.price || 0), 0));
-    const maxS = Math.max(100, ...sales7);
-    const inactive = Object.values(S.profiles || {}).filter(c => !(S.orders || []).some(o => ph(o.phone) === c.phone && o.date >= iso(addD(D0(), -14))));
-
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>📊 Last 7 Days Sales Chart</h3>
-        <div class="v7-chart">${days7.map((d, i) => `<div class="v7-col"><span>${Math.round(sales7[i])}</span><i style="height:${Math.round((sales7[i] / maxS) * 60)}px"></i><span>${d.slice(8)}</span></div>`).join('')}</div>
-      </div>
-      <div class="card">
-        <h3>📢 Live Rain Banner, Marquee & Coupons</h3>
-        <input class="inp" id="cfg_rain" placeholder="Rain/Delay Alert (Khali chhodein hatane ke liye)" value="${esc(S.cfg.rainBanner || '')}">
-        <input class="inp" id="cfg_marq" placeholder="Top Marquee Strip Text" value="${esc(S.cfg.marquee || '')}">
-        <button class="btn g sm" data-a="save_banners">Save Live Banners ✓</button>
-        <div class="btn-row" style="margin-top:10px"><input class="inp" id="nc_code" placeholder="Code" style="margin:0"><input class="inp" id="nc_off" type="number" placeholder="₹ Off" style="margin:0"><input class="inp" id="nc_min" type="number" placeholder="Min ₹" style="margin:0"><button class="btn sm" data-a="add_cpn">+Cpn</button></div>
-        ${S.coupons.map(c => `<div class="row"><b>${esc(c.code)} (−${inr(c.off)} on ${inr(c.min)}+)</b><button class="btn sm r" data-a="del_cpn" data-id="${c.code}">✕</button></div>`).join('')}
-      </div>
-      <div class="card">
-        <h3>📩 Customer Complaints (${S.tickets.filter(t => !t.done).length}) & Inactive (${inactive.length})</h3>
-        ${S.tickets.filter(t => !t.done).map(t => `<div class="row"><div><b>${esc(t.name)} (${t.phone})</b><div style="font-size:11.5px;color:var(--mu)">${esc(t.msg)}</div></div><button class="btn sm g" data-a="done_ticket" data-id="${t.id}">Solve ✓</button></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No open complaints ✓</p>'}
-      </div>
-      <div class="card">
-        <h3>📒 Staff Salary & Vendor Khata</h3>
-        <div class="btn-row"><input class="inp" id="sp_n" placeholder="Staff Name/Adv" style="margin:0"><input class="inp" id="sp_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm g" data-a="add_staffpay">+Staff</button></div>
-        <div class="btn-row" style="margin-top:6px"><input class="inp" id="vn_n" placeholder="Vendor/Sabziwala" style="margin:0"><input class="inp" id="vn_a" type="number" placeholder="₹" style="max-width:85px;margin:0"><button class="btn sm" data-a="add_vendor">+Vendor</button></div>
-      </div>
-      <div class="card">
-        <h3>💾 Database Backup & WhatsApp Broadcast</h3>
-        <div class="btn-row">
-          <button class="btn g sm" data-a="backup_json">⬇ Full JSON Backup</button>
-          <button class="btn w sm" data-a="copy_wa_nums">📋 Copy All Numbers</button>
-        </div>
-      </div>
-    `);
-  }
-};
-  /* === PACK 2: 25 MORE WORKING FEATURES (26–50) === */
-document.head.insertAdjacentHTML('beforeend', `<style>
-.v8-flash{background:linear-gradient(135deg,#7c2d12,#ea580c);color:#fff;border-radius:18px;padding:12px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.v8-badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:800;background:#fbbf24;color:#113221}
-.v8-faq summary{font-weight:800;font-size:12.5px;padding:8px 0;cursor:pointer;list-style:none}
-.v8-faq p{font-size:11.5px;color:var(--mu);padding-bottom:8px;border-bottom:1px dashed var(--ln)}
-.v8-late{border:2px solid #dc2626!important;background:#fef2f2!important}
-</style>`);
-
-let DLV_SLOT = localStorage.getItem('nu_slot') || 'Express (30-45 min)';
-let LEAVE_GATE = localStorage.getItem('nu_gate') === '1';
-
-function ensureV8() {
-  if (!S.wallet) S.wallet = {};
-  if (!Array.isArray(S.milkSubs)) S.milkSubs = [];
-  if (!Array.isArray(S.wishlist)) S.wishlist = {};
-  if (!Array.isArray(S.notifyMe)) S.notifyMe = [];
-  if (!Array.isArray(S.lowStock)) S.lowStock = [{ id: 'ls1', n: 'LPG Gas Cylinder', ok: 1 }, { id: 'ls2', n: 'Mustard Oil 15L', ok: 1 }, { id: 'ls3', n: 'Atta 50kg Bag', ok: 1 }];
-  if (!S.ratesTicker) S.ratesTicker = 'Chicken ₹210/kg · Paneer ₹360/kg · Aloo ₹25/kg · Pyaaz ₹38/kg';
-  if (!S.savedAddrs) S.savedAddrs = {};
-  if (!S.packedItems) S.packedItems = {};
-}
-ensureV8();
-
-Object.assign(A, {
-  /* 26. Custom Thali Builder */
   add_thali: () => {
     if (!checkUser()) return;
     const base = $('#th_base')?.value || '4 Roti + Rice', sabzi = $('#th_sabzi')?.value || 'Paneer Sabzi', extra = $('#th_ext')?.value || 'Dahi';
@@ -1700,39 +1817,32 @@ Object.assign(A, {
     S.orders.push({ id: uid('o'), ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), items: [{ id: 88, n: `Custom Thali (${base}, ${sabzi}, ${extra})`, q: 1, p: price, h: 0 }], total: price, paid: 0, vStat: 'cod', dlv: 0, pMode: 'Pay on Delivery', utr: 'Custom Thali' });
     save(); toast(`🍽️ Custom Thali (${inr(price)}) Kitchen mein bhej di gayi!`);
   },
-  /* 27. Meal Swap */
   swap_meal: () => {
     const tmp = F.lunch; F.lunch = F.dinner; F.dinner = tmp; render();
     toast(`🔄 Swapped! Lunch: ${F.lunch}, Dinner: ${F.dinner}`);
   },
-  /* 28. Office / Group Tiffin Quote */
   group_quote: () => {
     const cnt = Math.max(5, +($('#grp_cnt')?.value || 5));
     const per = F.type === 'nv' ? 3239 : 2609;
     const msg = `Namaste Udala! Mujhe ${cnt} logon ka Group/Office ${F.type === 'nv' ? 'Non-Veg' : 'Veg'} Monthly Tiffin chahiye (10% off ≈ ${inr(cnt * per)}).`;
     window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(msg)}`, '_blank');
   },
-  /* 29. Student / Hostel Budget Plan */
   student_plan: () => {
     F.days = 30; F.times = 2; F.lunch = 'chawal'; F.dinner = 'roti'; F.extraRoti = 0; render();
     toast('🎓 Student 2-Time Budget Plan select ho gaya!');
   },
-  /* 30. Daily Milk & Bread Subscription */
   add_milksub: () => {
     if (!checkUser()) return;
     const item = $('#mk_item')?.value || 'Doodh 500ml + Bread (₹70/day)';
     S.milkSubs.unshift({ id: uid('mk'), name: F.name.trim(), phone: ph(F.phone), area: F.area, item, d: iso(D0()) });
     save(); toast('🥛 Subah 6 AM Milk/Bread subscription start ho gaya!');
   },
-  /* 31. Delivery Slot Picker */
   set_slot: v => { DLV_SLOT = v; localStorage.setItem('nu_slot', v); render(); },
-  /* 32. Family Kirana Combo Pack */
   add_combo: () => {
     [16, 17, 18, 19].forEach(id => { C[id] = (C[id] || 0) + 1; });
     localStorage.setItem('nu5c', JSON.stringify(C)); render();
     toast('📦 Family Kirana Combo (Atta+Chawal+Dal+Tel) Cart mein add ho gaya!');
   },
-  /* 33. Monthly Kirana Wishlist */
   save_wish: () => {
     const p = ph(F.phone); if (!p || !cc()) { toast('Pehle Cart mein items add karein'); return; }
     S.wishlist[p] = { ...C }; save(); toast('❤️ Monthly Kirana List save ho gayi!');
@@ -1743,30 +1853,28 @@ Object.assign(A, {
     C = { ...w }; localStorage.setItem('nu5c', JSON.stringify(C)); CART_OPEN = true; render();
     toast('🛒 Saved Monthly List Cart mein load ho gayi!');
   },
-  /* 34. Out-of-Stock Notify Me */
   notify_oos: (v, k, id) => {
     S.notifyMe.unshift({ id: uid('nt'), prodId: id, phone: ph(F.phone), d: iso(D0()) });
     save(); toast('🔔 Stock aate hi aapko WhatsApp alert milega!');
   },
-  /* 37. Instant Party/Catering Quote */
   cater_wa: () => {
     const g = Math.max(10, +($('#cat_g')?.value || 50)), rate = +($('#cat_r')?.value || 180);
     const slot = $('#sv_slot')?.value || 'Dopahar (12-3 PM)';
     window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`Namaste Udala! Party Catering Quote: ${g} Guests × ₹${rate} = ${inr(g * rate)} · Slot: ${slot}. Naam: ${F.name}`)}`, '_blank');
   },
-  /* 38. Emergency SOS Service */
   sos_svc: () => {
     const issue = ($('#sos_txt')?.value || '').trim() || 'Urgent Electrician / Plumber';
-    window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`🚨 URGENT SOS SERVICE: ${issue}\nNaam: ${F.name}\nPhone: ${F.phone}\nArea: ${F.area}`)}`, '_blank');
+    window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`🚨 URGENT SOS SERVICE: ${issue}
+Naam: ${F.name}
+Phone: ${F.phone}
+Area: ${F.area}`)}`, '_blank');
   },
-  /* 39. Wallet Add Money Request */
   add_wallet: () => {
     const amt = Math.max(100, +($('#wal_amt')?.value || 500));
     const p = ph(F.phone); if (!p) { toast('Pehle mobile number save karein'); return; }
     if (ROLE === 'owner') { S.wallet[p] = (+S.wallet[p] || 0) + amt; save(); toast(`💳 ${inr(amt)} Wallet mein add ho gaya!`); }
     else { window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`Namaste Udala! Mujhe apne Wallet (+91 ${p}) mein ${inr(amt)} add karwana hai. UPI ID: ${S.cfg.upi}`)}`, '_blank'); }
   },
-  /* 41. Multiple Saved Addresses */
   save_addr_tag: v => {
     const p = ph(F.phone); if (!p || !F.addr.trim()) { toast('Address likhein'); return; }
     S.savedAddrs[p] = S.savedAddrs[p] || {}; S.savedAddrs[p][v] = { area: F.area, addr: F.addr.trim() };
@@ -1777,183 +1885,20 @@ Object.assign(A, {
     if (!a) { toast(`${v} address abhi save nahi hai`); return; }
     F.area = a.area; F.addr = a.addr; syncCustomerProfile(); render(); toast(`📍 ${v} Address Selected!`);
   },
-  /* 42. Contactless Leave at Gate */
   tog_gate: () => { LEAVE_GATE = !LEAVE_GATE; localStorage.setItem('nu_gate', LEAVE_GATE ? '1' : '0'); render(); },
-  /* 43. Birthday Date Saver */
   save_bday: () => {
     const p = ph(F.phone), d = $('#prof_bday')?.value; if (!p || !d) return;
     S.profiles[p] = { ...(S.profiles[p] || { phone: p, name: F.name }), bday: d };
     save(); toast('🎂 Birthday Saved! Is din aapko Free Meetha milega!');
   },
-  /* 46. Kitchen Low-Stock Toggle */
   tog_ls: (v, k, id) => { const x = S.lowStock.find(i => i.id === id); if (x) { x.ok = x.ok ? 0 : 1; save(); } },
-  /* 47. Packing Checklist Tick */
   tog_pack: (v, k, id) => { S.packedItems[id] = S.packedItems[id] ? 0 : 1; save(); },
-  /* 50. Print App QR Standee */
   print_qr_standee: () => {
     const url = location.href;
     $('#printArea').innerHTML = `<div style="text-align:center"><h2>NAMASTE UDALA</h2><p>Ghar Jaisa Khana · Daily Shop</p><img src="${qrUrl(url)}" style="width:160px;height:160px;margin:8px auto"><p><b>Scan to Order Online!</b><br>UPI: ${esc(S.cfg.upi)}<br>Call: ${esc(S.cfg.wa)}</p></div>`;
     window.print();
-  }
-});
+  },
 
-const _origRenderV8 = render;
-render = function () {
-  ensureV8();
-  _origRenderV8();
-  const v = $('#v'); if (!v) return;
-  const cleanP = ph(F.phone);
-
-  if (tab === 'plan') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="v8-flash reveal3d">
-        <div><b>⚡ Happy Hour Offer (4 PM – 6 PM)</b><div style="font-size:11px;opacity:.9">Chai, Nashta & Extra Roti par ₹20 OFF · Code: RAJA20</div></div>
-        <button class="btn w sm" data-a="tab" data-v="shop">Order →</button>
-      </div>
-      <div class="card reveal3d">
-        <h3>🍽️ Custom Thali Builder + Quick Plans</h3>
-        <div class="btn-row">
-          <select class="inp" id="th_base" style="margin:0"><option>4 Roti + Rice</option><option>6 Roti Only</option><option>Full Rice Only</option></select>
-          <select class="inp" id="th_sabzi" style="margin:0"><option>Paneer Sabzi</option><option>Chicken Curry</option><option>Egg Masala</option><option>Dalma + Bhaja</option></select>
-          <select class="inp" id="th_ext" style="margin:0"><option>Dahi</option><option>Papad + Salad</option><option>Gulab Jamun</option></select>
-        </div>
-        <div class="btn-row" style="margin-top:8px">
-          <button class="btn g sm" data-a="add_thali">Order Custom Thali</button>
-          <button class="btn w sm" data-a="swap_meal">🔄 Swap L↔D</button>
-          <button class="btn w sm" data-a="student_plan">🎓 Student Plan</button>
-        </div>
-      </div>
-      <div class="card reveal3d">
-        <h3>🏢 Office / Group Tiffin (5+ Log · 10% OFF)</h3>
-        <div class="btn-row"><input class="inp" id="grp_cnt" type="number" value="5" min="5" placeholder="Kitne log?" style="margin:0"><button class="btn g sm" data-a="group_quote">Get Group Quote</button></div>
-      </div>
-      <div class="card reveal3d v8-faq">
-        <h3>❓ FAQ & Timing Guide</h3>
-        <details><summary>⏰ Tiffin Skip / Pause ka last time kya hai?</summary><p>Subah 9:30 AM se pehle Profile tab se 1 tap mein aaj ka tiffin skip kar sakte hain (+1 day free extend hoga).</p></details>
-        <details><summary>🚚 Delivery charge kitna lagta hai?</summary><p>Tiffin plans par delivery 100% FREE hai. Shop orders par ${inr(S.cfg.freeMin)} se upar FREE delivery hai.</p></details>
-      </div>
-    `);
-  } else if (tab === 'shop') {
-    v.insertAdjacentHTML('afterbegin', `<div class="card" style="padding:8px 12px;margin-bottom:10px;background:var(--sf2);font-size:11px;font-weight:800">📈 Aaj Ka Udala Rate: <span style="color:var(--o)">${esc(S.ratesTicker)}</span></div>`);
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>🥛 Daily Subah 6 AM Milk & Bread Subscription</h3>
-        <div class="btn-row">
-          <select class="inp" id="mk_item" style="margin:0"><option>Doodh 500ml (₹30/day)</option><option>Doodh 1L (₹60/day)</option><option>Doodh 500ml + Bread (₹70/day)</option></select>
-          <button class="btn g sm" data-a="add_milksub">Start Daily</button>
-        </div>
-      </div>
-      <div class="card reveal3d">
-        <h3>📦 Family Kirana Combo & Monthly Wishlist</h3>
-        <div class="btn-row">
-          <button class="btn sm" data-a="add_combo">+ Add Combo Pack</button>
-          <button class="btn w sm" data-a="save_wish">❤️ Save List</button>
-          <button class="btn g sm" data-a="load_wish">↻ Load List</button>
-        </div>
-        <span class="lbl" style="margin-top:10px">Delivery Slot Chunein</span>
-        <div class="seg">${['Express (30-45 min)', 'Shaam 6 PM', 'Subah 8 AM'].map(sl => `<button class="${DLV_SLOT === sl ? 'on' : ''}" data-a="set_slot" data-v="${sl}">${sl}</button>`).join('')}</div>
-      </div>
-    `);
-  } else if (tab === 'services') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>🍛 Instant Party / Catering Quote & Time-Slot</h3>
-        <div class="btn-row">
-          <input class="inp" id="cat_g" type="number" value="50" placeholder="Guests" style="margin:0">
-          <input class="inp" id="cat_r" type="number" value="180" placeholder="₹/Plate" style="margin:0">
-          <select class="inp" id="sv_slot" style="margin:0"><option>Subah (9-12)</option><option>Dopahar (12-3)</option><option>Shaam (5-9)</option></select>
-        </div>
-        <button class="btn g" data-a="cater_wa">Get Instant Catering Quote on WA ✓</button>
-      </div>
-      <div class="card reveal3d" style="border:2px solid #dc2626">
-        <h3 style="color:#dc2626">🚨 Emergency SOS Repair (Urgent)</h3>
-        <div class="btn-row"><input class="inp" id="sos_txt" placeholder="e.g. Inverter/Motor kharab hai" style="margin:0"><button class="btn r sm" data-a="sos_svc">SOS Call/WA</button></div>
-      </div>
-    `);
-  } else if (tab === 'profile') {
-    const spent = (S.orders || []).filter(o => ph(o.phone) === cleanP && o.paid).reduce((a, o) => a + (+o.total || 0), 0) + (S.subs || []).filter(s => ph(s.phone) === cleanP && s.paid).reduce((a, s) => a + (+s.price || 0), 0);
-    const tier = spent >= 5000 ? '🥇 Gold Member' : spent >= 2000 ? '🥈 Silver Member' : '🥉 Bronze Member';
-    const wal = +S.wallet[cleanP] || 0;
-    const bday = (S.profiles[cleanP] || {}).bday || '';
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>💳 Namaste Udala Wallet <span class="v8-badge">${tier}</span></h3>
-        <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--g2);margin-bottom:8px">${inr(wal)}</div>
-        <div class="btn-row"><input class="inp" id="wal_amt" type="number" value="500" placeholder="₹ Amount" style="margin:0"><button class="btn g sm" data-a="add_wallet">+ Add Money</button></div>
-      </div>
-      <div class="card reveal3d">
-        <h3>📍 Saved Addresses, Gate Drop & Birthday</h3>
-        <div class="btn-row">${['Ghar', 'Office', 'Dukaan'].map(t => `<button class="btn w sm" data-a="pick_addr_tag" data-v="${t}">${t}</button>`).join('')}</div>
-        <div class="btn-row" style="margin-top:6px">${['Ghar', 'Office', 'Dukaan'].map(t => `<button class="btn g sm" data-a="save_addr_tag" data-v="${t}">Save as ${t}</button>`).join('')}</div>
-        <div class="row" style="margin-top:8px"><span>🚪 Contactless "Leave at Gate"</span><button class="btn sm ${LEAVE_GATE ? 'g' : 'w'}" data-a="tog_gate">${LEAVE_GATE ? 'ON ✓' : 'OFF'}</button></div>
-        <div class="btn-row" style="margin-top:8px"><input class="inp" id="prof_bday" type="date" value="${bday}" style="margin:0"><button class="btn sm" data-a="save_bday">🎂 Save Bday</button></div>
-      </div>
-    `);
-  } else if (tab === 'kitchen') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>⚠️ Kitchen Low-Stock Alerts (Gas / Tel / Atta)</h3>
-        ${S.lowStock.map(x => `<div class="row"><b>${esc(x.n)}</b><button class="btn sm ${x.ok ? 'g' : 'r'}" data-a="tog_ls" data-id="${x.id}">${x.ok ? 'In Stock ✓' : 'LOW STOCK!'}</button></div>`).join('')}
-      </div>
-    `);
-  } else if (tab === 'route') {
-    const isLate = new Date().getHours() > 13 || (new Date().getHours() === 13 && new Date().getMinutes() >= 30);
-    if (isLate) document.querySelectorAll('#v .card .row').forEach(r => { if (r.textContent.includes('Deliver') && !r.textContent.includes('Delivered ✓')) r.classList.add('v8-late'); });
-  } else if (tab === 'owner') {
-    const areaMap = {};
-    (S.orders || []).forEach(o => { areaMap[o.area || 'Udala'] = (areaMap[o.area || 'Udala'] || 0) + (+o.total || 0); });
-    const topAreas = Object.entries(areaMap).sort((a, b) => b[1] - a[1]).slice(0, 3);
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>🏆 Top Udala Areas & QR Standee</h3>
-        ${topAreas.map(([a, t]) => `<div class="row"><b>${esc(a)}</b><b style="color:var(--g2)">${inr(t)}</b></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No area data yet.</p>'}
-        <button class="btn g" data-a="print_qr_standee">🖨 Print App QR Standee (For Dukaan/Dabba)</button>
-      </div>
-    `);
-  }
-};
-  /* === PACK 3: 25 MORE WORKING FEATURES (51–75) === */
-document.head.insertAdjacentHTML('beforeend', `<style>
-.v9-card{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:10px 12px;margin-bottom:8px;font-size:11.5px}
-.v9-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.v9-pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:9.5px;font-weight:800;background:#e0f2fe;color:#0369a1}
-</style>`);
-
-let SVC_WARRANTY = localStorage.getItem('nu_warr') || '15 Days Service Guarantee';
-let MULTI_RIDER = localStorage.getItem('nu_rider') || 'Rider 1 (Bus Stand / Market)';
-
-function ensureV9() {
-  if (!Array.isArray(S.dlvProofs)) S.dlvProofs = [];
-  if (!Array.isArray(S.auditLog)) S.auditLog = [];
-  if (!Array.isArray(S.demoPresets)) S.demoPresets = [];
-  if (!S.cashback) S.cashback = {};
-  if (!S.badges) S.badges = {};
-  if (!S.hostelRooms) S.hostelRooms = [
-    { id: 'r1', n: '2-Bed AC/Cooler Room', rate: '₹4,500/mo', info: 'WiFi · Study Desk · Attached Bath' },
-    { id: 'r2', n: '3-Bed Student Room', rate: '₹3,200/mo', info: 'WiFi · Locker · Warden Security' }
-  ];
-  if (!S.photoPkgs) S.photoPkgs = [
-    { id: 'pk1', n: 'Silver Shoot', rate: '₹4,999', info: '80+ Edited Photos · 2 Hours' },
-    { id: 'pk2', n: 'Gold Event', rate: '₹11,999', info: '250+ Photos · Candid + Highlight Video' },
-    { id: 'pk3', n: 'Platinum Wedding', rate: '₹24,999', info: 'Full Day · Album + Drone/Cinematic' }
-  ];
-}
-ensureV9();
-
-function addAudit(msg) {
-  S.auditLog = S.auditLog || [];
-  S.auditLog.unshift({ t: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }), d: iso(D0()), m: msg });
-  if (S.auditLog.length > 40) S.auditLog.length = 40;
-}
-
-const _origSaveV9 = save;
-save = function () {
-  ensureV9();
-  _origSaveV9();
-};
-
-Object.assign(A, {
-  /* 51. Cashback Credit on Verified Order */
   claim_cb: () => {
     const p = ph(F.phone); if (!p) { toast('Mobile number save karein'); return; }
     const paidSum = (S.orders || []).filter(o => ph(o.phone) === p && o.paid).reduce((a, o) => a + (+o.total || 0), 0);
@@ -1966,70 +1911,74 @@ Object.assign(A, {
     addAudit(`Cashback ${inr(avail)} credited to ${p}`);
     save(); toast(`🎁 ${inr(avail)} Cashback aapke Wallet mein add ho gaya!`);
   },
-  /* 52. Bulk Rate Tier (5kg/10kg Kirana Discount) */
   add_bulk_5: (v, k, id) => {
     const p = S.prod.find(x => x.id === +id); if (!p) return;
     C[p.id] = (C[p.id] || 0) + 5;
     localStorage.setItem('nu5c', JSON.stringify(C));
     render(); toast(`📦 5× ${p.n} added with bulk quantity!`);
   },
-  /* 53. Free Tuition Demo Class Booking */
   book_demo_class: () => {
     if (!checkUser()) return;
     S.svBookings.push({ id: uid('sb'), svName: 'FREE Tuition Demo Class', price: 0, date: iso(addD(D0(), 1)), note: '1-Day Trial Class', name: F.name.trim(), phone: ph(F.phone), area: F.area });
     addAudit(`Tuition Demo booked by ${F.name.trim()}`);
     save(); toast('📚 1-Day Free Tuition Demo Class Book Ho Gayi!');
   },
-  /* 54. Issue Photo Upload for Service */
   send_issue_wa: () => {
     const issue = ($('#sv_issue_txt')?.value || '').trim() || 'Repair / Service Request';
     const warr = $('#sv_warr_sel')?.value || SVC_WARRANTY;
-    window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`Namaste Udala Service Request:\nIssue: ${issue}\nWarranty Option: ${warr}\nNaam: ${F.name}\nPhone: ${F.phone}\nArea: ${F.area}`)}`, '_blank');
+    window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`Namaste Udala Service Request:
+Issue: ${issue}
+Warranty Option: ${warr}
+Naam: ${F.name}
+Phone: ${F.phone}
+Area: ${F.area}`)}`, '_blank');
   },
-  /* 55. Delivery Proof Photo Log (Rider) */
   log_dlv_proof: (v, k, id) => {
     const note = ($('#dlv_proof_note')?.value || '').trim() || 'Doorstep Handover Verified';
     S.dlvProofs.unshift({ id: uid('dp'), refId: id, note, t: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) });
     addAudit(`Delivery proof logged for ${id}: ${note}`);
     save(); toast('📸 Delivery Proof Recorded!');
   },
-  /* 56. Rider Assignment Switch */
   set_rider: v => {
     MULTI_RIDER = v; localStorage.setItem('nu_rider', v);
     addAudit(`Active Rider set to ${v}`);
     render(); toast(`🚴 Switched to ${v}`);
   },
-  /* 57. Shareable Aaj Ka Menu Card on WhatsApp */
   share_menu_wa: () => {
-    const txt = `🍽️ *NAMASTE UDALA — AAJ KA MENU (${iso(D0())})*\n\n☕ *Nashta:* ${menu('bf')}\n🟢 *Veg:* ${menu('veg')}\n🔴 *Non-Veg:* ${menu('nv')}\n\n📲 Order now: ${location.href}`;
+    const txt = `🍽️ *NAMASTE UDALA — AAJ KA MENU (${iso(D0())})*
+
+☕ *Nashta:* ${menu('bf')}
+🟢 *Veg:* ${menu('veg')}
+🔴 *Non-Veg:* ${menu('nv')}
+
+📲 Order now: ${location.href}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
   },
-  /* 58. Shareable Bill Summary on WhatsApp */
   share_bill_wa: (v, k, id) => {
     const o = (S.orders || []).find(x => x.id === id); if (!o) return;
-    const txt = `🧾 *NAMASTE UDALA BILL #${String(o.id).slice(-4)}*\nName: ${o.name}\nItems: ${o.items.map(i => `${i.n}×${i.q}`).join(', ')}\nTotal: ${inr(o.total)}\nStatus: ${o.paid ? 'PAID' : 'DUE'} · UTR: ${o.utr || '-'}`;
+    const txt = `🧾 *NAMASTE UDALA BILL #${String(o.id).slice(-4)}*
+Name: ${o.name}
+Items: ${o.items.map(i => `${i.n}×${i.q}`).join(', ')}
+Total: ${inr(o.total)}
+Status: ${o.paid ? 'PAID' : 'DUE'} · UTR: ${o.utr || '-'}`;
     window.open(`https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(txt)}`, '_blank');
   },
-  /* 59. Festival Theme Banner Toggle */
   set_fest_banner: v => {
     S.cfg.rainBanner = v ? `🎉 ${v} — Namaste Udala Special Kitchen & Delivery Open!` : '';
     addAudit(`Festival banner set: ${v || 'Cleared'}`);
     save(); toast(v ? `🎉 ${v} Banner Live!` : 'Banner Cleared');
   },
-  /* 60. Owner Customer Loyalty Badge Assign */
   assign_badge: (v, k, phone) => {
     const b = $(`#bdg_${phone}`)?.value || 'VIP Regular';
     S.badges[phone] = b;
     addAudit(`Badge "${b}" assigned to ${phone}`);
     save(); toast(`🏅 Badge "${b}" assigned!`);
   },
-  /* 61. Kitchen Hygiene Checklist Confirm */
   confirm_hygiene: () => {
     S.hygieneOkDate = iso(D0());
     addAudit('Kitchen Hygiene Checklist verified for today');
     save(); toast('🧼 Aaj Ki Kitchen Hygiene Checklist Verified ✓');
   },
-  /* 62. Demo Mode Quick Seed Toggle */
   toggle_demo_mode: () => {
     const hasDemo = (S.orders || []).some(o => o.id === 'o1');
     if (hasDemo) {
@@ -2045,363 +1994,53 @@ Object.assign(A, {
       save(); toast('🧪 Sample Demo Records Loaded');
     }
   }
+};
+
+document.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (b && A[b.dataset.a]) { if (b.tagName !== 'A') e.preventDefault(); A[b.dataset.a](b.dataset.v, b.dataset.k, b.dataset.id, e); } });
+
+$('#proof_file').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0]; if (!file) return;
+  if (file.size < 6000) { toast('⚠️ Invalid / Empty image file!'); return; }
+  const r = new FileReader();
+  r.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas'), max = 380, sc = Math.min(1, max / Math.max(img.width, img.height));
+      c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      const check = inspectReceiptCanvas(c, img.width, img.height);
+      if (!check.ok) { PROOF_IMG = null; render(); toast(check.msg); return; }
+      const dataUrl = c.toDataURL('image/jpeg', 0.62), h = strHash(dataUrl);
+      if ((S.usedImgHash || []).includes(h)) { PROOF_IMG = null; render(); toast('⚠️ Duplicate Screenshot Blocked! Yeh photo pehle use ho chuki hai.'); return; }
+      PROOF_IMG = dataUrl; PROOF_META = `${file.name.slice(0, 16)} (${Math.round(file.size / 1024)}KB)`;
+      render(); toast('✓ Receipt Screenshot Verified! Ab 12-Digit UTR daalein.');
+    };
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(file);
 });
 
-const _origRenderV9 = render;
-render = function () {
-  ensureV9();
-  _origRenderV9();
-  const v = $('#v'); if (!v) return;
-  const cleanP = ph(F.phone);
+document.addEventListener('change', e => {
+  if (e.target.dataset.f === 'start') { F.start = e.target.value; render(); }
+});
 
-  if (tab === 'plan') {
-    const myBadge = S.badges[cleanP] || '';
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>📢 Share Aaj Ka Menu & Kitchen Hygiene</h3>
-        <div style="font-size:11.5px;color:var(--mu);margin-bottom:8px">
-          ${myBadge ? `<span class="v9-pill" style="margin-right:6px">🏅 ${esc(myBadge)}</span>` : ''}
-          ${S.hygieneOkDate === iso(D0()) ? `<span class="st-pill st-ok">✓ Kitchen Sanitized & Fresh Today</span>` : `<span class="st-pill st-wait">Freshly Cooked Daily</span>`}
-        </div>
-        <button class="btn g sm" data-a="share_menu_wa">📤 Share Aaj Ka Menu on WhatsApp</button>
-      </div>
-    `);
-  } else if (tab === 'shop') {
-    const bulkTargets = S.prod.filter(p => ['Atta 5 kg', 'Chawal 5 kg', 'Dal 1 kg', 'Tel 1 L'].includes(p.n));
-    if (bulkTargets.length) {
-      v.insertAdjacentHTML('beforeend', `
-        <div class="card reveal3d">
-          <h3>📦 Bulk Kirana 5-Pack Quick Add</h3>
-          <div class="v9-grid2">
-            ${bulkTargets.map(p => `<button class="btn w sm" data-a="add_bulk_5" data-id="${p.id}">+5× ${esc(p.n)}</button>`).join('')}
-          </div>
-        </div>
-      `);
-    }
-  } else if (tab === 'services') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>📷 Photography Packages Compare</h3>
-        ${S.photoPkgs.map(pk => `<div class="row"><div><b>${esc(pk.n)}</b><div style="font-size:11px;color:var(--mu)">${esc(pk.info)}</div></div><b style="color:var(--o)">${esc(pk.rate)}</b></div>`).join('')}
-      </div>
-      <div class="card reveal3d">
-        <h3>🏠 Hostel Room Options & Free Tuition Demo</h3>
-        ${S.hostelRooms.map(rm => `<div class="row"><div><b>${esc(rm.n)}</b><div style="font-size:11px;color:var(--mu)">${esc(rm.info)}</div></div><b style="color:var(--g2)">${esc(rm.rate)}</b></div>`).join('')}
-        <div class="btn-row" style="margin-top:8px">
-          <button class="btn g sm" data-a="book_demo_class">🎓 Book Free Tuition Demo</button>
-        </div>
-        <input class="inp" id="sv_issue_txt" placeholder="Repair / Service details (e.g. Fan switch / Pipe leak)" style="margin-top:8px">
-        <div class="btn-row">
-          <select class="inp" id="sv_warr_sel" style="margin:0"><option>15 Days Service Guarantee</option><option>30 Days Service Guarantee</option><option>Standard Visit Only</option></select>
-          <button class="btn sm" data-a="send_issue_wa">Send via WA</button>
-        </div>
-      </div>
-    `);
-  } else if (tab === 'profile') {
-    const cbAmt = +S.cashback[cleanP] || 0;
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>🎁 Cashback Rewards (₹20 per ₹500 Paid)</h3>
-        <div style="font-size:12px;color:var(--mu);margin-bottom:8px">Total Cashback Claimed: <b style="color:var(--g2)">${inr(cbAmt)}</b></div>
-        <button class="btn g sm" data-a="claim_cb">Claim Eligible Cashback to Wallet ✓</button>
-      </div>
-    `);
-    document.querySelectorAll('#v [data-a="prt"]').forEach(btn => {
-      btn.insertAdjacentHTML('afterend', `<button class="btn w sm" data-a="share_bill_wa" data-id="${btn.dataset.id}">📲 WA Bill</button>`);
-    });
-  } else if (tab === 'kitchen') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>🧼 Daily Kitchen Hygiene & KOT Ready</h3>
-        <div class="btn-row">
-          <button class="btn g sm" data-a="confirm_hygiene">${S.hygieneOkDate === iso(D0()) ? 'Hygiene Verified ✓' : 'Verify Hygiene Today'}</button>
-          <button class="btn w sm" data-a="print_kot">🖨 Print Bulk KOT</button>
-        </div>
-      </div>
-    `);
-  } else if (tab === 'route') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>🚴 Multi-Rider Assignment & Delivery Proof Log</h3>
-        <div class="seg">
-          ${['Rider 1 (Bus Stand / Market)', 'Rider 2 (Bhanjpur / College)'].map(r => `<button class="${MULTI_RIDER === r ? 'on' : ''}" data-a="set_rider" data-v="${r}">${r.split(' (')[0]}</button>`).join('')}
-        </div>
-        <div class="btn-row" style="margin-top:8px">
-          <input class="inp" id="dlv_proof_note" placeholder="Proof note (e.g. Gate par rakha / Photo li)" style="margin:0">
-          <button class="btn g sm" data-a="log_dlv_proof" data-id="${iso(D0())}">📸 Log Proof</button>
-        </div>
-        ${S.dlvProofs.slice(0, 3).map(dp => `<div class="row"><span>${esc(dp.note)}</span><small>${esc(dp.t)}</small></div>`).join('')}
-      </div>
-    `);
-  } else if (tab === 'owner') {
-    const custPhones = [...new Set([...(S.subs || []).map(s => ph(s.phone)), ...(S.orders || []).map(o => ph(o.phone))])].filter(x => x.length === 10);
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>🎉 Festival Theme Banner & Demo Mode</h3>
-        <div class="btn-row">
-          <button class="btn w sm" data-a="set_fest_banner" data-v="Raja Parba">Raja</button>
-          <button class="btn w sm" data-a="set_fest_banner" data-v="Rath Yatra">Rath Yatra</button>
-          <button class="btn w sm" data-a="set_fest_banner" data-v="Durga Puja">Puja</button>
-          <button class="btn r sm" data-a="set_fest_banner" data-v="">Clear</button>
-        </div>
-        <button class="btn w sm" style="margin-top:8px" data-a="toggle_demo_mode">🧪 Toggle Sample Demo Data</button>
-      </div>
-      <div class="card">
-        <h3>🏅 Customer Loyalty Badges</h3>
-        ${custPhones.map(p => `<div class="row"><div><b>+91 ${esc(p)}</b> <span class="v9-pill">${esc(S.badges[p] || 'Standard')}</span></div><div style="display:flex;gap:5px"><select class="inp" id="bdg_${p}" style="width:auto;padding:5px 8px;margin:0"><option>VIP Regular</option><option>Gold Tiffin</option><option>Priority Family</option></select><button class="btn g sm" data-a="assign_badge" data-id="${p}">Set</button></div></div>`).join('')}
-      </div>
-      <div class="card">
-        <h3>📜 Recent Activity Audit Log (${S.auditLog.length})</h3>
-        ${S.auditLog.slice(0, 6).map(al => `<div class="row"><span>${esc(al.m)}</span><small>${esc(al.t)}</small></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No recent logs.</p>'}
-      </div>
-    `);
-  }
-};
-  /* === PACK 3: 25 MORE WORKING FEATURES (51–75) === */
-document.head.insertAdjacentHTML('beforeend', `<style>
-.v9-card{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:10px 12px;margin-bottom:8px;font-size:11.5px}
-.v9-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.v9-pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:9.5px;font-weight:800;background:#e0f2fe;color:#0369a1}
-</style>`);
+document.addEventListener('input', e => {
+  if (e.target.dataset.f && e.target.dataset.f !== 'start') F[e.target.dataset.f] = e.target.value;
+  if (e.target.id === 'utr_inp') DRAFT_UTR = e.target.value;
+  if (e.target.id === 'sq') { SQ = e.target.value; const pos = e.target.selectionStart; render(); const el = $('#sq'); if (el) { el.focus(); el.setSelectionRange(pos, pos); } }
+});
 
-let SVC_WARRANTY = localStorage.getItem('nu_warr') || '15 Days Service Guarantee';
-let MULTI_RIDER = localStorage.getItem('nu_rider') || 'Rider 1 (Bus Stand / Market)';
-
-function ensureV9() {
-  if (!Array.isArray(S.dlvProofs)) S.dlvProofs = [];
-  if (!Array.isArray(S.auditLog)) S.auditLog = [];
-  if (!Array.isArray(S.demoPresets)) S.demoPresets = [];
-  if (!S.cashback) S.cashback = {};
-  if (!S.badges) S.badges = {};
-  if (!S.hostelRooms) S.hostelRooms = [
-    { id: 'r1', n: '2-Bed AC/Cooler Room', rate: '₹4,500/mo', info: 'WiFi · Study Desk · Attached Bath' },
-    { id: 'r2', n: '3-Bed Student Room', rate: '₹3,200/mo', info: 'WiFi · Locker · Warden Security' }
-  ];
-  if (!S.photoPkgs) S.photoPkgs = [
-    { id: 'pk1', n: 'Silver Shoot', rate: '₹4,999', info: '80+ Edited Photos · 2 Hours' },
-    { id: 'pk2', n: 'Gold Event', rate: '₹11,999', info: '250+ Photos · Candid + Highlight Video' },
-    { id: 'pk3', n: 'Platinum Wedding', rate: '₹24,999', info: 'Full Day · Album + Drone/Cinematic' }
-  ];
-}
-ensureV9();
-
-function addAudit(msg) {
-  S.auditLog = S.auditLog || [];
-  S.auditLog.unshift({ t: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }), d: iso(D0()), m: msg });
-  if (S.auditLog.length > 40) S.auditLog.length = 40;
-}
-
-const _origSaveV9 = save;
-save = function () {
-  ensureV9();
-  _origSaveV9();
-};
-
-Object.assign(A, {
-  /* 51. Cashback Credit on Verified Order */
-  claim_cb: () => {
-    const p = ph(F.phone); if (!p) { toast('Mobile number save karein'); return; }
-    const paidSum = (S.orders || []).filter(o => ph(o.phone) === p && o.paid).reduce((a, o) => a + (+o.total || 0), 0);
-    const eligible = Math.floor(paidSum / 500) * 20;
-    const claimed = +S.cashback[p] || 0;
-    const avail = Math.max(0, eligible - claimed);
-    if (avail <= 0) { toast('Har ₹500 ke verified order par ₹20 cashback milta hai!'); return; }
-    S.cashback[p] = eligible;
-    S.wallet[p] = (+S.wallet[p] || 0) + avail;
-    addAudit(`Cashback ${inr(avail)} credited to ${p}`);
-    save(); toast(`🎁 ${inr(avail)} Cashback aapke Wallet mein add ho gaya!`);
-  },
-  /* 52. Bulk Rate Tier (5kg/10kg Kirana Discount) */
-  add_bulk_5: (v, k, id) => {
-    const p = S.prod.find(x => x.id === +id); if (!p) return;
-    C[p.id] = (C[p.id] || 0) + 5;
-    localStorage.setItem('nu5c', JSON.stringify(C));
-    render(); toast(`📦 5× ${p.n} added with bulk quantity!`);
-  },
-  /* 53. Free Tuition Demo Class Booking */
-  book_demo_class: () => {
-    if (!checkUser()) return;
-    S.svBookings.push({ id: uid('sb'), svName: 'FREE Tuition Demo Class', price: 0, date: iso(addD(D0(), 1)), note: '1-Day Trial Class', name: F.name.trim(), phone: ph(F.phone), area: F.area });
-    addAudit(`Tuition Demo booked by ${F.name.trim()}`);
-    save(); toast('📚 1-Day Free Tuition Demo Class Book Ho Gayi!');
-  },
-  /* 54. Issue Photo Upload for Service */
-  send_issue_wa: () => {
-    const issue = ($('#sv_issue_txt')?.value || '').trim() || 'Repair / Service Request';
-    const warr = $('#sv_warr_sel')?.value || SVC_WARRANTY;
-    window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`Namaste Udala Service Request:\nIssue: ${issue}\nWarranty Option: ${warr}\nNaam: ${F.name}\nPhone: ${F.phone}\nArea: ${F.area}`)}`, '_blank');
-  },
-  /* 55. Delivery Proof Photo Log (Rider) */
-  log_dlv_proof: (v, k, id) => {
-    const note = ($('#dlv_proof_note')?.value || '').trim() || 'Doorstep Handover Verified';
-    S.dlvProofs.unshift({ id: uid('dp'), refId: id, note, t: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) });
-    addAudit(`Delivery proof logged for ${id}: ${note}`);
-    save(); toast('📸 Delivery Proof Recorded!');
-  },
-  /* 56. Rider Assignment Switch */
-  set_rider: v => {
-    MULTI_RIDER = v; localStorage.setItem('nu_rider', v);
-    addAudit(`Active Rider set to ${v}`);
-    render(); toast(`🚴 Switched to ${v}`);
-  },
-  /* 57. Shareable Aaj Ka Menu Card on WhatsApp */
-  share_menu_wa: () => {
-    const txt = `🍽️ *NAMASTE UDALA — AAJ KA MENU (${iso(D0())})*\n\n☕ *Nashta:* ${menu('bf')}\n🟢 *Veg:* ${menu('veg')}\n🔴 *Non-Veg:* ${menu('nv')}\n\n📲 Order now: ${location.href}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
-  },
-  /* 58. Shareable Bill Summary on WhatsApp */
-  share_bill_wa: (v, k, id) => {
-    const o = (S.orders || []).find(x => x.id === id); if (!o) return;
-    const txt = `🧾 *NAMASTE UDALA BILL #${String(o.id).slice(-4)}*\nName: ${o.name}\nItems: ${o.items.map(i => `${i.n}×${i.q}`).join(', ')}\nTotal: ${inr(o.total)}\nStatus: ${o.paid ? 'PAID' : 'DUE'} · UTR: ${o.utr || '-'}`;
-    window.open(`https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(txt)}`, '_blank');
-  },
-  /* 59. Festival Theme Banner Toggle */
-  set_fest_banner: v => {
-    S.cfg.rainBanner = v ? `🎉 ${v} — Namaste Udala Special Kitchen & Delivery Open!` : '';
-    addAudit(`Festival banner set: ${v || 'Cleared'}`);
-    save(); toast(v ? `🎉 ${v} Banner Live!` : 'Banner Cleared');
-  },
-  /* 60. Owner Customer Loyalty Badge Assign */
-  assign_badge: (v, k, phone) => {
-    const b = $(`#bdg_${phone}`)?.value || 'VIP Regular';
-    S.badges[phone] = b;
-    addAudit(`Badge "${b}" assigned to ${phone}`);
-    save(); toast(`🏅 Badge "${b}" assigned!`);
-  },
-  /* 61. Kitchen Hygiene Checklist Confirm */
-  confirm_hygiene: () => {
-    S.hygieneOkDate = iso(D0());
-    addAudit('Kitchen Hygiene Checklist verified for today');
-    save(); toast('🧼 Aaj Ki Kitchen Hygiene Checklist Verified ✓');
-  },
-  /* 62. Demo Mode Quick Seed Toggle */
-  toggle_demo_mode: () => {
-    const hasDemo = (S.orders || []).some(o => o.id === 'o1');
-    if (hasDemo) {
-      S.orders = S.orders.filter(o => !['o1', 'o2', 'o3'].includes(o.id));
-      S.subs = S.subs.filter(s => !['s1', 's2'].includes(s.id));
-      addAudit('Cleared sample demo records');
-      save(); toast('🧹 Sample Demo Orders Cleared (Clean Live Mode)');
-    } else {
-      const fresh = seed();
-      S.orders = [...fresh.orders, ...(S.orders || [])];
-      S.subs = [...fresh.subs, ...(S.subs || [])];
-      addAudit('Loaded sample demo records');
-      save(); toast('🧪 Sample Demo Records Loaded');
-    }
+let taps = 0, tapT;
+$('#mark').addEventListener('click', () => {
+  taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 1800);
+  if (taps >= 5) {
+    taps = 0; const pin = prompt('Owner PIN (4827) ya Kitchen/Delivery PIN (7788) daalein:');
+    if (pin === OPIN) { ROLE = 'owner'; sessionStorage.setItem('nu_role', 'owner'); tab = 'owner'; render(); toast('Owner Master Control Unlocked'); }
+    else if (pin === DPIN) { ROLE = 'staff'; sessionStorage.setItem('nu_role', 'staff'); tab = 'kitchen'; render(); toast('Staff Mode Unlocked'); }
+    else if (pin !== null) toast('Galat PIN');
   }
 });
 
-const _origRenderV9 = render;
-render = function () {
-  ensureV9();
-  _origRenderV9();
-  const v = $('#v'); if (!v) return;
-  const cleanP = ph(F.phone);
-
-  if (tab === 'plan') {
-    const myBadge = S.badges[cleanP] || '';
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>📢 Share Aaj Ka Menu & Kitchen Hygiene</h3>
-        <div style="font-size:11.5px;color:var(--mu);margin-bottom:8px">
-          ${myBadge ? `<span class="v9-pill" style="margin-right:6px">🏅 ${esc(myBadge)}</span>` : ''}
-          ${S.hygieneOkDate === iso(D0()) ? `<span class="st-pill st-ok">✓ Kitchen Sanitized & Fresh Today</span>` : `<span class="st-pill st-wait">Freshly Cooked Daily</span>`}
-        </div>
-        <button class="btn g sm" data-a="share_menu_wa">📤 Share Aaj Ka Menu on WhatsApp</button>
-      </div>
-    `);
-  } else if (tab === 'shop') {
-    const bulkTargets = S.prod.filter(p => ['Atta 5 kg', 'Chawal 5 kg', 'Dal 1 kg', 'Tel 1 L'].includes(p.n));
-    if (bulkTargets.length) {
-      v.insertAdjacentHTML('beforeend', `
-        <div class="card reveal3d">
-          <h3>📦 Bulk Kirana 5-Pack Quick Add</h3>
-          <div class="v9-grid2">
-            ${bulkTargets.map(p => `<button class="btn w sm" data-a="add_bulk_5" data-id="${p.id}">+5× ${esc(p.n)}</button>`).join('')}
-          </div>
-        </div>
-      `);
-    }
-  } else if (tab === 'services') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>📷 Photography Packages Compare</h3>
-        ${S.photoPkgs.map(pk => `<div class="row"><div><b>${esc(pk.n)}</b><div style="font-size:11px;color:var(--mu)">${esc(pk.info)}</div></div><b style="color:var(--o)">${esc(pk.rate)}</b></div>`).join('')}
-      </div>
-      <div class="card reveal3d">
-        <h3>🏠 Hostel Room Options & Free Tuition Demo</h3>
-        ${S.hostelRooms.map(rm => `<div class="row"><div><b>${esc(rm.n)}</b><div style="font-size:11px;color:var(--mu)">${esc(rm.info)}</div></div><b style="color:var(--g2)">${esc(rm.rate)}</b></div>`).join('')}
-        <div class="btn-row" style="margin-top:8px">
-          <button class="btn g sm" data-a="book_demo_class">🎓 Book Free Tuition Demo</button>
-        </div>
-        <input class="inp" id="sv_issue_txt" placeholder="Repair / Service details (e.g. Fan switch / Pipe leak)" style="margin-top:8px">
-        <div class="btn-row">
-          <select class="inp" id="sv_warr_sel" style="margin:0"><option>15 Days Service Guarantee</option><option>30 Days Service Guarantee</option><option>Standard Visit Only</option></select>
-          <button class="btn sm" data-a="send_issue_wa">Send via WA</button>
-        </div>
-      </div>
-    `);
-  } else if (tab === 'profile') {
-    const cbAmt = +S.cashback[cleanP] || 0;
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card reveal3d">
-        <h3>🎁 Cashback Rewards (₹20 per ₹500 Paid)</h3>
-        <div style="font-size:12px;color:var(--mu);margin-bottom:8px">Total Cashback Claimed: <b style="color:var(--g2)">${inr(cbAmt)}</b></div>
-        <button class="btn g sm" data-a="claim_cb">Claim Eligible Cashback to Wallet ✓</button>
-      </div>
-    `);
-    document.querySelectorAll('#v [data-a="prt"]').forEach(btn => {
-      btn.insertAdjacentHTML('afterend', `<button class="btn w sm" data-a="share_bill_wa" data-id="${btn.dataset.id}">📲 WA Bill</button>`);
-    });
-  } else if (tab === 'kitchen') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>🧼 Daily Kitchen Hygiene & KOT Ready</h3>
-        <div class="btn-row">
-          <button class="btn g sm" data-a="confirm_hygiene">${S.hygieneOkDate === iso(D0()) ? 'Hygiene Verified ✓' : 'Verify Hygiene Today'}</button>
-          <button class="btn w sm" data-a="print_kot">🖨 Print Bulk KOT</button>
-        </div>
-      </div>
-    `);
-  } else if (tab === 'route') {
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>🚴 Multi-Rider Assignment & Delivery Proof Log</h3>
-        <div class="seg">
-          ${['Rider 1 (Bus Stand / Market)', 'Rider 2 (Bhanjpur / College)'].map(r => `<button class="${MULTI_RIDER === r ? 'on' : ''}" data-a="set_rider" data-v="${r}">${r.split(' (')[0]}</button>`).join('')}
-        </div>
-        <div class="btn-row" style="margin-top:8px">
-          <input class="inp" id="dlv_proof_note" placeholder="Proof note (e.g. Gate par rakha / Photo li)" style="margin:0">
-          <button class="btn g sm" data-a="log_dlv_proof" data-id="${iso(D0())}">📸 Log Proof</button>
-        </div>
-        ${S.dlvProofs.slice(0, 3).map(dp => `<div class="row"><span>${esc(dp.note)}</span><small>${esc(dp.t)}</small></div>`).join('')}
-      </div>
-    `);
-  } else if (tab === 'owner') {
-    const custPhones = [...new Set([...(S.subs || []).map(s => ph(s.phone)), ...(S.orders || []).map(o => ph(o.phone))])].filter(x => x.length === 10);
-    v.insertAdjacentHTML('beforeend', `
-      <div class="card">
-        <h3>🎉 Festival Theme Banner & Demo Mode</h3>
-        <div class="btn-row">
-          <button class="btn w sm" data-a="set_fest_banner" data-v="Raja Parba">Raja</button>
-          <button class="btn w sm" data-a="set_fest_banner" data-v="Rath Yatra">Rath Yatra</button>
-          <button class="btn w sm" data-a="set_fest_banner" data-v="Durga Puja">Puja</button>
-          <button class="btn r sm" data-a="set_fest_banner" data-v="">Clear</button>
-        </div>
-        <button class="btn w sm" style="margin-top:8px" data-a="toggle_demo_mode">🧪 Toggle Sample Demo Data</button>
-      </div>
-      <div class="card">
-        <h3>🏅 Customer Loyalty Badges</h3>
-        ${custPhones.map(p => `<div class="row"><div><b>+91 ${esc(p)}</b> <span class="v9-pill">${esc(S.badges[p] || 'Standard')}</span></div><div style="display:flex;gap:5px"><select class="inp" id="bdg_${p}" style="width:auto;padding:5px 8px;margin:0"><option>VIP Regular</option><option>Gold Tiffin</option><option>Priority Family</option></select><button class="btn g sm" data-a="assign_badge" data-id="${p}">Set</button></div></div>`).join('')}
-      </div>
-      <div class="card">
-        <h3>📜 Recent Activity Audit Log (${S.auditLog.length})</h3>
-        ${S.auditLog.slice(0, 6).map(al => `<div class="row"><span>${esc(al.m)}</span><small>${esc(al.t)}</small></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No recent logs.</p>'}
-      </div>
-    `);
-  }
-};
 render();
 </script>
 </body>
