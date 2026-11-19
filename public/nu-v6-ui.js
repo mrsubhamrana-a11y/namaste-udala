@@ -1,6 +1,25 @@
-
-/* === NAMASTE UDALA v6 — PART 2: UI & OPERATIONS MODULE === */
+/* === NAMASTE UDALA v6 — UI & OPERATIONS (COMPATIBLE WITH MASTER CRM) === */
 (function () {
+  window.D0 = window.D0 || (() => new Date());
+  if (typeof S !== 'undefined') {
+    S.cfg = S.cfg || { invSeq: 0 };
+    S.exp = S.exp || [];
+  }
+
+  // Ensure #printArea and 58mm print CSS exist
+  if (!document.getElementById('printArea')) {
+    document.body.insertAdjacentHTML('beforeend', `
+      <style>
+        #printArea { display: none; }
+        @media print {
+          body > *:not(#printArea) { display: none !important; }
+          #printArea { display: block !important; width: 58mm; font-size: 11px; font-family: monospace; color: #000; }
+        }
+      </style>
+      <div id="printArea"></div>
+    `);
+  }
+
   window.getDailyClosingHTML = function () {
     const today = iso(D0());
     let upiIn = 0, cashIn = 0;
@@ -13,7 +32,7 @@
       }
     });
 
-    (S.subs || []).filter(s => iso(new Date(s.ts || Date.now())) === today && +s.paid).forEach(s => {
+    (S.subs || []).filter(s => (s.start === today || (s.ts && iso(new Date(s.ts)) === today)) && +s.paid).forEach(s => {
       if ((s.pMode || '').toLowerCase().includes('doorstep')) cashIn += (+s.price || 0);
       else upiIn += (+s.price || 0);
     });
@@ -38,11 +57,11 @@
 
   window.printBulkKOT = function () {
     const today = iso(D0());
-    const subs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT));
-    const ords = (S.orders || []).filter(o => !o.dlv && !o.packed && o.vStat !== 'bad');
+    const subs = (S.subs || []).filter(s => s.vStat !== 'bad');
+    const ords = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad');
 
     const subLines = subs.map(s => {
-      const roti = calcRotiForSub(s, K_SLOT);
+      const roti = 4 + (+s.extraRoti || 0);
       return `<div>• ${esc(s.name)} [${s.type === 'nv' ? 'NV' : 'VEG'}] - ${roti} Roti</div>`;
     }).join('') || '<div>None</div>';
 
@@ -50,13 +69,16 @@
       `<div>• #${String(o.id).slice(-4)} ${esc(o.name)}: ${(o.items || []).map(i => `${i.n} x${i.q}`).join(', ')}</div>`
     ).join('') || '<div>None</div>';
 
-    $('#printArea').innerHTML = `
-      <h2>KITCHEN KOT (${K_SLOT.toUpperCase()})</h2>
-      <p>${today} · Tiffins: ${subs.length} · Shop: ${ords.length}</p>
-      <hr><b>TIFFINS:</b>${subLines}
-      <hr><b>SHOP ORDERS:</b>${ordLines}
-    `;
-    setTimeout(() => window.print(), 80);
+    const pa = document.getElementById('printArea');
+    if (pa) {
+      pa.innerHTML = `
+        <h2>KITCHEN KOT (${K_SLOT.toUpperCase()})</h2>
+        <p>${today} · Tiffins: ${subs.length} · Shop: ${ords.length}</p>
+        <hr><b>TIFFINS:</b>${subLines}
+        <hr><b>SHOP ORDERS:</b>${ordLines}
+      `;
+      setTimeout(() => window.print(), 80);
+    }
   };
 
   window.getRiderToolsHTML = function () {
@@ -76,9 +98,19 @@
   };
 
   window.launchAllStopsRoute = function () {
-    const subs = (S.subs || []).filter(s => isSubActiveOn(s, D0(), K_SLOT) && !isSubSlotDone(s.id, iso(D0()), K_SLOT));
-    const ords = (S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad');
-    openMultiStopRoute([...subs, ...ords]);
+    const rawStops = [
+      ...(S.subs || []).filter(s => s.vStat !== 'bad'),
+      ...(S.orders || []).filter(o => !o.dlv && o.vStat !== 'bad')
+    ];
+    const coordsMap = (typeof AREA_COORDS !== 'undefined') ? AREA_COORDS : {};
+    const stops = rawStops.map(x => {
+      if (x.lat && x.lng) return x;
+      const c = coordsMap[x.area];
+      return c ? { ...x, lat: c[0], lng: c[1] } : x;
+    });
+    if (typeof openMultiStopRoute === 'function') {
+      openMultiStopRoute(stops);
+    }
   };
 
   const _prevRender = window.render;
@@ -88,7 +120,7 @@
       const v = $('#v');
       if (!v) return;
 
-      if (tab === 'owner' && typeof O_TAB !== 'undefined' && O_TAB === 'radar') {
+      if (tab === 'owner') {
         v.insertAdjacentHTML('afterbegin', getDailyClosingHTML());
       } else if (tab === 'kitchen') {
         v.insertAdjacentHTML('afterbegin', `
