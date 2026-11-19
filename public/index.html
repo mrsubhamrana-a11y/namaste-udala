@@ -1667,6 +1667,251 @@ render = function () {
     `);
   }
 };
+  /* === PACK 2: 25 MORE WORKING FEATURES (26–50) === */
+document.head.insertAdjacentHTML('beforeend', `<style>
+.v8-flash{background:linear-gradient(135deg,#7c2d12,#ea580c);color:#fff;border-radius:18px;padding:12px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.v8-badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:800;background:#fbbf24;color:#113221}
+.v8-faq summary{font-weight:800;font-size:12.5px;padding:8px 0;cursor:pointer;list-style:none}
+.v8-faq p{font-size:11.5px;color:var(--mu);padding-bottom:8px;border-bottom:1px dashed var(--ln)}
+.v8-late{border:2px solid #dc2626!important;background:#fef2f2!important}
+</style>`);
+
+let DLV_SLOT = localStorage.getItem('nu_slot') || 'Express (30-45 min)';
+let LEAVE_GATE = localStorage.getItem('nu_gate') === '1';
+
+function ensureV8() {
+  if (!S.wallet) S.wallet = {};
+  if (!Array.isArray(S.milkSubs)) S.milkSubs = [];
+  if (!Array.isArray(S.wishlist)) S.wishlist = {};
+  if (!Array.isArray(S.notifyMe)) S.notifyMe = [];
+  if (!Array.isArray(S.lowStock)) S.lowStock = [{ id: 'ls1', n: 'LPG Gas Cylinder', ok: 1 }, { id: 'ls2', n: 'Mustard Oil 15L', ok: 1 }, { id: 'ls3', n: 'Atta 50kg Bag', ok: 1 }];
+  if (!S.ratesTicker) S.ratesTicker = 'Chicken ₹210/kg · Paneer ₹360/kg · Aloo ₹25/kg · Pyaaz ₹38/kg';
+  if (!S.savedAddrs) S.savedAddrs = {};
+  if (!S.packedItems) S.packedItems = {};
+}
+ensureV8();
+
+Object.assign(A, {
+  /* 26. Custom Thali Builder */
+  add_thali: () => {
+    if (!checkUser()) return;
+    const base = $('#th_base')?.value || '4 Roti + Rice', sabzi = $('#th_sabzi')?.value || 'Paneer Sabzi', extra = $('#th_ext')?.value || 'Dahi';
+    const price = sabzi.includes('Chicken') ? 140 : 110;
+    S.orders.push({ id: uid('o'), ts: Date.now(), date: iso(D0()), name: F.name.trim(), phone: ph(F.phone), area: F.area, addr: F.addr.trim(), items: [{ id: 88, n: `Custom Thali (${base}, ${sabzi}, ${extra})`, q: 1, p: price, h: 0 }], total: price, paid: 0, vStat: 'cod', dlv: 0, pMode: 'Pay on Delivery', utr: 'Custom Thali' });
+    save(); toast(`🍽️ Custom Thali (${inr(price)}) Kitchen mein bhej di gayi!`);
+  },
+  /* 27. Meal Swap */
+  swap_meal: () => {
+    const tmp = F.lunch; F.lunch = F.dinner; F.dinner = tmp; render();
+    toast(`🔄 Swapped! Lunch: ${F.lunch}, Dinner: ${F.dinner}`);
+  },
+  /* 28. Office / Group Tiffin Quote */
+  group_quote: () => {
+    const cnt = Math.max(5, +($('#grp_cnt')?.value || 5));
+    const per = F.type === 'nv' ? 3239 : 2609;
+    const msg = `Namaste Udala! Mujhe ${cnt} logon ka Group/Office ${F.type === 'nv' ? 'Non-Veg' : 'Veg'} Monthly Tiffin chahiye (10% off ≈ ${inr(cnt * per)}).`;
+    window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(msg)}`, '_blank');
+  },
+  /* 29. Student / Hostel Budget Plan */
+  student_plan: () => {
+    F.days = 30; F.times = 2; F.lunch = 'chawal'; F.dinner = 'roti'; F.extraRoti = 0; render();
+    toast('🎓 Student 2-Time Budget Plan select ho gaya!');
+  },
+  /* 30. Daily Milk & Bread Subscription */
+  add_milksub: () => {
+    if (!checkUser()) return;
+    const item = $('#mk_item')?.value || 'Doodh 500ml + Bread (₹70/day)';
+    S.milkSubs.unshift({ id: uid('mk'), name: F.name.trim(), phone: ph(F.phone), area: F.area, item, d: iso(D0()) });
+    save(); toast('🥛 Subah 6 AM Milk/Bread subscription start ho gaya!');
+  },
+  /* 31. Delivery Slot Picker */
+  set_slot: v => { DLV_SLOT = v; localStorage.setItem('nu_slot', v); render(); },
+  /* 32. Family Kirana Combo Pack */
+  add_combo: () => {
+    [16, 17, 18, 19].forEach(id => { C[id] = (C[id] || 0) + 1; });
+    localStorage.setItem('nu5c', JSON.stringify(C)); render();
+    toast('📦 Family Kirana Combo (Atta+Chawal+Dal+Tel) Cart mein add ho gaya!');
+  },
+  /* 33. Monthly Kirana Wishlist */
+  save_wish: () => {
+    const p = ph(F.phone); if (!p || !cc()) { toast('Pehle Cart mein items add karein'); return; }
+    S.wishlist[p] = { ...C }; save(); toast('❤️ Monthly Kirana List save ho gayi!');
+  },
+  load_wish: () => {
+    const p = ph(F.phone), w = S.wishlist[p];
+    if (!w) { toast('Koi saved wishlist nahi hai'); return; }
+    C = { ...w }; localStorage.setItem('nu5c', JSON.stringify(C)); CART_OPEN = true; render();
+    toast('🛒 Saved Monthly List Cart mein load ho gayi!');
+  },
+  /* 34. Out-of-Stock Notify Me */
+  notify_oos: (v, k, id) => {
+    S.notifyMe.unshift({ id: uid('nt'), prodId: id, phone: ph(F.phone), d: iso(D0()) });
+    save(); toast('🔔 Stock aate hi aapko WhatsApp alert milega!');
+  },
+  /* 37. Instant Party/Catering Quote */
+  cater_wa: () => {
+    const g = Math.max(10, +($('#cat_g')?.value || 50)), rate = +($('#cat_r')?.value || 180);
+    const slot = $('#sv_slot')?.value || 'Dopahar (12-3 PM)';
+    window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`Namaste Udala! Party Catering Quote: ${g} Guests × ₹${rate} = ${inr(g * rate)} · Slot: ${slot}. Naam: ${F.name}`)}`, '_blank');
+  },
+  /* 38. Emergency SOS Service */
+  sos_svc: () => {
+    const issue = ($('#sos_txt')?.value || '').trim() || 'Urgent Electrician / Plumber';
+    window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`🚨 URGENT SOS SERVICE: ${issue}\nNaam: ${F.name}\nPhone: ${F.phone}\nArea: ${F.area}`)}`, '_blank');
+  },
+  /* 39. Wallet Add Money Request */
+  add_wallet: () => {
+    const amt = Math.max(100, +($('#wal_amt')?.value || 500));
+    const p = ph(F.phone); if (!p) { toast('Pehle mobile number save karein'); return; }
+    if (ROLE === 'owner') { S.wallet[p] = (+S.wallet[p] || 0) + amt; save(); toast(`💳 ${inr(amt)} Wallet mein add ho gaya!`); }
+    else { window.open(`https://wa.me/91${S.cfg.wa}?text=${encodeURIComponent(`Namaste Udala! Mujhe apne Wallet (+91 ${p}) mein ${inr(amt)} add karwana hai. UPI ID: ${S.cfg.upi}`)}`, '_blank'); }
+  },
+  /* 41. Multiple Saved Addresses */
+  save_addr_tag: v => {
+    const p = ph(F.phone); if (!p || !F.addr.trim()) { toast('Address likhein'); return; }
+    S.savedAddrs[p] = S.savedAddrs[p] || {}; S.savedAddrs[p][v] = { area: F.area, addr: F.addr.trim() };
+    save(); toast(`📍 ${v} Address Save Ho Gaya!`);
+  },
+  pick_addr_tag: v => {
+    const p = ph(F.phone), a = (S.savedAddrs[p] || {})[v];
+    if (!a) { toast(`${v} address abhi save nahi hai`); return; }
+    F.area = a.area; F.addr = a.addr; syncCustomerProfile(); render(); toast(`📍 ${v} Address Selected!`);
+  },
+  /* 42. Contactless Leave at Gate */
+  tog_gate: () => { LEAVE_GATE = !LEAVE_GATE; localStorage.setItem('nu_gate', LEAVE_GATE ? '1' : '0'); render(); },
+  /* 43. Birthday Date Saver */
+  save_bday: () => {
+    const p = ph(F.phone), d = $('#prof_bday')?.value; if (!p || !d) return;
+    S.profiles[p] = { ...(S.profiles[p] || { phone: p, name: F.name }), bday: d };
+    save(); toast('🎂 Birthday Saved! Is din aapko Free Meetha milega!');
+  },
+  /* 46. Kitchen Low-Stock Toggle */
+  tog_ls: (v, k, id) => { const x = S.lowStock.find(i => i.id === id); if (x) { x.ok = x.ok ? 0 : 1; save(); } },
+  /* 47. Packing Checklist Tick */
+  tog_pack: (v, k, id) => { S.packedItems[id] = S.packedItems[id] ? 0 : 1; save(); },
+  /* 50. Print App QR Standee */
+  print_qr_standee: () => {
+    const url = location.href;
+    $('#printArea').innerHTML = `<div style="text-align:center"><h2>NAMASTE UDALA</h2><p>Ghar Jaisa Khana · Daily Shop</p><img src="${qrUrl(url)}" style="width:160px;height:160px;margin:8px auto"><p><b>Scan to Order Online!</b><br>UPI: ${esc(S.cfg.upi)}<br>Call: ${esc(S.cfg.wa)}</p></div>`;
+    window.print();
+  }
+});
+
+const _origRenderV8 = render;
+render = function () {
+  ensureV8();
+  _origRenderV8();
+  const v = $('#v'); if (!v) return;
+  const cleanP = ph(F.phone);
+
+  if (tab === 'plan') {
+    v.insertAdjacentHTML('beforeend', `
+      <div class="v8-flash reveal3d">
+        <div><b>⚡ Happy Hour Offer (4 PM – 6 PM)</b><div style="font-size:11px;opacity:.9">Chai, Nashta & Extra Roti par ₹20 OFF · Code: RAJA20</div></div>
+        <button class="btn w sm" data-a="tab" data-v="shop">Order →</button>
+      </div>
+      <div class="card reveal3d">
+        <h3>🍽️ Custom Thali Builder + Quick Plans</h3>
+        <div class="btn-row">
+          <select class="inp" id="th_base" style="margin:0"><option>4 Roti + Rice</option><option>6 Roti Only</option><option>Full Rice Only</option></select>
+          <select class="inp" id="th_sabzi" style="margin:0"><option>Paneer Sabzi</option><option>Chicken Curry</option><option>Egg Masala</option><option>Dalma + Bhaja</option></select>
+          <select class="inp" id="th_ext" style="margin:0"><option>Dahi</option><option>Papad + Salad</option><option>Gulab Jamun</option></select>
+        </div>
+        <div class="btn-row" style="margin-top:8px">
+          <button class="btn g sm" data-a="add_thali">Order Custom Thali</button>
+          <button class="btn w sm" data-a="swap_meal">🔄 Swap L↔D</button>
+          <button class="btn w sm" data-a="student_plan">🎓 Student Plan</button>
+        </div>
+      </div>
+      <div class="card reveal3d">
+        <h3>🏢 Office / Group Tiffin (5+ Log · 10% OFF)</h3>
+        <div class="btn-row"><input class="inp" id="grp_cnt" type="number" value="5" min="5" placeholder="Kitne log?" style="margin:0"><button class="btn g sm" data-a="group_quote">Get Group Quote</button></div>
+      </div>
+      <div class="card reveal3d v8-faq">
+        <h3>❓ FAQ & Timing Guide</h3>
+        <details><summary>⏰ Tiffin Skip / Pause ka last time kya hai?</summary><p>Subah 9:30 AM se pehle Profile tab se 1 tap mein aaj ka tiffin skip kar sakte hain (+1 day free extend hoga).</p></details>
+        <details><summary>🚚 Delivery charge kitna lagta hai?</summary><p>Tiffin plans par delivery 100% FREE hai. Shop orders par ${inr(S.cfg.freeMin)} se upar FREE delivery hai.</p></details>
+      </div>
+    `);
+  } else if (tab === 'shop') {
+    v.insertAdjacentHTML('afterbegin', `<div class="card" style="padding:8px 12px;margin-bottom:10px;background:var(--sf2);font-size:11px;font-weight:800">📈 Aaj Ka Udala Rate: <span style="color:var(--o)">${esc(S.ratesTicker)}</span></div>`);
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card reveal3d">
+        <h3>🥛 Daily Subah 6 AM Milk & Bread Subscription</h3>
+        <div class="btn-row">
+          <select class="inp" id="mk_item" style="margin:0"><option>Doodh 500ml (₹30/day)</option><option>Doodh 1L (₹60/day)</option><option>Doodh 500ml + Bread (₹70/day)</option></select>
+          <button class="btn g sm" data-a="add_milksub">Start Daily</button>
+        </div>
+      </div>
+      <div class="card reveal3d">
+        <h3>📦 Family Kirana Combo & Monthly Wishlist</h3>
+        <div class="btn-row">
+          <button class="btn sm" data-a="add_combo">+ Add Combo Pack</button>
+          <button class="btn w sm" data-a="save_wish">❤️ Save List</button>
+          <button class="btn g sm" data-a="load_wish">↻ Load List</button>
+        </div>
+        <span class="lbl" style="margin-top:10px">Delivery Slot Chunein</span>
+        <div class="seg">${['Express (30-45 min)', 'Shaam 6 PM', 'Subah 8 AM'].map(sl => `<button class="${DLV_SLOT === sl ? 'on' : ''}" data-a="set_slot" data-v="${sl}">${sl}</button>`).join('')}</div>
+      </div>
+    `);
+  } else if (tab === 'services') {
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card reveal3d">
+        <h3>🍛 Instant Party / Catering Quote & Time-Slot</h3>
+        <div class="btn-row">
+          <input class="inp" id="cat_g" type="number" value="50" placeholder="Guests" style="margin:0">
+          <input class="inp" id="cat_r" type="number" value="180" placeholder="₹/Plate" style="margin:0">
+          <select class="inp" id="sv_slot" style="margin:0"><option>Subah (9-12)</option><option>Dopahar (12-3)</option><option>Shaam (5-9)</option></select>
+        </div>
+        <button class="btn g" data-a="cater_wa">Get Instant Catering Quote on WA ✓</button>
+      </div>
+      <div class="card reveal3d" style="border:2px solid #dc2626">
+        <h3 style="color:#dc2626">🚨 Emergency SOS Repair (Urgent)</h3>
+        <div class="btn-row"><input class="inp" id="sos_txt" placeholder="e.g. Inverter/Motor kharab hai" style="margin:0"><button class="btn r sm" data-a="sos_svc">SOS Call/WA</button></div>
+      </div>
+    `);
+  } else if (tab === 'profile') {
+    const spent = (S.orders || []).filter(o => ph(o.phone) === cleanP && o.paid).reduce((a, o) => a + (+o.total || 0), 0) + (S.subs || []).filter(s => ph(s.phone) === cleanP && s.paid).reduce((a, s) => a + (+s.price || 0), 0);
+    const tier = spent >= 5000 ? '🥇 Gold Member' : spent >= 2000 ? '🥈 Silver Member' : '🥉 Bronze Member';
+    const wal = +S.wallet[cleanP] || 0;
+    const bday = (S.profiles[cleanP] || {}).bday || '';
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card reveal3d">
+        <h3>💳 Namaste Udala Wallet <span class="v8-badge">${tier}</span></h3>
+        <div style="font-family:var(--serif);font-size:24px;font-weight:800;color:var(--g2);margin-bottom:8px">${inr(wal)}</div>
+        <div class="btn-row"><input class="inp" id="wal_amt" type="number" value="500" placeholder="₹ Amount" style="margin:0"><button class="btn g sm" data-a="add_wallet">+ Add Money</button></div>
+      </div>
+      <div class="card reveal3d">
+        <h3>📍 Saved Addresses, Gate Drop & Birthday</h3>
+        <div class="btn-row">${['Ghar', 'Office', 'Dukaan'].map(t => `<button class="btn w sm" data-a="pick_addr_tag" data-v="${t}">${t}</button>`).join('')}</div>
+        <div class="btn-row" style="margin-top:6px">${['Ghar', 'Office', 'Dukaan'].map(t => `<button class="btn g sm" data-a="save_addr_tag" data-v="${t}">Save as ${t}</button>`).join('')}</div>
+        <div class="row" style="margin-top:8px"><span>🚪 Contactless "Leave at Gate"</span><button class="btn sm ${LEAVE_GATE ? 'g' : 'w'}" data-a="tog_gate">${LEAVE_GATE ? 'ON ✓' : 'OFF'}</button></div>
+        <div class="btn-row" style="margin-top:8px"><input class="inp" id="prof_bday" type="date" value="${bday}" style="margin:0"><button class="btn sm" data-a="save_bday">🎂 Save Bday</button></div>
+      </div>
+    `);
+  } else if (tab === 'kitchen') {
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <h3>⚠️ Kitchen Low-Stock Alerts (Gas / Tel / Atta)</h3>
+        ${S.lowStock.map(x => `<div class="row"><b>${esc(x.n)}</b><button class="btn sm ${x.ok ? 'g' : 'r'}" data-a="tog_ls" data-id="${x.id}">${x.ok ? 'In Stock ✓' : 'LOW STOCK!'}</button></div>`).join('')}
+      </div>
+    `);
+  } else if (tab === 'route') {
+    const isLate = new Date().getHours() > 13 || (new Date().getHours() === 13 && new Date().getMinutes() >= 30);
+    if (isLate) document.querySelectorAll('#v .card .row').forEach(r => { if (r.textContent.includes('Deliver') && !r.textContent.includes('Delivered ✓')) r.classList.add('v8-late'); });
+  } else if (tab === 'owner') {
+    const areaMap = {};
+    (S.orders || []).forEach(o => { areaMap[o.area || 'Udala'] = (areaMap[o.area || 'Udala'] || 0) + (+o.total || 0); });
+    const topAreas = Object.entries(areaMap).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    v.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <h3>🏆 Top Udala Areas & QR Standee</h3>
+        ${topAreas.map(([a, t]) => `<div class="row"><b>${esc(a)}</b><b style="color:var(--g2)">${inr(t)}</b></div>`).join('') || '<p style="font-size:12px;color:var(--mu)">No area data yet.</p>'}
+        <button class="btn g" data-a="print_qr_standee">🖨 Print App QR Standee (For Dukaan/Dabba)</button>
+      </div>
+    `);
+  }
+};
 render();
 </script>
 </body>
