@@ -218,7 +218,7 @@ const VENDORS_SEED = [
 
 const PROD_SEED = [
   { id: 1, vendorId: "v_nu", n: "Chicken Leg Masala (2 Pc)", p: 160, cost: 110, mrp: 195, c: "Khana", isHul: 0, img: IMG.leg, s: 1 },
-  { id: 2, vendorId: "v_bhanj", name: "Chicken curry 500g", n: "Chicken curry 500g", p: 260, cost: 180, mrp: 310, c: "Khana", isHul: 0, img: IMG.chick, s: 1 },
+  { id: 2, vendorId: "v_bhanj", n: "Chicken curry 500g", p: 260, cost: 180, mrp: 310, c: "Khana", isHul: 0, img: IMG.chick, s: 1 },
   { id: 3, vendorId: "v_nu", n: "Egg curry (4)", p: 96, cost: 65, mrp: 120, c: "Khana", isHul: 0, img: IMG.egg, s: 1 },
   { id: 4, vendorId: "v_nu", n: "Paneer sabzi", p: 110, cost: 72, mrp: 135, c: "Khana", isHul: 0, img: IMG.paneer, s: 1 },
   { id: 5, vendorId: "v_bhanj", n: "Mushroom curry", p: 120, cost: 78, mrp: 145, c: "Khana", isHul: 0, img: IMG.curry, s: 1 },
@@ -337,8 +337,8 @@ let O_TAB = "overview";
 let SEL_VENDOR = "all";
 let SEL_CAT = "all";
 let SQ = "";
-let CART = {};
-try { CART = JSON.parse(localStorage.getItem("nu10_cart")) || {}; } catch (e) {}
+let C = {};
+try { C = JSON.parse(localStorage.getItem("nu10_cart")) || {}; } catch (e) {}
 let CART_OPEN = false;
 let PAY_BOX = null;
 let PAY_MODE = "upi";
