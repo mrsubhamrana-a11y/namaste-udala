@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Namaste Udala 3D — Mera Tiffin · Food Shop · Kirana & HUL</title>
+<title>Namaste Udala 3D — Tiffin · Breakfast · Food Shop · Kirana & HUL</title>
 <style>
   :root {
     --bg: #eef2f7;
-    --card: rgba(255, 255, 255, 0.94);
+    --card: rgba(255, 255, 255, 0.95);
     --primary: #e11d48;
     --primary-dark: #9f1239;
     --secondary: #15803d;
@@ -16,25 +16,25 @@
     --text: #0f172a;
     --muted: #64748b;
     --border: #e2e8f0;
-    --shadow-3d: 0 12px 24px -8px rgba(15, 23, 42, 0.14), 0 4px 8px -2px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+    --shadow-3d: 0 14px 28px -8px rgba(15, 23, 42, 0.15), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255,255,255,0.95);
   }
   * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
   body {
     margin: 0;
-    background: radial-gradient(circle at top right, #ffe4e6 0%, transparent 35%),
-                radial-gradient(circle at bottom left, #dcfce7 0%, transparent 35%),
+    background: radial-gradient(circle at top right, #ffe4e6 0%, transparent 38%),
+                radial-gradient(circle at bottom left, #dcfce7 0%, transparent 38%),
                 var(--bg);
     color: var(--text);
-    padding-bottom: 88px;
+    padding-bottom: 90px;
   }
   header {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #311024 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #3b0d26 100%);
     color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 40;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
-    border-bottom: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.28);
+    border-bottom: 1px solid rgba(255,255,255,0.14);
   }
   .top-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .brand { font-size: 19px; font-weight: 900; letter-spacing: 0.3px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+  .brand { font-size: 19px; font-weight: 900; letter-spacing: 0.3px; text-shadow: 0 2px 8px rgba(0,0,0,0.45); }
   .brand span { color: #fbbf24; }
   .sub-brand { font-size: 11px; color: #cbd5e1; margin-top: 2px; }
   .role-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
@@ -43,15 +43,17 @@
     color: #fff; padding: 6px 11px; border-radius: 999px; font-size: 11px; font-weight: 700;
     cursor: pointer; transition: transform 0.18s ease, background 0.18s ease;
   }
-  .role-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.16); }
-  .role-btn.active { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #0f172a; border-color: #fbbf24; box-shadow: 0 4px 12px rgba(251,191,36,0.4); }
-  .container { max-width: 980px; margin: 0 auto; padding: 14px; perspective: 1000px; }
+  .role-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.18); }
+  .role-btn.active {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #0f172a;
+    border-color: #fbbf24; box-shadow: 0 4px 12px rgba(251,191,36,0.45);
+  }
+  .container { max-width: 980px; margin: 0 auto; padding: 14px; perspective: 1200px; }
   .card {
     background: var(--card); border: 1px solid var(--border); border-radius: 18px;
     padding: 15px; margin-bottom: 14px; box-shadow: var(--shadow-3d);
     transition: transform 0.22s ease, box-shadow 0.22s ease;
   }
-  .card:hover { transform: translateY(-2px); }
   .card-title { font-size: 15px; font-weight: 800; margin: 0 0 8px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
   .badge { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; }
   .b-green { background: #dcfce7; color: #166534; }
@@ -59,24 +61,49 @@
   .b-amber { background: #fef3c7; color: #92400e; }
   .b-blue { background: #dbeafe; color: #1e40af; }
   .b-dark { background: #0f172a; color: #fff; }
-  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 12px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 10px; }
+
+  /* 3D Tilt & Real Image Pop-Out Effect */
   .plan-box, .item-card {
-    border: 1px solid var(--border); border-radius: 16px; padding: 13px;
+    border: 1px solid var(--border); border-radius: 18px; padding: 13px;
     background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    box-shadow: 0 8px 18px -6px rgba(15, 23, 42, 0.1), inset 0 1px 0 #fff;
+    box-shadow: 0 10px 22px -6px rgba(15, 23, 42, 0.12), inset 0 1px 0 #fff;
     display: flex; flex-direction: column; justify-content: space-between; gap: 8px;
+    transform-style: preserve-3d;
     transition: transform 0.22s ease, box-shadow 0.22s ease;
   }
   .plan-box:hover, .item-card:hover {
-    transform: translateY(-4px) rotateX(1.5deg);
-    box-shadow: 0 16px 26px -8px rgba(15, 23, 42, 0.18);
+    box-shadow: 0 18px 30px -8px rgba(15, 23, 42, 0.2);
   }
   .plan-box.highlight {
     border-color: var(--primary);
     background: linear-gradient(180deg, #fff1f2 0%, #ffffff 100%);
   }
-  .3d-orb, .food-3d-badge {
+  .real-3d-frame {
+    position: relative; width: 100%; height: 138px; border-radius: 14px; overflow: visible;
+    background: radial-gradient(circle at 30% 25%, #fff, #e2e8f0);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 2px 6px rgba(255,255,255,0.9), inset 0 -4px 10px rgba(15,23,42,0.08);
+    margin: 4px 0;
+  }
+  .real-3d-img {
+    width: 92%; height: 122px; object-fit: cover; border-radius: 12px;
+    box-shadow: 0 12px 20px -4px rgba(15, 23, 42, 0.32), 0 0 0 1px rgba(255,255,255,0.75);
+    transform: translateZ(18px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .item-card:hover .real-3d-img, .plan-box:hover .real-3d-img {
+    transform: translateZ(28px) translateY(-5px) scale(1.03);
+    box-shadow: 0 18px 28px -4px rgba(15, 23, 42, 0.38);
+  }
+  .floating-tag {
+    position: absolute; top: 8px; right: 8px; z-index: 2;
+    background: rgba(15, 23, 42, 0.85); color: #fff; backdrop-filter: blur(4px);
+    padding: 3px 8px; border-radius: 999px; font-size: 10px; font-weight: 800;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  }
+  .food-3d-badge {
     width: 36px; height: 36px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center;
     font-size: 18px; background: linear-gradient(145deg, #fff, #e2e8f0);
     box-shadow: 3px 3px 8px rgba(15,23,42,0.14), -2px -2px 6px #fff;
@@ -128,7 +155,7 @@
   .alert-ok { background: #dcfce7; border: 1px solid #22c55e; color: #14532d; }
   .alert-err { background: #ffe4e6; border: 1px solid #f43f5e; color: #881337; }
   .modal-backdrop {
-    position: fixed; inset: 0; background: rgba(15,23,42,0.6); z-index: 60;
+    position: fixed; inset: 0; background: rgba(15,23,42,0.62); z-index: 60;
     display: flex; align-items: center; justify-content: center; padding: 14px;
   }
   .modal { background: #fff; border-radius: 18px; max-width: 480px; width: 100%; padding: 16px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 48px rgba(0,0,0,0.3); }
@@ -147,7 +174,7 @@
       <div class="food-3d-badge">🍛</div>
       <div>
         <div class="brand">Namaste <span>Udala</span> 3D</div>
-        <div class="sub-brand">Mera Tiffin · Multi-Vendor Food · Kirana & HUL</div>
+        <div class="sub-brand">Mera Tiffin · Breakfast · Multi-Vendor Food · Kirana & HUL</div>
       </div>
     </div>
     <div style="text-align:right">
@@ -168,15 +195,15 @@
   <!-- ================= CUSTOMER VIEW ================= -->
   <div id="view_customer">
 
-    <!-- PAGE 1: MERA TIFFIN (100% SELF, ZERO MULTI-VENDOR) -->
+    <!-- PAGE 1: MERA TIFFIN (100% SELF, ZERO MULTI-VENDOR + MORNING BREAKFAST SLOT) -->
     <section id="page_tiffin">
       <div class="card" style="border-left:5px solid var(--primary)">
         <div class="card-title">
           <span>🍱 Mera Tiffin — Aapki Apni Ghar Ki Rasoi</span>
-          <span class="badge b-green">100% Direct · Zero Vendor</span>
+          <span class="badge b-green">100% Direct · Zero Vendor · 0% Comm</span>
         </div>
         <div style="font-size:12px;color:var(--muted);margin-bottom:10px">
-          Fresh home-style dabba in Udala. <b>9:00 AM</b> tak skip/pause karne par din automatically extend hota hai.
+          Morning Breakfast (<b>6:30 AM</b> cut-off), Lunch & Dinner (<b>9:00 AM</b> cut-off). Skip/pause karne par din automatically extend hota hai.
         </div>
 
         <div class="grid-3" style="margin-bottom:10px">
@@ -188,11 +215,14 @@
             </select>
           </div>
           <div>
-            <label>Meal Slot</label>
-            <select id="tiffinSlot">
-              <option value="Lunch (12:30 PM)">Lunch Only (12:30 PM)</option>
-              <option value="Dinner (8:00 PM)">Dinner Only (8:00 PM)</option>
-              <option value="Lunch + Dinner">Both (Lunch + Dinner)</option>
+            <label>Meal Slot (Breakfast / Lunch / Dinner)</label>
+            <select id="tiffinSlot" onchange="renderTiffinPlans()">
+              <option value="Morning Breakfast (7:30 AM)">🌅 Morning Breakfast (7:30 AM)</option>
+              <option value="Lunch (12:30 PM)" selected>☀️ Lunch Only (12:30 PM)</option>
+              <option value="Dinner (8:00 PM)">🌙 Dinner Only (8:00 PM)</option>
+              <option value="Breakfast + Lunch">🌅+☀️ Breakfast + Lunch</option>
+              <option value="Lunch + Dinner">☀️+🌙 Lunch + Dinner</option>
+              <option value="All 3 Meals (B+L+D)">🍱 All 3 Meals (Breakfast+Lunch+Dinner)</option>
             </select>
           </div>
           <div>
@@ -231,33 +261,42 @@
 
       <div class="card">
         <div class="card-title">
-          <span>📅 Active Tiffin Pass & Smart Controls</span>
-          <span class="badge b-blue" id="cutoffBadge">Checking 9:00 AM Cut-Off...</span>
+          <span>📅 Active Tiffin Pass & Cut-Off Guard</span>
+          <span class="badge b-blue" id="cutoffBadge">Checking Cut-Off...</span>
         </div>
         <div id="activeSubBox"></div>
       </div>
 
       <div class="card">
-        <div class="card-title"><span>🗓️ Weekly Rasoi Menu & Quality Rating</span></div>
+        <div class="card-title"><span>🗓️ Weekly Breakfast, Lunch & Dinner Menu</span></div>
         <div id="weeklyMenuTable"></div>
       </div>
     </section>
 
-    <!-- PAGE 2: MULTI-VENDOR FOOD SHOP (ZOMATO STYLE + 20% COMMISSION) -->
+    <!-- PAGE 2: MULTI-VENDOR FOOD SHOP (ZOMATO STYLE + MORNING BREAKFAST + 20% COMM) -->
     <section id="page_shop" class="hidden">
       <div class="card" style="border-left:5px solid var(--accent)">
         <div class="card-title">
-          <span>🍛 Udala Food Shop — Multi-Vendor Kitchens</span>
-          <span class="badge b-amber">Only Food · Live Vendor Status</span>
+          <span>🍛 Udala Food & Breakfast Shop — Multi-Vendor</span>
+          <span class="badge b-amber">Zomato-Style Vendors · 3D View</span>
         </div>
         <div class="row" style="margin-bottom:10px">
-          <div style="flex:1;min-width:160px">
-            <label>Filter by Food Vendor (Zomato Style)</label>
+          <div style="flex:1;min-width:140px">
+            <label>Filter by Vendor</label>
             <select id="shopVendorFilter" onchange="renderFoodShop()"></select>
           </div>
-          <div style="flex:1;min-width:160px">
-            <label>Search Dish / Cake / Snacks</label>
-            <input type="text" id="shopSearch" placeholder="Biryani, Cake, Thali..." oninput="renderFoodShop()" />
+          <div style="flex:1;min-width:140px">
+            <label>Meal Time / Category</label>
+            <select id="shopCatFilter" onchange="renderFoodShop()">
+              <option value="ALL">All Food & Breakfast</option>
+              <option value="BREAKFAST">🌅 Morning Breakfast (7–10 AM)</option>
+              <option value="MEALS">🍛 Lunch / Dinner Meals</option>
+              <option value="CAKE">🎂 Cakes & Bakery</option>
+            </select>
+          </div>
+          <div style="flex:1;min-width:140px">
+            <label>Search Dish / Nashta</label>
+            <input type="text" id="shopSearch" placeholder="Idli, Puri, Biryani, Cake..." oninput="renderFoodShop()" />
           </div>
         </div>
         <div class="grid-2" id="foodShopGrid"></div>
@@ -289,6 +328,7 @@
             <label>Search Kirana</label>
             <input type="text" id="kiranaSearch" placeholder="Atta, Surf Excel, Rice..." oninput="renderKirana()" />
           </div>
+          <button class="btn btn-amber btn-sm" style="margin-top:16px" onclick="addFreeDeliveryCombo()">⚡ 1-Tap ₹500 Free-Del Combo</button>
           <button class="btn btn-outline btn-sm" style="margin-top:16px" onclick="reorderLastKirana()">🔁 Re-order Last</button>
         </div>
 
@@ -336,6 +376,10 @@
 
         <div class="grid-2" style="margin-top:10px">
           <div>
+            <label>Preferred Delivery Slot (Peak Load Guard)</label>
+            <select id="deliverySlotSelect"></select>
+          </div>
+          <div>
             <label>Payment Mode</label>
             <select id="payMode" onchange="toggleUpiFields()">
               <option value="UPI">UPI Pay (12-Digit UTR Required)</option>
@@ -344,7 +388,10 @@
               <option value="KHATA">Udhaar Khata (Approved Regulars)</option>
             </select>
           </div>
-          <div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div style="flex:1">
             <label>Referral / Promo Code</label>
             <div class="row">
               <input type="text" id="promoInput" placeholder="Try UDALA50" style="flex:1" />
@@ -390,10 +437,11 @@
   <div id="view_kitchen" class="hidden">
     <div class="card" style="border-left:5px solid var(--primary)">
       <div class="card-title">
-        <span>👨‍🍳 Kitchen Counter — Rasoi & Prep Queue</span>
+        <span>👨‍🍳 Kitchen Counter — Rasoi & Prep Forecast</span>
         <button class="btn btn-outline btn-sm" onclick="switchRole('customer')">Exit Kitchen</button>
       </div>
       <div id="kitchenSummaryStats" class="grid-3" style="margin-bottom:12px"></div>
+      <div id="kitchenForecastBox" class="alert-box alert-ok"></div>
       <div id="kitchenOrdersList"></div>
     </div>
   </div>
@@ -402,7 +450,7 @@
   <div id="view_delivery" class="hidden">
     <div class="card" style="border-left:5px solid var(--secondary)">
       <div class="card-title">
-        <span>🛵 Smart Route Algorithm & Anti-Fake Fuel Tracker</span>
+        <span>🛵 Area-Cluster Route & Anti-Fake Fuel Tracker</span>
         <button class="btn btn-outline btn-sm" onclick="switchRole('customer')">Exit Delivery</button>
       </div>
       <div class="row" style="margin-bottom:10px">
@@ -443,11 +491,11 @@
           </div>
           <div>
             <label>End Odometer (KM)</label>
-            <input type="number" id="odoEnd" placeholder="e.g. 14228" />
+            <input type="number" id="odoEnd" placeholder="e.g. 14226" />
           </div>
           <div>
             <label>Fuel Claimed (₹)</label>
-            <input type="number" id="fuelClaimRs" placeholder="e.g. 65" />
+            <input type="number" id="fuelClaimRs" placeholder="e.g. 56" />
           </div>
         </div>
         <button class="btn btn-dark btn-sm" style="margin-top:8px" onclick="submitFuelLog()">Submit Verified Fuel Log</button>
@@ -482,7 +530,7 @@
   <div id="view_owner" class="hidden">
     <div class="card" style="border-left:5px solid #0f172a">
       <div class="card-title">
-        <span>👑 Owner Master Control — Full Edit & Live Tracking</span>
+        <span>👑 Owner Master Control — Full Edit, Payout Release & Live Tracking</span>
         <div class="row">
           <button class="btn btn-outline btn-sm" onclick="exportBackupJSON()">⬇ Backup JSON</button>
           <button class="btn btn-outline btn-sm" onclick="switchRole('customer')">Exit Owner</button>
@@ -498,6 +546,7 @@
           <div><label>7-Day Tiffin (₹)</label><input type="number" id="ed_p7" /></div>
           <div><label>15-Day Tiffin (₹)</label><input type="number" id="ed_p15" /></div>
           <div><label>30-Day Tiffin (₹)</label><input type="number" id="ed_p30" /></div>
+          <div><label>Morning Breakfast/Day (₹)</label><input type="number" id="ed_bfPerDay" /></div>
           <div><label>Food Partner Comm (%)</label><input type="number" id="ed_foodComm" /></div>
           <div><label>Kirana Min Order (₹)</label><input type="number" id="ed_kiranaMin" /></div>
           <div><label>Kirana Free Delivery ≥ (₹)</label><input type="number" id="ed_kiranaFree" /></div>
@@ -508,12 +557,12 @@
       </div>
 
       <div class="card" style="background:#f8fafc">
-        <div class="card-title"><span>➕ Add Food or Kirana Item</span></div>
+        <div class="card-title"><span>➕ Add Food, Breakfast or Kirana Item</span></div>
         <div class="grid-3">
           <div>
             <label>Section</label>
             <select id="newItemSection">
-              <option value="FOOD">Page 2: Food Shop</option>
+              <option value="FOOD">Page 2: Food / Breakfast Shop</option>
               <option value="KIRANA">Page 3: Kirana & HUL</option>
             </select>
           </div>
@@ -523,15 +572,15 @@
           </div>
           <div>
             <label>Item Name</label>
-            <input type="text" id="newItemName" placeholder="e.g. Chicken Biryani / Surf Excel 1kg" />
+            <input type="text" id="newItemName" placeholder="e.g. Masala Dosa / Surf Excel" />
           </div>
           <div>
             <label>Price (₹)</label>
-            <input type="number" id="newItemPrice" placeholder="e.g. 140" />
+            <input type="number" id="newItemPrice" placeholder="e.g. 70" />
           </div>
           <div>
-            <label>Tag / Pack Info</label>
-            <input type="text" id="newItemTag" placeholder="e.g. Full Plate / HUL · 1kg" />
+            <label>Category / Tag</label>
+            <input type="text" id="newItemTag" placeholder="e.g. Morning Breakfast / HUL" />
           </div>
           <div style="display:flex;align-items:flex-end">
             <button class="btn btn-green" style="width:100%" onclick="addCatalogItem()">+ Add Item</button>
@@ -540,7 +589,7 @@
       </div>
 
       <div class="card">
-        <div class="card-title"><span>🤝 Multi-Vendor Commission & Payout Tracking</span></div>
+        <div class="card-title"><span>🤝 Owner-Controlled Partner Payouts (Paisa Aapke Paas → Release)</span></div>
         <div id="ownerVendorLedger"></div>
       </div>
 
@@ -575,7 +624,7 @@
 
 <nav class="bottom-nav" id="bottomNav">
   <button class="nav-item active" id="nav_tiffin" onclick="switchCustomerPage('tiffin')"><span class="nav-icon">🍱</span>Mera Tiffin</button>
-  <button class="nav-item" id="nav_shop" onclick="switchCustomerPage('shop')"><span class="nav-icon">🍛</span>Food Shop</button>
+  <button class="nav-item" id="nav_shop" onclick="switchCustomerPage('shop')"><span class="nav-icon">🍛</span>Food & Nashta</button>
   <button class="nav-item" id="nav_kirana" onclick="switchCustomerPage('kirana')"><span class="nav-icon">🛒</span>Kirana & HUL</button>
   <button class="nav-item" id="nav_cart" onclick="switchCustomerPage('cart')"><span class="nav-icon">🛍️</span>Cart (<span id="cartCountBadge">0</span>)</button>
 </nav>
@@ -594,7 +643,6 @@
 
 <div id="printArea"></div>
 
-<!-- Optional Firebase SDK (Live Sync when FIREBASE_CONFIG is filled) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
@@ -620,10 +668,10 @@ if (FIREBASE_CONFIG.databaseURL && typeof firebase !== "undefined") {
 }
 
 // ==================== TAMPER-LOCKED MASTER STATE ====================
-const STORAGE_KEY = "NAMASTE_UDALA_3D_LOCKED_V2";
+const STORAGE_KEY = "NAMASTE_UDALA_FINAL_3D_V3";
 const ROLE_PINS = { owner: "4827", kitchen: "1122", delivery: "3344" };
+const SLOT_CAPACITY = 25;
 
-// Udala area cluster coordinates/order for route optimization algorithm
 const UDALA_AREA_CLUSTER = {
   "Market Square": 1,
   "Udala Bus Stand": 2,
@@ -635,12 +683,32 @@ const UDALA_AREA_CLUSTER = {
   "Bhanjpur": 8
 };
 
+// Realistic SVG/Photo Data URIs with 3D Depth Styling (Zero broken links offline)
+function make3DFoodArt(emoji, title, bg1, bg2) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='360' height='180'>
+    <defs>
+      <radialGradient id='g' cx='30%' cy='25%' r='80%'>
+        <stop offset='0%' stop-color='${bg1}'/>
+        <stop offset='100%' stop-color='${bg2}'/>
+      </radialGradient>
+      <filter id='sh'><feDropShadow dx='0' dy='8' stdDeviation='6' flood-color='#000' flood-opacity='0.35'/></filter>
+    </defs>
+    <rect width='360' height='180' rx='18' fill='url(#g)'/>
+    <ellipse cx='180' cy='135' rx='95' ry='22' fill='rgba(0,0,0,0.28)'/>
+    <circle cx='180' cy='86' r='54' fill='rgba(255,255,255,0.2)' filter='url(#sh)'/>
+    <text x='180' y='103' font-size='56' text-anchor='middle' filter='url(#sh)'>${emoji}</text>
+    <text x='180' y='162' font-size='13' font-family='sans-serif' font-weight='bold' fill='#fff' text-anchor='middle'>${title}</text>
+  </svg>`;
+  return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+}
+
 const DEFAULT_STATE = {
   rates: {
     trial: 75,
     p7: 490,
     p15: 990,
     p30: 1890,
+    breakfastPerDay: 45,
     nonVegExtra: 15,
     foodPartnerCommPct: 20,
     kiranaMinOrder: 300,
@@ -650,26 +718,30 @@ const DEFAULT_STATE = {
     perKmFuelAllowance: 3.5
   },
   vendors: [
-    { id: "v_self_food", name: "Namaste Ghar Kitchen (Self)", type: "FOOD", isSelf: true, pin: "1001", status: "Open", rating: "4.9" },
-    { id: "v_bhanjpur", name: "Bhanjpur Maa Rasoi", type: "FOOD", isSelf: false, pin: "2001", status: "Open", rating: "4.6" },
-    { id: "v_cake", name: "Jarlicious Cake & Bakes", type: "FOOD", isSelf: false, pin: "2002", status: "Open", rating: "4.8" },
-    { id: "v_self_kirana", name: "Namaste HUL & Kirana Hub (Self)", type: "KIRANA", isSelf: true, pin: "1002", status: "Open", rating: "4.9" },
-    { id: "v_market_kirana", name: "Udala Market Super Store", type: "KIRANA", isSelf: false, pin: "3001", status: "Open", rating: "4.5" }
+    { id: "v_self_food", name: "Namaste Ghar Kitchen (Self)", type: "FOOD", isSelf: true, pin: "1001", status: "Open", rating: "4.9", settledPaid: 0 },
+    { id: "v_bhanjpur", name: "Bhanjpur Maa Rasoi", type: "FOOD", isSelf: false, pin: "2001", status: "Open", rating: "4.6", settledPaid: 0 },
+    { id: "v_cake", name: "Jarlicious Cake & Bakes", type: "FOOD", isSelf: false, pin: "2002", status: "Open", rating: "4.8", settledPaid: 0 },
+    { id: "v_self_kirana", name: "Namaste HUL & Kirana Hub (Self)", type: "KIRANA", isSelf: true, pin: "1002", status: "Open", rating: "4.9", settledPaid: 0 },
+    { id: "v_market_kirana", name: "Udala Market Super Store", type: "KIRANA", isSelf: false, pin: "3001", status: "Open", rating: "4.5", settledPaid: 0 }
   ],
   catalog: [
-    { id: "f1", section: "FOOD", vendorId: "v_self_food", name: "Odia Special Veg Thali", price: 85, tag: "Home Kitchen · Full Meal", inStock: true, subId: "f4" },
-    { id: "f2", section: "FOOD", vendorId: "v_self_food", name: "Desi Chicken Curry + 4 Roti", price: 140, tag: "Home Kitchen · Fresh", inStock: true, subId: "f3" },
-    { id: "f3", section: "FOOD", vendorId: "v_bhanjpur", name: "Hyderabadi Dum Biryani", price: 160, tag: "Bestseller · Raita Included", inStock: true, subId: "f4" },
-    { id: "f4", section: "FOOD", vendorId: "v_bhanjpur", name: "Paneer Butter Masala + Naan", price: 150, tag: "Veg Special", inStock: true, subId: "f1" },
-    { id: "f5", section: "FOOD", vendorId: "v_cake", name: "Chocolate Truffle Jar Cake", price: 120, tag: "Fresh Baked · 250ml", inStock: true, subId: "f6" },
-    { id: "f6", section: "FOOD", vendorId: "v_cake", name: "Red Velvet Celebration Cake (500g)", price: 380, tag: "Birthday Special", inStock: true, subId: "f5" },
-    { id: "k1", section: "KIRANA", vendorId: "v_self_kirana", cat: "STAPLES", name: "Aashirvaad Shudh Chakki Atta (5kg)", price: 245, tag: "Staples · 5kg Pack", inStock: true, subId: "k2" },
-    { id: "k2", section: "KIRANA", vendorId: "v_self_kirana", cat: "STAPLES", name: "Premium Miniket Rice (5kg)", price: 260, tag: "Combo Eligible · 5kg", inStock: true, subId: "k1" },
-    { id: "k3", section: "KIRANA", vendorId: "v_self_kirana", cat: "HUL", name: "Surf Excel Easy Wash (1.5kg)", price: 195, tag: "HUL Zone · Detergent", inStock: true, subId: "k4" },
-    { id: "k4", section: "KIRANA", vendorId: "v_self_kirana", cat: "HUL", name: "Lifebuoy Total 10 Soap (4x125g)", price: 144, tag: "HUL Zone · Hygiene", inStock: true, subId: "k5" },
-    { id: "k5", section: "KIRANA", vendorId: "v_self_kirana", cat: "HUL", name: "Brooke Bond Red Label Tea (500g)", price: 250, tag: "HUL Zone · Tea", inStock: true, subId: "k4" },
-    { id: "k6", section: "KIRANA", vendorId: "v_market_kirana", cat: "STAPLES", name: "Fortune Sunlite Refined Oil (1L)", price: 135, tag: "Cooking Oil · 1L", inStock: true, subId: "k1" },
-    { id: "k7", section: "KIRANA", vendorId: "v_market_kirana", cat: "DAIRY", name: "Omfed Gold Milk + Bread Combo", price: 78, tag: "Monday Morning Pack", inStock: true, subId: "k5" }
+    // Morning Breakfast + Food Shop
+    { id: "b1", section: "FOOD", cat: "BREAKFAST", vendorId: "v_self_food", name: "Idli Sambar & Coconut Chutney (4 Pcs)", price: 50, tag: "Morning Breakfast · 7–10 AM", inStock: true, subId: "b2", img: make3DFoodArt("🍘", "Steaming Idli Sambar", "#fb7185", "#9f1239") },
+    { id: "b2", section: "FOOD", cat: "BREAKFAST", vendorId: "v_bhanjpur", name: "Puri Aloo Dum & Suji Halwa Combo", price: 60, tag: "Morning Breakfast · Hot Pack", inStock: true, subId: "b1", img: make3DFoodArt("🥘", "Hot Puri Aloo Dum", "#f59e0b", "#92400e") },
+    { id: "f1", section: "FOOD", cat: "MEALS", vendorId: "v_self_food", name: "Odia Special Veg Thali", price: 85, tag: "Home Kitchen · Full Meal", inStock: true, subId: "f4", img: make3DFoodArt("🍱", "Homestyle Odia Thali", "#16a34a", "#065f46") },
+    { id: "f2", section: "FOOD", cat: "MEALS", vendorId: "v_self_food", name: "Desi Chicken Curry + 4 Roti", price: 140, tag: "Home Kitchen · Fresh", inStock: true, subId: "f3", img: make3DFoodArt("🍗", "Desi Chicken & Roti", "#ea580c", "#7c2d12") },
+    { id: "f3", section: "FOOD", cat: "MEALS", vendorId: "v_bhanjpur", name: "Hyderabadi Dum Biryani", price: 160, tag: "Bestseller · Raita Included", inStock: true, subId: "f4", img: make3DFoodArt("🍛", "Royal Dum Biryani", "#d97706", "#78350f") },
+    { id: "f4", section: "FOOD", cat: "MEALS", vendorId: "v_bhanjpur", name: "Paneer Butter Masala + Naan", price: 150, tag: "Veg Special", inStock: true, subId: "f1", img: make3DFoodArt("🧀", "Paneer Butter Masala", "#e11d48", "#881337") },
+    { id: "f5", section: "FOOD", cat: "CAKE", vendorId: "v_cake", name: "Chocolate Truffle Jar Cake", price: 120, tag: "Fresh Baked · 250ml", inStock: true, subId: "f6", img: make3DFoodArt("🧁", "Chocolate Truffle Jar", "#7c3aed", "#4c1d95") },
+    { id: "f6", section: "FOOD", cat: "CAKE", vendorId: "v_cake", name: "Red Velvet Celebration Cake (500g)", price: 380, tag: "Birthday Special", inStock: true, subId: "f5", img: make3DFoodArt("🎂", "Red Velvet 3D Cake", "#be123c", "#4c0519") },
+    // Kirana & HUL
+    { id: "k1", section: "KIRANA", vendorId: "v_self_kirana", cat: "STAPLES", name: "Aashirvaad Shudh Chakki Atta (5kg)", price: 245, tag: "Staples · 5kg Pack", inStock: true, subId: "k2", img: make3DFoodArt("🌾", "Chakki Atta 5kg", "#ca8a04", "#713f12") },
+    { id: "k2", section: "KIRANA", vendorId: "v_self_kirana", cat: "STAPLES", name: "Premium Miniket Rice (5kg)", price: 260, tag: "Combo Eligible · 5kg", inStock: true, subId: "k1", img: make3DFoodArt("🍚", "Miniket Rice 5kg", "#15803d", "#14532d") },
+    { id: "k3", section: "KIRANA", vendorId: "v_self_kirana", cat: "HUL", name: "Surf Excel Easy Wash (1.5kg)", price: 195, tag: "HUL Zone · Monthly Essential", inStock: true, subId: "k4", img: make3DFoodArt("🧺", "HUL Surf Excel 1.5kg", "#2563eb", "#1e3a8a") },
+    { id: "k4", section: "KIRANA", vendorId: "v_self_kirana", cat: "HUL", name: "Lifebuoy Total 10 Soap (4x125g)", price: 144, tag: "HUL Zone · Hygiene", inStock: true, subId: "k5", img: make3DFoodArt("🧼", "HUL Lifebuoy Pack", "#dc2626", "#7f1d1d") },
+    { id: "k5", section: "KIRANA", vendorId: "v_self_kirana", cat: "HUL", name: "Brooke Bond Red Label Tea (500g)", price: 250, tag: "HUL Zone · Morning Chai", inStock: true, subId: "k4", img: make3DFoodArt("☕", "HUL Red Label Tea", "#b45309", "#451a03") },
+    { id: "k6", section: "KIRANA", vendorId: "v_market_kirana", cat: "STAPLES", name: "Fortune Sunlite Refined Oil (1L)", price: 135, tag: "Cooking Oil · 1L", inStock: true, subId: "k1", img: make3DFoodArt("🫗", "Refined Cooking Oil", "#eab308", "#854d0e") },
+    { id: "k7", section: "KIRANA", vendorId: "v_market_kirana", cat: "DAIRY", name: "Omfed Gold Milk + Bread Combo", price: 78, tag: "Morning Dairy Pack", inStock: true, subId: "k5", img: make3DFoodArt("🥛", "Morning Milk & Bread", "#0284c7", "#0c4a6e") }
   ],
   wallet: 200,
   khataDue: 0,
@@ -697,7 +769,7 @@ const DEFAULT_STATE = {
     { id: "e1", title: "Fresh Sabzi & Masala Morning Purchase", amount: 650, time: "Today 7:30 AM" }
   ],
   auditLogs: [
-    { time: new Date().toLocaleString(), msg: "Namaste Udala 3D initialized with Tamper-Locked Master Rules." }
+    { time: new Date().toLocaleString(), msg: "Namaste Udala 3D initialized with Breakfast, 3D Real-Image Tilt & Owner Payout Lock." }
   ]
 };
 
@@ -734,6 +806,21 @@ function saveState(auditMsg) {
   }
 }
 
+// ==================== 3D POINTER TILT INTERACTION ====================
+function attach3DTilt() {
+  document.querySelectorAll(".plan-box, .item-card").forEach(card => {
+    card.onmousemove = e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(700px) rotateY(${(x * 7).toFixed(1)}deg) rotateX(${(-y * 7).toFixed(1)}deg) translateY(-4px)`;
+    };
+    card.onmouseleave = () => {
+      card.style.transform = "";
+    };
+  });
+}
+
 // ==================== NAVIGATION & ROLE PIN SECURITY ====================
 function switchCustomerPage(page) {
   ["tiffin", "shop", "kirana", "cart"].forEach(p => {
@@ -759,10 +846,10 @@ function switchRole(role) {
 function openPinPrompt(targetRole) {
   pendingRoleTarget = targetRole;
   const hints = {
-    kitchen: "Kitchen Staff PIN: 1122 (Rasoi & Dabba Slips)",
-    delivery: "Delivery Boy PIN: 3344 (Route Algorithm & Anti-Fake Fuel)",
+    kitchen: "Kitchen Staff PIN: 1122 (Rasoi & Prep Forecast)",
+    delivery: "Delivery Boy PIN: 3344 (Area Cluster Route & Anti-Fake Fuel)",
     vendor: "Partner Vendor PIN (2001 Bhanjpur / 2002 Jarlicious / 3001 Kirana)",
-    owner: "Owner Master PIN: 4827 (Full Edit & Control)"
+    owner: "Owner Master PIN: 4827 (Full Edit, Payout Release & Tracking)"
   };
   document.getElementById("pinModalTitle").textContent = `Unlock ${targetRole.toUpperCase()} Panel`;
   document.getElementById("pinModalHint").textContent = hints[targetRole] || "";
@@ -803,19 +890,31 @@ function verifyPinLogin() {
   }
 }
 
-// ==================== PAGE 1: MERA TIFFIN (100% SELF, ZERO VENDOR) ====================
+// ==================== PAGE 1: MERA TIFFIN + MORNING BREAKFAST SLOT ====================
+function computeTiffinPlanPrice(planKey, days, diet, slot) {
+  const extra = diet === "Non-Veg" ? state.rates.nonVegExtra * days : 0;
+  const bfTotal = state.rates.breakfastPerDay * days;
+  const mealBase = state.rates[planKey] + extra;
+
+  if (slot === "Morning Breakfast (7:30 AM)") return bfTotal;
+  if (slot === "Breakfast + Lunch") return bfTotal + mealBase;
+  if (slot === "Lunch + Dinner") return mealBase * 2;
+  if (slot === "All 3 Meals (B+L+D)") return bfTotal + (mealBase * 2);
+  return mealBase;
+}
+
 function renderTiffinPlans() {
   const diet = document.getElementById("tiffinDiet").value;
-  const extra = diet === "Non-Veg" ? state.rates.nonVegExtra : 0;
+  const slot = document.getElementById("tiffinSlot").value;
   const plans = [
-    { key: "trial", title: "1-Day Trial Pass", days: 1, base: state.rates.trial, badge: "Taste First", icon: "🥗" },
-    { key: "p7", title: "7-Day Weekly Plan", days: 7, base: state.rates.p7, badge: "Flexible", icon: "🍱" },
-    { key: "p15", title: "15-Day Popular Plan", days: 15, base: state.rates.p15, badge: "Most Chosen", hi: true, icon: "🔥" },
-    { key: "p30", title: "30-Day Monthly Saver", days: 30, base: state.rates.p30, badge: "Best Value", icon: "👑" }
+    { key: "trial", title: "1-Day Trial Pass", days: 1, badge: "Taste First", icon: "🥗" },
+    { key: "p7", title: "7-Day Weekly Plan", days: 7, badge: "Flexible", icon: "🍱" },
+    { key: "p15", title: "15-Day Popular Plan", days: 15, badge: "Most Chosen", hi: true, icon: "🔥" },
+    { key: "p30", title: "30-Day Monthly Saver", days: 30, badge: "Best Value", icon: "👑" }
   ];
 
   document.getElementById("tiffinPlanCards").innerHTML = plans.map(pl => {
-    const finalPrice = pl.base + (extra * pl.days);
+    const finalPrice = computeTiffinPlanPrice(pl.key, pl.days, diet, slot);
     return `
       <div class="plan-box ${pl.hi ? "highlight" : ""}">
         <div>
@@ -825,7 +924,7 @@ function renderTiffinPlans() {
           </div>
           <div class="price">₹${finalPrice}</div>
           <div style="font-size:11px;color:var(--muted)">
-            ${diet} · Free Delivery in Udala · 9:00 AM Skip Guarantee
+            ${slot} · ${diet} · Free Delivery in Udala
           </div>
         </div>
         <button class="btn btn-primary btn-sm" style="margin-top:8px" onclick="addTiffinToCart('${pl.key}', ${pl.days})">
@@ -834,6 +933,7 @@ function renderTiffinPlans() {
       </div>
     `;
   }).join("");
+  attach3DTilt();
 }
 
 function syncMemberPrefs() {
@@ -856,32 +956,34 @@ function addTiffinToCart(planKey, days) {
   const member = document.getElementById("tiffinMember").value;
   const spice = document.getElementById("tiffinSpice").value;
   const healthTag = document.getElementById("tiffinHealthTag").value;
-
-  const base = state.rates[planKey];
-  const extra = diet === "Non-Veg" ? state.rates.nonVegExtra * days : 0;
-  const slotMult = slot === "Lunch + Dinner" ? 2 : 1;
-  const lockedPrice = (base + extra) * slotMult;
+  const lockedPrice = computeTiffinPlanPrice(planKey, days, diet, slot);
 
   cart.push({
     uid: "T_" + Date.now(),
     section: "TIFFIN",
     vendorId: "v_self_food",
     itemId: planKey,
-    name: `Mera Tiffin (${days}d · ${diet} · ${slot}) [${member} | ${spice} | ${healthTag}]`,
+    name: `Mera Tiffin (${days}d · ${slot} · ${diet}) [${member} | ${spice} | ${healthTag}]`,
     qty: 1,
     lockedUnitPrice: lockedPrice
   });
   updateCartBadge();
-  alert(`✅ Mera Tiffin (${days} Din) added to cart!`);
+  alert(`✅ Mera Tiffin (${days} Din · ${slot}) added to cart!`);
 }
 
 function renderActiveSubscription() {
   const s = state.subscription;
   const now = new Date();
-  const isBefore9AM = now.getHours() < 9;
+  const hr = now.getHours();
+  const min = now.getMinutes();
+  const beforeBfCutoff = hr < 6 || (hr === 6 && min < 30);
+  const beforeLunchCutoff = hr < 9;
+
   const badge = document.getElementById("cutoffBadge");
-  badge.textContent = isBefore9AM ? "🟢 Before 9:00 AM (Today Skip Open)" : "🔒 After 9:00 AM (Next Day Skip)";
-  badge.className = "badge " + (isBefore9AM ? "b-green" : "b-amber");
+  badge.textContent = beforeBfCutoff
+    ? "🟢 Breakfast (6:30 AM) & Lunch (9:00 AM) Skip Open"
+    : (beforeLunchCutoff ? "🟡 Breakfast Locked · Lunch Skip Open ≤9 AM" : "🔒 Today Cut-Off Passed (Next Day Skip)");
+  badge.className = "badge " + (beforeLunchCutoff ? "b-green" : "b-amber");
 
   document.getElementById("activeSubBox").innerHTML = `
     <div class="alert-box alert-ok">
@@ -891,7 +993,7 @@ function renderActiveSubscription() {
     </div>
     <div class="row">
       <button class="btn btn-outline btn-sm" onclick="skipTiffinMeal()">
-        ⏭️ ${s.skippedToday ? "Today Skipped (+1d Extended)" : (isBefore9AM ? "Skip Today (≤9 AM)" : "Skip Tomorrow's Meal")}
+        ⏭️ ${s.skippedToday ? "Skipped (+1d Extended)" : "Skip Meal (+1d Auto-Extend)"}
       </button>
       <button class="btn btn-outline btn-sm" onclick="toggleVacationMode()">
         🏖️ Vacation Pause (${s.vacationDays > 0 ? s.vacationDays + "d Active" : "3-10 Days"})
@@ -949,20 +1051,21 @@ function toggleAutoRenew() {
 
 function renderWeeklyMenu() {
   const days = [
-    { d: "Mon", lunch: "Rice, Dalma, Aloo Bharta, Papad", dinner: "4 Roti, Tadka Dal, Kheer" },
-    { d: "Tue", lunch: "Jeera Rice, Paneer Masala, Salad", dinner: "4 Roti, Mix Veg, Raita" },
-    { d: "Wed", lunch: "Rice, Fish/Egg Curry, Bhaja", dinner: "4 Roti, Chicken/Soya Curry" },
-    { d: "Thu", lunch: "Kanika/Rice, Dal Fry, Santula", dinner: "4 Roti, Chana Masala" },
-    { d: "Fri", lunch: "Rice, Rajma, Cucumber Salad", dinner: "4 Roti, Egg/Paneer Bhurji" },
-    { d: "Sat", lunch: "Khichdi, Aloo Chokha, Dahi", dinner: "4 Roti, Matar Paneer" },
-    { d: "Sun", lunch: "Special Chicken/Paneer Thali + Sweet", dinner: "Light Roti & Dal Tadka" }
+    { d: "Mon", bf: "Idli Sambar & Chutney", lunch: "Rice, Dalma, Aloo Bharta", dinner: "4 Roti, Tadka Dal, Kheer" },
+    { d: "Tue", bf: "Aloo Paratha & Curd", lunch: "Jeera Rice, Paneer Masala", dinner: "4 Roti, Mix Veg, Raita" },
+    { d: "Wed", bf: "Puri Aloo Dum", lunch: "Rice, Fish/Egg Curry, Bhaja", dinner: "4 Roti, Chicken/Soya Curry" },
+    { d: "Thu", bf: "Upma & Ghugni", lunch: "Kanika/Rice, Dal Fry, Santula", dinner: "4 Roti, Chana Masala" },
+    { d: "Fri", bf: "Chakuli & Dalma", lunch: "Rice, Rajma, Salad", dinner: "4 Roti, Egg/Paneer Bhurji" },
+    { d: "Sat", bf: "Poha & Boiled Egg/Sprouts", lunch: "Khichdi, Chokha, Dahi", dinner: "4 Roti, Matar Paneer" },
+    { d: "Sun", bf: "Masala Dosa / Chole Bhature", lunch: "Special Thali + Sweet", dinner: "Light Roti & Dal Tadka" }
   ];
   document.getElementById("weeklyMenuTable").innerHTML = `
     <table>
-      <tr><th>Day</th><th>Lunch</th><th>Dinner</th><th>Rate</th></tr>
+      <tr><th>Day</th><th>Breakfast</th><th>Lunch</th><th>Dinner</th><th>Rate</th></tr>
       ${days.map(x => `
         <tr>
           <td><strong>${x.d}</strong></td>
+          <td>${x.bf}</td>
           <td>${x.lunch}</td>
           <td>${x.dinner}</td>
           <td><button class="btn btn-outline btn-sm" onclick="alert('⭐ Thank you for rating ${x.d} meal!')">★ 5</button></td>
@@ -972,7 +1075,7 @@ function renderWeeklyMenu() {
   `;
 }
 
-// ==================== PAGE 2: MULTI-VENDOR FOOD SHOP ====================
+// ==================== PAGE 2: MULTI-VENDOR FOOD & BREAKFAST SHOP ====================
 function renderFoodShop() {
   const foodVendors = state.vendors.filter(v => v.type === "FOOD");
   const filterSel = document.getElementById("shopVendorFilter");
@@ -981,10 +1084,12 @@ function renderFoodShop() {
     foodVendors.map(v => `<option value="${v.id}">${v.name} (${v.status})</option>`).join("");
   filterSel.value = prevVal;
 
+  const catVal = document.getElementById("shopCatFilter").value;
   const q = (document.getElementById("shopSearch").value || "").toLowerCase();
   const items = state.catalog.filter(it =>
     it.section === "FOOD" &&
     (filterSel.value === "ALL" || it.vendorId === filterSel.value) &&
+    (catVal === "ALL" || it.cat === catVal) &&
     it.name.toLowerCase().includes(q)
   );
 
@@ -999,13 +1104,12 @@ function renderFoodShop() {
             <span>🏪 <strong>${v.name}</strong></span>
             <span>⭐ ${v.rating} · <b>${v.status}</b></span>
           </div>
-          <div class="row" style="margin-top:8px">
-            <span class="food-3d-badge">🍽️</span>
-            <div>
-              <div style="font-weight:800;font-size:14px">${it.name}</div>
-              <div style="font-size:11px;color:var(--muted)">${it.tag}</div>
-            </div>
+          <div class="real-3d-frame">
+            <span class="floating-tag">${it.cat || "FOOD"}</span>
+            <img class="real-3d-img" src="${it.img || make3DFoodArt("🍛", it.name, "#f43f5e", "#881337")}" alt="${it.name}" />
           </div>
+          <div style="font-weight:800;font-size:14px;margin-top:6px">${it.name}</div>
+          <div style="font-size:11px;color:var(--muted)">${it.tag}</div>
           ${!it.inStock && sub ? `<div style="font-size:11px;color:var(--accent);margin-top:4px">Try substitute: <b>${sub.name} (₹${sub.price})</b></div>` : ""}
         </div>
         <div class="row" style="justify-content:space-between;margin-top:6px">
@@ -1018,6 +1122,7 @@ function renderFoodShop() {
       </div>
     `;
   }).join("");
+  attach3DTilt();
 }
 
 // ==================== PAGE 3: KIRANA & HUL ====================
@@ -1061,13 +1166,12 @@ function renderKirana() {
             <span>🏬 <strong>${v.name}</strong></span>
             <span class="badge ${it.cat === "HUL" ? "b-blue" : "b-green"}">${it.cat || "KIRANA"}</span>
           </div>
-          <div class="row" style="margin-top:8px">
-            <span class="food-3d-badge">${it.cat === "HUL" ? "🧴" : "🌾"}</span>
-            <div>
-              <div style="font-weight:800;font-size:14px">${it.name}</div>
-              <div style="font-size:11px;color:var(--muted)">${it.tag}</div>
-            </div>
+          <div class="real-3d-frame">
+            <span class="floating-tag">${it.cat || "KIRANA"}</span>
+            <img class="real-3d-img" src="${it.img || make3DFoodArt("🛒", it.name, "#16a34a", "#14532d")}" alt="${it.name}" />
           </div>
+          <div style="font-weight:800;font-size:14px;margin-top:6px">${it.name}</div>
+          <div style="font-size:11px;color:var(--muted)">${it.tag}</div>
           ${!it.inStock && sub ? `<div style="font-size:11px;color:var(--accent);margin-top:4px">Substitute: <b>${sub.name} (₹${sub.price})</b></div>` : ""}
         </div>
         <div class="row" style="justify-content:space-between;margin-top:6px">
@@ -1080,6 +1184,12 @@ function renderKirana() {
       </div>
     `;
   }).join("");
+  attach3DTilt();
+}
+
+function addFreeDeliveryCombo() {
+  ["k1", "k2", "k3"].forEach(id => addCatalogToCart(id));
+  alert("🎉 1-Tap ₹500+ Free Delivery Combo (Atta + Rice + Surf Excel) added!");
 }
 
 function addCatalogToCart(itemId) {
@@ -1115,7 +1225,22 @@ function reorderLastKirana() {
   alert("✅ Previous Kirana items added with current verified prices!");
 }
 
-// ==================== CART, TAMPER-LOCKED CALCULATION & CHECKOUT ====================
+// ==================== CART, PEAK SLOT GUARD & TAMPER-LOCKED CHECKOUT ====================
+function renderDeliverySlotOptions() {
+  const slots = [
+    "Morning Run (7:30 AM – 9:30 AM)",
+    "Lunch Run (12:00 PM – 1:30 PM)",
+    "Evening Kirana/Snacks (5:00 PM – 7:00 PM)",
+    "Dinner Run (7:30 PM – 9:00 PM)"
+  ];
+  const sel = document.getElementById("deliverySlotSelect");
+  sel.innerHTML = slots.map(s => {
+    const used = state.orders.filter(o => o.status !== "Cancelled" && o.deliverySlot === s).length;
+    const left = Math.max(0, SLOT_CAPACITY - used);
+    return `<option value="${s}" ${left === 0 ? "disabled" : ""}>${s} — ${left > 0 ? left + " slots open" : "FULL"}</option>`;
+  }).join("");
+}
+
 function getKiranaSubtotal() {
   return cart.filter(c => c.section === "KIRANA").reduce((sum, c) => sum + (c.lockedUnitPrice * c.qty), 0);
 }
@@ -1183,9 +1308,10 @@ function calculateVerifiedBill() {
 }
 
 function renderCart() {
+  renderDeliverySlotOptions();
   const box = document.getElementById("cartItemsList");
   if (!cart.length) {
-    box.innerHTML = `<div style="color:var(--muted);font-size:13px">Your cart is empty. Add Tiffin, Food, or Kirana items!</div>`;
+    box.innerHTML = `<div style="color:var(--muted);font-size:13px">Your cart is empty. Add Tiffin, Breakfast, Food, or Kirana items!</div>`;
     document.getElementById("billSummaryBox").innerHTML = "";
     document.getElementById("placeOrderBtn").disabled = true;
     return;
@@ -1226,7 +1352,7 @@ function renderCart() {
   document.getElementById("billSummaryBox").innerHTML = `
     <div style="font-size:12px;line-height:1.7">
       ${bill.tiffinTotal ? `<div>Mera Tiffin: <strong>₹${bill.tiffinTotal}</strong></div>` : ""}
-      ${bill.foodTotal ? `<div>Food Shop: <strong>₹${bill.foodTotal}</strong></div>` : ""}
+      ${bill.foodTotal ? `<div>Food & Breakfast Shop: <strong>₹${bill.foodTotal}</strong></div>` : ""}
       ${bill.kiranaTotal ? `<div>Kirana & HUL: <strong>₹${bill.kiranaTotal}</strong></div>` : ""}
       <div>Delivery Charge: <strong>${bill.deliveryFee === 0 ? "FREE (₹0)" : "₹" + bill.deliveryFee}</strong></div>
       ${bill.totalDiscount > 0 ? `<div style="color:var(--secondary)">Discounts Applied: <strong>-₹${bill.totalDiscount}</strong></div>` : ""}
@@ -1257,6 +1383,7 @@ function placeVerifiedOrder() {
   const phone = document.getElementById("custPhone").value.trim();
   const area = document.getElementById("custArea").value;
   const addr = document.getElementById("custAddr").value.trim();
+  const deliverySlot = document.getElementById("deliverySlotSelect").value;
   const payMode = document.getElementById("payMode").value;
 
   if (!name || !/^\d{10}$/.test(phone) || !addr) {
@@ -1315,6 +1442,7 @@ function placeVerifiedOrder() {
     createdAt: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     createdTs: Date.now(),
     customer: { name, phone, area, addr },
+    deliverySlot,
     items: structuredClone(cart),
     bill,
     payMode,
@@ -1331,7 +1459,7 @@ function placeVerifiedOrder() {
   if (utr) state.usedUtrs.push(utr);
   if (fileHash) state.usedScreenshotHashes.push(fileHash);
   state.orders.unshift(orderObj);
-  saveState(`Order ${orderObj.id} placed (₹${bill.grandTotal} · ${payMode})`);
+  saveState(`Order ${orderObj.id} placed (₹${bill.grandTotal} · ${payMode} · ${deliverySlot})`);
 
   clearCart();
   renderCustomerOrders();
@@ -1379,26 +1507,38 @@ function renderCustomerOrders() {
         <span class="badge ${o.status === "Delivered" ? "b-green" : (o.status === "Cancelled" ? "b-red" : "b-amber")}">${o.status}</span>
       </div>
       <div style="color:var(--muted);margin-top:3px">${o.items.map(i => `${i.name} (×${i.qty})`).join(", ")}</div>
-      <div style="font-size:11px;margin-top:3px">Pay: ${o.payMode} ${o.utr ? "| UTR: " + o.utr : ""} · Area: ${o.customer.area}</div>
+      <div style="font-size:11px;margin-top:3px">${o.deliverySlot || ""} · Pay: ${o.payMode} · Area: ${o.customer.area}</div>
     </div>
   `).join("");
 }
 
-// ==================== KITCHEN VIEW (PIN 1122) ====================
+// ==================== KITCHEN VIEW (PIN 1122 + PREP FORECAST) ====================
 function renderKitchenView() {
   const activeOrders = state.orders.filter(o => o.status !== "Delivered" && o.status !== "Cancelled");
   const sub = state.subscription;
+  const activeDabbas = sub.skippedToday ? 0 : 1;
+  const totalMealsToPrep = activeDabbas + activeOrders.reduce((s, o) => s + o.items.filter(i => i.section !== "KIRANA").reduce((a, b) => a + b.qty, 0), 0);
+
   document.getElementById("kitchenSummaryStats").innerHTML = `
-    <div class="card" style="margin:0"><strong>Active Tiffin Pass</strong><div class="price">${sub.skippedToday ? "0 (Skipped)" : "1 Dabba"}</div><div style="font-size:11px">${sub.diet} · ${sub.slot}</div></div>
+    <div class="card" style="margin:0"><strong>Active Tiffin Pass</strong><div class="price">${activeDabbas} Dabba</div><div style="font-size:11px">${sub.diet} · ${sub.slot}</div></div>
     <div class="card" style="margin:0"><strong>Taste / Diet Slip</strong><div style="font-weight:800;margin-top:4px">${sub.spice}</div><div style="font-size:11px">${sub.healthTag}</div></div>
-    <div class="card" style="margin:0"><strong>Pending Orders</strong><div class="price">${activeOrders.length}</div><div style="font-size:11px">Prep & Pack Queue</div></div>
+    <div class="card" style="margin:0"><strong>Total Food/Tiffin Queue</strong><div class="price">${totalMealsToPrep}</div><div style="font-size:11px">${activeOrders.length} Active Orders</div></div>
+  `;
+
+  // Auto Ingredient Prep Forecast
+  const estAttaKg = (totalMealsToPrep * 0.14).toFixed(1);
+  const estRiceKg = (totalMealsToPrep * 0.18).toFixed(1);
+  const estDalKg = (totalMealsToPrep * 0.06).toFixed(1);
+  document.getElementById("kitchenForecastBox").innerHTML = `
+    📊 <b>Smart Kitchen Prep Forecast (${totalMealsToPrep} Meals):</b>
+    Est. Atta: <b>${estAttaKg} kg</b> · Est. Rice: <b>${estRiceKg} kg</b> · Est. Dal/Gravy Base: <b>${estDalKg} kg</b>
   `;
 
   document.getElementById("kitchenOrdersList").innerHTML = activeOrders.length ? activeOrders.map(o => `
     <div class="card" style="background:#f8fafc">
       <div class="row" style="justify-content:space-between">
         <strong>${o.id} — ${o.customer.name} (${o.customer.area})</strong>
-        <span class="badge b-blue">${o.status}</span>
+        <span class="badge b-blue">${o.deliverySlot || o.status}</span>
       </div>
       <div style="font-size:12px;margin:6px 0">${o.items.map(i => `• ${i.name} × ${i.qty}`).join("<br>")}</div>
       <div class="row">
@@ -1409,12 +1549,11 @@ function renderKitchenView() {
   `).join("") : `<div style="font-size:12px;color:var(--muted)">All kitchen orders cooked & packed!</div>`;
 }
 
-// ==================== DELIVERY BOY VIEW (PIN 3344 + ROUTE & ANTI-FAKE FUEL ALGO) ====================
+// ==================== DELIVERY BOY VIEW (PIN 3344 + AREA-CLUSTER & ANTI-FAKE FUEL) ====================
 function renderDeliveryView() {
   const rider = document.getElementById("riderSelect").value;
   const areaF = document.getElementById("deliveryAreaFilter").value;
 
-  // Area Cluster Route Sorting Algorithm
   const list = state.orders
     .filter(o => o.status !== "Cancelled" && (areaF === "ALL" || o.customer.area === areaF))
     .sort((a, b) => (UDALA_AREA_CLUSTER[a.customer.area] || 99) - (UDALA_AREA_CLUSTER[b.customer.area] || 99));
@@ -1451,7 +1590,7 @@ function renderDeliveryView() {
           <span class="badge ${o.status === "Delivered" ? "b-green" : "b-amber"}">${o.status}</span>
         </div>
         <div style="font-size:12px;margin:4px 0">
-          <b>${o.customer.name}</b> (${o.customer.phone}) · ${o.customer.addr}
+          <b>${o.customer.name}</b> (${o.customer.phone}) · ${o.customer.addr} · <i>${o.deliverySlot || ""}</i>
         </div>
         <div class="row" style="margin:6px 0">
           <span class="badge ${collectCash > 0 ? "b-red" : "b-green"}">
@@ -1549,12 +1688,7 @@ function renderFuelLogs() {
 }
 
 // ==================== ISOLATED PARTNER VENDOR VIEW ====================
-function renderVendorView() {
-  const v = state.vendors.find(x => x.id === activeVendorId);
-  if (!v) return;
-  document.getElementById("vendorPanelTitle").textContent = `🏪 ${v.name} (Isolated Panel)`;
-  document.getElementById("vendorStatusSelect").value = v.status;
-
+function getVendorFinancials(v) {
   const vOrders = state.orders.filter(o => o.status !== "Cancelled" && o.items.some(i => i.vendorId === v.id));
   let grossSales = 0;
   let commCut = 0;
@@ -1571,15 +1705,27 @@ function renderVendorView() {
     }
   });
 
-  const netPayout = Math.max(0, grossSales - commCut);
+  const netPayable = Math.max(0, grossSales - commCut);
+  const alreadyReleased = v.settledPaid || 0;
+  const pendingFromOwner = Math.max(0, netPayable - alreadyReleased);
+  return { vOrders, grossSales, commCut, netPayable, alreadyReleased, pendingFromOwner };
+}
+
+function renderVendorView() {
+  const v = state.vendors.find(x => x.id === activeVendorId);
+  if (!v) return;
+  document.getElementById("vendorPanelTitle").textContent = `🏪 ${v.name} (Isolated Panel)`;
+  document.getElementById("vendorStatusSelect").value = v.status;
+
+  const fin = getVendorFinancials(v);
   const commRuleText = v.isSelf
     ? "0% (Self Store)"
     : (v.type === "FOOD" ? `${state.rates.foodPartnerCommPct}% Food Comm` : `₹${state.rates.kiranaPostDeliveryComm}/Delivered Order`);
 
   document.getElementById("vendorStatsBox").innerHTML = `
-    <div class="card" style="margin:0"><strong>My Gross Sales</strong><div class="price">₹${grossSales}</div></div>
-    <div class="card" style="margin:0"><strong>Platform Comm</strong><div class="price" style="color:#9f1239">-₹${commCut}</div><div style="font-size:11px">${commRuleText}</div></div>
-    <div class="card" style="margin:0"><strong>My Net Payout</strong><div class="price" style="color:var(--secondary)">₹${netPayout}</div></div>
+    <div class="card" style="margin:0"><strong>My Gross Sales</strong><div class="price">₹${fin.grossSales}</div></div>
+    <div class="card" style="margin:0"><strong>Platform Comm</strong><div class="price" style="color:#9f1239">-₹${fin.commCut}</div><div style="font-size:11px">${commRuleText}</div></div>
+    <div class="card" style="margin:0"><strong>Owner Payout Status</strong><div class="price" style="color:var(--secondary)">₹${fin.pendingFromOwner} Due</div><div style="font-size:11px">Released by Owner: ₹${fin.alreadyReleased}</div></div>
   `;
 
   const myItems = state.catalog.filter(i => i.vendorId === v.id);
@@ -1598,7 +1744,7 @@ function renderVendorView() {
     </table>
   `;
 
-  document.getElementById("vendorOrdersManage").innerHTML = vOrders.length ? vOrders.map(o => `
+  document.getElementById("vendorOrdersManage").innerHTML = fin.vOrders.length ? fin.vOrders.map(o => `
     <div class="card" style="background:#f8fafc">
       <div class="row" style="justify-content:space-between">
         <strong>${o.id} · ${o.customer.area}</strong>
@@ -1645,12 +1791,13 @@ function updateOrderStatus(orderId, newStatus) {
   renderOwnerView();
 }
 
-// ==================== OWNER MASTER CONTROL (PIN 4827) ====================
+// ==================== OWNER MASTER CONTROL (PIN 4827 + OWNER-CONTROLLED PAYOUT RELEASE) ====================
 function renderOwnerView() {
   document.getElementById("ed_trial").value = state.rates.trial;
   document.getElementById("ed_p7").value = state.rates.p7;
   document.getElementById("ed_p15").value = state.rates.p15;
   document.getElementById("ed_p30").value = state.rates.p30;
+  document.getElementById("ed_bfPerDay").value = state.rates.breakfastPerDay;
   document.getElementById("ed_foodComm").value = state.rates.foodPartnerCommPct;
   document.getElementById("ed_kiranaMin").value = state.rates.kiranaMinOrder;
   document.getElementById("ed_kiranaFree").value = state.rates.kiranaFreeDeliveryAt;
@@ -1670,34 +1817,30 @@ function renderOwnerView() {
     state.fuelLogs.filter(f => f.approved).reduce((s, f) => s + f.claimedRs, 0);
 
   document.getElementById("ownerKpiGrid").innerHTML = `
-    <div class="card" style="margin:0"><strong>Total GMV Sales</strong><div class="price">₹${totalSales}</div><div style="font-size:11px">${validOrders.length} Active Orders</div></div>
+    <div class="card" style="margin:0"><strong>Total GMV Collected</strong><div class="price">₹${totalSales}</div><div style="font-size:11px">${validOrders.length} Active Orders</div></div>
     <div class="card" style="margin:0"><strong>Earned Commissions</strong><div class="price" style="color:var(--secondary)">₹${foodCommEarned + kiranaCommEarned}</div><div style="font-size:11px">Food ₹${foodCommEarned} + Kirana ₹${kiranaCommEarned} (Pending ₹${kiranaCommPending})</div></div>
     <div class="card" style="margin:0"><strong>Approved Expenses</strong><div class="price" style="color:#9f1239">₹${totalExp}</div><div style="font-size:11px">Includes Approved Fuel</div></div>
   `;
 
   document.getElementById("ownerVendorLedger").innerHTML = `
     <table>
-      <tr><th>Vendor Name</th><th>PIN</th><th>Type</th><th>Rule</th><th>Gross</th><th>Owner Comm</th><th>Net Payout</th></tr>
+      <tr><th>Vendor Name</th><th>PIN</th><th>Rule</th><th>Gross</th><th>Owner Comm</th><th>Due Payout</th><th>Release</th></tr>
       ${state.vendors.map(v => {
-        const vOrders = validOrders.filter(o => o.items.some(i => i.vendorId === v.id));
-        let gross = 0, comm = 0;
-        vOrders.forEach(o => {
-          const sub = o.items.filter(i => i.vendorId === v.id).reduce((s, i) => s + i.lockedUnitPrice * i.qty, 0);
-          gross += sub;
-          if (!v.isSelf) {
-            if (v.type === "FOOD") comm += Math.round((sub * state.rates.foodPartnerCommPct) / 100);
-            if (v.type === "KIRANA" && o.status === "Delivered") comm += state.rates.kiranaPostDeliveryComm;
-          }
-        });
+        const fin = getVendorFinancials(v);
         return `
           <tr>
             <td><strong>${v.name}</strong></td>
             <td><code>${v.pin}</code></td>
-            <td>${v.type}</td>
             <td>${v.isSelf ? "0% (Self)" : (v.type === "FOOD" ? state.rates.foodPartnerCommPct + "%" : "₹" + state.rates.kiranaPostDeliveryComm + " Post-Del")}</td>
-            <td>₹${gross}</td>
-            <td>₹${comm}</td>
-            <td><strong>₹${gross - comm}</strong></td>
+            <td>₹${fin.grossSales}</td>
+            <td>₹${fin.commCut}</td>
+            <td><strong>₹${fin.pendingFromOwner}</strong></td>
+            <td>
+              ${!v.isSelf && fin.pendingFromOwner > 0
+                ? `<button class="btn btn-green btn-sm" onclick="releaseVendorPayout('${v.id}')">Pay ₹${fin.pendingFromOwner}</button>`
+                : `<span style="font-size:11px;color:var(--muted)">${v.isSelf ? "Self Hub" : "Settled ✅"}</span>`
+              }
+            </td>
           </tr>
         `;
       }).join("")}
@@ -1740,11 +1883,23 @@ function renderOwnerView() {
   ).join("");
 }
 
+function releaseVendorPayout(vendorId) {
+  const v = state.vendors.find(x => x.id === vendorId);
+  if (!v) return;
+  const fin = getVendorFinancials(v);
+  if (fin.pendingFromOwner <= 0) return;
+  v.settledPaid = (v.settledPaid || 0) + fin.pendingFromOwner;
+  saveState(`Owner released payout ₹${fin.pendingFromOwner} to ${v.name}`);
+  renderOwnerView();
+  alert(`✅ Payout ₹${fin.pendingFromOwner} released to ${v.name}!`);
+}
+
 function saveMasterRates() {
   state.rates.trial = Math.max(1, parseInt(document.getElementById("ed_trial").value, 10) || 75);
   state.rates.p7 = Math.max(1, parseInt(document.getElementById("ed_p7").value, 10) || 490);
   state.rates.p15 = Math.max(1, parseInt(document.getElementById("ed_p15").value, 10) || 990);
   state.rates.p30 = Math.max(1, parseInt(document.getElementById("ed_p30").value, 10) || 1890);
+  state.rates.breakfastPerDay = Math.max(1, parseInt(document.getElementById("ed_bfPerDay").value, 10) || 45);
   state.rates.foodPartnerCommPct = Math.max(0, parseFloat(document.getElementById("ed_foodComm").value) || 20);
   state.rates.kiranaMinOrder = Math.max(0, parseInt(document.getElementById("ed_kiranaMin").value, 10) || 300);
   state.rates.kiranaFreeDeliveryAt = Math.max(0, parseInt(document.getElementById("ed_kiranaFree").value, 10) || 500);
@@ -1769,15 +1924,17 @@ function addCatalogItem() {
     alert("Enter valid Item Name and Price.");
     return;
   }
+  const isBf = tag.toLowerCase().includes("breakfast");
   state.catalog.push({
     id: "itm_" + Date.now(),
     section,
     vendorId,
-    cat: section === "KIRANA" ? "STAPLES" : undefined,
+    cat: section === "KIRANA" ? "STAPLES" : (isBf ? "BREAKFAST" : "MEALS"),
     name,
     price,
     tag,
-    inStock: true
+    inStock: true,
+    img: make3DFoodArt(section === "KIRANA" ? "🛒" : "🍛", name, "#f59e0b", "#78350f")
   });
   saveState(`Owner added ${section} item: ${name} (₹${price})`);
   document.getElementById("newItemName").value = "";
