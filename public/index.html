@@ -2314,7 +2314,7 @@ function viewVendor() {
           <div style="display:flex;justify-content:space-between"><b>${esc(o.id)} · ${esc(o.name)}</b><span class="pill p-amber">${esc(o.status)}</span></div>
           <div style="font-size:11px;color:var(--mu)">${o.items.filter(i => i.vendorId === v.id).map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
           <div class="btn-row" style="margin-top:4px">
-            <button class="btn amb sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="Cooking">🔥 Accept / Prep</button>
+            <button class="btn amb sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="${v.type === "KIRANA" ? "Confirmed" : "Cooking"}">${v.type === "KIRANA" ? "📦 Accept / Pack" : "🔥 Accept / Prep"}</button>
             <button class="btn g sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button>
             ${o.status !== "Delivered" ? `<button class="btn r sm" data-act="cancelOrder" data-k="${v.type}" data-id="${o.id}">✕ Reject</button>` : ""}
           </div>
@@ -3086,7 +3086,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-separated-v54.html";
+      a.download = "namaste-udala-separated-v55.html";
       a.click();
       URL.revokeObjectURL(url);
       window._showInstallPopup = false;
