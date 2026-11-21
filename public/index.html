@@ -532,148 +532,48 @@ const IMG = {
 
 
 
-/* ==================== COMPLETE 3D ILLUSTRATED SVG PACK FOR ALL ITEMS (100% INSTANT & UNIQUE) ==================== */
-const toB64 = str => {
-  try { return btoa(unescape(encodeURIComponent(str))); }
-  catch (e) { return btoa(Array.from(str).map(c => String.fromCharCode(c.charCodeAt(0) & 255)).join("")); }
+const REAL_IMG = {
+  idli: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80",
+  thali: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80",
+  chicken: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=600&q=80",
+  puri: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80",
+  biryani: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80",
+  paneer: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=600&q=80",
+  jarcake: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=600&q=80",
+  cake: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80",
+  atta: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80",
+  rice: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+  surf: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=600&q=80",
+  soap: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=600&q=80",
+  tea: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?auto=format&fit=crop&w=600&q=80",
+  oil: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80",
+  milk: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80",
+  kirana: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80"
 };
-const makeSvg = inner => "data:image/svg+xml;base64," + toB64(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220"><defs><filter id="s" x="-20%" y="-20%" width="140%" height="145%"><feDropShadow dx="0" dy="14" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.42"/></filter></defs><g filter="url(#s)">${inner}</g></svg>`);
-
-const ART3D = {
-  idli: makeSvg(`
-    <ellipse cx="110" cy="142" rx="84" ry="38" fill="#e2e8f0" stroke="#94a3b8" stroke-width="3"/>
-    <ellipse cx="82" cy="126" rx="26" ry="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
-    <ellipse cx="134" cy="128" rx="26" ry="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
-    <ellipse cx="108" cy="108" rx="26" ry="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-    <circle cx="72" cy="150" r="16" fill="#d97706" stroke="#fff" stroke-width="2"/>
-    <circle cx="146" cy="150" r="15" fill="#16a34a" stroke="#fff" stroke-width="2"/>
-  `),
-  thali: makeSvg(`
-    <ellipse cx="110" cy="124" rx="88" ry="52" fill="#d97706" stroke="#fde68a" stroke-width="3"/>
-    <ellipse cx="110" cy="120" rx="76" ry="43" fill="#fef3c7" opacity="0.35"/>
-    <ellipse cx="86" cy="134" rx="28" ry="18" fill="#ffffff"/>
-    <circle cx="78" cy="96" r="18" fill="#f59e0b" stroke="#78350f" stroke-width="2.5"/>
-    <circle cx="122" cy="94" r="17" fill="#dc2626" stroke="#78350f" stroke-width="2.5"/>
-    <circle cx="156" cy="112" r="14" fill="#16a34a" stroke="#78350f" stroke-width="2"/>
-    <path d="M114 134 Q146 112 168 134 Q142 154 114 134 Z" fill="#fde047" stroke="#a16207" stroke-width="2"/>
-  `),
-  chicken: makeSvg(`
-    <path d="M40 108 Q36 176 110 180 Q184 176 180 108 Z" fill="#7c2d12" stroke="#fdba74" stroke-width="2.5"/>
-    <ellipse cx="110" cy="108" rx="70" ry="24" fill="#b91c1c"/>
-    <ellipse cx="92" cy="102" rx="22" ry="12" fill="#991b1b" transform="rotate(-15 92 102)"/>
-    <rect x="64" y="88" width="24" height="8" rx="4" fill="#fef3c7" transform="rotate(-25 64 88)"/>
-    <ellipse cx="132" cy="108" rx="20" ry="11" fill="#7f1d1d" transform="rotate(14 132 108)"/>
-    <circle cx="112" cy="92" r="7" fill="#22c55e"/>
-  `),
-  puri: makeSvg(`
-    <ellipse cx="110" cy="144" rx="84" ry="36" fill="#cbd5e1" stroke="#64748b" stroke-width="2.5"/>
-    <ellipse cx="86" cy="122" rx="34" ry="22" fill="#f59e0b" stroke="#b45309" stroke-width="2.5"/>
-    <ellipse cx="132" cy="126" rx="34" ry="22" fill="#fbbf24" stroke="#b45309" stroke-width="2.5"/>
-    <ellipse cx="108" cy="106" rx="32" ry="20" fill="#fcd34d" stroke="#b45309" stroke-width="2.5"/>
-    <circle cx="152" cy="152" r="18" fill="#dc2626" stroke="#fff" stroke-width="2"/>
-  `),
-  biryani: makeSvg(`
-    <path d="M38 100 Q28 180 110 186 Q192 180 182 100 Z" fill="#9a3412"/>
-    <ellipse cx="110" cy="100" rx="74" ry="26" fill="#7c2d12" stroke="#fdba74" stroke-width="2.5"/>
-    <ellipse cx="110" cy="96" rx="66" ry="22" fill="#f59e0b"/>
-    <ellipse cx="90" cy="92" rx="18" ry="9" fill="#b91c1c" transform="rotate(-12 90 92)"/>
-    <ellipse cx="132" cy="98" rx="16" ry="8" fill="#991b1b" transform="rotate(14 132 98)"/>
-    <circle cx="112" cy="84" r="8" fill="#fef9c3"/>
-    <path d="M100 78 Q110 64 118 76 Z" fill="#16a34a"/>
-  `),
-  paneer: makeSvg(`
-    <path d="M42 108 Q40 176 110 180 Q180 176 178 108 Z" fill="#ea580c" stroke="#fed7aa" stroke-width="2.5"/>
-    <ellipse cx="110" cy="108" rx="68" ry="22" fill="#f97316"/>
-    <rect x="76" y="94" width="20" height="16" rx="4" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
-    <rect x="106" y="90" width="20" height="16" rx="4" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
-    <rect x="130" y="98" width="18" height="14" rx="4" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
-    <circle cx="98" cy="112" r="5" fill="#16a34a"/>
-  `),
-  jarcake: makeSvg(`
-    <rect x="66" y="42" width="88" height="16" rx="6" fill="#be123c"/>
-    <rect x="62" y="58" width="96" height="126" rx="18" fill="#fff1f2" stroke="#fda4af" stroke-width="3"/>
-    <rect x="66" y="68" width="88" height="26" fill="#451a03"/>
-    <rect x="66" y="94" width="88" height="22" fill="#fecdd3"/>
-    <rect x="66" y="116" width="88" height="28" fill="#78350f"/>
-    <rect x="66" y="144" width="88" height="28" fill="#3b0764"/>
-    <circle cx="110" cy="36" r="10" fill="#e11d48"/>
-  `),
-  cake: makeSvg(`
-    <ellipse cx="110" cy="166" rx="82" ry="22" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2.5"/>
-    <rect x="48" y="94" width="124" height="66" rx="16" fill="#be123c"/>
-    <ellipse cx="110" cy="94" rx="62" ry="20" fill="#ffe4e6"/>
-    <circle cx="92" cy="88" r="9" fill="#e11d48"/>
-    <circle cx="112" cy="84" r="10" fill="#be123c"/>
-    <circle cx="130" cy="90" r="8" fill="#e11d48"/>
-  `),
-  atta: makeSvg(`
-    <path d="M54 36 L166 36 L176 186 Q110 196 44 186 Z" fill="#d97706" stroke="#fde68a" stroke-width="2.5"/>
-    <rect x="58" y="72" width="104" height="58" rx="12" fill="#fffbeb"/>
-    <text x="110" y="98" text-anchor="middle" fill="#92400e" font-family="sans-serif" font-size="18" font-weight="900">CHAKKI ATTA</text>
-    <text x="110" y="118" text-anchor="middle" fill="#15803d" font-family="sans-serif" font-size="13" font-weight="800">5 KG · MP WHEAT</text>
-  `),
-  rice: makeSvg(`
-    <path d="M52 38 L168 38 L178 186 Q110 196 42 186 Z" fill="#15803d" stroke="#bbf7d0" stroke-width="2.5"/>
-    <rect x="58" y="72" width="104" height="58" rx="12" fill="#ffffff"/>
-    <text x="110" y="98" text-anchor="middle" fill="#166534" font-family="sans-serif" font-size="18" font-weight="900">MINIKET RICE</text>
-    <text x="110" y="118" text-anchor="middle" fill="#d97706" font-family="sans-serif" font-size="13" font-weight="800">5 KG · PREMIUM</text>
-  `),
-  surf: makeSvg(`
-    <path d="M52 34 L168 34 L178 186 Q110 198 42 186 Z" fill="#1d4ed8" stroke="#93c5fd" stroke-width="2.5"/>
-    <path d="M46 112 Q110 92 174 112 L176 134 Q110 116 44 134 Z" fill="#facc15"/>
-    <text x="110" y="84" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="22" font-weight="900">SURF EXCEL</text>
-    <text x="110" y="102" text-anchor="middle" fill="#fde047" font-family="sans-serif" font-size="11" font-weight="800">EASY WASH · 1.5 KG</text>
-    <text x="110" y="156" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="800">TOUGH STAIN REMOVER</text>
-  `),
-  soap: makeSvg(`
-    <rect x="44" y="64" width="132" height="84" rx="20" fill="#dc2626" stroke="#fecaca" stroke-width="3"/>
-    <rect x="58" y="82" width="104" height="48" rx="12" fill="#ffffff"/>
-    <text x="110" y="106" text-anchor="middle" fill="#dc2626" font-family="sans-serif" font-size="18" font-weight="900">LIFEBUOY</text>
-    <text x="110" y="122" text-anchor="middle" fill="#0f172a" font-family="sans-serif" font-size="11" font-weight="800">TOTAL 10 · 4 PACK</text>
-  `),
-  tea: makeSvg(`
-    <rect x="54" y="42" width="112" height="142" rx="18" fill="#b91c1c" stroke="#fde047" stroke-width="3"/>
-    <rect x="64" y="76" width="92" height="58" rx="10" fill="#fef08a"/>
-    <text x="110" y="102" text-anchor="middle" fill="#991b1b" font-family="sans-serif" font-size="18" font-weight="900">RED LABEL</text>
-    <text x="110" y="120" text-anchor="middle" fill="#166534" font-family="sans-serif" font-size="12" font-weight="800">ASSAM TEA · 500G</text>
-  `),
-  oil: makeSvg(`
-    <rect x="88" y="28" width="44" height="22" rx="6" fill="#d97706"/>
-    <path d="M68 50 L152 50 L160 184 Q110 192 60 184 Z" fill="#facc15" stroke="#fef08a" stroke-width="2.5"/>
-    <rect x="72" y="92" width="76" height="54" rx="10" fill="#ffffff"/>
-    <text x="110" y="116" text-anchor="middle" fill="#b45309" font-family="sans-serif" font-size="16" font-weight="900">SUNLITE OIL</text>
-    <text x="110" y="134" text-anchor="middle" fill="#15803d" font-family="sans-serif" font-size="12" font-weight="800">1 LITRE POUCH</text>
-  `),
-  milk: makeSvg(`
-    <path d="M58 44 L162 44 L168 184 Q110 192 52 184 Z" fill="#2563eb" stroke="#bfdbfe" stroke-width="2.5"/>
-    <rect x="64" y="82" width="92" height="62" rx="12" fill="#ffffff"/>
-    <text x="110" y="108" text-anchor="middle" fill="#1d4ed8" font-family="sans-serif" font-size="18" font-weight="900">OMFED GOLD</text>
-    <text x="110" y="128" text-anchor="middle" fill="#dc2626" font-family="sans-serif" font-size="12" font-weight="800">1L MILK + BREAD</text>
-  `)
-};
+const ART3D = REAL_IMG;
 
 function autoMatch3DImage(name, cat, desc = "") {
   const txt = `${name} ${cat} ${desc}`.toLowerCase();
-  if (/surf|detergent|easy\s*wash|washing/.test(txt)) return ART3D.surf;
-  if (/lifebuoy|soap|sabun|handwash/.test(txt)) return ART3D.soap;
-  if (/tea|chai|red\s*label|brooke/.test(txt)) return ART3D.tea;
-  if (/oil|tel|fortune|sunlite|mustard/.test(txt)) return ART3D.oil;
-  if (/milk|omfed|doodh|bread|curd|dahi/.test(txt)) return ART3D.milk;
-  if (/atta|wheat|maida|besan/.test(txt)) return ART3D.atta;
-  if (/rice|chawal|miniket|basmati/.test(txt)) return ART3D.rice;
-  if (/biryani|pulao|dum/.test(txt)) return ART3D.biryani;
-  if (/jar\s*cake|jarcake|cupcake/.test(txt)) return ART3D.jarcake;
-  if (/cake|pastry|velvet|truffle|bakery/.test(txt)) return ART3D.cake;
-  if (/puri|halwa|aloo\s*dum/.test(txt)) return ART3D.puri;
-  if (/idli|dosa|sambar|upma|vada|nashta|breakfast/.test(txt)) return ART3D.idli;
-  if (/paneer|mushroom|butter\s*masala|naan/.test(txt)) return ART3D.paneer;
-  if (/chicken|mutton|fish|egg|tadka|non-veg|nonveg/.test(txt)) return ART3D.chicken;
-  if (/thali|dalma|meal|combo|roti|tiffin|dabba/.test(txt)) return ART3D.thali;
+  if (/surf|detergent|easy\s*wash|washing/.test(txt)) return REAL_IMG.surf;
+  if (/lifebuoy|soap|sabun|handwash/.test(txt)) return REAL_IMG.soap;
+  if (/tea|chai|red\s*label|brooke/.test(txt)) return REAL_IMG.tea;
+  if (/oil|tel|fortune|sunlite|mustard/.test(txt)) return REAL_IMG.oil;
+  if (/milk|omfed|doodh|bread|curd|dahi/.test(txt)) return REAL_IMG.milk;
+  if (/atta|wheat|maida|besan/.test(txt)) return REAL_IMG.atta;
+  if (/rice|chawal|miniket|basmati/.test(txt)) return REAL_IMG.rice;
+  if (/biryani|pulao|dum/.test(txt)) return REAL_IMG.biryani;
+  if (/jar\s*cake|jarcake|cupcake/.test(txt)) return REAL_IMG.jarcake;
+  if (/cake|pastry|velvet|truffle|bakery/.test(txt)) return REAL_IMG.cake;
+  if (/puri|halwa|aloo\s*dum/.test(txt)) return REAL_IMG.puri;
+  if (/idli|dosa|sambar|upma|vada|nashta|breakfast/.test(txt)) return REAL_IMG.idli;
+  if (/paneer|mushroom|butter\s*masala|naan/.test(txt)) return REAL_IMG.paneer;
+  if (/chicken|mutton|fish|egg|tadka|non-veg|nonveg/.test(txt)) return REAL_IMG.chicken;
+  if (/thali|dalma|meal|combo|roti|tiffin|dabba/.test(txt)) return REAL_IMG.thali;
   const catFallback = {
-    Breakfast: ART3D.idli, Thali: ART3D.thali, Meals: ART3D.chicken, Biryani: ART3D.biryani,
-    Bakery: ART3D.cake, Staples: ART3D.atta, HUL: ART3D.soap, Dairy: ART3D.milk
+    Breakfast: REAL_IMG.idli, Thali: REAL_IMG.thali, Meals: REAL_IMG.chicken, Biryani: REAL_IMG.biryani,
+    Bakery: REAL_IMG.cake, Staples: REAL_IMG.atta, Dairy: REAL_IMG.milk, Kirana: REAL_IMG.kirana
   };
-  return catFallback[cat] || ART3D.thali;
+  return catFallback[cat] || REAL_IMG.thali;
 }
 
 /* ==================== AUTO-AUTOMATION ENGINE (ZERO MANUAL EFFORT) ==================== */
@@ -689,27 +589,42 @@ function getAutoMealWindow() {
 function normalizeAllImages() {
   if (!S) return;
   const vendorArt = {
-    v_self_kitchen: ART3D.thali,
-    v_bhanjpur: ART3D.biryani,
-    v_jarlicious: ART3D.cake,
-    v_udala_dhaba: ART3D.chicken,
-    v_self_kirana: ART3D.surf,
-    v_market_kirana: ART3D.oil
+    v_self_kitchen: REAL_IMG.thali,
+    v_bhanjpur: REAL_IMG.biryani,
+    v_jarlicious: REAL_IMG.cake,
+    v_udala_dhaba: REAL_IMG.chicken,
+    v_self_kirana: REAL_IMG.kirana,
+    v_market_kirana: REAL_IMG.kirana
+  };
+  const foodIdArt = {
+    fd1: REAL_IMG.idli,
+    fd2: REAL_IMG.thali,
+    fd3: REAL_IMG.chicken,
+    fd4: REAL_IMG.puri,
+    fd5: REAL_IMG.biryani,
+    fd6: REAL_IMG.paneer,
+    fd7: REAL_IMG.jarcake,
+    fd8: REAL_IMG.cake,
+    fd9: REAL_IMG.chicken
+  };
+  const kiranaIdArt = {
+    kr1: REAL_IMG.atta,
+    kr2: REAL_IMG.rice,
+    kr3: REAL_IMG.surf,
+    kr4: REAL_IMG.soap,
+    kr5: REAL_IMG.tea,
+    kr6: REAL_IMG.oil,
+    kr7: REAL_IMG.milk
   };
   (S.vendors || []).forEach(v => {
-    if (!v.cover || v.cover.includes("unsplash.com") || v.cover.includes("utf8,")) {
-      v.cover = vendorArt[v.id] || (v.type === "FOOD" ? ART3D.thali : ART3D.kirana);
-    }
+    v.cover = vendorArt[v.id] || (v.type === "FOOD" ? REAL_IMG.thali : REAL_IMG.kirana);
   });
   (S.foodItems || []).forEach(it => {
-    if (!it.img || it.img.includes("unsplash.com") || it.img.includes("utf8,")) {
-      it.img = autoMatch3DImage(it.name, it.cat, it.desc);
-    }
+    const mapped = foodIdArt[it.id] || autoMatch3DImage(it.name, it.cat, it.desc);
+    it.img = mapped === REAL_IMG.tea ? autoMatch3DImage(it.name, it.cat, it.desc) : mapped;
   });
   (S.kiranaItems || []).forEach(it => {
-    if (!it.img || it.img.includes("unsplash.com") || it.img.includes("utf8,") || /surf/i.test(it.name)) {
-      it.img = autoMatch3DImage(it.name, it.cat, it.desc);
-    }
+    it.img = kiranaIdArt[it.id] || autoMatch3DImage(it.name, it.cat, it.desc);
   });
 }
 
@@ -916,7 +831,9 @@ function defaultState() {
 let S = defaultState();
 try {
   const saved = JSON.parse(localStorage.getItem("NU_V4_STATE"));
-  if (saved && saved.cfg) S = { ...defaultState(), ...saved, cfg: { ...defaultState().cfg, ...saved.cfg } };
+  if (saved && saved.cfg) {
+    S = { ...defaultState(), ...saved, cfg: { ...defaultState().cfg, ...saved.cfg } };
+  }
 } catch (e) {}
 
 /* ==================== FIREBASE REALTIME SYNC ==================== */
@@ -3157,7 +3074,7 @@ $("#importJsonInput").addEventListener("change", e => {
 document.addEventListener("error", e => {
   if (e.target && e.target.tagName === "IMG" && !e.target.dataset.fbDone) {
     e.target.dataset.fbDone = "1";
-    e.target.src = ART3D.thali;
+    e.target.src = REAL_IMG.thali;
   }
 }, true);
 
