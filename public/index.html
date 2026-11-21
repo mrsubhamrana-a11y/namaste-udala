@@ -533,7 +533,11 @@ const IMG = {
 
 
 /* ==================== COMPLETE 3D ILLUSTRATED SVG PACK FOR ALL ITEMS (100% INSTANT & UNIQUE) ==================== */
-const makeSvg = inner => "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220"><defs><filter id="s" x="-20%" y="-20%" width="140%" height="145%"><feDropShadow dx="0" dy="14" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.42"/></filter></defs><g filter="url(#s)">${inner}</g></svg>`);
+const toB64 = str => {
+  try { return btoa(unescape(encodeURIComponent(str))); }
+  catch (e) { return btoa(Array.from(str).map(c => String.fromCharCode(c.charCodeAt(0) & 255)).join("")); }
+};
+const makeSvg = inner => "data:image/svg+xml;base64," + toB64(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220"><defs><filter id="s" x="-20%" y="-20%" width="140%" height="145%"><feDropShadow dx="0" dy="14" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.42"/></filter></defs><g filter="url(#s)">${inner}</g></svg>`);
 
 const ART3D = {
   idli: makeSvg(`
@@ -679,6 +683,34 @@ function getAutoMealWindow() {
   if (hr >= 11 && hr < 16) return { slot: "Lunch / Meals", badge: "☀️ Dopahar Meal Window" };
   if (hr >= 16 && hr < 22) return { slot: "Snacks / Dinner", badge: "🌙 Shaam / Dinner Window" };
   return { slot: "Pre-Order / Closed", badge: "💤 Rasoi Rest Time" };
+}
+
+
+function normalizeAllImages() {
+  if (!S) return;
+  const vendorArt = {
+    v_self_kitchen: ART3D.thali,
+    v_bhanjpur: ART3D.biryani,
+    v_jarlicious: ART3D.cake,
+    v_udala_dhaba: ART3D.chicken,
+    v_self_kirana: ART3D.surf,
+    v_market_kirana: ART3D.oil
+  };
+  (S.vendors || []).forEach(v => {
+    if (!v.cover || v.cover.includes("unsplash.com") || v.cover.includes("utf8,")) {
+      v.cover = vendorArt[v.id] || (v.type === "FOOD" ? ART3D.thali : ART3D.kirana);
+    }
+  });
+  (S.foodItems || []).forEach(it => {
+    if (!it.img || it.img.includes("unsplash.com") || it.img.includes("utf8,")) {
+      it.img = autoMatch3DImage(it.name, it.cat, it.desc);
+    }
+  });
+  (S.kiranaItems || []).forEach(it => {
+    if (!it.img || it.img.includes("unsplash.com") || it.img.includes("utf8,") || /surf/i.test(it.name)) {
+      it.img = autoMatch3DImage(it.name, it.cat, it.desc);
+    }
+  });
 }
 
 function autoSyncCustomerDefaults() {
@@ -898,6 +930,7 @@ try {
     if (val && val.cfg && (+val.rev || 0) >= (+S.rev || 0)) {
       applyingRemote = true;
       S = { ...defaultState(), ...val, cfg: { ...defaultState().cfg, ...val.cfg } };
+      normalizeAllImages();
       localStorage.setItem("NU_V4_STATE", JSON.stringify(S));
       $("#fbStatus").textContent = "🟢 Live Sync";
       render();
@@ -3129,8 +3162,7 @@ document.addEventListener("error", e => {
 }, true);
 
 
-(S.foodItems || []).forEach(it => { if (!it.img || it.img.includes("unsplash.com")) it.img = autoMatch3DImage(it.name, it.cat, it.desc); });
-(S.kiranaItems || []).forEach(it => { if (!it.img || it.img.includes("unsplash.com")) it.img = autoMatch3DImage(it.name, it.cat, it.desc); });
+normalizeAllImages();
 
 render();
 </script>
