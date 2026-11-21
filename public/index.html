@@ -2211,14 +2211,19 @@ function viewDelivery() {
     <div class="card">
       <h3>2. ${esc(activeRider.name)} Drops (${riderDrops.length} / ${allDrops.length} Total)</h3>
       ${riderDrops.map((o, idx) => {
-        const pickupVendors = [...new Set((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)?.name).filter(Boolean))];
+        const pickupObjs = [...new Map((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)).filter(Boolean).map(v => [v.id, v])).values()];
+        const pickupLabels = pickupObjs.map(v => `${v.name} (${v.area || "Udala"})`);
+        const firstPickup = pickupObjs[0];
+        const vendorMapHref = firstPickup
+          ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${firstPickup.name} ${firstPickup.area || ""} Udala Odisha`)}`
+          : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Market Square Udala Odisha")}`;
         return `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">
             <b>#${idx + 1} [${o.kind}] ${esc(o.area)} — ${esc(o.name)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
             <span class="pill ${o.status === "Delivered" ? "p-green" : "p-red"}">${o.payMode === "COD" && o.status !== "Delivered" ? "Collect " + inr(o.total) : esc(o.status)}</span>
           </div>
-          <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup From: ${esc(pickupVendors.join(" + ") || "Hub")}</div>
+          <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup From: ${esc(pickupLabels.join(" + ") || "Hub (Market Square, Udala)")}</div>
           <div style="font-size:11px;color:var(--mu);margin:3px 0">${esc(o.addr)} · ${o.items.map(i => `${i.name}×${i.qty}`).join(", ")}</div>
           ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:700">Note: ${esc(o.note)}</div>` : ""}
           ${o.delSlot ? `<div style="font-size:10.5px;color:var(--g2);font-weight:800">⏰ Slot: ${esc(o.delSlot)}</div>` : ""}
@@ -2226,7 +2231,8 @@ function viewDelivery() {
             <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
             <a class="btn w sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala order (${o.id}) lekar pahunch raha hoon!`)}" target="_blank">💬 WA</a>
             ${o.payMode === "COD" && o.status !== "Delivered" && o.codFlag ? `<a class="btn amb sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, kripya confirm karein ki aap ghar par hain aur ${inr(o.total)} cash COD order (${o.id}) ke liye tayyar hain.`)}" target="_blank">💵 COD Check</a>` : ""}
-            <a class="btn w sm" href="${o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}`}" target="_blank">${o.gps && o.gps.lat ? "📍 Exact GPS Pin" : "🗺 Area Map"}</a>
+            <a class="btn w sm" href="${vendorMapHref}" target="_blank">🏪 Vendor Map</a>
+            <a class="btn w sm" href="${o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}`}" target="_blank">${o.gps && o.gps.lat ? "📍 Exact GPS Pin" : "🗺 Cust Area"}</a>
             ${o.status === "Ready for Pickup" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>` : ""}
             ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="deliverWithPin" data-k="${o.kind}" data-id="${o.id}">✅ Deliver (PIN)</button>` : ""}
             <button class="btn w sm" data-act="reassignRider" data-id="${o.id}">⇄ Rider</button>
@@ -3113,7 +3119,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-separated-v58.html";
+      a.download = "namaste-udala-separated-v59.html";
       a.click();
       URL.revokeObjectURL(url);
       window._showInstallPopup = false;
