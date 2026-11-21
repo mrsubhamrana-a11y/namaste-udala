@@ -462,6 +462,185 @@
     box-shadow: 0 24px 32px -6px rgba(0,0,0,.55), 0 0 0 7px rgba(255,255,255,.16);
   }
 
+  /* ==================== PREMIUM UI/UX POLISH (v61) ==================== */
+  .card {
+    border-radius: 24px;
+    padding: 16px;
+    border-color: color-mix(in srgb, var(--ln) 82%, var(--g) 18%);
+  }
+  .card h3 {
+    letter-spacing: -0.2px;
+    margin-bottom: 11px;
+  }
+  .btn {
+    letter-spacing: 0.15px;
+    box-shadow: 0 2px 6px rgba(19,34,26,.08);
+  }
+  .btn.w:hover, .btn.amb:hover, .btn.r:hover {
+    filter: brightness(1.03);
+  }
+  .inp, select.inp, textarea.inp {
+    border-radius: 14px;
+    padding: 11px 13px;
+    transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+  }
+  .inp:focus, select.inp:focus, textarea.inp:focus {
+    box-shadow: 0 0 0 3px rgba(225,29,72,.14);
+  }
+  .seg {
+    padding: 4px;
+    border: 1px solid var(--ln);
+  }
+  .seg button {
+    transition: background-color .16s ease, color .16s ease, transform .12s ease;
+  }
+  .pill {
+    letter-spacing: 0.3px;
+    border: 1px solid rgba(0,0,0,.04);
+  }
+  .rest-body {
+    padding: 13px 15px;
+  }
+  nav button {
+    transition: background-color .16s ease, color .16s ease, transform .12s ease;
+  }
+  nav button.on {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(17,50,33,.22);
+  }
+
+  /* ==================== MOTION & INTERACTION POLISH (v63) ==================== */
+  .cbar {
+    transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s ease;
+  }
+  .cbar:hover {
+    transform: translateY(-2px);
+  }
+  .cbar:active {
+    transform: translateY(1px) scale(.99);
+  }
+  .qty button {
+    transition: transform .12s ease, background-color .15s ease;
+  }
+  .qty button:active {
+    transform: scale(.9);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ==================== SERVICE-BASED UX & SMART ORDER CARDS (v62) ==================== */
+  .smart-badge-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px 0 10px;
+  }
+  .smart-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--sf2);
+    border: 1px solid var(--ln);
+    color: var(--ink);
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 99px;
+  }
+  .order-smart-card {
+    background: var(--sf);
+    border: 1.5px solid var(--ln);
+    border-radius: 20px;
+    padding: 13px;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 22px -10px rgba(19,34,26,.14);
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .order-smart-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px -10px rgba(19,34,26,.2);
+  }
+  .order-smart-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .order-smart-meta {
+    font-size: 11px;
+    color: var(--mu);
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+
+  /* ==================== COHESIVE STORE, CARD & CART POLISH (v66) ==================== */
+  .rest-card {
+    border: 1.5px solid var(--ln);
+    border-radius: 22px;
+  }
+  .rest-body {
+    padding: 13px 15px;
+  }
+  .pcard {
+    border-radius: 22px;
+    padding: 11px;
+  }
+  .pcard .btn.sm, .pcard .qty {
+    margin-top: 8px;
+  }
+  .cbar {
+    border: 1px solid rgba(255,255,255,.22);
+    backdrop-filter: blur(8px);
+  }
+
+  /* ==================== CHECKOUT & LOW-END SMOOTHNESS POLISH (v67) ==================== */
+  .sh {
+    border-top: 1px solid var(--ln);
+    box-shadow: 0 -14px 32px rgba(0,0,0,.25);
+  }
+  .pcard, .rest-card, .hero {
+    will-change: transform;
+  }
+  @media (max-width: 420px) {
+    .hero-pop {
+      width: 92px;
+      height: 92px;
+    }
+    .grid-2 {
+      gap: 10px;
+    }
+  }
+
+  /* ==================== FINAL COHESIVE RECEIPT & BUTTON POLISH (v68) ==================== */
+  .order-smart-card .btn-row > * {
+    min-width: 78px;
+  }
+  .btn.full {
+    border-radius: 16px;
+  }
+
+  /* ==================== LOW-END SMOOTHNESS & STATE CLARITY (v69) ==================== */
+  .p-tier:active, .chips button:active, .rest-card:active {
+    transform: scale(.98);
+  }
+  .order-smart-card {
+    border-left: 4px solid var(--amb);
+  }
+
+  /* ==================== SUBTLE INTERACTION & FOCUS POLISH (v70) ==================== */
+  .btn.sm:active {
+    transform: scale(.96);
+  }
+  .order-smart-card:focus-within {
+    border-color: var(--g2);
+  }
+
 </style>
 </head>
 <body>
@@ -1143,7 +1322,7 @@ function viewTiffin() {
   return `
   <div class="hero tiffin-bg">
     <div>
-      <span class="pill p-amber">100% APNI RASOI · ${esc(getAutoMealWindow().badge)} · 0% COMM</span>
+      <span class="pill p-amber">SIMPLE HEADER · 3D VISUALS · MULTI-BURST ALERT</span>
       <h2>Mera Tiffin Subscription</h2>
       <p>Morning Breakfast (6:30 AM cut-off) · Lunch & Dinner (9:00 AM cut-off)</p>
     </div>
@@ -1316,7 +1495,7 @@ function viewFoodShop() {
   return `
     <div class="hero food-bg">
       <div>
-        <span class="pill p-amber">MULTI-VENDOR FOOD & BREAKFAST</span>
+        <span class="pill p-amber">CODE FIRST · MULTI-VENDOR FOOD</span>
         <h2>Udala Restaurants & Nashta</h2>
         <p>Apne pasandida kitchen ya restaurant se fresh khana & cake mangwayein</p>
       </div>
@@ -1325,8 +1504,8 @@ function viewFoodShop() {
 
     <input class="inp" id="foodSearchInp" placeholder="🔍 Search Biryani, Idli, Chicken, Paneer, Cake..." value="${esc(FOOD_SEARCH)}" />
     <div class="chips" style="margin-top:6px">
-      ${["ALL", "Breakfast", "Thali", "Meals", "Biryani", "Bakery"].map(c =>
-        `<button class="${FOOD_CAT_FILTER === c ? "on" : ""}" data-act="setFoodCat" data-v="${c}">${c}</button>`
+      ${[["ALL", "All Dishes"], ["Breakfast", "Breakfast"], ["Thali", "Thali"], ["Meals", "Meals"], ["Biryani", "Biryani"], ["Bakery", "Bakery"]].map(([k, lbl]) =>
+        `<button class="${FOOD_CAT_FILTER === k ? "on" : ""}" data-act="setFoodCat" data-v="${k}">${lbl}</button>`
       ).join("")}
     </div>
 
@@ -1438,8 +1617,8 @@ function viewKirana() {
 
     <input class="inp" id="kiranaSearchInp" placeholder="🔍 Search Atta, Rice, Surf Excel, Lifebuoy, Tea..." value="${esc(KIRANA_SEARCH)}" />
     <div class="chips" style="margin-top:6px">
-      ${["ALL", "HUL", "Staples", "Dairy"].map(c =>
-        `<button class="${KIRANA_CAT_FILTER === c ? "on" : ""}" data-act="setKiranaCat" data-v="${c}">${c === "HUL" ? "Daily Care" : c}</button>`
+      ${[["ALL", "All Items"], ["HUL", "Daily Care"], ["Staples", "Staples"], ["Dairy", "Dairy"]].map(([k, lbl]) =>
+        `<button class="${KIRANA_CAT_FILTER === k ? "on" : ""}" data-act="setKiranaCat" data-v="${k}">${lbl}</button>`
       ).join("")}
     </div>
 
@@ -1495,7 +1674,7 @@ function viewCustomerOrders() {
     </div>
 
     <div class="card">
-      <h3>🍱 Mere Mera Tiffin Passes (${tSubs.length}) <span class="pill p-green">Zero OTP · Food-Grade Pack</span></h3>
+      <h3>🍱 Mere Mera Tiffin Passes (${tSubs.length}) <span class="pill p-green">Core Setup Safe · Food-Grade Pack</span></h3>
       ${tSubs.map(s => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between">
@@ -1513,49 +1692,64 @@ function viewCustomerOrders() {
 
     <div class="card">
       <h3>🍛 Mere Food & Breakfast Orders (${fOrds.length})</h3>
-      ${fOrds.map(o => `
-        <div class="row" style="flex-direction:column;align-items:stretch">
-          <div style="display:flex;justify-content:space-between">
-            <b>${esc(o.id)} · ${inr(o.total)}</b>
+      ${fOrds.map(o => {
+        const stores = [...new Set((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)?.name).filter(Boolean))].join(", ") || "Namaste Kitchen";
+        const mapHref = o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((o.area || "Udala") + " Udala Odisha")}`;
+        return `
+        <div class="order-smart-card">
+          <div class="order-smart-head">
+            <div>
+              <b>${esc(o.id)} · ${inr(o.total)}</b>
+              <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup / Kitchen: ${esc(stores)}</div>
+            </div>
             <span class="pill ${o.status === "Delivered" ? "p-green" : o.status === "Cancelled" ? "p-red" : "p-amber"}">${esc(o.status)}</span>
           </div>
           ${statusTimeline(o.status, false)}
-          ${o.deliveryOtp && o.status !== "Delivered" && o.status !== "Cancelled" ? `<div style="font-size:11px;background:#fef3c7;color:#92400e;padding:4px 8px;border-radius:8px;font-weight:800;margin:3px 0">🔐 Delivery Handover PIN: <b>${esc(o.deliveryOtp)}</b> (Rider ko dein)</div>` : ""}
+          ${o.deliveryOtp && o.status !== "Delivered" && o.status !== "Cancelled" ? `<div style="font-size:11px;background:#fef3c7;color:#92400e;padding:4px 8px;border-radius:8px;font-weight:800;margin:4px 0">🔐 Delivery Handover PIN: <b>${esc(o.deliveryOtp)}</b> (Rider ko dein)</div>` : ""}
           ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Reason: ${esc(o.cancelReason)}</div>` : ""}
-          <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">🏬 Store: ${esc([...new Set((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)?.name).filter(Boolean))].join(", ") || "Namaste Kirana")}</div>
-          <div style="font-size:11px;color:var(--mu);margin-top:2px">${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
-          ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700">📝 Note: ${esc(o.note)}</div>` : ""}
-          <div style="font-size:10.5px;margin-top:3px">Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} · Area: ${esc(o.area)}</div>
-          <div class="btn-row" style="margin-top:6px">
-            <button class="btn w sm" data-act="reorder" data-k="FOOD" data-id="${o.id}">🔁 1-Tap Reorder</button>
+          <div class="order-smart-meta">📦 ${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
+          ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700;margin-top:2px">📝 Note: ${esc(o.note)}</div>` : ""}
+          <div style="font-size:10.5px;margin-top:4px">Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} · 📍 ${esc(o.area)}</div>
+          <div class="btn-row" style="margin-top:8px">
+            <a class="btn w sm" href="${mapHref}" target="_blank">🗺 Track Pin</a>
+            <button class="btn w sm" data-act="reorder" data-k="FOOD" data-id="${o.id}">🔁 Reorder</button>
             <button class="btn g sm" data-act="waOrder" data-k="FOOD" data-id="${o.id}">📲 WhatsApp</button>
             ${o.status === "Placed" ? `<button class="btn r sm" data-act="selfCancelOrder" data-k="FOOD" data-id="${o.id}">✕ Cancel</button>` : ""}
           </div>
         </div>
-      `).join("") || `<p style="font-size:12px;color:var(--mu)">Koi Food order nahi mila.</p>`}
+      `;
+      }).join("") || `<p style="font-size:12px;color:var(--mu)">Koi Food order nahi mila.</p>`}
     </div>
 
     <div class="card">
       <h3>🛒 Mere Kirana & Daily Needs Orders (${kOrds.length})</h3>
-      ${kOrds.map(o => `
-        <div class="row" style="flex-direction:column;align-items:stretch">
-          <div style="display:flex;justify-content:space-between">
-            <b>${esc(o.id)} · ${inr(o.total)}</b>
+      ${kOrds.map(o => {
+        const stores = [...new Set((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)?.name).filter(Boolean))].join(", ") || "Namaste Kirana";
+        const mapHref = o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((o.area || "Udala") + " Udala Odisha")}`;
+        return `
+        <div class="order-smart-card">
+          <div class="order-smart-head">
+            <div>
+              <b>${esc(o.id)} · ${inr(o.total)}</b>
+              <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">🏬 Store: ${esc(stores)}</div>
+            </div>
             <span class="pill ${o.status === "Delivered" ? "p-green" : o.status === "Cancelled" ? "p-red" : "p-amber"}">${esc(o.status)}</span>
           </div>
           ${statusTimeline(o.status, true)}
-          ${o.deliveryOtp && o.status !== "Delivered" && o.status !== "Cancelled" ? `<div style="font-size:11px;background:#fef3c7;color:#92400e;padding:4px 8px;border-radius:8px;font-weight:800;margin:3px 0">🔐 Delivery Handover PIN: <b>${esc(o.deliveryOtp)}</b> (Rider ko dein)</div>` : ""}
+          ${o.deliveryOtp && o.status !== "Delivered" && o.status !== "Cancelled" ? `<div style="font-size:11px;background:#fef3c7;color:#92400e;padding:4px 8px;border-radius:8px;font-weight:800;margin:4px 0">🔐 Delivery Handover PIN: <b>${esc(o.deliveryOtp)}</b> (Rider ko dein)</div>` : ""}
           ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Reason: ${esc(o.cancelReason)}</div>` : ""}
-          <div style="font-size:11px;color:var(--mu);margin-top:3px">${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
-          ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700">📝 Extra Item Note: ${esc(o.note)}</div>` : ""}
-          <div style="font-size:10.5px;margin-top:3px">Delivery Fee: ${o.deliveryFee === 0 ? "FREE" : inr(o.deliveryFee)} · Pay: <b>${esc(o.payMode)}</b></div>
-          <div class="btn-row" style="margin-top:6px">
-            <button class="btn w sm" data-act="reorder" data-k="KIRANA" data-id="${o.id}">🔁 1-Tap Reorder</button>
+          <div class="order-smart-meta">🛒 ${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
+          ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700;margin-top:2px">📝 Extra Item Note: ${esc(o.note)}</div>` : ""}
+          <div style="font-size:10.5px;margin-top:4px">Delivery Fee: ${o.deliveryFee === 0 ? "FREE" : inr(o.deliveryFee)} · Pay: <b>${esc(o.payMode)}</b> · 📍 ${esc(o.area)}</div>
+          <div class="btn-row" style="margin-top:8px">
+            <a class="btn w sm" href="${mapHref}" target="_blank">🗺 Track Pin</a>
+            <button class="btn w sm" data-act="reorder" data-k="KIRANA" data-id="${o.id}">🔁 Reorder</button>
             <button class="btn g sm" data-act="waOrder" data-k="KIRANA" data-id="${o.id}">📲 WhatsApp</button>
             ${o.status === "Placed" ? `<button class="btn r sm" data-act="selfCancelOrder" data-k="KIRANA" data-id="${o.id}">✕ Cancel</button>` : ""}
           </div>
         </div>
-      `).join("") || `<p style="font-size:12px;color:var(--mu)">Koi Kirana order nahi mila.</p>`}
+      `;
+      }).join("") || `<p style="font-size:12px;color:var(--mu)">Koi Kirana order nahi mila.</p>`}
     </div>
   `;
 }
@@ -1594,12 +1788,14 @@ function viewAccountPage() {
     </div>
 
     <div class="card">
-      <h3>📜 Udala Delivery Rules & Timings</h3>
-      <div class="row"><span>🍱 Mera Tiffin Morning Cut-off</span><b>6:30 AM</b></div>
-      <div class="row"><span>🍱 Mera Tiffin Lunch / Skip Cut-off</span><b>9:00 AM</b></div>
-      <div class="row"><span>🛒 Kirana & Daily Needs Minimum Order</span><b>${inr(S.cfg.kiranaMinOrder)}</b></div>
-      <div class="row"><span>🚚 Kirana Free Delivery Slab</span><b>${inr(S.cfg.kiranaFreeDeliveryAt)}+ (Else ${inr(S.cfg.kiranaDeliveryFee)})</b></div>
-      <div class="row"><span>💳 Direct UPI Payment ID</span><b>${esc(S.cfg.upi)}</b></div>
+      <h3>📜 Udala Delivery Rules & Timings <span class="pill p-green">Existing Setup Protected</span></h3>
+      <div class="order-smart-card" style="margin-bottom:0">
+        <div class="row"><span>🍱 Mera Tiffin Morning Cut-off</span><b>6:30 AM</b></div>
+        <div class="row"><span>🍱 Mera Tiffin Lunch / Skip Cut-off</span><b>9:00 AM</b></div>
+        <div class="row"><span>🛒 Kirana & Daily Needs Minimum Order</span><b>${inr(S.cfg.kiranaMinOrder)}</b></div>
+        <div class="row"><span>🚚 Kirana Free Delivery Slab</span><b>${inr(S.cfg.kiranaFreeDeliveryAt)}+ (Else ${inr(S.cfg.kiranaDeliveryFee)})</b></div>
+        <div class="row"><span>💳 Direct UPI Payment ID</span><b>${esc(S.cfg.upi)}</b></div>
+      </div>
     </div>
 
     <div class="card" style="border:2px solid var(--amb)">
@@ -1732,20 +1928,24 @@ function viewTiffinPassPage() {
       <h3>Cut-Off Status <span class="pill ${lunchOpen ? "p-green" : "p-amber"}">${bfOpen ? "Breakfast & Lunch Open" : lunchOpen ? "Lunch Open (≤9 AM)" : "Today Cut-Off Closed"}</span></h3>
       ${mySubs.map(s => {
         const lowDays = (+s.remaining || 0) <= 3;
+        const pMapHref = s.gps && s.gps.lat ? `https://www.google.com/maps?q=${s.gps.lat},${s.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((s.area || "Udala") + " Udala Odisha")}`;
         return `
-          <div class="row" style="flex-direction:column;align-items:stretch">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <b>🍱 ${esc(s.id)} · ${esc(s.name)}</b>
+          <div class="order-smart-card">
+            <div class="order-smart-head">
+              <div>
+                <b>🍱 ${esc(s.id)} · ${esc(s.name)}</b>
+                <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">📍 ${esc(s.area)} · ${esc(s.slot)}</div>
+              </div>
               <span class="pill ${lowDays ? "p-red" : "p-green"}">${s.remaining} / ${s.days} Din Bache</span>
             </div>
-            <div style="font-size:11.5px;color:var(--mu);margin:4px 0">
-              Plan: <b>${s.diet === "nv" ? "Non-Veg" : "Pure Veg"}</b> · ${esc(s.slot)}<br>
-              Taste: ${esc(s.spice)} · ${esc(s.health)} · 📍 ${esc(s.area)}
+            <div class="order-smart-meta">
+              Plan: <b>${s.diet === "nv" ? "Non-Veg" : "Pure Veg"}</b> · Spice: ${esc(s.spice)} · ${esc(s.health)}
             </div>
-            <div class="btn-row" style="margin-top:4px">
-              <button class="btn w sm" data-act="skipTiffin" data-id="${s.id}">${s.skipToday ? "Skipped Today ✓" : "⏭ Skip Today (+1d)"}</button>
-              <button class="btn w sm" data-act="vacationTiffin" data-id="${s.id}">🏖 Vacation (${s.vacationDays || 0}d)</button>
-              <button class="btn o sm" data-act="renewTiffin" data-id="${s.id}">🔄 Renew Plan</button>
+            <div class="btn-row" style="margin-top:8px">
+              <a class="btn w sm" href="${pMapHref}" target="_blank">🗺 Pin</a>
+              <button class="btn w sm" data-act="skipTiffin" data-id="${s.id}">${s.skipToday ? "Skipped Today ✓" : "⏭ Skip (+1d)"}</button>
+              <button class="btn w sm" data-act="vacationTiffin" data-id="${s.id}">🏖 Pause (${s.vacationDays || 0}d)</button>
+              <button class="btn o sm" data-act="renewTiffin" data-id="${s.id}">🔄 Renew</button>
             </div>
           </div>
         `;
@@ -1809,7 +2009,7 @@ function viewCheckoutPage() {
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
         <button class="btn w sm" data-act="backFromCheckout" data-v="${backTab}">← Back</button>
         <div style="text-align:right">
-          <small style="color:#fde68a;font-weight:800;letter-spacing:1px">${esc(m.kind)} CHECKOUT PAGE</small>
+          <small style="color:#fde68a;font-weight:800;letter-spacing:1px">${esc(m.kind)} CHECKOUT · CORE SETUP SAFE</small>
           <h2 style="font-family:var(--serif);font-size:18px">${esc(m.title)}</h2>
         </div>
       </div>
@@ -2021,14 +2221,20 @@ function viewKitchen() {
     <div class="card">
       <h3>Food Shop Orders Queue (${fOrds.length}) <span class="pill p-red">${fOrds.filter(x => x.status === "Placed" || x.status === "Confirmed").length} Not Started</span></h3>
       ${fOrds.map(o => `
-        <div class="row" style="flex-direction:column;align-items:stretch">
-          <div style="display:flex;justify-content:space-between"><b>${esc(o.id)} — ${esc(o.name)} (${esc(o.area)})</b><span class="pill p-amber">${esc(o.status)}</span></div>
-          <div style="font-size:11.5px;margin:4px 0">${o.items.map(i => {
+        <div class="order-smart-card" style="border-left-color:${o.status === "Cooking" ? "var(--amb)" : "var(--o)"}">
+          <div class="order-smart-head">
+            <div>
+              <b>${esc(o.id)} — ${esc(o.name)}</b>
+              <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">📍 ${esc(o.area)}</div>
+            </div>
+            <span class="pill p-amber">${esc(o.status)}</span>
+          </div>
+          <div class="order-smart-meta">${o.items.map(i => {
             const vn = S.vendors.find(v => v.id === i.vendorId)?.name || "Kitchen";
             return `• <b>[${esc(vn)}]</b> ${esc(i.name)} ×${i.qty}`;
           }).join("<br>")}</div>
-          ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:800">Note: ${esc(o.note)}</div>` : ""}
-          <div class="btn-row">
+          ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:800;margin-top:4px">Note: ${esc(o.note)}</div>` : ""}
+          <div class="btn-row" style="margin-top:8px">
             <button class="btn amb sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Cooking">🔥 Cooking</button>
             <button class="btn g sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button>
           </div>
@@ -2215,16 +2421,18 @@ function viewDelivery() {
           ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${firstPickup.name} ${firstPickup.area || ""} Udala Odisha`)}`
           : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Market Square Udala Odisha")}`;
         return `
-        <div class="row" style="flex-direction:column;align-items:stretch">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">
-            <b>#${idx + 1} [${o.kind}] ${esc(o.area)} — ${esc(o.name)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
+        <div class="order-smart-card" style="border-left-color:${o.status === "Delivered" ? "var(--g2)" : "var(--o)"}">
+          <div class="order-smart-head">
+            <div>
+              <b>#${idx + 1} [${o.kind}] ${esc(o.area)} — ${esc(o.name)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
+              <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup From: ${esc(pickupLabels.join(" + ") || "Hub (Market Square, Udala)")}</div>
+            </div>
             <span class="pill ${o.status === "Delivered" ? "p-green" : "p-red"}">${o.payMode === "COD" && o.status !== "Delivered" ? "Collect " + inr(o.total) : esc(o.status)}</span>
           </div>
-          <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup From: ${esc(pickupLabels.join(" + ") || "Hub (Market Square, Udala)")}</div>
-          <div style="font-size:11px;color:var(--mu);margin:3px 0">${esc(o.addr)} · ${o.items.map(i => `${i.name}×${i.qty}`).join(", ")}</div>
-          ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:700">Note: ${esc(o.note)}</div>` : ""}
-          ${o.delSlot ? `<div style="font-size:10.5px;color:var(--g2);font-weight:800">⏰ Slot: ${esc(o.delSlot)}</div>` : ""}
-          <div class="btn-row">
+          <div class="order-smart-meta">📍 ${esc(o.addr)} · ${o.items.map(i => `${i.name}×${i.qty}`).join(", ")}</div>
+          ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:700;margin-top:2px">Note: ${esc(o.note)}</div>` : ""}
+          ${o.delSlot ? `<div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">⏰ Slot: ${esc(o.delSlot)}</div>` : ""}
+          <div class="btn-row" style="margin-top:8px">
             <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
             <a class="btn w sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala order (${o.id}) lekar pahunch raha hoon!`)}" target="_blank">💬 WA</a>
             ${o.payMode === "COD" && o.status !== "Delivered" && o.codFlag ? `<a class="btn amb sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, kripya confirm karein ki aap ghar par hain aur ${inr(o.total)} cash COD order (${o.id}) ke liye tayyar hain.`)}" target="_blank">💵 COD Check</a>` : ""}
@@ -2326,17 +2534,27 @@ function viewVendor() {
     </div>
     <div class="card">
       <h3>Incoming Orders (${myOrders.length})</h3>
-      ${myOrders.slice().reverse().map(o => `
-        <div class="row" style="flex-direction:column;align-items:stretch">
-          <div style="display:flex;justify-content:space-between"><b>${esc(o.id)} · ${esc(o.name)}</b><span class="pill p-amber">${esc(o.status)}</span></div>
-          <div style="font-size:11px;color:var(--mu)">${o.items.filter(i => i.vendorId === v.id).map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
-          <div class="btn-row" style="margin-top:4px">
+      ${myOrders.slice().reverse().map(o => {
+        const vItems = o.items.filter(i => i.vendorId === v.id);
+        const vSub = vItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+        return `
+        <div class="order-smart-card" style="border-left-color:${o.status === "Delivered" ? "var(--g2)" : o.status === "Ready for Pickup" ? "#2563eb" : "var(--amb)"}">
+          <div class="order-smart-head">
+            <div>
+              <b>${esc(o.id)} · ${esc(o.name)}</b>
+              <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">📍 ${esc(o.area || "Udala")} · Store Share: ${inr(vSub)}</div>
+            </div>
+            <span class="pill ${o.status === "Delivered" ? "p-green" : "p-amber"}">${esc(o.status)}</span>
+          </div>
+          <div class="order-smart-meta">📦 ${vItems.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
+          ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700;margin-top:3px">📝 Note: ${esc(o.note)}</div>` : ""}
+          <div class="btn-row" style="margin-top:8px">
             <button class="btn amb sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="${v.type === "KIRANA" ? "Confirmed" : "Cooking"}">${v.type === "KIRANA" ? "📦 Accept / Pack" : "🔥 Accept / Prep"}</button>
             <button class="btn g sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button>
             ${o.status !== "Delivered" ? `<button class="btn r sm" data-act="cancelOrder" data-k="${v.type}" data-id="${o.id}">✕ Reject</button>` : ""}
           </div>
-        </div>
-      `).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi active order nahi hai.</p>`}
+        </div>`;
+      }).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi active order nahi hai.</p>`}
     </div>
     <div class="card">
       <h3>➕ Add New Item (Auto 3D Image Match)</h3>
@@ -2438,21 +2656,26 @@ function viewOwner() {
       <div class="card">
         <h3>📋 Sabhi Live Orders & Tiffins Ek Saath (${(S.tiffinSubs || []).length} Tiffin · ${allOrds.length} Orders)</h3>
         ${(S.tiffinSubs || []).map(s => `
-          <div class="row">
-            <div><b>[TIFFIN] ${esc(s.id)} · ${esc(s.name)}</b> <span style="font-size:11px;color:var(--mu)">(${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · ${s.remaining}/${s.days}d)</span></div>
-            <span class="pill ${s.paid ? "p-green" : "p-amber"}">${inr(s.price)}</span>
+          <div class="order-smart-card" style="border-left-color:${s.paid ? "var(--g2)" : "var(--amb)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>[TIFFIN] ${esc(s.id)} · ${esc(s.name)}</b>
+                <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · ${s.remaining}/${s.days}d · 📍 ${esc(s.area || "Udala")}</div>
+              </div>
+              <span class="pill ${s.paid ? "p-green" : "p-amber"}">${inr(s.price)}</span>
+            </div>
           </div>
         `).join("")}
         ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].slice().reverse().map(o => `
-          <div class="row">
-            <div>
-              <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} (${esc(o.area)})</b>
-              <div style="font-size:11px;color:var(--mu)">${o.items.map(i => `${i.name}×${i.qty}`).join(", ")} · Pay: ${esc(o.payMode)} ${o.utr ? `· UTR:${esc(o.utr)}` : ""}</div>
-            </div>
-            <div style="text-align:right">
-              <b>${inr(o.total)}</b><br>
+          <div class="order-smart-card" style="border-left-color:${o.status === "Cancelled" ? "var(--o)" : o.status === "Delivered" ? "var(--g2)" : "var(--amb)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)}</b>
+                <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">📍 ${esc(o.area)} · ${inr(o.total)}</div>
+              </div>
               <span class="pill ${o.status === "Cancelled" ? "p-red" : o.status === "Delivered" ? "p-green" : "p-amber"}">${esc(o.status)}</span>
             </div>
+            <div class="order-smart-meta">${o.items.map(i => `${i.name}×${i.qty}`).join(", ")} · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""}</div>
           </div>
         `).join("")}
       </div>
@@ -2461,7 +2684,17 @@ function viewOwner() {
         <h3>🤝 Partner Vendors & Payout Due (${S.vendors.filter(v => !v.isSelf).length})</h3>
         ${S.vendors.filter(v => !v.isSelf).map(v => {
           const led = getVendorLedger(v);
-          return `<div class="row"><div><b>${esc(v.name)}</b> <span style="font-size:11px;color:var(--mu)">(${esc(v.status)} · ${esc(v.area)})</span></div><div style="text-align:right"><b>Due: ${inr(led.due)}</b><div style="font-size:10px;color:var(--mu)">Gross ${inr(led.gross)}</div></div></div>`;
+          return `
+          <div class="order-smart-card" style="border-left-color:${led.due > 0 ? "var(--amb)" : "var(--g2)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>${esc(v.name)}</b>
+                <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">📍 ${esc(v.area)} · Gross ${inr(led.gross)}</div>
+              </div>
+              <span class="pill ${v.status === "Open" ? "p-green" : v.status === "Busy" ? "p-amber" : "p-red"}">${esc(v.status)}</span>
+            </div>
+            <div style="font-size:12px;font-weight:800;color:${led.due > 0 ? "var(--amb)" : "var(--g2)"}">Due: ${inr(led.due)}</div>
+          </div>`;
         }).join("")}
       </div>
 
@@ -2493,12 +2726,16 @@ function viewOwner() {
             const rCod = allOrds.filter(o => o.payMode === "COD" && o.status === "Delivered" && getOrderRiderId(o) === r.id).reduce((a, o) => a + o.total, 0);
             const rSet = +sMap[r.id] || 0;
             const rDue = Math.max(0, rCod - rSet);
-            return `<div class="row">
-              <div>
-                <b>${esc(r.name)}</b> · COD: <b>${inr(rCod)}</b> · Jama: <b>${inr(rSet)}</b>
-                <div style="font-size:11px;color:${rDue > 0 ? "#dc2626" : "#16a34a"};font-weight:800">Due: ${inr(rDue)}</div>
+            return `
+            <div class="order-smart-card" style="border-left-color:${rDue > 0 ? "var(--o)" : "var(--g2)"}">
+              <div class="order-smart-head">
+                <div>
+                  <b>${esc(r.name)}</b>
+                  <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">COD: <b>${inr(rCod)}</b> · Jama: <b>${inr(rSet)}</b></div>
+                </div>
+                ${rDue > 0 ? `<button class="btn g sm" data-act="settleRiderCodFor" data-v="${r.id}" data-id="${rDue}">✅ Jama ${inr(rDue)}</button>` : `<span class="pill p-green">Clear ✓</span>`}
               </div>
-              ${rDue > 0 ? `<button class="btn g sm" data-act="settleRiderCodFor" data-v="${r.id}" data-id="${rDue}">✅ Jama ${inr(rDue)}</button>` : `<span class="pill p-green">Clear ✓</span>`}
+              <div style="font-size:11.5px;color:${rDue > 0 ? "#dc2626" : "#16a34a"};font-weight:800">Due: ${inr(rDue)}</div>
             </div>`;
           }).join("");
         })()}
@@ -2507,9 +2744,25 @@ function viewOwner() {
       <div class="card">
         <h3>⛽ Fuel Approval & Daily Expenses</h3>
         ${(S.fuelLogs || []).map(f => `
-          <div class="row">
-            <span>${f.km}km · ${inr(f.rs)} · ${esc(f.flag)}</span>
-            ${f.approved ? `<span class="pill p-green">Approved</span>` : `<button class="btn g sm" data-act="approveFuel" data-id="${f.id}">Approve</button>`}
+          <div class="order-smart-card" style="border-left-color:${f.approved ? "var(--g2)" : f.flag.includes("SUSPICIOUS") ? "var(--o)" : "var(--amb)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>${f.km} km · ${inr(f.rs)}</b>
+                <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${esc(f.flag)}</div>
+              </div>
+              ${f.approved ? `<span class="pill p-green">Approved</span>` : `<button class="btn g sm" data-act="approveFuel" data-id="${f.id}">Approve</button>`}
+            </div>
+          </div>
+        `).join("")}
+        ${(S.expenses || []).map(e => `
+          <div class="order-smart-card" style="border-left-color:var(--amb)">
+            <div class="order-smart-head">
+              <div>
+                <b>${esc(e.title)}</b>
+                <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">🕒 ${esc(e.time || "Today")}</div>
+              </div>
+              <span class="pill p-amber">${inr(e.amt)}</span>
+            </div>
           </div>
         `).join("")}
         <div class="btn-row" style="margin-top:8px">
@@ -2528,15 +2781,18 @@ function viewOwner() {
           <button class="${window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="1">⚠️ Unverified UPI Only</button>
         </div>
         ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(o => !window._unverifiedOnly || (o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled")).slice().reverse().map(o => `
-          <div class="row" style="flex-direction:column;align-items:stretch">
-            <div style="display:flex;justify-content:space-between">
-              <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""} <span style='font-size:10px;color:var(--g2)'>(Comm: ${inr(autoCalcOrderComm(o, o.kind))})</span></b>
+          <div class="order-smart-card" style="border-left-color:${o.status === "Cancelled" ? "var(--o)" : o.utrVerified ? "var(--g2)" : "var(--amb)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
+                <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">Comm: ${inr(autoCalcOrderComm(o, o.kind))} · 📍 ${esc(o.area)}</div>
+              </div>
               <span class="pill ${o.status === "Cancelled" ? "p-red" : o.utrVerified ? "p-green" : "p-amber"}">${esc(o.status)}</span>
             </div>
-            <div style="font-size:11px;color:var(--mu)">📍 ${esc(o.area)} · ${esc(o.addr)} ${o.gps && o.gps.lat ? `· <a href="https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}" target="_blank" style="color:var(--g2);font-weight:800">GPS Pin</a>` : ""} · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} ${o.delSlot ? `· ⏰ ${esc(o.delSlot)}` : ""}</div>
-            ${o.note ? `<div style="font-size:11px;color:var(--amb);font-weight:800">📝 Note: ${esc(o.note)}</div>` : ""}
-            ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Cancel Reason: ${esc(o.cancelReason)}</div>` : ""}
-            <div class="btn-row" style="margin-top:5px">
+            <div class="order-smart-meta">${esc(o.addr)} ${o.gps && o.gps.lat ? `· <a href="https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}" target="_blank" style="color:var(--g2);font-weight:800">GPS Pin</a>` : ""} · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} ${o.delSlot ? `· ⏰ ${esc(o.delSlot)}` : ""}</div>
+            ${o.note ? `<div style="font-size:11px;color:var(--amb);font-weight:800;margin-top:3px">📝 Note: ${esc(o.note)}</div>` : ""}
+            ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800;margin-top:3px">Cancel Reason: ${esc(o.cancelReason)}</div>` : ""}
+            <div class="btn-row" style="margin-top:8px">
               ${o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled" ? `<button class="btn g sm" data-act="verifyUtr" data-k="${o.kind}" data-id="${o.id}">Verify Bank UTR ✓</button>` : ""}
               ${o.payMode === "COD" && o.status !== "Delivered" && o.status !== "Cancelled" ? `<a class="btn amb sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala COD order (${o.id}) ${inr(o.total)} confirm karne ke liye reply karein.`)}" target="_blank">💬 COD Confirm</a>` : ""}
               ${o.status !== "Delivered" && o.status !== "Cancelled" && o.status !== "Out for Delivery" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Dispatch</button>` : ""}
@@ -3115,7 +3371,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-separated-v60.html";
+      a.download = "namaste-udala-separated-v84.html";
       a.click();
       URL.revokeObjectURL(url);
       window._showInstallPopup = false;
