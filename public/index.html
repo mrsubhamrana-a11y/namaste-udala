@@ -468,6 +468,7 @@
   </div>
   <button class="btn amb sm" data-act="installApp" id="hdrInstallBtn" style="padding:5px 10px;font-size:10.5px">📲 App</button>
   <span class="fb-pill" id="fbStatus">Connecting...</span>
+  <button class="btn w sm" data-act="openLoginGate" id="loginHdrBtn" title="Login Page">🔑</button>
   <button class="btn w sm" data-act="toggleTheme" id="themeBtn">🌙</button>
 </header>
 
@@ -673,6 +674,7 @@ function normalizeAllImages() {
 function autoSyncCustomerDefaults() {
   if (!TF.name) TF.name = localStorage.getItem("nu_cname") || "";
   if (!TF.phone) TF.phone = localStorage.getItem("nu_cphone") || "";
+  if (TF.name.trim() && ph(TF.phone).length === 10) sessionStorage.setItem("nu_cust_logged_in", "1");
   if (!TF.area) TF.area = localStorage.getItem("nu_carea") || "Udala Bus Stand";
   if (!TF.addr) TF.addr = localStorage.getItem("nu_caddr") || "";
   if (TF.phone && !ORDER_PHONE_FILTER) ORDER_PHONE_FILTER = ph(TF.phone);
@@ -797,7 +799,11 @@ function defaultState() {
       kiranaDeliveryFee: 25,
       kiranaPostDeliveryComm: 30,
       perKmFuelRate: 3.5,
-      riderPerDropRate: 15,
+      riderPerDropRate: 0,
+      riders: Array.from({ length: 10 }, (_, i) => ({
+        id: "r" + (i + 1),
+        name: "Rider " + (i + 1)
+      })),
       promoCode: "UDALA20",
       promoDiscount: 20,
       promoMinOrder: 150,
@@ -874,8 +880,11 @@ function defaultState() {
     usedUtrs: ["402312345678"],
     usedImgHashes: [],
     fuelLogs: [],
+    riderAutoTrack: { active: false, totalKm: 0, points: [], lastFix: null },
     expenses: [{ id: "ex1", title: "Subah Sabzi & Masala", amt: 550, time: "7:30 AM" }],
     riderCashSettled: 0,
+    riderCashSettledByRider: { r1: 0, r2: 0, r3: 0, r4: 0, r5: 0, r6: 0, r7: 0, r8: 0, r9: 0, r10: 0 },
+    riderAssignments: {},
     udhaarList: [],
     auditLog: [{ t: new Date().toLocaleTimeString(), m: "System booted with Full Ops Suite: Vendor Edit, Phone Filter, Renewal, Cancel Reason & Closing Report." }]
   };
@@ -2019,16 +2028,119 @@ function viewKitchen() {
   `;
 }
 
+/* ==================== AUTO ROUTE & AUTO KM ENGINE (DELIVERY) ==================== */
+let RIDER_WATCH_ID = null;
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const toRad = d => (d * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function recordRouteWaypoint(lat, lng, label = "Move") {
+  S.riderAutoTrack = S.riderAutoTrack || { active: false, totalKm: 0, points: [], lastFix: null };
+  const tr = S.riderAutoTrack;
+  const nLat = +(+lat).toFixed(6);
+  const nLng = +(+lng).toFixed(6);
+  if (tr.lastFix && typeof tr.lastFix.lat === "number" && typeof tr.lastFix.lng === "number") {
+    const stepKm = haversineKm(tr.lastFix.lat, tr.lastFix.lng, nLat, nLng);
+    // Ignore tiny stationary GPS drift (< 0.015 km = 15m) and unrealistic GPS spikes (> 1.5 km in one tick)
+    if (stepKm >= 0.015 && stepKm <= 1.5) {
+      tr.totalKm = +((+tr.totalKm || 0) + stepKm).toFixed(2);
+    }
+  }
+  tr.lastFix = { lat: nLat, lng: nLng, t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) };
+  tr.points = tr.points || [];
+  tr.points.push({ lat: nLat, lng: nLng, label, t: tr.lastFix.t });
+  if (tr.points.length > 120) tr.points.shift();
+  try { localStorage.setItem("NU_V4_STATE", JSON.stringify(S)); } catch (e) {}
+}
+
+function toggleRiderAutoTrack(forceState = null) {
+  S.riderAutoTrack = S.riderAutoTrack || { active: false, totalKm: 0, points: [], lastFix: null };
+  const nextActive = typeof forceState === "boolean" ? forceState : !S.riderAutoTrack.active;
+  if (!nextActive) {
+    S.riderAutoTrack.active = false;
+    if (RIDER_WATCH_ID !== null && navigator.geolocation) {
+      navigator.geolocation.clearWatch(RIDER_WATCH_ID);
+      RIDER_WATCH_ID = null;
+    }
+    save(`Rider Auto Route & KM stopped (${S.riderAutoTrack.totalKm || 0} km)`);
+    toast("⏹ Auto Route & KM Tracking stopped");
+    return;
+  }
+  if (!navigator.geolocation) {
+    return toast("⚠️ Is browser mein GPS tracking support nahi hai");
+  }
+  if (location.protocol !== "https:" && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+    return toast("⚠️ Live GPS route ke liye HTTPS link par app kholein");
+  }
+  S.riderAutoTrack.active = true;
+  if (RIDER_WATCH_ID !== null) navigator.geolocation.clearWatch(RIDER_WATCH_ID);
+  toast("📡 Auto Route & KM Tracking ON!");
+  RIDER_WATCH_ID = navigator.geolocation.watchPosition(
+    pos => {
+      if (!S.riderAutoTrack?.active) return;
+      recordRouteWaypoint(pos.coords.latitude, pos.coords.longitude, "GPS Ping");
+      if (ROLE === "delivery") render();
+    },
+    err => {
+      toast(err.code === 1 ? "⚠️ Location Permission allow karein" : "⚠️ GPS signal weak hai");
+    },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
+  );
+  save("Rider Auto Route & KM tracking started");
+}
+
+function getRouteMapsUrl() {
+  const pts = (S.riderAutoTrack && S.riderAutoTrack.points) || [];
+  if (pts.length >= 2) {
+    const first = pts[0];
+    const last = pts[pts.length - 1];
+    const mid = pts.slice(1, -1).filter((_, i, arr) => i % Math.max(1, Math.floor(arr.length / 4)) === 0).slice(0, 4);
+    const wp = mid.map(p => `${p.lat},${p.lng}`).join("/");
+    return `https://www.google.com/maps/dir/${first.lat},${first.lng}/${wp ? wp + "/" : ""}${last.lat},${last.lng}`;
+  }
+  if (pts.length === 1) {
+    return `https://www.google.com/maps?q=${pts[0].lat},${pts[0].lng}`;
+  }
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Udala Bus Stand Udala Odisha")}`;
+}
+
+function getActiveRiderId() {
+  const saved = sessionStorage.getItem("nu_active_rider");
+  const list = (S.cfg && S.cfg.riders) || [{ id: "r1", name: "Rider 1" }];
+  return list.some(r => r.id === saved) ? saved : list[0].id;
+}
+
+function getOrderRiderId(o) {
+  const map = S.riderAssignments || {};
+  return map[o.id] || "r1";
+}
+
 function viewDelivery() {
+  const riders = (S.cfg && S.cfg.riders) || [{ id: "r1", name: "Rider 1" }, { id: "r2", name: "Rider 2" }];
+  const activeRiderId = getActiveRiderId();
+  const activeRider = riders.find(r => r.id === activeRiderId) || riders[0];
+
   const allDrops = [
     ...(S.foodOrders || []).filter(o => o.status !== "Cancelled").map(o => ({ ...o, kind: "FOOD" })),
     ...(S.kiranaOrders || []).filter(o => o.status !== "Cancelled").map(o => ({ ...o, kind: "KIRANA" }))
   ].sort((a, b) => UDALA_AREAS.indexOf(a.area) - UDALA_AREAS.indexOf(b.area));
 
-  const deliveredDropsCount = allDrops.filter(o => o.status === "Delivered").length;
-  const riderEarned = deliveredDropsCount * (+S.cfg.riderPerDropRate || 15);
-  const codCollected = allDrops.filter(o => o.payMode === "COD" && o.status === "Delivered").reduce((a, o) => a + o.total, 0);
-  const pendingJama = Math.max(0, codCollected - (+S.riderCashSettled || 0));
+  const riderDrops = allDrops.filter(o => getOrderRiderId(o) === activeRiderId);
+  const deliveredDropsCount = riderDrops.filter(o => o.status === "Delivered").length;
+  const riderEarned = deliveredDropsCount * (+S.cfg.riderPerDropRate || 0);
+  const codCollected = riderDrops.filter(o => o.payMode === "COD" && o.status === "Delivered").reduce((a, o) => a + o.total, 0);
+  const settledMap = S.riderCashSettledByRider || {};
+  const riderSettled = +settledMap[activeRiderId] || 0;
+  const pendingJama = Math.max(0, codCollected - riderSettled);
 
   return `
     <div class="card" style="background:var(--g);color:#fff">
@@ -2037,13 +2149,21 @@ function viewDelivery() {
         <button class="btn w sm" data-act="setRole" data-v="customer">Exit</button>
       </div>
     </div>
+    <div class="card" style="padding:10px 14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:11.5px;font-weight:800">🛵 Active Rider (1–10):</span>
+        <select class="inp" id="riderSelectDropdown" data-act="switchRiderSelect" style="margin:0;flex:1;max-width:220px;padding:7px 10px">
+          ${riders.map(r => `<option value="${r.id}" ${r.id === activeRiderId ? "selected" : ""}>${esc(r.name)}</option>`).join("")}
+        </select>
+      </div>
+    </div>
     <div class="kpi">
       <div><b>${allDrops.filter(x => x.status !== "Delivered").length}</b><span>Pending Drops</span></div>
       <div><b style="color:#d97706">${inr(allDrops.filter(o => o.payMode === "COD" && o.status !== "Delivered").reduce((a, o) => a + o.total, 0))}</b><span>COD On Road</span></div>
       <div><b style="color:#dc2626">${inr(pendingJama)}</b><span>COD Jama Due</span></div>
     </div>
     <div style="font-size:11.5px;font-weight:800;margin:-4px 0 12px;text-align:right;color:var(--g2)">
-      🛵 Rider Drop Earning: ${inr(riderEarned)} (${deliveredDropsCount} Delivered × ${inr(S.cfg.riderPerDropRate || 15)})
+      🛵 ${esc(activeRider.name)} Payout: ${inr(riderEarned)} (${deliveredDropsCount} Delivered · Rate ${inr(S.cfg.riderPerDropRate || 0)}/drop)
     </div>
 
     <div class="card" style="border-left:5px solid var(--g2)">
@@ -2076,8 +2196,8 @@ function viewDelivery() {
     </div>
 
     <div class="card">
-      <h3>2. Area-Sorted Food & Kirana Drops (${allDrops.length})</h3>
-      ${allDrops.map((o, idx) => {
+      <h3>2. ${esc(activeRider.name)} Drops (${riderDrops.length} / ${allDrops.length} Total)</h3>
+      ${riderDrops.map((o, idx) => {
         const pickupVendors = [...new Set((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)?.name).filter(Boolean))];
         return `
         <div class="row" style="flex-direction:column;align-items:stretch">
@@ -2096,17 +2216,34 @@ function viewDelivery() {
             <a class="btn w sm" href="${o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}`}" target="_blank">${o.gps && o.gps.lat ? "📍 Exact GPS Pin" : "🗺 Area Map"}</a>
             ${o.status === "Ready for Pickup" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>` : ""}
             ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="deliverWithPin" data-k="${o.kind}" data-id="${o.id}">✅ Deliver (PIN)</button>` : ""}
+            <button class="btn w sm" data-act="reassignRider" data-id="${o.id}">⇄ Rider</button>
           </div>
         </div>`;
       }).join("") || `<p style="font-size:12px;color:var(--mu)">No pending drops.</p>`}
     </div>
 
+    <div class="card" style="border-left:5px solid var(--amb)">
+      <h3>🧭 Auto Route & Auto KM Tracker <span class="pill ${(S.riderAutoTrack && S.riderAutoTrack.active) ? "p-green" : "p-amber"}">${(S.riderAutoTrack && S.riderAutoTrack.active) ? "🟢 Live GPS ON" : "⏸ Paused"}</span></h3>
+      <div class="row" style="padding:6px 0">
+        <div>
+          <b>Auto Tracked Distance: <span style="color:var(--o);font-family:var(--serif);font-size:17px">${(S.riderAutoTrack && S.riderAutoTrack.totalKm) || 0} km</span></b>
+          <div style="font-size:10.5px;color:var(--mu)">Waypoints: ${((S.riderAutoTrack && S.riderAutoTrack.points) || []).length} · Est. Fuel @₹${S.cfg.perKmFuelRate}/km: <b>${inr((((S.riderAutoTrack && S.riderAutoTrack.totalKm) || 0) * (+S.cfg.perKmFuelRate || 3.5)).toFixed(1))}</b></div>
+        </div>
+        <button class="btn sm ${(S.riderAutoTrack && S.riderAutoTrack.active) ? "r" : "g"}" data-act="toggleRiderAutoTrack">${(S.riderAutoTrack && S.riderAutoTrack.active) ? "⏹ Stop Auto" : "▶ Start Auto"}</button>
+      </div>
+      <div class="btn-row" style="margin-top:6px">
+        <a class="btn w sm" href="${getRouteMapsUrl()}" target="_blank">🗺 Open Route Map</a>
+        <button class="btn amb sm" data-act="useAutoKmForFuel">⚡ Auto-Fill KM & ₹</button>
+        <button class="btn w sm" data-act="resetAutoKm">↺ Reset KM</button>
+      </div>
+    </div>
+
     <div class="card">
       <h3>3. Anti-Fake Odometer & Fuel Tracker</h3>
       <div class="btn-row">
-        <input class="inp" id="odoStart" type="number" placeholder="Start KM" />
-        <input class="inp" id="odoEnd" type="number" placeholder="End KM" />
-        <input class="inp" id="fuelRs" type="number" placeholder="Claim ₹" />
+        <input class="inp" id="odoStart" type="number" step="0.1" placeholder="Start KM" />
+        <input class="inp" id="odoEnd" type="number" step="0.1" placeholder="End KM" />
+        <input class="inp" id="fuelRs" type="number" step="0.1" placeholder="Claim ₹" />
       </div>
       <button class="btn o full sm" data-act="submitFuel">Submit Verified Fuel Log</button>
       ${(S.fuelLogs || []).slice(0, 4).map(f => `
@@ -2121,7 +2258,7 @@ function viewDelivery() {
       <div class="row"><span>Total COD Collected</span><b>${inr(codCollected)}</b></div>
       <div class="row"><span>Already Jama Kiya</span><b>${inr(S.riderCashSettled || 0)}</b></div>
       <div class="row"><span>Pending COD Jama</span><b style="color:${pendingJama > 0 ? "#dc2626" : "#16a34a"}">${inr(pendingJama)}</b></div>
-      <div class="row"><span>Drop Earning (${inr(S.cfg.riderPerDropRate || 15)}/drop)</span><b style="color:#16a34a">${inr(riderEarned)}</b></div>
+      <div class="row"><span>${esc(activeRider.name)} Payout (${inr(S.cfg.riderPerDropRate || 0)}/drop)</span><b style="color:#16a34a">${inr(riderEarned)}</b></div>
     </div>
   `;
 }
@@ -2249,6 +2386,7 @@ function viewOwner() {
       <button class="${OWNER_TAB === "closing" ? "on" : ""}" data-act="setOwnerTab" data-v="closing">📊 Closing</button>
       <button class="${OWNER_TAB === "orders" ? "on" : ""}" data-act="setOwnerTab" data-v="orders">📦 Orders (${allOrds.length})</button>
       <button class="${OWNER_TAB === "vendors" ? "on" : ""}" data-act="setOwnerTab" data-v="vendors">🤝 Vendors</button>
+      <button class="${OWNER_TAB === "algos" ? "on" : ""}" data-act="setOwnerTab" data-v="algos">🧠 Algos</button>
       <button class="${OWNER_TAB === "settings" ? "on" : ""}" data-act="setOwnerTab" data-v="settings">⚙️ Rules</button>
     </div>
   `;
@@ -2311,15 +2449,43 @@ function viewOwner() {
         }).join("")}
       </div>
 
-      <div class="card" style="border:2px solid ${codPendingJama > 0 ? "#d97706" : "#16a34a"}">
-        <h3>💵 Rider COD Cash Jama Reconciliation</h3>
+      <div class="card" style="border-left:5px solid var(--amb)">
+        <h3>🧭 Live Rider Auto-Route & KM <span class="pill ${(S.riderAutoTrack && S.riderAutoTrack.active) ? "p-green" : "p-amber"}">${(S.riderAutoTrack && S.riderAutoTrack.active) ? "🟢 Live GPS ON" : "⏸ Paused"}</span></h3>
         <div class="row">
           <div>
-            <div>Total Delivered COD: <b>${inr(codCollected)}</b> · Settled: <b>${inr(S.riderCashSettled || 0)}</b></div>
-            <div style="font-size:12px;color:${codPendingJama > 0 ? "#dc2626" : "#16a34a"};font-weight:800">Pending Rider Cash Jama: ${inr(codPendingJama)}</div>
+            <b>Tracked Distance: <span style="color:var(--o);font-family:var(--serif);font-size:17px">${(S.riderAutoTrack && S.riderAutoTrack.totalKm) || 0} km</span></b>
+            <div style="font-size:11px;color:var(--mu)">Waypoints: ${((S.riderAutoTrack && S.riderAutoTrack.points) || []).length}${(S.riderAutoTrack && S.riderAutoTrack.lastFix && S.riderAutoTrack.lastFix.t) ? ` · Last Ping: ${esc(S.riderAutoTrack.lastFix.t)}` : ""} · Est. Fuel: <b>${inr((((S.riderAutoTrack && S.riderAutoTrack.totalKm) || 0) * (+S.cfg.perKmFuelRate || 3.5)).toFixed(1))}</b></div>
           </div>
-          ${codPendingJama > 0 ? `<button class="btn g sm" data-act="settleRiderCod" data-v="${codPendingJama}">✅ Cash Jama (${inr(codPendingJama)})</button>` : `<span class="pill p-green">All Clear ✓</span>`}
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <a class="btn w sm" href="${getRouteMapsUrl()}" target="_blank">🗺 Route Map</a>
+            ${(S.riderAutoTrack && S.riderAutoTrack.active) ? `<button class="btn r sm" data-act="stopRiderTrackFromOwner">⏹ Stop</button>` : ""}
+          </div>
         </div>
+      </div>
+
+      <div class="card" style="border:2px solid ${codPendingJama > 0 ? "#d97706" : "#16a34a"}">
+        <h3>💵 Rider COD Cash Jama Reconciliation</h3>
+        ${(() => {
+          const ridersList = (S.cfg && S.cfg.riders) || Array.from({ length: 10 }, (_, i) => ({ id: "r" + (i + 1), name: "Rider " + (i + 1) }));
+          const sMap = S.riderCashSettledByRider || {};
+          const activeRows = ridersList.filter(r => {
+            const rCod = allOrds.filter(o => o.payMode === "COD" && o.status === "Delivered" && getOrderRiderId(o) === r.id).reduce((a, o) => a + o.total, 0);
+            const rSet = +sMap[r.id] || 0;
+            return r.id === "r1" || rCod > 0 || rSet > 0;
+          });
+          return activeRows.map(r => {
+            const rCod = allOrds.filter(o => o.payMode === "COD" && o.status === "Delivered" && getOrderRiderId(o) === r.id).reduce((a, o) => a + o.total, 0);
+            const rSet = +sMap[r.id] || 0;
+            const rDue = Math.max(0, rCod - rSet);
+            return `<div class="row">
+              <div>
+                <b>${esc(r.name)}</b> · COD: <b>${inr(rCod)}</b> · Jama: <b>${inr(rSet)}</b>
+                <div style="font-size:11px;color:${rDue > 0 ? "#dc2626" : "#16a34a"};font-weight:800">Due: ${inr(rDue)}</div>
+              </div>
+              ${rDue > 0 ? `<button class="btn g sm" data-act="settleRiderCodFor" data-v="${r.id}" data-id="${rDue}">✅ Jama ${inr(rDue)}</button>` : `<span class="pill p-green">Clear ✓</span>`}
+            </div>`;
+          }).join("");
+        })()}
       </div>
 
       <div class="card">
@@ -2420,6 +2586,59 @@ function viewOwner() {
         `).join("") || `<p style="font-size:11.5px;color:var(--mu);margin-top:6px">Koi pending udhaar nahi hai.</p>`}
       </div>
     `;
+  } else if (OWNER_TAB === "algos") {
+    const win = getAutoMealWindow();
+    const fCount = (S.foodOrders || []).length;
+    const kCount = (S.kiranaOrders || []).length;
+    const tCount = (S.tiffinSubs || []).length;
+    const kmNow = +((S.riderAutoTrack && S.riderAutoTrack.totalKm) || 0);
+    const estFuelNow = +(kmNow * (+S.cfg.perKmFuelRate || 3.5)).toFixed(1);
+    const totalPartnerGross = S.vendors.filter(v => !v.isSelf).reduce((s, v) => s + getVendorLedger(v).gross, 0);
+    const totalPartnerComm = S.vendors.filter(v => !v.isSelf).reduce((s, v) => s + getVendorLedger(v).comm, 0);
+
+    bodyHtml = `
+      <div class="card" style="border-left:5px solid var(--g2)">
+        <h3>🕒 1. Time-Window & Peak-Rush Algorithm</h3>
+        <div class="row"><span>Current Auto Window</span><span class="pill p-green">${esc(win.badge)} · ${esc(win.slot)}</span></div>
+        <div class="row"><span>Tiffin Cut-Offs</span><b>Breakfast ≤ 6:30 AM · Lunch/Skip ≤ 9:00 AM</b></div>
+      </div>
+
+      <div class="card" style="border-left:5px solid var(--amb)">
+        <h3>⚡ 2. Priority Queue & Cluster Routing Algorithm</h3>
+        <div class="row"><span>Active Queue Status</span><b>${fCount} Food · ${kCount} Kirana · ${tCount} Tiffin</b></div>
+        <div class="row"><span>Cluster Sort Order</span><b>${esc(UDALA_AREAS.slice(0, 4).join(" → "))} + more</b></div>
+        <div class="btn-row" style="margin-top:6px">
+          <button class="btn amb sm" data-act="runAlgoQueueTest">▶ Test Priority Sort</button>
+          <a class="btn w sm" href="${getRouteMapsUrl()}" target="_blank">🗺 Inspect Route</a>
+        </div>
+      </div>
+
+      <div class="card" style="border-left:5px solid var(--o)">
+        <h3>🧭 3. Haversine GPS Distance & Anti-Drift Algorithm</h3>
+        <div class="row"><span>Jitter Filter</span><b>Ignore &lt; 15m drift · Cap &gt; 1.5 km spike</b></div>
+        <div class="row"><span>Live Tracked KM & Est. Fuel</span><b>${kmNow} km · ${inr(estFuelNow)}</b></div>
+      </div>
+
+      <div class="card" style="border-left:5px solid var(--g)">
+        <h3>🛡️ 4. Strict UTR, COD Trust & Commission Ledger Engine</h3>
+        <div class="row"><span>UTR Rules</span><b>12 digits · No sequence · No duplicate</b></div>
+        <div class="row"><span>Partner Ledger (Non-Self)</span><b>Gross ${inr(totalPartnerGross)} · Comm ${inr(totalPartnerComm)}</b></div>
+        <div class="btn-row" style="margin-top:6px">
+          <button class="btn g sm" data-act="runDryRunCheck">🧪 Run Full System Check</button>
+        </div>
+      </div>
+
+      <div class="card" style="border-left:5px solid var(--amb)">
+        <h3>🍱 5. Tiffin Skip Extension & 3D Auto-Image Matcher Preview</h3>
+        <div class="row"><span>Tiffin Skip / Vacation Rule</span><b>Skip or Pause extends remaining days automatically</b></div>
+        <div class="row"><span>Sample 3D Match ("Paneer Curry")</span><code>${esc(autoMatch3DImage("Paneer Curry", "Meals").slice(0, 48))}...</code></div>
+        <div class="btn-row" style="margin-top:6px">
+          <button class="btn amb sm" data-act="runAlgoImageTest">🖼️ Test Image Matcher</button>
+          <button class="btn w sm" data-act="runAlgoQueueTest">⚡ Test Priority Queue</button>
+        </div>
+      </div>
+    `;
+
   } else {
     bodyHtml = `
       <div class="card">
@@ -2549,6 +2768,92 @@ function renderCheckoutModal() {
 }
 
 /* ==================== MAIN RENDER ==================== */
+/* ==================== DEDICATED LOGIN PAGE ENGINE ==================== */
+let LOGIN_MODE = sessionStorage.getItem("nu_login_done") === "1" ? "app" : "gate";
+let LOGIN_ROLE_CHOICE = "customer";
+let LOGIN_VENDOR_CHOICE = "";
+let LOGIN_PIN_INPUT = "";
+let LOGIN_CUST_NAME = localStorage.getItem("nu_cname") || "";
+let LOGIN_CUST_PHONE = localStorage.getItem("nu_cphone") || "";
+let LOGIN_ERROR = "";
+
+function openLoginGate() {
+  LOGIN_MODE = "gate";
+  LOGIN_PIN_INPUT = "";
+  LOGIN_ERROR = "";
+  render();
+  scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function viewLoginPage() {
+  const vPins = { ...PINS.vendors, ...(S.cfg.vendorPins || {}) };
+  const partnerVendors = S.vendors.filter(v => !v.isSelf && vPins[v.id]);
+  if (!LOGIN_VENDOR_CHOICE && partnerVendors.length) {
+    LOGIN_VENDOR_CHOICE = partnerVendors[0].id;
+  }
+  const isStaff = LOGIN_ROLE_CHOICE !== "customer";
+
+  return `
+    <div class="card" style="background:linear-gradient(135deg,#0f291c 0%,#173d2a 60%,#2d111d 100%);color:#fff;margin-top:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <div>
+          <small style="color:#fbbf24;font-weight:800;letter-spacing:1.2px">NAMASTE UDALA · ACCESS PORTAL</small>
+          <h2 style="font-family:var(--serif);font-size:21px;margin-top:3px">Login Page</h2>
+          <p style="font-size:11.5px;color:#cbd5e1;margin-top:2px">Customer app kholein ya PIN se Kitchen, Delivery, Vendor & Owner panel mein login karein</p>
+        </div>
+        <button class="btn amb sm" data-act="quickEnterCustomer">Skip → App</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>1. Panel / Role Chunein</h3>
+      <div class="seg" style="flex-wrap:wrap">
+        <button class="${LOGIN_ROLE_CHOICE === "customer" ? "on" : ""}" data-act="loginPickRole" data-v="customer">🛍 Customer</button>
+        <button class="${LOGIN_ROLE_CHOICE === "kitchen" ? "on" : ""}" data-act="loginPickRole" data-v="kitchen">🍳 Kitchen</button>
+        <button class="${LOGIN_ROLE_CHOICE === "delivery" ? "on" : ""}" data-act="loginPickRole" data-v="delivery">🛵 Delivery</button>
+        <button class="${LOGIN_ROLE_CHOICE === "vendor" ? "on" : ""}" data-act="loginPickRole" data-v="vendor">🏪 Vendor</button>
+        <button class="${LOGIN_ROLE_CHOICE === "owner" ? "on" : ""}" data-act="loginPickRole" data-v="owner">👑 Owner</button>
+      </div>
+
+      ${LOGIN_ROLE_CHOICE === "customer" ? `
+        <div style="margin-top:10px">
+          <span class="lbl">Aapka Naam (Optional)</span>
+          <input class="inp" id="loginCustName" placeholder="Jaise: Subham Rana" value="${esc(LOGIN_CUST_NAME)}" />
+          <span class="lbl">10-Digit Mobile Number (Orders & Tiffin Pass ke liye)</span>
+          <input class="inp" id="loginCustPhone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(LOGIN_CUST_PHONE)}" />
+        </div>
+      ` : `
+        <div style="margin-top:10px">
+          ${LOGIN_ROLE_CHOICE === "vendor" ? `
+            <span class="lbl">Partner Shop / Kitchen Chunein</span>
+            <select class="inp" id="loginVendorSel">
+              ${partnerVendors.map(v => `<option value="${v.id}" ${LOGIN_VENDOR_CHOICE === v.id ? "selected" : ""}>${esc(v.name)} (${esc(v.area)})</option>`).join("")}
+            </select>
+          ` : ""}
+          <span class="lbl">4-Digit Security PIN</span>
+          <input class="inp" id="loginPinInp" type="password" inputmode="numeric" maxlength="4" placeholder="4-Digit PIN daalein" value="${esc(LOGIN_PIN_INPUT)}" />
+        </div>
+      `}
+
+      ${LOGIN_ERROR ? `<div style="font-size:11.5px;color:#dc2626;font-weight:800;margin-top:6px">${esc(LOGIN_ERROR)}</div>` : ""}
+
+      <button class="btn o full" style="margin-top:12px;padding:13px" data-act="submitLoginPage">
+        ${isStaff ? "🔐 Verify PIN & Login" : "🚀 Continue to Namaste Udala"}
+      </button>
+    </div>
+
+    <div class="card" style="background:var(--sf2)">
+      <h3>⚡ Quick Role Access</h3>
+      <div class="btn-row">
+        <button class="btn w sm" data-act="quickEnterCustomer">🛍 Customer App</button>
+        <button class="btn w sm" data-act="loginFocusRole" data-v="kitchen">🍳 Kitchen PIN</button>
+        <button class="btn w sm" data-act="loginFocusRole" data-v="delivery">🛵 Delivery PIN</button>
+        <button class="btn w sm" data-act="loginFocusRole" data-v="owner">👑 Owner PIN</button>
+      </div>
+    </div>
+  `;
+}
+
 function render() {
   autoSyncCustomerDefaults();
   const vPins = { ...PINS.vendors, ...(S.cfg.vendorPins || {}) };
@@ -2568,6 +2873,14 @@ function render() {
     `<button class="${curKey === k ? "on" : ""}" data-act="askRole" data-v="${k}">${esc(label)}</button>`
   ).join("");
 
+  if (LOGIN_MODE === "gate") {
+    $("#appMain").innerHTML = viewLoginPage();
+    $("#cartFloat").innerHTML = "";
+    $("#bottomNav").style.display = "none";
+    const hInst = $("#hdrInstallBtn"); if (hInst && IS_APP_INSTALLED) hInst.style.display = "none";
+    $("#modalRoot").innerHTML = "";
+    return;
+  }
   if (ROLE === "kitchen") $("#appMain").innerHTML = viewKitchen();
   else if (ROLE === "delivery") $("#appMain").innerHTML = viewDelivery();
   else if (ROLE === "vendor") $("#appMain").innerHTML = viewVendor();
@@ -2626,6 +2939,85 @@ function render() {
 
 /* ==================== ACTIONS & EVENTS ==================== */
 const ACT = {
+  openLoginGate: () => openLoginGate(),
+  quickEnterCustomer: () => {
+    LOGIN_MODE = "app";
+    ROLE = "customer";
+    sessionStorage.setItem("nu_role", "customer");
+    sessionStorage.setItem("nu_login_done", "1");
+    render();
+  },
+  loginPickRole: v => {
+    LOGIN_ROLE_CHOICE = v;
+    LOGIN_PIN_INPUT = "";
+    LOGIN_ERROR = "";
+    render();
+  },
+  loginFocusRole: v => {
+    LOGIN_ROLE_CHOICE = v;
+    LOGIN_PIN_INPUT = "";
+    LOGIN_ERROR = "";
+    render();
+    setTimeout(() => $("#loginPinInp")?.focus(), 40);
+  },
+  submitLoginPage: () => {
+    const role = LOGIN_ROLE_CHOICE;
+    if (role === "customer") {
+      const nm = ($("#loginCustName")?.value || "").trim();
+      const p10 = ph($("#loginCustPhone")?.value || "");
+      if (!nm || p10.length !== 10) {
+        LOGIN_ERROR = "⚠️ Order aur account ke liye Naam aur 10-digit Mobile number zaroori hai!";
+        render();
+        return;
+      }
+      TF.name = nm;
+      TF.phone = p10;
+      ORDER_PHONE_FILTER = p10;
+      localStorage.setItem("nu_cname", nm);
+      localStorage.setItem("nu_cphone", p10);
+      sessionStorage.setItem("nu_cust_logged_in", "1");
+      LOGIN_ERROR = "";
+      LOGIN_MODE = "app";
+      ROLE = "customer";
+      sessionStorage.setItem("nu_role", "customer");
+      sessionStorage.setItem("nu_login_done", "1");
+      render();
+      toast("✅ Logged in! Ab aap order place kar sakte hain.");
+      return;
+    }
+    const pin = ($("#loginPinInp")?.value || "").trim();
+    if (role === "vendor") {
+      const vid = $("#loginVendorSel")?.value || LOGIN_VENDOR_CHOICE;
+      const expected = (S.cfg.vendorPins || {})[vid] || PINS.vendors[vid];
+      if (!expected || pin !== expected) {
+        LOGIN_ERROR = "❌ Galat Vendor PIN! Sahi 4-digit PIN daalein.";
+        render();
+        return;
+      }
+      LOGIN_ERROR = "";
+      LOGIN_MODE = "app";
+      ROLE = "vendor";
+      ACTIVE_VENDOR_ID = vid;
+      sessionStorage.setItem("nu_role", "vendor");
+      sessionStorage.setItem("nu_vid", vid);
+      sessionStorage.setItem("nu_login_done", "1");
+      render();
+      toast("🏪 Vendor Panel Unlocked ✓");
+      return;
+    }
+    if (pin !== PINS[role]) {
+      LOGIN_ERROR = `❌ Galat ${role.toUpperCase()} PIN!`;
+      render();
+      return;
+    }
+    LOGIN_ERROR = "";
+    LOGIN_MODE = "app";
+    ROLE = role;
+    sessionStorage.setItem("nu_role", role);
+    sessionStorage.setItem("nu_login_done", "1");
+    render();
+    toast(`✅ ${role.toUpperCase()} Panel Unlocked ✓`);
+  },
   installApp: async () => {
     if (IS_APP_INSTALLED) return toast("✅ Namaste Udala App pehle se installed hai!");
     if (DEFERRED_INSTALL_PROMPT) {
@@ -2909,6 +3301,14 @@ const ACT = {
     const r = JSON.stringify({ rules: { [NODE]: { ".read": true, ".write": true } } }, null, 2);
     navigator.clipboard?.writeText(r).then(() => toast("📋 Firebase Rules copied!")).catch(() => toast("Copy manually from box"));
   },
+  runAlgoImageTest: () => {
+    const sample = autoMatch3DImage("Hyderabadi Chicken Dum Biryani", "Biryani");
+    toast(sample ? "🖼️ 3D Auto-Image Matcher OK!" : "⚠️ Matcher check failed");
+  },
+  runAlgoQueueTest: () => {
+    const sorted = autoPrioritySort(S.foodOrders || []);
+    toast(`⚡ Priority Queue OK: ${sorted.length} food orders ranked by urgency`);
+  },
   runDryRunCheck: () => {
     const isHttps = location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
     const vCount = (S.vendors || []).length;
@@ -2939,6 +3339,8 @@ const ACT = {
       return toast("❌ Galat Delivery PIN! Customer ke app par dikh raha 4-digit PIN daalein.");
     }
     o.status = "Delivered";
+    if (o.gps && o.gps.lat && o.gps.lng) recordRouteWaypoint(o.gps.lat, o.gps.lng, `Drop ${o.id}`);
+    else if (navigator.geolocation) navigator.geolocation.getCurrentPosition(p => recordRouteWaypoint(p.coords.latitude, p.coords.longitude, `Drop ${o.id}`), () => {}, { enableHighAccuracy: true, timeout: 6000 });
     save(`Rider delivered ${k} Order ${id} with PIN verification`);
     toast("✅ Order Delivered & Verified!");
   },
@@ -3043,6 +3445,15 @@ const ACT = {
   },
   confirmCheckout: () => {
     if (!CHECKOUT_MODAL) return;
+    const isCustLoggedIn = sessionStorage.getItem("nu_cust_logged_in") === "1" && ph(TF.phone).length === 10 && TF.name.trim().length > 0;
+    if (!isCustLoggedIn) {
+      LOGIN_ROLE_CHOICE = "customer";
+      LOGIN_CUST_NAME = TF.name || LOGIN_CUST_NAME || "";
+      LOGIN_CUST_PHONE = ph(TF.phone) || LOGIN_CUST_PHONE || "";
+      LOGIN_ERROR = "⚠️ Order place karne ke liye pehle Naam aur 10-digit Mobile se Login zaroori hai!";
+      openLoginGate();
+      return;
+    }
     if (window._orderLock && Date.now() - window._orderLock < 3000) return toast("⏳ Order process ho raha hai, kripya wait karein...");
     window._orderLock = Date.now();
     if (!USER_GPS.ok || !USER_GPS.lat || !USER_GPS.lng) {
@@ -3200,10 +3611,27 @@ const ACT = {
     const s = S.tiffinSubs.find(x => x.id === id);
     if (s) { s.deliveredToday = !s.deliveredToday; save(`Tiffin delivery updated for ${s.name}`); }
   },
+  stopRiderTrackFromOwner: () => toggleRiderAutoTrack(false),
+  toggleRiderAutoTrack: () => toggleRiderAutoTrack(),
+  useAutoKmForFuel: () => {
+    const km = +((S.riderAutoTrack && S.riderAutoTrack.totalKm) || 0);
+    if (km <= 0) return toast("⚠️ Auto KM abhi 0 hai — Start Auto dabayein ya move karein");
+    const estRs = +(km * (+S.cfg.perKmFuelRate || 3.5)).toFixed(1);
+    if ($("#odoStart")) $("#odoStart").value = "0";
+    if ($("#odoEnd")) $("#odoEnd").value = String(km);
+    if ($("#fuelRs")) $("#fuelRs").value = String(estRs);
+    toast(`⚡ Auto-filled ${km} km · Est. ${inr(estRs)}`);
+  },
+  resetAutoKm: () => {
+    if (!confirm("Auto tracked KM aur route points reset karein?")) return;
+    S.riderAutoTrack = { active: !!(S.riderAutoTrack && S.riderAutoTrack.active), totalKm: 0, points: [], lastFix: null };
+    save("Rider reset Auto KM & route trail");
+    toast("↺ Auto KM reset ho gaya");
+  },
   submitFuel: () => {
     const s = parseFloat($("#odoStart")?.value), e = parseFloat($("#odoEnd")?.value), rs = parseFloat($("#fuelRs")?.value);
     if (isNaN(s) || isNaN(e) || e <= s || isNaN(rs) || rs <= 0) return toast("Sahi Start/End KM aur ₹ daalein");
-    const km = +(e - s).toFixed(1);
+    const km = +(e - s).toFixed(2);
     const drops = (S.foodOrders.filter(o => o.status === "Delivered").length + S.kiranaOrders.filter(o => o.status === "Delivered").length);
     const estKm = Math.max(2, drops * 2.4);
     const flag = (km > estKm * 1.5 || rs > estKm * S.cfg.perKmFuelRate * 1.35) ? "⚠️ SUSPICIOUS OVER-CLAIM" : "✅ Route Matched";
@@ -3268,6 +3696,40 @@ const ACT = {
     S.cfg.todayTiffinMenu = txt;
     save(`Today Tiffin Menu updated: ${txt}`);
     toast("🍲 Today's Tiffin Menu live ho gaya!");
+  },
+  switchRider: v => {
+    sessionStorage.setItem("nu_active_rider", v);
+    render();
+  },
+  switchRiderSelect: () => {
+    const val = $("#riderSelectDropdown")?.value;
+    if (val) {
+      sessionStorage.setItem("nu_active_rider", val);
+      render();
+    }
+  },
+  reassignRider: (v, k, id) => {
+    const ridersList = (S.cfg && S.cfg.riders) || Array.from({ length: 10 }, (_, i) => ({ id: "r" + (i + 1), name: "Rider " + (i + 1) }));
+    const cur = getOrderRiderId({ id });
+    const chosen = prompt("Kis rider ko assign karna hai? (1 se 10 number likhein):", cur.replace("r", ""));
+    if (chosen === null) return;
+    const num = parseInt(chosen, 10);
+    const target = ridersList.find(r => r.id === "r" + num);
+    if (!target) return toast("⚠️ 1 se 10 ke beech rider number daalein");
+    S.riderAssignments = S.riderAssignments || {};
+    S.riderAssignments[id] = target.id;
+    save(`Order ${id} assigned to ${target.name}`);
+    toast(`⇄ Assigned to ${target.name}`);
+  },
+  settleRiderCodFor: (v, k, id) => {
+    const rid = v || "r1";
+    const amt = +id || 0;
+    if (amt <= 0) return;
+    S.riderCashSettledByRider = S.riderCashSettledByRider || {};
+    S.riderCashSettledByRider[rid] = (+S.riderCashSettledByRider[rid] || 0) + amt;
+    S.riderCashSettled = (+S.riderCashSettled || 0) + amt;
+    save(`Owner received COD Jama ₹${amt} from ${rid}`);
+    toast(`✅ Rider COD Cash ${inr(amt)} Jama ho gaya!`);
   },
   settleRiderCod: v => {
     const amt = +v || 0;
@@ -3354,6 +3816,9 @@ document.addEventListener("click", e => {
 });
 
 document.addEventListener("input", e => {
+  if (e.target.id === "loginCustName") { LOGIN_CUST_NAME = e.target.value; return; }
+  if (e.target.id === "loginCustPhone") { LOGIN_CUST_PHONE = e.target.value; return; }
+  if (e.target.id === "loginPinInp") { LOGIN_PIN_INPUT = e.target.value; LOGIN_ERROR = ""; return; }
   if (e.target.dataset.tf) {
     TF[e.target.dataset.tf] = e.target.value;
     if (e.target.dataset.tf === "phone" && TAB === "checkout" && e.target.value.replace(/\D/g, "").length === 10) {
