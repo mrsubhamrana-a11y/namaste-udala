@@ -1,4 +1,7 @@
 
+
+HTML icon
+namaste-udala-separated-v12
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -419,92 +422,33 @@
   }
 
 
-  /* ==================== 82792.JPG STYLE 3D POP-OUT SHOWCASE ==================== */
-  .pop-banner {
+
+  /* ==================== ENHANCED 3D IMAGE DEPTH & RESILIENT FALLBACK ==================== */
+  .pimg {
     position: relative;
-    background: linear-gradient(135deg, #0d2b1d 0%, #16442e 55%, #1e3a2f 100%);
-    border-radius: 26px;
-    padding: 16px 14px 18px;
-    margin: 12px 0 22px;
-    color: #fff;
-    overflow: visible;
-    box-shadow: 0 18px 34px -8px rgba(13,43,29,.45), 0 5px 0 #071910, inset 0 1px 0 rgba(255,255,255,.22);
-  }
-  .pop-title-row {
-    text-align: center;
-    margin-bottom: 14px;
-  }
-  .pop-odia {
-    font-size: 21px;
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 3px 0 #be123c, 0 8px 16px rgba(0,0,0,.45);
-    letter-spacing: .3px;
-  }
-  .pop-sub {
-    display: inline-block;
-    margin-top: 4px;
-    background: linear-gradient(90deg, #e11d48, #be123c);
-    color: #fff;
-    padding: 3px 12px;
-    border-radius: 99px;
-    font-size: 11px;
-    font-weight: 800;
-    box-shadow: 0 3px 0 #881337;
-  }
-  .pop-grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-top: 18px;
     overflow: visible;
   }
-  .pop-tile {
-    position: relative;
-    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    color: #0f172a;
-    border-radius: 18px;
-    padding: 44px 4px 9px;
-    text-align: center;
-    cursor: pointer;
-    overflow: visible;
-    box-shadow: 0 10px 18px rgba(0,0,0,.28), 0 4px 0 #cbd5e1;
-    transition: transform .2s cubic-bezier(.22,1,.36,1);
-  }
-  .pop-tile:hover, .pop-tile:active {
-    transform: translateY(-5px) scale(1.03);
-  }
-  .pop-tile.active {
-    background: linear-gradient(180deg, #fffbeb 0%, #fde68a 100%);
-    box-shadow: 0 12px 22px rgba(251,191,36,.35), 0 4px 0 #d97706;
-  }
-  .pop-cutout {
+  .pimg::before {
+    content: "";
     position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 68px;
-    height: 68px;
-    object-fit: contain;
+    inset: 4px;
+    border-radius: 15px;
+    background: linear-gradient(155deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 48%);
     pointer-events: none;
-    filter: drop-shadow(0 10px 10px rgba(0,0,0,.38));
-    transition: transform .22s ease;
+    z-index: 2;
   }
-  .pop-tile:hover .pop-cutout {
-    transform: translateX(-50%) translateY(-6px) scale(1.1);
+  .pimg img {
+    transform: translateY(-14px) scale(1.03);
+    border: 2.5px solid rgba(255,255,255,.92);
+    box-shadow: 0 20px 26px -8px rgba(19,34,26,.52), 0 4px 12px rgba(0,0,0,.22), inset 0 1px 2px rgba(255,255,255,.5);
   }
-  .pop-tile b {
-    display: block;
-    font-size: 10.5px;
-    font-weight: 800;
-    line-height: 1.15;
+  .pcard:hover .pimg img {
+    transform: translateY(-20px) scale(1.08) rotate(-1.5deg);
+    box-shadow: 0 28px 36px -8px rgba(19,34,26,.6), 0 8px 16px rgba(0,0,0,.26);
   }
-  .pop-tile span {
-    display: block;
-    font-size: 8.5px;
-    font-weight: 700;
-    color: #15803d;
-    margin-top: 2px;
+  .hero-pop {
+    border: 3.5px solid rgba(255,255,255,.95);
+    box-shadow: 0 24px 32px -6px rgba(0,0,0,.55), 0 0 0 7px rgba(255,255,255,.16);
   }
 
 </style>
@@ -587,102 +531,6 @@ const IMG = {
   kirana: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=85",
   hul: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=85",
   milk: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&q=85"
-};
-
-
-/* ==================== TRUE CUTOUT 3D POP-OUT SVG ASSETS (82792.JPG STYLE) ==================== */
-const CUTOUT = {
-  dabba: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
-    <defs>
-      <linearGradient id="st" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#94a3b8"/><stop offset="28%" stop-color="#f8fafc"/><stop offset="55%" stop-color="#cbd5e1"/><stop offset="85%" stop-color="#64748b"/><stop offset="100%" stop-color="#e2e8f0"/>
-      </linearGradient>
-      <linearGradient id="lid" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#94a3b8"/>
-      </linearGradient>
-      <filter id="sh" x="-20%" y="-20%" width="140%" height="150%">
-        <feDropShadow dx="0" dy="12" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.45"/>
-      </filter>
-    </defs>
-    <g filter="url(#sh)">
-      <path d="M52 44 L52 24 Q90 12 128 24 L128 44" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
-      <rect x="74" y="14" width="32" height="9" rx="4.5" fill="#1e293b"/>
-      <rect x="46" y="46" width="88" height="32" rx="8" fill="url(#st)" stroke="#475569" stroke-width="1.5"/>
-      <rect x="46" y="78" width="88" height="32" rx="8" fill="url(#st)" stroke="#475569" stroke-width="1.5"/>
-      <rect x="46" y="110" width="88" height="34" rx="10" fill="url(#st)" stroke="#475569" stroke-width="1.5"/>
-      <ellipse cx="90" cy="46" rx="45" ry="9" fill="url(#lid)" stroke="#475569" stroke-width="1.5"/>
-      <path d="M40 46 L40 132 Q40 138 48 138" fill="none" stroke="#334155" stroke-width="4.5" stroke-linecap="round"/>
-      <path d="M140 46 L140 132 Q140 138 132 138" fill="none" stroke="#334155" stroke-width="4.5" stroke-linecap="round"/>
-      <ellipse cx="90" cy="44" rx="10" ry="3.5" fill="#64748b"/>
-    </g>
-  </svg>`),
-
-  biryani: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
-    <defs>
-      <linearGradient id="clay" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#d97706"/><stop offset="50%" stop-color="#9a3412"/><stop offset="100%" stop-color="#451a03"/>
-      </linearGradient>
-      <radialGradient id="rice" cx="50%" cy="40%" r="55%">
-        <stop offset="0%" stop-color="#fef08a"/><stop offset="65%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#b45309"/>
-      </radialGradient>
-      <filter id="sh2" x="-20%" y="-20%" width="140%" height="150%">
-        <feDropShadow dx="0" dy="12" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.45"/>
-      </filter>
-    </defs>
-    <g filter="url(#sh2)">
-      <path d="M32 82 Q24 148 90 152 Q156 148 148 82 Z" fill="url(#clay)"/>
-      <ellipse cx="90" cy="82" rx="60" ry="22" fill="#7c2d12" stroke="#fdba74" stroke-width="2"/>
-      <ellipse cx="90" cy="79" rx="54" ry="18" fill="url(#rice)"/>
-      <ellipse cx="75" cy="75" rx="14" ry="7" fill="#b91c1c" transform="rotate(-12 75 75)"/>
-      <ellipse cx="106" cy="80" rx="13" ry="6.5" fill="#991b1b" transform="rotate(15 106 80)"/>
-      <circle cx="92" cy="70" r="6" fill="#fef9c3"/>
-      <path d="M84 65 Q90 54 97 64 Q90 68 84 65 Z" fill="#16a34a"/>
-      <path d="M95 66 Q104 56 106 67 Q98 69 95 66 Z" fill="#15803d"/>
-    </g>
-  </svg>`),
-
-  thali: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
-    <defs>
-      <radialGradient id="plt" cx="45%" cy="40%" r="58%">
-        <stop offset="0%" stop-color="#fef3c7"/><stop offset="70%" stop-color="#d97706"/><stop offset="100%" stop-color="#78350f"/>
-      </radialGradient>
-      <filter id="sh3" x="-20%" y="-20%" width="140%" height="150%">
-        <feDropShadow dx="0" dy="12" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.45"/>
-      </filter>
-    </defs>
-    <g filter="url(#sh3)">
-      <ellipse cx="90" cy="102" rx="74" ry="44" fill="url(#plt)" stroke="#fde68a" stroke-width="2.5"/>
-      <ellipse cx="90" cy="99" rx="64" ry="36" fill="#fffbeb" opacity="0.25"/>
-      <ellipse cx="72" cy="108" rx="22" ry="14" fill="#ffffff"/>
-      <circle cx="64" cy="82" r="14" fill="#f59e0b" stroke="#78350f" stroke-width="2"/>
-      <circle cx="98" cy="80" r="13" fill="#dc2626" stroke="#78350f" stroke-width="2"/>
-      <path d="M96 105 Q122 86 142 104 Q120 122 96 105 Z" fill="#eab308" stroke="#a16207" stroke-width="1.5"/>
-      <path d="M102 98 Q128 80 146 98 Q124 114 102 98 Z" fill="#fde047" stroke="#a16207" stroke-width="1.5"/>
-      <circle cx="52" cy="116" r="6" fill="#22c55e"/>
-      <circle cx="116" cy="120" r="5" fill="#84cc16"/>
-    </g>
-  </svg>`),
-
-  kirana: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
-    <defs>
-      <linearGradient id="bsk" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#78350f"/>
-      </linearGradient>
-      <filter id="sh4" x="-20%" y="-20%" width="140%" height="150%">
-        <feDropShadow dx="0" dy="12" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.45"/>
-      </filter>
-    </defs>
-    <g filter="url(#sh4)">
-      <rect x="46" y="42" width="34" height="54" rx="6" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
-      <rect x="84" y="34" width="24" height="62" rx="6" fill="#facc15" stroke="#fff" stroke-width="1.5"/>
-      <circle cx="122" cy="74" r="16" fill="#dc2626"/>
-      <circle cx="62" cy="82" r="15" fill="#16a34a"/>
-      <path d="M112 52 Q128 38 138 56 Q124 64 112 52 Z" fill="#22c55e"/>
-      <path d="M28 88 L152 88 L138 144 Q90 152 42 144 Z" fill="url(#bsk)" stroke="#fef3c7" stroke-width="2"/>
-      <line x1="34" y1="106" x2="146" y2="106" stroke="#451a03" stroke-width="2.5"/>
-      <line x1="38" y1="124" x2="142" y2="124" stroke="#451a03" stroke-width="2.5"/>
-    </g>
-  </svg>`)
 };
 
 
@@ -834,6 +682,10 @@ function defaultState() {
       kiranaPostDeliveryComm: 30,
       perKmFuelRate: 3.5,
       riderPerDropRate: 15,
+      promoCode: "UDALA20",
+      promoDiscount: 20,
+      promoMinOrder: 150,
+      promoActive: true,
       vendorPins: {
         v_bhanjpur: "2001",
         v_jarlicious: "2002",
@@ -1011,32 +863,6 @@ Status: ${o.status}${o.cancelReason ? ` (${o.cancelReason})` : ""}`;
   window.open(`https://wa.me/91${ph(S.cfg.wa)}?text=${encodeURIComponent(txt)}`, "_blank");
 }
 
-
-function renderPopShowcase() {
-  const tiles = [
-    { key: "tiffin", img: CUTOUT.dabba, title: "Mera Tiffin", sub: "Steel Dabba", act: "setTab", v: "tiffin", on: TAB === "tiffin" },
-    { key: "biryani", img: CUTOUT.biryani, title: "Biryani & Food", sub: "Hot Handi", act: "jumpFoodCat", v: "Biryani", on: TAB === "food" && FOOD_CAT_FILTER === "Biryani" },
-    { key: "thali", img: CUTOUT.thali, title: "Roti & Thali", sub: "Ghar Jaisa", act: "jumpFoodCat", v: "Thali", on: TAB === "food" && FOOD_CAT_FILTER === "Thali" },
-    { key: "kirana", img: CUTOUT.kirana, title: "Kirana & HUL", sub: "₹500 Free Del", act: "setTab", v: "kirana", on: TAB === "kirana" }
-  ];
-  return `
-    <div class="pop-banner">
-      <div class="pop-title-row">
-        <div class="pop-odia">ନମସ୍ତେ ଉଦଳା · Namaste Udala</div>
-        <div class="pop-sub">ଏବେ ଅର୍ଡର କରନ୍ତୁ · 3D Live Categories</div>
-      </div>
-      <div class="pop-grid-4">
-        ${tiles.map(t => `
-          <div class="pop-tile ${t.on ? "active" : ""}" data-act="${t.act}" data-v="${t.v}">
-            <img class="pop-cutout" src="${t.img}" alt="${esc(t.title)}" />
-            <b>${esc(t.title)}</b>
-            <span>${esc(t.sub)}</span>
-          </div>
-        `).join("")}
-      </div>
-    </div>
-  `;
-}
 
 /* ==================== CATEGORY 1: MERA TIFFIN LOGIC ==================== */
 function calcTiffinPrice(diet, days, slot) {
@@ -1351,7 +1177,7 @@ function viewKirana() {
     <input class="inp" id="kiranaSearchInp" placeholder="🔍 Search Atta, Rice, Surf Excel, Lifebuoy, Tea..." value="${esc(KIRANA_SEARCH)}" />
     <div class="chips" style="margin-top:6px">
       ${["ALL", "HUL", "Staples", "Dairy"].map(c =>
-        `<button class="${KIRANA_CAT_FILTER === c ? "on" : ""}" data-act="setKiranaCat" data-v="${c}">${c === "HUL" ? "HUL Brands" : c}</button>`
+        `<button class="${KIRANA_CAT_FILTER === c ? "on" : ""}" data-act="setKiranaCat" data-v="${c}">${c === "HUL" ? "Daily Care" : c}</button>`
       ).join("")}
     </div>
 
@@ -1663,7 +1489,8 @@ function viewCheckoutPage() {
   let liveItems = [];
   let subTotal = m.total;
   let delFee = 0;
-  let grandTotal = m.total;
+  let discAmt = +m.discountAmt || 0;
+  let grandTotal = Math.max(0, m.total - discAmt);
 
   if (isFood) {
     liveItems = Object.entries(FOOD_CART).map(([id, qty]) => {
@@ -1673,7 +1500,7 @@ function viewCheckoutPage() {
     if (!liveItems.length) { CHECKOUT_MODAL = null; TAB = "food"; return viewFoodShop(); }
     subTotal = foodCartTotal();
     delFee = 0;
-    grandTotal = subTotal;
+    grandTotal = Math.max(0, subTotal - discAmt);
     m.items = liveItems;
     m.total = grandTotal;
   } else if (isKirana) {
@@ -1689,7 +1516,7 @@ function viewCheckoutPage() {
     }
     subTotal = kiranaSubtotal();
     delFee = kiranaDeliveryFee(subTotal);
-    grandTotal = subTotal + delFee;
+    grandTotal = Math.max(0, subTotal + delFee - discAmt);
     m.items = liveItems;
     m.sub = subTotal;
     m.deliveryFee = delFee;
@@ -1742,6 +1569,7 @@ function viewCheckoutPage() {
       <div style="margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--ln);font-size:12.5px">
         <div class="row" style="padding:3px 0;border:0"><span>Item Total</span><b>${inr(subTotal)}</b></div>
         ${!isTiffin ? `<div class="row" style="padding:3px 0;border:0"><span>Delivery Fee</span><b style="color:${delFee === 0 ? "#16a34a" : "inherit"}">${delFee === 0 ? "FREE (₹0)" : inr(delFee)}</b></div>` : ""}
+        ${discAmt > 0 ? `<div class="row" style="padding:3px 0;border:0;color:#16a34a"><span>Promo Discount (${esc(m.appliedPromo)})</span><b>-${inr(discAmt)}</b></div>` : ""}
         <div class="row" style="padding:6px 0 0;border-top:1px solid var(--ln);margin-top:4px">
           <strong style="font-size:14px">To Pay</strong>
           <b style="font-family:var(--serif);font-size:22px;color:var(--o)">${inr(grandTotal)}</b>
@@ -1761,8 +1589,24 @@ function viewCheckoutPage() {
       </select>
       <span class="lbl">Ghar Ka Pura Address / Landmark *</span>
       <input class="inp" data-tf="addr" placeholder="House / Street / Near Landmark" value="${esc(TF.addr)}" />
+      ${!isTiffin ? `
+        <span class="lbl">Delivery Time Slot</span>
+        <select class="inp" id="chkDelSlot">
+          <option value="ASAP (30-45 mins)" ${m.delSlot === "ASAP (30-45 mins)" || !m.delSlot ? "selected" : ""}>⚡ Abhi (ASAP · 30–45 mins)</option>
+          <option value="Morning (8:00 AM - 10:00 AM)" ${m.delSlot === "Morning (8:00 AM - 10:00 AM)" ? "selected" : ""}>🌅 Morning (8:00 AM – 10:00 AM)</option>
+          <option value="Afternoon (12:30 PM - 2:30 PM)" ${m.delSlot === "Afternoon (12:30 PM - 2:30 PM)" ? "selected" : ""}>☀️ Afternoon (12:30 PM – 2:30 PM)</option>
+          <option value="Evening (6:30 PM - 8:30 PM)" ${m.delSlot === "Evening (6:30 PM - 8:30 PM)" ? "selected" : ""}>🌙 Evening (6:30 PM – 8:30 PM)</option>
+        </select>
+      ` : ""}
       <span class="lbl">${isKirana ? "Extra Kirana Item Note (Optional)" : "Cooking / Delivery Instruction (Optional)"}</span>
       <input class="inp" data-tf="note" placeholder="${isKirana ? "Jaise: 100g Jeera ya koi aur item..." : "Jaise: Kam mirchi / Gate par call karein..."}" value="${esc(TF.note)}" />
+      ${S.cfg.promoActive ? `
+        <span class="lbl">Promo / First-Order Coupon (Try: ${esc(S.cfg.promoCode)})</span>
+        <div class="btn-row">
+          <input class="inp" id="chkPromoInp" placeholder="Coupon Code" value="${esc(m.appliedPromo || "")}" />
+          <button class="btn amb sm" style="max-width:105px" data-act="applyPromo">${m.discountAmt > 0 ? "Applied ✓" : "Apply"}</button>
+        </div>
+      ` : ""}
     </div>
 
     <div class="card">
@@ -1820,7 +1664,12 @@ function viewKitchen() {
       </div>
     </div>
     <div class="kpi">
-      <div><b>${subs.length}</b><span>Active Dabbe</span></div>
+      <div><b>${subs.filter(s => /Breakfast|All 3/.test(s.slot)).length}</b><span>Breakfast Dabbe</span></div>
+      <div><b>${subs.filter(s => /Lunch|All 3/.test(s.slot)).length}</b><span>Lunch Dabbe</span></div>
+      <div><b>${subs.filter(s => /Dinner|All 3/.test(s.slot)).length}</b><span>Dinner Dabbe</span></div>
+    </div>
+    <div class="kpi">
+      <div><b>${subs.length}</b><span>Total Tiffin Users</span></div>
       <div><b>${fOrds.length}</b><span>Food Orders</span></div>
       <div><b>${(totalMeals * 0.16).toFixed(1)} kg</b><span>Est. Rice/Atta</span></div>
     </div>
@@ -1925,8 +1774,10 @@ function viewDelivery() {
           <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup From: ${esc(pickupVendors.join(" + ") || "Hub")}</div>
           <div style="font-size:11px;color:var(--mu);margin:3px 0">${esc(o.addr)} · ${o.items.map(i => `${i.name}×${i.qty}`).join(", ")}</div>
           ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:700">Note: ${esc(o.note)}</div>` : ""}
+          ${o.delSlot ? `<div style="font-size:10.5px;color:var(--g2);font-weight:800">⏰ Slot: ${esc(o.delSlot)}</div>` : ""}
           <div class="btn-row">
             <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
+            <a class="btn w sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala order (${o.id}) lekar pahunch raha hoon!`)}" target="_blank">💬 WA</a>
             <a class="btn w sm" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}" target="_blank">🗺 Map</a>
             ${o.status === "Ready for Pickup" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>` : ""}
             ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="deliverWithPin" data-k="${o.kind}" data-id="${o.id}">✅ Deliver (PIN)</button>` : ""}
@@ -2033,8 +1884,9 @@ function viewVendor() {
         <div class="row">
           <div><b>${esc(it.name)}</b> (${inr(it.price)})</div>
           <div style="display:flex;gap:5px">
-            <button class="btn w sm" data-act="editItemPrice" data-k="${v.type}" data-id="${it.id}">✏️ ₹</button>
+            <button class="btn w sm" data-act="editItemFull" data-k="${v.type}" data-id="${it.id}">✏️</button>
             <button class="btn sm ${it.stock ? "g" : "w"}" data-act="toggleStock" data-k="${v.type}" data-id="${it.id}">${it.stock ? "In Stock ✓" : "Out"}</button>
+            <button class="btn r sm" data-act="deleteItem" data-k="${v.type}" data-id="${it.id}">🗑️</button>
           </div>
         </div>
       `).join("")}
@@ -2214,6 +2066,11 @@ function viewOwner() {
           <div><span class="lbl">Free Del ≥ ₹</span><input class="inp" id="edKiranaFree" type="number" value="${S.cfg.kiranaFreeDeliveryAt}" /></div>
           <div><span class="lbl">Kirana Comm ₹</span><input class="inp" id="edKiranaComm" type="number" value="${S.cfg.kiranaPostDeliveryComm}" /></div>
         </div>
+        <div class="btn-row" style="margin-top:6px">
+          <div><span class="lbl">Promo Code</span><input class="inp" id="edPromoCode" value="${esc(S.cfg.promoCode || "UDALA20")}" /></div>
+          <div><span class="lbl">Discount ₹</span><input class="inp" id="edPromoDisc" type="number" value="${S.cfg.promoDiscount || 20}" /></div>
+          <div><span class="lbl">Min Order ₹</span><input class="inp" id="edPromoMin" type="number" value="${S.cfg.promoMinOrder || 150}" /></div>
+        </div>
         <button class="btn o full sm" data-act="saveOwnerRates">💾 Save & Lock Master Rules</button>
       </div>
       <div class="card">
@@ -2331,11 +2188,10 @@ function render() {
     } else if (TAB === "tiffinPass") {
       $("#appMain").innerHTML = viewTiffinPassPage();
     } else {
-      const topShowcase = renderPopShowcase();
-      if (TAB === "tiffin") $("#appMain").innerHTML = topShowcase + viewTiffin();
-      else if (TAB === "food") $("#appMain").innerHTML = topShowcase + viewFoodShop();
-      else if (TAB === "kirana") $("#appMain").innerHTML = topShowcase + viewKirana();
-      else if (TAB === "orders") $("#appMain").innerHTML = topShowcase + viewCustomerOrders();
+      if (TAB === "tiffin") $("#appMain").innerHTML = viewTiffin();
+      else if (TAB === "food") $("#appMain").innerHTML = viewFoodShop();
+      else if (TAB === "kirana") $("#appMain").innerHTML = viewKirana();
+      else if (TAB === "orders") $("#appMain").innerHTML = viewCustomerOrders();
       else $("#appMain").innerHTML = viewAccountPage();
     }
   }
@@ -2549,6 +2405,39 @@ const ACT = {
     if (o) shareOrderWa(o, k);
   },
 
+  applyPromo: () => {
+    if (!CHECKOUT_MODAL) return;
+    const code = ($("#chkPromoInp")?.value || "").trim().toUpperCase();
+    const expected = (S.cfg.promoCode || "UDALA20").toUpperCase();
+    const baseAmt = CHECKOUT_MODAL.kind === "FOOD" ? foodCartTotal() : CHECKOUT_MODAL.kind === "KIRANA" ? kiranaSubtotal() : calcTiffinPrice(TF.diet, TF.days, TF.slot);
+    if (code !== expected) return toast(`⚠️ Invalid Coupon! Try ${expected}`);
+    if (baseAmt < (+S.cfg.promoMinOrder || 0)) return toast(`⚠️ Coupon ke liye min ₹${S.cfg.promoMinOrder} order chahiye!`);
+    CHECKOUT_MODAL.appliedPromo = code;
+    CHECKOUT_MODAL.discountAmt = +S.cfg.promoDiscount || 20;
+    render();
+    toast(`🎉 Coupon ${code} applied! ₹${CHECKOUT_MODAL.discountAmt} off`);
+  },
+  editItemFull: (v, k, id) => {
+    const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
+    const it = arr.find(x => x.id === id);
+    if (!it) return;
+    const nn = prompt("Item ka naam edit karein:", it.name);
+    if (nn === null || !nn.trim()) return;
+    const np = parseFloat(prompt("Naya price ₹ daalein:", it.price));
+    if (!(np > 0)) return;
+    it.name = nn.trim();
+    it.price = np;
+    it.img = autoMatch3DImage(it.name, it.cat, it.desc);
+    save(`Item edited: ${it.name} -> ₹${np}`);
+    toast("✅ Item updated!");
+  },
+  deleteItem: (v, k, id) => {
+    if (!confirm("Kya aap is item ko permanently delete karna chahte hain?")) return;
+    if (k === "FOOD") S.foodItems = S.foodItems.filter(x => x.id !== id);
+    else S.kiranaItems = S.kiranaItems.filter(x => x.id !== id);
+    save(`Item deleted (${k}: ${id})`);
+    toast("🗑️ Item deleted!");
+  },
   copyUpi: () => {
     navigator.clipboard?.writeText(S.cfg.upi).then(() => toast(`📋 UPI ID copied: ${S.cfg.upi}`)).catch(() => toast(`UPI ID: ${S.cfg.upi}`));
   },
@@ -2693,6 +2582,7 @@ const ACT = {
     }
 
     const note = TF.note.trim();
+    const delSlot = $("#chkDelSlot")?.value || "ASAP (30-45 mins)";
     if (CHECKOUT_MODAL.kind === "TIFFIN") {
       const newId = "TS-" + Math.floor(1000 + Math.random() * 9000);
       S.tiffinSubs.unshift({
@@ -2717,7 +2607,7 @@ const ACT = {
         id: newId,
         deliveryOtp: delOtp,
         date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
-        items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total, note,
+        items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total, note, delSlot,
         payMode, utr, utrVerified: false, status: "Placed"
       });
       LAST_PLACED_ORDER = {
@@ -2737,7 +2627,7 @@ const ACT = {
         id: newId,
         deliveryOtp: delOtp,
         date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
-        items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total, note,
+        items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total, note, delSlot,
         payMode, utr, utrVerified: false, status: "Placed"
       });
       LAST_PLACED_ORDER = {
@@ -2872,7 +2762,10 @@ const ACT = {
     S.cfg.kiranaMinOrder = Math.max(0, +$("#edKiranaMin").value || 300);
     S.cfg.kiranaFreeDeliveryAt = Math.max(0, +$("#edKiranaFree").value || 500);
     S.cfg.kiranaPostDeliveryComm = Math.max(0, +$("#edKiranaComm").value || 30);
-    save("Owner updated master rates & commissions");
+    S.cfg.promoCode = ($("#edPromoCode")?.value || "UDALA20").trim().toUpperCase();
+    S.cfg.promoDiscount = Math.max(0, +$("#edPromoDisc")?.value || 0);
+    S.cfg.promoMinOrder = Math.max(0, +$("#edPromoMin")?.value || 0);
+    save("Owner updated master rates, commissions & promo rules");
     toast("✅ Master rules saved!");
   },
   verifyUtr: (v, k, id) => {
@@ -2998,6 +2891,15 @@ $("#importJsonInput").addEventListener("change", e => {
   };
   r.readAsText(f);
 });
+
+
+/* ==================== RESILIENT IMAGE FALLBACK (ZERO BROKEN IMAGES) ==================== */
+document.addEventListener("error", e => {
+  if (e.target && e.target.tagName === "IMG" && !e.target.dataset.fbDone) {
+    e.target.dataset.fbDone = "1";
+    e.target.src = IMG.thali;
+  }
+}, true);
 
 render();
 </script>
