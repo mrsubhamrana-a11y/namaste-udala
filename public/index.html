@@ -252,6 +252,172 @@
     body > *:not(#printArea) { display: none !important; }
     #printArea { display: block !important; width: 58mm; font-family: monospace; font-size: 11px; color: #000; background: #fff; padding: 4px; }
   }
+
+  /* ==================== ENHANCED 3D POP-OUT & DEPTH SYSTEM ==================== */
+  header {
+    border-bottom: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 10px 28px rgba(11,34,22,.38), inset 0 1px 0 rgba(255,255,255,.18);
+  }
+  .logo {
+    transform: perspective(400px) rotateY(-8deg);
+    box-shadow: 3px 5px 0 #881337, 0 12px 20px rgba(225,29,72,.38), inset 0 2px 2px rgba(255,255,255,.45);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .logo:hover { transform: perspective(400px) rotateY(0deg) scale(1.06); }
+
+  .card {
+    box-shadow: 0 16px 32px -10px rgba(19,34,26,.16), 0 3px 0 rgba(223,214,195,.85), inset 0 1.5px 0 #fff;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  [data-theme=dark] .card {
+    box-shadow: 0 18px 34px -8px rgba(0,0,0,.72), 0 3px 0 #080e0a, inset 0 1px 0 rgba(255,255,255,.07);
+  }
+
+  /* 3D Hero Stage with Floating Pop-Out Plate & Ambient Rim */
+  .hero {
+    transform-style: preserve-3d;
+    perspective: 900px;
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: 0 18px 34px -8px rgba(17,50,33,.38), 0 6px 0 rgba(15,23,42,.22), inset 0 1.5px 0 rgba(255,255,255,.32);
+    margin: 14px 0 22px;
+  }
+  .hero-pop-wrap {
+    position: relative;
+    flex: none;
+    transform-style: preserve-3d;
+  }
+  .hero-pop-wrap::after {
+    content: "";
+    position: absolute;
+    left: 12%; right: 12%; bottom: -8px; height: 14px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,.55) 0%, transparent 72%);
+    filter: blur(3px);
+    z-index: 0;
+  }
+  .hero-pop {
+    position: relative;
+    z-index: 1;
+    width: 104px; height: 104px;
+    border-radius: 50%;
+    border: 3.5px solid rgba(255,255,255,.95);
+    transform: translateY(-14px) translateZ(28px) scale(1.1);
+    box-shadow: 0 22px 28px -6px rgba(0,0,0,.52), 0 0 0 6px rgba(255,255,255,.15), inset 0 2px 6px rgba(255,255,255,.4);
+    animation: float3d 3.6s ease-in-out infinite;
+  }
+  @keyframes float3d {
+    0%, 100% { transform: translateY(-14px) scale(1.1) rotate(0deg); }
+    50% { transform: translateY(-20px) scale(1.13) rotate(-2.5deg); }
+  }
+
+  /* Rising Steam Effect on Hot Meals */
+  .steam-wrap {
+    position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 6px; pointer-events: none; z-index: 3;
+  }
+  .steam-wrap i {
+    width: 4px; height: 16px; border-radius: 99px;
+    background: rgba(255,255,255,.72); filter: blur(1.5px);
+    animation: steamUp 2.2s ease-in-out infinite;
+  }
+  .steam-wrap i:nth-child(2) { animation-delay: .6s; height: 20px; }
+  .steam-wrap i:nth-child(3) { animation-delay: 1.2s; }
+  @keyframes steamUp {
+    0% { opacity: 0; transform: translateY(6px) scaleY(.7); }
+    50% { opacity: .85; }
+    100% { opacity: 0; transform: translateY(-14px) scaleY(1.2); }
+  }
+
+  /* 3D Pop-Out Dish Cards & Contact Shadow Pedestal */
+  .pcard {
+    position: relative;
+    transform-style: preserve-3d;
+    border: 1.5px solid var(--ln);
+    box-shadow: 0 16px 26px -10px rgba(19,34,26,.18), 0 4px 0 rgba(223,214,195,.9), inset 0 1.5px 0 #fff;
+    transition: transform .22s cubic-bezier(.22,1,.36,1), box-shadow .22s ease;
+    margin-top: 12px;
+  }
+  [data-theme=dark] .pcard {
+    box-shadow: 0 18px 28px -8px rgba(0,0,0,.7), 0 4px 0 #09100c, inset 0 1px 0 rgba(255,255,255,.08);
+  }
+  .pcard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 24px 34px -10px rgba(19,34,26,.26), 0 6px 0 rgba(223,214,195,.95), inset 0 1.5px 0 #fff;
+  }
+  .pimg {
+    position: relative; height: 122px; border-radius: 18px; overflow: visible;
+    background: radial-gradient(circle at 50% 42%, #ffffff 0%, #fef3c7 55%, #f59e0b 100%);
+    box-shadow: inset 0 -10px 18px rgba(180,83,9,.18), inset 0 2px 4px rgba(255,255,255,.85);
+    margin-bottom: 12px; cursor: pointer; display: grid; place-items: center;
+  }
+  [data-theme=dark] .pimg {
+    background: radial-gradient(circle at 50% 42%, #314237 0%, #16221b 100%);
+    box-shadow: inset 0 -10px 18px rgba(0,0,0,.45), inset 0 1px 2px rgba(255,255,255,.12);
+  }
+  .pimg::after {
+    content: "";
+    position: absolute; bottom: 4px; left: 14%; right: 14%; height: 12px;
+    background: radial-gradient(ellipse at center, rgba(19,34,26,.45) 0%, transparent 74%);
+    filter: blur(2.5px);
+    z-index: 0;
+    transition: transform .22s ease, opacity .22s ease;
+  }
+  .pimg img {
+    position: relative; z-index: 1;
+    width: 108%; height: 128px; border-radius: 18px;
+    transform: translateY(-12px) scale(1.02);
+    border: 2px solid rgba(255,255,255,.85);
+    box-shadow: 0 18px 24px -8px rgba(19,34,26,.46), 0 4px 10px rgba(0,0,0,.18);
+    transition: transform .24s cubic-bezier(.22,1,.36,1), box-shadow .24s ease;
+  }
+  .pcard:hover .pimg img, .pcard:active .pimg img {
+    transform: translateY(-18px) scale(1.07) rotate(-1.5deg);
+    box-shadow: 0 26px 32px -8px rgba(19,34,26,.56), 0 6px 14px rgba(0,0,0,.22);
+  }
+  .pcard:hover .pimg::after {
+    transform: scaleX(.86);
+    opacity: .65;
+  }
+
+  /* 3D Extruded Plan Tiers & Restaurant Cards */
+  .p-tier {
+    box-shadow: 0 5px 0 var(--ln), 0 10px 16px rgba(19,34,26,.08);
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .p-tier.on {
+    box-shadow: 0 5px 0 #be123c, 0 14px 24px rgba(225,29,72,.26);
+    transform: translateY(-3px);
+  }
+  .rest-card {
+    box-shadow: 0 16px 28px -10px rgba(19,34,26,.18), 0 4px 0 var(--ln);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .rest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 34px -10px rgba(19,34,26,.25), 0 6px 0 var(--ln);
+  }
+
+  /* 3D Tactile Buttons & Floating Nav */
+  .btn.o {
+    box-shadow: 0 4px 0 #9f1239, 0 10px 20px rgba(225,29,72,.3), inset 0 1.5px 0 rgba(255,255,255,.35);
+  }
+  .btn.o:active { transform: translateY(2px); box-shadow: 0 2px 0 #9f1239, 0 5px 10px rgba(225,29,72,.25); }
+  .btn.g {
+    box-shadow: 0 4px 0 #071910, 0 10px 20px rgba(17,50,33,.28), inset 0 1.5px 0 rgba(255,255,255,.28);
+  }
+  .btn.g:active { transform: translateY(2px); box-shadow: 0 2px 0 #071910, 0 5px 10px rgba(17,50,33,.22); }
+  .btn.amb {
+    box-shadow: 0 3px 0 #b45309, 0 8px 16px rgba(217,119,6,.25), inset 0 1.5px 0 rgba(255,255,255,.45);
+  }
+  .cbar {
+    box-shadow: 0 5px 0 #071910, 0 16px 30px rgba(15,41,28,.48), inset 0 1px 0 rgba(255,255,255,.22);
+  }
+  nav {
+    box-shadow: 0 6px 0 var(--ln), 0 16px 34px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.7);
+  }
+  [data-theme=dark] nav {
+    box-shadow: 0 6px 0 #070d09, 0 16px 34px rgba(0,0,0,.65);
+  }
+
 </style>
 </head>
 <body>
@@ -677,7 +843,7 @@ function viewTiffin() {
       <h2>Mera Tiffin Subscription</h2>
       <p>Morning Breakfast (6:30 AM cut-off) · Lunch & Dinner (9:00 AM cut-off)</p>
     </div>
-    <img class="hero-pop" src="${dailyMenuImg}" alt="Mera Tiffin" />
+    <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" src="${dailyMenuImg}" alt="Mera Tiffin" /></div>
   </div>
 
   <div class="card" style="border-left:5px solid var(--o)">
@@ -809,7 +975,7 @@ function viewFoodShop() {
           return `
             <div class="pcard">
               <div>
-                <div class="pimg"><img src="${dishImg}" alt="${esc(it.name)}" /></div>
+                <div class="pimg">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img src="${dishImg}" alt="${esc(it.name)}" /></div>
                 <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12.5px">
                   <span class="sym ${it.nv ? "nv" : ""}"><i></i></span>
                   <span>${esc(it.name)}</span>
@@ -844,7 +1010,7 @@ function viewFoodShop() {
         <h2>Udala Restaurants & Nashta</h2>
         <p>Apne pasandida kitchen ya restaurant se fresh khana & cake mangwayein</p>
       </div>
-      <img class="hero-pop" src="${IMG.biryani}" alt="Food Shop" />
+      <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" src="${IMG.biryani}" alt="Food Shop" /></div>
     </div>
 
     <input class="inp" id="foodSearchInp" placeholder="🔍 Search Biryani, Idli, Chicken, Paneer, Cake..." value="${esc(FOOD_SEARCH)}" />
@@ -867,7 +1033,7 @@ function viewFoodShop() {
               <div class="pcard">
                 <div>
                   <div style="font-size:10px;font-weight:800;color:var(--amb);margin-bottom:4px">🏪 ${esc(v.name)}</div>
-                  <div class="pimg"><img src="${dishImg}" alt="${esc(it.name)}" /></div>
+                  <div class="pimg">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img src="${dishImg}" alt="${esc(it.name)}" /></div>
                   <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px">
                     <span class="sym ${it.nv ? "nv" : ""}"><i></i></span><span>${esc(it.name)}</span>
                   </div>
@@ -944,7 +1110,7 @@ function viewKirana() {
         <h2>Kirana & HUL Daily Needs</h2>
         <p>Atta, Chawal, Tel, Surf Excel, Lifebuoy, Tea & Dairy ghar baithe</p>
       </div>
-      <img class="hero-pop" src="${IMG.hul}" alt="Kirana & HUL" />
+      <div class="hero-pop-wrap"><img class="hero-pop" src="${IMG.hul}" alt="Kirana & HUL" /></div>
     </div>
 
     <div class="card" style="border:2px solid ${sub >= freeAt ? "#16a34a" : sub >= minOrd ? "#d97706" : "#e11d48"}">
@@ -1950,6 +2116,24 @@ $("#proofInput").addEventListener("change", e => {
   const r = new FileReader();
   r.onload = ev => { PROOF_DATA_URL = ev.target.result; render(); toast("Screenshot attached ✓"); };
   r.readAsDataURL(f);
+});
+
+
+/* ==================== SMOOTH 3D TILT INTERACTION ==================== */
+document.addEventListener("pointermove", e => {
+  if (e.pointerType !== "mouse") return;
+  const card = e.target.closest(".pcard, .hero");
+  if (!card) return;
+  const r = card.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  card.style.transform = `perspective(700px) rotateX(${(-y * 6).toFixed(1)}deg) rotateY(${(x * 7).toFixed(1)}deg) translateY(-4px)`;
+});
+document.addEventListener("pointerout", e => {
+  const card = e.target.closest(".pcard, .hero");
+  if (card && !card.contains(e.relatedTarget)) {
+    card.style.transform = "";
+  }
 });
 
 render();
