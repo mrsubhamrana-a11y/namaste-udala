@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Namaste Udala — Mera Tiffin · Zomato Multi-Vendor Food · Kirana & HUL</title>
+<title>Namaste Udala — Mera Tiffin · Multi-Vendor Food · Kirana & HUL</title>
 <meta name="theme-color" content="#113221" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 <style>
@@ -75,7 +75,7 @@
 
   main { max-width: 720px; margin: 0 auto; padding: 14px; }
 
-  /* Cards & 3D Tilt */
+  /* Cards */
   .card {
     background: var(--sf); border: 1px solid var(--ln); border-radius: 22px;
     padding: 15px; margin-bottom: 14px; box-shadow: var(--sh-card);
@@ -91,18 +91,24 @@
   .p-blue { background: #dbeafe; color: #1e40af; }
   .p-dark { background: #0f172a; color: #fff; }
 
-  /* Hero Banners per Section */
+  /* 3D Pop-Out Hero Banners */
   .hero {
-    position: relative; border-radius: 24px; padding: 18px; margin-bottom: 14px; color: #fff;
-    overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    box-shadow: 0 12px 26px rgba(17,50,33,.25);
+    position: relative; border-radius: 24px; padding: 18px; margin: 8px 0 18px; color: #fff;
+    overflow: visible; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    box-shadow: 0 14px 28px rgba(17,50,33,.28);
   }
   .hero.tiffin-bg { background: linear-gradient(135deg, #881337 0%, #e11d48 100%); }
   .hero.food-bg { background: linear-gradient(135deg, #78350f 0%, #d97706 100%); }
   .hero.kirana-bg { background: linear-gradient(135deg, #064e3b 0%, #15803d 100%); }
   .hero h2 { font-family: var(--serif); font-size: 19px; line-height: 1.2; margin: 4px 0; }
-  .hero p { font-size: 11.5px; opacity: .92; }
-  .hero img { width: 88px; height: 88px; border-radius: 50%; border: 3px solid rgba(255,255,255,.85); flex: none; box-shadow: 0 10px 20px rgba(0,0,0,.35); }
+  .hero p { font-size: 11.5px; opacity: .94; }
+  .hero-pop {
+    width: 96px; height: 96px; border-radius: 50%; border: 3px solid rgba(255,255,255,.92); flex: none;
+    transform: translateY(-10px) scale(1.08);
+    box-shadow: 0 18px 26px rgba(0,0,0,.45), 0 0 0 6px rgba(255,255,255,.12);
+    transition: transform .25s ease;
+  }
+  .hero:hover .hero-pop { transform: translateY(-14px) scale(1.13) rotate(-3deg); }
 
   /* Buttons & Inputs */
   .btn {
@@ -116,6 +122,7 @@
   .btn.g { background: linear-gradient(180deg, #16a34a, #113221); color: #fff; box-shadow: var(--sh-3d-g); }
   .btn.amb { background: linear-gradient(180deg, #fbbf24, #d97706); color: #0f172a; }
   .btn.w { background: var(--sf2); color: var(--ink); border: 1px solid var(--ln); }
+  .btn.r { background: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
   .btn.sm { padding: 6px 11px; font-size: 11px; }
   .btn[disabled] { opacity: .45; pointer-events: none; }
   .btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
@@ -144,7 +151,7 @@
   .p-tier.on .tag { background: var(--o); color: #fff; }
   .p-tier b { display: block; font-family: var(--serif); font-size: 19px; color: var(--o); margin: 3px 0; }
 
-  /* Zomato-Style Restaurant Cards */
+  /* Restaurant Cards */
   .rest-card {
     border: 1px solid var(--ln); border-radius: 20px; overflow: hidden; background: var(--sf);
     margin-bottom: 14px; box-shadow: var(--sh-card); cursor: pointer; transition: transform .18s;
@@ -158,17 +165,31 @@
   .rest-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .rest-rating { background: #15803d; color: #fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 8px; }
 
-  /* Product Cards & 3D Pop */
-  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; }
+  /* Product Cards & 3D Pop-Out Dish Frame */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .pcard {
-    border: 1px solid var(--ln); border-radius: 18px; padding: 9px; background: var(--sf);
+    border: 1px solid var(--ln); border-radius: 20px; padding: 10px; background: var(--sf);
     box-shadow: var(--sh-card); display: flex; flex-direction: column; justify-content: space-between;
+    overflow: visible; margin-top: 6px;
   }
   .pimg {
-    position: relative; height: 118px; border-radius: 14px; overflow: hidden; background: #1e293b; margin-bottom: 7px; cursor: pointer;
+    position: relative; height: 118px; border-radius: 16px; overflow: visible;
+    background: radial-gradient(circle at 50% 45%, #fffbeb 0%, #fde68a 60%, #f59e0b 100%);
+    margin-bottom: 10px; cursor: pointer; display: grid; place-items: center;
   }
-  .pimg img { width: 100%; height: 100%; transition: transform .25s ease; }
-  .pcard:hover .pimg img { transform: scale(1.07); }
+  [data-theme=dark] .pimg {
+    background: radial-gradient(circle at 50% 45%, #29352d 0%, #17221b 100%);
+  }
+  .pimg img {
+    width: 106%; height: 124px; border-radius: 16px;
+    transform: translateY(-8px);
+    box-shadow: 0 14px 20px -6px rgba(19,34,26,.38);
+    transition: transform .22s ease, box-shadow .22s ease;
+  }
+  .pcard:hover .pimg img, .pcard:active .pimg img {
+    transform: translateY(-13px) scale(1.05);
+    box-shadow: 0 20px 26px -6px rgba(19,34,26,.48);
+  }
   .sym { display: inline-grid; place-items: center; width: 13px; height: 13px; border: 2px solid #16a34a; border-radius: 3px; background: #fff; flex: none; }
   .sym i { width: 5px; height: 5px; border-radius: 50%; background: #16a34a; }
   .sym.nv { border-color: #dc2626; } .sym.nv i { background: #dc2626; }
@@ -183,13 +204,17 @@
   .pbar { height: 8px; background: var(--sf2); border-radius: 99px; overflow: hidden; margin: 6px 0; }
   .pbar i { display: block; height: 100%; background: linear-gradient(90deg, #e11d48, #16a34a); transition: width .25s; }
 
-  /* Tables & Rows */
+  /* Tables, Timeline & Rows */
   .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--ln); font-size: 12px; }
   .row:last-child { border-bottom: 0; }
   .kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
   .kpi div { background: var(--sf); border: 1px solid var(--ln); border-radius: 16px; padding: 10px 6px; text-align: center; box-shadow: var(--sh-card); }
   .kpi b { display: block; font-family: var(--serif); font-size: 17px; color: var(--o); }
   .kpi span { font-size: 9.5px; font-weight: 800; color: var(--mu); text-transform: uppercase; }
+  .tl { display: flex; gap: 4px; margin: 6px 0; }
+  .tl span { flex: 1; text-align: center; font-size: 9px; font-weight: 800; padding: 4px 2px; border-radius: 8px; background: var(--sf2); color: var(--mu); }
+  .tl span.done { background: #dcfce7; color: #166534; }
+  .tl span.now { background: #fbbf24; color: #0f172a; }
 
   /* Floating Cart & Bottom Nav */
   .cbar {
@@ -234,7 +259,7 @@
 <input type="file" id="proofInput" accept="image/*" style="display:none" />
 
 <header>
-  <div class="logo" id="logoBtn" title="5-Tap Role Switch">NU</div>
+  <div class="logo" id="logoBtn" title="Namaste Udala">NU</div>
   <div class="brand">
     <small>UDALA · MAYURBHANJ · SEPARATE CATEGORIES</small>
     <h1>Namaste Udala</h1>
@@ -292,20 +317,112 @@ const UDALA_AREAS = [
   "Bhanjpur"
 ];
 
+/* ==================== 3D AUTO-MATCH IMAGE POOL (ZERO API COST) ==================== */
 const IMG = {
-  thali: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80",
-  bf: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&q=80",
-  chicken: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=80",
-  biryani: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80",
-  paneer: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=80",
-  cake: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80",
-  jarcake: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80",
-  atta: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80",
-  rice: "https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=600&q=80",
-  kirana: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80",
-  hul: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=80",
-  milk: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&q=80"
+  thali: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=85",
+  bf: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&q=85",
+  chicken: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=85",
+  biryani: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=85",
+  paneer: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=85",
+  cake: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=85",
+  jarcake: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=85",
+  atta: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=85",
+  rice: "https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=600&q=85",
+  kirana: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=85",
+  hul: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=85",
+  milk: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&q=85"
 };
+
+function autoMatch3DImage(name, cat, desc = "") {
+  const txt = `${name} ${cat} ${desc}`.toLowerCase();
+  if (/biryani|pulao|dum/.test(txt)) return IMG.biryani;
+  if (/jar\s*cake|jarcake|cupcake/.test(txt)) return IMG.jarcake;
+  if (/cake|pastry|velvet|truffle|bakery/.test(txt)) return IMG.cake;
+  if (/idli|puri|dosa|sambar|halwa|upma|vada|nashta|breakfast/.test(txt)) return IMG.bf;
+  if (/chicken|mutton|fish|egg|tadka|non-veg|nonveg/.test(txt)) return IMG.chicken;
+  if (/paneer|mushroom|butter masala|naan/.test(txt)) return IMG.paneer;
+  if (/thali|dalma|meal|combo|roti|tiffin|dabba/.test(txt)) return IMG.thali;
+  if (/atta|wheat|maida|besan/.test(txt)) return IMG.atta;
+  if (/rice|chawal|miniket|basmati/.test(txt)) return IMG.rice;
+  if (/milk|doodh|bread|paneer|curd|dahi|omfed|dairy/.test(txt)) return IMG.milk;
+  if (/surf|lifebuoy|soap|detergent|tea|chai|brooke|hul|shampoo/.test(txt)) return IMG.hul;
+  if (/oil|tel|kirana|staples|dal|sugar|salt/.test(txt)) return IMG.kirana;
+  const catFallback = {
+    Breakfast: IMG.bf, Thali: IMG.thali, Meals: IMG.chicken, Biryani: IMG.biryani,
+    Bakery: IMG.cake, Staples: IMG.kirana, HUL: IMG.hul, Dairy: IMG.milk
+  };
+  return catFallback[cat] || IMG.thali;
+}
+
+
+/* ==================== AUTO-AUTOMATION ENGINE (ZERO MANUAL EFFORT) ==================== */
+function getAutoMealWindow() {
+  const hr = new Date().getHours();
+  if (hr >= 6 && hr < 11) return { slot: "Breakfast", badge: "🌅 Subah Nashta Window" };
+  if (hr >= 11 && hr < 16) return { slot: "Lunch / Meals", badge: "☀️ Dopahar Meal Window" };
+  if (hr >= 16 && hr < 22) return { slot: "Snacks / Dinner", badge: "🌙 Shaam / Dinner Window" };
+  return { slot: "Pre-Order / Closed", badge: "💤 Rasoi Rest Time" };
+}
+
+function autoSyncCustomerDefaults() {
+  if (!TF.name) TF.name = localStorage.getItem("nu_cname") || "";
+  if (!TF.phone) TF.phone = localStorage.getItem("nu_cphone") || "";
+  if (!TF.area) TF.area = localStorage.getItem("nu_carea") || "Udala Bus Stand";
+  if (!TF.addr) TF.addr = localStorage.getItem("nu_caddr") || "";
+  if (TF.phone && !ORDER_PHONE_FILTER) ORDER_PHONE_FILTER = ph(TF.phone);
+}
+
+function autoPrioritySort(orders) {
+  const rank = {
+    "Placed": 1,
+    "Verify Hold": 1,
+    "Confirmed": 2,
+    "Cooking": 3,
+    "Ready for Pickup": 4,
+    "Out for Delivery": 5,
+    "Delivered": 6,
+    "Cancelled": 7
+  };
+  return (orders || []).slice().sort((a, b) => (rank[a.status] || 9) - (rank[b.status] || 9));
+}
+
+function autoCalcOrderComm(o, kind) {
+  let comm = 0;
+  (o.items || []).forEach(it => {
+    const v = S.vendors.find(x => x.id === it.vendorId);
+    if (v && !v.isSelf) {
+      if (kind === "FOOD") {
+        comm += Math.round((it.price * it.qty * (+S.cfg.foodPartnerCommPct || 20)) / 100);
+      } else if (kind === "KIRANA" && o.status === "Delivered") {
+        comm += (+S.cfg.kiranaPostDeliveryComm || 30);
+      }
+    }
+  });
+  return comm;
+}
+
+function autoExportBackup() {
+  try {
+    const blob = new Blob([JSON.stringify(S, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `namaste-udala-backup-${todayIso()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast("📥 JSON Backup downloaded!");
+  } catch (e) {
+    toast("⚠️ Backup export failed");
+  }
+}
+
+function autoResetDemoData() {
+  if (!confirm("Kya aap saare test orders/logs reset karke clean default data chahte hain?")) return;
+  localStorage.removeItem("NU_V4_STATE");
+  S = defaultState();
+  save("System reset to clean default state");
+  toast("♻️ Clean default state restored!");
+}
 
 /* ==================== HELPERS ==================== */
 const $ = s => document.querySelector(s);
@@ -330,7 +447,7 @@ function toast(msg) {
 function validateStrictUTR(raw, usedList) {
   const clean = String(raw || "").replace(/\D/g, "");
   if (clean.length !== 12) return { ok: false, msg: "⚠️ Exact 12-digit UPI UTR number daalein!" };
-  if (/^(\d)\1{6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean)) {
+  if (/^(\d) {6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean)) {
     return { ok: false, msg: "⚠️ Fake sequence UTR blocked! Asli bank UTR daalein." };
   }
   if ((usedList || []).includes(clean)) return { ok: false, msg: "⚠️ Duplicate UTR! Yeh UTR pehle use ho chuka hai." };
@@ -345,29 +462,26 @@ function hashDataUrl(s) {
   return "H-" + (h >>> 0).toString(16);
 }
 
-/* ==================== DEFAULT DATA (SEPARATED BY CATEGORY) ==================== */
+/* ==================== DEFAULT DATA ==================== */
 function defaultState() {
   return {
     rev: Date.now(),
     cfg: {
       upi: "9583937047@jio",
       wa: "9583937047",
-      // Category 1: Mera Tiffin (100% Self, 0% Comm)
       tiffinRates: {
         veg: { 1: 65, 7: 450, 15: 920, 30: 1790 },
         nv: { 1: 85, 7: 580, 15: 1180, 30: 2290 },
         breakfastPerDay: 40
       },
-      // Category 2: Zomato-style Food Vendors (Self 0%, Partner 20%)
       foodPartnerCommPct: 20,
-      // Category 3: Kirana & HUL (₹300 Min, ₹500+ Free Del, ₹30 Post-Delivery Comm)
       kiranaMinOrder: 300,
       kiranaFreeDeliveryAt: 500,
       kiranaDeliveryFee: 25,
       kiranaPostDeliveryComm: 30,
-      perKmFuelRate: 3.5
+      perKmFuelRate: 3.5,
+      todayTiffinMenu: "Lunch: Steamed Rice, Odia Dalma, Aloo Bhaja, Salad · Dinner: 4 Roti, Paneer/Chicken Curry"
     },
-    // Zomato-style Vendors
     vendors: [
       {
         id: "v_self_kitchen", name: "Namaste Ghar Kitchen (Apna)", type: "FOOD", isSelf: true,
@@ -400,7 +514,6 @@ function defaultState() {
         status: "Open", cover: IMG.kirana, settledPaid: 0
       }
     ],
-    // Food Shop Menu (Strictly Category 2)
     foodItems: [
       { id: "fd1", vendorId: "v_self_kitchen", cat: "Breakfast", name: "Idli Sambar & Chutney (4 Pc)", price: 45, nv: 0, stock: 1, img: IMG.bf, desc: "Subah ka garma-garam nashta" },
       { id: "fd2", vendorId: "v_self_kitchen", cat: "Thali", name: "Odia Homestyle Veg Thali", price: 80, nv: 0, stock: 1, img: IMG.thali, desc: "Rice, Dalma, Sabzi, Bhaja, Salad" },
@@ -412,7 +525,6 @@ function defaultState() {
       { id: "fd8", vendorId: "v_jarlicious", cat: "Bakery", name: "Red Velvet Celebration Cake (500g)", price: 380, nv: 0, stock: 1, img: IMG.cake, desc: "Fresh baked birthday special" },
       { id: "fd9", vendorId: "v_udala_dhaba", cat: "Meals", name: "Egg Tadka + 4 Tandoori Roti", price: 95, nv: 1, stock: 1, img: IMG.chicken, desc: "Double egg dhaba style tadka" }
     ],
-    // Kirana & HUL Items (Strictly Category 3)
     kiranaItems: [
       { id: "kr1", vendorId: "v_self_kirana", cat: "Staples", name: "Aashirvaad Shudh Chakki Atta (5kg)", price: 245, stock: 1, img: IMG.atta, desc: "100% MP Sharbati wheat" },
       { id: "kr2", vendorId: "v_self_kirana", cat: "Staples", name: "Premium Miniket Rice (5kg)", price: 265, stock: 1, img: IMG.rice, desc: "Daily fine rice" },
@@ -425,7 +537,7 @@ function defaultState() {
     tiffinSubs: [
       {
         id: "TS-101", name: "Subham Rana", phone: "8073721357", area: "Udala Bus Stand", addr: "Main Road, Udala",
-        diet: "veg", days: 30, remaining: 26, slot: "Lunch + Dinner", spice: "Medium", health: "Regular",
+        diet: "veg", days: 30, remaining: 26, slot: "Lunch + Dinner", spice: "Medium", health: "Regular Homestyle",
         price: 1790, paid: 1, vStat: "ok", utr: "402312345678", skipToday: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
       }
     ],
@@ -436,14 +548,14 @@ function defaultState() {
     fuelLogs: [],
     expenses: [{ id: "ex1", title: "Subah Sabzi & Masala", amt: 550, time: "7:30 AM" }],
     riderCashSettled: 0,
-    auditLog: [{ t: new Date().toLocaleTimeString(), m: "System booted with 3 Separated Categories & Zomato Vendor Engine." }]
+    auditLog: [{ t: new Date().toLocaleTimeString(), m: "System booted with Full Ops Suite: Vendor Edit, Phone Filter, Renewal, Cancel Reason & Closing Report." }]
   };
 }
 
 let S = defaultState();
 try {
   const saved = JSON.parse(localStorage.getItem("NU_V4_STATE"));
-  if (saved && saved.cfg) S = { ...defaultState(), ...saved };
+  if (saved && saved.cfg) S = { ...defaultState(), ...saved, cfg: { ...defaultState().cfg, ...saved.cfg } };
 } catch (e) {}
 
 /* ==================== FIREBASE REALTIME SYNC ==================== */
@@ -456,7 +568,7 @@ try {
     const val = snap.val();
     if (val && val.cfg && (+val.rev || 0) >= (+S.rev || 0)) {
       applyingRemote = true;
-      S = { ...defaultState(), ...val };
+      S = { ...defaultState(), ...val, cfg: { ...defaultState().cfg, ...val.cfg } };
       localStorage.setItem("NU_V4_STATE", JSON.stringify(S));
       $("#fbStatus").textContent = "🟢 Live Sync";
       render();
@@ -486,17 +598,17 @@ function save(logMsg) {
 /* ==================== UI NAVIGATION & SEPARATE CARTS ==================== */
 let ROLE = sessionStorage.getItem("nu_role") || "customer";
 let ACTIVE_VENDOR_ID = sessionStorage.getItem("nu_vid") || "";
-let TAB = "tiffin"; // Customer tabs: tiffin | food | kirana | orders
-let SELECTED_REST_ID = null; // Zomato-style restaurant drilldown
+let TAB = "tiffin";
+let SELECTED_REST_ID = null;
 let FOOD_CAT_FILTER = "ALL";
 let FOOD_SEARCH = "";
 let KIRANA_CAT_FILTER = "ALL";
 let KIRANA_SEARCH = "";
+let ORDER_PHONE_FILTER = localStorage.getItem("nu_cphone") || "";
 
-// Separate Carts so Category rules never clash!
-let FOOD_CART = {};   // { itemId: qty }
-let KIRANA_CART = {}; // { itemId: qty }
-let CHECKOUT_MODAL = null; // { kind: 'TIFFIN' | 'FOOD' | 'KIRANA', payload: ... }
+let FOOD_CART = {};
+let KIRANA_CART = {};
+let CHECKOUT_MODAL = null;
 let PROOF_DATA_URL = "";
 
 const TF = {
@@ -508,11 +620,34 @@ const TF = {
   name: localStorage.getItem("nu_cname") || "",
   phone: localStorage.getItem("nu_cphone") || "",
   area: localStorage.getItem("nu_carea") || "Udala Bus Stand",
-  addr: localStorage.getItem("nu_caddr") || ""
+  addr: localStorage.getItem("nu_caddr") || "",
+  note: ""
 };
 
 if (localStorage.getItem("nu_dark") === "1") {
   document.documentElement.dataset.theme = "dark";
+}
+
+function statusTimeline(st) {
+  const steps = ["Placed", "Confirmed", "Cooking", "Ready for Pickup", "Out for Delivery", "Delivered"];
+  const norm = st === "Verify Hold" ? "Placed" : st;
+  const idx = steps.indexOf(norm);
+  if (st === "Cancelled") return `<div class="tl"><span style="background:#ffe4e6;color:#9f1239">❌ Cancelled</span></div>`;
+  return `<div class="tl">${steps.map((s, i) =>
+    `<span class="${i < idx ? "done" : i === idx ? "now" : ""}">${s === "Ready for Pickup" ? "Ready" : s === "Out for Delivery" ? "On Way" : s}</span>`
+  ).join("")}</div>`;
+}
+
+function shareOrderWa(o, kind) {
+  const txt = `Namaste Udala (${kind})
+Order: ${o.id}
+Name: ${o.name} (${o.phone})
+Area: ${o.area} - ${o.addr}
+Items: ${o.items.map(i => `${i.name} x${i.qty}`).join(", ")}${o.note ? `
+Note: ${o.note}` : ""}
+Total: ${inr(o.total)} (${o.payMode})
+Status: ${o.status}${o.cancelReason ? ` (${o.cancelReason})` : ""}`;
+  window.open(`https://wa.me/91${ph(S.cfg.wa)}?text=${encodeURIComponent(txt)}`, "_blank");
 }
 
 /* ==================== CATEGORY 1: MERA TIFFIN LOGIC ==================== */
@@ -533,15 +668,21 @@ function viewTiffin() {
   const min = new Date().getMinutes();
   const bfOpen = hr < 6 || (hr === 6 && min < 30);
   const lunchOpen = hr < 9;
+  const dailyMenuImg = autoMatch3DImage(S.cfg.todayTiffinMenu || "Thali", "Thali");
 
   return `
   <div class="hero tiffin-bg">
     <div>
-      <span class="pill p-amber">100% APNI RASOI · ZERO VENDOR · 0% COMM</span>
+      <span class="pill p-amber">100% APNI RASOI · ${esc(getAutoMealWindow().badge)} · 0% COMM</span>
       <h2>Mera Tiffin Subscription</h2>
       <p>Morning Breakfast (6:30 AM cut-off) · Lunch & Dinner (9:00 AM cut-off)</p>
     </div>
-    <img src="${IMG.thali}" alt="Mera Tiffin" />
+    <img class="hero-pop" src="${dailyMenuImg}" alt="Mera Tiffin" />
+  </div>
+
+  <div class="card" style="border-left:5px solid var(--o)">
+    <h3>🍲 Aaj Ka Ghar Jaisa Menu <span class="pill p-green">Fresh Today</span></h3>
+    <p style="font-size:12.5px;font-weight:700;line-height:1.45">${esc(S.cfg.todayTiffinMenu)}</p>
   </div>
 
   <div class="card">
@@ -605,23 +746,26 @@ function viewTiffin() {
     <h3>Active Tiffin Pass & Cut-Off Control
       <span class="pill ${lunchOpen ? "p-green" : "p-amber"}">${bfOpen ? "Breakfast & Lunch Skip Open" : lunchOpen ? "Lunch Skip Open (≤9 AM)" : "Today Cut-Off Closed"}</span>
     </h3>
-    ${mySubs.map(s => `
+    ${mySubs.map(s => {
+      const lowDays = (+s.remaining || 0) <= 3;
+      return `
       <div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <b>${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${s.slot})</b>
-          <span class="pill ${s.paid ? "p-green" : "p-amber"}">${s.remaining} Din Bache</span>
+          <span class="pill ${lowDays ? "p-red" : s.paid ? "p-green" : "p-amber"}">${s.remaining} Din Bache ${lowDays ? "⚠️ Renew Soon" : ""}</span>
         </div>
         <div style="font-size:11px;color:var(--mu);margin:4px 0">Spice: ${esc(s.spice)} · ${esc(s.health)} · Area: ${esc(s.area)}</div>
         <div class="btn-row">
           <button class="btn w sm" data-act="skipTiffin" data-id="${s.id}">${s.skipToday ? "Skipped Today (+1d Added)" : "⏭ Skip Today (+1d Extend)"}</button>
           <button class="btn w sm" data-act="vacationTiffin" data-id="${s.id}">🏖 Vacation Pause (${s.vacationDays || 0}d)</button>
+          ${lowDays ? `<button class="btn o sm" data-act="renewTiffin" data-id="${s.id}">🔄 Quick Renew</button>` : ""}
         </div>
-      </div>
-    `).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi active tiffin pass nahi hai.</p>`}
+      </div>`;
+    }).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi active tiffin pass nahi hai.</p>`}
   </div>`;
 }
 
-/* ==================== CATEGORY 2: ZOMATO-STYLE MULTI-VENDOR FOOD SHOP ==================== */
+/* ==================== CATEGORY 2: MULTI-VENDOR FOOD SHOP ==================== */
 function foodCartCount() {
   return Object.values(FOOD_CART).reduce((a, b) => a + (+b || 0), 0);
 }
@@ -635,7 +779,6 @@ function foodCartTotal() {
 function viewFoodShop() {
   const foodVendors = S.vendors.filter(v => v.type === "FOOD");
 
-  // If a Zomato-style Restaurant/Vendor is opened
   if (SELECTED_REST_ID) {
     const v = foodVendors.find(x => x.id === SELECTED_REST_ID);
     if (!v) { SELECTED_REST_ID = null; return viewFoodShop(); }
@@ -662,10 +805,11 @@ function viewFoodShop() {
         ${menuItems.map(it => {
           const qty = FOOD_CART[it.id] || 0;
           const dis = isClosed || !it.stock;
+          const dishImg = it.img || autoMatch3DImage(it.name, it.cat, it.desc);
           return `
             <div class="pcard">
               <div>
-                <div class="pimg"><img src="${it.img}" alt="${esc(it.name)}" /></div>
+                <div class="pimg"><img src="${dishImg}" alt="${esc(it.name)}" /></div>
                 <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12.5px">
                   <span class="sym ${it.nv ? "nv" : ""}"><i></i></span>
                   <span>${esc(it.name)}</span>
@@ -685,7 +829,6 @@ function viewFoodShop() {
     `;
   }
 
-  // Zomato-Style Restaurant List + Dish Search
   const q = FOOD_SEARCH.trim().toLowerCase();
   const matchingDishes = (q || FOOD_CAT_FILTER !== "ALL")
     ? S.foodItems.filter(it =>
@@ -697,11 +840,11 @@ function viewFoodShop() {
   return `
     <div class="hero food-bg">
       <div>
-        <span class="pill p-amber">ZOMATO-STYLE MULTI-VENDOR FOOD</span>
+        <span class="pill p-amber">MULTI-VENDOR FOOD & BREAKFAST</span>
         <h2>Udala Restaurants & Nashta</h2>
         <p>Apne pasandida kitchen ya restaurant se fresh khana & cake mangwayein</p>
       </div>
-      <img src="${IMG.biryani}" alt="Food Shop" />
+      <img class="hero-pop" src="${IMG.biryani}" alt="Food Shop" />
     </div>
 
     <input class="inp" id="foodSearchInp" placeholder="🔍 Search Biryani, Idli, Chicken, Paneer, Cake..." value="${esc(FOOD_SEARCH)}" />
@@ -719,11 +862,12 @@ function viewFoodShop() {
             const v = foodVendors.find(x => x.id === it.vendorId) || { name: "Kitchen", status: "Open" };
             const qty = FOOD_CART[it.id] || 0;
             const dis = v.status === "Closed" || !it.stock;
+            const dishImg = it.img || autoMatch3DImage(it.name, it.cat, it.desc);
             return `
               <div class="pcard">
                 <div>
                   <div style="font-size:10px;font-weight:800;color:var(--amb);margin-bottom:4px">🏪 ${esc(v.name)}</div>
-                  <div class="pimg"><img src="${it.img}" alt="${esc(it.name)}" /></div>
+                  <div class="pimg"><img src="${dishImg}" alt="${esc(it.name)}" /></div>
                   <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px">
                     <span class="sym ${it.nv ? "nv" : ""}"><i></i></span><span>${esc(it.name)}</span>
                   </div>
@@ -765,7 +909,7 @@ function viewFoodShop() {
   `;
 }
 
-/* ==================== CATEGORY 3: KIRANA & HUL (₹300 MIN, ₹500+ FREE DEL) ==================== */
+/* ==================== CATEGORY 3: KIRANA & HUL ==================== */
 function kiranaCartCount() {
   return Object.values(KIRANA_CART).reduce((a, b) => a + (+b || 0), 0);
 }
@@ -800,7 +944,7 @@ function viewKirana() {
         <h2>Kirana & HUL Daily Needs</h2>
         <p>Atta, Chawal, Tel, Surf Excel, Lifebuoy, Tea & Dairy ghar baithe</p>
       </div>
-      <img src="${IMG.hul}" alt="Kirana & HUL" />
+      <img class="hero-pop" src="${IMG.hul}" alt="Kirana & HUL" />
     </div>
 
     <div class="card" style="border:2px solid ${sub >= freeAt ? "#16a34a" : sub >= minOrd ? "#d97706" : "#e11d48"}">
@@ -828,6 +972,7 @@ function viewKirana() {
         const v = S.vendors.find(x => x.id === it.vendorId) || { name: "Kirana Store", status: "Open" };
         const qty = KIRANA_CART[it.id] || 0;
         const dis = !it.stock || v.status === "Closed";
+        const itemImg = it.img || autoMatch3DImage(it.name, it.cat, it.desc);
         return `
           <div class="pcard">
             <div>
@@ -835,7 +980,7 @@ function viewKirana() {
                 <span style="color:var(--g2)">🏬 ${esc(v.name)}</span>
                 <span class="pill p-blue">${esc(it.cat)}</span>
               </div>
-              <div class="pimg"><img src="${it.img}" alt="${esc(it.name)}" /></div>
+              <div class="pimg"><img src="${itemImg}" alt="${esc(it.name)}" /></div>
               <div style="font-weight:800;font-size:12.5px">${esc(it.name)}</div>
               <div style="font-size:10.5px;color:var(--mu);margin-top:2px">${esc(it.desc)}</div>
             </div>
@@ -852,23 +997,43 @@ function viewKirana() {
   `;
 }
 
-/* ==================== CUSTOMER ORDERS & TRACKING TAB ==================== */
+/* ==================== CUSTOMER ORDERS (PHONE FILTER + REORDER) ==================== */
 function viewCustomerOrders() {
-  const fOrds = (S.foodOrders || []).slice().reverse();
-  const kOrds = (S.kiranaOrders || []).slice().reverse();
+  const pf = ph(ORDER_PHONE_FILTER);
+  const fAll = autoPrioritySort(S.foodOrders).reverse();
+  const kAll = autoPrioritySort(S.kiranaOrders).reverse();
+  const fOrds = pf.length === 10 ? fAll.filter(o => ph(o.phone) === pf) : fAll;
+  const kOrds = pf.length === 10 ? kAll.filter(o => ph(o.phone) === pf) : kAll;
+
   return `
+    <div class="card">
+      <h3>📱 Apne Mobile Number Se Orders Dekhein</h3>
+      <div class="btn-row">
+        <input class="inp" id="ordPhoneFilterInp" type="tel" maxlength="10" placeholder="10-digit mobile daalein..." value="${esc(ORDER_PHONE_FILTER)}" />
+        ${pf ? `<button class="btn w sm" style="max-width:95px" data-act="clearPhoneFilter">Show All</button>` : ""}
+      </div>
+      <div style="font-size:11px;color:var(--mu);margin-top:4px">${pf.length === 10 ? `Showing orders for +91 ${pf}` : "10-digit number daalne par sirf aapke orders dikhenge."}</div>
+    </div>
+
     <div class="card">
       <h3>🍛 Mere Food & Breakfast Orders (${fOrds.length})</h3>
       ${fOrds.map(o => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between">
             <b>${esc(o.id)} · ${inr(o.total)}</b>
-            <span class="pill ${o.status === "Delivered" ? "p-green" : "p-amber"}">${esc(o.status)}</span>
+            <span class="pill ${o.status === "Delivered" ? "p-green" : o.status === "Cancelled" ? "p-red" : "p-amber"}">${esc(o.status)}</span>
           </div>
+          ${statusTimeline(o.status)}
+          ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Reason: ${esc(o.cancelReason)}</div>` : ""}
           <div style="font-size:11px;color:var(--mu);margin-top:3px">${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
+          ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700">📝 Note: ${esc(o.note)}</div>` : ""}
           <div style="font-size:10.5px;margin-top:3px">Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} · Area: ${esc(o.area)}</div>
+          <div class="btn-row" style="margin-top:6px">
+            <button class="btn w sm" data-act="reorder" data-k="FOOD" data-id="${o.id}">🔁 1-Tap Reorder</button>
+            <button class="btn g sm" data-act="waOrder" data-k="FOOD" data-id="${o.id}">📲 WhatsApp Update</button>
+          </div>
         </div>
-      `).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi tak koi Food order nahi hai.</p>`}
+      `).join("") || `<p style="font-size:12px;color:var(--mu)">Koi Food order nahi mila.</p>`}
     </div>
 
     <div class="card">
@@ -877,17 +1042,24 @@ function viewCustomerOrders() {
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between">
             <b>${esc(o.id)} · ${inr(o.total)}</b>
-            <span class="pill ${o.status === "Delivered" ? "p-green" : "p-amber"}">${esc(o.status)}</span>
+            <span class="pill ${o.status === "Delivered" ? "p-green" : o.status === "Cancelled" ? "p-red" : "p-amber"}">${esc(o.status)}</span>
           </div>
+          ${statusTimeline(o.status)}
+          ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Reason: ${esc(o.cancelReason)}</div>` : ""}
           <div style="font-size:11px;color:var(--mu);margin-top:3px">${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
+          ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700">📝 Extra Item Note: ${esc(o.note)}</div>` : ""}
           <div style="font-size:10.5px;margin-top:3px">Delivery Fee: ${o.deliveryFee === 0 ? "FREE" : inr(o.deliveryFee)} · Pay: <b>${esc(o.payMode)}</b></div>
+          <div class="btn-row" style="margin-top:6px">
+            <button class="btn w sm" data-act="reorder" data-k="KIRANA" data-id="${o.id}">🔁 1-Tap Reorder</button>
+            <button class="btn g sm" data-act="waOrder" data-k="KIRANA" data-id="${o.id}">📲 WhatsApp Update</button>
+          </div>
         </div>
-      `).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi tak koi Kirana order nahi hai.</p>`}
+      `).join("") || `<p style="font-size:12px;color:var(--mu)">Koi Kirana order nahi mila.</p>`}
     </div>
   `;
 }
 
-/* ==================== ROLE VIEWS: KITCHEN (1122), DELIVERY (3344), VENDOR, OWNER (4827) ==================== */
+/* ==================== ROLE VIEWS ==================== */
 function viewKitchen() {
   const subs = (S.tiffinSubs || []).filter(s => !s.skipToday && s.vStat !== "bad");
   const fOrds = (S.foodOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled");
@@ -906,6 +1078,11 @@ function viewKitchen() {
       <div><b>${(totalMeals * 0.16).toFixed(1)} kg</b><span>Est. Rice/Atta</span></div>
     </div>
     <div class="card">
+      <h3>🍲 Update Aaj Ka Tiffin Menu</h3>
+      <input class="inp" id="kitTiffinMenuInp" value="${esc(S.cfg.todayTiffinMenu)}" placeholder="Aaj ka lunch/dinner menu..." />
+      <button class="btn g full sm" data-act="saveTiffinMenu" data-src="kitTiffinMenuInp">📢 Live Update Customer Menu</button>
+    </div>
+    <div class="card">
       <h3>Active Tiffins Today (${subs.length})</h3>
       ${subs.map(s => `
         <div class="row">
@@ -920,6 +1097,7 @@ function viewKitchen() {
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between"><b>${esc(o.id)} — ${esc(o.name)} (${esc(o.area)})</b><span class="pill p-amber">${esc(o.status)}</span></div>
           <div style="font-size:11.5px;margin:4px 0">${o.items.map(i => `• ${esc(i.name)} ×${i.qty}`).join("<br>")}</div>
+          ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:800">Note: ${esc(o.note)}</div>` : ""}
           <div class="btn-row">
             <button class="btn amb sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Cooking">🔥 Cooking</button>
             <button class="btn g sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button>
@@ -976,10 +1154,12 @@ function viewDelivery() {
             <span class="pill ${o.status === "Delivered" ? "p-green" : "p-red"}">${o.payMode === "COD" && o.status !== "Delivered" ? "Collect " + inr(o.total) : esc(o.status)}</span>
           </div>
           <div style="font-size:11px;color:var(--mu);margin:3px 0">${esc(o.addr)} · ${o.items.map(i => `${i.name}×${i.qty}`).join(", ")}</div>
+          ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:700">Note: ${esc(o.note)}</div>` : ""}
           <div class="btn-row">
             <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
             <a class="btn w sm" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}" target="_blank">🗺 Map</a>
-            ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Delivered">✅ Mark Delivered</button>` : ""}
+            ${o.status === "Ready for Pickup" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>` : ""}
+            ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Delivered">✅ Delivered</button>` : ""}
           </div>
         </div>
       `).join("") || `<p style="font-size:12px;color:var(--mu)">No pending drops.</p>`}
@@ -1023,18 +1203,56 @@ function viewVendor() {
   if (!v) return `<div class="card"><p>Vendor not found.</p></div>`;
   const led = getVendorLedger(v);
   const myItems = (v.type === "FOOD" ? S.foodItems : S.kiranaItems).filter(i => i.vendorId === v.id);
+  const myOrders = (v.type === "FOOD" ? S.foodOrders : S.kiranaOrders)
+    .filter(o => o.status !== "Cancelled" && o.items.some(i => i.vendorId === v.id));
 
   return `
     <div class="card" style="background:#78350f;color:#fff">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><small style="color:#fde68a;font-weight:800">ISOLATED PARTNER VENDOR</small><h2>${esc(v.name)}</h2></div>
-        <button class="btn w sm" data-act="setRole" data-v="customer">Exit</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div>
+          <small style="color:#fde68a;font-weight:800">ISOLATED PARTNER VENDOR</small>
+          <h2>${esc(v.name)}</h2>
+          <div style="font-size:11px;color:#fde68a">${esc(v.cuisine)} · ${esc(v.area)}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn amb sm" data-act="editVendorProfile" data-id="${v.id}">✏️ Edit Info</button>
+          <button class="btn w sm" data-act="setRole" data-v="customer">Exit</button>
+        </div>
       </div>
     </div>
     <div class="kpi">
       <div><b>${inr(led.gross)}</b><span>Gross Sales</span></div>
       <div><b style="color:#dc2626">-${inr(led.comm)}</b><span>Platform Comm</span></div>
       <div><b style="color:#16a34a">${inr(led.due)}</b><span>Owner Payout Due</span></div>
+    </div>
+    <div class="card">
+      <h3>Incoming Orders (${myOrders.length})</h3>
+      ${myOrders.slice().reverse().map(o => `
+        <div class="row" style="flex-direction:column;align-items:stretch">
+          <div style="display:flex;justify-content:space-between"><b>${esc(o.id)} · ${esc(o.name)}</b><span class="pill p-amber">${esc(o.status)}</span></div>
+          <div style="font-size:11px;color:var(--mu)">${o.items.filter(i => i.vendorId === v.id).map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
+          <div class="btn-row" style="margin-top:4px">
+            <button class="btn amb sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="Cooking">🔥 Accept / Prep</button>
+            <button class="btn g sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button>
+            ${o.status !== "Delivered" ? `<button class="btn r sm" data-act="cancelOrder" data-k="${v.type}" data-id="${o.id}">✕ Reject</button>` : ""}
+          </div>
+        </div>
+      `).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi active order nahi hai.</p>`}
+    </div>
+    <div class="card">
+      <h3>➕ Add New Item (Auto 3D Image Match)</h3>
+      <div class="btn-row">
+        <input class="inp" id="venNewName" placeholder="Dish / Item Name *" />
+        <input class="inp" id="venNewPrice" type="number" placeholder="Price ₹ *" style="max-width:105px" />
+      </div>
+      <div class="btn-row">
+        <select class="inp" id="venNewCat">
+          ${(v.type === "FOOD" ? ["Breakfast", "Thali", "Meals", "Biryani", "Bakery"] : ["HUL", "Staples", "Dairy"]).map(c => `<option>${c}</option>`).join("")}
+        </select>
+        ${v.type === "FOOD" ? `<select class="inp" id="venNewNv"><option value="0">🟢 Pure Veg</option><option value="1">🔴 Non-Veg</option></select>` : ""}
+      </div>
+      <input class="inp" id="venNewDesc" placeholder="Short description (optional)" />
+      <button class="btn o full sm" data-act="addVendorItem" data-id="${v.id}">✨ Add Item with 3D Auto-Match</button>
     </div>
     <div class="card">
       <h3>Store Status & Menu Stock</h3>
@@ -1044,7 +1262,10 @@ function viewVendor() {
       ${myItems.map(it => `
         <div class="row">
           <div><b>${esc(it.name)}</b> (${inr(it.price)})</div>
-          <button class="btn sm ${it.stock ? "g" : "w"}" data-act="toggleStock" data-k="${v.type}" data-id="${it.id}">${it.stock ? "In Stock ✓" : "Out of Stock"}</button>
+          <div style="display:flex;gap:5px">
+            <button class="btn w sm" data-act="editItemPrice" data-k="${v.type}" data-id="${it.id}">✏️ ₹</button>
+            <button class="btn sm ${it.stock ? "g" : "w"}" data-act="toggleStock" data-k="${v.type}" data-id="${it.id}">${it.stock ? "In Stock ✓" : "Out"}</button>
+          </div>
         </div>
       `).join("")}
     </div>
@@ -1058,8 +1279,16 @@ function viewOwner() {
   const fSales = fValid.reduce((a, o) => a + o.total, 0);
   const kSales = kValid.reduce((a, o) => a + o.total, 0);
 
-  let totalComm = 0;
-  S.vendors.filter(v => !v.isSelf).forEach(v => { totalComm += getVendorLedger(v).comm; });
+  const allOrds = [...fValid, ...kValid];
+  const codCollected = allOrds.filter(o => o.payMode === "COD" && o.status === "Delivered").reduce((a, o) => a + o.total, 0);
+  const codPendingJama = Math.max(0, codCollected - (+S.riderCashSettled || 0));
+
+  let totalComm = 0, totalPartnerDue = 0;
+  S.vendors.filter(v => !v.isSelf).forEach(v => {
+    const l = getVendorLedger(v);
+    totalComm += l.comm;
+    totalPartnerDue += l.due;
+  });
   const totalExp = (S.expenses || []).reduce((a, e) => a + e.amt, 0) + (S.fuelLogs || []).filter(f => f.approved).reduce((a, f) => a + f.rs, 0);
 
   return `
@@ -1081,17 +1310,46 @@ function viewOwner() {
       <div><b>${inr(tSales + totalComm - totalExp)}</b><span>Net Margin</span></div>
     </div>
 
+    <div class="card" style="background:var(--sf2)">
+      <h3>📊 Daily Closing Snapshot (${todayIso()})</h3>
+      <div class="row"><span>Total Orders (Food + Kirana)</span><b>${allOrds.length} (${allOrds.filter(o => o.status === "Delivered").length} Delivered)</b></div>
+      <div class="row"><span>Active Tiffin Subscriptions</span><b>${(S.tiffinSubs || []).length} (${(S.tiffinSubs || []).filter(s => (+s.remaining || 0) <= 3).length} Expiring Soon)</b></div>
+      <div class="row"><span>Pending Rider COD Cash Jama</span><b style="color:${codPendingJama > 0 ? "#dc2626" : "#16a34a"}">${inr(codPendingJama)}</b></div>
+      <div class="row"><span>Pending Partner Payouts Due</span><b style="color:${totalPartnerDue > 0 ? "#d97706" : "#16a34a"}">${inr(totalPartnerDue)}</b></div>
+    </div>
+
+    <div class="card" style="border:2px solid ${codPendingJama > 0 ? "#d97706" : "#16a34a"}">
+      <h3>💵 Rider COD Cash Jama Reconciliation</h3>
+      <div class="row">
+        <div>
+          <div>Total Delivered COD: <b>${inr(codCollected)}</b> · Settled: <b>${inr(S.riderCashSettled || 0)}</b></div>
+          <div style="font-size:12px;color:${codPendingJama > 0 ? "#dc2626" : "#16a34a"};font-weight:800">Pending Rider Cash Jama: ${inr(codPendingJama)}</div>
+        </div>
+        ${codPendingJama > 0 ? `<button class="btn g sm" data-act="settleRiderCod" data-v="${codPendingJama}">✅ Cash Jama (${inr(codPendingJama)})</button>` : `<span class="pill p-green">All Clear ✓</span>`}
+      </div>
+    </div>
+
     <div class="card">
-      <h3>🤝 Owner-Controlled Partner Payouts (Release Control)</h3>
-      ${S.vendors.filter(v => !v.isSelf).map(v => {
+      <h3>🍲 Today's Tiffin Menu Broadcast</h3>
+      <input class="inp" id="ownTiffinMenuInp" value="${esc(S.cfg.todayTiffinMenu)}" />
+      <button class="btn o full sm" data-act="saveTiffinMenu" data-src="ownTiffinMenuInp">📢 Update Tiffin Menu + Auto 3D Photo</button>
+    </div>
+
+    <div class="card">
+      <h3>🤝 Vendors & Partner Payouts (Rename / Edit Allowed)</h3>
+      ${S.vendors.map(v => {
         const led = getVendorLedger(v);
         return `
-          <div class="row">
-            <div>
-              <b>${esc(v.name)}</b> <span class="pill p-blue">${v.type === "FOOD" ? S.cfg.foodPartnerCommPct + "% Comm" : "₹" + S.cfg.kiranaPostDeliveryComm + " Post-Del"}</span>
-              <div style="font-size:11px;color:var(--mu)">Gross: ${inr(led.gross)} · Comm: -${inr(led.comm)} · Paid: ${inr(v.settledPaid || 0)}</div>
+          <div class="row" style="flex-direction:column;align-items:stretch">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <b>${esc(v.name)}</b>
+              <span class="pill ${v.isSelf ? "p-green" : "p-blue"}">${v.isSelf ? "Apna (0%)" : v.type === "FOOD" ? S.cfg.foodPartnerCommPct + "% Comm" : "₹" + S.cfg.kiranaPostDeliveryComm + " Post-Del"}</span>
             </div>
-            ${led.due > 0 ? `<button class="btn g sm" data-act="releasePayout" data-id="${v.id}">Pay ${inr(led.due)}</button>` : `<span class="pill p-green">Settled ✓</span>`}
+            <div style="font-size:11px;color:var(--mu)">${esc(v.cuisine)} · 📍 ${esc(v.area)} ${!v.isSelf ? `· Due: <b>${inr(led.due)}</b>` : ""}</div>
+            <div class="btn-row" style="margin-top:4px">
+              <button class="btn w sm" data-act="editVendorProfile" data-id="${v.id}">✏️ Rename / Edit</button>
+              ${!v.isSelf && led.due > 0 ? `<button class="btn g sm" data-act="releasePayout" data-id="${v.id}">Pay ${inr(led.due)}</button>` : ""}
+            </div>
           </div>
         `;
       }).join("")}
@@ -1109,18 +1367,19 @@ function viewOwner() {
     </div>
 
     <div class="card">
-      <h3>📦 Food & Kirana Orders (UTR Verify & 58mm Print)</h3>
-      ${[...fValid.map(o => ({ ...o, kind: "FOOD" })), ...kValid.map(o => ({ ...o, kind: "KIRANA" }))].slice().reverse().map(o => `
+      <h3>📦 Food & Kirana Orders (Bank UTR Verify & 58mm Print) <span class='pill p-green'>Auto-Sorted & Comm Calc</span></h3>
+      ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].slice().reverse().map(o => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between">
-            <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)}</b>
-            <span class="pill ${o.utrVerified ? "p-green" : "p-amber"}">${esc(o.status)}</span>
+            <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)} <span style='font-size:10px;color:var(--g2)'>(Comm: ${inr(autoCalcOrderComm(o, o.kind))})</span></b>
+            <span class="pill ${o.status === "Cancelled" ? "p-red" : o.utrVerified ? "p-green" : "p-amber"}">${esc(o.status)}</span>
           </div>
           <div style="font-size:11px;color:var(--mu)">Pay: ${esc(o.payMode)} ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""}</div>
+          ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Cancel Reason: ${esc(o.cancelReason)}</div>` : ""}
           <div class="btn-row" style="margin-top:5px">
-            ${o.payMode === "UPI" && !o.utrVerified ? `<button class="btn g sm" data-act="verifyUtr" data-k="${o.kind}" data-id="${o.id}">Verify UTR ✓</button>` : ""}
+            ${o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled" ? `<button class="btn g sm" data-act="verifyUtr" data-k="${o.kind}" data-id="${o.id}">Verify Bank UTR ✓</button>` : ""}
             <button class="btn w sm" data-act="printBill" data-k="${o.kind}" data-id="${o.id}">🖨 58mm Bill</button>
-            ${o.status !== "Delivered" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Cancelled">Cancel</button>` : ""}
+            ${o.status !== "Delivered" && o.status !== "Cancelled" ? `<button class="btn r sm" data-act="cancelOrder" data-k="${o.kind}" data-id="${o.id}">Cancel</button>` : ""}
           </div>
         </div>
       `).join("") || `<p style="font-size:12px;color:var(--mu)">No orders yet.</p>`}
@@ -1140,10 +1399,18 @@ function viewOwner() {
         <button class="btn g sm" data-act="addExp">+ Add</button>
       </div>
     </div>
+
+    <div class="card">
+      <h3>🛡️ Auto-Backup & Test Reset</h3>
+      <div class="btn-row">
+        <button class="btn g sm" data-act="exportBackup">📥 Download JSON Backup</button>
+        <button class="btn r sm" data-act="resetDemo">♻️ Reset Demo Data</button>
+      </div>
+    </div>
   `;
 }
 
-/* ==================== CHECKOUT MODAL (SEPARATE PER CATEGORY) ==================== */
+/* ==================== CHECKOUT MODAL ==================== */
 function renderCheckoutModal() {
   if (!CHECKOUT_MODAL) return "";
   const m = CHECKOUT_MODAL;
@@ -1169,6 +1436,7 @@ function renderCheckoutModal() {
           ${UDALA_AREAS.map(a => `<option value="${a}" ${TF.area === a ? "selected" : ""}>📍 ${a}</option>`).join("")}
         </select>
         <input class="inp" data-tf="addr" placeholder="Ghar ka Pura Address / Landmark *" value="${esc(TF.addr)}" />
+        <input class="inp" data-tf="note" placeholder="Extra Item / Cooking Note (Optional)" value="${esc(TF.note)}" />
 
         <span class="lbl">Payment Mode</span>
         <select class="inp" id="chkPayMode" data-act="changePayMode">
@@ -1193,22 +1461,25 @@ function renderCheckoutModal() {
 
 /* ==================== MAIN RENDER ==================== */
 function render() {
-  // Role Switcher Strip
+  autoSyncCustomerDefaults();
+  const bhanjpurName = S.vendors.find(x => x.id === "v_bhanjpur")?.name || "Bhanjpur";
+  const jarliciousName = S.vendors.find(x => x.id === "v_jarlicious")?.name || "Jarlicious";
+  const marketKiranaName = S.vendors.find(x => x.id === "v_market_kirana")?.name || "Market Kirana";
+
   const roles = [
     ["customer", "Customer App"],
     ["kitchen", "Kitchen (1122)"],
     ["delivery", "Delivery (3344)"],
-    ["vendor_v_bhanjpur", "Vendor: Bhanjpur (2001)"],
-    ["vendor_v_jarlicious", "Vendor: Jarlicious (2002)"],
-    ["vendor_v_market_kirana", "Vendor: Market Kirana (3001)"],
+    ["vendor_v_bhanjpur", `${bhanjpurName.slice(0, 14)} (2001)`],
+    ["vendor_v_jarlicious", `${jarliciousName.slice(0, 14)} (2002)`],
+    ["vendor_v_market_kirana", `${marketKiranaName.slice(0, 14)} (3001)`],
     ["owner", "Owner Master (4827)"]
   ];
   const curKey = ROLE === "vendor" ? `vendor_${ACTIVE_VENDOR_ID}` : ROLE;
   $("#roleStrip").innerHTML = roles.map(([k, label]) =>
-    `<button class="${curKey === k ? "on" : ""}" data-act="askRole" data-v="${k}">${label}</button>`
+    `<button class="${curKey === k ? "on" : ""}" data-act="askRole" data-v="${k}">${esc(label)}</button>`
   ).join("");
 
-  // Main Body
   if (ROLE === "kitchen") $("#appMain").innerHTML = viewKitchen();
   else if (ROLE === "delivery") $("#appMain").innerHTML = viewDelivery();
   else if (ROLE === "vendor") $("#appMain").innerHTML = viewVendor();
@@ -1220,7 +1491,6 @@ function render() {
     else $("#appMain").innerHTML = viewCustomerOrders();
   }
 
-  // Category-Specific Floating Cart Bar (Only shows on Food or Kirana tab!)
   let cbarHtml = "";
   if (ROLE === "customer" && TAB === "food" && foodCartCount() > 0) {
     cbarHtml = `<div class="cbar" data-act="openFoodCheckout"><span>🍛 Food Cart: ${foodCartCount()} Items · ${inr(foodCartTotal())}</span><span>Checkout Food →</span></div>`;
@@ -1232,7 +1502,6 @@ function render() {
   }
   $("#cartFloat").innerHTML = cbarHtml;
 
-  // Bottom Navigation (4 Clean Separated Categories for Customer)
   if (ROLE === "customer") {
     const navItems = [
       ["tiffin", "🍱", "Mera Tiffin", 0],
@@ -1268,7 +1537,7 @@ const ACT = {
     if (v === "customer") { ROLE = "customer"; sessionStorage.setItem("nu_role", "customer"); render(); return; }
     if (v.startsWith("vendor_")) {
       const vid = v.replace("vendor_", "");
-      const pin = prompt(`Enter PIN for Vendor (${PINS.vendors[vid]}):`);
+      const pin = prompt(`Enter PIN for Vendor:`);
       if (pin === PINS.vendors[vid]) {
         ROLE = "vendor"; ACTIVE_VENDOR_ID = vid;
         sessionStorage.setItem("nu_role", "vendor"); sessionStorage.setItem("nu_vid", vid);
@@ -1283,7 +1552,6 @@ const ACT = {
     } else if (pin !== null) toast("❌ Galat PIN!");
   },
 
-  // Tiffin Actions
   tfSet: (v, k) => { TF[k] = k === "days" ? +v : v; render(); },
   openTiffinCheckout: () => {
     const total = calcTiffinPrice(TF.diet, TF.days, TF.slot);
@@ -1296,6 +1564,18 @@ const ACT = {
       payMode: "UPI"
     };
     render();
+  },
+  renewTiffin: (v, k, id) => {
+    const s = S.tiffinSubs.find(x => x.id === id);
+    if (!s) return;
+    TF.diet = s.diet || "veg";
+    TF.days = s.days || 15;
+    TF.slot = s.slot || "Lunch (12:30 PM)";
+    TF.name = s.name;
+    TF.phone = s.phone;
+    TF.area = s.area;
+    TF.addr = s.addr;
+    ACT.openTiffinCheckout();
   },
   skipTiffin: (v, k, id) => {
     const s = S.tiffinSubs.find(x => x.id === id);
@@ -1316,7 +1596,6 @@ const ACT = {
     toast(`🏖 Vacation Mode: +${d} din extend ho gaye!`);
   },
 
-  // Zomato-Style Food Shop Actions
   openRest: (v, k, id) => { SELECTED_REST_ID = id; render(); scrollTo({ top: 0, behavior: "smooth" }); },
   backToVendors: () => { SELECTED_REST_ID = null; render(); },
   setFoodCat: v => { FOOD_CAT_FILTER = v; render(); },
@@ -1340,7 +1619,6 @@ const ACT = {
     render();
   },
 
-  // Kirana & HUL Actions
   setKiranaCat: v => { KIRANA_CAT_FILTER = v; render(); },
   kInc: (v, k, id) => { KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1; render(); },
   kDec: (v, k, id) => { KIRANA_CART[id] = Math.max(0, (KIRANA_CART[id] || 0) - 1); if (!KIRANA_CART[id]) delete KIRANA_CART[id]; render(); },
@@ -1373,7 +1651,27 @@ const ACT = {
     render();
   },
 
-  // Modal & Checkout Confirm
+  clearPhoneFilter: () => { ORDER_PHONE_FILTER = ""; render(); },
+  reorder: (v, k, id) => {
+    const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
+    const o = arr.find(x => x.id === id);
+    if (!o) return;
+    if (k === "FOOD") {
+      o.items.forEach(i => { if (S.foodItems.some(x => x.id === i.id && x.stock)) FOOD_CART[i.id] = (FOOD_CART[i.id] || 0) + i.qty; });
+      TAB = "food";
+    } else {
+      o.items.forEach(i => { if (S.kiranaItems.some(x => x.id === i.id && x.stock)) KIRANA_CART[i.id] = (KIRANA_CART[i.id] || 0) + i.qty; });
+      TAB = "kirana";
+    }
+    render();
+    toast("🔁 Items cart mein add ho gaye!");
+  },
+  waOrder: (v, k, id) => {
+    const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
+    const o = arr.find(x => x.id === id);
+    if (o) shareOrderWa(o, k);
+  },
+
   closeModal: () => { CHECKOUT_MODAL = null; render(); },
   closeModalBg: (v, k, id, e) => { if (e.target.classList.contains("ov")) { CHECKOUT_MODAL = null; render(); } },
   changePayMode: () => { if (CHECKOUT_MODAL) { CHECKOUT_MODAL.payMode = $("#chkPayMode").value; render(); } },
@@ -1383,10 +1681,12 @@ const ACT = {
     if (!TF.name.trim() || ph(TF.phone).length !== 10 || !TF.addr.trim()) {
       return toast("⚠️ Naam, 10-digit Mobile aur Address zaroor bharein!");
     }
+    const cleanPhone = ph(TF.phone);
     localStorage.setItem("nu_cname", TF.name.trim());
-    localStorage.setItem("nu_cphone", ph(TF.phone));
+    localStorage.setItem("nu_cphone", cleanPhone);
     localStorage.setItem("nu_carea", TF.area);
     localStorage.setItem("nu_caddr", TF.addr.trim());
+    ORDER_PHONE_FILTER = cleanPhone;
 
     const payMode = CHECKOUT_MODAL.payMode;
     let utr = "";
@@ -1402,10 +1702,11 @@ const ACT = {
       S.usedUtrs.push(utr);
     }
 
+    const note = TF.note.trim();
     if (CHECKOUT_MODAL.kind === "TIFFIN") {
       S.tiffinSubs.unshift({
         id: "TS-" + Math.floor(1000 + Math.random() * 9000),
-        name: TF.name.trim(), phone: ph(TF.phone), area: TF.area, addr: TF.addr.trim(),
+        name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         diet: TF.diet, days: TF.days, remaining: TF.days, slot: TF.slot, spice: TF.spice, health: TF.health,
         price: CHECKOUT_MODAL.total, paid: payMode === "UPI" ? 1 : 0, vStat: payMode === "UPI" ? "ok" : "cod",
         utr, skipToday: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
@@ -1416,11 +1717,12 @@ const ACT = {
     } else if (CHECKOUT_MODAL.kind === "FOOD") {
       S.foodOrders.push({
         id: "FD-" + Math.floor(10000 + Math.random() * 90000),
-        date: todayIso(), name: TF.name.trim(), phone: ph(TF.phone), area: TF.area, addr: TF.addr.trim(),
-        items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total,
+        date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
+        items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total, note,
         payMode, utr, utrVerified: false, status: "Placed"
       });
       FOOD_CART = {};
+      TF.note = "";
       CHECKOUT_MODAL = null;
       TAB = "orders";
       save(`New Food Order placed by ${TF.name.trim()}`);
@@ -1428,11 +1730,12 @@ const ACT = {
     } else if (CHECKOUT_MODAL.kind === "KIRANA") {
       S.kiranaOrders.push({
         id: "KR-" + Math.floor(10000 + Math.random() * 90000),
-        date: todayIso(), name: TF.name.trim(), phone: ph(TF.phone), area: TF.area, addr: TF.addr.trim(),
-        items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total,
+        date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
+        items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total, note,
         payMode, utr, utrVerified: false, status: "Placed"
       });
       KIRANA_CART = {};
+      TF.note = "";
       CHECKOUT_MODAL = null;
       TAB = "orders";
       save(`New Kirana Order placed by ${TF.name.trim()}`);
@@ -1440,7 +1743,6 @@ const ACT = {
     }
   },
 
-  // Kitchen / Delivery / Vendor / Owner Actions
   ordStatus: (v, k, id, e) => {
     const st = e.target.closest("[data-s]")?.dataset.s;
     const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
@@ -1450,6 +1752,30 @@ const ACT = {
       save(`${k} Order ${id} -> ${st}`);
       toast(`Status updated: ${st}`);
     }
+  },
+  cancelOrder: (v, k, id) => {
+    const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
+    const o = arr.find(x => x.id === id);
+    if (!o) return;
+    const reason = prompt("Cancel / Reject ka reason likhein (e.g., Item Out of Stock / Shop Busy):", "Item out of stock");
+    if (reason === null) return;
+    o.status = "Cancelled";
+    o.cancelReason = reason.trim() || "Cancelled by operator";
+    save(`${k} Order ${id} Cancelled: ${o.cancelReason}`);
+    toast("❌ Order Cancelled with reason");
+  },
+  editVendorProfile: (v, k, id) => {
+    const ven = S.vendors.find(x => x.id === id);
+    if (!ven) return;
+    const newName = prompt("Vendor ka naya naam daalein:", ven.name);
+    if (newName === null || !newName.trim()) return;
+    const newArea = prompt("Vendor ka Area / Locality daalein:", ven.area);
+    const newCuisine = prompt("Cuisine / Description daalein:", ven.cuisine);
+    ven.name = newName.trim();
+    if (newArea && newArea.trim()) ven.area = newArea.trim();
+    if (newCuisine && newCuisine.trim()) ven.cuisine = newCuisine.trim();
+    save(`Vendor updated: ${ven.name} (${ven.area})`);
+    toast("✅ Vendor details updated!");
   },
   toggleDabba: (v, k, id) => {
     const s = S.tiffinSubs.find(x => x.id === id);
@@ -1479,6 +1805,49 @@ const ACT = {
     const it = arr.find(x => x.id === id);
     if (it) { it.stock = it.stock ? 0 : 1; save(`Stock toggled: ${it.name}`); }
   },
+  addVendorItem: (v, k, id) => {
+    const ven = S.vendors.find(x => x.id === id);
+    if (!ven) return;
+    const name = $("#venNewName")?.value.trim();
+    const price = +$("#venNewPrice")?.value;
+    const cat = $("#venNewCat")?.value || (ven.type === "FOOD" ? "Meals" : "Staples");
+    const desc = $("#venNewDesc")?.value.trim() || "Fresh local item";
+    if (!name || !(price > 0)) return toast("⚠️ Item ka naam aur sahi price ₹ daalein!");
+    const img = autoMatch3DImage(name, cat, desc);
+    if (ven.type === "FOOD") {
+      const nv = +($("#venNewNv")?.value || 0);
+      S.foodItems.unshift({ id: uid("fd"), vendorId: ven.id, cat, name, price, nv, stock: 1, img, desc });
+    } else {
+      S.kiranaItems.unshift({ id: uid("kr"), vendorId: ven.id, cat, name, price, stock: 1, img, desc });
+    }
+    save(`Vendor ${ven.name} added item: ${name} (₹${price})`);
+    toast("✨ Item added with 3D Auto-Match photo!");
+  },
+  editItemPrice: (v, k, id) => {
+    const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
+    const it = arr.find(x => x.id === id);
+    if (!it) return;
+    const np = parseFloat(prompt(`Naya price daalein (${it.name}):`, it.price));
+    if (!(np > 0)) return;
+    it.price = np;
+    save(`Price updated: ${it.name} -> ₹${np}`);
+    toast(`Price updated: ${inr(np)}`);
+  },
+  saveTiffinMenu: (v, k, id, e) => {
+    const inpId = e.target.closest("[data-src]")?.dataset.src;
+    const txt = $(`#${inpId}`)?.value.trim();
+    if (!txt) return;
+    S.cfg.todayTiffinMenu = txt;
+    save(`Today Tiffin Menu updated: ${txt}`);
+    toast("🍲 Today's Tiffin Menu live ho gaya!");
+  },
+  settleRiderCod: v => {
+    const amt = +v || 0;
+    if (amt <= 0) return;
+    S.riderCashSettled = (+S.riderCashSettled || 0) + amt;
+    save(`Owner received Rider COD Cash Jama: ₹${amt}`);
+    toast(`✅ Rider COD Cash ${inr(amt)} Jama ho gaya!`);
+  },
   releasePayout: (v, k, id) => {
     const ven = S.vendors.find(x => x.id === id);
     if (!ven) return;
@@ -1499,7 +1868,12 @@ const ACT = {
   verifyUtr: (v, k, id) => {
     const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
     const o = arr.find(x => x.id === id);
-    if (o) { o.utrVerified = true; save(`Owner verified UTR ${o.utr} for ${id}`); toast("UTR Verified ✓"); }
+    if (!o) return;
+    if (!confirm(`Bank / JioPay app mein ₹${o.total} (UTR: ${o.utr}) asli credit check kar liya hai?`)) return;
+    o.utrVerified = true;
+    o.status = o.status === "Placed" ? "Confirmed" : o.status;
+    save(`Owner verified Bank UTR ${o.utr} for ${id}`);
+    toast("Bank UTR Verified ✓");
   },
   approveFuel: (v, k, id) => {
     const f = S.fuelLogs.find(x => x.id === id);
@@ -1511,6 +1885,8 @@ const ACT = {
     S.expenses.unshift({ id: uid("ex"), title, amt, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
     save(`Expense added: ${title} ₹${amt}`);
   },
+  exportBackup: () => autoExportBackup(),
+  resetDemo: () => autoResetDemoData(),
   printBill: (v, k, id) => {
     const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
     const o = arr.find(x => x.id === id);
@@ -1523,6 +1899,7 @@ const ACT = {
       <div>Area: ${esc(o.area)}</div>
       <hr>
       ${o.items.map(i => `<div>${esc(i.name)} x${i.qty} = Rs.${i.price * i.qty}</div>`).join("")}
+      ${o.note ? `<hr><div>Note: ${esc(o.note)}</div>` : ""}
       <hr>
       <div><strong>TOTAL: Rs.${o.total} (${o.payMode})</strong></div>
     `;
@@ -1552,6 +1929,13 @@ document.addEventListener("input", e => {
     const pos = e.target.selectionStart;
     render();
     const el = $("#kiranaSearchInp");
+    if (el) { el.focus(); el.setSelectionRange(pos, pos); }
+  }
+  if (e.target.id === "ordPhoneFilterInp") {
+    ORDER_PHONE_FILTER = e.target.value;
+    const pos = e.target.selectionStart;
+    render();
+    const el = $("#ordPhoneFilterInp");
     if (el) { el.focus(); el.setSelectionRange(pos, pos); }
   }
 });
