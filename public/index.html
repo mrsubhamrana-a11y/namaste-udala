@@ -65,10 +65,9 @@
   .brand h1 { font-family: var(--serif); font-size: 17px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .fb-pill { font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 99px; background: rgba(255,255,255,.12); color: #a7f3d0; }
 
-  /* Role Quick Bar */
+  /* Role Quick Bar (Hidden) */
   .role-strip {
-    background: #102419; padding: 6px 12px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
-    border-bottom: 1px solid rgba(255,255,255,.1);
+    display: none !important;
   }
   .role-strip::-webkit-scrollbar { display: none; }
   .role-strip button {
@@ -586,7 +585,7 @@ function getImageCandidates(it) {
     );
   } else if (/rice|chawal|miniket/.test(n)) {
     list.push(
-      "https://m.media-amazon.com/images/I/586201375761-83865001e31c"
+      "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80"
     );
   }
   const matched = autoMatch3DImage(it?.name || "", it?.cat || "", it?.desc || "");
@@ -1408,7 +1407,7 @@ function viewKirana() {
     <div class="hero kirana-bg">
       <div>
         <span class="pill p-amber">MIN ₹${minOrd} ORDER · ₹${freeAt}+ FREE DELIVERY</span>
-        <h2>Kirana & Daily Needs Daily Needs</h2>
+        <h2>Kirana & Daily Needs</h2>
         <p>Atta, Chawal, Tel, Surf Excel, Lifebuoy, Tea & Dairy ghar baithe</p>
       </div>
       <div class="hero-pop-wrap"><img class="hero-pop" src="${ART3D.surf}" alt="Kirana & Daily Needs" /></div>
@@ -2785,6 +2784,32 @@ function openLoginGate() {
   scrollTo({ top: 0, behavior: "smooth" });
 }
 
+/* ==================== ORDER ALERT SOUND ENGINE (WEB AUDIO) ==================== */
+let AUDIO_CTX = null;
+function playOrderAlertSound() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!AUDIO_CTX) AUDIO_CTX = new Ctx();
+    if (AUDIO_CTX.state === "suspended") AUDIO_CTX.resume().catch(() => {});
+    const now = AUDIO_CTX.currentTime;
+    const notes = [587.33, 783.99, 1046.5];
+    notes.forEach((freq, idx) => {
+      const osc = AUDIO_CTX.createOscillator();
+      const gain = AUDIO_CTX.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(freq, now + idx * 0.14);
+      gain.gain.setValueAtTime(0.001, now + idx * 0.14);
+      gain.gain.exponentialRampToValueAtTime(0.22, now + idx * 0.14 + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.14 + 0.36);
+      osc.connect(gain);
+      gain.connect(AUDIO_CTX.destination);
+      osc.start(now + idx * 0.14);
+      osc.stop(now + idx * 0.14 + 0.38);
+    });
+  } catch (e) {}
+}
+
 function viewLoginPage() {
   const vPins = { ...PINS.vendors, ...(S.cfg.vendorPins || {}) };
   const partnerVendors = S.vendors.filter(v => !v.isSelf && vPins[v.id]);
@@ -2799,21 +2824,23 @@ function viewLoginPage() {
         <div>
           <small style="color:#fbbf24;font-weight:800;letter-spacing:1.2px">NAMASTE UDALA · ACCESS PORTAL</small>
           <h2 style="font-family:var(--serif);font-size:21px;margin-top:3px">Login Page</h2>
-          <p style="font-size:11.5px;color:#cbd5e1;margin-top:2px">Customer app kholein ya PIN se Kitchen, Delivery, Vendor & Owner panel mein login karein</p>
+          <p style="font-size:11.5px;color:#cbd5e1;margin-top:2px">Apne naam aur 10-digit mobile number se login karke order place karein ya skip karke app dekhein</p>
         </div>
         <button class="btn amb sm" data-act="quickEnterCustomer">Skip → App</button>
       </div>
     </div>
 
-    <div class="card">
-      <h3>1. Panel / Role Chunein</h3>
-      <div class="seg" style="flex-wrap:wrap">
-        <button class="${LOGIN_ROLE_CHOICE === "customer" ? "on" : ""}" data-act="loginPickRole" data-v="customer">🛍 Customer</button>
-        <button class="${LOGIN_ROLE_CHOICE === "kitchen" ? "on" : ""}" data-act="loginPickRole" data-v="kitchen">🍳 Kitchen</button>
-        <button class="${LOGIN_ROLE_CHOICE === "delivery" ? "on" : ""}" data-act="loginPickRole" data-v="delivery">🛵 Delivery</button>
-        <button class="${LOGIN_ROLE_CHOICE === "vendor" ? "on" : ""}" data-act="loginPickRole" data-v="vendor">🏪 Vendor</button>
-        <button class="${LOGIN_ROLE_CHOICE === "owner" ? "on" : ""}" data-act="loginPickRole" data-v="owner">👑 Owner</button>
+    <div class="card" style="border:2px solid var(--amb)">
+      <h3>📲 Sabse Zaroori: App Install</h3>
+      <p style="font-size:12px;color:var(--mu);margin-bottom:8px">Phone home screen par app install karne ke liye neeche <b>Install App</b> dabayein (HTTPS link par open hona zaroori hai).</p>
+      <div class="btn-row">
+        <button class="btn g" data-act="installApp">📲 Install App Now</button>
+        <button class="btn w sm" data-act="testAlertSound">🔔 Test Sound</button>
       </div>
+    </div>
+
+    <div class="card">
+      <h3>2. Customer Login</h3>
 
       ${LOGIN_ROLE_CHOICE === "customer" ? `
         <div style="margin-top:10px">
@@ -2840,21 +2867,21 @@ function viewLoginPage() {
       <button class="btn o full" style="margin-top:12px;padding:13px" data-act="submitLoginPage">
         ${isStaff ? "🔐 Verify PIN & Login" : "🚀 Continue to Namaste Udala"}
       </button>
+
     </div>
 
-    <div class="card" style="background:var(--sf2)">
-      <h3>⚡ Quick Role Access</h3>
-      <div class="btn-row">
-        <button class="btn w sm" data-act="quickEnterCustomer">🛍 Customer App</button>
-        <button class="btn w sm" data-act="loginFocusRole" data-v="kitchen">🍳 Kitchen PIN</button>
-        <button class="btn w sm" data-act="loginFocusRole" data-v="delivery">🛵 Delivery PIN</button>
-        <button class="btn w sm" data-act="loginFocusRole" data-v="owner">👑 Owner PIN</button>
-      </div>
-    </div>
+
   `;
 }
 
 function render() {
+  const savedRole = sessionStorage.getItem("nu_role");
+  if (!savedRole || !["customer", "kitchen", "delivery", "vendor", "owner"].includes(savedRole)) {
+    ROLE = "customer";
+  } else {
+    ROLE = savedRole;
+  }
+  LOGIN_ROLE_CHOICE = "customer";
   autoSyncCustomerDefaults();
   const vPins = { ...PINS.vendors, ...(S.cfg.vendorPins || {}) };
   const partnerVendorRoles = S.vendors
@@ -2878,7 +2905,25 @@ function render() {
     $("#cartFloat").innerHTML = "";
     $("#bottomNav").style.display = "none";
     const hInst = $("#hdrInstallBtn"); if (hInst && IS_APP_INSTALLED) hInst.style.display = "none";
+    if (window._showInstallPopup) {
+    $("#modalRoot").innerHTML = `
+      <div class="ov" data-act="closeInstallPopup">
+        <div class="sh" onclick="event.stopPropagation()">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <h3 style="font-family:var(--serif)">📲 Namaste Udala App</h3>
+            <button class="btn w sm" data-act="closeInstallPopup">✕</button>
+          </div>
+          <p style="font-size:12.5px;color:var(--mu);margin-bottom:12px">
+            Is app ki file turant download karein ya agar aap HTTPS link par hain to browser install pop-up se home screen par add karein.
+          </p>
+          <button class="btn g full" data-act="downloadHtmlCopy">📥 Direct Download App File</button>
+          <button class="btn w full" data-act="closeInstallPopup">Band Karein</button>
+        </div>
+      </div>
+    `;
+  } else {
     $("#modalRoot").innerHTML = "";
+  }
     return;
   }
   if (ROLE === "kitchen") $("#appMain").innerHTML = viewKitchen();
@@ -3027,11 +3072,28 @@ const ACT = {
       if (res && res.outcome === "accepted") toast("🎉 Installing Namaste Udala App...");
       return;
     }
-    const isHttps = location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
-    if (!isHttps) {
-      alert("📲 App Download / Install Guide:\n\n1. Is file ko apne HTTPS hosting link (Firebase Hosting / GitHub Pages) par kholein.\n2. Chrome mein kholte hi 'Install Namaste Udala App' popup aa jayega.\n3. Ya Chrome menu (⋮) → 'Add to Home screen' dabayein.");
-    } else {
-      alert("📲 Phone Home Screen Par Install Karein:\n\n• Android (Chrome): Upar 3-dot menu (⋮) dabayein → 'Install app' ya 'Add to Home screen' chunein.\n• iPhone (Safari): Niche Share (⬆️) button dabayein → 'Add to Home Screen' chunein.");
+    window._showInstallPopup = true;
+    render();
+  },
+  closeInstallPopup: () => {
+    window._showInstallPopup = false;
+    render();
+  },
+  downloadHtmlCopy: () => {
+    try {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "namaste-udala-separated-v54.html";
+      a.click();
+      URL.revokeObjectURL(url);
+      window._showInstallPopup = false;
+      render();
+      toast("📥 App file download ho gayi!");
+    } catch (e) {
+      toast("⚠️ Download shuru nahi ho saka");
     }
   },
   shareAppLink: () => {
@@ -3316,6 +3378,10 @@ const ACT = {
     const kCount = (S.kiranaItems || []).length;
     toast(`✅ Health OK: ${vCount} Vendors · ${fCount} Food · ${kCount} Kirana · ${isHttps ? "HTTPS Ready" : "Use HTTPS for GPS"}`);
   },
+  testAlertSound: () => {
+    playOrderAlertSound();
+    toast("🔔 Order sound alert test!");
+  },
   copyUpi: () => {
     navigator.clipboard?.writeText(S.cfg.upi).then(() => toast(`📋 UPI ID copied: ${S.cfg.upi}`)).catch(() => toast(`UPI ID: ${S.cfg.upi}`));
   },
@@ -3507,7 +3573,7 @@ const ACT = {
         name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         diet: TF.diet, days: TF.days, remaining: TF.days, slot: TF.slot, spice: TF.spice, health: TF.health,
         price: CHECKOUT_MODAL.total, paid: payMode === "UPI" ? 1 : 0, vStat: payMode === "UPI" ? "ok" : "cod",
-        utr, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc }, skipToday: false, skipNextDay: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
+        utr, proof: PROOF_DATA_URL || "", gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc }, skipToday: false, skipNextDay: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
       });
       LAST_PLACED_ORDER = {
         kind: "TIFFIN", id: newId, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
@@ -3517,6 +3583,7 @@ const ACT = {
       CHECKOUT_MODAL = null;
       TAB = "success"; scrollTo({ top: 0, behavior: "smooth" });
       save(`New Tiffin Subscription (${TF.days}d) by ${TF.name.trim()}`);
+      playOrderAlertSound();
       toast("🎉 Mera Tiffin Subscription Activated!");
     } else if (CHECKOUT_MODAL.kind === "FOOD") {
       const newId = "FD-" + Math.floor(10000 + Math.random() * 90000);
@@ -3529,7 +3596,7 @@ const ACT = {
         codFlag: _codFlagF,
         date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total, note, delSlot, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc },
-        payMode, utr, utrVerified: false, status: "Placed"
+        payMode, utr, proof: PROOF_DATA_URL || "", utrVerified: false, status: "Placed"
       });
       LAST_PLACED_ORDER = {
         kind: "FOOD", id: newId, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
@@ -3541,6 +3608,7 @@ const ACT = {
       CHECKOUT_MODAL = null;
       TAB = "success"; scrollTo({ top: 0, behavior: "smooth" });
       save(`New Food Order placed by ${TF.name.trim()}`);
+      playOrderAlertSound();
       toast("🍛 Food Order Placed!");
     } else if (CHECKOUT_MODAL.kind === "KIRANA") {
       const newId = "KR-" + Math.floor(10000 + Math.random() * 90000);
@@ -3553,7 +3621,7 @@ const ACT = {
         codFlag: _codFlagK,
         date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total, note, delSlot, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc },
-        payMode, utr, utrVerified: false, status: "Placed"
+        payMode, utr, proof: PROOF_DATA_URL || "", utrVerified: false, status: "Placed"
       });
       LAST_PLACED_ORDER = {
         kind: "KIRANA", id: newId, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
@@ -3565,6 +3633,7 @@ const ACT = {
       CHECKOUT_MODAL = null;
       TAB = "success"; scrollTo({ top: 0, behavior: "smooth" });
       save(`New Kirana Order placed by ${TF.name.trim()}`);
+      playOrderAlertSound();
       toast("🛒 Kirana & Daily Needs Order Placed!");
     }
   },
@@ -3803,6 +3872,22 @@ const ACT = {
 document.addEventListener("click", e => {
   if (e.target.closest("#logoBtn")) {
     e.preventDefault();
+    window._nuTapCount = (window._nuTapCount || 0) + 1;
+    clearTimeout(window._nuTapTimer);
+    window._nuTapTimer = setTimeout(() => { window._nuTapCount = 0; }, 1400);
+    if (window._nuTapCount >= 5) {
+      window._nuTapCount = 0;
+      const pin = prompt("Staff / Admin PIN daalein (Owner / Kitchen / Delivery / Vendor):");
+      if (pin === null) return;
+      if (pin === PINS.owner) { ROLE = "owner"; LOGIN_MODE = "app"; sessionStorage.setItem("nu_role", "owner"); sessionStorage.setItem("nu_login_done", "1"); render(); toast("👑 Owner Panel Unlocked ✓"); return; }
+      if (pin === PINS.kitchen) { ROLE = "kitchen"; LOGIN_MODE = "app"; sessionStorage.setItem("nu_role", "kitchen"); sessionStorage.setItem("nu_login_done", "1"); render(); toast("🍳 Kitchen Panel Unlocked ✓"); return; }
+      if (pin === PINS.delivery) { ROLE = "delivery"; LOGIN_MODE = "app"; sessionStorage.setItem("nu_role", "delivery"); sessionStorage.setItem("nu_login_done", "1"); render(); toast("🛵 Delivery Panel Unlocked ✓"); return; }
+      const vPins = { ...PINS.vendors, ...(S.cfg.vendorPins || {}) };
+      const matchedVid = Object.keys(vPins).find(vid => vPins[vid] === pin);
+      if (matchedVid) { ROLE = "vendor"; ACTIVE_VENDOR_ID = matchedVid; LOGIN_MODE = "app"; sessionStorage.setItem("nu_role", "vendor"); sessionStorage.setItem("nu_vid", matchedVid); sessionStorage.setItem("nu_login_done", "1"); render(); toast("🏪 Vendor Panel Unlocked ✓"); return; }
+      toast("❌ Galat PIN!");
+      return;
+    }
     if (ROLE === "customer") { TAB = "tiffin"; SELECTED_REST_ID = null; }
     render();
     scrollTo({ top: 0, behavior: "smooth" });
@@ -3852,6 +3937,10 @@ document.addEventListener("input", e => {
 });
 
 document.addEventListener("change", e => {
+  if (e.target.id === "riderSelectDropdown") {
+    ACT.switchRiderSelect();
+    return;
+  }
   if (e.target.dataset.tf) { TF[e.target.dataset.tf] = e.target.value; render(); }
 });
 
