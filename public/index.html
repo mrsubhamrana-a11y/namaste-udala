@@ -474,11 +474,8 @@
   <div class="logo" id="logoBtn" title="Namaste Udala">NU</div>
   <div class="brand">
     <small>UDALA · MAYURBHANJ</small>
-    <h1>Namaste Udala <span class="hdr-sub-pill" id="hdrWindowBadge">Live</span></h1>
+    <h1>Namaste Udala</h1>
   </div>
-  <button class="btn amb sm" data-act="installApp" id="hdrInstallBtn" style="padding:5px 10px;font-size:10.5px">📲 App</button>
-  <span class="fb-pill" id="fbStatus">Connecting...</span>
-  <button class="btn w sm" data-act="openLoginGate" id="loginHdrBtn" title="Login Page">🔑</button>
   <button class="btn w sm" data-act="toggleTheme" id="themeBtn">🌙</button>
 </header>
 
@@ -921,15 +918,15 @@ try {
       S = { ...defaultState(), ...val, cfg: { ...defaultState().cfg, ...val.cfg } };
       normalizeAllImages();
       localStorage.setItem("NU_V4_STATE", JSON.stringify(S));
-      $("#fbStatus").textContent = "🟢 Live Sync";
+      if ($("#fbStatus")) $("#fbStatus").textContent = "🟢 Live Sync";
       render();
       applyingRemote = false;
     } else {
-      $("#fbStatus").textContent = "🟢 Live Ready";
+      if ($("#fbStatus")) $("#fbStatus").textContent = "🟢 Live Ready";
     }
   });
 } catch (e) {
-  $("#fbStatus").textContent = "🟡 Offline Mode";
+  if ($("#fbStatus")) $("#fbStatus").textContent = "🟡 Offline Mode";
 }
 
 function save(logMsg) {
@@ -2936,8 +2933,7 @@ function render() {
     $("#appMain").innerHTML = viewLoginPage();
     $("#cartFloat").innerHTML = "";
     $("#bottomNav").style.display = "none";
-    const hWin = $("#hdrWindowBadge"); if (hWin) hWin.textContent = getAutoMealWindow().slot;
-  const hInst = $("#hdrInstallBtn"); if (hInst && IS_APP_INSTALLED) hInst.style.display = "none";
+    const hInst = $("#hdrInstallBtn"); if (hInst && IS_APP_INSTALLED) hInst.style.display = "none";
     if (window._showInstallPopup) {
     $("#modalRoot").innerHTML = `
       <div class="ov" data-act="closeInstallPopup">
@@ -3119,7 +3115,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-separated-v59.html";
+      a.download = "namaste-udala-separated-v60.html";
       a.click();
       URL.revokeObjectURL(url);
       window._showInstallPopup = false;
