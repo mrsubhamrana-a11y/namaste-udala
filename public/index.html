@@ -457,6 +457,7 @@
 <body>
 
 <input type="file" id="proofInput" accept="image/*" style="display:none" />
+<input type="file" id="itemPhotoInput" accept="image/*" capture="environment" style="display:none" />
 <input type="file" id="importJsonInput" accept=".json,application/json" style="display:none" />
 
 <header>
@@ -749,6 +750,17 @@ function toast(msg) {
   window._tt = setTimeout(() => el.classList.remove("on"), 3000);
 }
 
+
+function getCustomerTrustInfo(phone, amount = 0) {
+  const p = ph(phone);
+  const allPast = [...(S.foodOrders || []), ...(S.kiranaOrders || [])].filter(o => ph(o.phone) === p);
+  const deliveredPast = allPast.filter(o => o.status === "Delivered").length;
+  const cancelledPast = allPast.filter(o => o.status === "Cancelled").length;
+  const isRepeat = deliveredPast > 0;
+  const highCod = (+amount || 0) >= 350;
+  return { p, totalPast: allPast.length, deliveredPast, cancelledPast, isRepeat, highCod };
+}
+
 function validateStrictUTR(raw, usedList) {
   const clean = String(raw || "").replace(/\D/g, "");
   if (clean.length !== 12) return { ok: false, msg: "⚠️ Exact 12-digit UPI UTR number daalein!" };
@@ -854,7 +866,7 @@ function defaultState() {
       {
         id: "TS-101", name: "Subham Rana", phone: "8073721357", area: "Udala Bus Stand", addr: "Main Road, Udala",
         diet: "veg", days: 30, remaining: 26, slot: "Lunch + Dinner", spice: "Medium", health: "Regular Homestyle",
-        price: 1790, paid: 1, vStat: "ok", utr: "402312345678", skipToday: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
+        price: 1790, paid: 1, vStat: "ok", utr: "402312345678", skipToday: false, skipNextDay: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
       }
     ],
     foodOrders: [],
@@ -930,6 +942,32 @@ let FOOD_CART = {};
 let KIRANA_CART = {};
 let CHECKOUT_MODAL = null;
 let PROOF_DATA_URL = "";
+
+let PENDING_ITEM_UPLOAD = { kind: null, id: null, targetInputId: null };
+function compressImageFileToDataUrl(file, maxSize = 480, quality = 0.72) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxSize / Math.max(img.width || 1, img.height || 1));
+        const w = Math.max(1, Math.round((img.width || 300) * scale));
+        const h = Math.max(1, Math.round((img.height || 300) * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 
 
 
@@ -1148,6 +1186,12 @@ function viewTiffin() {
         </select>
       </div>
     </div>
+    <div style="margin-top:6px">
+      <span class="lbl">Delivery Area (Udala)</span>
+      <select class="inp" data-tf="area">
+        ${UDALA_AREAS.map(a => `<option value="${a}" ${TF.area === a ? "selected" : ""}>📍 ${a}</option>`).join("")}
+      </select>
+    </div>
 
     <div class="row" style="margin-top:8px;border-top:2px solid var(--ln);padding-top:10px">
       <div><b>Total Plan Amount</b><div style="font-size:11px;color:var(--mu)">${TF.days}d · ${TF.slot}</div></div>
@@ -1166,7 +1210,7 @@ function viewTiffin() {
       <div class="row" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <b>${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${s.slot})</b>
-          <span class="pill ${lowDays ? "p-red" : s.paid ? "p-green" : "p-amber"}">${s.remaining} Din Bache ${lowDays ? "⚠️ Renew Soon" : ""}</span>
+          <span class="pill ${lowDays ? "p-red" : s.paid ? "p-green" : "p-amber"}">${s.remaining} Din Bache ${s.skipNextDay ? "· Kal Skip ✓" : ""} ${lowDays ? "⚠️ Renew Soon" : ""}</span>
         </div>
         <div style="font-size:11px;color:var(--mu);margin:4px 0">Spice: ${esc(s.spice)} · ${esc(s.health)} · Area: ${esc(s.area)}</div>
         <div class="btn-row">
@@ -1433,7 +1477,7 @@ function viewCustomerOrders() {
     </div>
 
     <div class="card">
-      <h3>🍱 Mere Mera Tiffin Passes (${tSubs.length}) <span class="pill p-green">Zero OTP · Direct Dabba</span></h3>
+      <h3>🍱 Mere Mera Tiffin Passes (${tSubs.length}) <span class="pill p-green">Zero OTP · Food-Grade Pack</span></h3>
       ${tSubs.map(s => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between">
@@ -1659,7 +1703,7 @@ function viewTiffinPassPage() {
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
           <small style="color:#fde68a;font-weight:800">MERA TIFFIN PASS MANAGER</small>
-          <h2 style="font-family:var(--serif);font-size:20px">Active Dabba & Skip Controls</h2>
+          <h2 style="font-family:var(--serif);font-size:20px">Active Pass & Skip Controls (Packaging Material)</h2>
         </div>
         <button class="btn w sm" data-act="setTab" data-v="tiffin">+ New Plan</button>
       </div>
@@ -1801,6 +1845,14 @@ function viewCheckoutPage() {
       <input class="inp" data-tf="name" placeholder="Poora Naam likhein" value="${esc(TF.name)}" />
       <span class="lbl">10-Digit Mobile Number *</span>
       <input class="inp" data-tf="phone" type="tel" maxlength="10" placeholder="10-Digit Mobile Number" value="${esc(TF.phone)}" />
+      ${(() => {
+        const p10 = ph(TF.phone);
+        if (p10.length !== 10) return "";
+        const tr = getCustomerTrustInfo(p10, grandTotal);
+        if (tr.cancelledPast >= 2) return `<div style="font-size:10.5px;color:#dc2626;font-weight:800;margin-top:2px">⚠️ Past Cancellations: ${tr.cancelledPast} · COD par pehle call/WA confirmation hoga.</div>`;
+        if (tr.isRepeat) return `<div style="font-size:10.5px;color:#16a34a;font-weight:800;margin-top:2px">✅ Trusted Repeat Number (${tr.deliveredPast} delivered orders)</div>`;
+        return `<div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">ℹ️ First-time order on this number</div>`;
+      })()}
       <span class="lbl">Udala Locality / Cluster *</span>
       <select class="inp" data-tf="area">
         ${UDALA_AREAS.map(a => `<option value="${a}" ${TF.area === a ? "selected" : ""}>📍 ${a}</option>`).join("")}
@@ -1849,6 +1901,13 @@ function viewCheckoutPage() {
       ` : `
         <div style="background:var(--sf2);padding:11px;border-radius:14px;font-size:12px;margin-top:8px;font-weight:700">
           💵 Delivery ke waqt rider ko <b>${inr(grandTotal)}</b> cash dena hoga.
+          ${(() => {
+            const tr = getCustomerTrustInfo(TF.phone, grandTotal);
+            if (tr.cancelledPast >= 2) return `<div style="margin-top:5px;color:#dc2626;font-size:11px">⚠️ Is number se pehle ${tr.cancelledPast} orders cancel hue hain — rider nikalne se pehle call/WA verify hoga.</div>`;
+            if (tr.isRepeat) return `<div style="margin-top:5px;color:#16a34a;font-size:11px">✅ Repeat customer (${tr.deliveredPast} delivered orders) — smooth COD eligible.</div>`;
+            if (tr.highCod) return `<div style="margin-top:5px;color:#b45309;font-size:11px">ℹ️ First-time / ₹350+ COD: Order ke baad WhatsApp/Call confirmation liya jayega taaki fake order na ho.</div>`;
+            return `<div style="margin-top:5px;color:var(--mu);font-size:11px">ℹ️ Fake COD bachane ke liye GPS pin aur sahi address check kiya jayega.</div>`;
+          })()}
         </div>
       `}
 
@@ -1865,6 +1924,9 @@ function viewKitchen() {
   const fOrds = (S.foodOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled");
   const totalMeals = subs.length + fOrds.reduce((a, o) => a + o.items.reduce((x, y) => x + y.qty, 0), 0);
 
+  const vegSubs = subs.filter(s => s.diet !== "nv").length;
+  const nvSubs = subs.filter(s => s.diet === "nv").length;
+
   // Consolidated Cook List across all active food orders
   const cookMap = {};
   fOrds.forEach(o => {
@@ -1877,29 +1939,46 @@ function viewKitchen() {
   return `
     <div class="card" style="background:var(--g);color:#fff">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><small style="color:#fbbf24;font-weight:800">KITCHEN COUNTER (PIN 1122)</small><h2>Rasoi & Prep Forecast</h2></div>
+        <div><small style="color:#fbbf24;font-weight:800">KITCHEN COUNTER (PIN 1122)</small><h2>Rasoi Mein Kya Banana Hai</h2></div>
         <button class="btn w sm" data-act="setRole" data-v="customer">Exit</button>
       </div>
     </div>
+
     <div class="kpi">
       <div><b>${subs.filter(s => /Breakfast|All 3/.test(s.slot)).length}</b><span>Breakfast Dabbe</span></div>
       <div><b>${subs.filter(s => /Lunch|All 3/.test(s.slot)).length}</b><span>Lunch Dabbe</span></div>
       <div><b>${subs.filter(s => /Dinner|All 3/.test(s.slot)).length}</b><span>Dinner Dabbe</span></div>
     </div>
-    <div class="kpi">
-      <div><b>${subs.length}</b><span>Total Tiffin Users</span></div>
-      <div><b>${fOrds.length}</b><span>Food Orders</span></div>
-      <div><b>${(totalMeals * 0.16).toFixed(1)} kg</b><span>Est. Rice/Atta</span></div>
+    <div style="font-size:11.5px;font-weight:800;margin:-4px 0 12px;padding:8px 12px;border-radius:12px;background:var(--sf2);color:var(--amb)">
+      ⏱️ ${(() => {
+        const h = new Date().getHours();
+        if (h < 10) return "Peak Priority: Morning Breakfast & Lunch Prep";
+        if (h < 15) return "Peak Priority: Dopahar Lunch & Live Food Orders";
+        if (h < 22) return "Peak Priority: Shaam/Raat Dinner & Food Orders";
+        return "Off-Peak: Pre-Order & Next-Day Prep Planning";
+      })()}
     </div>
 
-    ${cookSummary.length ? `
-      <div class="card" style="border-left:5px solid var(--amb)">
-        <h3>🔥 Consolidated Total Cook List (Sab Orders Milakar)</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:6px">
-          ${cookSummary.map(([nm, q]) => `<span class="pill p-amber" style="font-size:11px">${esc(nm)}: <b>${q}</b></span>`).join("")}
-        </div>
+    <div class="card" style="border-left:5px solid var(--g2)">
+      <h3>🍱 Aaj Ka Tiffin Prep Count (${subs.length} Active)</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+        <span class="pill p-green">🟢 Pure Veg: ${vegSubs}</span>
+        <span class="pill p-red">🔴 Non-Veg: ${nvSubs}</span>
+        <span class="pill p-blue">Est. Rice/Atta: ${(totalMeals * 0.16).toFixed(1)} kg</span>
       </div>
-    ` : ""}
+      <div style="font-size:12px;font-weight:700;background:var(--sf2);padding:10px;border-radius:12px">
+        <b>Aaj Ka Menu:</b> ${esc(S.cfg.todayTiffinMenu)}
+      </div>
+    </div>
+
+    <div class="card" style="border-left:5px solid var(--amb)">
+      <h3>🔥 Food Orders Ka Total Cook List (${cookSummary.length} Items)</h3>
+      ${cookSummary.length ? `
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${cookSummary.map(([nm, q]) => `<span class="pill p-amber" style="font-size:11.5px">${esc(nm)}: <b>${q} pcs/plates</b></span>`).join("")}
+        </div>
+      ` : `<p style="font-size:12px;color:var(--mu)">Abhi koi pending food order nahi hai.</p>`}
+    </div>
 
     <div class="card">
       <h3>🍲 Today's Tiffin Menu & Daily Rollover</h3>
@@ -1911,17 +1990,17 @@ function viewKitchen() {
     </div>
 
     <div class="card">
-      <h3>Active Tiffins Today (${subs.length})</h3>
+      <h3>Active Tiffin Subscribers (${subs.length})</h3>
       ${subs.map(s => `
         <div class="row">
-          <div><b>${esc(s.name)} (${s.diet === "nv" ? "NV" : "Veg"} · ${esc(s.slot)})</b><div style="font-size:11px;color:var(--mu)">${esc(s.spice)} · ${esc(s.health)} · ${esc(s.area)}</div></div>
-          <span class="pill p-green">Ready</span>
+          <div><b>${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)})</b><div style="font-size:11px;color:var(--mu)">Spice: ${esc(s.spice)} · ${esc(s.health)} · 📍 ${esc(s.area)}</div></div>
+          <span class="pill ${s.diet === "nv" ? "p-red" : "p-green"}">${s.diet === "nv" ? "Non-Veg" : "Veg"}</span>
         </div>
       `).join("") || `<p style="font-size:12px;color:var(--mu)">No active tiffins today.</p>`}
     </div>
 
     <div class="card">
-      <h3>Food Shop Orders Queue (${fOrds.length})</h3>
+      <h3>Food Shop Orders Queue (${fOrds.length}) <span class="pill p-red">${fOrds.filter(x => x.status === "Placed" || x.status === "Confirmed").length} Not Started</span></h3>
       ${fOrds.map(o => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between"><b>${esc(o.id)} — ${esc(o.name)} (${esc(o.area)})</b><span class="pill p-amber">${esc(o.status)}</span></div>
@@ -1960,12 +2039,28 @@ function viewDelivery() {
     </div>
     <div class="kpi">
       <div><b>${allDrops.filter(x => x.status !== "Delivered").length}</b><span>Pending Drops</span></div>
+      <div><b style="color:#d97706">${inr(allDrops.filter(o => o.payMode === "COD" && o.status !== "Delivered").reduce((a, o) => a + o.total, 0))}</b><span>COD On Road</span></div>
       <div><b style="color:#dc2626">${inr(pendingJama)}</b><span>COD Jama Due</span></div>
-      <div><b style="color:#16a34a">${inr(riderEarned)}</b><span>Drop Payout (${deliveredDropsCount})</span></div>
+    </div>
+    <div style="font-size:11.5px;font-weight:800;margin:-4px 0 12px;text-align:right;color:var(--g2)">
+      🛵 Rider Drop Earning: ${inr(riderEarned)} (${deliveredDropsCount} Delivered × ${inr(S.cfg.riderPerDropRate || 15)})
+    </div>
+
+    <div class="card" style="border-left:5px solid var(--g2)">
+      <h3>🗺️ Area Batch Summary (Same Cluster Ek Saath) <span style="display:flex;gap:5px"><span class="pill p-amber">💵 COD: ${allDrops.filter(x => x.status !== "Delivered" && x.payMode === "COD").length}</span><span class="pill p-green">📲 UPI: ${allDrops.filter(x => x.status !== "Delivered" && x.payMode === "UPI").length}</span></span></h3>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        ${(() => {
+          const activeDrops = allDrops.filter(x => x.status !== "Delivered");
+          if (!activeDrops.length) return `<span class="pill p-green">Sabhi drops clear hain ✓</span>`;
+          const map = {};
+          activeDrops.forEach(d => { map[d.area || "Other"] = (map[d.area || "Other"] || 0) + 1; });
+          return Object.entries(map).map(([ar, cnt]) => `<span class="pill p-blue">📍 ${esc(ar)}: <b>${cnt} drop${cnt > 1 ? "s" : ""}</b></span>`).join("");
+        })()}
+      </div>
     </div>
 
     <div class="card">
-      <h3>1. Tiffin Dabba Drops (Zero OTP · Direct Handover)</h3>
+      <h3>1. Tiffin Meal Drops (Zero OTP · Food-Grade Packaging)</h3>
       ${(S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad").map(s => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between"><b>🍱 ${esc(s.name)} — ${esc(s.area)}</b><span class="pill ${s.deliveredToday ? "p-green" : "p-amber"}">${s.deliveredToday ? "Delivered" : "Pending"}</span></div>
@@ -1973,7 +2068,7 @@ function viewDelivery() {
           <div class="btn-row">
             <a class="btn w sm" href="tel:+91${esc(s.phone)}">📞 Call</a>
             ${s.gps && s.gps.lat ? `<a class="btn w sm" href="https://www.google.com/maps?q=${s.gps.lat},${s.gps.lng}" target="_blank">📍 Exact Pin</a>` : ""}
-            <button class="btn sm ${s.dabbaBack ? "g" : "w"}" data-act="toggleDabba" data-id="${s.id}">${s.dabbaBack ? "Empty Dabba ✓" : "Empty Dabba?"}</button>
+            <button class="btn sm ${s.skipNextDay ? "amb" : "w"}" data-act="skipNextTiffin" data-id="${s.id}">${s.skipNextDay ? "Kal Skip ✓" : "Skip Kal (+1d)"}</button>
             <button class="btn sm ${s.deliveredToday ? "w" : "g"}" data-act="toggleTiffinDlv" data-id="${s.id}">${s.deliveredToday ? "Done ✓" : "Deliver"}</button>
           </div>
         </div>
@@ -1986,8 +2081,8 @@ function viewDelivery() {
         const pickupVendors = [...new Set((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)?.name).filter(Boolean))];
         return `
         <div class="row" style="flex-direction:column;align-items:stretch">
-          <div style="display:flex;justify-content:space-between">
-            <b>#${idx + 1} [${o.kind}] ${esc(o.area)} — ${esc(o.name)}</b>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">
+            <b>#${idx + 1} [${o.kind}] ${esc(o.area)} — ${esc(o.name)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
             <span class="pill ${o.status === "Delivered" ? "p-green" : "p-red"}">${o.payMode === "COD" && o.status !== "Delivered" ? "Collect " + inr(o.total) : esc(o.status)}</span>
           </div>
           <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup From: ${esc(pickupVendors.join(" + ") || "Hub")}</div>
@@ -1997,6 +2092,7 @@ function viewDelivery() {
           <div class="btn-row">
             <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
             <a class="btn w sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala order (${o.id}) lekar pahunch raha hoon!`)}" target="_blank">💬 WA</a>
+            ${o.payMode === "COD" && o.status !== "Delivered" && o.codFlag ? `<a class="btn amb sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, kripya confirm karein ki aap ghar par hain aur ${inr(o.total)} cash COD order (${o.id}) ke liye tayyar hain.`)}" target="_blank">💵 COD Check</a>` : ""}
             <a class="btn w sm" href="${o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}`}" target="_blank">${o.gps && o.gps.lat ? "📍 Exact GPS Pin" : "🗺 Area Map"}</a>
             ${o.status === "Ready for Pickup" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>` : ""}
             ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="deliverWithPin" data-k="${o.kind}" data-id="${o.id}">✅ Deliver (PIN)</button>` : ""}
@@ -2016,6 +2112,16 @@ function viewDelivery() {
       ${(S.fuelLogs || []).slice(0, 4).map(f => `
         <div class="row"><span>${f.km} km · Claim ${inr(f.rs)}</span><span class="pill ${f.flag.includes("SUSPICIOUS") ? "p-red" : "p-green"}">${esc(f.flag)}</span></div>
       `).join("")}
+    </div>
+
+    <div class="card" style="background:var(--sf2)">
+      <h3>🧾 Rider End-of-Day Hisab Slip</h3>
+      <div class="row"><span>Delivered Drops Today</span><b>${deliveredDropsCount}</b></div>
+      <div class="row"><span>Total COD Expected</span><b>${inr(codCollected + allDrops.filter(o => o.payMode === "COD" && o.status !== "Delivered").reduce((a, o) => a + o.total, 0))}</b></div>
+      <div class="row"><span>Total COD Collected</span><b>${inr(codCollected)}</b></div>
+      <div class="row"><span>Already Jama Kiya</span><b>${inr(S.riderCashSettled || 0)}</b></div>
+      <div class="row"><span>Pending COD Jama</span><b style="color:${pendingJama > 0 ? "#dc2626" : "#16a34a"}">${inr(pendingJama)}</b></div>
+      <div class="row"><span>Drop Earning (${inr(S.cfg.riderPerDropRate || 15)}/drop)</span><b style="color:#16a34a">${inr(riderEarned)}</b></div>
     </div>
   `;
 }
@@ -2096,7 +2202,7 @@ function viewVendor() {
       <button class="btn o full sm" data-act="addVendorItem" data-id="${v.id}">✨ Add Item (Auto / Custom Link)</button>
     </div>
     <div class="card">
-      <h3>Store Status & Menu Stock</h3>
+      <h3>Store Status & Menu Stock <span style="display:flex;gap:5px;align-items:center">${myItems.filter(x => !x.stock).length ? `<span class="pill p-red">${myItems.filter(x => !x.stock).length} Out</span><button class="btn g sm" data-act="restockVendorAll" data-id="${v.id}">♻️ Restock All</button>` : `<span class="pill p-green">All In Stock ✓</span>`}</span></h3>
       <div class="seg" style="margin-bottom:10px">
         ${["Open", "Busy", "Closed"].map(st => `<button class="${v.status === st ? "on" : ""}" data-act="vendorStatus" data-id="${v.id}" data-v="${st}">${st}</button>`).join("")}
       </div>
@@ -2106,6 +2212,7 @@ function viewVendor() {
           <div style="display:flex;gap:5px">
             <button class="btn w sm" data-act="editItemFull" data-k="${v.type}" data-id="${it.id}">✏️</button>
             <button class="btn w sm" data-act="editItemImg" data-k="${v.type}" data-id="${it.id}" title="Change Image Link">🖼️</button>
+            <button class="btn w sm" data-act="pickItemPhoto" data-k="${v.type}" data-id="${it.id}" title="Upload Phone Photo">📷</button>
             <button class="btn sm ${it.stock ? "g" : "w"}" data-act="toggleStock" data-k="${v.type}" data-id="${it.id}">${it.stock ? "In Stock ✓" : "Out"}</button>
             <button class="btn r sm" data-act="deleteItem" data-k="${v.type}" data-id="${it.id}">🗑️</button>
           </div>
@@ -2164,8 +2271,44 @@ function viewOwner() {
         <h3>📊 Daily Closing Snapshot (${todayIso()})</h3>
         <div class="row"><span>Total Orders (Food + Kirana)</span><b>${allOrds.length} (${allOrds.filter(o => o.status === "Delivered").length} Delivered)</b></div>
         <div class="row"><span>Active Tiffin Subscriptions</span><b>${(S.tiffinSubs || []).length} (${(S.tiffinSubs || []).filter(s => (+s.remaining || 0) <= 3).length} Expiring Soon)</b></div>
+        ${(() => {
+          const unv = allOrds.filter(o => o.payMode === "UPI" && !o.utrVerified);
+          if (!unv.length) return `<div class="row"><span>UPI UTR Verification</span><b style="color:#16a34a">All Verified ✓</b></div>`;
+          const unvAmt = unv.reduce((a, o) => a + (+o.total || 0), 0);
+          return `<div class="row"><span>⚠️ Unverified UPI Orders</span><span><b style="color:#dc2626">${unv.length} (${inr(unvAmt)})</b> <button class="btn r sm" data-act="jumpUnverifiedOrders">Check →</button></span></div>`;
+        })()}
         <div class="row"><span>Pending Rider COD Cash Jama</span><b style="color:${codPendingJama > 0 ? "#dc2626" : "#16a34a"}">${inr(codPendingJama)}</b></div>
         <div class="row"><span>Pending Partner Payouts Due</span><b style="color:${totalPartnerDue > 0 ? "#d97706" : "#16a34a"}">${inr(totalPartnerDue)}</b></div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Sabhi Live Orders & Tiffins Ek Saath (${(S.tiffinSubs || []).length} Tiffin · ${allOrds.length} Orders)</h3>
+        ${(S.tiffinSubs || []).map(s => `
+          <div class="row">
+            <div><b>[TIFFIN] ${esc(s.id)} · ${esc(s.name)}</b> <span style="font-size:11px;color:var(--mu)">(${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · ${s.remaining}/${s.days}d)</span></div>
+            <span class="pill ${s.paid ? "p-green" : "p-amber"}">${inr(s.price)}</span>
+          </div>
+        `).join("")}
+        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].slice().reverse().map(o => `
+          <div class="row">
+            <div>
+              <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} (${esc(o.area)})</b>
+              <div style="font-size:11px;color:var(--mu)">${o.items.map(i => `${i.name}×${i.qty}`).join(", ")} · Pay: ${esc(o.payMode)} ${o.utr ? `· UTR:${esc(o.utr)}` : ""}</div>
+            </div>
+            <div style="text-align:right">
+              <b>${inr(o.total)}</b><br>
+              <span class="pill ${o.status === "Cancelled" ? "p-red" : o.status === "Delivered" ? "p-green" : "p-amber"}">${esc(o.status)}</span>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="card">
+        <h3>🤝 Partner Vendors & Payout Due (${S.vendors.filter(v => !v.isSelf).length})</h3>
+        ${S.vendors.filter(v => !v.isSelf).map(v => {
+          const led = getVendorLedger(v);
+          return `<div class="row"><div><b>${esc(v.name)}</b> <span style="font-size:11px;color:var(--mu)">(${esc(v.status)} · ${esc(v.area)})</span></div><div style="text-align:right"><b>Due: ${inr(led.due)}</b><div style="font-size:10px;color:var(--mu)">Gross ${inr(led.gross)}</div></div></div>`;
+        }).join("")}
       </div>
 
       <div class="card" style="border:2px solid ${codPendingJama > 0 ? "#d97706" : "#16a34a"}">
@@ -2197,7 +2340,7 @@ function viewOwner() {
   } else if (OWNER_TAB === "orders") {
     bodyHtml = `
       <div class="card">
-        <h3>📦 Food & Kirana Orders <span class='pill p-green'>Auto-Sorted & Comm Calc</span></h3>
+        <h3>📦 Food & Kirana Orders <span style='display:flex;gap:5px;align-items:center'><span class='pill p-amber'>${allOrds.filter(o => o.status !== "Delivered").length} Open</span><span class='pill p-green'>Auto-Sorted & Comm Calc</span></span></h3>
         <div class="seg" style="margin-bottom:8px">
           <button class="${!window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="0">All Orders</button>
           <button class="${window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="1">⚠️ Unverified UPI Only</button>
@@ -2205,13 +2348,17 @@ function viewOwner() {
         ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(o => !window._unverifiedOnly || (o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled")).slice().reverse().map(o => `
           <div class="row" style="flex-direction:column;align-items:stretch">
             <div style="display:flex;justify-content:space-between">
-              <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)} <span style='font-size:10px;color:var(--g2)'>(Comm: ${inr(autoCalcOrderComm(o, o.kind))})</span></b>
+              <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""} <span style='font-size:10px;color:var(--g2)'>(Comm: ${inr(autoCalcOrderComm(o, o.kind))})</span></b>
               <span class="pill ${o.status === "Cancelled" ? "p-red" : o.utrVerified ? "p-green" : "p-amber"}">${esc(o.status)}</span>
             </div>
-            <div style="font-size:11px;color:var(--mu)">Pay: ${esc(o.payMode)} ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""}</div>
+            <div style="font-size:11px;color:var(--mu)">📍 ${esc(o.area)} · ${esc(o.addr)} ${o.gps && o.gps.lat ? `· <a href="https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}" target="_blank" style="color:var(--g2);font-weight:800">GPS Pin</a>` : ""} · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} ${o.delSlot ? `· ⏰ ${esc(o.delSlot)}` : ""}</div>
+            ${o.note ? `<div style="font-size:11px;color:var(--amb);font-weight:800">📝 Note: ${esc(o.note)}</div>` : ""}
             ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Cancel Reason: ${esc(o.cancelReason)}</div>` : ""}
             <div class="btn-row" style="margin-top:5px">
               ${o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled" ? `<button class="btn g sm" data-act="verifyUtr" data-k="${o.kind}" data-id="${o.id}">Verify Bank UTR ✓</button>` : ""}
+              ${o.payMode === "COD" && o.status !== "Delivered" && o.status !== "Cancelled" ? `<a class="btn amb sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala COD order (${o.id}) ${inr(o.total)} confirm karne ke liye reply karein.`)}" target="_blank">💬 COD Confirm</a>` : ""}
+              ${o.status !== "Delivered" && o.status !== "Cancelled" && o.status !== "Out for Delivery" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Dispatch</button>` : ""}
+              ${o.status === "Out for Delivery" ? `<button class="btn g sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Delivered">✅ Delivered</button>` : ""}
               <button class="btn w sm" data-act="printBill" data-k="${o.kind}" data-id="${o.id}">🖨 58mm Bill</button>
               ${o.status !== "Delivered" && o.status !== "Cancelled" ? `<button class="btn r sm" data-act="cancelOrder" data-k="${o.kind}" data-id="${o.id}">Cancel</button>` : ""}
             </div>
@@ -2450,7 +2597,7 @@ function render() {
     const sub = kiranaSubtotal();
     const minOrd = +S.cfg.kiranaMinOrder || 300;
     const fee = kiranaDeliveryFee(sub);
-    cbarHtml = `<div class="cbar" data-act="openKiranaCheckout"><span>🛒 Kirana: ${inr(sub)} ${fee ? `(+₹${fee} Del)` : "(FREE Del)"}</span><span>${sub < minOrd ? `Min ₹${minOrd}` : "Checkout Kirana →"}</span></div>`;
+    cbarHtml = `<div class="cbar" data-act="openKiranaCheckout"><span>🛒 Kirana: ${inr(sub)} ${fee ? `(+₹${fee} Del)` : "(FREE Del)"}</span><span>${sub < minOrd ? `+${inr(minOrd - sub)} for Min` : "Checkout Kirana →"}</span></div>`;
   }
   $("#cartFloat").innerHTML = cbarHtml;
 
@@ -2567,6 +2714,14 @@ const ACT = {
     save(`Tiffin skipped for ${s.name} (+1d extended)`);
     toast("⏭ Today Skipped! Validity +1 din badh gayi.");
   },
+  skipNextTiffin: (v, k, id) => {
+    const s = S.tiffinSubs.find(x => x.id === id);
+    if (!s || s.skipNextDay) return toast("Kal ka tiffin pehle se skip hai!");
+    s.skipNextDay = true;
+    s.remaining = (+s.remaining || 1) + 1;
+    save(`Next-day tiffin skipped for ${s.name} (+1d extended)`);
+    toast("⏭ Kal Ka Tiffin Skipped! Validity +1 din badh gayi.");
+  },
   vacationTiffin: (v, k, id) => {
     const s = S.tiffinSubs.find(x => x.id === id);
     if (!s) return;
@@ -2581,7 +2736,15 @@ const ACT = {
   openRest: (v, k, id) => { SELECTED_REST_ID = id; render(); scrollTo({ top: 0, behavior: "smooth" }); },
   backToVendors: () => { SELECTED_REST_ID = null; render(); },
   setFoodCat: v => { FOOD_CAT_FILTER = v; render(); },
-  fInc: (v, k, id) => { FOOD_CART[id] = (FOOD_CART[id] || 0) + 1; render(); },
+  fInc: (v, k, id) => {
+    const it = S.foodItems.find(x => x.id === id);
+    const ven = it ? S.vendors.find(x => x.id === it.vendorId) : null;
+    if (!it || !it.stock || (ven && ven.status === "Closed")) {
+      return toast("⚠️ Yeh item abhi unavailable hai ya vendor closed hai.");
+    }
+    FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    render();
+  },
   fDec: (v, k, id) => { FOOD_CART[id] = Math.max(0, (FOOD_CART[id] || 0) - 1); if (!FOOD_CART[id]) delete FOOD_CART[id]; render(); },
   openFoodCheckout: () => {
     const items = Object.entries(FOOD_CART).map(([id, qty]) => {
@@ -2603,7 +2766,15 @@ const ACT = {
   },
 
   setKiranaCat: v => { KIRANA_CAT_FILTER = v; render(); },
-  kInc: (v, k, id) => { KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1; render(); },
+  kInc: (v, k, id) => {
+    const it = S.kiranaItems.find(x => x.id === id);
+    const ven = it ? S.vendors.find(x => x.id === it.vendorId) : null;
+    if (!it || !it.stock || (ven && ven.status === "Closed")) {
+      return toast("⚠️ Yeh item abhi out of stock hai ya store closed hai.");
+    }
+    KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+    render();
+  },
   kDec: (v, k, id) => { KIRANA_CART[id] = Math.max(0, (KIRANA_CART[id] || 0) - 1); if (!KIRANA_CART[id]) delete KIRANA_CART[id]; render(); },
   addKiranaCombo: () => {
     ["kr1", "kr2", "kr3"].forEach(id => { KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1; });
@@ -2679,6 +2850,7 @@ const ACT = {
   },
 
   captureGps: () => captureMandatoryGps(false),
+  jumpUnverifiedOrders: () => { window._unverifiedOnly = true; OWNER_TAB = "orders"; render(); },
   setUnverifiedFilter: v => { window._unverifiedOnly = v === "1"; render(); },
   editItemImg: (v, k, id) => {
     const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
@@ -2710,9 +2882,19 @@ const ACT = {
     if (nn === null || !nn.trim()) return;
     const np = parseFloat(prompt("Naya price ₹ daalein:", it.price));
     if (!(np > 0)) return;
+    const nc = prompt("Category edit karein:", it.cat) || it.cat;
+    const nd = prompt("Description edit karein:", it.desc || "") ?? it.desc;
     it.name = nn.trim();
     it.price = np;
-    it.img = autoMatch3DImage(it.name, it.cat, it.desc);
+    it.cat = nc.trim() || it.cat;
+    it.desc = nd.trim();
+    if (k === "FOOD") {
+      const nvChoice = prompt("Veg ya Non-Veg? (0 = Veg, 1 = Non-Veg):", String(it.nv ? 1 : 0));
+      if (nvChoice !== null) it.nv = (nvChoice.trim() === "1") ? 1 : 0;
+    }
+    if (!String(it.img || "").startsWith("data:image/")) {
+      it.img = autoMatch3DImage(it.name, it.cat, it.desc);
+    }
     save(`Item edited: ${it.name} -> ₹${np}`);
     toast("✅ Item updated!");
   },
@@ -2765,7 +2947,8 @@ const ACT = {
     (S.tiffinSubs || []).forEach(s => {
       if (s.deliveredToday && (+s.remaining || 0) > 0) s.remaining = Math.max(0, (+s.remaining) - 1);
       s.deliveredToday = false;
-      s.skipToday = false;
+      s.skipToday = !!s.skipNextDay;
+      s.skipNextDay = false;
       s.dabbaBack = false;
     });
     save("Started New Tiffin Day (remaining days updated & daily flags reset)");
@@ -2849,6 +3032,11 @@ const ACT = {
   closeModalBg: (v, k, id, e) => { if (e.target.classList.contains("ov")) { CHECKOUT_MODAL = null; render(); } },
   changePayMode: () => { if (CHECKOUT_MODAL) { CHECKOUT_MODAL.payMode = $("#chkPayMode").value; render(); } },
   pickProof: () => { $("#proofInput").click(); },
+  pickItemPhoto: (v, k, id) => {
+    PENDING_ITEM_UPLOAD = { kind: k || null, id: id || null, targetInputId: v || null };
+    $("#itemPhotoInput").value = "";
+    $("#itemPhotoInput").click();
+  },
   findPhotoWeb: v => {
     const nm = ($(`#${v || "venNewName"}`)?.value || "").trim() || "product photo";
     window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(nm + " product")}`, "_blank");
@@ -2869,6 +3057,14 @@ const ACT = {
         .map(i => S.vendors.find(v => v.id === i.vendorId))
         .find(v => v && v.status === "Closed");
       if (closedVen) return toast(`⚠️ ${closedVen.name} abhi Closed hai! Kripya uske items hatayein.`);
+    }
+    if (CHECKOUT_MODAL.items) {
+      const outItem = CHECKOUT_MODAL.items.find(i => {
+        const curArr = CHECKOUT_MODAL.kind === "FOOD" ? S.foodItems : S.kiranaItems;
+        const fresh = curArr.find(x => x.id === i.id);
+        return !fresh || !fresh.stock;
+      });
+      if (outItem) return toast(`⚠️ "${outItem.name}" abhi Out of Stock ho gaya hai! Cart se hatayein.`);
     }
     const cleanPhone = ph(TF.phone);
     localStorage.setItem("nu_cname", TF.name.trim());
@@ -2900,12 +3096,13 @@ const ACT = {
         name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         diet: TF.diet, days: TF.days, remaining: TF.days, slot: TF.slot, spice: TF.spice, health: TF.health,
         price: CHECKOUT_MODAL.total, paid: payMode === "UPI" ? 1 : 0, vStat: payMode === "UPI" ? "ok" : "cod",
-        utr, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc }, skipToday: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
+        utr, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc }, skipToday: false, skipNextDay: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
       });
       LAST_PLACED_ORDER = {
         kind: "TIFFIN", id: newId, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         itemsSummary: CHECKOUT_MODAL.summary, total: CHECKOUT_MODAL.total, payMode, utr
       };
+      PROOF_DATA_URL = "";
       CHECKOUT_MODAL = null;
       TAB = "success"; scrollTo({ top: 0, behavior: "smooth" });
       save(`New Tiffin Subscription (${TF.days}d) by ${TF.name.trim()}`);
@@ -2913,9 +3110,12 @@ const ACT = {
     } else if (CHECKOUT_MODAL.kind === "FOOD") {
       const newId = "FD-" + Math.floor(10000 + Math.random() * 90000);
       const delOtp = String(Math.floor(1000 + Math.random() * 9000));
+      const _trF = getCustomerTrustInfo(cleanPhone, CHECKOUT_MODAL.total);
+      const _codFlagF = payMode === "COD" ? (_trF.cancelledPast >= 2 ? "⚠️ Repeat Cancel Risk" : _trF.isRepeat ? "✅ Repeat COD" : _trF.highCod ? "🔔 New/High COD" : "COD") : "";
       S.foodOrders.push({
         id: newId,
         deliveryOtp: delOtp,
+        codFlag: _codFlagF,
         date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total, note, delSlot, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc },
         payMode, utr, utrVerified: false, status: "Placed"
@@ -2926,6 +3126,7 @@ const ACT = {
       };
       FOOD_CART = {};
       TF.note = "";
+      PROOF_DATA_URL = "";
       CHECKOUT_MODAL = null;
       TAB = "success"; scrollTo({ top: 0, behavior: "smooth" });
       save(`New Food Order placed by ${TF.name.trim()}`);
@@ -2933,9 +3134,12 @@ const ACT = {
     } else if (CHECKOUT_MODAL.kind === "KIRANA") {
       const newId = "KR-" + Math.floor(10000 + Math.random() * 90000);
       const delOtp = String(Math.floor(1000 + Math.random() * 9000));
+      const _trK = getCustomerTrustInfo(cleanPhone, CHECKOUT_MODAL.total);
+      const _codFlagK = payMode === "COD" ? (_trK.cancelledPast >= 2 ? "⚠️ Repeat Cancel Risk" : _trK.isRepeat ? "✅ Repeat COD" : _trK.highCod ? "🔔 New/High COD" : "COD") : "";
       S.kiranaOrders.push({
         id: newId,
         deliveryOtp: delOtp,
+        codFlag: _codFlagK,
         date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total, note, delSlot, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc },
         payMode, utr, utrVerified: false, status: "Placed"
@@ -2946,6 +3150,7 @@ const ACT = {
       };
       KIRANA_CART = {};
       TF.note = "";
+      PROOF_DATA_URL = "";
       CHECKOUT_MODAL = null;
       TAB = "success"; scrollTo({ top: 0, behavior: "smooth" });
       save(`New Kirana Order placed by ${TF.name.trim()}`);
@@ -3010,6 +3215,14 @@ const ACT = {
     const ven = S.vendors.find(x => x.id === id);
     if (ven) { ven.status = v; save(`Vendor ${ven.name} status -> ${v}`); }
   },
+  restockVendorAll: (v, k, id) => {
+    const ven = S.vendors.find(x => x.id === id);
+    if (!ven) return;
+    const arr = ven.type === "FOOD" ? S.foodItems : S.kiranaItems;
+    arr.forEach(it => { if (it.vendorId === id) it.stock = 1; });
+    save(`Restocked all items for ${ven.name}`);
+    toast("♻️ Sabhi items dobara In Stock ho gaye!");
+  },
   toggleStock: (v, k, id) => {
     const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
     const it = arr.find(x => x.id === id);
@@ -3031,6 +3244,10 @@ const ACT = {
     } else {
       S.kiranaItems.unshift({ id: uid("kr"), vendorId: ven.id, cat, name, price, stock: 1, img, desc });
     }
+    if ($("#venNewName")) $("#venNewName").value = "";
+    if ($("#venNewPrice")) $("#venNewPrice").value = "";
+    if ($("#venNewDesc")) $("#venNewDesc").value = "";
+    if ($("#venNewImg")) $("#venNewImg").value = "";
     save(`Vendor ${ven.name} added item: ${name} (₹${price})`);
     toast("✨ Item added with 3D Auto-Match photo!");
   },
@@ -3122,6 +3339,13 @@ const ACT = {
 };
 
 document.addEventListener("click", e => {
+  if (e.target.closest("#logoBtn")) {
+    e.preventDefault();
+    if (ROLE === "customer") { TAB = "tiffin"; SELECTED_REST_ID = null; }
+    render();
+    scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
   const btn = e.target.closest("[data-act]");
   if (btn && ACT[btn.dataset.act]) {
     if (btn.tagName !== "A") e.preventDefault();
@@ -3130,7 +3354,15 @@ document.addEventListener("click", e => {
 });
 
 document.addEventListener("input", e => {
-  if (e.target.dataset.tf) TF[e.target.dataset.tf] = e.target.value;
+  if (e.target.dataset.tf) {
+    TF[e.target.dataset.tf] = e.target.value;
+    if (e.target.dataset.tf === "phone" && TAB === "checkout" && e.target.value.replace(/\D/g, "").length === 10) {
+      const pos = e.target.selectionStart;
+      render();
+      const el = document.querySelector('input[data-tf="phone"]');
+      if (el) { el.focus(); el.setSelectionRange(pos, pos); }
+    }
+  }
   if (e.target.id === "foodSearchInp") {
     FOOD_SEARCH = e.target.value;
     const pos = e.target.selectionStart;
@@ -3156,6 +3388,31 @@ document.addEventListener("input", e => {
 
 document.addEventListener("change", e => {
   if (e.target.dataset.tf) { TF[e.target.dataset.tf] = e.target.value; render(); }
+});
+
+
+$("#itemPhotoInput").addEventListener("change", async e => {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  try {
+    const compressed = await compressImageFileToDataUrl(f, 480, 0.72);
+    if (PENDING_ITEM_UPLOAD.targetInputId) {
+      const inp = $("#" + PENDING_ITEM_UPLOAD.targetInputId);
+      if (inp) inp.value = compressed;
+      toast("📷 Photo compressed & ready!");
+    } else if (PENDING_ITEM_UPLOAD.kind && PENDING_ITEM_UPLOAD.id) {
+      const arr = PENDING_ITEM_UPLOAD.kind === "FOOD" ? S.foodItems : S.kiranaItems;
+      const it = arr.find(x => x.id === PENDING_ITEM_UPLOAD.id);
+      if (it) {
+        it.img = compressed;
+        save(`Photo uploaded for ${it.name}`);
+        toast("📷 Item photo updated!");
+      }
+    }
+  } catch (err) {
+    toast("⚠️ Photo compress nahi ho saki");
+  }
+  PENDING_ITEM_UPLOAD = { kind: null, id: null, targetInputId: null };
 });
 
 $("#proofInput").addEventListener("change", e => {
@@ -3194,6 +3451,7 @@ $("#importJsonInput").addEventListener("change", e => {
       const parsed = JSON.parse(ev.target.result);
       if (!parsed || !parsed.cfg) return toast("⚠️ Invalid backup file!");
       S = { ...defaultState(), ...parsed, cfg: { ...defaultState().cfg, ...parsed.cfg } };
+      normalizeAllImages();
       save("Restored state from JSON backup");
       toast("✅ Backup successfully restored!");
     } catch (err) {
