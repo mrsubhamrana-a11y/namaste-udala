@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Namaste Udala — Mera Tiffin · Multi-Vendor Food · Kirana & HUL</title>
+<title>Namaste Udala — Mera Tiffin · Multi-Vendor Food · Kirana & Daily Needs</title>
 <meta name="theme-color" content="#113221" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 <style>
@@ -542,14 +542,16 @@ function autoMatch3DImage(name, cat, desc = "") {
   if (/thali|dalma|meal|combo|roti|tiffin|dabba/.test(txt)) return IMG.thali;
   if (/atta|wheat|maida|besan/.test(txt)) return IMG.atta;
   if (/rice|chawal|miniket|basmati/.test(txt)) return IMG.rice;
-  if (/milk|doodh|bread|paneer|curd|dahi|omfed|dairy/.test(txt)) return IMG.milk;
-  if (/surf|lifebuoy|soap|detergent|tea|chai|brooke|hul|shampoo/.test(txt)) return IMG.hul;
+  if (/milk|doodh|bread|curd|dahi|omfed|dairy/.test(txt)) return IMG.milk;
+  if (/surf|lifebuoy|soap|detergent|tea|chai|brooke|shampoo/.test(txt)) return IMG.hul;
   if (/oil|tel|kirana|staples|dal|sugar|salt/.test(txt)) return IMG.kirana;
   const catFallback = {
     Breakfast: IMG.bf, Thali: IMG.thali, Meals: IMG.chicken, Biryani: IMG.biryani,
     Bakery: IMG.cake, Staples: IMG.kirana, HUL: IMG.hul, Dairy: IMG.milk
   };
-  return catFallback[cat] || IMG.thali;
+  if (catFallback[cat]) return catFallback[cat];
+  const kw = encodeURIComponent((name || cat || "indian food").trim().split(/\s+/).slice(0, 3).join(","));
+  return `https://source.unsplash.com/600x600/?${kw},food`;
 }
 
 
@@ -713,8 +715,8 @@ function defaultState() {
         status: "Open", cover: IMG.chicken, settledPaid: 0
       },
       {
-        id: "v_self_kirana", name: "Namaste HUL & Kirana Hub (Apna)", type: "KIRANA", isSelf: true,
-        cuisine: "HUL Distributor Stock · Atta · Rice · Oil", area: "Market Square", rating: "4.9", eta: "35 min",
+        id: "v_self_kirana", name: "Namaste Kirana & Daily Hub (Apna)", type: "KIRANA", isSelf: true,
+        cuisine: "Direct Distributor Stock · Atta · Rice · Oil", area: "Market Square", rating: "4.9", eta: "35 min",
         status: "Open", cover: IMG.hul, settledPaid: 0
       },
       {
@@ -737,9 +739,9 @@ function defaultState() {
     kiranaItems: [
       { id: "kr1", vendorId: "v_self_kirana", cat: "Staples", name: "Aashirvaad Shudh Chakki Atta (5kg)", price: 245, stock: 1, img: IMG.atta, desc: "100% MP Sharbati wheat" },
       { id: "kr2", vendorId: "v_self_kirana", cat: "Staples", name: "Premium Miniket Rice (5kg)", price: 265, stock: 1, img: IMG.rice, desc: "Daily fine rice" },
-      { id: "kr3", vendorId: "v_self_kirana", cat: "HUL", name: "Surf Excel Easy Wash (1.5kg)", price: 195, stock: 1, img: IMG.hul, desc: "HUL Direct Stock" },
-      { id: "kr4", vendorId: "v_self_kirana", cat: "HUL", name: "Lifebuoy Total 10 Soap (4x125g)", price: 144, stock: 1, img: IMG.hul, desc: "HUL Hygiene Pack" },
-      { id: "kr5", vendorId: "v_self_kirana", cat: "HUL", name: "Brooke Bond Red Label Tea (500g)", price: 250, stock: 1, img: IMG.hul, desc: "HUL Chai Patti" },
+      { id: "kr3", vendorId: "v_self_kirana", cat: "HUL", name: "Surf Excel Easy Wash (1.5kg)", price: 195, stock: 1, img: IMG.hul, desc: "Direct Brand Stock" },
+      { id: "kr4", vendorId: "v_self_kirana", cat: "HUL", name: "Lifebuoy Total 10 Soap (4x125g)", price: 144, stock: 1, img: IMG.hul, desc: "Daily Hygiene Pack" },
+      { id: "kr5", vendorId: "v_self_kirana", cat: "HUL", name: "Brooke Bond Red Label Tea (500g)", price: 250, stock: 1, img: IMG.hul, desc: "Assam Tea Patti" },
       { id: "kr6", vendorId: "v_market_kirana", cat: "Staples", name: "Fortune Sunlite Refined Oil (1L)", price: 135, stock: 1, img: IMG.kirana, desc: "Sunflower cooking oil" },
       { id: "kr7", vendorId: "v_market_kirana", cat: "Dairy", name: "Omfed Gold Milk (1L) + Bread", price: 82, stock: 1, img: IMG.milk, desc: "Fresh morning dairy" }
     ],
@@ -820,6 +822,50 @@ let FOOD_CART = {};
 let KIRANA_CART = {};
 let CHECKOUT_MODAL = null;
 let PROOF_DATA_URL = "";
+
+
+let USER_GPS = { lat: null, lng: null, acc: null, status: "Not captured yet", ok: false };
+
+function captureMandatoryGps(silent = false) {
+  if (!navigator.geolocation) {
+    USER_GPS.status = "⚠️ Browser GPS support nahi karta";
+    USER_GPS.ok = false;
+    if (!silent) toast(USER_GPS.status);
+    render();
+    return;
+  }
+  if (location.protocol !== "https:" && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+    USER_GPS.status = "⚠️ GPS ke liye HTTPS link par app kholein (file:// par GPS block hota hai)";
+    USER_GPS.ok = false;
+    if (!silent) toast(USER_GPS.status);
+    render();
+    return;
+  }
+  USER_GPS.status = "📡 GPS Location pakad raha hai...";
+  if (!silent) render();
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      USER_GPS = {
+        lat: +pos.coords.latitude.toFixed(6),
+        lng: +pos.coords.longitude.toFixed(6),
+        acc: Math.round(pos.coords.accuracy || 0),
+        status: `✅ GPS Locked (${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)} · ±${Math.round(pos.coords.accuracy || 0)}m)`,
+        ok: true
+      };
+      if (!silent) toast("📍 Live GPS Location Locked!");
+      render();
+    },
+    err => {
+      USER_GPS.ok = false;
+      USER_GPS.status = err.code === 1
+        ? "⚠️ Location Permission Denied! Phone settings/browser se Location Allow karein."
+        : "⚠️ GPS signal weak hai — khuli jagah par jakar Retry dabayein.";
+      if (!silent) toast(USER_GPS.status);
+      render();
+    },
+    { enableHighAccuracy: true, timeout: 12000, maximumAge: 15000 }
+  );
+}
 
 const TF = {
   diet: "veg",
@@ -1152,10 +1198,10 @@ function viewKirana() {
     <div class="hero kirana-bg">
       <div>
         <span class="pill p-amber">MIN ₹${minOrd} ORDER · ₹${freeAt}+ FREE DELIVERY</span>
-        <h2>Kirana & HUL Daily Needs</h2>
+        <h2>Kirana & Daily Needs Daily Needs</h2>
         <p>Atta, Chawal, Tel, Surf Excel, Lifebuoy, Tea & Dairy ghar baithe</p>
       </div>
-      <div class="hero-pop-wrap"><img class="hero-pop" src="${IMG.hul}" alt="Kirana & HUL" /></div>
+      <div class="hero-pop-wrap"><img class="hero-pop" src="${IMG.hul}" alt="Kirana & Daily Needs" /></div>
     </div>
 
     <div class="card" style="border:2px solid ${sub >= freeAt ? "#16a34a" : sub >= minOrd ? "#d97706" : "#e11d48"}">
@@ -1270,7 +1316,7 @@ function viewCustomerOrders() {
     </div>
 
     <div class="card">
-      <h3>🛒 Mere Kirana & HUL Orders (${kOrds.length})</h3>
+      <h3>🛒 Mere Kirana & Daily Needs Orders (${kOrds.length})</h3>
       ${kOrds.map(o => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between">
@@ -1331,7 +1377,7 @@ function viewAccountPage() {
       <h3>📜 Udala Delivery Rules & Timings</h3>
       <div class="row"><span>🍱 Mera Tiffin Morning Cut-off</span><b>6:30 AM</b></div>
       <div class="row"><span>🍱 Mera Tiffin Lunch / Skip Cut-off</span><b>9:00 AM</b></div>
-      <div class="row"><span>🛒 Kirana & HUL Minimum Order</span><b>${inr(S.cfg.kiranaMinOrder)}</b></div>
+      <div class="row"><span>🛒 Kirana & Daily Needs Minimum Order</span><b>${inr(S.cfg.kiranaMinOrder)}</b></div>
       <div class="row"><span>🚚 Kirana Free Delivery Slab</span><b>${inr(S.cfg.kiranaFreeDeliveryAt)}+ (Else ${inr(S.cfg.kiranaDeliveryFee)})</b></div>
       <div class="row"><span>💳 Direct UPI Payment ID</span><b>${esc(S.cfg.upi)}</b></div>
     </div>
@@ -1397,7 +1443,7 @@ function viewItemDetailPage() {
 
   return `
     <div class="card" style="background:linear-gradient(135deg,#0f291c,#1e3a2f);color:#fff">
-      <button class="btn w sm" data-act="setTab" data-v="${isFood ? "food" : "kirana"}" style="margin-bottom:10px">← Back to ${isFood ? "Food Shop" : "Kirana & HUL"}</button>
+      <button class="btn w sm" data-act="setTab" data-v="${isFood ? "food" : "kirana"}" style="margin-bottom:10px">← Back to ${isFood ? "Food Shop" : "Kirana & Daily Needs"}</button>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
         <div>
           <span class="pill p-amber">${esc(it.cat)}</span>
@@ -1575,7 +1621,11 @@ function viewCheckoutPage() {
     </div>
 
     <div class="card">
-      <h3>2. Delivery Address & Details</h3>
+      <h3>2. Mandatory Live GPS & Delivery Address</h3>
+      <div style="background:${USER_GPS.ok ? "#dcfce7" : "#ffe4e6"};color:${USER_GPS.ok ? "#166534" : "#9f1239"};padding:10px 12px;border-radius:14px;font-size:11.5px;font-weight:800;margin-bottom:8px">
+        <div>${esc(USER_GPS.status)}</div>
+        <button class="btn ${USER_GPS.ok ? "g" : "o"} sm" style="margin-top:6px" data-act="captureGps">${USER_GPS.ok ? "🔄 Refresh GPS Pin" : "📍 Capture Mandatory GPS Location"}</button>
+      </div>
       <span class="lbl">Aapka Naam *</span>
       <input class="inp" data-tf="name" placeholder="Poora Naam likhein" value="${esc(TF.name)}" />
       <span class="lbl">10-Digit Mobile Number *</span>
@@ -1640,7 +1690,7 @@ function viewCheckoutPage() {
 
 /* ==================== ROLE VIEWS ==================== */
 function viewKitchen() {
-  const subs = (S.tiffinSubs || []).filter(s => !s.skipToday && s.vStat !== "bad");
+  const subs = (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad");
   const fOrds = (S.foodOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled");
   const totalMeals = subs.length + fOrds.reduce((a, o) => a + o.items.reduce((x, y) => x + y.qty, 0), 0);
 
@@ -1745,12 +1795,13 @@ function viewDelivery() {
 
     <div class="card">
       <h3>1. Tiffin Dabba Drops (Zero OTP · Direct Handover)</h3>
-      ${(S.tiffinSubs || []).filter(s => !s.skipToday && s.vStat !== "bad").map(s => `
+      ${(S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad").map(s => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between"><b>🍱 ${esc(s.name)} — ${esc(s.area)}</b><span class="pill ${s.deliveredToday ? "p-green" : "p-amber"}">${s.deliveredToday ? "Delivered" : "Pending"}</span></div>
           <div style="font-size:11px;color:var(--mu);margin:3px 0">${esc(s.addr)} · ${esc(s.slot)}</div>
           <div class="btn-row">
             <a class="btn w sm" href="tel:+91${esc(s.phone)}">📞 Call</a>
+            ${s.gps && s.gps.lat ? `<a class="btn w sm" href="https://www.google.com/maps?q=${s.gps.lat},${s.gps.lng}" target="_blank">📍 Exact Pin</a>` : ""}
             <button class="btn sm ${s.dabbaBack ? "g" : "w"}" data-act="toggleDabba" data-id="${s.id}">${s.dabbaBack ? "Empty Dabba ✓" : "Empty Dabba?"}</button>
             <button class="btn sm ${s.deliveredToday ? "w" : "g"}" data-act="toggleTiffinDlv" data-id="${s.id}">${s.deliveredToday ? "Done ✓" : "Deliver"}</button>
           </div>
@@ -1775,7 +1826,7 @@ function viewDelivery() {
           <div class="btn-row">
             <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
             <a class="btn w sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala order (${o.id}) lekar pahunch raha hoon!`)}" target="_blank">💬 WA</a>
-            <a class="btn w sm" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}" target="_blank">🗺 Map</a>
+            <a class="btn w sm" href="${o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}`}" target="_blank">${o.gps && o.gps.lat ? "📍 Exact GPS Pin" : "🗺 Area Map"}</a>
             ${o.status === "Ready for Pickup" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>` : ""}
             ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="deliverWithPin" data-k="${o.kind}" data-id="${o.id}">✅ Deliver (PIN)</button>` : ""}
           </div>
@@ -1870,7 +1921,8 @@ function viewVendor() {
         ${v.type === "FOOD" ? `<select class="inp" id="venNewNv"><option value="0">🟢 Pure Veg</option><option value="1">🔴 Non-Veg</option></select>` : ""}
       </div>
       <input class="inp" id="venNewDesc" placeholder="Short description (optional)" />
-      <button class="btn o full sm" data-act="addVendorItem" data-id="${v.id}">✨ Add Item with 3D Auto-Match</button>
+      <input class="inp" id="venNewImg" placeholder="Custom Image URL (optional — blank rakhein to Auto-Link banega)" />
+      <button class="btn o full sm" data-act="addVendorItem" data-id="${v.id}">✨ Add Item (Auto / Custom Link)</button>
     </div>
     <div class="card">
       <h3>Store Status & Menu Stock</h3>
@@ -1882,6 +1934,7 @@ function viewVendor() {
           <div><b>${esc(it.name)}</b> (${inr(it.price)})</div>
           <div style="display:flex;gap:5px">
             <button class="btn w sm" data-act="editItemFull" data-k="${v.type}" data-id="${it.id}">✏️</button>
+            <button class="btn w sm" data-act="editItemImg" data-k="${v.type}" data-id="${it.id}" title="Change Image Link">🖼️</button>
             <button class="btn sm ${it.stock ? "g" : "w"}" data-act="toggleStock" data-k="${v.type}" data-id="${it.id}">${it.stock ? "In Stock ✓" : "Out"}</button>
             <button class="btn r sm" data-act="deleteItem" data-k="${v.type}" data-id="${it.id}">🗑️</button>
           </div>
@@ -1928,7 +1981,7 @@ function viewOwner() {
       <div class="kpi">
         <div><b>${inr(tSales)}</b><span>Mera Tiffin (0% Comm)</span></div>
         <div><b>${inr(fSales)}</b><span>Food Shop GMV</span></div>
-        <div><b>${inr(kSales)}</b><span>Kirana & HUL GMV</span></div>
+        <div><b>${inr(kSales)}</b><span>Kirana & Daily Needs GMV</span></div>
       </div>
       <div class="kpi">
         <div><b style="color:#16a34a">${inr(totalComm)}</b><span>Partner Comm Earned</span></div>
@@ -1974,7 +2027,11 @@ function viewOwner() {
     bodyHtml = `
       <div class="card">
         <h3>📦 Food & Kirana Orders <span class='pill p-green'>Auto-Sorted & Comm Calc</span></h3>
-        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].slice().reverse().map(o => `
+        <div class="seg" style="margin-bottom:8px">
+          <button class="${!window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="0">All Orders</button>
+          <button class="${window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="1">⚠️ Unverified UPI Only</button>
+        </div>
+        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(o => !window._unverifiedOnly || (o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled")).slice().reverse().map(o => `
           <div class="row" style="flex-direction:column;align-items:stretch">
             <div style="display:flex;justify-content:space-between">
               <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)} <span style='font-size:10px;color:var(--g2)'>(Comm: ${inr(autoCalcOrderComm(o, o.kind))})</span></b>
@@ -2070,6 +2127,28 @@ function viewOwner() {
         </div>
         <button class="btn o full sm" data-act="saveOwnerRates">💾 Save & Lock Master Rules</button>
       </div>
+      <div class="card">
+        <h3>🔥 Firebase Realtime DB Rules & 2-Phone Dry Run</h3>
+        <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Live launch se pehle GPS ke liye HTTPS link use karein aur Firebase Console → Realtime Database → Rules mein yeh rules paste karein:</p>
+        <textarea class="inp" rows="6" readonly style="font-family:monospace;font-size:10.5px">{
+  "rules": {
+    "udala_v4_master": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}</textarea>
+        <div class="btn-row" style="margin-top:6px">
+          <button class="btn g sm" data-act="copyFbRules">📋 Copy Rules JSON</button>
+          <button class="btn amb sm" data-act="runDryRunCheck">🧪 Run System Health Check</button>
+        </div>
+        <div style="font-size:11px;margin-top:8px;line-height:1.45">
+          <b>2-Phone Dry Run Checklist:</b><br>
+          1. Phone 1: Tiffin, Food, aur Kirana (₹300+ / ₹500+) order + GPS lock.<br>
+          2. Phone 2: Kitchen (1122) → Vendor → Delivery (3344) with 4-digit PIN → Owner (4827) UTR verify & COD Jama.
+        </div>
+      </div>
+
       <div class="card">
         <h3>🛡️ Backup, CSV Export & Restore</h3>
         <div class="btn-row">
@@ -2208,7 +2287,7 @@ function render() {
     const navItems = [
       ["tiffin", "🍱", "Mera Tiffin", 0],
       ["food", "🍛", "Food Shop", foodCartCount()],
-      ["kirana", "🛒", "Kirana & HUL", kiranaCartCount()],
+      ["kirana", "🛒", "Kirana & Daily Needs", kiranaCartCount()],
       ["orders", "📦", "My Orders", (S.foodOrders?.length || 0) + (S.kiranaOrders?.length || 0)],
       ["account", "👤", "Profile", 0]
     ];
@@ -2261,7 +2340,7 @@ const ACT = {
   openTiffinCheckout: () => {
     const total = calcTiffinPrice(TF.diet, TF.days, TF.slot);
     PROOF_DATA_URL = "";
-    TAB = "checkout"; scrollTo({ top: 0, behavior: "smooth" });
+    TAB = "checkout"; scrollTo({ top: 0, behavior: "smooth" }); captureMandatoryGps(true);
     CHECKOUT_MODAL = {
       kind: "TIFFIN",
       title: "Mera Tiffin Subscription (0% Comm)",
@@ -2314,7 +2393,7 @@ const ACT = {
     }).filter(Boolean);
     if (!items.length) return;
     PROOF_DATA_URL = "";
-    TAB = "checkout"; scrollTo({ top: 0, behavior: "smooth" });
+    TAB = "checkout"; scrollTo({ top: 0, behavior: "smooth" }); captureMandatoryGps(true);
     CHECKOUT_MODAL = {
       kind: "FOOD",
       title: "Food Shop Checkout",
@@ -2345,10 +2424,10 @@ const ACT = {
       return it ? { ...it, qty } : null;
     }).filter(Boolean);
     PROOF_DATA_URL = "";
-    TAB = "checkout"; scrollTo({ top: 0, behavior: "smooth" });
+    TAB = "checkout"; scrollTo({ top: 0, behavior: "smooth" }); captureMandatoryGps(true);
     CHECKOUT_MODAL = {
       kind: "KIRANA",
-      title: "Kirana & HUL Checkout",
+      title: "Kirana & Daily Needs Checkout",
       summary: items.map(i => `${i.name} ×${i.qty}`).join(", "),
       items,
       sub,
@@ -2402,6 +2481,18 @@ const ACT = {
     if (o) shareOrderWa(o, k);
   },
 
+  captureGps: () => captureMandatoryGps(false),
+  setUnverifiedFilter: v => { window._unverifiedOnly = v === "1"; render(); },
+  editItemImg: (v, k, id) => {
+    const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
+    const it = arr.find(x => x.id === id);
+    if (!it) return;
+    const url = prompt("Naya Image URL link paste karein (ya blank chhod kar Auto-Link banayein):", it.img || "");
+    if (url === null) return;
+    it.img = url.trim() ? url.trim() : autoMatch3DImage(it.name, it.cat, it.desc);
+    save(`Image link updated for ${it.name}`);
+    toast("🖼️ Item image link updated!");
+  },
   applyPromo: () => {
     if (!CHECKOUT_MODAL) return;
     const code = ($("#chkPromoInp")?.value || "").trim().toUpperCase();
@@ -2434,6 +2525,17 @@ const ACT = {
     else S.kiranaItems = S.kiranaItems.filter(x => x.id !== id);
     save(`Item deleted (${k}: ${id})`);
     toast("🗑️ Item deleted!");
+  },
+  copyFbRules: () => {
+    const r = JSON.stringify({ rules: { [NODE]: { ".read": true, ".write": true } } }, null, 2);
+    navigator.clipboard?.writeText(r).then(() => toast("📋 Firebase Rules copied!")).catch(() => toast("Copy manually from box"));
+  },
+  runDryRunCheck: () => {
+    const isHttps = location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    const vCount = (S.vendors || []).length;
+    const fCount = (S.foodItems || []).length;
+    const kCount = (S.kiranaItems || []).length;
+    toast(`✅ Health OK: ${vCount} Vendors · ${fCount} Food · ${kCount} Kirana · ${isHttps ? "HTTPS Ready" : "Use HTTPS for GPS"}`);
   },
   copyUpi: () => {
     navigator.clipboard?.writeText(S.cfg.upi).then(() => toast(`📋 UPI ID copied: ${S.cfg.upi}`)).catch(() => toast(`UPI ID: ${S.cfg.upi}`));
@@ -2554,8 +2656,18 @@ const ACT = {
     if (!CHECKOUT_MODAL) return;
     if (window._orderLock && Date.now() - window._orderLock < 3000) return toast("⏳ Order process ho raha hai, kripya wait karein...");
     window._orderLock = Date.now();
+    if (!USER_GPS.ok || !USER_GPS.lat || !USER_GPS.lng) {
+      captureMandatoryGps(false);
+      return toast("⚠️ Order place karne ke liye Live GPS Location capture karna mandatory hai!");
+    }
     if (!TF.name.trim() || ph(TF.phone).length !== 10 || !TF.addr.trim()) {
       return toast("⚠️ Naam, 10-digit Mobile aur Address zaroor bharein!");
+    }
+    if (CHECKOUT_MODAL.items) {
+      const closedVen = CHECKOUT_MODAL.items
+        .map(i => S.vendors.find(v => v.id === i.vendorId))
+        .find(v => v && v.status === "Closed");
+      if (closedVen) return toast(`⚠️ ${closedVen.name} abhi Closed hai! Kripya uske items hatayein.`);
     }
     const cleanPhone = ph(TF.phone);
     localStorage.setItem("nu_cname", TF.name.trim());
@@ -2587,7 +2699,7 @@ const ACT = {
         name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         diet: TF.diet, days: TF.days, remaining: TF.days, slot: TF.slot, spice: TF.spice, health: TF.health,
         price: CHECKOUT_MODAL.total, paid: payMode === "UPI" ? 1 : 0, vStat: payMode === "UPI" ? "ok" : "cod",
-        utr, skipToday: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
+        utr, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc }, skipToday: false, vacationDays: 0, deliveredToday: false, dabbaBack: false
       });
       LAST_PLACED_ORDER = {
         kind: "TIFFIN", id: newId, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
@@ -2604,7 +2716,7 @@ const ACT = {
         id: newId,
         deliveryOtp: delOtp,
         date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
-        items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total, note, delSlot,
+        items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total, note, delSlot, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc },
         payMode, utr, utrVerified: false, status: "Placed"
       });
       LAST_PLACED_ORDER = {
@@ -2624,7 +2736,7 @@ const ACT = {
         id: newId,
         deliveryOtp: delOtp,
         date: todayIso(), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
-        items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total, note, delSlot,
+        items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total, note, delSlot, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc },
         payMode, utr, utrVerified: false, status: "Placed"
       });
       LAST_PLACED_ORDER = {
@@ -2636,7 +2748,7 @@ const ACT = {
       CHECKOUT_MODAL = null;
       TAB = "success"; scrollTo({ top: 0, behavior: "smooth" });
       save(`New Kirana Order placed by ${TF.name.trim()}`);
-      toast("🛒 Kirana & HUL Order Placed!");
+      toast("🛒 Kirana & Daily Needs Order Placed!");
     }
   },
 
@@ -2709,8 +2821,9 @@ const ACT = {
     const price = +$("#venNewPrice")?.value;
     const cat = $("#venNewCat")?.value || (ven.type === "FOOD" ? "Meals" : "Staples");
     const desc = $("#venNewDesc")?.value.trim() || "Fresh local item";
+    const customImg = $("#venNewImg")?.value.trim();
     if (!name || !(price > 0)) return toast("⚠️ Item ka naam aur sahi price ₹ daalein!");
-    const img = autoMatch3DImage(name, cat, desc);
+    const img = customImg || autoMatch3DImage(name, cat, desc);
     if (ven.type === "FOOD") {
       const nv = +($("#venNewNv")?.value || 0);
       S.foodItems.unshift({ id: uid("fd"), vendorId: ven.id, cat, name, price, nv, stock: 1, img, desc });
