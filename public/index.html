@@ -453,6 +453,7 @@
 <body>
 
 <input type="file" id="proofInput" accept="image/*" style="display:none" />
+<input type="file" id="itemPhotoInput" accept="image/*" capture="environment" style="display:none" />
 <input type="file" id="importJsonInput" accept=".json,application/json" style="display:none" />
 
 <header>
@@ -1000,6 +1001,32 @@ let KIRANA_CART = {};
 let CHECKOUT_MODAL = null;
 let PROOF_DATA_URL = "";
 
+function compressImageFileToDataUrl(file, maxSize = 480, quality = 0.72) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxSize / Math.max(img.width || 1, img.height || 1));
+        const w = Math.max(1, Math.round((img.width || 300) * scale));
+        const h = Math.max(1, Math.round((img.height || 300) * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+let PENDING_ITEM_UPLOAD = { kind: null, id: null, targetInputId: null };
+
+
 
 let USER_GPS = { lat: null, lng: null, acc: null, status: "Not captured yet", ok: false };
 
@@ -1111,7 +1138,7 @@ function viewTiffin() {
       <h2>Mera Tiffin Subscription</h2>
       <p>Morning Breakfast (6:30 AM cut-off) · Lunch & Dinner (9:00 AM cut-off)</p>
     </div>
-    <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" src="${dailyMenuImg}" alt="Mera Tiffin" /></div>
+    <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" referrerpolicy="no-referrer" src="${dailyMenuImg}" alt="Mera Tiffin" /></div>
   </div>
 
   <div class="card" style="border-left:5px solid var(--o)">
@@ -1231,7 +1258,7 @@ function viewFoodShop() {
               <span class="pill p-amber">⭐ ${esc(v.rating)}</span>
             </div>
           </div>
-          <img src="${v.cover}" style="width:76px;height:76px;border-radius:16px;border:2px solid #fff" />
+          <img referrerpolicy="no-referrer" src="${v.cover}" style="width:76px;height:76px;border-radius:16px;border:2px solid #fff" />
         </div>
       </div>
 
@@ -1243,7 +1270,7 @@ function viewFoodShop() {
           return `
             <div class="pcard">
               <div>
-                <div class="pimg" data-act="openDetail" data-k="FOOD" data-id="${it.id}">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img src="${dishImg}" alt="${esc(it.name)}" /></div>
+                <div class="pimg" data-act="openDetail" data-k="FOOD" data-id="${it.id}">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img referrerpolicy="no-referrer" src="${dishImg}" alt="${esc(it.name)}" /></div>
                 <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12.5px">
                   <span class="sym ${it.nv ? "nv" : ""}"><i></i></span>
                   <span>${esc(it.name)}</span>
@@ -1279,7 +1306,7 @@ function viewFoodShop() {
         <h2>Udala Restaurants & Nashta</h2>
         <p>Apne pasandida kitchen ya restaurant se fresh khana & cake mangwayein</p>
       </div>
-      <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" src="${ART3D.biryani}" alt="Food Shop" /></div>
+      <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" referrerpolicy="no-referrer" src="${ART3D.biryani}" alt="Food Shop" /></div>
     </div>
 
     <div class="btn-row"><input class="inp" id="foodSearchInp" placeholder="🔍 Product ke naam se find karein (Biryani, Idli, Chicken...)" value="${esc(FOOD_SEARCH)}" />${FOOD_SEARCH ? `<button class="btn w sm" style="max-width:78px" data-act="clearFoodSearch">Clear</button>` : ""}</div>
@@ -1302,7 +1329,7 @@ function viewFoodShop() {
               <div class="pcard">
                 <div>
                   <div style="font-size:10px;font-weight:800;color:var(--amb);margin-bottom:4px">🏪 ${esc(v.name)}</div>
-                  <div class="pimg" data-act="openDetail" data-k="FOOD" data-id="${it.id}">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img src="${dishImg}" alt="${esc(it.name)}" /></div>
+                  <div class="pimg" data-act="openDetail" data-k="FOOD" data-id="${it.id}">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img referrerpolicy="no-referrer" src="${dishImg}" alt="${esc(it.name)}" /></div>
                   <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px">
                     <span class="sym ${it.nv ? "nv" : ""}"><i></i></span><span>${esc(it.name)}</span>
                   </div>
@@ -1326,7 +1353,7 @@ function viewFoodShop() {
       return `
         <div class="rest-card" data-act="openRest" data-id="${v.id}">
           <div class="rest-cover">
-            <img src="${v.cover}" alt="${esc(v.name)}" />
+            <img referrerpolicy="no-referrer" src="${v.cover}" alt="${esc(v.name)}" />
             <span class="rest-status pill ${v.status === "Open" ? "p-green" : v.status === "Busy" ? "p-amber" : "p-red"}">${v.status}</span>
             <span class="rest-eta">⏱ ${esc(v.eta)} · ${count} Items</span>
           </div>
@@ -1380,7 +1407,7 @@ function viewKirana() {
         <h2>Kirana & Daily Needs Daily Needs</h2>
         <p>Atta, Chawal, Tel, Surf Excel, Lifebuoy, Tea & Dairy ghar baithe</p>
       </div>
-      <div class="hero-pop-wrap"><img class="hero-pop" src="${ART3D.surf}" alt="Kirana & Daily Needs" /></div>
+      <div class="hero-pop-wrap"><img class="hero-pop" referrerpolicy="no-referrer" src="${ART3D.surf}" alt="Kirana & Daily Needs" /></div>
     </div>
 
     <div class="card" style="border:2px solid ${sub >= freeAt ? "#16a34a" : sub >= minOrd ? "#d97706" : "#e11d48"}">
@@ -1416,7 +1443,7 @@ function viewKirana() {
                 <span style="color:var(--g2)">🏬 ${esc(v.name)}</span>
                 <span class="pill p-blue">${esc(it.cat)}</span>
               </div>
-              <div class="pimg" data-act="openDetail" data-k="KIRANA" data-id="${it.id}"><img src="${itemImg}" alt="${esc(it.name)}" /></div>
+              <div class="pimg" data-act="openDetail" data-k="KIRANA" data-id="${it.id}"><img referrerpolicy="no-referrer" src="${itemImg}" alt="${esc(it.name)}" /></div>
               <div style="font-weight:800;font-size:12.5px">${esc(it.name)}</div>
               <div style="font-size:10.5px;color:var(--mu);margin-top:2px">${esc(it.desc)}</div>
             </div>
@@ -1631,7 +1658,7 @@ function viewItemDetailPage() {
         </div>
         <div class="hero-pop-wrap">
           ${isFood && it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}
-          <img class="hero-pop" src="${pic}" alt="${esc(it.name)}" />
+          <img class="hero-pop" referrerpolicy="no-referrer" src="${pic}" alt="${esc(it.name)}" />
         </div>
       </div>
     </div>
@@ -2100,7 +2127,7 @@ function viewVendor() {
         ${v.type === "FOOD" ? `<select class="inp" id="venNewNv"><option value="0">🟢 Pure Veg</option><option value="1">🔴 Non-Veg</option></select>` : ""}
       </div>
       <input class="inp" id="venNewDesc" placeholder="Short description (optional)" />
-      <input class="inp" id="venNewImg" placeholder="Custom Image URL (optional — blank rakhein to Auto-Link banega)" />
+      <div class="btn-row"><input class="inp" id="venNewImg" placeholder="Image URL ya Phone Photo upload karein..." /><button class="btn w sm" style="max-width:125px" data-act="pickItemPhoto" data-v="venNewImg">📷 Photo</button></div>
       <button class="btn o full sm" data-act="addVendorItem" data-id="${v.id}">✨ Add Item (Auto / Custom Link)</button>
     </div>
     <div class="card">
@@ -2668,6 +2695,12 @@ const ACT = {
     const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
     const it = arr.find(x => x.id === id);
     if (!it) return;
+    if (confirm("Phone Camera / Gallery se naya photo upload karna hai? (Cancel dabane par URL link daal sakte hain)")) {
+      PENDING_ITEM_UPLOAD = { kind: k, id, targetInputId: null };
+      $("#itemPhotoInput").value = "";
+      $("#itemPhotoInput").click();
+      return;
+    }
     const url = prompt("Naya Image URL link paste karein (ya blank chhod kar Auto-Link banayein):", it.img || "");
     if (url === null) return;
     it.img = url.trim() ? url.trim() : autoMatch3DImage(it.name, it.cat, it.desc);
@@ -2833,6 +2866,11 @@ const ACT = {
   closeModalBg: (v, k, id, e) => { if (e.target.classList.contains("ov")) { CHECKOUT_MODAL = null; render(); } },
   changePayMode: () => { if (CHECKOUT_MODAL) { CHECKOUT_MODAL.payMode = $("#chkPayMode").value; render(); } },
   pickProof: () => { $("#proofInput").click(); },
+  pickItemPhoto: (v, k, id) => {
+    PENDING_ITEM_UPLOAD = { kind: k || null, id: id || null, targetInputId: v || null };
+    $("#itemPhotoInput").value = "";
+    $("#itemPhotoInput").click();
+  },
   confirmCheckout: () => {
     if (!CHECKOUT_MODAL) return;
     if (window._orderLock && Date.now() - window._orderLock < 3000) return toast("⏳ Order process ho raha hai, kripya wait karein...");
@@ -3136,6 +3174,31 @@ document.addEventListener("input", e => {
 
 document.addEventListener("change", e => {
   if (e.target.dataset.tf) { TF[e.target.dataset.tf] = e.target.value; render(); }
+});
+
+
+$("#itemPhotoInput").addEventListener("change", async e => {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  try {
+    const compressed = await compressImageFileToDataUrl(f, 480, 0.72);
+    if (PENDING_ITEM_UPLOAD.targetInputId) {
+      const inp = $("#" + PENDING_ITEM_UPLOAD.targetInputId);
+      if (inp) inp.value = compressed;
+      toast("📷 Photo compressed & ready!");
+    } else if (PENDING_ITEM_UPLOAD.kind && PENDING_ITEM_UPLOAD.id) {
+      const arr = PENDING_ITEM_UPLOAD.kind === "FOOD" ? S.foodItems : S.kiranaItems;
+      const it = arr.find(x => x.id === PENDING_ITEM_UPLOAD.id);
+      if (it) {
+        it.img = compressed;
+        save(`Photo uploaded for ${it.name}`);
+        toast("📷 Item photo updated!");
+      }
+    }
+  } catch (err) {
+    toast("⚠️ Photo compress nahi ho saki");
+  }
+  PENDING_ITEM_UPLOAD = { kind: null, id: null, targetInputId: null };
 });
 
 $("#proofInput").addEventListener("change", e => {
