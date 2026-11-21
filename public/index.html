@@ -48,10 +48,21 @@
   /* Header */
   header {
     position: sticky; top: 0; z-index: 60;
-    background: linear-gradient(135deg, #0f291c 0%, #173d2a 60%, #2d111d 100%);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(251,191,36,.18), transparent 42%),
+      radial-gradient(circle at 88% 80%, rgba(244,63,94,.24), transparent 46%),
+      linear-gradient(135deg, #0b2217 0%, #153b28 55%, #2b0f1b 100%);
+    backdrop-filter: blur(12px);
     color: #fff; padding: 11px 14px;
-    box-shadow: 0 8px 24px rgba(11,34,22,.32);
+    border-bottom: 1px solid rgba(251,191,36,.24);
+    box-shadow: 0 12px 28px rgba(10,28,19,.42), inset 0 1px 0 rgba(255,255,255,.18);
     display: flex; align-items: center; gap: 10px;
+  }
+  .hdr-sub-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(251,191,36,.16); border: 1px solid rgba(251,191,36,.35);
+    color: #fde68a; font-size: 8.5px; font-weight: 800; padding: 2px 7px; border-radius: 99px;
+    margin-left: 6px; vertical-align: middle;
   }
   .logo {
     width: 42px; height: 42px; border-radius: 14px;
@@ -462,8 +473,8 @@
 <header>
   <div class="logo" id="logoBtn" title="Namaste Udala">NU</div>
   <div class="brand">
-    <small>UDALA · MAYURBHANJ · SEPARATE CATEGORIES</small>
-    <h1>Namaste Udala</h1>
+    <small>UDALA · MAYURBHANJ</small>
+    <h1>Namaste Udala <span class="hdr-sub-pill" id="hdrWindowBadge">Live</span></h1>
   </div>
   <button class="btn amb sm" data-act="installApp" id="hdrInstallBtn" style="padding:5px 10px;font-size:10.5px">📲 App</button>
   <span class="fb-pill" id="fbStatus">Connecting...</span>
@@ -1087,8 +1098,10 @@ if (localStorage.getItem("nu_dark") === "1") {
   document.documentElement.dataset.theme = "dark";
 }
 
-function statusTimeline(st) {
-  const steps = ["Placed", "Confirmed", "Cooking", "Ready for Pickup", "Out for Delivery", "Delivered"];
+function statusTimeline(st, isKirana = false) {
+  const steps = isKirana
+    ? ["Placed", "Packed", "Ready for Pickup", "Out for Delivery", "Delivered"]
+    : ["Placed", "Confirmed", "Cooking", "Ready for Pickup", "Out for Delivery", "Delivered"];
   const norm = st === "Verify Hold" ? "Placed" : st;
   const idx = steps.indexOf(norm);
   if (st === "Cancelled") return `<div class="tl"><span style="background:#ffe4e6;color:#9f1239">❌ Cancelled</span></div>`;
@@ -1509,10 +1522,11 @@ function viewCustomerOrders() {
             <b>${esc(o.id)} · ${inr(o.total)}</b>
             <span class="pill ${o.status === "Delivered" ? "p-green" : o.status === "Cancelled" ? "p-red" : "p-amber"}">${esc(o.status)}</span>
           </div>
-          ${statusTimeline(o.status)}
+          ${statusTimeline(o.status, false)}
           ${o.deliveryOtp && o.status !== "Delivered" && o.status !== "Cancelled" ? `<div style="font-size:11px;background:#fef3c7;color:#92400e;padding:4px 8px;border-radius:8px;font-weight:800;margin:3px 0">🔐 Delivery Handover PIN: <b>${esc(o.deliveryOtp)}</b> (Rider ko dein)</div>` : ""}
           ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Reason: ${esc(o.cancelReason)}</div>` : ""}
-          <div style="font-size:11px;color:var(--mu);margin-top:3px">${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
+          <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">🏬 Store: ${esc([...new Set((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)?.name).filter(Boolean))].join(", ") || "Namaste Kirana")}</div>
+          <div style="font-size:11px;color:var(--mu);margin-top:2px">${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
           ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700">📝 Note: ${esc(o.note)}</div>` : ""}
           <div style="font-size:10.5px;margin-top:3px">Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} · Area: ${esc(o.area)}</div>
           <div class="btn-row" style="margin-top:6px">
@@ -1532,7 +1546,7 @@ function viewCustomerOrders() {
             <b>${esc(o.id)} · ${inr(o.total)}</b>
             <span class="pill ${o.status === "Delivered" ? "p-green" : o.status === "Cancelled" ? "p-red" : "p-amber"}">${esc(o.status)}</span>
           </div>
-          ${statusTimeline(o.status)}
+          ${statusTimeline(o.status, true)}
           ${o.deliveryOtp && o.status !== "Delivered" && o.status !== "Cancelled" ? `<div style="font-size:11px;background:#fef3c7;color:#92400e;padding:4px 8px;border-radius:8px;font-weight:800;margin:3px 0">🔐 Delivery Handover PIN: <b>${esc(o.deliveryOtp)}</b> (Rider ko dein)</div>` : ""}
           ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800">Reason: ${esc(o.cancelReason)}</div>` : ""}
           <div style="font-size:11px;color:var(--mu);margin-top:3px">${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
@@ -2793,19 +2807,31 @@ function playOrderAlertSound() {
     if (!AUDIO_CTX) AUDIO_CTX = new Ctx();
     if (AUDIO_CTX.state === "suspended") AUDIO_CTX.resume().catch(() => {});
     const now = AUDIO_CTX.currentTime;
-    const notes = [587.33, 783.99, 1046.5];
-    notes.forEach((freq, idx) => {
+    const pattern = [
+      { t: 0.00, d: 0.40, f: 587.33 },
+      { t: 0.24, d: 0.40, f: 783.99 },
+      { t: 0.48, d: 0.50, f: 1046.50 },
+      { t: 1.15, d: 0.40, f: 587.33 },
+      { t: 1.39, d: 0.40, f: 783.99 },
+      { t: 1.63, d: 0.55, f: 1046.50 },
+      { t: 2.35, d: 0.42, f: 659.25 },
+      { t: 2.60, d: 0.42, f: 880.00 },
+      { t: 2.85, d: 0.55, f: 1174.66 },
+      { t: 3.55, d: 0.45, f: 783.99 },
+      { t: 3.85, d: 0.85, f: 1046.50 }
+    ];
+    pattern.forEach(p => {
       const osc = AUDIO_CTX.createOscillator();
       const gain = AUDIO_CTX.createGain();
       osc.type = "triangle";
-      osc.frequency.setValueAtTime(freq, now + idx * 0.14);
-      gain.gain.setValueAtTime(0.001, now + idx * 0.14);
-      gain.gain.exponentialRampToValueAtTime(0.22, now + idx * 0.14 + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.14 + 0.36);
+      osc.frequency.setValueAtTime(p.f, now + p.t);
+      gain.gain.setValueAtTime(0.001, now + p.t);
+      gain.gain.exponentialRampToValueAtTime(0.32, now + p.t + 0.035);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + p.t + p.d);
       osc.connect(gain);
       gain.connect(AUDIO_CTX.destination);
-      osc.start(now + idx * 0.14);
-      osc.stop(now + idx * 0.14 + 0.38);
+      osc.start(now + p.t);
+      osc.stop(now + p.t + p.d + 0.05);
     });
   } catch (e) {}
 }
@@ -2904,7 +2930,8 @@ function render() {
     $("#appMain").innerHTML = viewLoginPage();
     $("#cartFloat").innerHTML = "";
     $("#bottomNav").style.display = "none";
-    const hInst = $("#hdrInstallBtn"); if (hInst && IS_APP_INSTALLED) hInst.style.display = "none";
+    const hWin = $("#hdrWindowBadge"); if (hWin) hWin.textContent = getAutoMealWindow().slot;
+  const hInst = $("#hdrInstallBtn"); if (hInst && IS_APP_INSTALLED) hInst.style.display = "none";
     if (window._showInstallPopup) {
     $("#modalRoot").innerHTML = `
       <div class="ov" data-act="closeInstallPopup">
@@ -3086,7 +3113,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-separated-v55.html";
+      a.download = "namaste-udala-separated-v58.html";
       a.click();
       URL.revokeObjectURL(url);
       window._showInstallPopup = false;
