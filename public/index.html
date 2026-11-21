@@ -557,6 +557,42 @@ const REAL_IMG = {
 };
 const ART3D = REAL_IMG;
 
+
+function getImageCandidates(it) {
+  const n = (it?.name || "").toLowerCase();
+  const list = [];
+  if (it && it.img && String(it.img).trim()) list.push(String(it.img).trim());
+  if (/surf|detergent|easy\s*wash/.test(n)) {
+    list.push(
+      "https://m.media-amazon.com/images/I/61X9x5n+oML._SL1500_.jpg",
+      "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=600&q=80"
+    );
+  } else if (/lifebuoy|soap|sabun/.test(n)) {
+    list.push(
+      "https://m.media-amazon.com/images/I/61w4z5X3mML._SL1500_.jpg",
+      "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=600&q=80"
+    );
+  } else if (/red\s*label|tea|chai/.test(n)) {
+    list.push(
+      "https://m.media-amazon.com/images/I/61+z0m+8sGL._SL1500_.jpg",
+      "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?auto=format&fit=crop&w=600&q=80"
+    );
+  } else if (/atta|wheat/.test(n)) {
+    list.push(
+      "https://m.media-amazon.com/images/I/71f1w+Q0+KL._SL1500_.jpg",
+      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80"
+    );
+  } else if (/rice|chawal|miniket/.test(n)) {
+    list.push(
+      "https://m.media-amazon.com/images/I/586201375761-83865001e31c"
+    );
+  }
+  const matched = autoMatch3DImage(it?.name || "", it?.cat || "", it?.desc || "");
+  if (matched && !list.includes(matched)) list.push(matched);
+  if (REAL_IMG?.thali && !list.includes(REAL_IMG.thali)) list.push(REAL_IMG.thali);
+  return [...new Set(list)];
+}
+
 function autoMatch3DImage(name, cat, desc = "") {
   const txt = `${name} ${cat} ${desc}`.toLowerCase();
   if (/surf|detergent|easy\s*wash|washing/.test(txt)) return REAL_IMG.surf;
@@ -2056,7 +2092,7 @@ function viewVendor() {
         ${v.type === "FOOD" ? `<select class="inp" id="venNewNv"><option value="0">🟢 Pure Veg</option><option value="1">🔴 Non-Veg</option></select>` : ""}
       </div>
       <input class="inp" id="venNewDesc" placeholder="Short description (optional)" />
-      <input class="inp" id="venNewImg" placeholder="Custom Image URL (optional — blank rakhein to Auto-Link banega)" />
+      <div class="btn-row"><input class="inp" id="venNewImg" placeholder="Image URL ya Phone Photo upload karein..." /><button class="btn amb sm" style="max-width:95px" data-act="findPhotoWeb" data-v="venNewName">🔎 Find</button><button class="btn w sm" style="max-width:105px" data-act="pickItemPhoto" data-v="venNewImg">📷 Photo</button></div>
       <button class="btn o full sm" data-act="addVendorItem" data-id="${v.id}">✨ Add Item (Auto / Custom Link)</button>
     </div>
     <div class="card">
@@ -2813,6 +2849,10 @@ const ACT = {
   closeModalBg: (v, k, id, e) => { if (e.target.classList.contains("ov")) { CHECKOUT_MODAL = null; render(); } },
   changePayMode: () => { if (CHECKOUT_MODAL) { CHECKOUT_MODAL.payMode = $("#chkPayMode").value; render(); } },
   pickProof: () => { $("#proofInput").click(); },
+  findPhotoWeb: v => {
+    const nm = ($(`#${v || "venNewName"}`)?.value || "").trim() || "product photo";
+    window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(nm + " product")}`, "_blank");
+  },
   confirmCheckout: () => {
     if (!CHECKOUT_MODAL) return;
     if (window._orderLock && Date.now() - window._orderLock < 3000) return toast("⏳ Order process ho raha hai, kripya wait karein...");
@@ -3166,9 +3206,22 @@ $("#importJsonInput").addEventListener("change", e => {
 
 /* ==================== RESILIENT IMAGE FALLBACK (ZERO BROKEN IMAGES) ==================== */
 document.addEventListener("error", e => {
-  if (e.target && e.target.tagName === "IMG" && !e.target.dataset.fbDone) {
-    e.target.dataset.fbDone = "1";
-    e.target.src = REAL_IMG.thali;
+  const img = e.target;
+  if (!img || img.tagName !== "IMG") return;
+  try {
+    let queue = img.dataset.fbQueue ? JSON.parse(img.dataset.fbQueue) : null;
+    if (Array.isArray(queue) && queue.length > 0) {
+      const nextSrc = queue.shift();
+      img.dataset.fbQueue = JSON.stringify(queue);
+      if (nextSrc && img.src !== nextSrc) {
+        img.src = nextSrc;
+        return;
+      }
+    }
+  } catch (err) {}
+  if (!img.dataset.fbDone) {
+    img.dataset.fbDone = "1";
+    img.src = REAL_IMG.thali;
   }
 }, true);
 
