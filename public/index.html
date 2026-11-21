@@ -6,6 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Namaste Udala — Mera Tiffin · Multi-Vendor Food · Kirana & Daily Needs</title>
 <meta name="theme-color" content="#113221" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Namaste Udala" />
+<link id="pwaManifestLink" rel="manifest" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root {
@@ -453,7 +457,6 @@
 <body>
 
 <input type="file" id="proofInput" accept="image/*" style="display:none" />
-<input type="file" id="itemPhotoInput" accept="image/*" capture="environment" style="display:none" />
 <input type="file" id="importJsonInput" accept=".json,application/json" style="display:none" />
 
 <header>
@@ -462,6 +465,7 @@
     <small>UDALA · MAYURBHANJ · SEPARATE CATEGORIES</small>
     <h1>Namaste Udala</h1>
   </div>
+  <button class="btn amb sm" data-act="installApp" id="hdrInstallBtn" style="padding:5px 10px;font-size:10.5px">📲 App</button>
   <span class="fb-pill" id="fbStatus">Connecting...</span>
   <button class="btn w sm" data-act="toggleTheme" id="themeBtn">🌙</button>
 </header>
@@ -533,132 +537,23 @@ const IMG = {
 
 
 
-const toB64 = str => {
-  try { return btoa(unescape(encodeURIComponent(str))); }
-  catch (e) { return btoa(Array.from(str).map(c => String.fromCharCode(c.charCodeAt(0) & 255)).join("")); }
-};
-const makeSvg = inner => "data:image/svg+xml;base64," + toB64(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220"><defs><filter id="s" x="-20%" y="-20%" width="140%" height="145%"><feDropShadow dx="0" dy="14" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.42"/></filter></defs><g filter="url(#s)">${inner}</g></svg>`);
-
 const REAL_IMG = {
-  idli: makeSvg(`
-    <ellipse cx="110" cy="146" rx="84" ry="36" fill="#e2e8f0" stroke="#94a3b8" stroke-width="3"/>
-    <ellipse cx="82" cy="128" rx="26" ry="15" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
-    <ellipse cx="134" cy="130" rx="26" ry="15" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
-    <ellipse cx="108" cy="110" rx="26" ry="15" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-    <circle cx="70" cy="154" r="15" fill="#d97706" stroke="#fff" stroke-width="2"/>
-    <circle cx="148" cy="154" r="14" fill="#16a34a" stroke="#fff" stroke-width="2"/>
-  `),
-  thali: makeSvg(`
-    <ellipse cx="110" cy="124" rx="88" ry="52" fill="#d97706" stroke="#fde68a" stroke-width="3"/>
-    <ellipse cx="110" cy="120" rx="76" ry="43" fill="#fef3c7" opacity="0.35"/>
-    <ellipse cx="86" cy="134" rx="28" ry="18" fill="#ffffff"/>
-    <circle cx="78" cy="96" r="18" fill="#f59e0b" stroke="#78350f" stroke-width="2.5"/>
-    <circle cx="122" cy="94" r="17" fill="#dc2626" stroke="#78350f" stroke-width="2.5"/>
-    <circle cx="156" cy="112" r="14" fill="#16a34a" stroke="#78350f" stroke-width="2"/>
-    <path d="M114 134 Q146 112 168 134 Q142 154 114 134 Z" fill="#fde047" stroke="#a16207" stroke-width="2"/>
-  `),
-  chicken: makeSvg(`
-    <path d="M40 108 Q36 176 110 180 Q184 176 180 108 Z" fill="#7c2d12" stroke="#fdba74" stroke-width="2.5"/>
-    <ellipse cx="110" cy="108" rx="70" ry="24" fill="#b91c1c"/>
-    <ellipse cx="92" cy="102" rx="22" ry="12" fill="#991b1b" transform="rotate(-15 92 102)"/>
-    <rect x="64" y="88" width="24" height="8" rx="4" fill="#fef3c7" transform="rotate(-25 64 88)"/>
-    <ellipse cx="132" cy="108" rx="20" ry="11" fill="#7f1d1d" transform="rotate(14 132 108)"/>
-    <circle cx="112" cy="92" r="7" fill="#22c55e"/>
-  `),
-  puri: makeSvg(`
-    <ellipse cx="110" cy="144" rx="84" ry="36" fill="#cbd5e1" stroke="#64748b" stroke-width="2.5"/>
-    <ellipse cx="86" cy="122" rx="34" ry="22" fill="#f59e0b" stroke="#b45309" stroke-width="2.5"/>
-    <ellipse cx="132" cy="126" rx="34" ry="22" fill="#fbbf24" stroke="#b45309" stroke-width="2.5"/>
-    <ellipse cx="108" cy="106" rx="32" ry="20" fill="#fcd34d" stroke="#b45309" stroke-width="2.5"/>
-    <circle cx="152" cy="152" r="18" fill="#dc2626" stroke="#fff" stroke-width="2"/>
-  `),
-  biryani: makeSvg(`
-    <path d="M38 100 Q28 180 110 186 Q192 180 182 100 Z" fill="#9a3412"/>
-    <ellipse cx="110" cy="100" rx="74" ry="26" fill="#7c2d12" stroke="#fdba74" stroke-width="2.5"/>
-    <ellipse cx="110" cy="96" rx="66" ry="22" fill="#f59e0b"/>
-    <ellipse cx="90" cy="92" rx="18" ry="9" fill="#b91c1c" transform="rotate(-12 90 92)"/>
-    <ellipse cx="132" cy="98" rx="16" ry="8" fill="#991b1b" transform="rotate(14 132 98)"/>
-    <circle cx="112" cy="84" r="8" fill="#fef9c3"/>
-    <path d="M100 78 Q110 64 118 76 Z" fill="#16a34a"/>
-  `),
-  paneer: makeSvg(`
-    <path d="M42 108 Q40 176 110 180 Q180 176 178 108 Z" fill="#ea580c" stroke="#fed7aa" stroke-width="2.5"/>
-    <ellipse cx="110" cy="108" rx="68" ry="22" fill="#f97316"/>
-    <rect x="76" y="94" width="20" height="16" rx="4" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
-    <rect x="106" y="90" width="20" height="16" rx="4" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
-    <rect x="130" y="98" width="18" height="14" rx="4" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
-    <circle cx="98" cy="112" r="5" fill="#16a34a"/>
-  `),
-  jarcake: makeSvg(`
-    <rect x="66" y="42" width="88" height="16" rx="6" fill="#be123c"/>
-    <rect x="62" y="58" width="96" height="126" rx="18" fill="#fff1f2" stroke="#fda4af" stroke-width="3"/>
-    <rect x="66" y="68" width="88" height="26" fill="#451a03"/>
-    <rect x="66" y="94" width="88" height="22" fill="#fecdd3"/>
-    <rect x="66" y="116" width="88" height="28" fill="#78350f"/>
-    <rect x="66" y="144" width="88" height="28" fill="#3b0764"/>
-    <circle cx="110" cy="36" r="10" fill="#e11d48"/>
-  `),
-  cake: makeSvg(`
-    <ellipse cx="110" cy="166" rx="82" ry="22" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2.5"/>
-    <rect x="48" y="94" width="124" height="66" rx="16" fill="#be123c"/>
-    <ellipse cx="110" cy="94" rx="62" ry="20" fill="#ffe4e6"/>
-    <circle cx="92" cy="88" r="9" fill="#e11d48"/>
-    <circle cx="112" cy="84" r="10" fill="#be123c"/>
-    <circle cx="130" cy="90" r="8" fill="#e11d48"/>
-  `),
-  atta: makeSvg(`
-    <path d="M54 36 L166 36 L176 186 Q110 196 44 186 Z" fill="#d97706" stroke="#fde68a" stroke-width="2.5"/>
-    <rect x="58" y="72" width="104" height="58" rx="12" fill="#fffbeb"/>
-    <text x="110" y="98" text-anchor="middle" fill="#92400e" font-family="sans-serif" font-size="18" font-weight="900">CHAKKI ATTA</text>
-    <text x="110" y="118" text-anchor="middle" fill="#15803d" font-family="sans-serif" font-size="13" font-weight="800">5 KG · MP WHEAT</text>
-  `),
-  rice: makeSvg(`
-    <path d="M52 38 L168 38 L178 186 Q110 196 42 186 Z" fill="#15803d" stroke="#bbf7d0" stroke-width="2.5"/>
-    <rect x="58" y="72" width="104" height="58" rx="12" fill="#ffffff"/>
-    <text x="110" y="98" text-anchor="middle" fill="#166534" font-family="sans-serif" font-size="18" font-weight="900">MINIKET RICE</text>
-    <text x="110" y="118" text-anchor="middle" fill="#d97706" font-family="sans-serif" font-size="13" font-weight="800">5 KG · PREMIUM</text>
-  `),
-  surf: makeSvg(`
-    <path d="M52 34 L168 34 L178 186 Q110 198 42 186 Z" fill="#1d4ed8" stroke="#93c5fd" stroke-width="2.5"/>
-    <path d="M46 112 Q110 92 174 112 L176 134 Q110 116 44 134 Z" fill="#facc15"/>
-    <text x="110" y="84" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="22" font-weight="900">SURF EXCEL</text>
-    <text x="110" y="102" text-anchor="middle" fill="#fde047" font-family="sans-serif" font-size="11" font-weight="800">EASY WASH · 1.5 KG</text>
-    <text x="110" y="156" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="800">TOUGH STAIN REMOVER</text>
-  `),
-  soap: makeSvg(`
-    <rect x="38" y="56" width="144" height="104" rx="24" fill="#dc2626" stroke="#fecaca" stroke-width="3"/>
-    <rect x="52" y="74" width="116" height="68" rx="14" fill="#ffffff"/>
-    <text x="110" y="103" text-anchor="middle" fill="#dc2626" font-family="sans-serif" font-size="19" font-weight="900">LIFEBUOY</text>
-    <text x="110" y="123" text-anchor="middle" fill="#0f172a" font-family="sans-serif" font-size="12" font-weight="800">TOTAL 10 · 4x125G</text>
-    <circle cx="176" cy="54" r="14" fill="#facc15" stroke="#fff" stroke-width="2"/>
-    <text x="176" y="58" text-anchor="middle" fill="#0f172a" font-family="sans-serif" font-size="9" font-weight="900">100%</text>
-  `),
-  tea: makeSvg(`
-    <rect x="54" y="42" width="112" height="142" rx="18" fill="#b91c1c" stroke="#fde047" stroke-width="3"/>
-    <rect x="64" y="76" width="92" height="58" rx="10" fill="#fef08a"/>
-    <text x="110" y="102" text-anchor="middle" fill="#991b1b" font-family="sans-serif" font-size="18" font-weight="900">RED LABEL</text>
-    <text x="110" y="120" text-anchor="middle" fill="#166534" font-family="sans-serif" font-size="12" font-weight="800">ASSAM TEA · 500G</text>
-  `),
-  oil: makeSvg(`
-    <rect x="88" y="28" width="44" height="22" rx="6" fill="#d97706"/>
-    <path d="M68 50 L152 50 L160 184 Q110 192 60 184 Z" fill="#facc15" stroke="#fef08a" stroke-width="2.5"/>
-    <rect x="72" y="92" width="76" height="54" rx="10" fill="#ffffff"/>
-    <text x="110" y="116" text-anchor="middle" fill="#b45309" font-family="sans-serif" font-size="16" font-weight="900">SUNLITE OIL</text>
-    <text x="110" y="134" text-anchor="middle" fill="#15803d" font-family="sans-serif" font-size="12" font-weight="800">1 LITRE POUCH</text>
-  `),
-  milk: makeSvg(`
-    <path d="M58 44 L162 44 L168 184 Q110 192 52 184 Z" fill="#2563eb" stroke="#bfdbfe" stroke-width="2.5"/>
-    <rect x="64" y="82" width="92" height="62" rx="12" fill="#ffffff"/>
-    <text x="110" y="108" text-anchor="middle" fill="#1d4ed8" font-family="sans-serif" font-size="18" font-weight="900">OMFED GOLD</text>
-    <text x="110" y="128" text-anchor="middle" fill="#dc2626" font-family="sans-serif" font-size="12" font-weight="800">1L MILK + BREAD</text>
-  `),
-  kirana: makeSvg(`
-    <path d="M44 96 L176 96 L160 184 Q110 194 60 184 Z" fill="#b45309" stroke="#fde68a" stroke-width="2.5"/>
-    <rect x="62" y="48" width="36" height="48" rx="6" fill="#2563eb"/>
-    <rect x="104" y="42" width="28" height="54" rx="6" fill="#facc15"/>
-    <circle cx="146" cy="76" r="16" fill="#dc2626"/>
-    <text x="110" y="138" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="15" font-weight="900">UDALA KIRANA</text>
-  `)
+  idli: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80",
+  thali: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80",
+  chicken: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=600&q=80",
+  puri: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80",
+  biryani: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80",
+  paneer: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=600&q=80",
+  jarcake: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=600&q=80",
+  cake: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80",
+  atta: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80",
+  rice: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+  surf: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=600&q=80",
+  soap: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=600&q=80",
+  tea: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?auto=format&fit=crop&w=600&q=80",
+  oil: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80",
+  milk: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80",
+  kirana: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80"
 };
 const ART3D = REAL_IMG;
 
@@ -734,8 +629,7 @@ function normalizeAllImages() {
     it.img = mapped === REAL_IMG.tea ? autoMatch3DImage(it.name, it.cat, it.desc) : mapped;
   });
   (S.kiranaItems || []).forEach(it => {
-    const m = kiranaIdArt[it.id] || autoMatch3DImage(it.name, it.cat, it.desc);
-    it.img = /lifebuoy|soap/i.test(it.name) ? REAL_IMG.soap : m;
+    it.img = kiranaIdArt[it.id] || autoMatch3DImage(it.name, it.cat, it.desc);
   });
 }
 
@@ -1001,32 +895,55 @@ let KIRANA_CART = {};
 let CHECKOUT_MODAL = null;
 let PROOF_DATA_URL = "";
 
-function compressImageFileToDataUrl(file, maxSize = 480, quality = 0.72) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        const scale = Math.min(1, maxSize / Math.max(img.width || 1, img.height || 1));
-        const w = Math.max(1, Math.round((img.width || 300) * scale));
-        const h = Math.max(1, Math.round((img.height || 300) * scale));
-        const canvas = document.createElement("canvas");
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL("image/jpeg", quality));
-      };
-      img.onerror = reject;
-      img.src = ev.target.result;
+
+
+/* ==================== PWA APP INSTALL & DOWNLOAD ENGINE ==================== */
+let DEFERRED_INSTALL_PROMPT = null;
+let IS_APP_INSTALLED = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+
+(function setupPwaManifestAndSw() {
+  try {
+    const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#113221"/><circle cx="256" cy="256" r="196" fill="#e11d48"/><text x="256" y="295" text-anchor="middle" fill="#ffffff" font-family="Georgia,serif" font-size="168" font-weight="800">NU</text></svg>`;
+    const iconUrl = "data:image/svg+xml;base64," + btoa(iconSvg);
+    const manifest = {
+      name: "Namaste Udala — Tiffin, Food & Kirana",
+      short_name: "Namaste Udala",
+      description: "Udala ka apna Mera Tiffin, Multi-Vendor Food aur Kirana & Daily Needs App",
+      start_url: location.href,
+      display: "standalone",
+      background_color: "#113221",
+      theme_color: "#113221",
+      icons: [
+        { src: iconUrl, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
+        { src: iconUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+      ]
     };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-let PENDING_ITEM_UPLOAD = { kind: null, id: null, targetInputId: null };
+    const mBlob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+    const mLink = document.getElementById("pwaManifestLink");
+    if (mLink) mLink.href = URL.createObjectURL(mBlob);
 
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
+      const swCode = `self.addEventListener("install", e => self.skipWaiting());self.addEventListener("activate", e => self.clients.claim());self.addEventListener("fetch", e => {});`;
+      const swBlob = new Blob([swCode], { type: "application/javascript" });
+      navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+    }
+  } catch (e) {}
+})();
 
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  DEFERRED_INSTALL_PROMPT = e;
+  const btn = document.getElementById("hdrInstallBtn");
+  if (btn) btn.textContent = "📲 Install";
+});
+
+window.addEventListener("appinstalled", () => {
+  IS_APP_INSTALLED = true;
+  DEFERRED_INSTALL_PROMPT = null;
+  const btn = document.getElementById("hdrInstallBtn");
+  if (btn) btn.style.display = "none";
+  toast("🎉 Namaste Udala App install ho gaya!");
+});
 
 let USER_GPS = { lat: null, lng: null, acc: null, status: "Not captured yet", ok: false };
 
@@ -1138,7 +1055,7 @@ function viewTiffin() {
       <h2>Mera Tiffin Subscription</h2>
       <p>Morning Breakfast (6:30 AM cut-off) · Lunch & Dinner (9:00 AM cut-off)</p>
     </div>
-    <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" referrerpolicy="no-referrer" src="${dailyMenuImg}" alt="Mera Tiffin" /></div>
+    <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" src="${dailyMenuImg}" alt="Mera Tiffin" /></div>
   </div>
 
   <div class="card" style="border-left:5px solid var(--o)">
@@ -1258,7 +1175,7 @@ function viewFoodShop() {
               <span class="pill p-amber">⭐ ${esc(v.rating)}</span>
             </div>
           </div>
-          <img referrerpolicy="no-referrer" src="${v.cover}" style="width:76px;height:76px;border-radius:16px;border:2px solid #fff" />
+          <img src="${v.cover}" style="width:76px;height:76px;border-radius:16px;border:2px solid #fff" />
         </div>
       </div>
 
@@ -1270,7 +1187,7 @@ function viewFoodShop() {
           return `
             <div class="pcard">
               <div>
-                <div class="pimg" data-act="openDetail" data-k="FOOD" data-id="${it.id}">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img referrerpolicy="no-referrer" src="${dishImg}" alt="${esc(it.name)}" /></div>
+                <div class="pimg" data-act="openDetail" data-k="FOOD" data-id="${it.id}">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img src="${dishImg}" alt="${esc(it.name)}" /></div>
                 <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12.5px">
                   <span class="sym ${it.nv ? "nv" : ""}"><i></i></span>
                   <span>${esc(it.name)}</span>
@@ -1292,11 +1209,10 @@ function viewFoodShop() {
 
   const q = FOOD_SEARCH.trim().toLowerCase();
   const matchingDishes = (q || FOOD_CAT_FILTER !== "ALL")
-    ? S.foodItems.filter(it => {
-        const vName = (foodVendors.find(x => x.id === it.vendorId)?.name || "").toLowerCase();
-        return (FOOD_CAT_FILTER === "ALL" || it.cat === FOOD_CAT_FILTER) &&
-          (!q || it.name.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q) || (it.desc || "").toLowerCase().includes(q) || vName.includes(q));
-      })
+    ? S.foodItems.filter(it =>
+        (FOOD_CAT_FILTER === "ALL" || it.cat === FOOD_CAT_FILTER) &&
+        (!q || it.name.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q))
+      )
     : [];
 
   return `
@@ -1306,10 +1222,10 @@ function viewFoodShop() {
         <h2>Udala Restaurants & Nashta</h2>
         <p>Apne pasandida kitchen ya restaurant se fresh khana & cake mangwayein</p>
       </div>
-      <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" referrerpolicy="no-referrer" src="${ART3D.biryani}" alt="Food Shop" /></div>
+      <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" src="${ART3D.biryani}" alt="Food Shop" /></div>
     </div>
 
-    <div class="btn-row"><input class="inp" id="foodSearchInp" placeholder="🔍 Product ke naam se find karein (Biryani, Idli, Chicken...)" value="${esc(FOOD_SEARCH)}" />${FOOD_SEARCH ? `<button class="btn w sm" style="max-width:78px" data-act="clearFoodSearch">Clear</button>` : ""}</div>
+    <input class="inp" id="foodSearchInp" placeholder="🔍 Search Biryani, Idli, Chicken, Paneer, Cake..." value="${esc(FOOD_SEARCH)}" />
     <div class="chips" style="margin-top:6px">
       ${["ALL", "Breakfast", "Thali", "Meals", "Biryani", "Bakery"].map(c =>
         `<button class="${FOOD_CAT_FILTER === c ? "on" : ""}" data-act="setFoodCat" data-v="${c}">${c}</button>`
@@ -1329,7 +1245,7 @@ function viewFoodShop() {
               <div class="pcard">
                 <div>
                   <div style="font-size:10px;font-weight:800;color:var(--amb);margin-bottom:4px">🏪 ${esc(v.name)}</div>
-                  <div class="pimg" data-act="openDetail" data-k="FOOD" data-id="${it.id}">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img referrerpolicy="no-referrer" src="${dishImg}" alt="${esc(it.name)}" /></div>
+                  <div class="pimg" data-act="openDetail" data-k="FOOD" data-id="${it.id}">${it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}<img src="${dishImg}" alt="${esc(it.name)}" /></div>
                   <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px">
                     <span class="sym ${it.nv ? "nv" : ""}"><i></i></span><span>${esc(it.name)}</span>
                   </div>
@@ -1353,7 +1269,7 @@ function viewFoodShop() {
       return `
         <div class="rest-card" data-act="openRest" data-id="${v.id}">
           <div class="rest-cover">
-            <img referrerpolicy="no-referrer" src="${v.cover}" alt="${esc(v.name)}" />
+            <img src="${v.cover}" alt="${esc(v.name)}" />
             <span class="rest-status pill ${v.status === "Open" ? "p-green" : v.status === "Busy" ? "p-amber" : "p-red"}">${v.status}</span>
             <span class="rest-eta">⏱ ${esc(v.eta)} · ${count} Items</span>
           </div>
@@ -1394,11 +1310,10 @@ function viewKirana() {
   const pct = Math.min(100, Math.round((sub / freeAt) * 100));
 
   const q = KIRANA_SEARCH.trim().toLowerCase();
-  const items = S.kiranaItems.filter(it => {
-    const vName = (S.vendors.find(x => x.id === it.vendorId)?.name || "").toLowerCase();
-    return (KIRANA_CAT_FILTER === "ALL" || it.cat === KIRANA_CAT_FILTER) &&
-      (!q || it.name.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q) || (it.desc || "").toLowerCase().includes(q) || vName.includes(q));
-  });
+  const items = S.kiranaItems.filter(it =>
+    (KIRANA_CAT_FILTER === "ALL" || it.cat === KIRANA_CAT_FILTER) &&
+    (!q || it.name.toLowerCase().includes(q))
+  );
 
   return `
     <div class="hero kirana-bg">
@@ -1407,7 +1322,7 @@ function viewKirana() {
         <h2>Kirana & Daily Needs Daily Needs</h2>
         <p>Atta, Chawal, Tel, Surf Excel, Lifebuoy, Tea & Dairy ghar baithe</p>
       </div>
-      <div class="hero-pop-wrap"><img class="hero-pop" referrerpolicy="no-referrer" src="${ART3D.surf}" alt="Kirana & Daily Needs" /></div>
+      <div class="hero-pop-wrap"><img class="hero-pop" src="${ART3D.surf}" alt="Kirana & Daily Needs" /></div>
     </div>
 
     <div class="card" style="border:2px solid ${sub >= freeAt ? "#16a34a" : sub >= minOrd ? "#d97706" : "#e11d48"}">
@@ -1423,7 +1338,7 @@ function viewKirana() {
       </div>
     </div>
 
-    <div class="btn-row"><input class="inp" id="kiranaSearchInp" placeholder="🔍 Product ke naam se find karein (Atta, Rice, Surf Excel...)" value="${esc(KIRANA_SEARCH)}" />${KIRANA_SEARCH ? `<button class="btn w sm" style="max-width:78px" data-act="clearKiranaSearch">Clear</button>` : ""}</div>
+    <input class="inp" id="kiranaSearchInp" placeholder="🔍 Search Atta, Rice, Surf Excel, Lifebuoy, Tea..." value="${esc(KIRANA_SEARCH)}" />
     <div class="chips" style="margin-top:6px">
       ${["ALL", "HUL", "Staples", "Dairy"].map(c =>
         `<button class="${KIRANA_CAT_FILTER === c ? "on" : ""}" data-act="setKiranaCat" data-v="${c}">${c === "HUL" ? "Daily Care" : c}</button>`
@@ -1443,7 +1358,7 @@ function viewKirana() {
                 <span style="color:var(--g2)">🏬 ${esc(v.name)}</span>
                 <span class="pill p-blue">${esc(it.cat)}</span>
               </div>
-              <div class="pimg" data-act="openDetail" data-k="KIRANA" data-id="${it.id}"><img referrerpolicy="no-referrer" src="${itemImg}" alt="${esc(it.name)}" /></div>
+              <div class="pimg" data-act="openDetail" data-k="KIRANA" data-id="${it.id}"><img src="${itemImg}" alt="${esc(it.name)}" /></div>
               <div style="font-weight:800;font-size:12.5px">${esc(it.name)}</div>
               <div style="font-size:10.5px;color:var(--mu);margin-top:2px">${esc(it.desc)}</div>
             </div>
@@ -1588,6 +1503,20 @@ function viewAccountPage() {
       <div class="row"><span>💳 Direct UPI Payment ID</span><b>${esc(S.cfg.upi)}</b></div>
     </div>
 
+    <div class="card" style="border:2px solid var(--amb)">
+      <h3>📲 Download / Install Mobile App <span class="pill p-green" id="pwaStatePill">App Ready</span></h3>
+      <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Namaste Udala ko apne phone ki Home Screen par asli Android/iOS App ki tarah install karein — bina Play Store ke turant khulega!</p>
+      <div class="btn-row">
+        <button class="btn o sm" data-act="installApp">📲 Install / Download App</button>
+        <button class="btn w sm" data-act="shareAppLink">🔗 Share App Link</button>
+      </div>
+      <div style="font-size:11px;color:var(--mu);margin-top:8px;line-height:1.45">
+        <b>Manual Install Guide:</b><br>
+        • <b>Android (Chrome):</b> Upar 3-dot menu (⋮) dabayein → <b>"Install app"</b> ya <b>"Add to Home screen"</b> chunein.<br>
+        • <b>iPhone (Safari):</b> Niche <b>Share (⬆️)</b> button dabayein → <b>"Add to Home Screen"</b> chunein.
+      </div>
+    </div>
+
     <div class="card">
       <h3>🤝 Partner With Us & Support</h3>
       <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Apna restaurant, home kitchen, ya kirana shop Namaste Udala par jodne ke liye ya kisi order ki madad ke liye seedha WhatsApp karein.</p>
@@ -1658,7 +1587,7 @@ function viewItemDetailPage() {
         </div>
         <div class="hero-pop-wrap">
           ${isFood && it.cat !== "Bakery" ? `<div class="steam-wrap"><i></i><i></i><i></i></div>` : ""}
-          <img class="hero-pop" referrerpolicy="no-referrer" src="${pic}" alt="${esc(it.name)}" />
+          <img class="hero-pop" src="${pic}" alt="${esc(it.name)}" />
         </div>
       </div>
     </div>
@@ -2127,7 +2056,7 @@ function viewVendor() {
         ${v.type === "FOOD" ? `<select class="inp" id="venNewNv"><option value="0">🟢 Pure Veg</option><option value="1">🔴 Non-Veg</option></select>` : ""}
       </div>
       <input class="inp" id="venNewDesc" placeholder="Short description (optional)" />
-      <div class="btn-row"><input class="inp" id="venNewImg" placeholder="Image URL ya Phone Photo upload karein..." /><button class="btn w sm" style="max-width:125px" data-act="pickItemPhoto" data-v="venNewImg">📷 Photo</button></div>
+      <input class="inp" id="venNewImg" placeholder="Custom Image URL (optional — blank rakhein to Auto-Link banega)" />
       <button class="btn o full sm" data-act="addVendorItem" data-id="${v.id}">✨ Add Item (Auto / Custom Link)</button>
     </div>
     <div class="card">
@@ -2508,11 +2437,37 @@ function render() {
     $("#bottomNav").style.display = "none";
   }
 
+  const hInst = $("#hdrInstallBtn"); if (hInst && IS_APP_INSTALLED) hInst.style.display = "none";
   $("#modalRoot").innerHTML = "";
 }
 
 /* ==================== ACTIONS & EVENTS ==================== */
 const ACT = {
+  installApp: async () => {
+    if (IS_APP_INSTALLED) return toast("✅ Namaste Udala App pehle se installed hai!");
+    if (DEFERRED_INSTALL_PROMPT) {
+      DEFERRED_INSTALL_PROMPT.prompt();
+      const res = await DEFERRED_INSTALL_PROMPT.userChoice;
+      DEFERRED_INSTALL_PROMPT = null;
+      if (res && res.outcome === "accepted") toast("🎉 Installing Namaste Udala App...");
+      return;
+    }
+    const isHttps = location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    if (!isHttps) {
+      alert("📲 App Download / Install Guide:\n\n1. Is file ko apne HTTPS hosting link (Firebase Hosting / GitHub Pages) par kholein.\n2. Chrome mein kholte hi 'Install Namaste Udala App' popup aa jayega.\n3. Ya Chrome menu (⋮) → 'Add to Home screen' dabayein.");
+    } else {
+      alert("📲 Phone Home Screen Par Install Karein:\n\n• Android (Chrome): Upar 3-dot menu (⋮) dabayein → 'Install app' ya 'Add to Home screen' chunein.\n• iPhone (Safari): Niche Share (⬆️) button dabayein → 'Add to Home Screen' chunein.");
+    }
+  },
+  shareAppLink: () => {
+    const url = location.href;
+    const msg = `Namaste Udala App se ghar baithe Mera Tiffin, Food aur Kirana mangwayein! Yahan se open/install karein: ${url}`;
+    if (navigator.share) {
+      navigator.share({ title: "Namaste Udala App", text: msg, url }).catch(() => {});
+    } else {
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
+    }
+  },
   toggleTheme: () => {
     const dark = document.documentElement.dataset.theme !== "dark";
     document.documentElement.dataset.theme = dark ? "dark" : "";
@@ -2612,8 +2567,6 @@ const ACT = {
   },
 
   setKiranaCat: v => { KIRANA_CAT_FILTER = v; render(); },
-  clearFoodSearch: () => { FOOD_SEARCH = ""; render(); },
-  clearKiranaSearch: () => { KIRANA_SEARCH = ""; render(); },
   kInc: (v, k, id) => { KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1; render(); },
   kDec: (v, k, id) => { KIRANA_CART[id] = Math.max(0, (KIRANA_CART[id] || 0) - 1); if (!KIRANA_CART[id]) delete KIRANA_CART[id]; render(); },
   addKiranaCombo: () => {
@@ -2695,12 +2648,6 @@ const ACT = {
     const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
     const it = arr.find(x => x.id === id);
     if (!it) return;
-    if (confirm("Phone Camera / Gallery se naya photo upload karna hai? (Cancel dabane par URL link daal sakte hain)")) {
-      PENDING_ITEM_UPLOAD = { kind: k, id, targetInputId: null };
-      $("#itemPhotoInput").value = "";
-      $("#itemPhotoInput").click();
-      return;
-    }
     const url = prompt("Naya Image URL link paste karein (ya blank chhod kar Auto-Link banayein):", it.img || "");
     if (url === null) return;
     it.img = url.trim() ? url.trim() : autoMatch3DImage(it.name, it.cat, it.desc);
@@ -2866,11 +2813,6 @@ const ACT = {
   closeModalBg: (v, k, id, e) => { if (e.target.classList.contains("ov")) { CHECKOUT_MODAL = null; render(); } },
   changePayMode: () => { if (CHECKOUT_MODAL) { CHECKOUT_MODAL.payMode = $("#chkPayMode").value; render(); } },
   pickProof: () => { $("#proofInput").click(); },
-  pickItemPhoto: (v, k, id) => {
-    PENDING_ITEM_UPLOAD = { kind: k || null, id: id || null, targetInputId: v || null };
-    $("#itemPhotoInput").value = "";
-    $("#itemPhotoInput").click();
-  },
   confirmCheckout: () => {
     if (!CHECKOUT_MODAL) return;
     if (window._orderLock && Date.now() - window._orderLock < 3000) return toast("⏳ Order process ho raha hai, kripya wait karein...");
@@ -3174,31 +3116,6 @@ document.addEventListener("input", e => {
 
 document.addEventListener("change", e => {
   if (e.target.dataset.tf) { TF[e.target.dataset.tf] = e.target.value; render(); }
-});
-
-
-$("#itemPhotoInput").addEventListener("change", async e => {
-  const f = e.target.files?.[0];
-  if (!f) return;
-  try {
-    const compressed = await compressImageFileToDataUrl(f, 480, 0.72);
-    if (PENDING_ITEM_UPLOAD.targetInputId) {
-      const inp = $("#" + PENDING_ITEM_UPLOAD.targetInputId);
-      if (inp) inp.value = compressed;
-      toast("📷 Photo compressed & ready!");
-    } else if (PENDING_ITEM_UPLOAD.kind && PENDING_ITEM_UPLOAD.id) {
-      const arr = PENDING_ITEM_UPLOAD.kind === "FOOD" ? S.foodItems : S.kiranaItems;
-      const it = arr.find(x => x.id === PENDING_ITEM_UPLOAD.id);
-      if (it) {
-        it.img = compressed;
-        save(`Photo uploaded for ${it.name}`);
-        toast("📷 Item photo updated!");
-      }
-    }
-  } catch (err) {
-    toast("⚠️ Photo compress nahi ho saki");
-  }
-  PENDING_ITEM_UPLOAD = { kind: null, id: null, targetInputId: null };
 });
 
 $("#proofInput").addEventListener("change", e => {
