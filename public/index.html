@@ -605,7 +605,7 @@
     box-shadow: 0 -14px 32px rgba(0,0,0,.25);
   }
   .pcard, .rest-card, .hero {
-    will-change: transform;
+    will-change: auto;
   }
   @media (max-width: 420px) {
     .hero-pop {
@@ -2480,6 +2480,581 @@ function getOwnerNetProfitV102() {
   return getOwnerNetProfitEstimate();
 }
 
+
+/* ==================== FAST OPEN BOOSTER (v103) ==================== */
+(function fastOpenBooster() {
+  try {
+    // Yield microtask & paint immediately if appMain is still empty
+    const m = document.querySelector("#appMain");
+    if (m && !m.innerHTML.trim()) {
+      m.innerHTML = `<div class="card" style="padding:18px;text-align:center"><b>⚡ Namaste Udala load ho raha hai...</b><div style="font-size:11px;color:var(--mu);margin-top:4px">Fast mode active</div></div>`;
+    }
+  } catch (e) {}
+})();
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v103) ==================== */
+function ensureV103Defaults() {
+  if (!S) return;
+  S.cfg.fastOpenMode = S.cfg.fastOpenMode ?? true;
+  S.cfg.lowDataImageMode = S.cfg.lowDataImageMode ?? false;
+  S.orderStatusHistory = S.orderStatusHistory || [];
+  S.customerSavedNotes = S.customerSavedNotes || [];
+}
+
+function getFastOpenReadyFlagV103() {
+  return !!(S && S.cfg && S.cfg.fastOpenMode !== false);
+}
+
+function getPendingUtrCountV103() {
+  return getAllValidOrdersV100().filter(o => o.payMode === "UPI" && o.utr && !o.utrVerified).length;
+}
+
+function getPendingUtrAmountV103() {
+  return getAllValidOrdersV100()
+    .filter(o => o.payMode === "UPI" && o.utr && !o.utrVerified)
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getUnassignedOpenOrdersCountV103() {
+  const map = S.riderAssignments || {};
+  return getAllValidOrdersV100().filter(o => o.status !== "Delivered" && !map[o.id]).length;
+}
+
+function getAssignedOpenOrdersCountV103() {
+  const map = S.riderAssignments || {};
+  return getAllValidOrdersV100().filter(o => o.status !== "Delivered" && !!map[o.id]).length;
+}
+
+function getTiffinBreakfastCountV103() {
+  return (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && /Breakfast|All 3/.test(s.slot)).length;
+}
+
+function getTiffinLunchCountV103() {
+  return (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && /Lunch|All 3/.test(s.slot)).length;
+}
+
+function getTiffinDinnerCountV103() {
+  return (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && /Dinner|All 3/.test(s.slot)).length;
+}
+
+function getTiffinSkippedCountV103() {
+  return (S.tiffinSubs || []).filter(s => !!s.skipToday || !!s.skipNextDay).length;
+}
+
+function getFoodAvailableCountV103() {
+  return (S.foodItems || []).filter(it => !!it.stock).length;
+}
+
+function getSaudaAvailableCountV103() {
+  return (S.kiranaItems || []).filter(it => !!it.stock).length;
+}
+
+function addQuickSnackComboV103() {
+  ["fd4", "fd7", "kr5"].forEach(id => {
+    const fIt = (S.foodItems || []).find(x => x.id === id);
+    const kIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (fIt && fIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kIt && kIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🍰 Snack + Chai combo cart mein add ho gaya!");
+}
+
+function getRiderActiveOrdersCountV103(rid) {
+  return getAllValidOrdersV100().filter(o => o.status !== "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getRiderCompletedOrdersCountV103(rid) {
+  return getAllValidOrdersV100().filter(o => o.status === "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getVendorMenuCountV103(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodItems : S.kiranaItems;
+  return (arr || []).filter(it => it.vendorId === vid).length;
+}
+
+function getVendorAvailableCountV103(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodItems : S.kiranaItems;
+  return (arr || []).filter(it => it.vendorId === vid && !!it.stock).length;
+}
+
+function getOwnerTotalCodCashCollectedV103() {
+  return +S.riderCashSettled || 0;
+}
+
+function getOwnerTotalCodCashPendingV103() {
+  return getTotalCodPendingJamaV98();
+}
+
+function getOwnerTotalPartnerGrossV103() {
+  return (S.vendors || []).filter(v => !v.isSelf).reduce((sum, v) => sum + getVendorLedger(v).gross, 0);
+}
+
+function getOwnerTotalPartnerCommV103() {
+  return (S.vendors || []).filter(v => !v.isSelf).reduce((sum, v) => sum + getVendorLedger(v).comm, 0);
+}
+
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v104) ==================== */
+function ensureV104Defaults() {
+  if (!S) return;
+  S.cfg.downloadFallbackEnabled = S.cfg.downloadFallbackEnabled ?? true;
+  S.cfg.autoSaveCustomerPhone = S.cfg.autoSaveCustomerPhone ?? true;
+  S.orderAuditTrail = S.orderAuditTrail || [];
+  S.riderDropHistory = S.riderDropHistory || [];
+}
+
+function getDownloadFallbackReadyV104() {
+  return !!(S && S.cfg && S.cfg.downloadFallbackEnabled !== false);
+}
+
+function getTotalAllOrdersAllKindsV104() {
+  return (S.foodOrders?.length || 0) + (S.kiranaOrders?.length || 0) + (S.tiffinSubs?.length || 0);
+}
+
+function getTotalFoodAndSaudaOrdersV104() {
+  return (S.foodOrders?.length || 0) + (S.kiranaOrders?.length || 0);
+}
+
+function getTotalValidFoodAndSaudaRevenueV104() {
+  return getAllValidOrdersRevenueV100();
+}
+
+function getTotalTiffinRevenueV104() {
+  return getTotalTiffinRevenueAll();
+}
+
+function getPendingCodJamaAllRidersV104() {
+  return getTotalCodPendingJamaV98();
+}
+
+function getTotalCodJamaSettledV104() {
+  return +S.riderCashSettled || 0;
+}
+
+function getActiveTiffinCountV104() {
+  return getActiveTiffinSubscribersCountV102();
+}
+
+function getExpiringTiffinCountV104() {
+  return getLowRemainingTiffinsCountV102();
+}
+
+function getFoodCartCountV104() {
+  return getFoodCartItemCountV102();
+}
+
+function getSaudaCartCountV104() {
+  return getSaudaCartItemCountV102();
+}
+
+function addCompleteHomeMealPackV104() {
+  ["fd2", "fd3", "kr1", "kr2"].forEach(id => {
+    const fIt = (S.foodItems || []).find(x => x.id === id);
+    const kIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (fIt && fIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kIt && kIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🏡 Complete Meal + Sauda pack add ho gaya!");
+}
+
+function getRiderPendingCountV104(rid) {
+  return getRiderActiveDropsCountV102(rid);
+}
+
+function getRiderDeliveredCountV104(rid) {
+  return getRiderDeliveredDropsCountV102(rid);
+}
+
+function getVendorGrossRevenueV104(vid) {
+  return getVendorGrossSalesV102(vid);
+}
+
+function getVendorDuePayoutV104(vid) {
+  return getVendorPayoutDueV102(vid);
+}
+
+function getOwnerTotalExpensesV104() {
+  return getOwnerTotalExpensesV102();
+}
+
+function getOwnerNetProfitV104() {
+  return getOwnerNetProfitV102();
+}
+
+function getSystemReadinessV104() {
+  return getSystemReadinessScore();
+}
+
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v105) ==================== */
+function ensureV105Defaults() {
+  if (!S) return;
+  S.cfg.autoSaveDraftCheckout = S.cfg.autoSaveDraftCheckout ?? true;
+  S.cfg.maxRetryPerUtr = S.cfg.maxRetryPerUtr ?? 2;
+  S.orderDispatchLog = S.orderDispatchLog || [];
+  S.customerRepeatCountMap = S.customerRepeatCountMap || {};
+}
+
+function getAllTiffinCountV105() {
+  return (S.tiffinSubs || []).length;
+}
+
+function getAllFoodCountV105() {
+  return (S.foodOrders || []).length;
+}
+
+function getAllSaudaCountV105() {
+  return (S.kiranaOrders || []).length;
+}
+
+function getTotalOpenFoodAndSaudaV105() {
+  return getTotalActiveOrdersCountV98();
+}
+
+function getTotalDeliveredFoodAndSaudaV105() {
+  return getTotalCompletedOrdersCountV98();
+}
+
+function getTotalCancelledFoodAndSaudaV105() {
+  return getCancelledOrdersCount();
+}
+
+function getTotalCodRevenueV105() {
+  return getTotalCodAmountAllV101();
+}
+
+function getTotalUpiRevenueV105() {
+  return getTotalUpiAmountAllV101();
+}
+
+function getActiveTiffinSubscriptionsV105() {
+  return getActiveTiffinMealsCountV101();
+}
+
+function getLowValidityTiffinListV105() {
+  return getExpiringSoonTiffinsList();
+}
+
+function getFoodCartTotalV105() {
+  return getFoodCartSubtotalV101();
+}
+
+function getSaudaCartTotalV105() {
+  return getSaudaCartSubtotalV101();
+}
+
+function addEveningThaliChaiComboV105() {
+  ["fd2", "fd3", "kr5"].forEach(id => {
+    const fIt = (S.foodItems || []).find(x => x.id === id);
+    const kIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (fIt && fIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kIt && kIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🍛 Thali + Chicken + Chai combo add ho gaya!");
+}
+
+function getRiderOpenDropValueV105(rid) {
+  return getRiderPendingDropsValueV101(rid);
+}
+
+function getRiderTotalDropValueV105(rid) {
+  return getRiderTotalOrderValueV101(rid);
+}
+
+function getVendorDeliveredSalesV105(vid) {
+  return getVendorDeliveredRevenueV101(vid);
+}
+
+function getVendorPendingSalesV105(vid) {
+  return getVendorPendingRevenueV101(vid);
+}
+
+function getOwnerCombinedRevenueV105() {
+  return getOwnerTotalRevCombinedV101();
+}
+
+function getOwnerTotalRefundsV105() {
+  return getOwnerTotalRefundsSumV101();
+}
+
+function getOwnerNetMarginV105() {
+  return getOwnerNetMarginEstV99();
+}
+
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v106) ==================== */
+function ensureV106Defaults() {
+  if (!S) return;
+  S.cfg.autoSaveCustomerArea = S.cfg.autoSaveCustomerArea ?? true;
+  S.cfg.maxDailyDeliveryDrops = S.cfg.maxDailyDeliveryDrops ?? 50;
+  S.riderCashAuditLog = S.riderCashAuditLog || [];
+  S.vendorItemAuditLog = S.vendorItemAuditLog || [];
+}
+
+function getTotalOrdersAllSourcesV106() {
+  return getTotalAllOrdersAllKindsV104();
+}
+
+function getTotalFoodAndSaudaCountV106() {
+  return getTotalFoodAndSaudaOrdersV104();
+}
+
+function getTotalFoodAndSaudaRevenueV106() {
+  return getTotalValidFoodAndSaudaRevenueV104();
+}
+
+function getTotalTiffinRevV106() {
+  return getTotalTiffinRevenueV104();
+}
+
+function getTotalCodPendingV106() {
+  return getPendingCodJamaAllRidersV104();
+}
+
+function getTotalCodSettledV106() {
+  return getTotalCodJamaSettledV104();
+}
+
+function getActiveTiffinsTotalV106() {
+  return getActiveTiffinCountV104();
+}
+
+function getExpiringTiffinsTotalV106() {
+  return getExpiringTiffinCountV104();
+}
+
+function getFoodCartQtyTotalV106() {
+  return getFoodCartCountV104();
+}
+
+function getSaudaCartQtyTotalV106() {
+  return getSaudaCartCountV104();
+}
+
+function addFullEveningComboV106() {
+  ["fd5", "fd9", "kr5"].forEach(id => {
+    const fIt = (S.foodItems || []).find(x => x.id === id);
+    const kIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (fIt && fIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kIt && kIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🍛 Biryani + Tadka + Chai combo add ho gaya!");
+}
+
+function getRiderActiveCountV106(rid) {
+  return getRiderPendingCountV104(rid);
+}
+
+function getRiderDeliveredCountV106(rid) {
+  return getRiderDeliveredCountV104(rid);
+}
+
+function getVendorGrossRevV106(vid) {
+  return getVendorGrossRevenueV104(vid);
+}
+
+function getVendorDueAmountV106(vid) {
+  return getVendorDuePayoutV104(vid);
+}
+
+function getOwnerExpensesTotalV106() {
+  return getOwnerTotalExpensesV104();
+}
+
+function getOwnerProfitTotalV106() {
+  return getOwnerNetProfitV104();
+}
+
+function getSystemReadinessStatusV106() {
+  return getSystemReadinessV104();
+}
+
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v107) ==================== */
+function ensureV107Defaults() {
+  if (!S) return;
+  S.cfg.autoSaveCustomerNote = S.cfg.autoSaveCustomerNote ?? true;
+  S.cfg.maxPendingUtrDays = S.cfg.maxPendingUtrDays ?? 1;
+  S.riderPayoutAuditLog = S.riderPayoutAuditLog || [];
+  S.customerOrderCountMap = S.customerOrderCountMap || {};
+}
+
+function getAllOrdersGrandTotalV107() {
+  return getTotalOrdersAllSourcesV106();
+}
+
+function getAllFoodAndSaudaGrandCountV107() {
+  return getTotalFoodAndSaudaCountV106();
+}
+
+function getAllFoodAndSaudaGrandRevV107() {
+  return getTotalFoodAndSaudaRevenueV106();
+}
+
+function getAllTiffinGrandRevV107() {
+  return getTotalTiffinRevV106();
+}
+
+function getAllCodPendingGrandV107() {
+  return getTotalCodPendingV106();
+}
+
+function getAllCodSettledGrandV107() {
+  return getTotalCodSettledV106();
+}
+
+function getAllActiveTiffinsGrandV107() {
+  return getActiveTiffinsTotalV106();
+}
+
+function getAllExpiringTiffinsGrandV107() {
+  return getExpiringTiffinsTotalV106();
+}
+
+function getFoodCartGrandQtyV107() {
+  return getFoodCartQtyTotalV106();
+}
+
+function getSaudaCartGrandQtyV107() {
+  return getSaudaCartQtyTotalV106();
+}
+
+function addMorningTiffinSaudaComboV107() {
+  ["fd1", "kr1", "kr7"].forEach(id => {
+    const fIt = (S.foodItems || []).find(x => x.id === id);
+    const kIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (fIt && fIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kIt && kIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🌅 Idli + Atta + Milk combo add ho gaya!");
+}
+
+function getRiderActiveDropsGrandV107(rid) {
+  return getRiderActiveCountV106(rid);
+}
+
+function getRiderDeliveredDropsGrandV107(rid) {
+  return getRiderDeliveredCountV106(rid);
+}
+
+function getVendorGrossGrandV107(vid) {
+  return getVendorGrossRevV106(vid);
+}
+
+function getVendorDueGrandV107(vid) {
+  return getVendorDueAmountV106(vid);
+}
+
+function getOwnerExpensesGrandV107() {
+  return getOwnerExpensesTotalV106();
+}
+
+function getOwnerProfitGrandV107() {
+  return getOwnerProfitTotalV106();
+}
+
+function getSystemReadinessGrandV107() {
+  return getSystemReadinessStatusV106();
+}
+
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v108) ==================== */
+function ensureV108Defaults() {
+  if (!S) return;
+  S.cfg.autoSaveCustomerAddr = S.cfg.autoSaveCustomerAddr ?? true;
+  S.cfg.maxAutoAssignPerBatch = S.cfg.maxAutoAssignPerBatch ?? 25;
+  S.vendorPayoutAuditLog = S.vendorPayoutAuditLog || [];
+  S.tiffinSkipAuditLog = S.tiffinSkipAuditLog || [];
+}
+
+function getOrdersGrandCountV108() {
+  return getAllOrdersGrandTotalV107();
+}
+
+function getFoodAndSaudaGrandCountV108() {
+  return getAllFoodAndSaudaGrandCountV107();
+}
+
+function getFoodAndSaudaGrandRevenueV108() {
+  return getAllFoodAndSaudaGrandRevV107();
+}
+
+function getTiffinGrandRevenueV108() {
+  return getAllTiffinGrandRevV107();
+}
+
+function getCodPendingGrandV108() {
+  return getAllCodPendingGrandV107();
+}
+
+function getCodSettledGrandV108() {
+  return getAllCodSettledGrandV107();
+}
+
+function getActiveTiffinsGrandV108() {
+  return getAllActiveTiffinsGrandV107();
+}
+
+function getExpiringTiffinsGrandV108() {
+  return getAllExpiringTiffinsGrandV107();
+}
+
+function getFoodCartQtyGrandV108() {
+  return getFoodCartGrandQtyV107();
+}
+
+function getSaudaCartQtyGrandV108() {
+  return getSaudaCartGrandQtyV107();
+}
+
+function addFullFamilyComboV108() {
+  ["fd2", "fd5", "kr1", "kr2"].forEach(id => {
+    const fIt = (S.foodItems || []).find(x => x.id === id);
+    const kIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (fIt && fIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kIt && kIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("👨‍👩‍👧‍👦 Family Meal + Sauda combo add ho gaya!");
+}
+
+function getRiderActiveDropsV108(rid) {
+  return getRiderActiveDropsGrandV107(rid);
+}
+
+function getRiderDeliveredDropsV108(rid) {
+  return getRiderDeliveredDropsGrandV107(rid);
+}
+
+function getVendorGrossV108(vid) {
+  return getVendorGrossGrandV107(vid);
+}
+
+function getVendorDueV108(vid) {
+  return getVendorDueGrandV107(vid);
+}
+
+function getOwnerExpensesV108() {
+  return getOwnerExpensesGrandV107();
+}
+
+function getOwnerProfitV108() {
+  return getOwnerProfitGrandV107();
+}
+
+function getSystemReadinessV108() {
+  return getSystemReadinessGrandV107();
+}
+
 function viewTiffin() {
   const price = calcTiffinPrice(TF.diet, TF.days, TF.slot);
   const mySubs = (S.tiffinSubs || []).filter(s => !TF.phone || ph(s.phone) === ph(TF.phone));
@@ -2556,7 +3131,7 @@ function viewTiffin() {
         <select class="inp" data-tf="health">
           ${["Regular Homestyle", "Diabetic-Friendly", "Low-Oil", "No Onion-Garlic"].map(h => `<option ${TF.health === h ? "selected" : ""}>${h}</option>`).join("")}
         </select>
-        <button class="btn amb sm" data-act="toggleRiderShift">${esc(getRiderShiftState(activeRiderId))}</button>
+        <button class="btn amb sm" data-act="toggleRiderShift">${esc(getRiderShiftState(getActiveRiderId()))}</button>
         <button class="btn g sm" data-act="autoAssignOpen">⚡ Auto-Assign</button>
         <button class="btn w sm" data-act="dispatchAllReady">🛵 Dispatch Ready</button>
       </div>
@@ -2810,6 +3385,12 @@ function viewKirana() {
         <button class="btn g sm" data-act="addFullMealsCombo">🍽️ Full Meals</button>
         <button class="btn amb sm" data-act="addHouseholdPack">🏠 Ghar Sauda</button>
         <button class="btn g sm" data-act="addDinnerChaiPack">🌙 Dinner + Chai</button>
+        <button class="btn amb sm" data-act="addSnackChaiPack">🍰 Snack + Chai</button>
+        <button class="btn g sm" data-act="addCompleteHomePack">🏡 Meal + Sauda</button>
+        <button class="btn amb sm" data-act="addThaliChaiPack">🍛 Thali + Chai</button>
+        <button class="btn g sm" data-act="addFullEveningCombo">🍛 Biryani + Chai</button>
+        <button class="btn amb sm" data-act="addMorningCombo">🌅 Nashta + Atta</button>
+        <button class="btn g sm" data-act="addFamilyCombo">👨‍👩‍👧‍👦 Family Combo</button>
         <button class="btn w sm" data-act="clearKiranaCart">Clear Sauda Cart</button>
       </div>
     </div>
@@ -4396,6 +4977,12 @@ function wireAllOpsIntoSingleFile() {
   ensureV100Defaults();
   ensureV101Defaults();
   ensureV102Defaults();
+  ensureV103Defaults();
+  ensureV104Defaults();
+  ensureV105Defaults();
+  ensureV106Defaults();
+  ensureV107Defaults();
+  ensureV108Defaults();
   normalizeAllImages();
 }
 
@@ -4604,14 +5191,17 @@ const ACT = {
   installApp: async () => {
     if (IS_APP_INSTALLED) return toast("✅ Namaste Udala App pehle se installed hai!");
     if (DEFERRED_INSTALL_PROMPT) {
-      DEFERRED_INSTALL_PROMPT.prompt();
-      const res = await DEFERRED_INSTALL_PROMPT.userChoice;
-      DEFERRED_INSTALL_PROMPT = null;
-      if (res && res.outcome === "accepted") toast("🎉 Installing Namaste Udala App...");
-      return;
+      try {
+        DEFERRED_INSTALL_PROMPT.prompt();
+        const res = await DEFERRED_INSTALL_PROMPT.userChoice;
+        DEFERRED_INSTALL_PROMPT = null;
+        if (res && res.outcome === "accepted") {
+          toast("🎉 Installing Namaste Udala App...");
+          return;
+        }
+      } catch (err) {}
     }
-    window._showInstallPopup = true;
-    render();
+    ACT.downloadHtmlCopy();
   },
   closeInstallPopup: () => {
     window._showInstallPopup = false;
@@ -4619,20 +5209,35 @@ const ACT = {
   },
   downloadHtmlCopy: () => {
     try {
-      const htmlContent = "<!DOCTYPE html>
-" + document.documentElement.outerHTML;
-      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const rawHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([rawHtml], { type: "text/html;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-separated-v102.html";
+      a.download = "namaste-udala-complete-v108.html";
+      a.rel = "noopener";
+      document.body.appendChild(a);
       a.click();
-      URL.revokeObjectURL(url);
+      setTimeout(() => {
+        try { document.body.removeChild(a); URL.revokeObjectURL(url); } catch (err) {}
+      }, 1200);
       window._showInstallPopup = false;
       render();
-      toast("📥 App file download ho gayi!");
+      toast("📥 App file download start ho gayi!");
     } catch (e) {
-      toast("⚠️ Download shuru nahi ho saka");
+      try {
+        const w = window.open("", "_blank");
+        if (w) {
+          w.document.open();
+          w.document.write("<!DOCTYPE html>\n" + document.documentElement.outerHTML);
+          w.document.close();
+          toast("📄 Nayi tab mein app khul gayi — Save Page se download karein");
+        } else {
+          toast("⚠️ Browser pop-up / download block hai — Chrome 3-dot se Save/Install karein");
+        }
+      } catch (err2) {
+        toast("⚠️ Download shuru nahi ho saka");
+      }
     }
   },
   shareAppLink: () => {
@@ -5429,6 +6034,12 @@ Total: ${inr(o.total)} (${o.payMode})`;
   addFullMealsCombo: () => addFullDayMealsComboV100(),
   addHouseholdPack: () => addHouseholdEssentialsV101(),
   addDinnerChaiPack: () => addEveningTiffinComboV102(),
+  addSnackChaiPack: () => addQuickSnackComboV103(),
+  addCompleteHomePack: () => addCompleteHomeMealPackV104(),
+  addThaliChaiPack: () => addEveningThaliChaiComboV105(),
+  addFullEveningCombo: () => addFullEveningComboV106(),
+  addMorningCombo: () => addMorningTiffinSaudaComboV107(),
+  addFamilyCombo: () => addFullFamilyComboV108(),
   extendAllTiffins1d: () => extendAllActiveTiffinsOneDay(),
   batchVerifyUtr: () => verifyAllPendingUtrConfirm(),
   printBill: (v, k, id) => {
