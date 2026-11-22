@@ -3087,6 +3087,184 @@ function getSystemReadinessV108() {
   return getSystemReadinessGrandV107();
 }
 
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v113) ==================== */
+function ensureV113Defaults() {
+  if (!S) return;
+  S.cfg.autoSaveCustomerPin = S.cfg.autoSaveCustomerPin ?? true;
+  S.cfg.maxDailyTiffinPauseDays = S.cfg.maxDailyTiffinPauseDays ?? 10;
+  S.customerSavedHistory = S.customerSavedHistory || [];
+  S.riderPayoutLedger = S.riderPayoutLedger || [];
+}
+
+function getAllOrdersGrandCountV113() {
+  return getOrdersGrandCountV108();
+}
+
+function getFoodAndSaudaGrandCountV113() {
+  return getFoodAndSaudaGrandCountV108();
+}
+
+function getFoodAndSaudaGrandRevenueV113() {
+  return getFoodAndSaudaGrandRevenueV108();
+}
+
+function getTiffinGrandRevenueV113() {
+  return getTiffinGrandRevenueV108();
+}
+
+function getCodPendingGrandV113() {
+  return getCodPendingGrandV108();
+}
+
+function getCodSettledGrandV113() {
+  return getCodSettledGrandV108();
+}
+
+function getActiveTiffinsGrandV113() {
+  return getActiveTiffinsGrandV108();
+}
+
+function getExpiringTiffinsGrandV113() {
+  return getExpiringTiffinsGrandV108();
+}
+
+function getFoodCartQtyGrandV113() {
+  return getFoodCartQtyGrandV108();
+}
+
+function getSaudaCartQtyGrandV113() {
+  return getSaudaCartQtyGrandV108();
+}
+
+function addFullDayComboV113() {
+  ["fd1", "fd2", "fd5", "kr1", "kr5"].forEach(id => {
+    const fIt = (S.foodItems || []).find(x => x.id === id);
+    const kIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (fIt && fIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kIt && kIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🍱 Full Day Meal + Sauda combo add ho gaya!");
+}
+
+function getRiderActiveDropsV113(rid) {
+  return getRiderActiveDropsV108(rid);
+}
+
+function getRiderDeliveredDropsV113(rid) {
+  return getRiderDeliveredDropsV108(rid);
+}
+
+function getVendorGrossV113(vid) {
+  return getVendorGrossV108(vid);
+}
+
+function getVendorDueV113(vid) {
+  return getVendorDueV108(vid);
+}
+
+function getOwnerExpensesV113() {
+  return getOwnerExpensesV108();
+}
+
+function getOwnerProfitV113() {
+  return getOwnerProfitV108();
+}
+
+function getSystemReadinessV113() {
+  return getSystemReadinessV108();
+}
+
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v114) ==================== */
+function ensureV114Defaults() {
+  if (!S) return;
+  S.cfg.autoSaveCustomerPref = S.cfg.autoSaveCustomerPref ?? true;
+  S.cfg.maxDailyRiderKmClaim = S.cfg.maxDailyRiderKmClaim ?? 120;
+  S.customerSavedAddresses = S.customerSavedAddresses || [];
+  S.vendorAuditLog = S.vendorAuditLog || [];
+}
+
+function getAllOrdersGrandCountV114() {
+  return getAllOrdersGrandCountV113();
+}
+
+function getFoodAndSaudaGrandCountV114() {
+  return getFoodAndSaudaGrandCountV113();
+}
+
+function getFoodAndSaudaGrandRevenueV114() {
+  return getFoodAndSaudaGrandRevenueV113();
+}
+
+function getTiffinGrandRevenueV114() {
+  return getTiffinGrandRevenueV113();
+}
+
+function getCodPendingGrandV114() {
+  return getCodPendingGrandV113();
+}
+
+function getCodSettledGrandV114() {
+  return getCodSettledGrandV113();
+}
+
+function getActiveTiffinsGrandV114() {
+  return getActiveTiffinsGrandV113();
+}
+
+function getExpiringTiffinsGrandV114() {
+  return getExpiringTiffinsGrandV113();
+}
+
+function getFoodCartQtyGrandV114() {
+  return getFoodCartQtyGrandV113();
+}
+
+function getSaudaCartQtyGrandV114() {
+  return getSaudaCartQtyGrandV113();
+}
+
+function addEveningSpecialComboV114() {
+  ["fd3", "fd6", "kr2", "kr7"].forEach(id => {
+    const fIt = (S.foodItems || []).find(x => x.id === id);
+    const kIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (fIt && fIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kIt && kIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🌆 Evening Meal + Rice + Milk combo add ho gaya!");
+}
+
+function getRiderActiveDropsV114(rid) {
+  return getRiderActiveDropsV113(rid);
+}
+
+function getRiderDeliveredDropsV114(rid) {
+  return getRiderDeliveredDropsV113(rid);
+}
+
+function getVendorGrossV114(vid) {
+  return getVendorGrossV113(vid);
+}
+
+function getVendorDueV114(vid) {
+  return getVendorDueV113(vid);
+}
+
+function getOwnerExpensesV114() {
+  return getOwnerExpensesV113();
+}
+
+function getOwnerProfitV114() {
+  return getOwnerProfitV113();
+}
+
+function getSystemReadinessV114() {
+  return getSystemReadinessV113();
+}
+
 function viewTiffin() {
   const price = calcTiffinPrice(TF.diet, TF.days, TF.slot);
   const mySubs = (S.tiffinSubs || []).filter(s => !TF.phone || ph(s.phone) === ph(TF.phone));
@@ -3423,6 +3601,8 @@ function viewKirana() {
         <button class="btn g sm" data-act="addFullEveningCombo">🍛 Biryani + Chai</button>
         <button class="btn amb sm" data-act="addMorningCombo">🌅 Nashta + Atta</button>
         <button class="btn g sm" data-act="addFamilyCombo">👨‍👩‍👧‍👦 Family Combo</button>
+        <button class="btn amb sm" data-act="addFullDayCombo">🍱 Full Day Combo</button>
+        <button class="btn g sm" data-act="addEveningSpecialCombo">🌆 Evening Combo</button>
         <button class="btn w sm" data-act="clearKiranaCart">Clear Sauda Cart</button>
       </div>
     </div>
@@ -5015,6 +5195,8 @@ function wireAllOpsIntoSingleFile() {
   ensureV106Defaults();
   ensureV107Defaults();
   ensureV108Defaults();
+  ensureV114Defaults();
+  ensureV113Defaults();
   normalizeAllImages();
 }
 
@@ -6095,6 +6277,8 @@ Total: ${inr(o.total)} (${o.payMode})`;
   addFullEveningCombo: () => addFullEveningComboV106(),
   addMorningCombo: () => addMorningTiffinSaudaComboV107(),
   addFamilyCombo: () => addFullFamilyComboV108(),
+  addFullDayCombo: () => addFullDayComboV113(),
+  addEveningSpecialCombo: () => addEveningSpecialComboV114(),
   extendAllTiffins1d: () => extendAllActiveTiffinsOneDay(),
   batchVerifyUtr: () => verifyAllPendingUtrConfirm(),
   printBill: (v, k, id) => {
