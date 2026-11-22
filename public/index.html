@@ -4999,6 +4999,14 @@ render = function() {
 };
 
 function render() {
+  try {
+    _renderInner();
+  } catch (err) {
+    const m = document.querySelector("#appMain");
+    if (m) m.innerHTML = `<div class="card"><h3>⚠️ Display Recovery</h3><p style="font-size:12px;color:var(--mu)">${esc(err?.message || "Render issue")}</p><button class="btn g sm" data-act="setTab" data-v="tiffin" style="margin-top:8px">Reload View</button></div>`;
+  }
+}
+function _renderInner() {
   const savedRole = sessionStorage.getItem("nu_role");
   if (!savedRole || !["customer", "kitchen", "delivery", "vendor", "owner"].includes(savedRole)) {
     ROLE = "customer";
@@ -5635,8 +5643,7 @@ const ACT = {
     const rows = [["Category", "OrderID", "Date", "Customer", "Phone", "Area", "Total", "PayMode", "UTR", "Status"]];
     (S.foodOrders || []).forEach(o => rows.push(["FOOD", o.id, o.date, o.name, o.phone, o.area, o.total, o.payMode, o.utr || "", o.status]));
     (S.kiranaOrders || []).forEach(o => rows.push(["KIRANA", o.id, o.date, o.name, o.phone, o.area, o.total, o.payMode, o.utr || "", o.status]));
-    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("
-");
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
