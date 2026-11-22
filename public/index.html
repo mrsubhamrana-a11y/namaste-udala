@@ -641,6 +641,27 @@
     border-color: var(--g2);
   }
 
+
+  /* Zomato-style App Download / Install Live Notification */
+  .zomato-notif-banner {
+    position: sticky;
+    top: 66px;
+    z-index: 55;
+    margin: 10px 14px 0;
+    background: linear-gradient(135deg, #113221 0%, #15803d 100%);
+    color: #fff;
+    border: 1.5px solid rgba(251,191,36,.45);
+    border-radius: 18px;
+    padding: 11px 14px;
+    box-shadow: 0 12px 24px rgba(17,50,33,.28);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .zomato-notif-banner b { display: block; font-size: 12.5px; color: #fde68a; }
+  .zomato-notif-banner small { display: block; font-size: 11px; color: #ecfdf5; margin-top: 2px; }
+
 </style>
 </head>
 <body>
@@ -1206,12 +1227,23 @@ window.addEventListener("beforeinstallprompt", e => {
   if (btn) btn.textContent = "📲 Install";
 });
 
+function showZomatoInstallNotification(titleText, bodyText) {
+  window._zomatoInstallNotif = {
+    title: titleText || "🍽️ Namaste Udala App Ready!",
+    body: bodyText || "Ghar baithe Mera Tiffin, Fresh Food aur Sauda order karein — live delivery updates yahin milenge."
+  };
+  render();
+  playOrderAlertSound();
+  toast(titleText || "🎉 Namaste Udala App install ho gaya!");
+}
+
 window.addEventListener("appinstalled", () => {
   IS_APP_INSTALLED = true;
   DEFERRED_INSTALL_PROMPT = null;
-  const btn = document.getElementById("hdrInstallBtn");
-  if (btn) btn.style.display = "none";
-  toast("🎉 Namaste Udala App install ho gaya!");
+  showZomatoInstallNotification(
+    "🎉 Namaste Udala App Installed!",
+    "Aapka app home screen par aa gaya hai! Ab Tiffin, Food aur Sauda ke live status alerts turant milenge."
+  );
 });
 
 let USER_GPS = { lat: null, lng: null, acc: null, status: "Not captured yet", ok: false };
@@ -3067,7 +3099,7 @@ function viewTiffin() {
   return `
   <div class="hero tiffin-bg">
     <div>
-      <span class="pill p-amber">SIMPLE HEADER · 3D VISUALS · MULTI-BURST ALERT</span>
+      <span class="pill p-amber">Ghar Jaisa Fresh Tiffin</span>
       <h2>Mera Tiffin Subscription</h2>
       <p>Morning Breakfast (6:30 AM cut-off) · Lunch & Dinner (9:00 AM cut-off)</p>
     </div>
@@ -3249,7 +3281,7 @@ function viewFoodShop() {
   return `
     <div class="hero food-bg">
       <div>
-        <span class="pill p-amber">CODE FIRST · MULTI-VENDOR FOOD</span>
+        <span class="pill p-amber">Fresh Food & Nashta</span>
         <h2>Udala Restaurants & Nashta</h2>
         <p>Apne pasandida kitchen ya restaurant se fresh khana & cake mangwayein</p>
       </div>
@@ -3470,7 +3502,7 @@ function viewCustomerOrders() {
     </div>
 
     <div class="card">
-      <h3>🍱 Mere Mera Tiffin Passes (${tSubs.length}) <span class="pill p-green">Core Setup Safe · Food-Grade Pack</span></h3>
+      <h3>🍱 Mere Mera Tiffin Passes (${tSubs.length}) <span class="pill p-green">Fresh Pack</span></h3>
       ${tSubs.map(s => `
         <div class="row" style="flex-direction:column;align-items:stretch">
           <div style="display:flex;justify-content:space-between">
@@ -3714,7 +3746,7 @@ function viewTiffinPassPage() {
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
           <small style="color:#fde68a;font-weight:800">MERA TIFFIN PASS MANAGER</small>
-          <h2 style="font-family:var(--serif);font-size:20px">Active Pass & Skip Controls (Packaging Material)</h2>
+          <h2 style="font-family:var(--serif);font-size:20px">Active Pass & Skip Controls</h2>
         </div>
         <button class="btn w sm" data-act="setTab" data-v="tiffin">+ New Plan</button>
       </div>
@@ -3854,10 +3886,10 @@ function viewCheckoutPage() {
     </div>
 
     <div class="card">
-      <h3>2. Mandatory Live GPS & Delivery Address</h3>
+      <h3>2. Live GPS & Delivery Address</h3>
       <div style="background:${USER_GPS.ok ? "#dcfce7" : "#ffe4e6"};color:${USER_GPS.ok ? "#166534" : "#9f1239"};padding:10px 12px;border-radius:14px;font-size:11.5px;font-weight:800;margin-bottom:8px">
         <div>${esc(USER_GPS.status)}</div>
-        <button class="btn ${USER_GPS.ok ? "g" : "o"} sm" style="margin-top:6px" data-act="captureGps">${USER_GPS.ok ? "🔄 Refresh GPS Pin" : "📍 Capture Mandatory GPS Location"}</button>
+        <button class="btn ${USER_GPS.ok ? "g" : "o"} sm" style="margin-top:6px" data-act="captureGps">${USER_GPS.ok ? "🔄 Refresh GPS Pin" : "📍 Capture Live GPS Location"}</button>
       </div>
       <span class="lbl">Aapka Naam *</span>
       <input class="inp" data-tf="name" placeholder="Poora Naam likhein" value="${esc(TF.name)}" />
@@ -3867,7 +3899,7 @@ function viewCheckoutPage() {
         const p10 = ph(TF.phone);
         if (p10.length !== 10) return "";
         const tr = getCustomerTrustInfo(p10, grandTotal);
-        if (tr.cancelledPast >= 2) return `<div style="font-size:10.5px;color:#dc2626;font-weight:800;margin-top:2px">⚠️ Past Cancellations: ${tr.cancelledPast} · COD par pehle call/WA confirmation hoga.</div>`;
+        if (tr.cancelledPast >= 2) return `<div style="font-size:10.5px;color:#dc2626;font-weight:800;margin-top:2px">ℹ️ Past Orders: ${tr.cancelledPast} · COD par pehle call/WA confirmation hoga.</div>`;
         if (tr.isRepeat) return `<div style="font-size:10.5px;color:#16a34a;font-weight:800;margin-top:2px">✅ Trusted Repeat Number (${tr.deliveredPast} delivered orders)</div>`;
         return `<div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">ℹ️ First-time order on this number</div>`;
       })()}
@@ -3921,10 +3953,10 @@ function viewCheckoutPage() {
           💵 Delivery ke waqt rider ko <b>${inr(grandTotal)}</b> cash dena hoga.
           ${(() => {
             const tr = getCustomerTrustInfo(TF.phone, grandTotal);
-            if (tr.cancelledPast >= 2) return `<div style="margin-top:5px;color:#dc2626;font-size:11px">⚠️ Is number se pehle ${tr.cancelledPast} orders cancel hue hain — rider nikalne se pehle call/WA verify hoga.</div>`;
+            if (tr.cancelledPast >= 2) return `<div style="margin-top:5px;color:#dc2626;font-size:11px"></div>`;
             if (tr.isRepeat) return `<div style="margin-top:5px;color:#16a34a;font-size:11px">✅ Repeat customer (${tr.deliveredPast} delivered orders) — smooth COD eligible.</div>`;
-            if (tr.highCod) return `<div style="margin-top:5px;color:#b45309;font-size:11px">ℹ️ First-time / ₹350+ COD: Order ke baad WhatsApp/Call confirmation liya jayega taaki fake order na ho.</div>`;
-            return `<div style="margin-top:5px;color:var(--mu);font-size:11px">ℹ️ Fake COD bachane ke liye GPS pin aur sahi address check kiya jayega.</div>`;
+            if (tr.highCod) return `<div style="margin-top:5px;color:#b45309;font-size:11px"></div>`;
+            return `<div style="margin-top:5px;color:var(--mu);font-size:11px"></div>`;
           })()}
         </div>
       `}
@@ -5037,6 +5069,18 @@ function _renderInner() {
     $("#cartFloat").innerHTML = "";
     $("#bottomNav").style.display = "none";
     const hInst = $("#hdrInstallBtn"); if (hInst && IS_APP_INSTALLED) hInst.style.display = "none";
+  if (window._zomatoInstallNotif && $("#appMain")) {
+    const zn = window._zomatoInstallNotif;
+    $("#appMain").innerHTML = `
+      <div class="zomato-notif-banner">
+        <div>
+          <b>${esc(zn.title)}</b>
+          <small>${esc(zn.body)}</small>
+        </div>
+        <button class="btn amb sm" data-act="dismissZomatoNotif">OK ✓</button>
+      </div>
+    ` + $("#appMain").innerHTML;
+  }
     if (window._showInstallPopup) {
     $("#modalRoot").innerHTML = `
       <div class="ov" data-act="closeInstallPopup">
@@ -5204,7 +5248,7 @@ const ACT = {
         const res = await DEFERRED_INSTALL_PROMPT.userChoice;
         DEFERRED_INSTALL_PROMPT = null;
         if (res && res.outcome === "accepted") {
-          toast("🎉 Installing Namaste Udala App...");
+          showZomatoInstallNotification("🎉 Installing Namaste Udala App...", "App install ho raha hai — order & delivery alerts active hain.");
           return;
         }
       } catch (err) {}
@@ -5213,6 +5257,10 @@ const ACT = {
   },
   closeInstallPopup: () => {
     window._showInstallPopup = false;
+    render();
+  },
+  dismissZomatoNotif: () => {
+    window._zomatoInstallNotif = null;
     render();
   },
   downloadHtmlCopy: () => {
@@ -5231,7 +5279,7 @@ const ACT = {
       }, 1200);
       window._showInstallPopup = false;
       render();
-      toast("📥 App file download start ho gayi!");
+      showZomatoInstallNotification("📥 Namaste Udala App Downloaded!", "File save ho gayi hai. Open karke Tiffin, Food aur Sauda ke live alerts paayein.");
     } catch (e) {
       try {
         const w = window.open("", "_blank");
@@ -5697,7 +5745,7 @@ Total: ${inr(o.total)} (${o.payMode})`;
     window._orderLock = Date.now();
     if (!USER_GPS.ok || !USER_GPS.lat || !USER_GPS.lng) {
       captureMandatoryGps(false);
-      return toast("⚠️ Order place karne ke liye Live GPS Location capture karna mandatory hai!");
+      return toast("⚠️ Kripya pehle Live GPS Location capture karein!");
     }
     if (!TF.name.trim() || ph(TF.phone).length !== 10 || !TF.addr.trim()) {
       return toast("⚠️ Naam, 10-digit Mobile aur Address zaroor bharein!");
