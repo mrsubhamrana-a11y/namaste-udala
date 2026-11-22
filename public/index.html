@@ -952,7 +952,7 @@ function getCustomerTrustInfo(phone, amount = 0) {
 function validateStrictUTR(raw, usedList) {
   const clean = String(raw || "").replace(/\D/g, "");
   if (clean.length !== 12) return { ok: false, msg: "⚠️ Exact 12-digit UPI UTR number daalein!" };
-  if (/^(\d) {6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean)) {
+  if (/^(\d)\1{6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean)) {
     return { ok: false, msg: "⚠️ Fake sequence UTR blocked! Asli bank UTR daalein." };
   }
   if ((usedList || []).includes(clean)) return { ok: false, msg: "⚠️ Duplicate UTR! Yeh UTR pehle use ho chuka hai." };
@@ -1422,7 +1422,11 @@ function quickAddSaudaEssential(id) {
 
 function buildDailyClosingText() {
   const s = getOwnerNetCashSummary();
-  return `Namaste Udala Daily Closing (${todayIso()})\nTiffin Rev: ${inr(s.tiffinRev)}\nFood+Sauda GMV: ${inr(s.gmv)}\nCOD Collected: ${inr(s.codCash)}\nUPI Orders: ${s.upiOrders}`;
+  return `Namaste Udala Daily Closing (${todayIso()})
+Tiffin Rev: ${inr(s.tiffinRev)}
+Food+Sauda GMV: ${inr(s.gmv)}
+COD Collected: ${inr(s.codCash)}
+UPI Orders: ${s.upiOrders}`;
 }
 
 function copyDailyClosingSummary() {
@@ -4379,6 +4383,34 @@ function viewLoginPage() {
   `;
 }
 
+
+/* ==================== FULL WIRING OF v92..v102 IN SINGLE FILE ==================== */
+function wireAllOpsIntoSingleFile() {
+  ensureV92Defaults();
+  ensureV93Defaults();
+  ensureV95Defaults();
+  ensureV96Defaults();
+  ensureV97Defaults();
+  ensureV98Defaults();
+  ensureV99Defaults();
+  ensureV100Defaults();
+  ensureV101Defaults();
+  ensureV102Defaults();
+  normalizeAllImages();
+}
+
+const origSaveForSingleFile = save;
+save = function(logMsg) {
+  wireAllOpsIntoSingleFile();
+  return origSaveForSingleFile(logMsg);
+};
+
+const origRenderForSingleFile = render;
+render = function() {
+  wireAllOpsIntoSingleFile();
+  return origRenderForSingleFile();
+};
+
 function render() {
   const savedRole = sessionStorage.getItem("nu_role");
   if (!savedRole || !["customer", "kitchen", "delivery", "vendor", "owner"].includes(savedRole)) {
@@ -4587,7 +4619,8 @@ const ACT = {
   },
   downloadHtmlCopy: () => {
     try {
-      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const htmlContent = "<!DOCTYPE html>
+" + document.documentElement.outerHTML;
       const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -4997,7 +5030,8 @@ const ACT = {
     const rows = [["Category", "OrderID", "Date", "Customer", "Phone", "Area", "Total", "PayMode", "UTR", "Status"]];
     (S.foodOrders || []).forEach(o => rows.push(["FOOD", o.id, o.date, o.name, o.phone, o.area, o.total, o.payMode, o.utr || "", o.status]));
     (S.kiranaOrders || []).forEach(o => rows.push(["KIRANA", o.id, o.date, o.name, o.phone, o.area, o.total, o.payMode, o.utr || "", o.status]));
-    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("
+");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -5013,7 +5047,12 @@ const ACT = {
   waLastOrder: () => {
     if (!LAST_PLACED_ORDER) return;
     const o = LAST_PLACED_ORDER;
-    const txt = `Namaste Udala (${o.kind})\nOrder ID: ${o.id}\nName: ${o.name} (${o.phone})\nArea: ${o.area} - ${o.addr}\nItems: ${o.itemsSummary}\nTotal: ${inr(o.total)} (${o.payMode})`;
+    const txt = `Namaste Udala (${o.kind})
+Order ID: ${o.id}
+Name: ${o.name} (${o.phone})
+Area: ${o.area} - ${o.addr}
+Items: ${o.itemsSummary}
+Total: ${inr(o.total)} (${o.payMode})`;
     window.open(`https://wa.me/91${ph(S.cfg.wa)}?text=${encodeURIComponent(txt)}`, "_blank");
   },
   backFromCheckout: v => { CHECKOUT_MODAL = null; TAB = v || "tiffin"; render(); scrollTo({ top: 0, behavior: "smooth" }); },
@@ -5583,6 +5622,17 @@ document.addEventListener("error", e => {
 }, true);
 
 
+
+ensureV92Defaults();
+ensureV93Defaults();
+ensureV95Defaults();
+ensureV96Defaults();
+ensureV97Defaults();
+ensureV98Defaults();
+ensureV99Defaults();
+ensureV100Defaults();
+ensureV101Defaults();
+ensureV102Defaults();
 normalizeAllImages();
 
 render();
