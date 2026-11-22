@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Namaste Udala — Mera Tiffin · Multi-Vendor Food · Kirana & Daily Needs</title>
+<title>Namaste Udala — Mera Tiffin · Multi-Vendor Food · Sauda & Daily Needs</title>
 <meta name="theme-color" content="#113221" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -1310,6 +1310,1172 @@ function calcTiffinPrice(diet, days, slot) {
   return base;
 }
 
+/* ==================== 20 ESSENTIAL OPS FEATURES (v92) ==================== */
+function ensureV92Defaults() {
+  if (!S) return;
+  S.cfg.cutoffLunchHour = S.cfg.cutoffLunchHour ?? 9;
+  S.cfg.cutoffBfHour = S.cfg.cutoffBfHour ?? 6;
+  S.cfg.cutoffBfMin = S.cfg.cutoffBfMin ?? 30;
+  S.riderShiftStatus = S.riderShiftStatus || { r1: "On Duty" };
+  S.orderNotesLog = S.orderNotesLog || [];
+}
+
+function getAllActiveOrdersFlat() {
+  return [
+    ...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })),
+    ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))
+  ];
+}
+
+function getPendingCodTotalAll() {
+  return getAllActiveOrdersFlat()
+    .filter(o => o.payMode === "COD" && o.status === "Delivered")
+    .reduce((a, o) => a + (+o.total || 0), 0);
+}
+
+function getOwnerNetCashSummary() {
+  const fValid = (S.foodOrders || []).filter(o => o.status !== "Cancelled");
+  const kValid = (S.kiranaOrders || []).filter(o => o.status !== "Cancelled");
+  const gmv = fValid.reduce((a, o) => a + (+o.total || 0), 0) + kValid.reduce((a, o) => a + (+o.total || 0), 0);
+  const tiffinRev = (S.tiffinSubs || []).filter(s => s.paid).reduce((a, s) => a + (+s.price || 0), 0);
+  const codCash = [...fValid, ...kValid].filter(o => o.payMode === "COD" && o.status === "Delivered").reduce((a, o) => a + (+o.total || 0), 0);
+  const upiOrders = [...fValid, ...kValid].filter(o => o.payMode === "UPI").length;
+  return { gmv, tiffinRev, codCash, upiOrders };
+}
+
+function isTiffinCutoffOpen(slot = "") {
+  const now = new Date();
+  const h = now.getHours();
+  const m = now.getMinutes();
+  if (/Breakfast/i.test(slot)) {
+    return h < (+S.cfg.cutoffBfHour || 6) || (h === (+S.cfg.cutoffBfHour || 6) && m < (+S.cfg.cutoffBfMin || 30));
+  }
+  return h < (+S.cfg.cutoffLunchHour || 9);
+}
+
+function countLowValidityTiffins() {
+  return (S.tiffinSubs || []).filter(s => (+s.remaining || 0) <= 3).length;
+}
+
+function countStuckOrders() {
+  return getAllActiveOrdersFlat().filter(o => o.status === "Placed" || o.status === "Confirmed").length;
+}
+
+function getRiderShiftState(rid) {
+  return (S.riderShiftStatus && S.riderShiftStatus[rid]) || "On Duty";
+}
+
+function toggleRiderShiftState(rid) {
+  S.riderShiftStatus = S.riderShiftStatus || {};
+  const cur = getRiderShiftState(rid);
+  const next = cur === "On Duty" ? "Break" : cur === "Break" ? "Off Duty" : "On Duty";
+  S.riderShiftStatus[rid] = next;
+  save(`Rider ${rid} shift -> ${next}`);
+  toast(`🛵 Shift: ${next}`);
+}
+
+function autoAssignUnassignedOrders(targetRiderId = "r1") {
+  S.riderAssignments = S.riderAssignments || {};
+  let cnt = 0;
+  getAllActiveOrdersFlat().forEach(o => {
+    if (o.status !== "Delivered" && o.status !== "Cancelled" && !S.riderAssignments[o.id]) {
+      S.riderAssignments[o.id] = targetRiderId;
+      cnt++;
+    }
+  });
+  if (cnt > 0) save(`Auto-assigned ${cnt} open orders to ${targetRiderId}`);
+  toast(cnt > 0 ? `⚡ ${cnt} open orders assigned!` : "✅ Koi unassigned open order nahi hai");
+}
+
+function markAllVendorReady(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  let cnt = 0;
+  (arr || []).forEach(o => {
+    if (o.status !== "Delivered" && o.status !== "Cancelled" && o.status !== "Ready for Pickup" && o.items.some(i => i.vendorId === vid)) {
+      o.status = "Ready for Pickup";
+      cnt++;
+    }
+  });
+  if (cnt > 0) save(`${v.name} marked ${cnt} orders Ready for Pickup`);
+  toast(cnt > 0 ? `📦 ${cnt} orders Ready mark ho gaye!` : "Sabhi orders pehle se Ready/Delivered hain");
+}
+
+function duplicateItemQuick(kind, id) {
+  const arr = kind === "FOOD" ? S.foodItems : S.kiranaItems;
+  const it = arr.find(x => x.id === id);
+  if (!it) return;
+  const copy = { ...it, id: uid(kind === "FOOD" ? "fd" : "kr"), name: it.name + " (Copy)" };
+  arr.unshift(copy);
+  save(`Duplicated item: ${copy.name}`);
+  toast("📋 Item copy ban gaya!");
+}
+
+function quickAddSaudaEssential(id) {
+  const it = (S.kiranaItems || []).find(x => x.id === id);
+  if (!it || !it.stock) return toast("⚠️ Item available nahi hai");
+  KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  render();
+  toast(`+ ${it.name} added to Sauda cart`);
+}
+
+function buildDailyClosingText() {
+  const s = getOwnerNetCashSummary();
+  return `Namaste Udala Daily Closing (${todayIso()})\nTiffin Rev: ${inr(s.tiffinRev)}\nFood+Sauda GMV: ${inr(s.gmv)}\nCOD Collected: ${inr(s.codCash)}\nUPI Orders: ${s.upiOrders}`;
+}
+
+function copyDailyClosingSummary() {
+  const txt = buildDailyClosingText();
+  navigator.clipboard?.writeText(txt).then(() => toast("📋 Daily Closing summary copied!")).catch(() => toast("Summary ready"));
+}
+
+function shareDailyClosingWa() {
+  const txt = buildDailyClosingText();
+  window.open(`https://wa.me/91${ph(S.cfg.wa)}?text=${encodeURIComponent(txt)}`, "_blank");
+}
+
+function verifyAllPendingUtrConfirm() {
+  let cnt = 0;
+  [...(S.foodOrders || []), ...(S.kiranaOrders || [])].forEach(o => {
+    if (o.payMode === "UPI" && o.utr && !o.utrVerified && o.status !== "Cancelled") {
+      o.utrVerified = true;
+      if (o.status === "Placed") o.status = "Confirmed";
+      cnt++;
+    }
+  });
+  if (cnt > 0) save(`Batch verified ${cnt} UPI UTR orders`);
+  toast(cnt > 0 ? `✅ ${cnt} UPI orders verified!` : "Koi pending UTR nahi mila");
+}
+
+function resetTiffinTodaySkips() {
+  let cnt = 0;
+  (S.tiffinSubs || []).forEach(s => {
+    if (s.skipToday) {
+      s.skipToday = false;
+      s.remaining = Math.max(0, (+s.remaining || 1) - 1);
+      cnt++;
+    }
+  });
+  if (cnt > 0) save(`Reverted ${cnt} today tiffin skips`);
+  toast(cnt > 0 ? `↩ ${cnt} today skip revert ho gaya` : "Aaj koi skip active nahi tha");
+}
+
+function getSaudaCartCountBadge() {
+  return kiranaCartCount();
+}
+
+function getFoodCartCountBadge() {
+  return foodCartCount();
+}
+
+function getOrderTotalCountBadge() {
+  return (S.foodOrders?.length || 0) + (S.kiranaOrders?.length || 0);
+}
+
+/* ==================== 20 MORE CRITICAL OPS FEATURES (v93) ==================== */
+function ensureV93Defaults() {
+  if (!S) return;
+  S.cfg.maxCodOrderAmt = S.cfg.maxCodOrderAmt ?? 1500;
+  S.cfg.defaultRiderId = S.cfg.defaultRiderId || "r1";
+  S.cfg.riderShiftNote = S.cfg.riderShiftNote || "Morning & Evening Udala Run";
+  S.refundLog = S.refundLog || [];
+}
+
+function getOrderGrossValue(o) {
+  return (o.items || []).reduce((sum, i) => sum + (+i.price || 0) * (+i.qty || 0), 0);
+}
+
+function getOrderNetPartnerShare(o, vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const sub = (o.items || []).filter(i => i.vendorId === vid).reduce((a, i) => a + (+i.price || 0) * (+i.qty || 0), 0);
+  if (v.isSelf) return sub;
+  const comm = v.type === "FOOD"
+    ? Math.round((sub * (+S.cfg.foodPartnerCommPct || 20)) / 100)
+    : (o.status === "Delivered" ? (+S.cfg.kiranaPostDeliveryComm || 30) : 0);
+  return Math.max(0, sub - comm);
+}
+
+function isCodAllowedForAmount(amt) {
+  return (+amt || 0) <= (+S.cfg.maxCodOrderAmt || 1500);
+}
+
+function getTiffinDaysRemainingAlert(s) {
+  const d = +s.remaining || 0;
+  if (d <= 0) return "Expired";
+  if (d <= 2) return "Critical (" + d + "d)";
+  if (d <= 3) return "Low (" + d + "d)";
+  return "Healthy (" + d + "d)";
+}
+
+function extendAllActiveTiffinsOneDay() {
+  let cnt = 0;
+  (S.tiffinSubs || []).forEach(s => {
+    if ((+s.remaining || 0) > 0) {
+      s.remaining = (+s.remaining || 0) + 1;
+      cnt++;
+    }
+  });
+  if (cnt > 0) save(`Extended ${cnt} active tiffins by +1 day`);
+  toast(cnt > 0 ? `🍱 ${cnt} active tiffins +1 din extend ho gaye!` : "Koi active tiffin nahi mila");
+}
+
+function markAllActiveTiffinsDelivered() {
+  let cnt = 0;
+  (S.tiffinSubs || []).forEach(s => {
+    if (!s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad" && !s.deliveredToday) {
+      s.deliveredToday = true;
+      cnt++;
+    }
+  });
+  if (cnt > 0) save(`Marked ${cnt} active tiffins delivered`);
+  toast(cnt > 0 ? `✅ ${cnt} tiffin drops marked Delivered!` : "Sabhi active tiffins pehle se delivered hain");
+}
+
+function getKitchenPendingPrepCount() {
+  return (S.foodOrders || []).filter(o => o.status === "Placed" || o.status === "Confirmed" || o.status === "Cooking").length;
+}
+
+function markAllKitchenCooking() {
+  let cnt = 0;
+  (S.foodOrders || []).forEach(o => {
+    if (o.status === "Placed" || o.status === "Confirmed") {
+      o.status = "Cooking";
+      cnt++;
+    }
+  });
+  if (cnt > 0) save(`Kitchen started cooking ${cnt} orders`);
+  toast(cnt > 0 ? `🔥 ${cnt} food orders Cooking mein aa gaye!` : "Koi naya order cooking ke liye pending nahi hai");
+}
+
+function getVendorOpenOrdersCount(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled" && o.items.some(i => i.vendorId === vid)).length;
+}
+
+function getSaudaFreeDeliveryGap(sub) {
+  const freeAt = +S.cfg.kiranaFreeDeliveryAt || 500;
+  return Math.max(0, freeAt - (+sub || 0));
+}
+
+function getSaudaMinOrderGap(sub) {
+  const minOrd = +S.cfg.kiranaMinOrder || 300;
+  return Math.max(0, minOrd - (+sub || 0));
+}
+
+function addDailySaudaEssentialsPack() {
+  ["kr1", "kr4", "kr5"].forEach(id => {
+    const it = (S.kiranaItems || []).find(x => x.id === id);
+    if (it && it.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🛍️ Daily Essentials pack add ho gaya!");
+}
+
+function dispatchAllReadyOrdersToRider(rid = "r1") {
+  S.riderAssignments = S.riderAssignments || {};
+  let cnt = 0;
+  getAllActiveOrdersFlat().forEach(o => {
+    if (o.status === "Ready for Pickup") {
+      const arr = o.kind === "FOOD" ? S.foodOrders : S.kiranaOrders;
+      const real = (arr || []).find(x => x.id === o.id);
+      if (real) {
+        real.status = "Out for Delivery";
+        S.riderAssignments[o.id] = rid;
+        cnt++;
+      }
+    }
+  });
+  if (cnt > 0) save(`Dispatched ${cnt} ready orders on ${rid}`);
+  toast(cnt > 0 ? `🛵 ${cnt} ready orders dispatched!` : "Koi Ready order dispatch ke liye nahi hai");
+}
+
+function getRiderDeliveredCountFor(rid) {
+  return getAllActiveOrdersFlat().filter(o => o.status === "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getRiderPendingCodFor(rid) {
+  const cod = getAllActiveOrdersFlat()
+    .filter(o => o.payMode === "COD" && o.status === "Delivered" && getOrderRiderId(o) === rid)
+    .reduce((a, o) => a + (+o.total || 0), 0);
+  const set = +((S.riderCashSettledByRider && S.riderCashSettledByRider[rid]) || 0);
+  return Math.max(0, cod - set);
+}
+
+function logRefundRecord(orderId, amt, reason) {
+  S.refundLog = S.refundLog || [];
+  S.refundLog.unshift({ id: uid("rf"), orderId, amt: +amt || 0, reason: reason || "Order refund", t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
+  if (S.refundLog.length > 40) S.refundLog.length = 40;
+  save(`Logged refund ₹${amt} for ${orderId}`);
+  toast("💸 Refund record log ho gaya!");
+}
+
+function getCancelledOrdersCount() {
+  return [...(S.foodOrders || []), ...(S.kiranaOrders || [])].filter(o => o.status === "Cancelled").length;
+}
+
+function getVerifiedUpiCount() {
+  return [...(S.foodOrders || []), ...(S.kiranaOrders || [])].filter(o => o.payMode === "UPI" && o.utrVerified && o.status !== "Cancelled").length;
+}
+
+function getSystemReadinessScore() {
+  let score = 100;
+  if (!S.cfg?.upi) score -= 25;
+  if (!(S.vendors || []).length) score -= 25;
+  if (!(S.foodItems || []).length && !(S.kiranaItems || []).length) score -= 25;
+  return Math.max(0, score);
+}
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v95) ==================== */
+function ensureV95Defaults() {
+  if (!S) return;
+  S.cfg.autoPauseLowStock = S.cfg.autoPauseLowStock ?? true;
+  S.cfg.requireOtpAboveAmt = S.cfg.requireOtpAboveAmt ?? 0;
+  S.riderShiftHistory = S.riderShiftHistory || [];
+  S.customerFavItems = S.customerFavItems || [];
+}
+
+function getAllOrdersCombined() {
+  return [
+    ...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })),
+    ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))
+  ];
+}
+
+function getPendingPickupOrdersCount() {
+  return getAllOrdersCombined().filter(o => o.status === "Ready for Pickup").length;
+}
+
+function getOutForDeliveryOrdersCount() {
+  return getAllOrdersCombined().filter(o => o.status === "Out for Delivery").length;
+}
+
+function getDeliveredOrdersCount() {
+  return getAllOrdersCombined().filter(o => o.status === "Delivered").length;
+}
+
+function getTotalCodCollectedAll() {
+  return getAllOrdersCombined()
+    .filter(o => o.payMode === "COD" && o.status === "Delivered")
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getTotalUpiVolumeAll() {
+  return getAllOrdersCombined()
+    .filter(o => o.payMode === "UPI" && o.status !== "Cancelled")
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getActiveTiffinSubscribersCount() {
+  return (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad").length;
+}
+
+function getPausedTiffinSubscribersCount() {
+  return (S.tiffinSubs || []).filter(s => s.skipToday || (+(s.vacationDays || 0) > 0)).length;
+}
+
+function getTiffinVegCount() {
+  return (S.tiffinSubs || []).filter(s => s.diet !== "nv").length;
+}
+
+function getTiffinNonVegCount() {
+  return (S.tiffinSubs || []).filter(s => s.diet === "nv").length;
+}
+
+function clearNextDaySkipsBulk() {
+  let cnt = 0;
+  (S.tiffinSubs || []).forEach(s => {
+    if (s.skipNextDay) {
+      s.skipNextDay = false;
+      s.remaining = Math.max(0, (+s.remaining || 1) - 1);
+      cnt++;
+    }
+  });
+  if (cnt > 0) save(`Cleared ${cnt} next-day tiffin skips`);
+  toast(cnt > 0 ? `↩ ${cnt} kal ke skip revert ho gaye` : "Kal ke liye koi skip set nahi tha");
+}
+
+function getFoodCartDistinctCount() {
+  return Object.keys(FOOD_CART || {}).filter(id => (+FOOD_CART[id] || 0) > 0).length;
+}
+
+function getSaudaCartDistinctCount() {
+  return Object.keys(KIRANA_CART || {}).filter(id => (+KIRANA_CART[id] || 0) > 0).length;
+}
+
+function addFullSaudaStarterBundle() {
+  ["kr1", "kr2", "kr3", "kr4", "kr5"].forEach(id => {
+    const it = (S.kiranaItems || []).find(x => x.id === id);
+    if (it && it.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🧺 Full Sauda Starter Bundle add ho gaya!");
+}
+
+function getVendorTotalItemsCount(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodItems : S.kiranaItems;
+  return (arr || []).filter(it => it.vendorId === vid).length;
+}
+
+function getVendorOutOfStockCount(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodItems : S.kiranaItems;
+  return (arr || []).filter(it => it.vendorId === vid && !it.stock).length;
+}
+
+function getRiderAssignedDropsCount(rid) {
+  return getAllOrdersCombined().filter(o => o.status !== "Cancelled" && getOrderRiderId(o) === rid).length;
+}
+
+function getRiderPendingDropsCount(rid) {
+  return getAllOrdersCombined().filter(o => o.status !== "Cancelled" && o.status !== "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getOwnerPendingUtrCount() {
+  return getAllOrdersCombined().filter(o => o.payMode === "UPI" && o.utr && !o.utrVerified && o.status !== "Cancelled").length;
+}
+
+function getOwnerTotalExpensesSum() {
+  const expSum = (S.expenses || []).reduce((a, e) => a + (+e.amt || 0), 0);
+  const fuelSum = (S.fuelLogs || []).filter(f => f.approved).reduce((a, f) => a + (+f.rs || 0), 0);
+  return expSum + fuelSum;
+}
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v96) ==================== */
+function ensureV96Defaults() {
+  if (!S) return;
+  S.cfg.cutoffAlertEnabled = S.cfg.cutoffAlertEnabled ?? true;
+  S.cfg.maxDailyTiffinSkips = S.cfg.maxDailyTiffinSkips ?? 1;
+  S.riderPayoutHistory = S.riderPayoutHistory || [];
+  S.utrAuditNotes = S.utrAuditNotes || [];
+}
+
+function getAllOrdersSnapshot() {
+  return [
+    ...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })),
+    ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))
+  ];
+}
+
+function getPlacedOrdersCount() {
+  return getAllOrdersSnapshot().filter(o => o.status === "Placed").length;
+}
+
+function getConfirmedOrdersCount() {
+  return getAllOrdersSnapshot().filter(o => o.status === "Confirmed").length;
+}
+
+function getCookingOrdersCount() {
+  return getAllOrdersSnapshot().filter(o => o.status === "Cooking").length;
+}
+
+function getTotalGrossGmvAll() {
+  return getAllOrdersSnapshot()
+    .filter(o => o.status !== "Cancelled")
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getTotalTiffinRevenueAll() {
+  return (S.tiffinSubs || [])
+    .filter(s => s.paid)
+    .reduce((sum, s) => sum + (+s.price || 0), 0);
+}
+
+function getExpiringSoonTiffinsList() {
+  return (S.tiffinSubs || []).filter(s => (+s.remaining || 0) <= 3);
+}
+
+function getTodaySkippedTiffinsCount() {
+  return (S.tiffinSubs || []).filter(s => !!s.skipToday).length;
+}
+
+function getNextDaySkippedTiffinsCount() {
+  return (S.tiffinSubs || []).filter(s => !!s.skipNextDay).length;
+}
+
+function getVacationPausedTiffinsCount() {
+  return (S.tiffinSubs || []).filter(s => (+(s.vacationDays || 0)) > 0).length;
+}
+
+function getFoodCartTotalAmount() {
+  return Object.entries(FOOD_CART || {}).reduce((sum, [id, qty]) => {
+    const it = (S.foodItems || []).find(x => x.id === id);
+    return it ? sum + (+it.price || 0) * (+qty || 0) : sum;
+  }, 0);
+}
+
+function getSaudaCartTotalAmount() {
+  return Object.entries(KIRANA_CART || {}).reduce((sum, [id, qty]) => {
+    const it = (S.kiranaItems || []).find(x => x.id === id);
+    return it ? sum + (+it.price || 0) * (+qty || 0) : sum;
+  }, 0);
+}
+
+function isSaudaMinOrderMet() {
+  return getSaudaCartTotalAmount() >= (+S.cfg.kiranaMinOrder || 300);
+}
+
+function isSaudaFreeDeliveryMet() {
+  return getSaudaCartTotalAmount() >= (+S.cfg.kiranaFreeDeliveryAt || 500);
+}
+
+function addWeekendFoodFeastPack() {
+  ["fd5", "fd6", "fd7"].forEach(id => {
+    const it = (S.foodItems || []).find(x => x.id === id);
+    if (it && it.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🍛 Feast items cart mein add ho gaye!");
+}
+
+function getRiderTotalCodCollectedFor(rid) {
+  return getAllOrdersSnapshot()
+    .filter(o => o.payMode === "COD" && o.status === "Delivered" && getOrderRiderId(o) === rid)
+    .reduce((a, o) => a + (+o.total || 0), 0);
+}
+
+function getRiderTotalCodSettledFor(rid) {
+  return +((S.riderCashSettledByRider && S.riderCashSettledByRider[rid]) || 0);
+}
+
+function getVendorDeliveredCount(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || []).filter(o => o.status === "Delivered" && o.items.some(i => i.vendorId === vid)).length;
+}
+
+function getVendorGrossRevenue(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || [])
+    .filter(o => o.status !== "Cancelled")
+    .reduce((sum, o) => sum + o.items.filter(i => i.vendorId === vid).reduce((a, i) => a + (+i.price || 0) * (+i.qty || 0), 0), 0);
+}
+
+function getOwnerNetProfitEstimate() {
+  const tiffinRev = getTotalTiffinRevenueAll();
+  let commSum = 0;
+  (S.vendors || []).filter(v => !v.isSelf).forEach(v => {
+    commSum += getVendorLedger(v).comm;
+  });
+  return tiffinRev + commSum - getOwnerTotalExpensesSum();
+}
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v97) ==================== */
+function ensureV97Defaults() {
+  if (!S) return;
+  S.cfg.autoConfirmPrepaidUtr = S.cfg.autoConfirmPrepaidUtr ?? false;
+  S.cfg.riderShiftDurationHrs = S.cfg.riderShiftDurationHrs ?? 8;
+  S.customerSavedAreas = S.customerSavedAreas || UDALA_AREAS.slice();
+  S.vendorSettlementHistory = S.vendorSettlementHistory || [];
+}
+
+function getCancelledFoodCount() {
+  return (S.foodOrders || []).filter(o => o.status === "Cancelled").length;
+}
+
+function getCancelledSaudaCount() {
+  return (S.kiranaOrders || []).filter(o => o.status === "Cancelled").length;
+}
+
+function getDeliveredFoodCount() {
+  return (S.foodOrders || []).filter(o => o.status === "Delivered").length;
+}
+
+function getDeliveredSaudaCount() {
+  return (S.kiranaOrders || []).filter(o => o.status === "Delivered").length;
+}
+
+function getFoodGrossSalesTotal() {
+  return (S.foodOrders || []).filter(o => o.status !== "Cancelled").reduce((s, o) => s + (+o.total || 0), 0);
+}
+
+function getSaudaGrossSalesTotal() {
+  return (S.kiranaOrders || []).filter(o => o.status !== "Cancelled").reduce((s, o) => s + (+o.total || 0), 0);
+}
+
+function getActiveTiffinCountOnly() {
+  return (S.tiffinSubs || []).filter(s => (+s.remaining || 0) > 0 && !s.skipToday && !(+(s.vacationDays || 0) > 0)).length;
+}
+
+function getExpiredTiffinCountOnly() {
+  return (S.tiffinSubs || []).filter(s => (+s.remaining || 0) <= 0).length;
+}
+
+function getAverageOrderValueCombined() {
+  const valid = getAllOrdersSnapshot().filter(o => o.status !== "Cancelled");
+  if (!valid.length) return 0;
+  return Math.round(valid.reduce((s, o) => s + (+o.total || 0), 0) / valid.length);
+}
+
+function getVendorPendingOrdersCount(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || []).filter(o => (o.status === "Placed" || o.status === "Confirmed") && o.items.some(i => i.vendorId === vid)).length;
+}
+
+function getVendorCookingOrPackedCount(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || []).filter(o => (o.status === "Cooking" || o.status === "Packed") && o.items.some(i => i.vendorId === vid)).length;
+}
+
+function getRiderOutForDeliveryCount(rid) {
+  return getAllOrdersSnapshot().filter(o => o.status === "Out for Delivery" && getOrderRiderId(o) === rid).length;
+}
+
+function getRiderReadyPickupCount(rid) {
+  return getAllOrdersSnapshot().filter(o => o.status === "Ready for Pickup" && getOrderRiderId(o) === rid).length;
+}
+
+function getTotalApprovedFuelCost() {
+  return (S.fuelLogs || []).filter(f => f.approved).reduce((s, f) => s + (+f.rs || 0), 0);
+}
+
+function getTotalManualExpensesCost() {
+  return (S.expenses || []).reduce((s, e) => s + (+e.amt || 0), 0);
+}
+
+function getTotalRiderCashSettledAll() {
+  return +S.riderCashSettled || 0;
+}
+
+function getTotalPartnerCommissionEarnedAll() {
+  return (S.vendors || []).filter(v => !v.isSelf).reduce((s, v) => s + getVendorLedger(v).comm, 0);
+}
+
+function getTotalPartnerPayoutDueAll() {
+  return (S.vendors || []).filter(v => !v.isSelf).reduce((s, v) => s + getVendorLedger(v).due, 0);
+}
+
+function addLunchBoxEssentialsPack() {
+  ["fd2", "fd4", "fd7"].forEach(id => {
+    const it = (S.foodItems || []).find(x => x.id === id);
+    if (it && it.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🍱 Lunch + Snack pack add ho gaya!");
+}
+
+function clearAllCartsSafe() {
+  FOOD_CART = {};
+  KIRANA_CART = {};
+  render();
+  toast("🧹 Dono carts clear ho gaye");
+}
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v98) ==================== */
+function ensureV98Defaults() {
+  if (!S) return;
+  S.cfg.autoAlertNewOrders = S.cfg.autoAlertNewOrders ?? true;
+  S.cfg.requireGpsForOrders = S.cfg.requireGpsForOrders ?? true;
+  S.customerAddressesList = S.customerAddressesList || [];
+  S.riderDailyChecklist = S.riderDailyChecklist || [];
+}
+
+function getAllActiveOrdersListV98() {
+  return [
+    ...(S.foodOrders || []).filter(o => o.status !== "Cancelled").map(o => ({ ...o, kind: "FOOD" })),
+    ...(S.kiranaOrders || []).filter(o => o.status !== "Cancelled").map(o => ({ ...o, kind: "KIRANA" }))
+  ];
+}
+
+function getAllCancelledOrdersListV98() {
+  return [
+    ...(S.foodOrders || []).filter(o => o.status === "Cancelled").map(o => ({ ...o, kind: "FOOD" })),
+    ...(S.kiranaOrders || []).filter(o => o.status === "Cancelled").map(o => ({ ...o, kind: "KIRANA" }))
+  ];
+}
+
+function getTotalActiveOrdersCountV98() {
+  return getAllActiveOrdersListV98().filter(o => o.status !== "Delivered").length;
+}
+
+function getTotalCompletedOrdersCountV98() {
+  return getAllActiveOrdersListV98().filter(o => o.status === "Delivered").length;
+}
+
+function getTotalCodOnRoadV98() {
+  return getAllActiveOrdersListV98()
+    .filter(o => o.payMode === "COD" && o.status !== "Delivered")
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getTotalCodPendingJamaV98() {
+  return Math.max(0, getTotalCodCollectedAll() - (+S.riderCashSettled || 0));
+}
+
+function getTotalTiffinPaidCountV98() {
+  return (S.tiffinSubs || []).filter(s => !!s.paid).length;
+}
+
+function getTotalTiffinUnpaidCountV98() {
+  return (S.tiffinSubs || []).filter(s => !s.paid).length;
+}
+
+function getTotalTiffinRemainingDaysSumV98() {
+  return (S.tiffinSubs || []).reduce((sum, s) => sum + (+s.remaining || 0), 0);
+}
+
+function getFoodInStockCountV98() {
+  return (S.foodItems || []).filter(it => !!it.stock).length;
+}
+
+function getSaudaInStockCountV98() {
+  return (S.kiranaItems || []).filter(it => !!it.stock).length;
+}
+
+function getOpenVendorsCountV98() {
+  return (S.vendors || []).filter(v => v.status === "Open").length;
+}
+
+function getBusyOrClosedVendorsCountV98() {
+  return (S.vendors || []).filter(v => v.status !== "Open").length;
+}
+
+function addEveningSnacksPackV98() {
+  ["fd1", "fd4", "fd7"].forEach(id => {
+    const it = (S.foodItems || []).find(x => x.id === id);
+    if (it && it.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+  });
+  render();
+  toast("☕ Evening Nashta pack cart mein add ho gaya!");
+}
+
+function getRiderDeliveredAmountV98(rid) {
+  return getAllActiveOrdersListV98()
+    .filter(o => o.status === "Delivered" && getOrderRiderId(o) === rid)
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getRiderCodOnRoadV98(rid) {
+  return getAllActiveOrdersListV98()
+    .filter(o => o.payMode === "COD" && o.status !== "Delivered" && getOrderRiderId(o) === rid)
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getVendorTotalSalesGrossV98(vid) {
+  return getVendorGrossRevenue(vid);
+}
+
+function getVendorTotalCommissionV98(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  return v ? getVendorLedger(v).comm : 0;
+}
+
+function getOwnerTotalCashInHandEstV98() {
+  return Math.max(0, getTotalTiffinRevenueAll() + getTotalUpiVolumeAll() + (+S.riderCashSettled || 0) - getOwnerTotalExpensesSum());
+}
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v99) ==================== */
+function ensureV99Defaults() {
+  if (!S) return;
+  S.cfg.autoPrintThermalBill = S.cfg.autoPrintThermalBill ?? false;
+  S.cfg.maxActiveTiffinsPerPhone = S.cfg.maxActiveTiffinsPerPhone ?? 3;
+  S.riderRouteNotes = S.riderRouteNotes || [];
+  S.customerFeedbackLog = S.customerFeedbackLog || [];
+}
+
+function getAllOrdersCountV99() {
+  return (S.foodOrders?.length || 0) + (S.kiranaOrders?.length || 0);
+}
+
+function getActiveFoodOrdersCountV99() {
+  return (S.foodOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled").length;
+}
+
+function getActiveSaudaOrdersCountV99() {
+  return (S.kiranaOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled").length;
+}
+
+function getTotalCodOrdersCountV99() {
+  return getAllOrdersSnapshot().filter(o => o.payMode === "COD" && o.status !== "Cancelled").length;
+}
+
+function getTotalUpiOrdersCountV99() {
+  return getAllOrdersSnapshot().filter(o => o.payMode === "UPI" && o.status !== "Cancelled").length;
+}
+
+function getTotalTiffinSubsCountV99() {
+  return (S.tiffinSubs || []).length;
+}
+
+function getTotalTiffinPriceSumV99() {
+  return (S.tiffinSubs || []).reduce((sum, s) => sum + (+s.price || 0), 0);
+}
+
+function getFoodTotalItemsCountV99() {
+  return (S.foodItems || []).length;
+}
+
+function getSaudaTotalItemsCountV99() {
+  return (S.kiranaItems || []).length;
+}
+
+function getTotalVendorsCountV99() {
+  return (S.vendors || []).length;
+}
+
+function addBreakfastSpecialPackV99() {
+  ["fd1", "fd4", "kr7"].forEach(id => {
+    const foodIt = (S.foodItems || []).find(x => x.id === id);
+    const kirIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (foodIt && foodIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kirIt && kirIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🌅 Breakfast + Dairy combo add ho gaya!");
+}
+
+function getRiderTotalDropsCountV99(rid) {
+  return getAllOrdersSnapshot().filter(o => o.status !== "Cancelled" && getOrderRiderId(o) === rid).length;
+}
+
+function getRiderCompletedDropsCountV99(rid) {
+  return getAllOrdersSnapshot().filter(o => o.status === "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getVendorActiveOrdersCountV99(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled" && o.items.some(i => i.vendorId === vid)).length;
+}
+
+function getVendorSettledPaidV99(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  return v ? (+v.settledPaid || 0) : 0;
+}
+
+function getOwnerTotalFuelLogsCountV99() {
+  return (S.fuelLogs || []).length;
+}
+
+function getOwnerTotalExpensesCountV99() {
+  return (S.expenses || []).length;
+}
+
+function getOwnerTotalAuditLogsCountV99() {
+  return (S.auditLog || []).length;
+}
+
+function getOwnerNetMarginEstV99() {
+  return getTotalTiffinRevenueAll() + getTotalPartnerCommissionEarnedAll() - getOwnerTotalExpensesSum();
+}
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v100) ==================== */
+function ensureV100Defaults() {
+  if (!S) return;
+  S.cfg.autoNotifyRiderOnReady = S.cfg.autoNotifyRiderOnReady ?? true;
+  S.cfg.defaultDeliverySlot = S.cfg.defaultDeliverySlot || "ASAP (30-45 mins)";
+  S.customerRecentSearches = S.customerRecentSearches || [];
+  S.riderShiftLogs = S.riderShiftLogs || [];
+}
+
+function getAllValidOrdersV100() {
+  return getAllOrdersSnapshot().filter(o => o.status !== "Cancelled");
+}
+
+function getAllValidOrdersRevenueV100() {
+  return getAllValidOrdersV100().reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getFoodValidOrdersCountV100() {
+  return (S.foodOrders || []).filter(o => o.status !== "Cancelled").length;
+}
+
+function getSaudaValidOrdersCountV100() {
+  return (S.kiranaOrders || []).filter(o => o.status !== "Cancelled").length;
+}
+
+function getPendingVerificationUpiOrdersV100() {
+  return getAllValidOrdersV100().filter(o => o.payMode === "UPI" && !o.utrVerified);
+}
+
+function getVerifiedUpiOrdersV100() {
+  return getAllValidOrdersV100().filter(o => o.payMode === "UPI" && !!o.utrVerified);
+}
+
+function getDeliveredCodOrdersCountV100() {
+  return getAllValidOrdersV100().filter(o => o.payMode === "COD" && o.status === "Delivered").length;
+}
+
+function getActiveTiffinMealSlotsSummaryV100() {
+  const subs = (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad");
+  return {
+    total: subs.length,
+    breakfast: subs.filter(s => /Breakfast|All 3/.test(s.slot)).length,
+    lunch: subs.filter(s => /Lunch|All 3/.test(s.slot)).length,
+    dinner: subs.filter(s => /Dinner|All 3/.test(s.slot)).length
+  };
+}
+
+function getTotalFoodCartItemsV100() {
+  return Object.values(FOOD_CART || {}).reduce((a, b) => a + (+b || 0), 0);
+}
+
+function getTotalSaudaCartItemsV100() {
+  return Object.values(KIRANA_CART || {}).reduce((a, b) => a + (+b || 0), 0);
+}
+
+function addFullDayMealsComboV100() {
+  ["fd1", "fd2", "fd3"].forEach(id => {
+    const it = (S.foodItems || []).find(x => x.id === id);
+    if (it && it.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🍽️ Breakfast + Thali + Chicken combo add ho gaya!");
+}
+
+function getRiderAssignedOpenCountV100(rid) {
+  return getAllValidOrdersV100().filter(o => o.status !== "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getRiderAssignedDeliveredCountV100(rid) {
+  return getAllValidOrdersV100().filter(o => o.status === "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getVendorTotalOrdersCountV100(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || []).filter(o => o.status !== "Cancelled" && o.items.some(i => i.vendorId === vid)).length;
+}
+
+function getVendorNetPayableAfterCommV100(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const led = getVendorLedger(v);
+  return Math.max(0, led.gross - led.comm);
+}
+
+function getOwnerTotalFuelClaimedSumV100() {
+  return (S.fuelLogs || []).reduce((sum, f) => sum + (+f.rs || 0), 0);
+}
+
+function getOwnerTotalUnapprovedFuelSumV100() {
+  return (S.fuelLogs || []).filter(f => !f.approved).reduce((sum, f) => sum + (+f.rs || 0), 0);
+}
+
+function getOwnerTotalUdhaarDueSumV100() {
+  return (S.udhaarList || []).reduce((sum, u) => sum + (+u.amt || 0), 0);
+}
+
+function getAppVersionMilestoneLabelV100() {
+  return "Namaste Udala v100 · Ops Suite";
+}
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v101) ==================== */
+function ensureV101Defaults() {
+  if (!S) return;
+  S.cfg.autoAssignDefaultRider = S.cfg.autoAssignDefaultRider ?? true;
+  S.cfg.maxFuelClaimPerKm = S.cfg.maxFuelClaimPerKm ?? 8;
+  S.customerOrderBookmarks = S.customerOrderBookmarks || [];
+  S.riderCashHandoverLog = S.riderCashHandoverLog || [];
+}
+
+function getAllOrdersCountV101() {
+  return getAllOrdersSnapshot().length;
+}
+
+function getAllValidOrdersCountV101() {
+  return getAllValidOrdersV100().length;
+}
+
+function getFoodOrdersCountV101() {
+  return (S.foodOrders || []).length;
+}
+
+function getSaudaOrdersCountV101() {
+  return (S.kiranaOrders || []).length;
+}
+
+function getFoodPendingCountV101() {
+  return (S.foodOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled").length;
+}
+
+function getSaudaPendingCountV101() {
+  return (S.kiranaOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled").length;
+}
+
+function getTotalCodAmountAllV101() {
+  return getAllValidOrdersV100()
+    .filter(o => o.payMode === "COD")
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getTotalUpiAmountAllV101() {
+  return getAllValidOrdersV100()
+    .filter(o => o.payMode === "UPI")
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getActiveTiffinMealsCountV101() {
+  return (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad").length;
+}
+
+function getSkippedTodayTiffinsListV101() {
+  return (S.tiffinSubs || []).filter(s => !!s.skipToday);
+}
+
+function getFoodCartSubtotalV101() {
+  return getFoodCartTotalAmount();
+}
+
+function getSaudaCartSubtotalV101() {
+  return getSaudaCartTotalAmount();
+}
+
+function addHouseholdEssentialsV101() {
+  ["kr1", "kr3", "kr4", "kr6"].forEach(id => {
+    const it = (S.kiranaItems || []).find(x => x.id === id);
+    if (it && it.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🏠 Household essentials cart mein add ho gaye!");
+}
+
+function getRiderTotalOrderValueV101(rid) {
+  return getAllValidOrdersV100()
+    .filter(o => getOrderRiderId(o) === rid)
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getRiderPendingDropsValueV101(rid) {
+  return getAllValidOrdersV100()
+    .filter(o => o.status !== "Delivered" && getOrderRiderId(o) === rid)
+    .reduce((sum, o) => sum + (+o.total || 0), 0);
+}
+
+function getVendorDeliveredRevenueV101(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || [])
+    .filter(o => o.status === "Delivered")
+    .reduce((sum, o) => sum + o.items.filter(i => i.vendorId === vid).reduce((a, i) => a + (+i.price || 0) * (+i.qty || 0), 0), 0);
+}
+
+function getVendorPendingRevenueV101(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  if (!v) return 0;
+  const arr = v.type === "FOOD" ? S.foodOrders : S.kiranaOrders;
+  return (arr || [])
+    .filter(o => o.status !== "Delivered" && o.status !== "Cancelled")
+    .reduce((sum, o) => sum + o.items.filter(i => i.vendorId === vid).reduce((a, i) => a + (+i.price || 0) * (+i.qty || 0), 0), 0);
+}
+
+function getOwnerTotalRefundsSumV101() {
+  return (S.refundLog || []).reduce((sum, r) => sum + (+r.amt || 0), 0);
+}
+
+function getOwnerTotalRevCombinedV101() {
+  return getTotalTiffinRevenueAll() + getAllValidOrdersRevenueV100();
+}
+
+/* ==================== 20 MORE ESSENTIAL OPS FEATURES (v102) ==================== */
+function ensureV102Defaults() {
+  if (!S) return;
+  S.cfg.autoFlagHighCodAbove = S.cfg.autoFlagHighCodAbove ?? 350;
+  S.cfg.autoEnablePromoBanner = S.cfg.autoEnablePromoBanner ?? true;
+  S.customerRepeatStats = S.customerRepeatStats || {};
+  S.vendorShiftNotes = S.vendorShiftNotes || {};
+}
+
+function getAllOrdersCountV102() {
+  return getAllOrdersSnapshot().length;
+}
+
+function getAllValidOrdersCountV102() {
+  return getAllValidOrdersV100().length;
+}
+
+function getFoodOrdersCountV102() {
+  return (S.foodOrders || []).length;
+}
+
+function getSaudaOrdersCountV102() {
+  return (S.kiranaOrders || []).length;
+}
+
+function getFoodDeliveredCountV102() {
+  return (S.foodOrders || []).filter(o => o.status === "Delivered").length;
+}
+
+function getSaudaDeliveredCountV102() {
+  return (S.kiranaOrders || []).filter(o => o.status === "Delivered").length;
+}
+
+function getFoodCancelledCountV102() {
+  return (S.foodOrders || []).filter(o => o.status === "Cancelled").length;
+}
+
+function getSaudaCancelledCountV102() {
+  return (S.kiranaOrders || []).filter(o => o.status === "Cancelled").length;
+}
+
+function getActiveTiffinSubscribersCountV102() {
+  return (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad").length;
+}
+
+function getLowRemainingTiffinsCountV102() {
+  return (S.tiffinSubs || []).filter(s => (+s.remaining || 0) <= 3).length;
+}
+
+function getFoodCartItemCountV102() {
+  return Object.values(FOOD_CART || {}).reduce((a, b) => a + (+b || 0), 0);
+}
+
+function getSaudaCartItemCountV102() {
+  return Object.values(KIRANA_CART || {}).reduce((a, b) => a + (+b || 0), 0);
+}
+
+function addEveningTiffinComboV102() {
+  ["fd2", "fd6", "kr5"].forEach(id => {
+    const foodIt = (S.foodItems || []).find(x => x.id === id);
+    const kirIt = (S.kiranaItems || []).find(x => x.id === id);
+    if (foodIt && foodIt.stock) FOOD_CART[id] = (FOOD_CART[id] || 0) + 1;
+    if (kirIt && kirIt.stock) KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1;
+  });
+  render();
+  toast("🌙 Dinner + Chai combo cart mein add ho gaya!");
+}
+
+function getRiderActiveDropsCountV102(rid) {
+  return getAllValidOrdersV100().filter(o => o.status !== "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getRiderDeliveredDropsCountV102(rid) {
+  return getAllValidOrdersV100().filter(o => o.status === "Delivered" && getOrderRiderId(o) === rid).length;
+}
+
+function getVendorGrossSalesV102(vid) {
+  return getVendorGrossRevenue(vid);
+}
+
+function getVendorPayoutDueV102(vid) {
+  const v = S.vendors.find(x => x.id === vid);
+  return v ? getVendorLedger(v).due : 0;
+}
+
+function getOwnerTotalExpensesV102() {
+  return getOwnerTotalExpensesSum();
+}
+
+function getOwnerNetProfitV102() {
+  return getOwnerNetProfitEstimate();
+}
+
 function viewTiffin() {
   const price = calcTiffinPrice(TF.diet, TF.days, TF.slot);
   const mySubs = (S.tiffinSubs || []).filter(s => !TF.phone || ph(s.phone) === ph(TF.phone));
@@ -1357,7 +2523,12 @@ function viewTiffin() {
       `).join("")}
     </div>
 
-    <span class="lbl">Meal Slot (Morning Breakfast / Lunch / Dinner)</span>
+    <span class="lbl">Meal Slot (Cut-Off: ${isTiffinCutoffOpen(TF.slot) ? "Open ✓" : "Closed"})</span>
+    <div class="chips" style="margin-bottom:4px">
+      ${[["Lunch (12:30 PM)", "Lunch"], ["Dinner (8:00 PM)", "Dinner"], ["Lunch + Dinner", "Lunch + Dinner"], ["All 3 Meals (B+L+D)", "All 3"]].map(([sv, slbl]) =>
+        `<button class="${TF.slot === sv ? "on" : ""}" data-act="tfSet" data-k="slot" data-v="${sv}">${slbl}</button>`
+      ).join("")}
+    </div>
     <select class="inp" data-tf="slot">
       ${[
         "Morning Breakfast (7:30 AM)",
@@ -1381,6 +2552,9 @@ function viewTiffin() {
         <select class="inp" data-tf="health">
           ${["Regular Homestyle", "Diabetic-Friendly", "Low-Oil", "No Onion-Garlic"].map(h => `<option ${TF.health === h ? "selected" : ""}>${h}</option>`).join("")}
         </select>
+        <button class="btn amb sm" data-act="toggleRiderShift">${esc(getRiderShiftState(activeRiderId))}</button>
+        <button class="btn g sm" data-act="autoAssignOpen">⚡ Auto-Assign</button>
+        <button class="btn w sm" data-act="dispatchAllReady">🛵 Dispatch Ready</button>
       </div>
     </div>
     <div style="margin-top:6px">
@@ -1488,6 +2662,7 @@ function viewFoodShop() {
   const matchingDishes = (q || FOOD_CAT_FILTER !== "ALL")
     ? S.foodItems.filter(it =>
         (FOOD_CAT_FILTER === "ALL" || it.cat === FOOD_CAT_FILTER) &&
+        (!window._foodVegOnly || !it.nv) &&
         (!q || it.name.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q))
       )
     : [];
@@ -1501,12 +2676,18 @@ function viewFoodShop() {
       </div>
       <div class="hero-pop-wrap"><div class="steam-wrap"><i></i><i></i><i></i></div><img class="hero-pop" src="${ART3D.biryani}" alt="Food Shop" /></div>
     </div>
+    ${(() => {
+      const favId = localStorage.getItem("nu_fav_rest") || "";
+      const favV = foodVendors.find(x => x.id === favId);
+      return favV ? `<div class="smart-badge-strip"><button class="smart-chip" data-act="openRest" data-id="${favV.id}">⭐ Favorite: ${esc(favV.name)} →</button></div>` : "";
+    })()}
 
     <input class="inp" id="foodSearchInp" placeholder="🔍 Search Biryani, Idli, Chicken, Paneer, Cake..." value="${esc(FOOD_SEARCH)}" />
     <div class="chips" style="margin-top:6px">
       ${[["ALL", "All Dishes"], ["Breakfast", "Breakfast"], ["Thali", "Thali"], ["Meals", "Meals"], ["Biryani", "Biryani"], ["Bakery", "Bakery"]].map(([k, lbl]) =>
         `<button class="${FOOD_CAT_FILTER === k ? "on" : ""}" data-act="setFoodCat" data-v="${k}">${lbl}</button>`
       ).join("")}
+      <button class="${window._foodVegOnly ? "on" : ""}" data-act="toggleFoodVeg">🟢 Pure Veg</button>
     </div>
 
     ${matchingDishes.length ? `
@@ -1553,7 +2734,10 @@ function viewFoodShop() {
           <div class="rest-body">
             <div class="rest-top">
               <strong style="font-size:15.5px">${esc(v.name)}</strong>
-              <span class="rest-rating">★ ${esc(v.rating)}</span>
+              <div style="display:flex;gap:5px;align-items:center">
+                <button class="btn w sm" style="padding:2px 8px;font-size:10.5px" data-act="toggleFavRest" data-id="${v.id}">${(localStorage.getItem("nu_fav_rest") === v.id) ? "⭐ Saved" : "☆ Fav"}</button>
+                <span class="rest-rating">★ ${esc(v.rating)}</span>
+              </div>
             </div>
             <div style="font-size:11.5px;color:var(--mu);margin-top:3px">${esc(v.cuisine)}</div>
             <div style="font-size:11px;color:var(--g2);font-weight:800;margin-top:5px">📍 ${esc(v.area)} · Tap to view full menu →</div>
@@ -1589,6 +2773,7 @@ function viewKirana() {
   const q = KIRANA_SEARCH.trim().toLowerCase();
   const items = S.kiranaItems.filter(it =>
     (KIRANA_CAT_FILTER === "ALL" || it.cat === KIRANA_CAT_FILTER) &&
+    (!window._saudaInStockOnly || it.stock) &&
     (!q || it.name.toLowerCase().includes(q))
   );
 
@@ -1596,22 +2781,32 @@ function viewKirana() {
     <div class="hero kirana-bg">
       <div>
         <span class="pill p-amber">MIN ₹${minOrd} ORDER · ₹${freeAt}+ FREE DELIVERY</span>
-        <h2>Kirana & Daily Needs</h2>
+        <h2>Sauda & Daily Needs</h2>
         <p>Atta, Chawal, Tel, Surf Excel, Lifebuoy, Tea & Dairy ghar baithe</p>
       </div>
-      <div class="hero-pop-wrap"><img class="hero-pop" src="${ART3D.surf}" alt="Kirana & Daily Needs" /></div>
+      <div class="hero-pop-wrap"><img class="hero-pop" src="${ART3D.surf}" alt="Sauda & Daily Needs" /></div>
     </div>
 
     <div class="card" style="border:2px solid ${sub >= freeAt ? "#16a34a" : sub >= minOrd ? "#d97706" : "#e11d48"}">
       <div style="font-size:12px;font-weight:800">
-        ${sub < minOrd ? `⚠️ Kirana Cart: <b>${inr(sub)}</b> — Minimum order ke liye <b>${inr(minOrd - sub)}</b> aur add karein!` :
+        ${sub < minOrd ? `⚠️ Sauda Cart: <b>${inr(sub)}</b> — Minimum order ke liye <b>${inr(minOrd - sub)}</b> aur add karein!` :
           sub < freeAt ? `✅ Min ₹${minOrd} unlocked! <b>${inr(freeAt - sub)}</b> aur add karein <b>FREE Delivery</b> ke liye (Save ₹${fee}).` :
           `🎉 <b>FREE Delivery Unlocked!</b> (Cart ${inr(sub)} ≥ ₹${freeAt})`}
       </div>
       <div class="pbar"><i style="width:${pct}%"></i></div>
       <div class="btn-row" style="margin-top:6px">
         <button class="btn amb sm" data-act="addKiranaCombo">⚡ 1-Tap ₹500 Free-Del Combo</button>
-        <button class="btn w sm" data-act="clearKiranaCart">Clear Kirana Cart</button>
+        <button class="btn g sm" data-act="addAttaRiceQuick">🌾 Atta + Rice</button>
+        <button class="btn w sm" data-act="addDailyPackQuick">🛍️ Daily Pack</button>
+        <button class="btn amb sm" data-act="addSaudaBundle">🧺 Starter Bundle</button>
+        <button class="btn w sm" data-act="addFeastPack">🍛 Feast Pack</button>
+        <button class="btn g sm" data-act="addLunchBoxPack">🍱 Meal Pack</button>
+        <button class="btn w sm" data-act="addEveningPack">☕ Snacks Pack</button>
+        <button class="btn amb sm" data-act="addBreakfastPack">🌅 Nashta Pack</button>
+        <button class="btn g sm" data-act="addFullMealsCombo">🍽️ Full Meals</button>
+        <button class="btn amb sm" data-act="addHouseholdPack">🏠 Ghar Sauda</button>
+        <button class="btn g sm" data-act="addDinnerChaiPack">🌙 Dinner + Chai</button>
+        <button class="btn w sm" data-act="clearKiranaCart">Clear Sauda Cart</button>
       </div>
     </div>
 
@@ -1620,6 +2815,7 @@ function viewKirana() {
       ${[["ALL", "All Items"], ["HUL", "Daily Care"], ["Staples", "Staples"], ["Dairy", "Dairy"]].map(([k, lbl]) =>
         `<button class="${KIRANA_CAT_FILTER === k ? "on" : ""}" data-act="setKiranaCat" data-v="${k}">${lbl}</button>`
       ).join("")}
+      <button class="${window._saudaInStockOnly ? "on" : ""}" data-act="toggleSaudaInStock">✓ In Stock</button>
     </div>
 
     <div class="grid-2">
@@ -1659,13 +2855,28 @@ function viewCustomerOrders() {
   const kAll = autoPrioritySort(S.kiranaOrders).reverse();
   const tAll = (S.tiffinSubs || []).slice().reverse();
 
-  const fOrds = pf.length === 10 ? fAll.filter(o => ph(o.phone) === pf) : fAll;
-  const kOrds = pf.length === 10 ? kAll.filter(o => ph(o.phone) === pf) : kAll;
+  const stF = window._custOrdStatusFilter || "ALL";
+  const matchSt = o => stF === "ALL" ? true : stF === "DELIVERED" ? o.status === "Delivered" : (o.status !== "Delivered" && o.status !== "Cancelled");
+  const fOrds = (pf.length === 10 ? fAll.filter(o => ph(o.phone) === pf) : fAll).filter(matchSt);
+  const kOrds = (pf.length === 10 ? kAll.filter(o => ph(o.phone) === pf) : kAll).filter(matchSt);
   const tSubs = pf.length === 10 ? tAll.filter(s => ph(s.phone) === pf) : tAll;
 
   return `
     <div class="card">
       <h3>📱 Apne Mobile Number Se Orders Dekhein</h3>
+      <div class="chips" style="margin-bottom:6px">
+        ${[["ALL", "All Orders"], ["ACTIVE", "Active / On Way"], ["DELIVERED", "Delivered"]].map(([fk, flbl]) =>
+          `<button class="${(window._custOrdStatusFilter || "ALL") === fk ? "on" : ""}" data-act="setCustOrdFilter" data-v="${fk}">${flbl}</button>`
+        ).join("")}
+      </div>
+      ${(() => {
+        const lastF = fAll[0];
+        const lastK = kAll[0];
+        const chips = [];
+        if (lastF) chips.push(`<button class="smart-chip" data-act="reorder" data-k="FOOD" data-id="${lastF.id}">🔁 Repeat Food (${esc(lastF.id)})</button>`);
+        if (lastK) chips.push(`<button class="smart-chip" data-act="reorder" data-k="KIRANA" data-id="${lastK.id}">🔁 Repeat Sauda (${esc(lastK.id)})</button>`);
+        return chips.length ? `<div class="smart-badge-strip">${chips.join("")}</div>` : "";
+      })()}
       <div class="btn-row">
         <input class="inp" id="ordPhoneFilterInp" type="tel" maxlength="10" placeholder="10-digit mobile daalein..." value="${esc(ORDER_PHONE_FILTER)}" />
         ${pf ? `<button class="btn w sm" style="max-width:95px" data-act="clearPhoneFilter">Show All</button>` : ""}
@@ -1722,7 +2933,7 @@ function viewCustomerOrders() {
     </div>
 
     <div class="card">
-      <h3>🛒 Mere Kirana & Daily Needs Orders (${kOrds.length})</h3>
+      <h3>🛒 Mere Sauda & Daily Needs Orders (${kOrds.length})</h3>
       ${kOrds.map(o => {
         const stores = [...new Set((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)?.name).filter(Boolean))].join(", ") || "Namaste Kirana";
         const mapHref = o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((o.area || "Udala") + " Udala Odisha")}`;
@@ -1749,7 +2960,7 @@ function viewCustomerOrders() {
           </div>
         </div>
       `;
-      }).join("") || `<p style="font-size:12px;color:var(--mu)">Koi Kirana order nahi mila.</p>`}
+      }).join("") || `<p style="font-size:12px;color:var(--mu)">Koi Sauda order nahi mila.</p>`}
     </div>
   `;
 }
@@ -1792,8 +3003,8 @@ function viewAccountPage() {
       <div class="order-smart-card" style="margin-bottom:0">
         <div class="row"><span>🍱 Mera Tiffin Morning Cut-off</span><b>6:30 AM</b></div>
         <div class="row"><span>🍱 Mera Tiffin Lunch / Skip Cut-off</span><b>9:00 AM</b></div>
-        <div class="row"><span>🛒 Kirana & Daily Needs Minimum Order</span><b>${inr(S.cfg.kiranaMinOrder)}</b></div>
-        <div class="row"><span>🚚 Kirana Free Delivery Slab</span><b>${inr(S.cfg.kiranaFreeDeliveryAt)}+ (Else ${inr(S.cfg.kiranaDeliveryFee)})</b></div>
+        <div class="row"><span>🛒 Sauda & Daily Needs Minimum Order</span><b>${inr(S.cfg.kiranaMinOrder)}</b></div>
+        <div class="row"><span>🚚 Sauda Free Delivery Slab</span><b>${inr(S.cfg.kiranaFreeDeliveryAt)}+ (Else ${inr(S.cfg.kiranaDeliveryFee)})</b></div>
         <div class="row"><span>💳 Direct UPI Payment ID</span><b>${esc(S.cfg.upi)}</b></div>
       </div>
     </div>
@@ -1873,7 +3084,7 @@ function viewItemDetailPage() {
 
   return `
     <div class="card" style="background:linear-gradient(135deg,#0f291c,#1e3a2f);color:#fff">
-      <button class="btn w sm" data-act="setTab" data-v="${isFood ? "food" : "kirana"}" style="margin-bottom:10px">← Back to ${isFood ? "Food Shop" : "Kirana & Daily Needs"}</button>
+      <button class="btn w sm" data-act="setTab" data-v="${isFood ? "food" : "kirana"}" style="margin-bottom:10px">← Back to ${isFood ? "Food Shop" : "Sauda & Daily Needs"}</button>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
         <div>
           <span class="pill p-amber">${esc(it.cat)}</span>
@@ -1979,6 +3190,9 @@ function viewCheckoutPage() {
     delFee = 0;
     grandTotal = Math.max(0, subTotal - discAmt);
     m.items = liveItems;
+    m.total = grandTotal;
+  } else if (isTiffin) {
+    grandTotal = Math.max(0, (+m.total || 0) - discAmt);
     m.total = grandTotal;
   } else if (isKirana) {
     liveItems = Object.entries(KIRANA_CART).map(([id, qty]) => {
@@ -2114,7 +3328,7 @@ function viewCheckoutPage() {
             <button class="btn w sm" data-act="copyUpi" style="background:#e2e8f0;color:#0f172a">📋 Copy UPI ID</button>
           </div>
           <div style="font-size:10.5px;color:#475569;margin-bottom:6px">Payment ke baad 12-digit Bank UTR daalein:</div>
-          <input class="inp" id="chkUtrInp" inputmode="numeric" maxlength="12" placeholder="Enter Exact 12-Digit Bank UTR *" style="background:#fff;color:#0f172a" />
+          <input class="inp" id="chkUtrInp" inputmode="numeric" maxlength="12" placeholder="Enter Exact 12-Digit Bank UTR *" value="${esc(CHECKOUT_MODAL.draftUtr || "")}" style="background:#fff;color:#0f172a" />
           <button class="btn w sm" data-act="pickProof" style="margin-top:6px;background:#e2e8f0;color:#0f172a">${PROOF_DATA_URL ? "Screenshot Attached ✓" : "📸 Attach Payment Screenshot (Optional)"}</button>
         </div>
       ` : `
@@ -2219,7 +3433,7 @@ function viewKitchen() {
     </div>
 
     <div class="card">
-      <h3>Food Shop Orders Queue (${fOrds.length}) <span class="pill p-red">${fOrds.filter(x => x.status === "Placed" || x.status === "Confirmed").length} Not Started</span></h3>
+      <h3>Food Shop Orders Queue (${fOrds.length}) <span style="display:flex;gap:5px;align-items:center"><span class="pill p-red">${fOrds.filter(x => x.status === "Placed" || x.status === "Confirmed").length} Not Started</span><button class="btn amb sm" data-act="cookAllPending">🔥 Start All</button></span></h3>
       ${fOrds.map(o => `
         <div class="order-smart-card" style="border-left-color:${o.status === "Cooking" ? "var(--amb)" : "var(--o)"}">
           <div class="order-smart-head">
@@ -2413,7 +3627,12 @@ function viewDelivery() {
 
     <div class="card">
       <h3>2. ${esc(activeRider.name)} Drops (${riderDrops.length} / ${allDrops.length} Total)</h3>
-      ${riderDrops.map((o, idx) => {
+      <div class="chips" style="margin-bottom:6px">
+        ${[["ALL", "All Drops"], ["COD", "💵 COD Only"], ["UPI", "📲 UPI Only"]].map(([pk, plbl]) =>
+          `<button class="${(window._dlvPayFilter || "ALL") === pk ? "on" : ""}" data-act="setDlvPayFilter" data-v="${pk}">${plbl}</button>`
+        ).join("")}
+      </div>
+      ${riderDrops.filter(o => (window._dlvPayFilter || "ALL") === "ALL" || o.payMode === (window._dlvPayFilter || "ALL")).map((o, idx) => {
         const pickupObjs = [...new Map((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)).filter(Boolean).map(v => [v.id, v])).values()];
         const pickupLabels = pickupObjs.map(v => `${v.name} (${v.area || "Udala"})`);
         const firstPickup = pickupObjs[0];
@@ -2533,7 +3752,7 @@ function viewVendor() {
       <div><b style="color:#16a34a">${inr(led.due)}</b><span>Owner Payout Due</span></div>
     </div>
     <div class="card">
-      <h3>Incoming Orders (${myOrders.length})</h3>
+      <h3>Incoming Orders (${myOrders.length}) <button class="btn g sm" data-act="markVenReadyAll" data-id="${v.id}">📦 All Ready</button></h3>
       ${myOrders.slice().reverse().map(o => {
         const vItems = o.items.filter(i => i.vendorId === v.id);
         const vSub = vItems.reduce((sum, i) => sum + i.price * i.qty, 0);
@@ -2582,6 +3801,7 @@ function viewVendor() {
           <div><b>${esc(it.name)}</b> (${inr(it.price)})</div>
           <div style="display:flex;gap:5px">
             <button class="btn w sm" data-act="editItemFull" data-k="${v.type}" data-id="${it.id}">✏️</button>
+            <button class="btn w sm" data-act="dupItem" data-k="${v.type}" data-id="${it.id}" title="Duplicate Item">📋</button>
             <button class="btn w sm" data-act="editItemImg" data-k="${v.type}" data-id="${it.id}" title="Change Image Link">🖼️</button>
             <button class="btn w sm" data-act="pickItemPhoto" data-k="${v.type}" data-id="${it.id}" title="Upload Phone Photo">📷</button>
             <button class="btn sm ${it.stock ? "g" : "w"}" data-act="toggleStock" data-k="${v.type}" data-id="${it.id}">${it.stock ? "In Stock ✓" : "Out"}</button>
@@ -2640,7 +3860,7 @@ function viewOwner() {
       </div>
 
       <div class="card" style="background:var(--sf2)">
-        <h3>📊 Daily Closing Snapshot (${todayIso()})</h3>
+        <h3>📊 Daily Closing Snapshot (${todayIso()}) <span style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn w sm" data-act="copyClosing">📋 Copy</button><button class="btn g sm" data-act="waClosing">📲 WA</button><button class="btn amb sm" data-act="batchVerifyUtr">✓ Batch UTR</button><button class="btn w sm" data-act="extendAllTiffins1d">+1d Tiffins</button></span></h3>
         <div class="row"><span>Total Orders (Food + Kirana)</span><b>${allOrds.length} (${allOrds.filter(o => o.status === "Delivered").length} Delivered)</b></div>
         <div class="row"><span>Active Tiffin Subscriptions</span><b>${(S.tiffinSubs || []).length} (${(S.tiffinSubs || []).filter(s => (+s.remaining || 0) <= 3).length} Expiring Soon)</b></div>
         ${(() => {
@@ -3193,7 +4413,7 @@ function render() {
     if (window._showInstallPopup) {
     $("#modalRoot").innerHTML = `
       <div class="ov" data-act="closeInstallPopup">
-        <div class="sh" onclick="event.stopPropagation()">
+        <div class="sh" data-act="stopProp">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
             <h3 style="font-family:var(--serif)">📲 Namaste Udala App</h3>
             <button class="btn w sm" data-act="closeInstallPopup">✕</button>
@@ -3248,7 +4468,7 @@ function render() {
     const navItems = [
       ["tiffin", "🍱", "Mera Tiffin", 0],
       ["food", "🍛", "Food Shop", foodCartCount()],
-      ["kirana", "🛒", "Kirana & Daily Needs", kiranaCartCount()],
+      ["kirana", "🛒", "Sauda & Daily Needs", kiranaCartCount()],
       ["orders", "📦", "My Orders", (S.foodOrders?.length || 0) + (S.kiranaOrders?.length || 0)],
       ["account", "👤", "Profile", 0]
     ];
@@ -3269,6 +4489,7 @@ function render() {
 
 /* ==================== ACTIONS & EVENTS ==================== */
 const ACT = {
+  stopProp: (v, k, id, e) => { e?.stopPropagation?.(); },
   openLoginGate: () => openLoginGate(),
   quickEnterCustomer: () => {
     LOGIN_MODE = "app";
@@ -3371,7 +4592,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-separated-v84.html";
+      a.download = "namaste-udala-separated-v102.html";
       a.click();
       URL.revokeObjectURL(url);
       window._showInstallPopup = false;
@@ -3394,7 +4615,8 @@ const ACT = {
     const dark = document.documentElement.dataset.theme !== "dark";
     document.documentElement.dataset.theme = dark ? "dark" : "";
     localStorage.setItem("nu_dark", dark ? "1" : "0");
-    $("#themeBtn").textContent = dark ? "☀️" : "🌙";
+    if ($("#themeBtn")) $("#themeBtn").textContent = dark ? "☀️" : "🌙";
+    render();
   },
   setTab: v => { TAB = v; SELECTED_REST_ID = null; render(); scrollTo({ top: 0, behavior: "smooth" }); },
   jumpFoodCat: v => { TAB = "food"; SELECTED_REST_ID = null; FOOD_CAT_FILTER = v; render(); },
@@ -3472,6 +4694,19 @@ const ACT = {
     toast(`🏖 Vacation Mode: +${d} din extend ho gaye!`);
   },
 
+  toggleFavRest: (v, k, id, e) => {
+    e?.stopPropagation?.();
+    const cur = localStorage.getItem("nu_fav_rest") || "";
+    if (cur === id) {
+      localStorage.removeItem("nu_fav_rest");
+      toast("☆ Favorite kitchen removed");
+    } else {
+      localStorage.setItem("nu_fav_rest", id);
+      toast("⭐ Favorite kitchen saved!");
+    }
+    render();
+  },
+  setCustOrdFilter: v => { window._custOrdStatusFilter = v; render(); },
   openRest: (v, k, id) => { SELECTED_REST_ID = id; render(); scrollTo({ top: 0, behavior: "smooth" }); },
   backToVendors: () => { SELECTED_REST_ID = null; render(); },
   setFoodCat: v => { FOOD_CAT_FILTER = v; render(); },
@@ -3504,6 +4739,7 @@ const ACT = {
     render();
   },
 
+  toggleSaudaInStock: () => { window._saudaInStockOnly = !window._saudaInStockOnly; render(); },
   setKiranaCat: v => { KIRANA_CAT_FILTER = v; render(); },
   kInc: (v, k, id) => {
     const it = S.kiranaItems.find(x => x.id === id);
@@ -3534,7 +4770,7 @@ const ACT = {
     TAB = "checkout"; scrollTo({ top: 0, behavior: "smooth" }); captureMandatoryGps(true);
     CHECKOUT_MODAL = {
       kind: "KIRANA",
-      title: "Kirana & Daily Needs Checkout",
+      title: "Sauda & Daily Needs Checkout",
       summary: items.map(i => `${i.name} ×${i.qty}`).join(", "),
       items,
       sub,
@@ -3590,6 +4826,7 @@ const ACT = {
 
   captureGps: () => captureMandatoryGps(false),
   jumpUnverifiedOrders: () => { window._unverifiedOnly = true; OWNER_TAB = "orders"; render(); },
+  setDlvPayFilter: v => { window._dlvPayFilter = v; render(); },
   setUnverifiedFilter: v => { window._unverifiedOnly = v === "1"; render(); },
   editItemImg: (v, k, id) => {
     const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
@@ -3919,7 +5156,7 @@ const ACT = {
       TAB = "success"; scrollTo({ top: 0, behavior: "smooth" });
       save(`New Kirana Order placed by ${TF.name.trim()}`);
       playOrderAlertSound();
-      toast("🛒 Kirana & Daily Needs Order Placed!");
+      toast("🛒 Sauda & Daily Needs Order Placed!");
     }
   },
 
@@ -4134,6 +5371,27 @@ const ACT = {
   },
   exportBackup: () => autoExportBackup(),
   resetDemo: () => autoResetDemoData(),
+  toggleFoodVeg: () => { window._foodVegOnly = !window._foodVegOnly; render(); },
+  addAttaRiceQuick: () => { quickAddSaudaEssential("kr1"); quickAddSaudaEssential("kr2"); },
+  toggleRiderShift: () => toggleRiderShiftState(getActiveRiderId()),
+  autoAssignOpen: () => autoAssignUnassignedOrders(getActiveRiderId()),
+  dupItem: (v, k, id) => duplicateItemQuick(k, id),
+  markVenReadyAll: (v, k, id) => markAllVendorReady(id),
+  copyClosing: () => copyDailyClosingSummary(),
+  waClosing: () => shareDailyClosingWa(),
+  addDailyPackQuick: () => addDailySaudaEssentialsPack(),
+  cookAllPending: () => markAllKitchenCooking(),
+  dispatchAllReady: () => dispatchAllReadyOrdersToRider(getActiveRiderId()),
+  addSaudaBundle: () => addFullSaudaStarterBundle(),
+  addFeastPack: () => addWeekendFoodFeastPack(),
+  addLunchBoxPack: () => addLunchBoxEssentialsPack(),
+  addEveningPack: () => addEveningSnacksPackV98(),
+  addBreakfastPack: () => addBreakfastSpecialPackV99(),
+  addFullMealsCombo: () => addFullDayMealsComboV100(),
+  addHouseholdPack: () => addHouseholdEssentialsV101(),
+  addDinnerChaiPack: () => addEveningTiffinComboV102(),
+  extendAllTiffins1d: () => extendAllActiveTiffinsOneDay(),
+  batchVerifyUtr: () => verifyAllPendingUtrConfirm(),
   printBill: (v, k, id) => {
     const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
     const o = arr.find(x => x.id === id);
@@ -4186,6 +5444,8 @@ document.addEventListener("click", e => {
 });
 
 document.addEventListener("input", e => {
+  if (e.target.id === "chkUtrInp" && CHECKOUT_MODAL) { CHECKOUT_MODAL.draftUtr = e.target.value; return; }
+  if (e.target.id === "chkPromoInp" && CHECKOUT_MODAL) { CHECKOUT_MODAL.appliedPromo = e.target.value; return; }
   if (e.target.id === "loginCustName") { LOGIN_CUST_NAME = e.target.value; return; }
   if (e.target.id === "loginCustPhone") { LOGIN_CUST_PHONE = e.target.value; return; }
   if (e.target.id === "loginPinInp") { LOGIN_PIN_INPUT = e.target.value; LOGIN_ERROR = ""; return; }
