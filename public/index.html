@@ -10470,34 +10470,28 @@ function viewOwner() {
 
       <div class="card">
         <h3>⛽ Fuel Approval & Daily Expenses</h3>
-        ${(S.fuelLogs || []).map(f => {
-          const openF = !!window._ownDetOpen?.["FUEL_" + f.id];
-          return `
+        ${(S.fuelLogs || []).map(f => `
           <div class="order-smart-card" style="border-left-color:${f.approved ? "var(--g2)" : f.flag.includes("SUSPICIOUS") ? "var(--o)" : "var(--amb)"}">
-            <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="FUEL_${esc(f.id)}" style="cursor:pointer">
+            <div class="order-smart-head">
               <div>
-                <b>${f.km} km · ${inr(f.rs)} <span style="font-size:10px;color:var(--g2)">${openF ? "▲ Hide Details" : "▼ Full Details"}</span></b>
+                <b>${f.km} km · ${inr(f.rs)}</b>
                 <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${esc(f.flag)}</div>
               </div>
               ${f.approved ? `<span class="pill p-green">Approved</span>` : `<button class="btn g sm" data-act="approveFuel" data-id="${f.id}">Approve</button>`}
             </div>
-            ${openF ? `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:11px;line-height:1.5;background:var(--sf2);padding:9px;border-radius:12px"><div><b>Log ID:</b> <code>${esc(f.id)}</code> · <b>Date:</b> ${esc(f.date || todayIso())}</div><div><b>Odometer:</b> ${esc(f.startKm || "-")} km → ${esc(f.endKm || "-")} km (${f.km} km)</div><div><b>Claimed Amount:</b> <b>${inr(f.rs)}</b> · <b>Status:</b> ${f.approved ? "✅ Approved" : "⏳ Pending Approval"}</div></div>` : ""}
-          </div>`;
-        }).join("")}
-        ${(S.expenses || []).map(e => {
-          const openE = !!window._ownDetOpen?.["EXP_" + e.id];
-          return `
+          </div>
+        `).join("")}
+        ${(S.expenses || []).map(e => `
           <div class="order-smart-card" style="border-left-color:var(--amb)">
-            <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="EXP_${esc(e.id)}" style="cursor:pointer">
+            <div class="order-smart-head">
               <div>
-                <b>${esc(e.title)} <span style="font-size:10px;color:var(--g2)">${openE ? "▲ Hide Details" : "▼ Full Details"}</span></b>
+                <b>${esc(e.title)}</b>
                 <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">📅 ${esc(e.date || todayIso())} · 🕒 ${esc(e.time || "Today")}</div>
               </div>
               <span class="pill p-amber">${inr(e.amt)}</span>
             </div>
-            ${openE ? `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:11px;line-height:1.5;background:var(--sf2);padding:9px;border-radius:12px"><div><b>Expense ID:</b> <code>${esc(e.id)}</code> · <b>Title:</b> ${esc(e.title)}</div><div><b>Date & Time:</b> 📅 ${esc(e.date || todayIso())} · 🕒 ${esc(e.time || "Today")} · <b>Amount:</b> <b>${inr(e.amt)}</b></div></div>` : ""}
-          </div>`;
-        }).join("")}
+          </div>
+        `).join("")}
         <div class="btn-row" style="margin-top:8px">
           <input class="inp" id="expTitleInp" placeholder="Expense (Sabzi/Gas)" />
           <input class="inp" id="expAmtInp" type="number" placeholder="₹" style="max-width:95px" />
@@ -10571,15 +10565,13 @@ function viewOwner() {
         ${S.vendors.map(v => {
           const led = getVendorLedger(v);
           const vPin = (S.cfg.vendorPins || PINS.vendors)[v.id] || "";
-          const openV = !!window._ownDetOpen?.["VTAB_" + v.id];
           return `
             <div class="row" style="flex-direction:column;align-items:stretch">
               <div style="display:flex;justify-content:space-between;align-items:center">
-                <b data-act="toggleOwnerDetail" data-v="VTAB_${esc(v.id)}" style="cursor:pointer">${esc(v.name)} <span style="font-size:10px;color:var(--g2)">${openV ? "▲ Hide Details" : "▼ Full Details"}</span> ${vPin ? `<span style="font-size:10px;color:var(--mu)">(PIN: ${esc(vPin)})</span>` : ""}</b>
+                <b>${esc(v.name)} ${vPin ? `<span style="font-size:10px;color:var(--mu)">(PIN: ${esc(vPin)})</span>` : ""}</b>
                 <span class="pill ${v.isSelf ? "p-green" : "p-blue"}">${v.isSelf ? "Apna (0%)" : v.type === "FOOD" ? S.cfg.foodPartnerCommPct + "% Comm" : "₹" + S.cfg.kiranaPostDeliveryComm + " Post-Del"}</span>
               </div>
               <div style="font-size:11px;color:var(--mu)">${esc(v.cuisine)} · 📍 ${esc(v.area)} ${!v.isSelf ? `· Due: <b>${inr(led.due)}</b>` : ""}</div>
-              ${openV ? renderOwnerVendorFullDetail(v) : ""}
               <div class="btn-row" style="margin-top:4px">
                 <button class="btn w sm" data-act="editVendorProfile" data-id="${v.id}">✏️ Rename / Edit</button>
                 <button class="btn amb sm" data-act="ownerAddItemForVendor" data-id="${v.id}">+ Add Item</button>
@@ -12381,7 +12373,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v197-complete.html";
+      a.download = "namaste-udala-v195-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -13698,15 +13690,12 @@ ensureV178_30Defaults();
 ensureV179_30Defaults();
 ensureV180_30Defaults();
 ensureV181_30Defaults();
-
 if (S.v147 && S.v147.autoNightThemeEnabled && (new Date().getHours() >= 19 || new Date().getHours() < 6)) {
   document.documentElement.dataset.theme = "dark";
 }
-try { normalizeAllImages(); } catch (e) {}
-try { render(); } catch (e) {
-  const m = document.querySelector("#appMain");
-  if (m && !m.innerHTML.trim()) m.innerHTML = `<div class="card"><h3>Namaste Udala</h3><p style="font-size:12px;color:var(--mu)">App ready — refresh to load view.</p></div>`;
-}
+normalizeAllImages();
+
+render();
 </script>
 </body>
 </html>
