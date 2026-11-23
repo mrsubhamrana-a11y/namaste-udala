@@ -1490,6 +1490,33 @@ if (localStorage.getItem("nu_dark") === "1") {
   document.documentElement.dataset.theme = "dark";
 }
 
+function tiffinDateTimeline(s) {
+  const dStart = esc(s.date || todayIso());
+  const tStart = esc(s.time || "08:00 AM");
+  const rem = +s.remaining || 0;
+  const tot = +s.days || 1;
+  let stateCls = "now";
+  let stateLbl = "⏳ Pending Drop";
+  if (s.skipToday) {
+    stateCls = "done";
+    stateLbl = "⏭ Skipped (+1d)";
+  } else if (+(s.vacationDays || 0) > 0) {
+    stateCls = "now";
+    stateLbl = `🏖 Pause (${s.vacationDays}d)`;
+  } else if (s.deliveredToday) {
+    stateCls = "done";
+    stateLbl = "✅ Delivered";
+  }
+  return `
+    <div style="font-size:10px;color:var(--mu);font-weight:700;margin-top:4px">📅 Start: <b>${dStart}</b> · 🕒 ${tStart} · Days: <b>${rem}/${tot}</b></div>
+    <div class="tl">
+      <span class="done">📅 ${dStart}</span>
+      <span class="${stateCls}">${stateLbl}</span>
+      <span class="${rem > 0 ? "now" : "done"}">🍱 ${rem}d Left</span>
+    </div>
+  `;
+}
+
 function statusTimeline(st, isKirana = false) {
   const steps = isKirana
     ? ["Placed", "Packed", "Ready for Pickup", "Out for Delivery", "Delivered"]
@@ -8801,6 +8828,7 @@ function viewTiffin() {
           <span class="pill ${lowDays ? "p-red" : s.paid ? "p-green" : "p-amber"}">${s.remaining} Din Bache ${s.skipNextDay ? "· Kal Skip ✓" : ""} ${lowDays ? "⚠️ Renew Soon" : ""}</span>
         </div>
         <div style="font-size:11px;color:var(--mu);margin:4px 0">Spice: ${esc(s.spice)} · ${esc(s.health)} · Area: ${esc(s.area)}</div>
+        ${tiffinDateTimeline(s)}
         <div class="btn-row">
           <button class="btn w sm" data-act="skipTiffin" data-id="${s.id}">${s.skipToday ? "Skipped Today (+1d Added)" : "⏭ Skip Today (+1d Extend)"}</button>
           <button class="btn w sm" data-act="vacationTiffin" data-id="${s.id}">🏖 Vacation Pause (${s.vacationDays || 0}d)</button>
@@ -9108,8 +9136,8 @@ function viewCustomerOrders() {
             <b>${esc(s.id)} · ${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"})</b>
             <span class="pill ${s.paid ? "p-green" : "p-amber"}">${s.remaining}/${s.days} Din Bache</span>
           </div>
-          <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">📅 ${esc(s.date || todayIso())} · 🕒 ${esc(s.time || "08:00 AM")}</div>
           <div style="font-size:11px;color:var(--mu);margin-top:2px">${esc(s.slot)} · ${esc(s.spice)} · ${esc(s.area)}</div>
+          ${tiffinDateTimeline(s)}
           <div class="btn-row" style="margin-top:6px">
             <button class="btn w sm" data-act="setTab" data-v="tiffinPass">🎛 Manage Skip / Pause</button>
             <button class="btn o sm" data-act="renewTiffin" data-id="${s.id}">🔄 Renew</button>
@@ -9392,6 +9420,7 @@ function viewTiffinPassPage() {
             <div class="order-smart-meta">
               Plan: <b>${s.diet === "nv" ? "Non-Veg" : "Pure Veg"}</b> · Spice: ${esc(s.spice)} · ${esc(s.health)}
             </div>
+            ${tiffinDateTimeline(s)}
             <div class="btn-row" style="margin-top:8px">
               <a class="btn w sm" href="${pMapHref}" target="_blank">🗺 Pin</a>
               <button class="btn w sm" data-act="skipTiffin" data-id="${s.id}">${s.skipToday ? "Skipped Today ✓" : "⏭ Skip (+1d)"}</button>
@@ -9737,11 +9766,20 @@ function viewKitchen() {
     <div class="card">
       <h3>Active Tiffin Subscribers (${subs.length})</h3>
       ${subs.map(s => `
-        <div class="row">
-          <div><b>${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)})</b><div style="font-size:11px;color:var(--mu)">Spice: ${esc(s.spice)} · ${esc(s.health)} · 📍 ${esc(s.area)}</div></div>
-          <span class="pill ${s.diet === "nv" ? "p-red" : "p-green"}">${s.diet === "nv" ? "Non-Veg" : "Veg"}</span>
+        <div class="order-smart-card" style="border-left-color:${s.deliveredToday ? "var(--g2)" : "var(--amb)"}">
+          <div class="order-smart-head">
+            <div>
+              <b>${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)})</b>
+              <div style="font-size:11px;color:var(--mu);margin-top:2px">Spice: ${esc(s.spice)} · ${esc(s.health)} · 📍 ${esc(s.area)}</div>
+            </div>
+            <span class="pill ${s.deliveredToday ? "p-green" : "p-amber"}">${s.deliveredToday ? "✅ Delivered" : "⏳ Pending"}</span>
+          </div>
+          ${tiffinDateTimeline(s)}
+          <div class="btn-row" style="margin-top:6px">
+            ${!s.deliveredToday ? `<button class="btn g sm" data-act="markTiffinDeliveredOne" data-id="${s.id}">✅ Mark Delivered</button>` : `<button class="btn w sm" data-act="toggleTiffinDeliveredOne" data-id="${s.id}">↩ Mark Pending</button>`}
+          </div>
         </div>
-      `).join("") || `<p style="font-size:12px;color:var(--mu)">No active tiffins today.</p>`}
+      `).join("") || `<p style="font-size:12px;color:var(--mu)">No active tiffin today.</p>`}
     </div>
 
     <div class="card">
@@ -10041,7 +10079,28 @@ function getRiderMilestoneBonus(deliveredDropsCount) {
       <div class="row"><span>Pending COD Jama</span><b style="color:${pendingJama > 0 ? "#dc2626" : "#16a34a"}">${inr(pendingJama)}${pendingJama >= ((S.v152 && S.v152.riderMandatoryJamaAt) || 2000) ? " (Mandatory Jama Due)" : ""}</b></div>
 
     </div>
-  `;
+  
+    <div class="card" style="border-left:5px solid var(--o)">
+      <h3>🍱 Today's Tiffin Drops & Status <span class="pill p-green">${(S.tiffinSubs || []).filter(s => s.deliveredToday).length}/${(S.tiffinSubs || []).length} Delivered</span></h3>
+      ${(S.tiffinSubs || []).map(s => {
+        const paused = s.skipToday || (+(s.vacationDays || 0) > 0);
+        return `
+        <div class="order-smart-card" style="border-left-color:${s.deliveredToday ? "var(--g2)" : paused ? "var(--amb)" : "var(--o)"}">
+          <div class="order-smart-head">
+            <div>
+              <b>🍱 ${esc(s.id)} · ${esc(s.name)} — ${esc(s.area || "Udala")}</b>
+              <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · 📍 ${esc(s.addr || s.area || "Udala")}</div>
+            </div>
+            <span class="pill ${s.deliveredToday ? "p-green" : paused ? "p-amber" : "p-red"}">${s.deliveredToday ? "✅ Delivered" : paused ? "⏸ Skipped/Pause" : "⏳ Pending"}</span>
+          </div>
+          ${tiffinDateTimeline(s)}
+          <div class="btn-row" style="margin-top:8px">
+            ${!s.deliveredToday && !paused ? `<button class="btn g sm" data-act="markTiffinDeliveredOne" data-id="${s.id}">✅ Mark Delivered</button>` : `<button class="btn w sm" data-act="toggleTiffinDeliveredOne" data-id="${s.id}">↩ Toggle Status</button>`}
+          </div>
+        </div>`;
+      }).join("") || `<p style="font-size:12px;color:var(--mu)">Koi tiffin pass nahi hai.</p>`}
+    </div>
+`;
 }
 
 function getVendorLedger(v) {
@@ -10223,14 +10282,17 @@ function viewOwner() {
       <div class="card">
         <h3>📋 Sabhi Live Orders & Tiffins Ek Saath (${tFiltered.length} Tiffin · ${allOrds.length} Orders)</h3>
         ${tFiltered.map(s => `
-          <div class="order-smart-card" style="border-left-color:${s.paid ? "var(--g2)" : "var(--amb)"}">
+          <div class="order-smart-card" style="border-left-color:${s.deliveredToday ? "var(--g2)" : "var(--amb)"}">
             <div class="order-smart-head">
               <div>
                 <b>[TIFFIN] ${esc(s.id)} · ${esc(s.name)}</b>
-                <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">📅 ${esc(s.date || todayIso())} · 🕒 ${esc(s.time || "08:00 AM")}</div>
-                <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · ${s.remaining}/${s.days}d · 📍 ${esc(s.area || "Udala")}</div>
+                <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · 📍 ${esc(s.area || "Udala")}</div>
+                ${tiffinDateTimeline(s)}
               </div>
               <span class="pill ${s.paid ? "p-green" : "p-amber"}">${inr(s.price)}</span>
+            </div>
+            <div class="btn-row" style="margin-top:6px">
+              ${!s.deliveredToday && !s.skipToday && !(+(s.vacationDays || 0) > 0) ? `<button class="btn g sm" data-act="markTiffinDeliveredOne" data-id="${s.id}">✅ Mark Delivered</button>` : `<button class="btn w sm" data-act="toggleTiffinDeliveredOne" data-id="${s.id}">↩ Toggle Delivery (${s.deliveredToday ? "Delivered" : "Pending"})</button>`}
             </div>
           </div>
         `).join("")}
@@ -12208,7 +12270,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v189-complete.html";
+      a.download = "namaste-udala-v192-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -12671,6 +12733,20 @@ const ACT = {
   },
   triggerImport: () => { $("#importJsonInput").click(); },
   setOwnerTab: v => { OWNER_TAB = v; render(); },
+  markTiffinDeliveredOne: (v, k, id) => {
+    const s = (S.tiffinSubs || []).find(x => x.id === id);
+    if (!s) return;
+    s.deliveredToday = true;
+    safePersist(`Marked tiffin ${s.id} (${s.name}) Delivered`);
+    toast(`✅ ${s.name} ka tiffin Delivered mark ho gaya!`);
+  },
+  toggleTiffinDeliveredOne: (v, k, id) => {
+    const s = (S.tiffinSubs || []).find(x => x.id === id);
+    if (!s) return;
+    s.deliveredToday = !s.deliveredToday;
+    safePersist(`Toggled tiffin ${s.id} deliveredToday -> ${s.deliveredToday}`);
+    toast(`🔄 ${s.name}: ${s.deliveredToday ? "Delivered" : "Pending"}`);
+  },
   setOwnerDateMode: v => { window._ownerDateMode = v; render(); },
   applyOwnerDatePick: () => {
     const val = document.querySelector("#ownerDatePickInp")?.value;
@@ -13493,3 +13569,4 @@ render();
 </script>
 </body>
 </html>
+Analysing
