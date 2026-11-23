@@ -12381,7 +12381,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v196-complete.html";
+      a.download = "namaste-udala-v197-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -13698,12 +13698,15 @@ ensureV178_30Defaults();
 ensureV179_30Defaults();
 ensureV180_30Defaults();
 ensureV181_30Defaults();
+
 if (S.v147 && S.v147.autoNightThemeEnabled && (new Date().getHours() >= 19 || new Date().getHours() < 6)) {
   document.documentElement.dataset.theme = "dark";
 }
-normalizeAllImages();
-
-render();
+try { normalizeAllImages(); } catch (e) {}
+try { render(); } catch (e) {
+  const m = document.querySelector("#appMain");
+  if (m && !m.innerHTML.trim()) m.innerHTML = `<div class="card"><h3>Namaste Udala</h3><p style="font-size:12px;color:var(--mu)">App ready — refresh to load view.</p></div>`;
+}
 </script>
 </body>
 </html>
