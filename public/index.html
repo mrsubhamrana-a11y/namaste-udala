@@ -1490,8 +1490,27 @@ if (localStorage.getItem("nu_dark") === "1") {
   document.documentElement.dataset.theme = "dark";
 }
 
+function addDaysIso(isoStr, daysToAdd) {
+  try {
+    const base = isoStr ? new Date(isoStr + "T00:00:00") : new Date();
+    if (isNaN(base.getTime())) return todayIso();
+    base.setDate(base.getDate() + (+daysToAdd || 0));
+    return base.getFullYear() + "-" + String(base.getMonth() + 1).padStart(2, "0") + "-" + String(base.getDate()).padStart(2, "0");
+  } catch (e) {
+    return todayIso();
+  }
+}
+
+function matchDateRange(recDate, startIso, endIso) {
+  const d = recDate || todayIso();
+  if (startIso && d < startIso) return false;
+  if (endIso && d > endIso) return false;
+  return true;
+}
+
 function tiffinDateTimeline(s) {
   const dStart = esc(s.date || todayIso());
+  const dEnd = esc(addDaysIso(s.date || todayIso(), Math.max(0, (+s.days || 1) - 1)));
   const tStart = esc(s.time || "08:00 AM");
   const rem = +s.remaining || 0;
   const tot = +s.days || 1;
@@ -1508,11 +1527,26 @@ function tiffinDateTimeline(s) {
     stateLbl = "✅ Delivered";
   }
   return `
-    <div style="font-size:10px;color:var(--mu);font-weight:700;margin-top:4px">📅 Start: <b>${dStart}</b> · 🕒 ${tStart} · Days: <b>${rem}/${tot}</b></div>
+    <div style="font-size:10px;color:var(--mu);font-weight:700;margin-top:4px">📅 Start: <b>${dStart}</b> · 🏁 End: <b>${dEnd}</b> · 🕒 ${tStart} · Days: <b>${rem}/${tot}</b></div>
     <div class="tl">
       <span class="done">📅 ${dStart}</span>
       <span class="${stateCls}">${stateLbl}</span>
-      <span class="${rem > 0 ? "now" : "done"}">🍱 ${rem}d Left</span>
+      <span class="${rem > 0 ? "now" : "done"}">🏁 ${dEnd} (${rem}d)</span>
+    </div>
+  `;
+}
+
+function orderDateTimeline(o) {
+  const dOrd = esc(o.date || todayIso());
+  const tOrd = esc(o.time || "12:00 PM");
+  const isDel = o.status === "Delivered";
+  const isCan = o.status === "Cancelled";
+  return `
+    <div style="font-size:10px;color:var(--mu);font-weight:700;margin-top:4px">📅 Order Date: <b>${dOrd}</b> (${tOrd}) · ${isDel ? `🏁 Delivered: <b>${dOrd}</b>` : isCan ? "❌ Cancelled" : "⏳ Delivery Pending"}</div>
+    <div class="tl">
+      <span class="done">📅 ${dOrd}</span>
+      <span class="${isDel ? "done" : isCan ? "now" : "now"}">${isDel ? "✅ Delivered" : isCan ? "❌ Cancelled" : "⏳ Pending"}</span>
+      <span class="${isDel ? "done" : ""}">${isDel ? "🏁 Done" : "🕒 " + tOrd}</span>
     </div>
   `;
 }
@@ -9095,9 +9129,12 @@ function viewKirana() {
 /* ==================== CUSTOMER ORDERS (PHONE FILTER + REORDER) ==================== */
 function viewCustomerOrders() {
   const pf = ph(ORDER_PHONE_FILTER);
-  const fAll = autoPrioritySort(S.foodOrders).reverse();
-  const kAll = autoPrioritySort(S.kiranaOrders).reverse();
-  const tAll = (S.tiffinSubs || []).slice().reverse();
+  const cStart = window._custStartDate || "";
+  const cEnd = window._custEndDate || "";
+  const matchCustDate = rec => matchDateRange(rec.date || todayIso(), cStart, cEnd);
+  const fAll = autoPrioritySort(S.foodOrders).reverse().filter(matchCustDate);
+  const kAll = autoPrioritySort(S.kiranaOrders).reverse().filter(matchCustDate);
+  const tAll = (S.tiffinSubs || []).slice().reverse().filter(matchCustDate);
 
   const stF = window._custOrdStatusFilter || "ALL";
   const matchSt = o => stF === "ALL" ? true : stF === "DELIVERED" ? o.status === "Delivered" : (o.status !== "Delivered" && o.status !== "Cancelled");
@@ -9125,7 +9162,15 @@ function viewCustomerOrders() {
         <input class="inp" id="ordPhoneFilterInp" type="tel" maxlength="10" placeholder="10-digit mobile daalein..." value="${esc(ORDER_PHONE_FILTER)}" />
         ${pf ? `<button class="btn w sm" style="max-width:95px" data-act="clearPhoneFilter">Show All</button>` : ""}
       </div>
-      <div style="font-size:11px;color:var(--mu);margin-top:4px">${pf.length === 10 ? `Showing orders for +91 ${pf}` : "10-digit number daalne par sirf aapke orders dikhenge."}</div>
+      <div class="btn-row" style="margin-top:6px;align-items:center">
+        <div><span class="lbl">Search Start Date</span><input type="date" class="inp" id="custStartDateInp" value="${esc(cStart)}" /></div>
+        <div><span class="lbl">Search End Date</span><input type="date" class="inp" id="custEndDateInp" value="${esc(cEnd)}" /></div>
+      </div>
+      <div class="btn-row" style="margin-top:4px">
+        <button class="btn g sm" data-act="applyCustDateRange">🔍 Search Date</button>
+        <button class="btn w sm" data-act="clearCustDateRange">Reset Dates</button>
+      </div>
+      <div style="font-size:11px;color:var(--mu);margin-top:4px">${pf.length === 10 ? `Showing orders for +91 ${pf}` : "10-digit number daalne par sirf aapke orders dikhenge."}${(cStart || cEnd) ? ` · 📅 ${esc(cStart || "Start")} → ${esc(cEnd || "End")}` : ""}</div>
     </div>
 
     <div class="card">
@@ -9167,6 +9212,7 @@ function viewCustomerOrders() {
           <div class="order-smart-meta">📦 ${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
           ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700;margin-top:2px">📝 Note: ${esc(o.note)}</div>` : ""}
           <div style="font-size:10.5px;margin-top:4px">Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} · 📍 ${esc(o.area)}</div>
+          ${orderDateTimeline(o)}
           <div class="btn-row" style="margin-top:8px">
             <a class="btn w sm" href="${mapHref}" target="_blank">🗺 Track Pin</a>
             <button class="btn w sm" data-act="reorder" data-k="FOOD" data-id="${o.id}">🔁 Reorder</button>
@@ -9198,6 +9244,7 @@ function viewCustomerOrders() {
           <div class="order-smart-meta">🛒 ${o.items.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
           ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700;margin-top:2px">📝 Extra Item Note: ${esc(o.note)}</div>` : ""}
           <div style="font-size:10.5px;margin-top:4px">Delivery Fee: ${o.deliveryFee === 0 ? "FREE" : inr(o.deliveryFee)} · Pay: <b>${esc(o.payMode)}</b> · 📍 ${esc(o.area)}</div>
+          ${orderDateTimeline(o)}
           <div class="btn-row" style="margin-top:8px">
             <a class="btn w sm" href="${mapHref}" target="_blank">🗺 Track Pin</a>
             <button class="btn w sm" data-act="reorder" data-k="KIRANA" data-id="${o.id}">🔁 Reorder</button>
@@ -10214,14 +10261,53 @@ function viewVendor() {
 let OWNER_TAB = "closing";
 let VENDOR_TAB = "orders";
 
+function renderOwnerTiffinFullDetail(s) {
+  const dStart = esc(s.date || todayIso());
+  const dEnd = esc(addDaysIso(s.date || todayIso(), Math.max(0, (+s.days || 1) - 1)));
+  const gpsHref = s.gps && s.gps.lat ? `https://www.google.com/maps?q=${s.gps.lat},${s.gps.lng}` : "";
+  return `
+    <div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:11px;line-height:1.55;background:var(--sf2);padding:9px;border-radius:12px">
+      <div><b>Subscriber:</b> ${esc(s.name)} · 📞 <code>${esc(s.phone || "-")}</code></div>
+      <div><b>Plan & Diet:</b> ${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · Spice: ${esc(s.spice)} · ${esc(s.health)}</div>
+      <div><b>Address:</b> ${esc(s.addr || s.area || "Udala")} (${esc(s.area || "Udala")}) ${gpsHref ? `· <a href="${gpsHref}" target="_blank" style="color:var(--g2);font-weight:800">GPS Pin</a>` : ""}</div>
+      <div><b>Payment:</b> ${s.paid ? "✅ Paid" : "⏳ Pending"} · Amount: <b>${inr(s.price)}</b> ${s.utr ? `· UTR: <code>${esc(s.utr)}</code>` : ""}</div>
+      <div><b>Dates:</b> Start <b>${dStart}</b> → End <b>${dEnd}</b> · Remaining: <b>${s.remaining}/${s.days}d</b></div>
+    </div>
+  `;
+}
+
+function renderOwnerOrderFullDetail(o) {
+  const gpsHref = o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : "";
+  const commAmt = autoCalcOrderComm(o, o.kind || "FOOD");
+  return `
+    <div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:11px;line-height:1.55;background:var(--sf2);padding:9px;border-radius:12px">
+      <div><b>Customer:</b> ${esc(o.name)} · 📞 <code>${esc(o.phone || "-")}</code></div>
+      <div><b>Address:</b> ${esc(o.addr || "-")} (${esc(o.area || "Udala")}) ${gpsHref ? `· <a href="${gpsHref}" target="_blank" style="color:var(--g2);font-weight:800">GPS Pin</a>` : ""}</div>
+      <div><b>Items:</b> ${(o.items || []).map(i => `${esc(i.name)} ×${i.qty} (${inr(i.price * i.qty)})`).join(", ") || "-"}</div>
+      <div><b>Billing:</b> Total <b>${inr(o.total)}</b> · Comm <b>${inr(commAmt)}</b> · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code> (${o.utrVerified ? "Verified ✓" : "Unverified"})` : ""}</div>
+      ${o.delSlot ? `<div><b>Slot:</b> ${esc(o.delSlot)} · PIN: <code>${esc(o.deliveryOtp || "-")}</code></div>` : ""}
+      ${o.note ? `<div style="color:var(--amb);font-weight:800"><b>Note:</b> ${esc(o.note)}</div>` : ""}
+      ${o.cancelReason ? `<div style="color:#dc2626;font-weight:800"><b>Cancel Reason:</b> ${esc(o.cancelReason)}</div>` : ""}
+    </div>
+  `;
+}
+
+function renderOwnerVendorFullDetail(v) {
+  const led = getVendorLedger(v);
+  const vPin = (S.cfg.vendorPins || PINS.vendors)[v.id] || "-";
+  return `
+    <div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:11px;line-height:1.55;background:var(--sf2);padding:9px;border-radius:12px">
+      <div><b>Type & PIN:</b> ${esc(v.type)} · PIN: <code>${esc(vPin)}</code> · Status: <b>${esc(v.status)}</b></div>
+      <div><b>Cuisine / Stock:</b> ${esc(v.cuisine)} · 📍 ${esc(v.area)}</div>
+      <div><b>Ledger:</b> Gross <b>${inr(led.gross)}</b> · Comm <b>${inr(led.comm)}</b> · Payable <b>${inr(led.payable)}</b> · Settled <b>${inr(v.settledPaid || 0)}</b> · Due <b style="color:var(--amb)">${inr(led.due)}</b></div>
+    </div>
+  `;
+}
+
 function viewOwner() {
-  const ownDateMode = window._ownerDateMode || "ALL"; // "ALL" | "TODAY" | "PICK"
-  const ownDatePick = window._ownerDatePick || todayIso();
-  const matchOwnerDate = rec => {
-    if (ownDateMode === "ALL") return true;
-    const targetD = ownDateMode === "TODAY" ? todayIso() : ownDatePick;
-    return (rec.date || todayIso()) === targetD;
-  };
+  const ownStartDate = window._ownerStartDate || "";
+  const ownEndDate = window._ownerEndDate || "";
+  const matchOwnerDate = rec => matchDateRange(rec.date || todayIso(), ownStartDate, ownEndDate);
   const fValid = (S.foodOrders || []).filter(o => o.status !== "Cancelled" && matchOwnerDate(o));
   const kValid = (S.kiranaOrders || []).filter(o => o.status !== "Cancelled" && matchOwnerDate(o));
   const tFiltered = (S.tiffinSubs || []).filter(s => matchOwnerDate(s));
@@ -10281,50 +10367,59 @@ function viewOwner() {
 
       <div class="card">
         <h3>📋 Sabhi Live Orders & Tiffins Ek Saath (${tFiltered.length} Tiffin · ${allOrds.length} Orders)</h3>
-        ${tFiltered.map(s => `
+        ${tFiltered.map(s => {
+          const openDet = !!window._ownDetOpen?.["TF_" + s.id];
+          return `
           <div class="order-smart-card" style="border-left-color:${s.deliveredToday ? "var(--g2)" : "var(--amb)"}">
-            <div class="order-smart-head">
+            <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="TF_${esc(s.id)}" style="cursor:pointer">
               <div>
-                <b>[TIFFIN] ${esc(s.id)} · ${esc(s.name)}</b>
+                <b>[TIFFIN] ${esc(s.id)} · ${esc(s.name)} <span style="font-size:10px;color:var(--g2)">${openDet ? "▲ Hide Details" : "▼ Full Details"}</span></b>
                 <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · 📍 ${esc(s.area || "Udala")}</div>
                 ${tiffinDateTimeline(s)}
               </div>
               <span class="pill ${s.paid ? "p-green" : "p-amber"}">${inr(s.price)}</span>
             </div>
+            ${openDet ? renderOwnerTiffinFullDetail(s) : ""}
             <div class="btn-row" style="margin-top:6px">
               ${!s.deliveredToday && !s.skipToday && !(+(s.vacationDays || 0) > 0) ? `<button class="btn g sm" data-act="markTiffinDeliveredOne" data-id="${s.id}">✅ Mark Delivered</button>` : `<button class="btn w sm" data-act="toggleTiffinDeliveredOne" data-id="${s.id}">↩ Toggle Delivery (${s.deliveredToday ? "Delivered" : "Pending"})</button>`}
             </div>
-          </div>
-        `).join("")}
-        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(matchOwnerDate).slice().reverse().map(o => `
+          </div>`;
+        }).join("")}
+        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(matchOwnerDate).slice().reverse().map(o => {
+          const openDet = !!window._ownDetOpen?.["ORD_" + o.id];
+          return `
           <div class="order-smart-card" style="border-left-color:${o.status === "Cancelled" ? "var(--o)" : o.status === "Delivered" ? "var(--g2)" : "var(--amb)"}">
-            <div class="order-smart-head">
+            <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="ORD_${esc(o.id)}" style="cursor:pointer">
               <div>
-                <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)}</b>
+                <b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} <span style="font-size:10px;color:var(--g2)">${openDet ? "▲ Hide Details" : "▼ Full Details"}</span></b>
                 <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">📅 ${esc(o.date || todayIso())} · 🕒 ${esc(o.time || "12:00 PM")}</div>
                 <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">📍 ${esc(o.area)} · ${inr(o.total)}</div>
               </div>
               <span class="pill ${o.status === "Cancelled" ? "p-red" : o.status === "Delivered" ? "p-green" : "p-amber"}">${esc(o.status)}</span>
             </div>
             <div class="order-smart-meta">${o.items.map(i => `${i.name}×${i.qty}`).join(", ")} · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""}</div>
-          </div>
-        `).join("")}
+            ${orderDateTimeline(o)}
+            ${openDet ? renderOwnerOrderFullDetail(o) : ""}
+          </div>`;
+        }).join("")}
       </div>
 
       <div class="card">
         <h3>🤝 Partner Vendors & Payout Due (${S.vendors.filter(v => !v.isSelf).length})</h3>
         ${S.vendors.filter(v => !v.isSelf).map(v => {
           const led = getVendorLedger(v);
+          const openDet = !!window._ownDetOpen?.["VEN_" + v.id];
           return `
           <div class="order-smart-card" style="border-left-color:${led.due > 0 ? "var(--amb)" : "var(--g2)"}">
-            <div class="order-smart-head">
+            <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="VEN_${esc(v.id)}" style="cursor:pointer">
               <div>
-                <b>${esc(v.name)}</b>
+                <b>${esc(v.name)} <span style="font-size:10px;color:var(--g2)">${openDet ? "▲ Hide Details" : "▼ Full Details"}</span></b>
                 <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">📍 ${esc(v.area)} · Gross ${inr(led.gross)}</div>
               </div>
               <span class="pill ${v.status === "Open" ? "p-green" : v.status === "Busy" ? "p-amber" : "p-red"}">${esc(v.status)}</span>
             </div>
             <div style="font-size:12px;font-weight:800;color:${led.due > 0 ? "var(--amb)" : "var(--g2)"}">Due: ${inr(led.due)}</div>
+            ${openDet ? renderOwnerVendorFullDetail(v) : ""}
           </div>`;
         }).join("")}
       </div>
@@ -10359,14 +10454,15 @@ function viewOwner() {
             const rDue = Math.max(0, rCod - rSet);
             return `
             <div class="order-smart-card" style="border-left-color:${rDue > 0 ? "var(--o)" : "var(--g2)"}">
-              <div class="order-smart-head">
+              <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="COD_${esc(r.id)}" style="cursor:pointer">
                 <div>
-                  <b>${esc(r.name)}</b>
+                  <b>${esc(r.name)} <span style="font-size:10px;color:var(--g2)">${window._ownDetOpen?.["COD_" + r.id] ? "▲ Hide Details" : "▼ Full Details"}</span></b>
                   <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">COD: <b>${inr(rCod)}</b> · Jama: <b>${inr(rSet)}</b></div>
                 </div>
                 ${rDue > 0 ? `<button class="btn g sm" data-act="settleRiderCodFor" data-v="${r.id}" data-id="${rDue}">✅ Jama ${inr(rDue)}</button>` : `<span class="pill p-green">Clear ✓</span>`}
               </div>
               <div style="font-size:11.5px;color:${rDue > 0 ? "#dc2626" : "#16a34a"};font-weight:800">Due: ${inr(rDue)}</div>
+              ${window._ownDetOpen?.["COD_" + r.id] ? `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:11px;line-height:1.5;background:var(--sf2);padding:9px;border-radius:12px"><div><b>Rider ID:</b> <code>${esc(r.id)}</code> · <b>Shift State:</b> ${esc(getRiderShiftState(r.id))}</div><div><b>Delivered COD Orders:</b> ${allOrds.filter(o => o.payMode === "COD" && o.status === "Delivered" && getOrderRiderId(o) === r.id).length} · <b>Total Collected:</b> ${inr(rCod)}</div><div><b>Cash Jama Settled:</b> ${inr(rSet)} · <b>Pending Due:</b> <b style="color:${rDue > 0 ? "#dc2626" : "#16a34a"}">${inr(rDue)}</b></div></div>` : ""}
             </div>`;
           }).join("");
         })()}
@@ -10374,28 +10470,34 @@ function viewOwner() {
 
       <div class="card">
         <h3>⛽ Fuel Approval & Daily Expenses</h3>
-        ${(S.fuelLogs || []).map(f => `
+        ${(S.fuelLogs || []).map(f => {
+          const openF = !!window._ownDetOpen?.["FUEL_" + f.id];
+          return `
           <div class="order-smart-card" style="border-left-color:${f.approved ? "var(--g2)" : f.flag.includes("SUSPICIOUS") ? "var(--o)" : "var(--amb)"}">
-            <div class="order-smart-head">
+            <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="FUEL_${esc(f.id)}" style="cursor:pointer">
               <div>
-                <b>${f.km} km · ${inr(f.rs)}</b>
+                <b>${f.km} km · ${inr(f.rs)} <span style="font-size:10px;color:var(--g2)">${openF ? "▲ Hide Details" : "▼ Full Details"}</span></b>
                 <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${esc(f.flag)}</div>
               </div>
               ${f.approved ? `<span class="pill p-green">Approved</span>` : `<button class="btn g sm" data-act="approveFuel" data-id="${f.id}">Approve</button>`}
             </div>
-          </div>
-        `).join("")}
-        ${(S.expenses || []).map(e => `
+            ${openF ? `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:11px;line-height:1.5;background:var(--sf2);padding:9px;border-radius:12px"><div><b>Log ID:</b> <code>${esc(f.id)}</code> · <b>Date:</b> ${esc(f.date || todayIso())}</div><div><b>Odometer:</b> ${esc(f.startKm || "-")} km → ${esc(f.endKm || "-")} km (${f.km} km)</div><div><b>Claimed Amount:</b> <b>${inr(f.rs)}</b> · <b>Status:</b> ${f.approved ? "✅ Approved" : "⏳ Pending Approval"}</div></div>` : ""}
+          </div>`;
+        }).join("")}
+        ${(S.expenses || []).map(e => {
+          const openE = !!window._ownDetOpen?.["EXP_" + e.id];
+          return `
           <div class="order-smart-card" style="border-left-color:var(--amb)">
-            <div class="order-smart-head">
+            <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="EXP_${esc(e.id)}" style="cursor:pointer">
               <div>
-                <b>${esc(e.title)}</b>
+                <b>${esc(e.title)} <span style="font-size:10px;color:var(--g2)">${openE ? "▲ Hide Details" : "▼ Full Details"}</span></b>
                 <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">📅 ${esc(e.date || todayIso())} · 🕒 ${esc(e.time || "Today")}</div>
               </div>
               <span class="pill p-amber">${inr(e.amt)}</span>
             </div>
-          </div>
-        `).join("")}
+            ${openE ? `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:11px;line-height:1.5;background:var(--sf2);padding:9px;border-radius:12px"><div><b>Expense ID:</b> <code>${esc(e.id)}</code> · <b>Title:</b> ${esc(e.title)}</div><div><b>Date & Time:</b> 📅 ${esc(e.date || todayIso())} · 🕒 ${esc(e.time || "Today")} · <b>Amount:</b> <b>${inr(e.amt)}</b></div></div>` : ""}
+          </div>`;
+        }).join("")}
         <div class="btn-row" style="margin-top:8px">
           <input class="inp" id="expTitleInp" placeholder="Expense (Sabzi/Gas)" />
           <input class="inp" id="expAmtInp" type="number" placeholder="₹" style="max-width:95px" />
@@ -10420,16 +10522,20 @@ function viewOwner() {
           <button class="${!window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="0">All Orders</button>
           <button class="${window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="1">⚠️ Unverified UPI Only</button>
         </div>
-        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(o => matchOwnerDate(o) && (!window._unverifiedOnly || (o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled"))).slice().reverse().map(o => `
+        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(o => matchOwnerDate(o) && (!window._unverifiedOnly || (o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled"))).slice().reverse().map(o => {
+          const openDet = !!window._ownDetOpen?.["OTAB_" + o.id];
+          return `
           <div class="order-smart-card" style="border-left-color:${o.status === "Cancelled" ? "var(--o)" : o.utrVerified ? "var(--g2)" : "var(--amb)"}">
-            <div class="order-smart-head">
+            <div class="order-smart-head" data-act="toggleOwnerDetail" data-v="OTAB_${esc(o.id)}" style="cursor:pointer">
               <div>
-                <b>[${o.kind}] ${o.tokenNo ? `#${o.tokenNo} · ` : ""}${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)} ${(+o.total || 0) >= ((S.v147 && S.v147.highValueOrderAlertAt) || 1000) ? `<span class="pill p-red">💎 High Value</span>` : ""} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
+                <b>[${o.kind}] ${o.tokenNo ? `#${o.tokenNo} · ` : ""}${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)} <span style="font-size:10px;color:var(--g2)">${openDet ? "▲ Hide Details" : "▼ Full Details"}</span> ${(+o.total || 0) >= ((S.v147 && S.v147.highValueOrderAlertAt) || 1000) ? `<span class="pill p-red">💎 High Value</span>` : ""} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
                 <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">📅 ${esc(o.date || todayIso())} · 🕒 ${esc(o.time || "12:00 PM")} · Comm: ${inr(autoCalcOrderComm(o, o.kind))} · 📍 ${esc(o.area)}</div>
               </div>
               <span class="pill ${o.status === "Cancelled" ? "p-red" : o.utrVerified ? "p-green" : "p-amber"}">${esc(o.status)}</span>
             </div>
             <div class="order-smart-meta">${esc(o.addr)} ${o.gps && o.gps.lat ? `· <a href="https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}" target="_blank" style="color:var(--g2);font-weight:800">GPS Pin</a>` : ""} · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""} ${o.delSlot ? `· ⏰ ${esc(o.delSlot)}` : ""}</div>
+            ${orderDateTimeline(o)}
+            ${openDet ? renderOwnerOrderFullDetail(o) : ""}
             ${o.note ? `<div style="font-size:11px;color:var(--amb);font-weight:800;margin-top:3px">📝 Note: ${esc(o.note)}</div>` : ""}
             ${o.cancelReason ? `<div style="font-size:11px;color:#dc2626;font-weight:800;margin-top:3px">Cancel Reason: ${esc(o.cancelReason)}</div>` : ""}
             <div class="btn-row" style="margin-top:8px">
@@ -10465,13 +10571,15 @@ function viewOwner() {
         ${S.vendors.map(v => {
           const led = getVendorLedger(v);
           const vPin = (S.cfg.vendorPins || PINS.vendors)[v.id] || "";
+          const openV = !!window._ownDetOpen?.["VTAB_" + v.id];
           return `
             <div class="row" style="flex-direction:column;align-items:stretch">
               <div style="display:flex;justify-content:space-between;align-items:center">
-                <b>${esc(v.name)} ${vPin ? `<span style="font-size:10px;color:var(--mu)">(PIN: ${esc(vPin)})</span>` : ""}</b>
+                <b data-act="toggleOwnerDetail" data-v="VTAB_${esc(v.id)}" style="cursor:pointer">${esc(v.name)} <span style="font-size:10px;color:var(--g2)">${openV ? "▲ Hide Details" : "▼ Full Details"}</span> ${vPin ? `<span style="font-size:10px;color:var(--mu)">(PIN: ${esc(vPin)})</span>` : ""}</b>
                 <span class="pill ${v.isSelf ? "p-green" : "p-blue"}">${v.isSelf ? "Apna (0%)" : v.type === "FOOD" ? S.cfg.foodPartnerCommPct + "% Comm" : "₹" + S.cfg.kiranaPostDeliveryComm + " Post-Del"}</span>
               </div>
               <div style="font-size:11px;color:var(--mu)">${esc(v.cuisine)} · 📍 ${esc(v.area)} ${!v.isSelf ? `· Due: <b>${inr(led.due)}</b>` : ""}</div>
+              ${openV ? renderOwnerVendorFullDetail(v) : ""}
               <div class="btn-row" style="margin-top:4px">
                 <button class="btn w sm" data-act="editVendorProfile" data-id="${v.id}">✏️ Rename / Edit</button>
                 <button class="btn amb sm" data-act="ownerAddItemForVendor" data-id="${v.id}">+ Add Item</button>
@@ -10627,10 +10735,13 @@ function viewOwner() {
         <button class="btn w sm" data-act="setRole" data-v="customer">Exit</button>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.15)">
-        <button class="btn sm ${ownDateMode === "ALL" ? "amb" : "w"}" data-act="setOwnerDateMode" data-v="ALL">📅 All Dates</button>
-        <button class="btn sm ${ownDateMode === "TODAY" ? "amb" : "w"}" data-act="setOwnerDateMode" data-v="TODAY">🗓️ Today (${todayIso()})</button>
-        <input type="date" id="ownerDatePickInp" value="${esc(ownDatePick)}" style="background:#1e293b;color:#fff;border:1px solid #475569;border-radius:10px;padding:5px 8px;font-size:11px;font-weight:700" />
-        <button class="btn sm ${ownDateMode === "PICK" ? "g" : "w"}" data-act="applyOwnerDatePick">Filter Date</button>
+        <span style="font-size:10.5px;color:#fde68a;font-weight:800">Start Date:</span>
+        <input type="date" id="ownerStartDateInp" value="${esc(ownStartDate)}" style="background:#1e293b;color:#fff;border:1px solid #475569;border-radius:10px;padding:5px 8px;font-size:11px;font-weight:700" />
+        <span style="font-size:10.5px;color:#fde68a;font-weight:800">End Date:</span>
+        <input type="date" id="ownerEndDateInp" value="${esc(ownEndDate)}" style="background:#1e293b;color:#fff;border:1px solid #475569;border-radius:10px;padding:5px 8px;font-size:11px;font-weight:700" />
+        <button class="btn sm g" data-act="applyOwnerDateRange">🔍 Search</button>
+        <button class="btn sm amb" data-act="setOwnerTodayRange">Today</button>
+        <button class="btn sm w" data-act="clearOwnerDateRange">All</button>
       </div>
     </div>
     ${subNav}
@@ -12270,7 +12381,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v192-complete.html";
+      a.download = "namaste-udala-v196-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -12733,6 +12844,11 @@ const ACT = {
   },
   triggerImport: () => { $("#importJsonInput").click(); },
   setOwnerTab: v => { OWNER_TAB = v; render(); },
+  toggleOwnerDetail: v => {
+    window._ownDetOpen = window._ownDetOpen || {};
+    window._ownDetOpen[v] = !window._ownDetOpen[v];
+    render();
+  },
   markTiffinDeliveredOne: (v, k, id) => {
     const s = (S.tiffinSubs || []).find(x => x.id === id);
     if (!s) return;
@@ -12747,14 +12863,36 @@ const ACT = {
     safePersist(`Toggled tiffin ${s.id} deliveredToday -> ${s.deliveredToday}`);
     toast(`🔄 ${s.name}: ${s.deliveredToday ? "Delivered" : "Pending"}`);
   },
-  setOwnerDateMode: v => { window._ownerDateMode = v; render(); },
-  applyOwnerDatePick: () => {
-    const val = document.querySelector("#ownerDatePickInp")?.value;
-    if (!val) return toast("⚠️ Date chunein");
-    window._ownerDatePick = val;
-    window._ownerDateMode = "PICK";
+  applyOwnerDateRange: () => {
+    window._ownerStartDate = document.querySelector("#ownerStartDateInp")?.value || "";
+    window._ownerEndDate = document.querySelector("#ownerEndDateInp")?.value || "";
     render();
-    toast(`📅 Showing records for ${val}`);
+    toast(`📅 Date range applied (${window._ownerStartDate || "Any"} → ${window._ownerEndDate || "Any"})`);
+  },
+  setOwnerTodayRange: () => {
+    const t = todayIso();
+    window._ownerStartDate = t;
+    window._ownerEndDate = t;
+    render();
+    toast(`🗓️ Showing Today (${t})`);
+  },
+  clearOwnerDateRange: () => {
+    window._ownerStartDate = "";
+    window._ownerEndDate = "";
+    render();
+    toast("📅 Showing All Dates");
+  },
+  applyCustDateRange: () => {
+    window._custStartDate = document.querySelector("#custStartDateInp")?.value || "";
+    window._custEndDate = document.querySelector("#custEndDateInp")?.value || "";
+    render();
+    toast("📅 Date search applied!");
+  },
+  clearCustDateRange: () => {
+    window._custStartDate = "";
+    window._custEndDate = "";
+    render();
+    toast("↺ Date filter reset");
   },
   openDetail: (v, k, id) => { DETAIL_ITEM = { kind: k, id }; TAB = "itemDetail"; render(); scrollTo({ top: 0, behavior: "smooth" }); },
   waLastOrder: () => {
@@ -13569,4 +13707,3 @@ render();
 </script>
 </body>
 </html>
-Analysing
