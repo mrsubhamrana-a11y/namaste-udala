@@ -1,6 +1,4 @@
 
-HTML icon
-namaste-udala-v202-complete
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -10988,6 +10986,39 @@ function wireAllOpsIntoSingleFile() {
   normalizeAllImages();
 }
 
+
+function openTiffinCheckout() {
+  const price = calcTiffinPrice(TF.diet, TF.days, TF.slot);
+  CHECKOUT_MODAL = {
+    kind: "TIFFIN",
+    items: [{
+      id: "tiffin_" + TF.diet + "_" + TF.days,
+      name: `${TF.days}-Day ${TF.diet === "nv" ? "Non-Veg" : "Pure Veg"} Tiffin (${TF.slot})`,
+      price: price,
+      qty: 1,
+      vendorId: "v_self_kitchen"
+    }],
+    total: price,
+    discountAmt: 0,
+    deliveryFee: 0,
+    meta: { diet: TF.diet, days: TF.days, slot: TF.slot, spice: TF.spice, health: TF.health }
+  };
+  TAB = "checkout";
+  render();
+  scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function switchRiderSelect(rid) {
+  if (!rid) return;
+  S.cfg.defaultRiderId = rid;
+  window._activeRiderId = rid;
+  ensureV92Defaults();
+  S.riderShiftStatus = S.riderShiftStatus || {};
+  if (!S.riderShiftStatus[rid]) S.riderShiftStatus[rid] = "On Duty";
+  safePersist(`Active rider selected -> ${rid}`);
+  toast(`🛵 Active Rider: ${rid.toUpperCase()}`);
+}
+
 function safePersist(logMsg) {
   wireAllOpsIntoSingleFile();
   return save(logMsg);
@@ -12388,7 +12419,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v202-complete.html";
+      a.download = "namaste-udala-v205-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -13717,4 +13748,3 @@ try { render(); } catch (e) {
 </script>
 </body>
 </html>
-Processed and analysed in code
