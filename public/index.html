@@ -10552,7 +10552,7 @@ function viewOwner() {
               ${o.status !== "Delivered" && o.status !== "Cancelled" ? `<button class="btn r sm" data-act="cancelOrder" data-k="${o.kind}" data-id="${o.id}">Cancel</button>` : ""}
             </div>
           </div>
-        `).join("") || `<p style="font-size:12px;color:var(--mu)">No orders yet.</p>`}
+        `}).join("") || `<p style="font-size:12px;color:var(--mu)">No orders yet.</p>`}
       </div>
     `;
   } else if (OWNER_TAB === "vendors") {
@@ -12419,7 +12419,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v205-complete.html";
+      a.download = "namaste-udala-v206-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -13748,3 +13748,4 @@ try { render(); } catch (e) {
 </script>
 </body>
 </html>
+Resolving script syntax errors for file download
