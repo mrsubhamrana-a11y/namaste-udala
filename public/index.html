@@ -1556,16 +1556,55 @@ function orderDateTimeline(o) {
   `;
 }
 
+function recordOrderStep(o, st, actor = "") {
+  if (!o || !st) return;
+  o.timelineLog = Array.isArray(o.timelineLog) ? o.timelineLog : [];
+  const t = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const roleLbl = actor || (ROLE === "owner" ? "Owner" : ROLE === "kitchen" ? "Kitchen" : ROLE === "delivery" ? "Rider" : ROLE === "vendor" ? "Vendor" : "Customer");
+  const last = o.timelineLog[o.timelineLog.length - 1];
+  if (!last || last.s !== st) {
+    o.timelineLog.push({ s: st, t, by: roleLbl });
+  } else {
+    last.t = t;
+    last.by = roleLbl;
+  }
+}
+
+function getOrderNextStepHint(st, isKirana = false) {
+  if (st === "Cancelled") return "❌ Order Cancelled";
+  if (st === "Delivered") return "✅ Delivered & Completed";
+  if (st === "Out for Delivery") return "🛵 Next: Rider customer se 4-digit PIN lekar Deliver karega";
+  if (st === "Ready for Pickup") return "📦 Next: Delivery Boy pickup karke 'Picked Up' dabayega";
+  if (st === "Cooking" || st === "Packed") return isKirana ? "📦 Next: Packing poori karke 'Ready' dabayein" : "🔥 Next: Khana taiyaar karke 'Ready' dabayein";
+  return isKirana ? "👉 Next: Kirana/Owner 'Pack' karke 'Ready' mark karega" : "👉 Next: Kitchen/Vendor 'Cooking' shuru karke 'Ready' karega";
+}
+
 function statusTimeline(st, isKirana = false) {
   const steps = isKirana
     ? ["Placed", "Packed", "Ready for Pickup", "Out for Delivery", "Delivered"]
     : ["Placed", "Confirmed", "Cooking", "Ready for Pickup", "Out for Delivery", "Delivered"];
-  const norm = st === "Verify Hold" ? "Placed" : st;
-  const idx = steps.indexOf(norm);
+  let norm = st === "Verify Hold" ? "Placed" : st;
+  if (isKirana && norm === "Confirmed") norm = "Packed";
+  const idx = Math.max(0, steps.indexOf(norm));
   if (st === "Cancelled") return `<div class="tl"><span style="background:#ffe4e6;color:#9f1239">❌ Cancelled</span></div>`;
   return `<div class="tl">${steps.map((s, i) =>
     `<span class="${i < idx ? "done" : i === idx ? "now" : ""}">${s === "Ready for Pickup" ? "Ready" : s === "Out for Delivery" ? "On Way" : s}</span>`
   ).join("")}</div>`;
+}
+
+function renderLiveOrderTimeline(o, isKirana = false) {
+  const logs = Array.isArray(o.timelineLog) && o.timelineLog.length
+    ? o.timelineLog
+    : [{ s: o.status || "Placed", t: o.time || "12:00 PM", by: "Order" }];
+  const logHtml = logs.map(l => `<span><b>${esc(l.s === "Ready for Pickup" ? "Ready" : l.s === "Out for Delivery" ? "On Way" : l.s)}</b> ${esc(l.t)}${l.by ? ` (${esc(l.by)})` : ""}</span>`).join(" → ");
+  const hint = getOrderNextStepHint(o.status, isKirana);
+  return `
+    ${statusTimeline(o.status, isKirana)}
+    <div style="font-size:10px;color:var(--mu);background:var(--sf2);padding:5px 8px;border-radius:10px;margin-top:4px;line-height:1.45">
+      <div>🕒 <b>Timeline:</b> ${logHtml}</div>
+      <div style="color:${o.status === "Delivered" ? "var(--g2)" : o.status === "Cancelled" ? "var(--o)" : "var(--ink)"};font-weight:800;margin-top:2px">${esc(hint)}</div>
+    </div>
+  `;
 }
 
 function shareOrderWa(o, kind) {
@@ -9845,6 +9884,7 @@ function viewKitchen() {
             </div>
             <span class="pill p-amber">${esc(o.status)}</span>
           </div>
+          ${renderLiveOrderTimeline(o, false)}
           <div class="order-smart-meta">${o.items.map(i => {
             const vn = S.vendors.find(v => v.id === i.vendorId)?.name || "Kitchen";
             return `• <b>[${esc(vn)}]</b> ${esc(i.name)} ×${i.qty}`;
@@ -9857,6 +9897,31 @@ function viewKitchen() {
         </div>
       `).join("") || `<p style="font-size:12px;color:var(--mu)">All food orders prepared!</p>`}
     </div>
+
+    ${(() => {
+      const kSelfOrds = (S.kiranaOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled");
+      return `
+      <div class="card" style="border-left:5px solid var(--g2)">
+        <h3>🛒 Kirana / Sauda Packing Queue (${kSelfOrds.length}) <span class="pill p-green">Live Track</span></h3>
+        ${kSelfOrds.map(o => `
+          <div class="order-smart-card" style="border-left-color:${o.status === "Ready for Pickup" ? "#2563eb" : "var(--g2)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>${esc(o.id)} — ${esc(o.name)} (${inr(o.total)})</b>
+                <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">📍 ${esc(o.area)}</div>
+              </div>
+              <span class="pill p-amber">${esc(o.status)}</span>
+            </div>
+            ${renderLiveOrderTimeline(o, true)}
+            <div class="order-smart-meta">${o.items.map(i => `• ${esc(i.name)} ×${i.qty}`).join("<br>")}</div>
+            <div class="btn-row" style="margin-top:8px">
+              <button class="btn amb sm" data-act="ordStatus" data-k="KIRANA" data-id="${o.id}" data-s="Packed">📦 Packed</button>
+              <button class="btn g sm" data-act="ordStatus" data-k="KIRANA" data-id="${o.id}" data-s="Ready for Pickup">✅ Ready for Pickup</button>
+            </div>
+          </div>
+        `).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi pending Kirana packing order nahi hai.</p>`}
+      </div>`;
+    })()}
 
     ${renderV144OpsCard()}
   `;
@@ -10075,6 +10140,8 @@ function getRiderMilestoneBonus(deliveredDropsCount) {
             </div>
             <span class="pill ${o.status === "Delivered" ? "p-green" : "p-red"}">${o.payMode === "COD" && o.status !== "Delivered" ? "Collect " + inr(o.total) : esc(o.status)}</span>
           </div>
+          ${renderLiveOrderTimeline(o, o.kind === "KIRANA")}
+          <div style="font-size:10.5px;font-weight:800;margin-top:4px;color:${o.status === "Ready for Pickup" ? "var(--g2)" : o.status === "Out for Delivery" ? "#2563eb" : "var(--amb)"}">${o.status === "Ready for Pickup" ? "✅ Store/Kitchen par READY hai — turant pickup karein" : o.status === "Out for Delivery" ? "🛵 On Way — Customer se 4-digit PIN lekar Deliver karein" : o.status === "Delivered" ? "🎉 Delivered" : "⏳ Store/Kitchen mein tayyar ho raha hai — Ready hone ka wait karein"}</div>
           <div class="order-smart-meta">📍 ${esc(o.addr)} · ${o.items.map(i => `${i.name}×${i.qty}`).join(", ")}</div>
           ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:700;margin-top:2px">${(S.v156 && S.v156.gatePasscodeHighlight && o.note.includes("[Gate/Code:")) ? `<span class="pill p-blue">🔑 Gate Code</span> ` : ""}Note: ${esc(o.note)}</div>` : ""}
           ${o.delSlot ? `<div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">⏰ Slot: ${esc(o.delSlot)}</div>` : ""}
@@ -10214,10 +10281,11 @@ function viewVendor() {
             </div>
             <span class="pill ${o.status === "Delivered" ? "p-green" : "p-amber"}">${esc(o.status)}</span>
           </div>
+          ${renderLiveOrderTimeline(o, v.type === "KIRANA")}
           <div class="order-smart-meta">📦 ${vItems.map(i => `${i.name} ×${i.qty}`).join(", ")}</div>
           ${o.note ? `<div style="font-size:10.5px;color:var(--amb);font-weight:700;margin-top:3px">📝 Note: ${esc(o.note)}</div>` : ""}
           <div class="btn-row" style="margin-top:8px">
-            <button class="btn amb sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="${v.type === "KIRANA" ? "Confirmed" : "Cooking"}">${v.type === "KIRANA" ? "📦 Accept / Pack" : "🔥 Accept / Prep"}</button>
+            <button class="btn amb sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="${v.type === "KIRANA" ? "Packed" : "Cooking"}">${v.type === "KIRANA" ? "📦 Accept / Pack" : "🔥 Accept / Prep"}</button>
             <button class="btn g sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button>
             ${o.status !== "Delivered" ? `<button class="btn r sm" data-act="cancelOrder" data-k="${v.type}" data-id="${o.id}">✕ Reject</button>` : ""}
           </div>
@@ -10403,6 +10471,7 @@ function viewOwner() {
               <span class="pill ${o.status === "Cancelled" ? "p-red" : o.status === "Delivered" ? "p-green" : "p-amber"}">${esc(o.status)}</span>
             </div>
             <div class="order-smart-meta">${o.items.map(i => `${i.name}×${i.qty}`).join(", ")} · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: <code>${esc(o.utr)}</code>` : ""}</div>
+            ${renderLiveOrderTimeline(o, o.kind === "KIRANA")}
             ${orderDateTimeline(o)}
             ${openDet ? renderOwnerOrderFullDetail(o) : ""}
           </div>`;
@@ -10523,11 +10592,16 @@ function viewOwner() {
     bodyHtml = `
       <div class="card">
         <h3>📦 Food & Kirana Orders <span style='display:flex;gap:5px;align-items:center'><span class='pill p-amber'>${allOrds.filter(o => o.status !== "Delivered").length} Open</span><span class='pill p-green'>Auto-Sorted & Comm Calc</span></span></h3>
+        <div class="seg" style="margin-bottom:6px">
+          <button class="${(window._ownerKindFilter || "ALL") === "ALL" ? "on" : ""}" data-act="setOwnerKindFilter" data-v="ALL">All (${allOrds.length})</button>
+          <button class="${window._ownerKindFilter === "FOOD" ? "on" : ""}" data-act="setOwnerKindFilter" data-v="FOOD">🍛 Food (${(S.foodOrders || []).length})</button>
+          <button class="${window._ownerKindFilter === "KIRANA" ? "on" : ""}" data-act="setOwnerKindFilter" data-v="KIRANA">🛒 Kirana (${(S.kiranaOrders || []).length})</button>
+        </div>
         <div class="seg" style="margin-bottom:8px">
-          <button class="${!window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="0">All Orders</button>
+          <button class="${!window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="0">All Status</button>
           <button class="${window._unverifiedOnly ? "on" : ""}" data-act="setUnverifiedFilter" data-v="1">⚠️ Unverified UPI Only</button>
         </div>
-        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(o => matchOwnerDate(o) && (!window._unverifiedOnly || (o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled"))).slice().reverse().map(o => {
+        ${[...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })), ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))].filter(o => matchOwnerDate(o) && ((window._ownerKindFilter || "ALL") === "ALL" || o.kind === window._ownerKindFilter) && (!window._unverifiedOnly || (o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled"))).slice().reverse().map(o => {
           const openDet = !!window._ownDetOpen?.["OTAB_" + o.id];
           return `
           <div class="order-smart-card" style="border-left-color:${o.status === "Cancelled" ? "var(--o)" : o.utrVerified ? "var(--g2)" : "var(--amb)"}">
@@ -10546,6 +10620,8 @@ function viewOwner() {
             <div class="btn-row" style="margin-top:8px">
               ${o.payMode === "UPI" && !o.utrVerified && o.status !== "Cancelled" ? `<button class="btn g sm" data-act="verifyUtr" data-k="${o.kind}" data-id="${o.id}">Verify Bank UTR ✓</button>` : ""}
               ${o.payMode === "COD" && o.status !== "Delivered" && o.status !== "Cancelled" ? `<a class="btn amb sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala COD order (${o.id}) ${inr(o.total)} confirm karne ke liye reply karein.`)}" target="_blank">💬 COD Confirm</a>` : ""}
+              ${o.status === "Placed" || o.status === "Confirmed" ? `<button class="btn w sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="${o.kind === "KIRANA" ? "Packed" : "Cooking"}">${o.kind === "KIRANA" ? "📦 Pack" : "🔥 Cook"}</button>` : ""}
+              ${o.status !== "Delivered" && o.status !== "Cancelled" && o.status !== "Ready for Pickup" && o.status !== "Out for Delivery" ? `<button class="btn w sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Ready for Pickup">✅ Ready</button>` : ""}
               ${o.status !== "Delivered" && o.status !== "Cancelled" && o.status !== "Out for Delivery" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Dispatch</button>` : ""}
               ${o.status === "Out for Delivery" ? `<button class="btn g sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Delivered">✅ Delivered</button>` : ""}
               <button class="btn w sm" data-act="printBill" data-k="${o.kind}" data-id="${o.id}">🖨 58mm Bill</button>
@@ -12419,7 +12495,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v206-complete.html";
+      a.download = "namaste-udala-v208-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -12535,8 +12611,9 @@ const ACT = {
     if (!s) return;
     const d = parseInt(prompt("Kitne din ka Vacation Pause chahiye? (3 se 10 din):", "4"), 10);
     if (isNaN(d) || d < 3 || d > 10) return toast("3 se 10 din ke beech enter karein.");
+    const prevVac = +s.vacationDays || 0;
     s.vacationDays = d;
-    s.remaining = (+s.remaining || 1) + d;
+    s.remaining = Math.max(0, (+s.remaining || 1) + (d - prevVac));
     safePersist(`Vacation pause ${d}d for ${s.name}`);
     toast(`🏖 Vacation Mode: +${d} din extend ho gaye!`);
   },
@@ -12693,6 +12770,7 @@ const ACT = {
   captureGps: () => captureMandatoryGps(false),
   jumpUnverifiedOrders: () => { window._unverifiedOnly = true; OWNER_TAB = "orders"; render(); },
   setDlvPayFilter: v => { window._dlvPayFilter = v; render(); },
+  setOwnerKindFilter: v => { window._ownerKindFilter = v || "ALL"; render(); },
   setUnverifiedFilter: v => { window._unverifiedOnly = v === "1"; render(); },
   editItemImg: (v, k, id) => {
     const arr = k === "FOOD" ? S.foodItems : S.kiranaItems;
@@ -12706,15 +12784,19 @@ const ACT = {
   },
   applyPromo: () => {
     if (!CHECKOUT_MODAL) return;
+    if (S.cfg.promoActive === false) return toast("⚠️ Promo coupon abhi band hai.");
     const code = ($("#chkPromoInp")?.value || "").trim().toUpperCase();
     const expected = (S.cfg.promoCode || "UDALA20").toUpperCase();
     const baseAmt = CHECKOUT_MODAL.kind === "FOOD" ? foodCartTotal() : CHECKOUT_MODAL.kind === "KIRANA" ? kiranaSubtotal() : calcTiffinPrice(TF.diet, TF.days, TF.slot);
-    if (code !== expected) return toast(`⚠️ Invalid Coupon! Try ${expected}`);
+    if (!code || code !== expected) return toast(`⚠️ Invalid Coupon! Try ${expected}`);
     if (baseAmt < (+S.cfg.promoMinOrder || 0)) return toast(`⚠️ Coupon ke liye min ₹${S.cfg.promoMinOrder} order chahiye!`);
+    const alreadyApplied = CHECKOUT_MODAL.appliedPromo === code && (+CHECKOUT_MODAL.discountAmt || 0) > 0;
     CHECKOUT_MODAL.appliedPromo = code;
-    CHECKOUT_MODAL.discountAmt = +S.cfg.promoDiscount || 20;
-    ensureV144_30Defaults();
-    S.v144Ops.promoUsedCount = (+S.v144Ops.promoUsedCount || 0) + 1;
+    CHECKOUT_MODAL.discountAmt = Math.min(baseAmt, Math.max(0, +S.cfg.promoDiscount || 0));
+    if (!alreadyApplied) {
+      ensureV144_30Defaults();
+      S.v144Ops.promoUsedCount = (+S.v144Ops.promoUsedCount || 0) + 1;
+    }
     render();
     toast(`🎉 Coupon ${code} applied! ₹${CHECKOUT_MODAL.discountAmt} off`);
   },
@@ -12782,6 +12864,7 @@ const ACT = {
     if (!confirm("Kya aap apna yeh order cancel karna chahte hain?")) return;
     o.status = "Cancelled";
     o.cancelReason = "Cancelled by customer before prep";
+    recordOrderStep(o, "Cancelled", "Customer");
     safePersist(`Customer cancelled ${k} Order ${id}`);
     toast("❌ Order Cancelled");
   },
@@ -12795,6 +12878,7 @@ const ACT = {
       return toast("❌ Galat Delivery PIN! Customer ke app par dikh raha 4-digit PIN daalein.");
     }
     o.status = "Delivered";
+    recordOrderStep(o, "Delivered", "Rider");
     if (o.gps && o.gps.lat && o.gps.lng) recordRouteWaypoint(o.gps.lat, o.gps.lng, `Drop ${o.id}`);
     else if (navigator.geolocation) navigator.geolocation.getCurrentPosition(p => recordRouteWaypoint(p.coords.latitude, p.coords.longitude, `Drop ${o.id}`), () => {}, { enableHighAccuracy: true, timeout: 6000 });
     safePersist(`Rider delivered ${k} Order ${id} with PIN verification`);
@@ -12804,6 +12888,7 @@ const ACT = {
     if (!confirm("Naya Tiffin din shuru karein? (Aaj delivered tiffins ka 1 din kam hoga aur skip flags reset honge)")) return;
     (S.tiffinSubs || []).forEach(s => {
       if (s.deliveredToday && (+s.remaining || 0) > 0) s.remaining = Math.max(0, (+s.remaining) - 1);
+      if ((+s.vacationDays || 0) > 0) s.vacationDays = Math.max(0, (+s.vacationDays) - 1);
       s.deliveredToday = false;
       s.skipToday = !!s.skipNextDay;
       s.skipNextDay = false;
@@ -12819,6 +12904,8 @@ const ACT = {
     const pin = String($("#newVenPin")?.value || "").replace(/\D/g, "");
     const cuisine = $("#newVenCuisine")?.value.trim() || "Fresh Local Specials";
     if (!name || pin.length !== 4) return toast("⚠️ Vendor ka naam aur 4-digit PIN daalein!");
+    const existingPins = [PINS.owner, PINS.kitchen, PINS.delivery, ...Object.values({ ...PINS.vendors, ...(S.cfg.vendorPins || {}) })];
+    if (existingPins.includes(pin)) return toast("⚠️ Yeh 4-digit PIN pehle se use mein hai! Koi doosra PIN daalein.");
     const id = uid("v_");
     S.vendors.push({
       id, name, type, isSelf: false, cuisine, area, rating: "4.7", eta: "30-40 min",
@@ -12848,9 +12935,11 @@ const ACT = {
   },
   addUdhaar: () => {
     const name = $("#udhName")?.value.trim();
-    const phone = ph($("#udhPhone")?.value || "");
+    const rawPhone = String($("#udhPhone")?.value || "").replace(/\D/g, "");
+    if (rawPhone.length > 0 && rawPhone.length !== 10) return toast("⚠️ Mobile number 10 digits ka daalein ya blank chhodein!");
+    const phone = rawPhone.length === 10 ? rawPhone : "";
     const amt = +$("#udhAmt")?.value;
-    if (!name || !(amt > 0)) return toast("⚠️ Customer naam aur ₹ amount daalein!");
+    if (!name || !Number.isFinite(amt) || amt <= 0) return toast("⚠️ Customer naam aur sahi ₹ amount daalein!");
     ensureV145_30Defaults();
     const existingDue = (S.udhaarList || []).filter(u => (phone && ph(u.phone) === phone) || u.name.toLowerCase() === name.toLowerCase()).reduce((a, u) => a + (+u.amt || 0), 0);
     if (existingDue + amt > (+S.v145.maxUdhaarPerCustomer || 1000)) {
@@ -12983,13 +13072,11 @@ Total: ${inr(o.total)} (${o.payMode})`;
     if ((S.v146.blockedPhones || []).includes(ph(TF.phone))) {
       return toast("🚫 Is mobile number par fake/cancelled orders ke kaaran booking block hai!");
     }
-    if (CHECKOUT_MODAL.items) {
+    if (CHECKOUT_MODAL.kind !== "TIFFIN" && Array.isArray(CHECKOUT_MODAL.items)) {
       const closedVen = CHECKOUT_MODAL.items
         .map(i => S.vendors.find(v => v.id === i.vendorId))
         .find(v => v && v.status === "Closed");
       if (closedVen) return toast(`⚠️ ${closedVen.name} abhi Closed hai! Kripya uske items hatayein.`);
-    }
-    if (CHECKOUT_MODAL.items) {
       const outItem = CHECKOUT_MODAL.items.find(i => {
         const curArr = CHECKOUT_MODAL.kind === "FOOD" ? S.foodItems : S.kiranaItems;
         const fresh = curArr.find(x => x.id === i.id);
@@ -13008,19 +13095,6 @@ Total: ${inr(o.total)} (${o.payMode})`;
     if (payMode === "COD" && !isCodAllowedForAmount(CHECKOUT_MODAL.total)) {
       return toast(`⚠️ COD limit ₹${S.cfg.maxCodOrderAmt || 1500} se zyada hai! Kripya UPI Pay chunein.`);
     }
-    let utr = "";
-    if (payMode === "UPI") {
-      const check = validateStrictUTR($("#chkUtrInp")?.value, S.usedUtrs);
-      if (!check.ok) { ensureV144_30Defaults(); S.v144Ops.blockedFakeUtrs = (+S.v144Ops.blockedFakeUtrs || 0) + 1; return toast(check.msg); }
-      utr = check.utr;
-      if (PROOF_DATA_URL) {
-        const h = hashDataUrl(PROOF_DATA_URL);
-        if ((S.usedImgHashes || []).includes(h)) { ensureV144_30Defaults(); S.v144Ops.blockedDupProofs = (+S.v144Ops.blockedDupProofs || 0) + 1; return toast("⚠️ Duplicate payment screenshot detected!"); }
-        S.usedImgHashes.push(h);
-      }
-      S.usedUtrs.push(utr);
-    }
-
     ensureV145_30Defaults();
     ensureV148_30Defaults();
     const dupWindowMs = (+S.v148.blockDupOrdersWithinSecs || 15) * 1000;
@@ -13029,10 +13103,30 @@ Total: ${inr(o.total)} (${o.payMode})`;
     }
     ensureV150_30Defaults();
     const sameDayPhoneCount = [...(S.foodOrders || []), ...(S.kiranaOrders || [])].filter(o => ph(o.phone) === cleanPhone && o.date === todayIso() && o.status !== "Cancelled").length;
-    if (sameDayPhoneCount >= (+S.v150.maxOrdersPerHourPerPhone || 4) * 3) {
+    if (CHECKOUT_MODAL.kind !== "TIFFIN" && sameDayPhoneCount >= (+S.v150.maxOrdersPerHourPerPhone || 4) * 3) {
       return toast("⚠️ Is number par aaj ke max orders limit poore ho gaye hain!");
     }
-    ensureV150_30Defaults();
+    if (CHECKOUT_MODAL.kind === "TIFFIN" && +TF.days === 1) {
+      const priorTrials = (S.tiffinSubs || []).filter(s => ph(s.phone) === cleanPhone && +s.days === 1).length;
+      if (priorTrials >= (+S.v145.maxTrialPerPhone || 1)) {
+        return toast("⚠️ Is number par 1-Day Trial pehle liya ja chuka hai! 7, 15 ya 30 din ka plan chunein.");
+      }
+    }
+
+    let utr = "";
+    let proofHash = "";
+    if (payMode === "UPI") {
+      const check = validateStrictUTR($("#chkUtrInp")?.value, S.usedUtrs);
+      if (!check.ok) { ensureV144_30Defaults(); S.v144Ops.blockedFakeUtrs = (+S.v144Ops.blockedFakeUtrs || 0) + 1; return toast(check.msg); }
+      utr = check.utr;
+      if (PROOF_DATA_URL) {
+        proofHash = hashDataUrl(PROOF_DATA_URL);
+        if ((S.usedImgHashes || []).includes(proofHash)) { ensureV144_30Defaults(); S.v144Ops.blockedDupProofs = (+S.v144Ops.blockedDupProofs || 0) + 1; return toast("⚠️ Duplicate payment screenshot detected!"); }
+      }
+      S.usedUtrs.push(utr);
+      if (proofHash) S.usedImgHashes.push(proofHash);
+    }
+
     ensureV152_30Defaults();
     ensureV153_30Defaults();
     ensureV154_30Defaults();
@@ -13040,72 +13134,18 @@ Total: ${inr(o.total)} (${o.payMode})`;
     const hasBulkItem = Array.isArray(CHECKOUT_MODAL.items) && CHECKOUT_MODAL.items.some(i => (+i.qty || 0) > (+S.v152.bulkQtyReviewThreshold || 10));
     const distinctVendors = Array.isArray(CHECKOUT_MODAL.items) ? new Set(CHECKOUT_MODAL.items.map(i => i.vendorId).filter(Boolean)).size : 0;
     const isMultiStore = S.v155.multiStoreOrderFlag && distinctVendors >= 2;
-    ensureV158_30Defaults();
-    ensureV159_30Defaults();
-    const distinctCats = Array.isArray(CHECKOUT_MODAL.items) ? new Set(CHECKOUT_MODAL.items.map(i => i.cat).filter(Boolean)).size : 0;
-    const isMultiCat = S.v159.multiCategoryOrderFlag && distinctCats >= 2;
-    ensureV160_30Defaults();
-    ensureV161_30Defaults();
-    const isMultiVenGroup = S.v161.multiVendorGroupOk && distinctVendors >= 2;
-    ensureV162_30Defaults();
-    const isMultiVenBatch = S.v162.multiVendorBatchFlag && distinctVendors >= 2;
-    ensureV163_30Defaults();
-    const isMultiVenBatchAct = S.v163.multiVendorBatchActive && distinctVendors >= 2;
-    ensureV164_30Defaults();
-    const isMultiVenGrpReady = S.v164.multiVendorGroupReady && distinctVendors >= 2;
-    ensureV165_30Defaults();
-    const isMultiVenGrpReadyOk = S.v165.multiVendorGroupReadyOk && distinctVendors >= 2;
-    ensureV166_30Defaults();
-    const isMultiVenGrpOkV166 = S.v166.multiVendorGroupOkV166 && distinctVendors >= 2;
-    ensureV167_30Defaults();
-    const isMultiVenGrpOkV167 = S.v167.multiVendorGroupOkV167 && distinctVendors >= 2;
-    ensureV168_30Defaults();
-    const isMultiVenGrpOkV168 = S.v168.multiVendorGroupOkV168 && distinctVendors >= 2;
     const note = [
       TF.note.trim(),
-      S.v153.floorOrFlatNote ? `[Floor/Flat: ${S.v153.floorOrFlatNote}]` : "",
-      S.v154.gatePasscodeNote ? `[Gate/Code: ${S.v154.gatePasscodeNote}]` : "",
-      S.v145.contactlessDrop ? "[Contactless Doorstep Drop]" : "",
+      S.v153.floorOrFlatNote ? `[Flat: ${S.v153.floorOrFlatNote}]` : "",
+      S.v154.gatePasscodeNote ? `[Gate: ${S.v154.gatePasscodeNote}]` : "",
+      S.v145.contactlessDrop ? "[Contactless Drop]" : "",
       (CHECKOUT_MODAL.kind !== "KIRANA" && S.v148.skipPlasticCutlery) ? "[No Plastic Spoon]" : "",
       (CHECKOUT_MODAL.kind === "KIRANA" && S.v154.ecoClothBagOptIn) ? "[Eco Cloth Bag]" : "",
-      `[${S.v150.doorstepPreference || "Ring Bell"}]`,
-      `[Mode: ${S.v158.preferredDeliveryMode || "Doorstep"}]`,
-      `[CallWin: ${S.v159.preferredCallWindow || "Anytime"}]`,
-      `[Arrival: ${S.v160.arrivalNotePref || "Call on Arrival"}]`,
-      `[DropNote: ${S.v161.preferredDropNote || "Call on Arrival"}]`,
-      `[Handover: ${S.v162.preferredHandoverStyle || "Doorstep"}]`,
-      `[DropConfirm: ${S.v163.preferredDropConfirm || "Call"}]`,
-      `[DelStyle: ${S.v164.preferredDeliveryStyle || "Doorstep"}]`,
-      `[AlertChan: ${S.v165.preferredAlertChannel || "Call"}]`,
-      `[DropPing: ${S.v166.preferredDropPing || "Call"}]`,
-      `[DropCallMode: ${S.v167.preferredDropCallMode || "Call"}]`,
-      `[ArrivalPing: ${S.v168.preferredArrivalPing || "Call"}]`,
-      `[PingMode: ${(S.v169 && S.v169.preferredDropPingMode) || "Call"}]`,
-      `[PingOpt: ${(S.v170 && S.v170.preferredPingOpt) || "Call"}]`,
-      `[DropAlert: ${(S.v171 && S.v171.preferredDropAlert) || "Call"}]`,
       isMultiStore ? `[Multi-Store Pickup: ${distinctVendors}]` : "",
-      isMultiVenGroup ? "[Multi-Vendor]" : "",
-      isMultiVenBatch ? "[Multi-Vendor-Batch]" : "",
-      isMultiVenBatchAct ? "[Multi-Vendor-Batch-Active]" : "",
-      isMultiVenGrpReady ? "[Multi-Vendor-Group-Ready]" : "",
-      isMultiVenGrpReadyOk ? "[Multi-Vendor-Group-Ready-Ok]" : "",
-      isMultiVenGrpOkV166 ? "[Multi-Vendor-Group-Ok-V166]" : "",
-      isMultiVenGrpOkV167 ? "[Multi-Vendor-Group-Ok-V167]" : "",
-      isMultiVenGrpOkV168 ? "[Multi-Vendor-Group-Ok-V168]" : "",
-      (S.v169 && S.v169.multiVendorGroupOkV169 && distinctVendors >= 2) ? "[Multi-Vendor-Group-Ok-V169]" : "",
-      (S.v170 && S.v170.multiVendorGroupOkV170 && distinctVendors >= 2) ? "[Multi-Vendor-Group-Ok-V170]" : "",
-      (S.v171 && S.v171.multiVendorGroupOkV171 && distinctVendors >= 2) ? "[Multi-Vendor-Group-Ok-V171]" : "",
-      isMultiCat ? `[Multi-Category: ${distinctCats}]` : "",
-      hasBulkItem ? "[Bulk Qty Review]" : ""
+      hasBulkItem ? "[Bulk Qty]" : ""
     ].filter(Boolean).join(" · ");
     const delSlot = $("#chkDelSlot")?.value || "ASAP (30-45 mins)";
     if (CHECKOUT_MODAL.kind === "TIFFIN") {
-      if (+TF.days === 1) {
-        const priorTrials = (S.tiffinSubs || []).filter(s => ph(s.phone) === cleanPhone && +s.days === 1).length;
-        if (priorTrials >= (+S.v145.maxTrialPerPhone || 1)) {
-          return toast("⚠️ Is number par 1-Day Trial pehle liya ja chuka hai! 7, 15 ya 30 din ka plan chunein.");
-        }
-      }
       const newId = "TS-" + Math.floor(1000 + Math.random() * 9000);
       S.tiffinSubs.unshift({
         id: newId,
@@ -13141,7 +13181,7 @@ Total: ${inr(o.total)} (${o.payMode})`;
         codFlag: _codFlagF,
         date: todayIso(), time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         items: CHECKOUT_MODAL.items, total: CHECKOUT_MODAL.total, note, delSlot, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc },
-        payMode, utr, proof: PROOF_DATA_URL || "", utrVerified: false, status: "Placed"
+        payMode, utr, proof: PROOF_DATA_URL || "", utrVerified: false, status: "Placed", timelineLog: [{ s: "Placed", t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), by: "Customer" }]
       });
       LAST_PLACED_ORDER = {
         kind: "FOOD", id: newId, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
@@ -13173,7 +13213,7 @@ Total: ${inr(o.total)} (${o.payMode})`;
         codFlag: _codFlagK,
         date: todayIso(), time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
         items: CHECKOUT_MODAL.items, sub: CHECKOUT_MODAL.sub, deliveryFee: CHECKOUT_MODAL.deliveryFee, total: CHECKOUT_MODAL.total, note, delSlot, gps: { lat: USER_GPS.lat, lng: USER_GPS.lng, acc: USER_GPS.acc },
-        payMode, utr, proof: PROOF_DATA_URL || "", utrVerified: false, status: "Placed"
+        payMode, utr, proof: PROOF_DATA_URL || "", utrVerified: false, status: "Placed", timelineLog: [{ s: "Placed", t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), by: "Customer" }]
       });
       LAST_PLACED_ORDER = {
         kind: "KIRANA", id: newId, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(),
@@ -13198,6 +13238,7 @@ Total: ${inr(o.total)} (${o.payMode})`;
     const o = arr.find(x => x.id === id);
     if (o && st) {
       o.status = st;
+      recordOrderStep(o, st);
       if (k === "KIRANA" && st === "Ready for Pickup") {
         ensureV150_30Defaults();
         S.v150.kiranaVerifiedPacksToday = (+S.v150.kiranaVerifiedPacksToday || 0) + 1;
@@ -13214,6 +13255,7 @@ Total: ${inr(o.total)} (${o.payMode})`;
     if (reason === null) return;
     o.status = "Cancelled";
     o.cancelReason = reason.trim() || "Cancelled by operator";
+    recordOrderStep(o, "Cancelled");
     ensureV144_30Defaults();
     S.v144Ops.lastCancelNote = `${id}: ${o.cancelReason}`;
     safePersist(`${k} Order ${id} Cancelled: ${o.cancelReason}`);
@@ -13268,14 +13310,19 @@ Total: ${inr(o.total)} (${o.payMode})`;
   },
   submitFuel: () => {
     const s = parseFloat($("#odoStart")?.value), e = parseFloat($("#odoEnd")?.value), rs = parseFloat($("#fuelRs")?.value);
-    if (isNaN(s) || isNaN(e) || e <= s || isNaN(rs) || rs <= 0) return toast("Sahi Start/End KM aur ₹ daalein");
+    if (!Number.isFinite(s) || !Number.isFinite(e) || s < 0 || e <= s || !Number.isFinite(rs) || rs <= 0) return toast("⚠️ Sahi Start/End KM (≥0) aur ₹ amount daalein!");
     const km = +(e - s).toFixed(2);
+    const maxKm = +S.cfg.maxDailyRiderKmClaim || 120;
+    if (km > maxKm) return toast(`⚠️ Ek claim mein max ${maxKm} km allowed hai!`);
     const drops = (S.foodOrders.filter(o => o.status === "Delivered").length + S.kiranaOrders.filter(o => o.status === "Delivered").length);
     const estKm = Math.max(2, drops * 2.4);
-    const flag = (km > estKm * 1.5 || rs > estKm * S.cfg.perKmFuelRate * 1.35) ? "⚠️ SUSPICIOUS OVER-CLAIM" : "✅ Route Matched";
-    S.fuelLogs.unshift({ id: uid("fl"), km, rs, flag, approved: false });
+    const flag = (km > estKm * 1.5 || rs > estKm * (+S.cfg.perKmFuelRate || 3.5) * 1.35) ? "⚠️ SUSPICIOUS OVER-CLAIM" : "✅ Route Matched";
+    S.fuelLogs.unshift({ id: uid("fl"), date: todayIso(), time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), riderId: getActiveRiderId(), km, rs, flag, approved: false });
+    if ($("#odoStart")) $("#odoStart").value = "";
+    if ($("#odoEnd")) $("#odoEnd").value = "";
+    if ($("#fuelRs")) $("#fuelRs").value = "";
     safePersist(`Fuel claim submitted: ${km}km / ₹${rs} (${flag})`);
-    toast("Fuel log submitted!");
+    toast("⛽ Fuel log submitted!");
   },
   vendorStatus: (v, k, id) => {
     const ven = S.vendors.find(x => x.id === id);
@@ -13372,6 +13419,8 @@ Total: ${inr(o.total)} (${o.payMode})`;
     toast(`✅ Rider COD Cash ${inr(amt)} Jama ho gaya!`);
   },
   settleRiderCod: v => {
+    ensureV155_30Defaults();
+    if (S.v155.cashReconcileLocked) return toast("🔒 Cash drawer locked hai! Pehle Cash Lock unlock karein.");
     const amt = +v || 0;
     if (amt <= 0) return;
     S.riderCashSettled = (+S.riderCashSettled || 0) + amt;
@@ -13383,21 +13432,29 @@ Total: ${inr(o.total)} (${o.payMode})`;
     if (!ven) return;
     const led = getVendorLedger(ven);
     if (led.due <= 0) return;
-    const ref = prompt(`Payout ${inr(led.due)} to ${ven.name} — UPI UTR / Cash Ref likhein:`, "UPI-SETTLED") || "CASH";
+    const refInput = prompt(`Payout ${inr(led.due)} to ${ven.name} — UPI UTR / Cash Ref likhein:`, "UPI-SETTLED");
+    if (refInput === null) return;
+    const ref = refInput.trim() || "CASH";
     ensureV149_30Defaults();
-    S.v149.lastVendorPayoutRef = `${ven.name}: ${ref.trim()}`;
+    S.v149.lastVendorPayoutRef = `${ven.name}: ${ref}`;
     ven.settledPaid = (+ven.settledPaid || 0) + led.due;
     safePersist(`Owner released payout ₹${led.due} to ${ven.name} (Ref: ${ref.trim()})`);
     toast(`✅ Payout ${inr(led.due)} released!`);
   },
   saveOwnerRates: () => {
-    S.cfg.foodPartnerCommPct = Math.max(0, +$("#edFoodComm").value || 20);
-    S.cfg.kiranaMinOrder = Math.max(0, +$("#edKiranaMin").value || 300);
-    S.cfg.kiranaFreeDeliveryAt = Math.max(0, +$("#edKiranaFree").value || 500);
-    S.cfg.kiranaPostDeliveryComm = Math.max(0, +$("#edKiranaComm").value || 30);
+    const parseNonNeg = (sel, fallback) => {
+      const raw = $(sel)?.value;
+      if (raw === undefined || raw === "") return fallback;
+      const n = parseFloat(raw);
+      return Number.isFinite(n) && n >= 0 ? n : fallback;
+    };
+    S.cfg.foodPartnerCommPct = Math.min(100, parseNonNeg("#edFoodComm", 20));
+    S.cfg.kiranaMinOrder = parseNonNeg("#edKiranaMin", 300);
+    S.cfg.kiranaFreeDeliveryAt = Math.max(S.cfg.kiranaMinOrder, parseNonNeg("#edKiranaFree", 500));
+    S.cfg.kiranaPostDeliveryComm = parseNonNeg("#edKiranaComm", 30);
     S.cfg.promoCode = ($("#edPromoCode")?.value || "UDALA20").trim().toUpperCase();
-    S.cfg.promoDiscount = Math.max(0, +$("#edPromoDisc")?.value || 0);
-    S.cfg.promoMinOrder = Math.max(0, +$("#edPromoMin")?.value || 0);
+    S.cfg.promoDiscount = parseNonNeg("#edPromoDisc", 0);
+    S.cfg.promoMinOrder = parseNonNeg("#edPromoMin", 0);
     safePersist("Owner updated master rates, commissions & promo rules");
     toast("✅ Master rules saved!");
   },
@@ -13407,7 +13464,12 @@ Total: ${inr(o.total)} (${o.payMode})`;
     if (!o) return;
     if (!confirm(`Bank / JioPay app mein ₹${o.total} (UTR: ${o.utr}) asli credit check kar liya hai?`)) return;
     o.utrVerified = true;
-    o.status = o.status === "Placed" ? "Confirmed" : o.status;
+    if (o.status === "Placed") {
+      o.status = k === "KIRANA" ? "Packed" : "Confirmed";
+      recordOrderStep(o, o.status, "Owner UTR✓");
+    } else {
+      recordOrderStep(o, o.status, "Owner UTR✓");
+    }
     safePersist(`Owner verified Bank UTR ${o.utr} for ${id}`);
     toast("Bank UTR Verified ✓");
   },
@@ -13417,9 +13479,12 @@ Total: ${inr(o.total)} (${o.payMode})`;
   },
   addExp: () => {
     const title = $("#expTitleInp")?.value.trim(), amt = +$("#expAmtInp")?.value;
-    if (!title || !(amt > 0)) return;
-    S.expenses.unshift({ id: uid("ex"), title, amt, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
+    if (!title || !Number.isFinite(amt) || amt <= 0) return toast("⚠️ Expense ka naam aur sahi ₹ amount daalein!");
+    S.expenses.unshift({ id: uid("ex"), date: todayIso(), title, amt, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
+    if ($("#expTitleInp")) $("#expTitleInp").value = "";
+    if ($("#expAmtInp")) $("#expAmtInp").value = "";
     safePersist(`Expense added: ${title} ₹${amt}`);
+    toast(`💸 Expense ₹${amt} saved!`);
   },
   exportBackup: () => autoExportBackup(),
   resetDemo: () => autoResetDemoData(),
@@ -13509,12 +13574,30 @@ document.addEventListener("click", e => {
 });
 
 document.addEventListener("input", e => {
-  if (e.target.id === "chkUtrInp" && CHECKOUT_MODAL) { CHECKOUT_MODAL.draftUtr = e.target.value; return; }
-  if (e.target.id === "chkPromoInp" && CHECKOUT_MODAL) { CHECKOUT_MODAL.appliedPromo = e.target.value; return; }
+  if (e.target.id === "chkUtrInp" && CHECKOUT_MODAL) {
+    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 12);
+    CHECKOUT_MODAL.draftUtr = e.target.value;
+    return;
+  }
+  if (e.target.id === "chkPromoInp" && CHECKOUT_MODAL) { CHECKOUT_MODAL.appliedPromo = e.target.value.toUpperCase(); return; }
   if (e.target.id === "loginCustName") { LOGIN_CUST_NAME = e.target.value; return; }
-  if (e.target.id === "loginCustPhone") { LOGIN_CUST_PHONE = e.target.value; return; }
-  if (e.target.id === "loginPinInp") { LOGIN_PIN_INPUT = e.target.value; LOGIN_ERROR = ""; return; }
+  if (e.target.id === "loginCustPhone") {
+    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    LOGIN_CUST_PHONE = e.target.value;
+    return;
+  }
+  if (e.target.id === "loginPinInp") {
+    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4);
+    LOGIN_PIN_INPUT = e.target.value;
+    LOGIN_ERROR = "";
+    return;
+  }
+  if (e.target.id === "udhPhone") {
+    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    return;
+  }
   if (e.target.dataset.tf) {
+    if (e.target.dataset.tf === "phone") e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
     TF[e.target.dataset.tf] = e.target.value;
     if (e.target.dataset.tf === "phone" && TAB === "checkout" && e.target.value.replace(/\D/g, "").length === 10) {
       const pos = e.target.selectionStart;
@@ -13579,12 +13662,17 @@ $("#itemPhotoInput").addEventListener("change", async e => {
   PENDING_ITEM_UPLOAD = { kind: null, id: null, targetInputId: null };
 });
 
-$("#proofInput").addEventListener("change", e => {
+$("#proofInput").addEventListener("change", async e => {
   const f = e.target.files?.[0];
   if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => { PROOF_DATA_URL = ev.target.result; render(); toast("Screenshot attached ✓"); };
-  r.readAsDataURL(f);
+  try {
+    PROOF_DATA_URL = await compressImageFileToDataUrl(f, 520, 0.7);
+    render();
+    toast("📸 Payment screenshot compressed & attached ✓");
+  } catch (err) {
+    toast("⚠️ Screenshot read error — dobara try karein");
+  }
+  e.target.value = "";
 });
 
 
@@ -13748,4 +13836,3 @@ try { render(); } catch (e) {
 </script>
 </body>
 </html>
-Resolving script syntax errors for file download
