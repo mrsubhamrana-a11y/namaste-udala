@@ -10316,8 +10316,8 @@ function getRiderMilestoneBonus(deliveredDropsCount) {
 
       <div class="card" style="background:var(--sf2)">
         <h3>🧾 End-of-Day COD Hisab (${esc(activeRider.name)})</h3>
-        <div class="row"><span>COD Collected Today</span><b>${inr(codDelivered)}</b></div>
-        <div class="row"><span>Cash Already Jama</span><b>${inr(settledForRider)}</b></div>
+        <div class="row"><span>COD Collected Today</span><b>${inr(codCollected)}</b></div>
+        <div class="row"><span>Cash Already Jama</span><b>${inr(riderSettled)}</b></div>
         <div class="row"><span>Pending COD Jama Due</span><b style="color:var(--o)">${inr(pendingJama)}</b></div>
       </div>
     `;
@@ -11441,7 +11441,6 @@ function _renderInner() {
   else if (ROLE === "delivery") $("#appMain").innerHTML = viewDelivery();
   else if (ROLE === "vendor") $("#appMain").innerHTML = renderStaffRingAlertBanner() + viewVendor();
   else if (ROLE === "owner") $("#appMain").innerHTML = renderStaffRingAlertBanner() + viewOwner();
-  syncLiveOrderRing();
   else {
     if (TAB === "checkout" && CHECKOUT_MODAL) {
       $("#appMain").innerHTML = viewCheckoutPage();
@@ -11461,6 +11460,7 @@ function _renderInner() {
       else $("#appMain").innerHTML = viewAccountPage();
     }
   }
+  syncLiveOrderRing();
 
   let cbarHtml = "";
   if (ROLE === "customer" && TAB === "food" && foodCartCount() > 0) {
@@ -12761,7 +12761,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v211-complete.html";
+      a.download = "namaste-udala-v212-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
