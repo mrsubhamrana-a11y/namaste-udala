@@ -1490,6 +1490,170 @@ async function pullRemoteState() {
 pullRemoteState();
 setInterval(pullRemoteState, 8000);
 
+
+/* ==================== FREE NOTIFICATION / SMS QUICK-MATCH & TARGETED FIREBASE SYNC ==================== */
+function patchFirebaseOrderNode(arrName, orderId, patchObj) {
+  if (!orderId || !patchObj || applyingRemote) return;
+  const arr = S[arrName];
+  if (!Array.isArray(arr)) return;
+  const idx = arr.findIndex(x => x && x.id === orderId);
+  if (idx === -1) return;
+  const url = `${FB.databaseURL}/${NODE}/${arrName}/${idx}.json`;
+  fetch(url, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patchObj)
+  }).catch(() => {});
+}
+
+function parsePaymentAlertText(rawText) {
+  const txt = String(rawText || "").trim();
+  if (!txt) return { utr: "", amount: null, raw: "" };
+  const utrMatch = txt.match(/\b(\d{12})\b/) || txt.match(/(?:utr|ref(?:erence)?|upi\s*ref)[^0-9]*(\d{10,16})/i);
+  const amtMatch = txt.match(/(?:rs\.?|inr|₹|paid|received|credited)\s*[:\-]?\s*([0-9]+(?:\.[0-9]{1,2})?)/i)
+    || txt.match(/([0-9]+(?:\.[0-9]{1,2})?)\s*(?:rs\.?|inr|₹)/i);
+  return {
+    utr: utrMatch ? utrMatch[1] : "",
+    amount: amtMatch ? parseFloat(amtMatch[1]) : null,
+    raw: txt
+  };
+}
+
+
+/* ==================== AUTOMATIC NOTIFICATION / SMS / CLIPBOARD AUTO-VERIFY ENGINE ==================== */
+function ensureAutoVerifyDefaults() {
+  if (!S) return;
+  S.cfg.autoMatchNotifications = S.cfg.autoMatchNotifications ?? true;
+  S.autoAlertHistory = Array.isArray(S.autoAlertHistory) ? S.autoAlertHistory : [];
+}
+
+function applyAlertStringAutoVerify(rawText, sourceTag = "Auto") {
+  ensureAutoVerifyDefaults();
+  if (S.cfg.autoMatchNotifications === false) return { matched: false };
+  const parsed = parsePaymentAlertText(rawText);
+  if (!parsed.utr && !(parsed.amount > 0)) return { matched: false };
+
+  const candidates = [
+    ...(S.foodOrders || []).map((o, idx) => ({ o, kind: "FOOD", arrName: "foodOrders", idx })),
+    ...(S.kiranaOrders || []).map((o, idx) => ({ o, kind: "KIRANA", arrName: "kiranaOrders", idx }))
+  ].filter(x => x.o && x.o.payMode === "UPI" && !x.o.utrVerified && x.o.status !== "Cancelled");
+
+  const hit = candidates.find(x =>
+    (parsed.utr && String(x.o.utr || "").includes(parsed.utr)) ||
+    (parsed.amount > 0 && Math.abs((+x.o.total || 0) - parsed.amount) < 0.01)
+  );
+
+  if (!hit) return { matched: false, parsed };
+
+  hit.o.utrVerified = true;
+  if (parsed.utr && !hit.o.utr) hit.o.utr = parsed.utr;
+  if (hit.o.status === "Placed") {
+    hit.o.status = hit.kind === "KIRANA" ? "Packed" : "Confirmed";
+  }
+  recordOrderStep(hit.o, hit.o.status, `${sourceTag} Auto ✓`);
+  S.autoAlertHistory.unshift({
+    t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    src: sourceTag,
+    orderId: hit.o.id,
+    amt: +hit.o.total || 0,
+    utr: hit.o.utr || parsed.utr || ""
+  });
+  if (S.autoAlertHistory.length > 40) S.autoAlertHistory.length = 40;
+
+  // Targeted PATCH on the specific order node + full state sync
+  patchFirebaseOrderNode(hit.arrName, hit.o.id, {
+    utr: hit.o.utr,
+    utrVerified: true,
+    status: hit.o.status,
+    timelineLog: hit.o.timelineLog
+  });
+  save(`Auto-verified ${hit.o.id} (${inr(hit.o.total)}) via ${sourceTag}`);
+  toast(`⚡ Auto-Verified: ${hit.o.id} · ${inr(hit.o.total)}!`);
+  return { matched: true, order: hit.o };
+}
+
+function handleIncomingAlertPayload(payload) {
+  const txt = typeof payload === "string"
+    ? payload
+    : [payload?.title, payload?.text, payload?.body, payload?.message, payload?.sms].filter(Boolean).join(" ");
+  if (!txt.trim()) return;
+  if ($("#notifAlertPasteInp")) $("#notifAlertPasteInp").value = txt.trim();
+  const res = applyAlertStringAutoVerify(txt.trim(), payload?.source || "Device Alert");
+  if (!res.matched && ROLE === "owner") {
+    toast("📲 Alert captured — unverified UPI order se exact match nahi mila");
+  }
+}
+
+// Expose global bridge for Android Notification Listener / Tasker / MacroDroid / WebView bridge
+window.NamasteUdalaAutoVerify = {
+  onNotification: data => handleIncomingAlertPayload(data),
+  onSms: txt => handleIncomingAlertPayload({ text: txt, source: "SMS" }),
+  verifyText: txt => applyAlertStringAutoVerify(txt, "Bridge")
+};
+
+// Listen for postMessage from native shell / WebView / iframe
+window.addEventListener("message", ev => {
+  const d = ev?.data;
+  if (!d) return;
+  if (typeof d === "string" && (d.includes("₹") || /inr|rs\.?|utr|upi|received|credited/i.test(d))) {
+    handleIncomingAlertPayload({ text: d, source: "PostMessage" });
+  } else if (typeof d === "object" && (d.type === "PAYMENT_ALERT" || d.type === "NOTIFICATION" || d.type === "SMS")) {
+    handleIncomingAlertPayload(d);
+  }
+});
+
+// Automatic clipboard watcher when user switches back to tab (in Owner role)
+let _lastAutoClip = "";
+async function tryAutoCheckClipboardPayment() {
+  ensureAutoVerifyDefaults();
+  if (ROLE !== "owner" || S.cfg.autoMatchNotifications === false) return;
+  if (!navigator.clipboard || !navigator.clipboard.readText) return;
+  try {
+    const clip = (await navigator.clipboard.readText() || "").trim();
+    if (!clip || clip === _lastAutoClip) return;
+    _lastAutoClip = clip;
+    if (/(₹|rs\.?|inr|utr|upi|paid|received|credited)/i.test(clip)) {
+      if ($("#notifAlertPasteInp")) $("#notifAlertPasteInp").value = clip;
+      applyAlertStringAutoVerify(clip, "Auto-Clipboard");
+    }
+  } catch (e) {}
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    tryAutoCheckClipboardPayment();
+  }
+});
+
+function quickMatchAlertInOwner() {
+  const raw = ($("#notifAlertPasteInp")?.value || "").trim();
+  const parsed = parsePaymentAlertText(raw);
+  if (!parsed.utr && !(parsed.amount > 0)) {
+    return toast("⚠️ Notification/SMS paste karein (jisme ₹ amount ya UTR ho)");
+  }
+  const candidates = [
+    ...(S.foodOrders || []).map(o => ({ o, kind: "FOOD", arrName: "foodOrders" })),
+    ...(S.kiranaOrders || []).map(o => ({ o, kind: "KIRANA", arrName: "kiranaOrders" }))
+  ].filter(x => x.o && x.o.payMode === "UPI" && !x.o.utrVerified && x.o.status !== "Cancelled");
+
+  const hit = candidates.find(x =>
+    (parsed.utr && String(x.o.utr || "").includes(parsed.utr)) ||
+    (parsed.amount > 0 && Math.abs((+x.o.total || 0) - parsed.amount) < 0.01)
+  );
+  if (!hit) {
+    return toast(`⚠️ Match nahi mila (${parsed.utr ? "UTR " + parsed.utr : ""} ${parsed.amount > 0 ? "₹" + parsed.amount : ""})`);
+  }
+  hit.o.utrVerified = true;
+  if (parsed.utr && !hit.o.utr) hit.o.utr = parsed.utr;
+  if (hit.o.status === "Placed") {
+    hit.o.status = hit.kind === "KIRANA" ? "Packed" : "Confirmed";
+  }
+  recordOrderStep(hit.o, hit.o.status, "Alert Match ✓");
+  if ($("#notifAlertPasteInp")) $("#notifAlertPasteInp").value = "";
+  save(`Notification/SMS matched & verified ${hit.o.id} (${inr(hit.o.total)})`);
+  toast(`✅ Matched & Verified: ${hit.o.id} · ${inr(hit.o.total)}!`);
+}
+
 function save(logMsg) {
   if (logMsg) {
     S.auditLog = S.auditLog || [];
@@ -10724,6 +10888,20 @@ function viewOwner() {
     `;
   } else if (OWNER_TAB === "orders") {
     bodyHtml = `
+      <div class="card" style="border-left:5px solid var(--g2)">
+        <h3>⚡ Automatic Notification / SMS Match <span class="pill p-green">${(S.cfg && S.cfg.autoMatchNotifications !== false) ? "Auto ON" : "Auto OFF"}</span> <button class="btn w sm" data-act="toggleAutoNotifMatch">${(S.cfg && S.cfg.autoMatchNotifications !== false) ? "Pause Auto" : "Enable Auto"}</button></h3>
+        <div style="font-size:11px;color:var(--mu);margin-bottom:6px">Notification/SMS paste karte hi ya app par wapas aate hi (clipboard/bridge) order <b>automatically</b> match & verify ho jata hai.</div>
+        <div class="btn-row">
+          <input class="inp" id="notifAlertPasteInp" placeholder="Paste / auto-capture UPI notification or SMS (₹ amount / 12-digit UTR)..." />
+          <button class="btn g sm" style="max-width:120px" data-act="quickMatchAlert">⚡ Check Now</button>
+        </div>
+        ${(Array.isArray(S.autoAlertHistory) && S.autoAlertHistory.length) ? `
+          <div style="margin-top:8px;font-size:10.5px;color:var(--g2);font-weight:800">
+            Recent Auto-Verified: ${S.autoAlertHistory.slice(0, 3).map(h => `${esc(h.orderId)} (${inr(h.amt)} · ${esc(h.src)} ${esc(h.t)})`).join(" · ")}
+          </div>
+        ` : ""}
+      </div>
+
       <div class="card">
         <h3>📦 Food & Kirana Orders <span style='display:flex;gap:5px;align-items:center'><span class='pill p-amber'>${allOrds.filter(o => o.status !== "Delivered").length} Open</span><span class='pill p-green'>Auto-Sorted & Comm Calc</span></span></h3>
         <div class="seg" style="margin-bottom:6px">
@@ -12761,7 +12939,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v212-complete.html";
+      a.download = "namaste-udala-v214-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -13751,6 +13929,13 @@ Total: ${inr(o.total)} (${o.payMode})`;
     safePersist("Owner updated master rates, commissions & promo rules");
     toast("✅ Master rules saved!");
   },
+  toggleAutoNotifMatch: () => {
+    ensureAutoVerifyDefaults();
+    S.cfg.autoMatchNotifications = S.cfg.autoMatchNotifications === false ? true : false;
+    save(`Automatic notification/SMS matching -> ${S.cfg.autoMatchNotifications ? "ON" : "OFF"}`);
+    toast(S.cfg.autoMatchNotifications ? "⚡ Automatic Alert Match ON!" : "⏸ Automatic Alert Match OFF");
+  },
+  quickMatchAlert: () => quickMatchAlertInOwner(),
   verifyUtr: (v, k, id) => {
     const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
     const o = arr.find(x => x.id === id);
@@ -13953,6 +14138,27 @@ $("#itemPhotoInput").addEventListener("change", async e => {
     toast("⚠️ Photo compress nahi ho saki");
   }
   PENDING_ITEM_UPLOAD = { kind: null, id: null, targetInputId: null };
+});
+
+document.addEventListener("input", e => {
+  if (e.target && e.target.id === "notifAlertPasteInp") {
+    const val = (e.target.value || "").trim();
+    if (val.length >= 8) {
+      const res = applyAlertStringAutoVerify(val, "Auto-Paste");
+      if (res.matched) e.target.value = "";
+    }
+  }
+});
+document.addEventListener("paste", e => {
+  if (e.target && e.target.id === "notifAlertPasteInp") {
+    setTimeout(() => {
+      const val = (e.target.value || "").trim();
+      if (val) {
+        const res = applyAlertStringAutoVerify(val, "Auto-Paste");
+        if (res.matched) e.target.value = "";
+      }
+    }, 30);
+  }
 });
 
 $("#proofInput").addEventListener("change", async e => {
