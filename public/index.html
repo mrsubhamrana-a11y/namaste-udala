@@ -785,6 +785,182 @@
     animation: mgWaveSubtle 4.2s ease-in-out infinite;
   }
 
+
+  /* ==================== V211: MODERN WHITE & HOT PINK UI THEME ==================== */
+  :root {
+    --bg: #f7f8fa;
+    --sf: #ffffff;
+    --sf2: #f4f5f7;
+    --ink: #111827;
+    --mu: #6b7280;
+    --ln: #eceef2;
+    --o: #ec1663;
+    --o2: #c81052;
+    --g: #ec1663;
+    --g2: #16a34a;
+    --amb: #f59e0b;
+    --sh-card: 0 8px 24px -6px rgba(17, 24, 39, .07);
+    --sh-3d-o: 0 6px 18px rgba(236, 22, 99, .30);
+    --sh-3d-g: 0 6px 18px rgba(22, 163, 74, .24);
+  }
+  [data-theme=dark] {
+    --bg: #0f1115; --sf: #181b22; --sf2: #222631; --ink: #f9fafb; --mu: #9ca3af; --ln: #2b303d;
+    --g: #ec1663;
+    --sh-card: 0 12px 28px -6px rgba(0, 0, 0, .55);
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  /* Crisp White Modern Header */
+  header {
+    background: var(--sf) !important;
+    color: var(--ink) !important;
+    border-bottom: 1px solid var(--ln) !important;
+    box-shadow: 0 4px 18px rgba(17, 24, 39, .05) !important;
+    padding: 12px 16px;
+  }
+  .logo {
+    background: linear-gradient(135deg, #ff2e7a, #ec1663) !important;
+    box-shadow: 0 6px 16px rgba(236, 22, 99, .28) !important;
+    border-radius: 50% !important;
+    transform: none !important;
+  }
+  .brand small { color: var(--o) !important; letter-spacing: 1px; }
+  .brand h1 { color: var(--ink) !important; font-family: 'Plus Jakarta Sans', sans-serif !important; font-size: 16.5px !important; }
+  .fb-pill { background: #fdf2f8 !important; color: #be185d !important; border: 1px solid #fbcfe8; }
+  [data-theme=dark] .fb-pill { background: #3b1025 !important; color: #f9a8d4 !important; border-color: #831843; }
+
+  /* Clean Cards & Hero Banners */
+  .card {
+    background: var(--sf);
+    border: 1px solid var(--ln) !important;
+    border-radius: 22px !important;
+    box-shadow: var(--sh-card) !important;
+  }
+  .hero {
+    border-radius: 22px !important;
+    box-shadow: 0 12px 26px -6px rgba(236, 22, 99, .28) !important;
+    border: 0 !important;
+  }
+  .hero.tiffin-bg { background: linear-gradient(135deg, #ec1663 0%, #ff4785 100%) !important; }
+  .hero.food-bg { background: linear-gradient(135deg, #1f1b24 0%, #3b1728 55%, #ec1663 100%) !important; }
+  .hero.kirana-bg { background: linear-gradient(135deg, #ec1663 0%, #be123c 100%) !important; }
+  .hero-pop {
+    border: 3px solid rgba(255,255,255,.95) !important;
+    box-shadow: 0 14px 24px rgba(0,0,0,.28) !important;
+  }
+
+  /* Buttons: Modern Pill Pink & Soft Gray */
+  .btn.o {
+    background: linear-gradient(135deg, #ff2e7a, #ec1663) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 16px rgba(236, 22, 99, .28) !important;
+  }
+  .btn.g {
+    background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 16px rgba(22, 163, 74, .24) !important;
+  }
+  .btn.w {
+    background: var(--sf2) !important;
+    color: var(--ink) !important;
+    border: 1px solid var(--ln) !important;
+    box-shadow: none !important;
+  }
+
+  /* Segmented Control & Category Chips */
+  .seg {
+    background: var(--sf2);
+    border: 1px solid var(--ln);
+    border-radius: 99px;
+  }
+  .seg button.on {
+    background: var(--o) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(236, 22, 99, .25);
+  }
+  .chips button {
+    background: var(--sf);
+    border: 1px solid var(--ln);
+    color: var(--ink);
+  }
+  .chips button.on {
+    background: var(--o) !important;
+    color: #fff !important;
+    border-color: var(--o) !important;
+  }
+
+  /* Product & Restaurant Cards */
+  .pcard, .rest-card {
+    background: var(--sf);
+    border: 1px solid var(--ln) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 20px -6px rgba(17, 24, 39, .08) !important;
+  }
+  .pimg {
+    background: #fdf2f8 !important;
+    box-shadow: none !important;
+    border-radius: 16px !important;
+  }
+  [data-theme=dark] .pimg { background: #261a22 !important; }
+  .pimg img {
+    width: 100% !important;
+    height: 120px !important;
+    transform: none !important;
+    border: 0 !important;
+    box-shadow: 0 8px 16px rgba(17, 24, 39, .12) !important;
+  }
+  .pcard:hover .pimg img { transform: scale(1.03) !important; }
+  .pimg::after, .pimg::before { display: none !important; }
+
+  /* Floating Cart Bar (Pink Modern) */
+  .cbar {
+    background: linear-gradient(135deg, #ec1663, #be123c) !important;
+    box-shadow: 0 10px 24px rgba(236, 22, 99, .35) !important;
+    border: 0 !important;
+  }
+
+  /* Modern White Bottom Navigation Bar */
+  nav {
+    background: var(--sf) !important;
+    border: 1px solid var(--ln) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 10px 30px rgba(17, 24, 39, .10) !important;
+    padding: 6px 8px !important;
+  }
+  nav button {
+    color: var(--mu) !important;
+    border-radius: 16px !important;
+  }
+  nav button.on {
+    background: #fdf2f8 !important;
+    color: #ec1663 !important;
+  }
+  [data-theme=dark] nav button.on {
+    background: #3b1025 !important;
+    color: #f472b6 !important;
+  }
+
+  /* Modern Track Order Timeline Dots */
+  .tl span.done { background: #fdf2f8 !important; color: #ec1663 !important; }
+  .tl span.now { background: #ec1663 !important; color: #fff !important; }
+
+  /* Profile Menu Row Style (Matching Mockup) */
+  .prof-menu-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 13px 12px; border-bottom: 1px solid var(--ln); cursor: pointer;
+    transition: background .15s;
+  }
+  .prof-menu-row:last-child { border-bottom: 0; }
+  .prof-menu-row:active { background: var(--sf2); }
+  .prof-ic {
+    width: 36px; height: 36px; border-radius: 50%; background: #fdf2f8; color: #ec1663;
+    display: grid; place-items: center; font-size: 16px; flex: none;
+  }
+  [data-theme=dark] .prof-ic { background: #3b1025; color: #f472b6; }
+
 </style>
 </head>
 <body>
@@ -1873,13 +2049,15 @@ function getKitchenPendingPrepCount() {
 function markAllKitchenCooking() {
   let cnt = 0;
   (S.foodOrders || []).forEach(o => {
-    if (o.status === "Placed" || o.status === "Confirmed") {
+    const isApna = (o.items || []).some(i => i.vendorId === "v_self_kitchen");
+    if (isApna && (o.status === "Placed" || o.status === "Confirmed")) {
       o.status = "Cooking";
+      recordOrderStep(o, "Cooking", "Kitchen");
       cnt++;
     }
   });
-  if (cnt > 0) save(`Kitchen started cooking ${cnt} orders`);
-  toast(cnt > 0 ? `🔥 ${cnt} food orders Cooking mein aa gaye!` : "Koi naya order cooking ke liye pending nahi hai");
+  if (cnt > 0) save(`Kitchen started cooking ${cnt} Apna Kitchen orders`);
+  toast(cnt > 0 ? `🔥 ${cnt} Apna Kitchen orders Cooking mein aa gaye!` : "Apna Kitchen ka koi naya order pending nahi hai");
 }
 
 function getVendorOpenOrdersCount(vid) {
@@ -9304,92 +9482,64 @@ function viewCustomerOrders() {
 
 /* ==================== PAGE 5: ACCOUNT, PARTNER & SUPPORT PAGE ==================== */
 function viewAccountPage() {
-  const myTiffins = (S.tiffinSubs || []).filter(s => !TF.phone || ph(s.phone) === ph(TF.phone));
-  const fCount = (S.foodOrders || []).filter(o => !TF.phone || ph(o.phone) === ph(TF.phone)).length;
-  const kCount = (S.kiranaOrders || []).filter(o => !TF.phone || ph(o.phone) === ph(TF.phone)).length;
-
+  const cname = TF.name || localStorage.getItem("nu_cname") || "Namaste Customer";
+  const cphone = ph(TF.phone || localStorage.getItem("nu_cphone") || "");
+  const myOrders = [...(S.foodOrders || []), ...(S.kiranaOrders || [])].filter(o => !cphone || ph(o.phone) === cphone);
+  const totalSpend = myOrders.filter(o => o.status !== "Cancelled").reduce((a, o) => a + (+o.total || 0), 0);
+  const pts = getCustomerLoyaltyPts(cphone);
   return `
-    <div class="card" style="background:linear-gradient(135deg,#0f291c,#1e3a2f);color:#fff">
-      <small style="color:#fbbf24;font-weight:800">CUSTOMER PROFILE · UDALA</small>
-      <h2 style="font-family:var(--serif);font-size:20px;margin-top:2px">${esc(TF.name || "Namaste Guest")}</h2>
-      <p style="font-size:11.5px;color:#cbd5e1;margin-top:2px">${TF.phone ? "+91 " + esc(TF.phone) : "Mobile number save karein"} · 📍 ${esc(TF.area)}</p>
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <span class="pill p-amber">${myTiffins.length} Tiffin Pass</span>
-        <span class="pill p-green">${fCount} Food Orders</span>
-        <span class="pill p-blue">${kCount} Kirana Orders</span><span class="pill p-amber">🎁 ${getCustomerLoyaltyPts(TF.phone)} Pts (${getCustomerLoyaltyPts(TF.phone) >= ((S.v156 && S.v156.diamondVipThresholdPts) || 500) ? "👑 Diamond" : getCustomerLoyaltyPts(TF.phone) >= ((S.v155 && S.v155.platinumTierThresholdPts) || 300) ? "💎 Platinum" : getCustomerLoyaltyPts(TF.phone) >= ((S.v153 && S.v153.goldTierThresholdPts) || 150) ? "👑 Gold" : "🥈 Silver"})</span>
+    <div class="card" style="display:flex;align-items:center;gap:14px;padding:18px">
+      <div style="width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#ff2e7a,#ec1663);color:#fff;display:grid;place-items:center;font-size:24px;font-weight:800;flex:none">
+        ${esc((cname[0] || "N").toUpperCase())}
       </div>
+      <div style="flex:1;min-width:0">
+        <h2 style="font-size:18px;font-weight:800;margin-bottom:2px">${esc(cname)}</h2>
+        <div style="font-size:12px;color:var(--mu);font-weight:700">${cphone ? "+91 " + esc(cphone) : "Mobile not saved"} · 📍 ${esc(TF.area || "Udala")}</div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="pill p-red">💳 ${inr(totalSpend)} Spend</span>
+          <span class="pill p-green">🎁 ${pts} Pts</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:6px 12px">
+      <h3 style="padding:10px 6px 4px;margin:0;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px">My Account</h3>
+      <div class="prof-menu-row" data-act="setTab" data-v="orders">
+        <div style="display:flex;align-items:center;gap:12px"><span class="prof-ic">📦</span><div><b>My Orders</b><div style="font-size:11px;color:var(--mu)">${myOrders.length} orders · Track & Reorder</div></div></div>
+        <span style="color:var(--mu);font-weight:800">›</span>
+      </div>
+      <div class="prof-menu-row" data-act="setTab" data-v="tiffinPass">
+        <div style="display:flex;align-items:center;gap:12px"><span class="prof-ic">🍱</span><div><b>Mera Tiffin Pass</b><div style="font-size:11px;color:var(--mu)">Skip, Pause & Validity</div></div></div>
+        <span style="color:var(--mu);font-weight:800">›</span>
+      </div>
+      <div class="prof-menu-row" data-act="copyUpi">
+        <div style="display:flex;align-items:center;gap:12px"><span class="prof-ic">💳</span><div><b>Payment / UPI ID</b><div style="font-size:11px;color:var(--mu)">${esc(S.cfg.upi)} (Tap to copy)</div></div></div>
+        <span style="color:var(--mu);font-weight:800">›</span>
+      </div>
+      <div class="prof-menu-row" data-act="setTab" data-v="kirana">
+        <div style="display:flex;align-items:center;gap:12px"><span class="prof-ic">🏷️</span><div><b>Offers & Coupons</b><div style="font-size:11px;color:var(--mu)">Use ${esc(S.cfg.promoCode || "UDALA20")} · ₹${esc(S.cfg.kiranaFreeDeliveryAt || 500)}+ Free Delivery</div></div></div>
+        <span style="color:var(--mu);font-weight:800">›</span>
+      </div>
+      <a class="prof-menu-row" style="text-decoration:none;color:inherit" href="https://wa.me/91${ph(S.cfg.wa)}?text=${encodeURIComponent("Namaste Udala Help Center: Mujhe apne order ke baare mein madad chahiye.")}" target="_blank">
+        <div style="display:flex;align-items:center;gap:12px"><span class="prof-ic">🎧</span><div><b>Help Center (WhatsApp)</b><div style="font-size:11px;color:var(--mu)">06:30 AM – 10:30 PM · Direct Support</div></div></div>
+        <span style="color:var(--mu);font-weight:800">›</span>
+      </a>
     </div>
 
     <div class="card">
-      <h3>👤 Saved Delivery Address & Profile</h3>
-      <span class="lbl">Aapka Naam</span>
-      <input class="inp" id="profNameInp" placeholder="Poora Naam" value="${esc(TF.name)}" />
-      <span class="lbl">10-Digit Mobile Number</span>
-      <input class="inp" id="profPhoneInp" type="tel" maxlength="10" placeholder="10-Digit Mobile" value="${esc(TF.phone)}" />
-      <span class="lbl">Udala Locality / Cluster</span>
-      <select class="inp" id="profAreaInp">
-        ${UDALA_AREAS.map(a => `<option value="${a}" ${TF.area === a ? "selected" : ""}>📍 ${a}</option>`).join("")}
-      </select>
-      <span class="lbl">Ghar Ka Pura Address</span>
-      <input class="inp" id="profAddrInp" placeholder="House / Street" value="${esc(TF.addr)}" />
-      <div class="btn-row">
-        <div>
-          <span class="lbl">Saved Landmark</span>
-          <input class="inp" id="profLandmarkInp" placeholder="Near Temple / Chowk" value="${esc((S.v144Ops && S.v144Ops.savedLandmark) || "")}" />
-        </div>
-        <div>
-          <span class="lbl">Alternate Mobile</span>
-          <input class="inp" id="profAltPhoneInp" type="tel" maxlength="10" placeholder="Optional 10-digit" value="${esc((S.v144Ops && S.v144Ops.altPhone) || "")}" />
-        </div>
-      </div>
-      <div class="btn-row">
-        <div>
-          <span class="lbl">Floor / Flat No. (Optional)</span>
-          <input class="inp" id="profFloorInp" placeholder="Ground / 2nd Floor / Flat 4" value="${esc((S.v153 && S.v153.floorOrFlatNote) || "")}" />
-        </div>
-        <div>
-          <span class="lbl">Gate Passcode / Intercom</span>
-          <input class="inp" id="profGateInp" placeholder="Gate # / Guard Call Note" value="${esc((S.v154 && S.v154.gatePasscodeNote) || "")}" />
-        </div>
-      </div>
-      <span class="lbl">Company / GST Invoice Name (Optional)</span>
-      <input class="inp" id="profCompanyInp" placeholder="Shop / Office / GST Name" value="${esc((S.v147 && S.v147.companyInvoiceName) || "")}" />
-      <button class="btn g full" data-act="saveCustomerProfile">💾 Save Profile, Landmark & Address</button>
+      <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px">📍 Manage Saved Address</h3>
+      <span class="lbl">Full Name</span>
+      <input class="inp" data-tf="name" value="${esc(TF.name)}" placeholder="Aapka naam..." />
+      <span class="lbl">10-Digit Mobile</span>
+      <input class="inp" data-tf="phone" type="tel" maxlength="10" value="${esc(TF.phone)}" placeholder="10-digit mobile..." />
+      <span class="lbl">Udala Area</span>
+      <select class="inp" data-tf="area">${UDALA_AREAS.map(a => `<option value="${a}" ${TF.area === a ? "selected" : ""}>📍 ${a}</option>`).join("")}</select>
+      <span class="lbl">House / Landmark</span>
+      <input class="inp" data-tf="addr" value="${esc(TF.addr)}" placeholder="Ghar / Shop ka poora pata..." />
+      <button class="btn g full" data-act="saveProfileAddr">✓ Save Address</button>
     </div>
 
-    <div class="card">
-      <h3>📜 Udala Delivery Rules & Timings <span class="pill p-green">Existing Setup Protected</span></h3>
-      <div class="order-smart-card" style="margin-bottom:0">
-        <div class="row"><span>🍱 Mera Tiffin Morning Cut-off</span><b>6:30 AM</b></div>
-        <div class="row"><span>🍱 Mera Tiffin Lunch / Skip Cut-off</span><b>9:00 AM</b></div>
-        <div class="row"><span>🛒 Sauda & Daily Needs Minimum Order</span><b>${inr(S.cfg.kiranaMinOrder)}</b></div>
-        <div class="row"><span>🚚 Sauda Free Delivery Slab</span><b>${inr(S.cfg.kiranaFreeDeliveryAt)}+ (Else ${inr(S.cfg.kiranaDeliveryFee)})</b></div>
-        <div class="row"><span>💳 Direct UPI Payment ID</span><b>${esc(S.cfg.upi)}</b></div>
-      </div>
-    </div>
-
-    <div class="card" style="border:2px solid var(--amb)">
-      <h3>📲 Download / Install Mobile App <span class="pill p-green" id="pwaStatePill">App Ready</span></h3>
-      <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Namaste Udala ko apne phone ki Home Screen par asli Android/iOS App ki tarah install karein — bina Play Store ke turant khulega!</p>
-      <div class="btn-row">
-        <button class="btn o sm" data-act="installApp">📲 Install / Download App</button>
-        <button class="btn w sm" data-act="shareAppLink">🔗 Share App Link</button>
-      </div>
-      <div style="font-size:11px;color:var(--mu);margin-top:8px;line-height:1.45">
-        <b>Manual Install Guide:</b><br>
-        • <b>Android (Chrome):</b> Upar 3-dot menu (⋮) dabayein → <b>"Install app"</b> ya <b>"Add to Home screen"</b> chunein.<br>
-        • <b>iPhone (Safari):</b> Niche <b>Share (⬆️)</b> button dabayein → <b>"Add to Home Screen"</b> chunein.
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>🤝 Partner With Us & Support</h3>
-      <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Apna restaurant, home kitchen, ya kirana shop Namaste Udala par jodne ke liye ya kisi order ki madad ke liye seedha WhatsApp karein.</p>
-      <div class="btn-row">
-        <a class="btn g sm" href="https://wa.me/91${ph(S.cfg.wa)}?text=${encodeURIComponent("Namaste Udala! Mujhe order/delivery support chahiye.")}" target="_blank">💬 WhatsApp Support</a>
-        <a class="btn amb sm" href="https://wa.me/91${ph(S.cfg.wa)}?text=${encodeURIComponent("Namaste Udala! Mujhe apna Restaurant/Kirana store partner banana hai.")}" target="_blank">🏪 Join as Vendor</a>
-      </div>
-    </div>
+    <button class="btn o full" style="padding:14px;font-size:14px" data-act="custLogout">Logout / Switch Number</button>
   `;
 }
 
@@ -9785,145 +9935,148 @@ function viewCheckoutPage() {
 /* ==================== ROLE VIEWS ==================== */
 function viewKitchen() {
   const subs = (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad");
-  const fOrds = (S.foodOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled");
-  const totalMeals = subs.length + fOrds.reduce((a, o) => a + o.items.reduce((x, y) => x + y.qty, 0), 0);
+  // ONLY Apna Ghar Kitchen (v_self_kitchen) orders — partner restaurants (Bhanjpur, Jarlicious, Dhaba) yahan nahi aayenge
+  const fOrds = (S.foodOrders || []).filter(o =>
+    o.status !== "Delivered" && o.status !== "Cancelled" &&
+    (o.items || []).some(i => i.vendorId === "v_self_kitchen")
+  );
+  // ONLY Apna Kirana Hub (v_self_kirana) orders
+  const kSelfOrds = (S.kiranaOrders || []).filter(o =>
+    o.status !== "Delivered" && o.status !== "Cancelled" &&
+    (o.items || []).some(i => i.vendorId === "v_self_kirana")
+  );
 
   const vegSubs = subs.filter(s => s.diet !== "nv").length;
   const nvSubs = subs.filter(s => s.diet === "nv").length;
 
-  // Consolidated Cook List across all active food orders
+  // Consolidated Cook List ONLY for v_self_kitchen items
   const cookMap = {};
   fOrds.forEach(o => {
-    (o.items || []).forEach(it => {
+    (o.items || []).filter(it => it.vendorId === "v_self_kitchen").forEach(it => {
       cookMap[it.name] = (cookMap[it.name] || 0) + (+it.qty || 1);
     });
   });
   const cookSummary = Object.entries(cookMap);
 
-  return `
-    <div class="card" style="background:var(--g);color:#fff">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><small style="color:#fbbf24;font-weight:800">KITCHEN COUNTER (PIN 1122)</small><h2>Rasoi Mein Kya Banana Hai</h2></div>
-        <button class="btn w sm" data-act="setRole" data-v="customer">Exit</button>
+  let bodyHtml = "";
+  if (KITCHEN_TAB === "tiffin") {
+    bodyHtml = `
+      <div class="kpi">
+        <div><b>${subs.filter(s => /Breakfast|All 3/.test(s.slot)).length}</b><span>Breakfast Dabbe</span></div>
+        <div><b>${subs.filter(s => /Lunch|All 3/.test(s.slot)).length}</b><span>Lunch Dabbe</span></div>
+        <div><b>${subs.filter(s => /Dinner|All 3/.test(s.slot)).length}</b><span>Dinner Dabbe</span></div>
       </div>
-    </div>
 
-    <div class="kpi">
-      <div><b>${subs.filter(s => /Breakfast|All 3/.test(s.slot)).length}</b><span>Breakfast Dabbe</span></div>
-      <div><b>${subs.filter(s => /Lunch|All 3/.test(s.slot)).length}</b><span>Lunch Dabbe</span></div>
-      <div><b>${subs.filter(s => /Dinner|All 3/.test(s.slot)).length}</b><span>Dinner Dabbe</span></div>
-    </div>
-    <div style="font-size:11.5px;font-weight:800;margin:-4px 0 12px;padding:8px 12px;border-radius:12px;background:var(--sf2);color:var(--amb)">
-      ⏱️ ${(() => {
-        const h = new Date().getHours();
-        if (h < 10) return "Peak Priority: Morning Breakfast & Lunch Prep";
-        if (h < 15) return "Peak Priority: Dopahar Lunch & Live Food Orders";
-        if (h < 22) return "Peak Priority: Shaam/Raat Dinner & Food Orders";
-        return "Off-Peak: Pre-Order & Next-Day Prep Planning";
-      })()}
-    </div>
-
-    <div class="card" style="border-left:5px solid var(--g2)">
-      <h3>🍱 Aaj Ka Tiffin Prep Count (${subs.length} Active)</h3>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
-        <span class="pill p-green">🟢 Pure Veg: ${vegSubs}</span>
-        <span class="pill p-red">🔴 Non-Veg: ${nvSubs}</span>
-        <span class="pill p-blue">Est. Rice/Atta: ${(totalMeals * 0.16).toFixed(1)} kg</span>
-      </div>
-      <div style="font-size:12px;font-weight:700;background:var(--sf2);padding:10px;border-radius:12px">
-        <b>Aaj Ka Menu:</b> ${esc(S.cfg.todayTiffinMenu)}
-      </div>
-    </div>
-
-    <div class="card" style="border-left:5px solid var(--amb)">
-      <h3>🔥 Food Orders Ka Total Cook List (${cookSummary.length} Items)</h3>
-      ${cookSummary.length ? `
-        <div style="display:flex;flex-wrap:wrap;gap:6px">
-          ${cookSummary.map(([nm, q]) => `<span class="pill p-amber" style="font-size:11.5px">${esc(nm)}: <b>${q} pcs/plates</b></span>`).join("")}
-        </div>
-      ` : `<p style="font-size:12px;color:var(--mu)">Abhi koi pending food order nahi hai.</p>`}
-    </div>
-
-    <div class="card">
-      <h3>🍲 Today's Tiffin Menu & Daily Rollover</h3>
-      <input class="inp" id="kitTiffinMenuInp" value="${esc(S.cfg.todayTiffinMenu)}" placeholder="Aaj ka lunch/dinner menu..." />
-      <div class="btn-row" style="margin-top:6px">
-        <button class="btn g sm" data-act="saveTiffinMenu" data-src="kitTiffinMenuInp">📢 Update Menu</button>
-        <button class="btn amb sm" data-act="rolloverTiffinDay">🌅 Start New Tiffin Day</button>
-        <button class="btn w sm" data-act="v150LogWaste">♻️ Waste: ${esc((S.v149 && S.v149.kitchenWasteKgToday) || 0)}kg</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Active Tiffin Subscribers (${subs.length})</h3>
-      ${subs.map(s => `
-        <div class="order-smart-card" style="border-left-color:${s.deliveredToday ? "var(--g2)" : "var(--amb)"}">
-          <div class="order-smart-head">
-            <div>
-              <b>${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)})</b>
-              <div style="font-size:11px;color:var(--mu);margin-top:2px">Spice: ${esc(s.spice)} · ${esc(s.health)} · 📍 ${esc(s.area)}</div>
-            </div>
-            <span class="pill ${s.deliveredToday ? "p-green" : "p-amber"}">${s.deliveredToday ? "✅ Delivered" : "⏳ Pending"}</span>
-          </div>
-          ${tiffinDateTimeline(s)}
-          <div class="btn-row" style="margin-top:6px">
-            ${!s.deliveredToday ? `<button class="btn g sm" data-act="markTiffinDeliveredOne" data-id="${s.id}">✅ Mark Delivered</button>` : `<button class="btn w sm" data-act="toggleTiffinDeliveredOne" data-id="${s.id}">↩ Mark Pending</button>`}
-          </div>
-        </div>
-      `).join("") || `<p style="font-size:12px;color:var(--mu)">No active tiffin today.</p>`}
-    </div>
-
-    <div class="card">
-      <h3>Food Shop Orders Queue (${fOrds.length}) <span style="display:flex;gap:5px;align-items:center"><span class="pill p-red">${fOrds.filter(x => x.status === "Placed" || x.status === "Confirmed").length} Not Started</span><button class="btn amb sm" data-act="cookAllPending">🔥 Start All</button></span></h3>
-      ${fOrds.map(o => `
-        <div class="order-smart-card" style="border-left-color:${o.status === "Cooking" ? "var(--amb)" : "var(--o)"}">
-          <div class="order-smart-head">
-            <div>
-              <b>${esc(o.id)} — ${esc(o.name)}</b>
-              <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">📍 ${esc(o.area)}</div>
-            </div>
-            <span class="pill p-amber">${esc(o.status)}</span>
-          </div>
-          ${renderLiveOrderTimeline(o, false)}
-          <div class="order-smart-meta">${o.items.map(i => {
-            const vn = S.vendors.find(v => v.id === i.vendorId)?.name || "Kitchen";
-            return `• <b>[${esc(vn)}]</b> ${esc(i.name)} ×${i.qty}`;
-          }).join("<br>")}</div>
-          ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:800;margin-top:4px">${(S.v154 && S.v154.highlightCustomNotes) ? `<span class="pill p-amber">⚠️ Custom Note</span> ` : ""}${esc(o.note)}</div>` : ""}
-          <div class="btn-row" style="margin-top:8px">
-            <button class="btn amb sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Cooking">🔥 Cooking</button>
-            <button class="btn g sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button>
-          </div>
-        </div>
-      `).join("") || `<p style="font-size:12px;color:var(--mu)">All food orders prepared!</p>`}
-    </div>
-
-    ${(() => {
-      const kSelfOrds = (S.kiranaOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled");
-      return `
       <div class="card" style="border-left:5px solid var(--g2)">
-        <h3>🛒 Kirana / Sauda Packing Queue (${kSelfOrds.length}) <span class="pill p-green">Live Track</span></h3>
-        ${kSelfOrds.map(o => `
+        <h3>🍱 Aaj Ka Tiffin Prep (${subs.length} Active)</h3>
+        <div class="row"><span>🟢 Pure Veg Thalis</span><b>${vegSubs} Dabbe</b></div>
+        <div class="row"><span>🔴 Non-Veg Meals</span><b>${nvSubs} Dabbe</b></div>
+        <div class="row"><span>🌾 Est. Rice / Atta</span><b>${(subs.length * 0.25).toFixed(1)} kg</b></div>
+      </div>
+
+      <div class="card">
+        <h3>🍲 Today's Tiffin Menu & Daily Rollover</h3>
+        <input class="inp" id="kitTiffinMenuInp" value="${esc(S.cfg.todayTiffinMenu)}" placeholder="Aaj ka lunch/dinner menu..." />
+        <div class="btn-row" style="margin-top:6px">
+          <button class="btn g sm" data-act="saveTiffinMenu" data-src="kitTiffinMenuInp">Save Live Menu</button>
+          <button class="btn amb sm" data-act="rolloverTiffinDay">🌅 Start New Tiffin Day</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Active Tiffin Subscribers (${subs.length})</h3>
+        ${subs.map(s => `
+          <div class="row" style="flex-direction:column;align-items:stretch">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <b>${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"})</b>
+                <div style="font-size:11px;color:var(--mu)">${esc(s.slot)} · ${esc(s.spice)} · ${esc(s.health)} · 📍 ${esc(s.area)}</div>
+              </div>
+              <button class="btn sm ${s.dabbaBack ? "g" : "w"}" data-act="toggleDabba" data-id="${s.id}">${s.dabbaBack ? "Dabba Back ✓" : "Dabba Pending"}</button>
+            </div>
+            ${tiffinDateTimeline(s)}
+          </div>
+        `).join("") || `<p style="font-size:12px;color:var(--mu)">Aaj koi active tiffin nahi hai.</p>`}
+      </div>
+    `;
+  } else if (KITCHEN_TAB === "food") {
+    bodyHtml = `
+      ${cookSummary.length ? `
+        <div class="card" style="border-left:5px solid var(--amb)">
+          <h3>🔥 Apna Kitchen Cook List (${cookSummary.length} Items)</h3>
+          ${cookSummary.map(([nm, q]) => `<div class="row"><span>${esc(nm)}</span><b style="color:var(--o);font-size:14px">× ${q}</b></div>`).join("")}
+        </div>
+      ` : ""}
+
+      <div class="card">
+        <h3>🍛 Apna Food Orders (${fOrds.length}) <span style="display:flex;gap:5px;align-items:center"><span class="pill p-red">${fOrds.filter(x => x.status === "Placed" || x.status === "Confirmed").length} New</span><button class="btn amb sm" data-act="cookAllPending">🔥 Start All</button></span></h3>
+        <div style="font-size:11px;color:var(--mu);margin-bottom:8px">Sirf <b>Namaste Ghar Kitchen (Apna)</b> ke orders yahan dikhte hain. Partner hotels ke orders unke apne Vendor panel mein jaate hain.</div>
+        ${fOrds.map(o => {
+          const myItems = (o.items || []).filter(i => i.vendorId === "v_self_kitchen");
+          return `
+          <div class="order-smart-card" style="border-left-color:${o.status === "Cooking" ? "var(--amb)" : "var(--o)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>${esc(o.id)} — ${esc(o.name)}</b>
+                <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">📍 ${esc(o.area)} · 🕒 ${esc(o.time || "")}</div>
+              </div>
+              <span class="pill p-amber">${esc(o.status)}</span>
+            </div>
+            ${renderLiveOrderTimeline(o, false)}
+            <div class="order-smart-meta">${myItems.map(i => `• <b>${esc(i.name)}</b> ×${i.qty}`).join("<br>")}</div>
+            ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:800;margin-top:4px">📝 ${esc(o.note)}</div>` : ""}
+            <div class="btn-row" style="margin-top:8px">
+              <button class="btn amb sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Cooking">🔥 Cooking</button>
+              <button class="btn g sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button>
+            </div>
+          </div>`;
+        }).join("") || `<p style="font-size:12px;color:var(--mu)">Apna Kitchen mein abhi koi pending food order nahi hai.</p>`}
+      </div>
+    `;
+  } else {
+    bodyHtml = `
+      <div class="card" style="border-left:5px solid var(--g2)">
+        <h3>🛒 Apna Kirana Packing (${kSelfOrds.length}) <span class="pill p-green">Live Track</span></h3>
+        <div style="font-size:11px;color:var(--mu);margin-bottom:8px">Sirf <b>Namaste Kirana & Daily Hub (Apna)</b> ke orders yahan dikhte hain.</div>
+        ${kSelfOrds.map(o => {
+          const myItems = (o.items || []).filter(i => i.vendorId === "v_self_kirana");
+          return `
           <div class="order-smart-card" style="border-left-color:${o.status === "Ready for Pickup" ? "#2563eb" : "var(--g2)"}">
             <div class="order-smart-head">
               <div>
                 <b>${esc(o.id)} — ${esc(o.name)} (${inr(o.total)})</b>
-                <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">📍 ${esc(o.area)}</div>
+                <div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">📍 ${esc(o.area)} · 🕒 ${esc(o.time || "")}</div>
               </div>
               <span class="pill p-amber">${esc(o.status)}</span>
             </div>
             ${renderLiveOrderTimeline(o, true)}
-            <div class="order-smart-meta">${o.items.map(i => `• ${esc(i.name)} ×${i.qty}`).join("<br>")}</div>
+            <div class="order-smart-meta">${myItems.map(i => `• <b>${esc(i.name)}</b> ×${i.qty}`).join("<br>")}</div>
+            ${o.note ? `<div style="font-size:11px;color:var(--amb);font-weight:800;margin-top:4px">📝 ${esc(o.note)}</div>` : ""}
             <div class="btn-row" style="margin-top:8px">
               <button class="btn amb sm" data-act="ordStatus" data-k="KIRANA" data-id="${o.id}" data-s="Packed">📦 Packed</button>
               <button class="btn g sm" data-act="ordStatus" data-k="KIRANA" data-id="${o.id}" data-s="Ready for Pickup">✅ Ready for Pickup</button>
             </div>
-          </div>
-        `).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi pending Kirana packing order nahi hai.</p>`}
-      </div>`;
-    })()}
+          </div>`;
+        }).join("") || `<p style="font-size:12px;color:var(--mu)">Apna Kirana Hub mein abhi koi pending order nahi hai.</p>`}
+      </div>
+    `;
+  }
 
-    ${renderV144OpsCard()}
+  return `
+    <div class="card" style="background:var(--g);color:#fff">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><small style="color:#fbbf24;font-weight:800">APNA KITCHEN COUNTER (PIN 1122)</small><h2>Rasoi & Packing Hub</h2></div>
+        <button class="btn w sm" data-act="setRole" data-v="customer">Exit</button>
+      </div>
+    </div>
+
+    <div class="seg" style="margin-bottom:12px">
+      <button class="${KITCHEN_TAB === "tiffin" ? "on" : ""}" data-act="setKitchenTab" data-v="tiffin">🍱 Tiffin (${subs.length})</button>
+      <button class="${KITCHEN_TAB === "food" ? "on" : ""}" data-act="setKitchenTab" data-v="food">🍛 Apna Food (${fOrds.length})</button>
+      <button class="${KITCHEN_TAB === "kirana" ? "on" : ""}" data-act="setKitchenTab" data-v="kirana">🛒 Apna Kirana (${kSelfOrds.length})</button>
+    </div>
+
+    ${bodyHtml}
   `;
 }
 
@@ -10062,164 +10215,144 @@ function getRiderMilestoneBonus(deliveredDropsCount) {
   const riderSettled = +settledMap[activeRiderId] || 0;
   const pendingJama = Math.max(0, codCollected - riderSettled);
 
+  const pendingDropsCnt = riderDrops.filter(x => x.status !== "Delivered").length;
+  const activeTiffinsList = (S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad");
+
+  let dlvBodyHtml = "";
+  if (DELIVERY_TAB === "orders") {
+    dlvBodyHtml = `
+      <div class="card" style="border-left:5px solid var(--g)">
+        <h3>📦 ${esc(activeRider.name)} Drops (${pendingDropsCnt} Pending / ${riderDrops.length} Total)</h3>
+        <div class="chips" style="margin-bottom:6px">
+          ${[["ALL", "All Drops"], ["COD", "💵 COD Only"], ["UPI", "📲 UPI Only"]].map(([pk, plbl]) =>
+            `<button class="${(window._dlvPayFilter || "ALL") === pk ? "on" : ""}" data-act="setDlvPayFilter" data-v="${pk}">${plbl}</button>`
+          ).join("")}
+        </div>
+        ${riderDrops.filter(o => (window._dlvPayFilter || "ALL") === "ALL" || o.payMode === (window._dlvPayFilter || "ALL")).map((o, idx) => {
+          const pickupObjs = [...new Map((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)).filter(Boolean).map(v => [v.id, v])).values()];
+          const pickupLabels = pickupObjs.map(v => `${v.name} (${v.area || "Udala"})`);
+          const firstPickup = pickupObjs[0];
+          const vendorMapHref = firstPickup
+            ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${firstPickup.name} ${firstPickup.area || ""} Udala Odisha`)}`
+            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Market Square Udala Odisha")}`;
+          const custMapHref = o.gps && o.gps.lat
+            ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}`
+            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((o.area || "Udala") + " Udala Odisha")}`;
+          return `
+          <div class="order-smart-card" style="border-left-color:${o.status === "Delivered" ? "var(--g2)" : o.status === "Ready for Pickup" ? "#2563eb" : "var(--o)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>#${idx + 1} [${o.kind}] ${esc(o.area)} — ${esc(o.name)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
+                <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup: ${esc(pickupLabels.join(" + ") || "Hub (Market Square)")}</div>
+              </div>
+              <span class="pill ${o.status === "Delivered" ? "p-green" : "p-red"}">${o.payMode === "COD" && o.status !== "Delivered" ? "Collect " + inr(o.total) : esc(o.status)}</span>
+            </div>
+            ${renderLiveOrderTimeline(o, o.kind === "KIRANA")}
+            <div style="font-size:10.5px;font-weight:800;margin-top:4px;color:${o.status === "Ready for Pickup" ? "var(--g2)" : o.status === "Out for Delivery" ? "#2563eb" : "var(--amb)"}">${o.status === "Ready for Pickup" ? "✅ Store/Kitchen par READY hai — turant pickup karein" : o.status === "Out for Delivery" ? "🛵 On Way — Customer se 4-digit PIN lekar Deliver karein" : o.status === "Delivered" ? "🎉 Delivered" : "⏳ Store/Kitchen mein tayyar ho raha hai — Ready hone ka wait karein"}</div>
+            <div class="order-smart-meta">📍 ${esc(o.addr)} · ${o.items.map(i => `${i.name}×${i.qty}`).join(", ")}</div>
+            ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:700;margin-top:2px">📝 ${esc(o.note)}</div>` : ""}
+            <div class="btn-row" style="margin-top:8px">
+              <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
+              <a class="btn w sm" href="${vendorMapHref}" target="_blank">🏪 Pickup Map</a>
+              <a class="btn w sm" href="${custMapHref}" target="_blank">${o.gps && o.gps.lat ? "📍 Drop GPS" : "🗺 Area Map"}</a>
+              ${o.status === "Ready for Pickup" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>` : ""}
+              ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="deliverWithPin" data-k="${o.kind}" data-id="${o.id}">✅ Deliver (PIN)</button>` : ""}
+              <button class="btn w sm" data-act="reassignRider" data-id="${o.id}">⇄ Rider</button>
+            </div>
+          </div>`;
+        }).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi pending order drop nahi hai.</p>`}
+      </div>
+    `;
+  } else if (DELIVERY_TAB === "tiffin") {
+    dlvBodyHtml = `
+      <div class="card" style="border-left:5px solid var(--o)">
+        <h3>🍱 Today's Tiffin Drops (${(S.tiffinSubs || []).filter(s => s.deliveredToday).length}/${activeTiffinsList.length} Delivered)</h3>
+        ${(S.tiffinSubs || []).map(s => {
+          const paused = s.skipToday || (+(s.vacationDays || 0) > 0);
+          return `
+          <div class="order-smart-card" style="border-left-color:${s.deliveredToday ? "var(--g2)" : paused ? "var(--amb)" : "var(--o)"}">
+            <div class="order-smart-head">
+              <div>
+                <b>🍱 ${esc(s.name)} — ${esc(s.area || "Udala")}</b>
+                <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · 📍 ${esc(s.addr || s.area || "Udala")}</div>
+              </div>
+              <span class="pill ${s.deliveredToday ? "p-green" : paused ? "p-amber" : "p-red"}">${s.deliveredToday ? "✅ Delivered" : paused ? "⏸ Skipped/Pause" : "⏳ Pending"}</span>
+            </div>
+            ${tiffinDateTimeline(s)}
+            <div class="btn-row" style="margin-top:8px">
+              <a class="btn w sm" href="tel:+91${esc(s.phone)}">📞 Call</a>
+              ${s.gps && s.gps.lat ? `<a class="btn w sm" href="https://www.google.com/maps?q=${s.gps.lat},${s.gps.lng}" target="_blank">📍 Exact Pin</a>` : ""}
+              ${!paused ? `<button class="btn sm ${s.deliveredToday ? "w" : "g"}" data-act="toggleTiffinDlv" data-id="${s.id}">${s.deliveredToday ? "↩ Undo" : "✅ Delivered"}</button>` : ""}
+              <button class="btn sm ${s.skipNextDay ? "amb" : "w"}" data-act="skipNextTiffin" data-id="${s.id}">${s.skipNextDay ? "Kal Skip ✓" : "Skip Kal (+1d)"}</button>
+            </div>
+          </div>`;
+        }).join("") || `<p style="font-size:12px;color:var(--mu)">Koi tiffin pass nahi hai.</p>`}
+      </div>
+    `;
+  } else {
+    const tr = S.riderAutoTrack || { active: false, totalKm: 0, points: [] };
+    const estFuel = +((+tr.totalKm || 0) * (+S.cfg.perKmFuelRate || 3.5)).toFixed(1);
+    dlvBodyHtml = `
+      <div class="card" style="border-left:5px solid var(--amb)">
+        <h3>🧭 Auto Route & KM Tracker <span class="pill ${tr.active ? "p-green" : "p-amber"}">${tr.active ? "🟢 GPS ON" : "⏸ Paused"}</span></h3>
+        <div class="row"><span>Tracked Distance</span><b>${tr.totalKm || 0} km (${(tr.points || []).length} points)</b></div>
+        <div class="row"><span>Est. Fuel (@ ₹${S.cfg.perKmFuelRate}/km)</span><b>${inr(estFuel)}</b></div>
+        <div class="btn-row" style="margin-top:8px">
+          <button class="btn ${tr.active ? "r" : "g"} sm" data-act="toggleRiderAutoTrack">${tr.active ? "⏹ Stop GPS" : "▶ Start Auto GPS"}</button>
+          <button class="btn amb sm" data-act="useAutoKmForFuel">⚡ Fill Fuel Form</button>
+          <a class="btn w sm" href="${getRouteMapsUrl()}" target="_blank">🗺 Route Map</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⛽ Submit Fuel Claim</h3>
+        <div class="btn-row">
+          <input class="inp" id="odoStart" type="number" placeholder="Start KM" />
+          <input class="inp" id="odoEnd" type="number" placeholder="End KM" />
+          <input class="inp" id="fuelRs" type="number" placeholder="Fuel ₹" />
+        </div>
+        <button class="btn o full sm" data-act="submitFuel">Submit Fuel Claim</button>
+      </div>
+
+      <div class="card" style="background:var(--sf2)">
+        <h3>🧾 End-of-Day COD Hisab (${esc(activeRider.name)})</h3>
+        <div class="row"><span>COD Collected Today</span><b>${inr(codDelivered)}</b></div>
+        <div class="row"><span>Cash Already Jama</span><b>${inr(settledForRider)}</b></div>
+        <div class="row"><span>Pending COD Jama Due</span><b style="color:var(--o)">${inr(pendingJama)}</b></div>
+      </div>
+    `;
+  }
+
   return `
     <div class="card" style="background:var(--g);color:#fff">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><small style="color:#fbbf24;font-weight:800">DELIVERY BOY (PIN 3344)</small><h2>Udala Cluster Route & Fuel</h2></div>
+        <div><small style="color:#fbbf24;font-weight:800">DELIVERY BOY (PIN 3344)</small><h2>Simple Delivery Panel</h2></div>
         <button class="btn w sm" data-act="setRole" data-v="customer">Exit</button>
       </div>
     </div>
     <div class="card" style="padding:10px 14px">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
-        <span style="font-size:11.5px;font-weight:800">🛵 Active Rider (1–10):</span>
+        <span style="font-size:11.5px;font-weight:800">🛵 Rider (1–10):</span>
         <select class="inp" id="riderSelectDropdown" data-act="switchRiderSelect" style="margin:0;flex:1;max-width:220px;padding:7px 10px">
           ${riders.map(r => `<option value="${r.id}" ${r.id === activeRiderId ? "selected" : ""}>${esc(r.name)}</option>`).join("")}
         </select>
       </div>
     </div>
     <div class="kpi">
-      <div><b>${allDrops.filter(x => x.status !== "Delivered").length}</b><span>Pending Drops</span></div>
-      <div><b style="color:#d97706">${inr(allDrops.filter(o => o.payMode === "COD" && o.status !== "Delivered").reduce((a, o) => a + o.total, 0))}</b><span>COD On Road</span></div>
+      <div><b>${pendingDropsCnt}</b><span>Pending Drops</span></div>
+      <div><b style="color:#d97706">${inr(riderDrops.filter(o => o.payMode === "COD" && o.status !== "Delivered").reduce((a, o) => a + o.total, 0))}</b><span>COD On Road</span></div>
       <div><b style="color:#dc2626">${inr(pendingJama)}</b><span>COD Jama Due</span></div>
     </div>
-    <div style="font-size:11.5px;font-weight:800;margin:-4px 0 12px;text-align:right;color:var(--g2)">
-      🛵 ${esc(activeRider.name)} Payout: ${inr(riderEarned)} (${deliveredDropsCount}/${(S.v144Ops && S.v144Ops.riderTargetDrops) || 15} Target · Rate ${inr(S.cfg.riderPerDropRate || 0)}/drop)${riderBonusInfo.amt > 0 ? ` · <span class="pill p-green">👑 +${inr(riderBonusInfo.amt)} ${esc(riderBonusInfo.lbl)}</span>` : ""}
-    </div>
-    ${pendingJama > ((S.v144Ops && S.v144Ops.riderCashLimit) || 2500) ? `<div class="card" style="background:#ffe4e6;border:1.5px solid #e11d48;color:#9f1239;padding:10px 14px"><b>⚠️ Cash Limit Warning:</b> Pending COD Jama (${inr(pendingJama)}) limit (${inr((S.v144Ops && S.v144Ops.riderCashLimit) || 2500)}) se zyada ho gaya hai — pehle Owner ke paas cash jama karein!</div>` : ""}
-    ${riderDrops.filter(x => x.status !== "Delivered").length > ((S.v146 && S.v146.riderMaxConcurrentDrops) || 5) ? `<div class="card" style="background:#fef3c7;border:1.5px solid #d97706;color:#92400e;padding:10px 14px"><b>🛵 Load Alert:</b> Active drops (${riderDrops.filter(x => x.status !== "Delivered").length}) concurrent limit (${(S.v146 && S.v146.riderMaxConcurrentDrops) || 5}) se zyada hain — doosre rider ko reassign karein!</div>` : ""}
+    ${pendingJama > ((S.v144Ops && S.v144Ops.riderCashLimit) || 2500) ? `<div class="card" style="background:#ffe4e6;border:1.5px solid #e11d48;color:#9f1239;padding:10px 14px"><b>⚠️ Cash Limit Warning:</b> Pending COD Jama (${inr(pendingJama)}) zyada ho gaya hai — Owner ko cash jama karein!</div>` : ""}
 
-    <div class="card" style="border-left:5px solid var(--g2)">
-      <h3>🗺️ Area Batch Summary (Same Cluster Ek Saath) <span style="display:flex;gap:5px"><span class="pill p-amber">💵 COD: ${allDrops.filter(x => x.status !== "Delivered" && x.payMode === "COD").length}</span><span class="pill p-green">📲 UPI: ${allDrops.filter(x => x.status !== "Delivered" && x.payMode === "UPI").length}</span></span></h3>
-      <div style="display:flex;flex-wrap:wrap;gap:6px">
-        ${(() => {
-          const activeDrops = allDrops.filter(x => x.status !== "Delivered");
-          if (!activeDrops.length) return `<span class="pill p-green">Sabhi drops clear hain ✓</span>`;
-          const map = {};
-          activeDrops.forEach(d => { map[d.area || "Other"] = (map[d.area || "Other"] || 0) + 1; });
-          return Object.entries(map).map(([ar, cnt]) => `<span class="pill p-blue">📍 ${esc(ar)}: <b>${cnt} drop${cnt > 1 ? "s" : ""}</b></span>`).join("");
-        })()}
-      </div>
+    <div class="seg" style="margin-bottom:12px">
+      <button class="${DELIVERY_TAB === "orders" ? "on" : ""}" data-act="setDeliveryTab" data-v="orders">📦 Orders (${pendingDropsCnt})</button>
+      <button class="${DELIVERY_TAB === "tiffin" ? "on" : ""}" data-act="setDeliveryTab" data-v="tiffin">🍱 Tiffin (${activeTiffinsList.length})</button>
+      <button class="${DELIVERY_TAB === "hisab" ? "on" : ""}" data-act="setDeliveryTab" data-v="hisab">⛽ Fuel & Hisab</button>
     </div>
 
-    <div class="card">
-      <h3>1. Tiffin Meal Drops (Zero OTP · Food-Grade Packaging)</h3>
-      ${(S.tiffinSubs || []).filter(s => !s.skipToday && !(+(s.vacationDays || 0) > 0) && s.vStat !== "bad").map(s => `
-        <div class="row" style="flex-direction:column;align-items:stretch">
-          <div style="display:flex;justify-content:space-between"><b>🍱 ${esc(s.name)} — ${esc(s.area)}</b><span class="pill ${s.deliveredToday ? "p-green" : "p-amber"}">${s.deliveredToday ? "Delivered" : "Pending"}</span></div>
-          <div style="font-size:11px;color:var(--mu);margin:3px 0">${esc(s.addr)} · ${esc(s.slot)}</div>
-          <div class="btn-row">
-            <a class="btn w sm" href="tel:+91${esc(s.phone)}">📞 Call</a>
-            ${s.gps && s.gps.lat ? `<a class="btn w sm" href="https://www.google.com/maps?q=${s.gps.lat},${s.gps.lng}" target="_blank">📍 Exact Pin</a>` : ""}
-            <button class="btn sm ${s.skipNextDay ? "amb" : "w"}" data-act="skipNextTiffin" data-id="${s.id}">${s.skipNextDay ? "Kal Skip ✓" : "Skip Kal (+1d)"}</button>
-            <button class="btn sm ${s.deliveredToday ? "w" : "g"}" data-act="toggleTiffinDlv" data-id="${s.id}">${s.deliveredToday ? "Done ✓" : "Deliver"}</button>
-          </div>
-        </div>
-      `).join("")}
-    </div>
-
-    <div class="card">
-      <h3>2. ${esc(activeRider.name)} Drops (${riderDrops.length} / ${allDrops.length} Total)</h3>
-      <div class="chips" style="margin-bottom:6px">
-        ${[["ALL", "All Drops"], ["COD", "💵 COD Only"], ["UPI", "📲 UPI Only"]].map(([pk, plbl]) =>
-          `<button class="${(window._dlvPayFilter || "ALL") === pk ? "on" : ""}" data-act="setDlvPayFilter" data-v="${pk}">${plbl}</button>`
-        ).join("")}
-      </div>
-      ${riderDrops.filter(o => (window._dlvPayFilter || "ALL") === "ALL" || o.payMode === (window._dlvPayFilter || "ALL")).map((o, idx) => {
-        const pickupObjs = [...new Map((o.items || []).map(i => S.vendors.find(v => v.id === i.vendorId)).filter(Boolean).map(v => [v.id, v])).values()];
-        const pickupLabels = pickupObjs.map(v => `${v.name} (${v.area || "Udala"})`);
-        const firstPickup = pickupObjs[0];
-        const vendorMapHref = firstPickup
-          ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${firstPickup.name} ${firstPickup.area || ""} Udala Odisha`)}`
-          : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Market Square Udala Odisha")}`;
-        return `
-        <div class="order-smart-card" style="border-left-color:${o.status === "Delivered" ? "var(--g2)" : "var(--o)"}">
-          <div class="order-smart-head">
-            <div>
-              <b>#${idx + 1} [${o.kind}] ${esc(o.area)} — ${esc(o.name)} ${o.codFlag ? `<span class="pill p-amber">${esc(o.codFlag)}</span>` : ""}</b>
-              <div style="font-size:10.5px;color:var(--amb);font-weight:800;margin-top:2px">🏪 Pickup From: ${esc(pickupLabels.join(" + ") || "Hub (Market Square, Udala)")}</div>
-            </div>
-            <span class="pill ${o.status === "Delivered" ? "p-green" : "p-red"}">${o.payMode === "COD" && o.status !== "Delivered" ? "Collect " + inr(o.total) : esc(o.status)}</span>
-          </div>
-          ${renderLiveOrderTimeline(o, o.kind === "KIRANA")}
-          <div style="font-size:10.5px;font-weight:800;margin-top:4px;color:${o.status === "Ready for Pickup" ? "var(--g2)" : o.status === "Out for Delivery" ? "#2563eb" : "var(--amb)"}">${o.status === "Ready for Pickup" ? "✅ Store/Kitchen par READY hai — turant pickup karein" : o.status === "Out for Delivery" ? "🛵 On Way — Customer se 4-digit PIN lekar Deliver karein" : o.status === "Delivered" ? "🎉 Delivered" : "⏳ Store/Kitchen mein tayyar ho raha hai — Ready hone ka wait karein"}</div>
-          <div class="order-smart-meta">📍 ${esc(o.addr)} · ${o.items.map(i => `${i.name}×${i.qty}`).join(", ")}</div>
-          ${o.note ? `<div style="font-size:11px;color:var(--o);font-weight:700;margin-top:2px">${(S.v156 && S.v156.gatePasscodeHighlight && o.note.includes("[Gate/Code:")) ? `<span class="pill p-blue">🔑 Gate Code</span> ` : ""}Note: ${esc(o.note)}</div>` : ""}
-          ${o.delSlot ? `<div style="font-size:10.5px;color:var(--g2);font-weight:800;margin-top:2px">⏰ Slot: ${esc(o.delSlot)}</div>` : ""}
-          <div class="btn-row" style="margin-top:8px">
-            <a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
-            <a class="btn w sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, aapka Namaste Udala order (${o.id}) lekar pahunch raha hoon!`)}" target="_blank">💬 WA</a>
-            ${o.payMode === "COD" && o.status !== "Delivered" && o.codFlag ? `<a class="btn amb sm" href="https://wa.me/91${ph(o.phone)}?text=${encodeURIComponent(`Namaste ${o.name}, kripya confirm karein ki aap ghar par hain aur ${inr(o.total)} cash COD order (${o.id}) ke liye tayyar hain.`)}" target="_blank">💵 COD Check</a>` : ""}
-            <a class="btn w sm" href="${vendorMapHref}" target="_blank">🏪 Vendor Map</a>
-            <a class="btn w sm" href="${o.gps && o.gps.lat ? `https://www.google.com/maps?q=${o.gps.lat},${o.gps.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.area + " Udala Odisha")}`}" target="_blank">${o.gps && o.gps.lat ? "📍 Exact GPS Pin" : "🗺 Cust Area"}</a>
-            ${o.status === "Ready for Pickup" ? `<button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>` : ""}
-            ${o.status !== "Delivered" ? `<button class="btn g sm" data-act="deliverWithPin" data-k="${o.kind}" data-id="${o.id}">✅ Deliver (PIN)</button>` : ""}
-            <button class="btn w sm" data-act="reassignRider" data-id="${o.id}">⇄ Rider</button>
-          </div>
-        </div>`;
-      }).join("") || `<p style="font-size:12px;color:var(--mu)">No pending drops.</p>`}
-    </div>
-
-    <div class="card" style="border-left:5px solid var(--amb)">
-      <h3>🧭 Auto Route & Auto KM Tracker <span class="pill ${(S.riderAutoTrack && S.riderAutoTrack.active) ? "p-green" : "p-amber"}">${(S.riderAutoTrack && S.riderAutoTrack.active) ? "🟢 Live GPS ON" : "⏸ Paused"}</span></h3>
-      <div class="row" style="padding:6px 0">
-        <div>
-          <b>Auto Tracked Distance: <span style="color:var(--o);font-family:var(--serif);font-size:17px">${(S.riderAutoTrack && S.riderAutoTrack.totalKm) || 0} km</span></b>
-          <div style="font-size:10.5px;color:var(--mu)">Waypoints: ${((S.riderAutoTrack && S.riderAutoTrack.points) || []).length} · Est. Fuel @₹${S.cfg.perKmFuelRate}/km: <b>${inr((((S.riderAutoTrack && S.riderAutoTrack.totalKm) || 0) * (+S.cfg.perKmFuelRate || 3.5)).toFixed(1))}</b></div>
-        </div>
-        <button class="btn sm ${(S.riderAutoTrack && S.riderAutoTrack.active) ? "r" : "g"}" data-act="toggleRiderAutoTrack">${(S.riderAutoTrack && S.riderAutoTrack.active) ? "⏹ Stop Auto" : "▶ Start Auto"}</button>
-      </div>
-      <div class="btn-row" style="margin-top:6px">
-        <a class="btn w sm" href="${getRouteMapsUrl()}" target="_blank">🗺 Open Route Map</a>
-        <button class="btn amb sm" data-act="useAutoKmForFuel">⚡ Auto-Fill KM & ₹</button>
-        <button class="btn w sm" data-act="resetAutoKm">↺ Reset KM</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>3. Anti-Fake Odometer & Fuel Tracker</h3>
-      <div class="btn-row">
-        <input class="inp" id="odoStart" type="number" step="0.1" placeholder="Start KM" />
-        <input class="inp" id="odoEnd" type="number" step="0.1" placeholder="End KM" />
-        <input class="inp" id="fuelRs" type="number" step="0.1" placeholder="Claim ₹" />
-      </div>
-      <button class="btn o full sm" data-act="submitFuel">Submit Verified Fuel Log</button>
-      ${(S.fuelLogs || []).slice(0, 4).map(f => `
-        <div class="row"><span>${f.km} km · Claim ${inr(f.rs)}</span><span class="pill ${f.flag.includes("SUSPICIOUS") ? "p-red" : "p-green"}">${esc(f.flag)}</span></div>
-      `).join("")}
-    </div>
-
-    <div class="card" style="background:var(--sf2)">
-      <h3>🧾 Rider End-of-Day Hisab Slip</h3>
-      <div class="row"><span>Delivered Drops Today</span><b>${deliveredDropsCount} (Empty Dabbas: ${(S.v149 && S.v149.riderEmptyDabbasToday) || 0})</b></div>
-      <div class="row"><span>Total COD Expected</span><b>${inr(codCollected + allDrops.filter(o => o.payMode === "COD" && o.status !== "Delivered").reduce((a, o) => a + o.total, 0))}</b></div>
-      <div class="row"><span>Total COD Collected</span><b>${inr(codCollected)}</b></div>
-      <div class="row"><span>Already Jama Kiya</span><b>${inr(S.riderCashSettled || 0)}</b></div>
-      <div class="row"><span>Fuel Advance Given Today</span><b>${inr((S.v148 && S.v148.riderFuelAdvanceToday) || 0)}</b></div>
-      <div class="row"><span>Pending COD Jama</span><b style="color:${pendingJama > 0 ? "#dc2626" : "#16a34a"}">${inr(pendingJama)}${pendingJama >= ((S.v152 && S.v152.riderMandatoryJamaAt) || 2000) ? " (Mandatory Jama Due)" : ""}</b></div>
-
-    </div>
-  
-    <div class="card" style="border-left:5px solid var(--o)">
-      <h3>🍱 Today's Tiffin Drops & Status <span class="pill p-green">${(S.tiffinSubs || []).filter(s => s.deliveredToday).length}/${(S.tiffinSubs || []).length} Delivered</span></h3>
-      ${(S.tiffinSubs || []).map(s => {
-        const paused = s.skipToday || (+(s.vacationDays || 0) > 0);
-        return `
-        <div class="order-smart-card" style="border-left-color:${s.deliveredToday ? "var(--g2)" : paused ? "var(--amb)" : "var(--o)"}">
-          <div class="order-smart-head">
-            <div>
-              <b>🍱 ${esc(s.id)} · ${esc(s.name)} — ${esc(s.area || "Udala")}</b>
-              <div style="font-size:10.5px;color:var(--mu);font-weight:700;margin-top:2px">${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)} · 📍 ${esc(s.addr || s.area || "Udala")}</div>
-            </div>
-            <span class="pill ${s.deliveredToday ? "p-green" : paused ? "p-amber" : "p-red"}">${s.deliveredToday ? "✅ Delivered" : paused ? "⏸ Skipped/Pause" : "⏳ Pending"}</span>
-          </div>
-          ${tiffinDateTimeline(s)}
-          <div class="btn-row" style="margin-top:8px">
-            ${!s.deliveredToday && !paused ? `<button class="btn g sm" data-act="markTiffinDeliveredOne" data-id="${s.id}">✅ Mark Delivered</button>` : `<button class="btn w sm" data-act="toggleTiffinDeliveredOne" data-id="${s.id}">↩ Toggle Status</button>`}
-          </div>
-        </div>`;
-      }).join("") || `<p style="font-size:12px;color:var(--mu)">Koi tiffin pass nahi hai.</p>`}
-    </div>
-`;
+    ${dlvBodyHtml}
+  `;
 }
 
 function getVendorLedger(v) {
@@ -10333,6 +10466,8 @@ function viewVendor() {
 
 let OWNER_TAB = "closing";
 let VENDOR_TAB = "orders";
+let KITCHEN_TAB = "tiffin";
+let DELIVERY_TAB = "orders";
 
 function renderOwnerTiffinFullDetail(s) {
   const dStart = esc(s.date || todayIso());
@@ -10405,7 +10540,6 @@ function viewOwner() {
       <button class="${OWNER_TAB === "closing" ? "on" : ""}" data-act="setOwnerTab" data-v="closing">📊 Closing</button>
       <button class="${OWNER_TAB === "orders" ? "on" : ""}" data-act="setOwnerTab" data-v="orders">📦 Orders (${allOrds.length})</button>
       <button class="${OWNER_TAB === "vendors" ? "on" : ""}" data-act="setOwnerTab" data-v="vendors">🤝 Vendors</button>
-      <button class="${OWNER_TAB === "algos" ? "on" : ""}" data-act="setOwnerTab" data-v="algos">🧠 Algos</button>
       <button class="${OWNER_TAB === "settings" ? "on" : ""}" data-act="setOwnerTab" data-v="settings">⚙️ Rules</button>
     </div>
   `;
@@ -10935,6 +11069,137 @@ function playOrderAlertSound() {
   } catch (e) {}
 }
 
+/* ==================== CONTINUOUS LIVE ORDER RING (UNTIL ACCEPT / REJECT WITH REASON) ==================== */
+let LIVE_RING_TIMER = null;
+let STAFF_SOUND_ARMED = true;
+let STAFF_WAKE_LOCK = null;
+
+async function armStaffSoundAndWakeLock(silent = false) {
+  STAFF_SOUND_ARMED = true;
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) {
+      if (!AUDIO_CTX) AUDIO_CTX = new Ctx();
+      if (AUDIO_CTX.state === "suspended") await AUDIO_CTX.resume();
+    }
+  } catch (e) {}
+  try {
+    if ("wakeLock" in navigator && !STAFF_WAKE_LOCK) {
+      STAFF_WAKE_LOCK = await navigator.wakeLock.request("screen");
+      STAFF_WAKE_LOCK.addEventListener("release", () => { STAFF_WAKE_LOCK = null; });
+    }
+  } catch (e) {}
+  if (!silent) {
+    playOrderAlertSound();
+    toast("🔔 Live Order Ring ON + Screen Awake Active!");
+    render();
+  }
+}
+
+function getRingingOrdersForCurrentRole() {
+  const isNew = o => o && (o.status === "Placed" || o.status === "Verify Hold");
+  if (ROLE === "owner") {
+    return [
+      ...(S.foodOrders || []).filter(isNew).map(o => ({ ...o, kind: "FOOD" })),
+      ...(S.kiranaOrders || []).filter(isNew).map(o => ({ ...o, kind: "KIRANA" }))
+    ];
+  }
+  if (ROLE === "kitchen") {
+    return [
+      ...(S.foodOrders || []).filter(o => isNew(o) && (o.items || []).some(i => i.vendorId === "v_self_kitchen")).map(o => ({ ...o, kind: "FOOD" })),
+      ...(S.kiranaOrders || []).filter(o => isNew(o) && (o.items || []).some(i => i.vendorId === "v_self_kirana")).map(o => ({ ...o, kind: "KIRANA" }))
+    ];
+  }
+  if (ROLE === "vendor" && ACTIVE_VENDOR_ID) {
+    const v = (S.vendors || []).find(x => x.id === ACTIVE_VENDOR_ID);
+    if (!v) return [];
+    const arr = v.type === "FOOD" ? (S.foodOrders || []) : (S.kiranaOrders || []);
+    return arr.filter(o => isNew(o) && (o.items || []).some(i => i.vendorId === v.id)).map(o => ({ ...o, kind: v.type }));
+  }
+  return [];
+}
+
+function triggerSingleOrderRingPulse() {
+  if (!STAFF_SOUND_ARMED) return;
+  const pending = getRingingOrdersForCurrentRole();
+  if (!pending.length) {
+    stopLiveOrderRing();
+    return;
+  }
+  playOrderAlertSound();
+  try { navigator.vibrate?.([350, 150, 350, 150, 500]); } catch (e) {}
+}
+
+function stopLiveOrderRing() {
+  if (LIVE_RING_TIMER) {
+    clearInterval(LIVE_RING_TIMER);
+    LIVE_RING_TIMER = null;
+  }
+}
+
+function syncLiveOrderRing() {
+  const pending = getRingingOrdersForCurrentRole();
+  if (pending.length > 0 && STAFF_SOUND_ARMED) {
+    if (!LIVE_RING_TIMER) {
+      triggerSingleOrderRingPulse();
+      LIVE_RING_TIMER = setInterval(triggerSingleOrderRingPulse, 4800);
+    }
+  } else {
+    stopLiveOrderRing();
+  }
+}
+
+function renderStaffRingAlertBanner() {
+  if (!["owner", "kitchen", "vendor"].includes(ROLE)) return "";
+  const pending = getRingingOrdersForCurrentRole();
+  if (!pending.length) {
+    return `
+      <div class="card" style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-left:5px solid var(--g2)">
+        <div style="font-size:11.5px;font-weight:800">
+          🔔 Live Order Ring: <span style="color:var(--g2)">ACTIVE</span> · <span style="color:var(--mu);font-weight:700">Naya order aane par Accept/Reject tak ring bajegi</span>
+        </div>
+        <button class="btn g sm" data-act="armStaffSound">🔊 Sound ON & Test</button>
+      </div>
+    `;
+  }
+  return `
+    <div class="card mg-pulse-500" style="background:linear-gradient(135deg,#9f1239,#be123c);color:#fff;border:2px solid #fbbf24">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px">
+        <div>
+          <span class="pill p-amber">🔔 RINGING CONTINUOUSLY</span>
+          <h3 style="color:#fff;margin:4px 0 0;font-size:16px">🚨 ${pending.length} Naya Order Aaya Hai!</h3>
+          <div style="font-size:11px;color:#ffe4e6;margin-top:2px">Jab tak <b>Accept</b> ya <b>Reject (With Reason)</b> nahi karenge, ring chalti rahegi.</div>
+        </div>
+        <button class="btn amb sm" data-act="armStaffSound">🔊 Sound</button>
+      </div>
+      ${pending.map(o => {
+        const acceptStatus = o.kind === "KIRANA" ? "Packed" : (ROLE === "owner" ? "Confirmed" : "Cooking");
+        const acceptLabel = o.kind === "KIRANA" ? "✅ Accept & Pack" : (ROLE === "owner" ? "✅ Accept Order" : "✅ Accept & Cook");
+        return `
+        <div style="background:rgba(255,255,255,.96);color:#13221a;border-radius:16px;padding:11px;margin-top:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">
+            <b>[${o.kind}] ${esc(o.id)} — ${esc(o.name)} (${inr(o.total)})</b>
+            <span class="pill ${o.payMode === "UPI" ? "p-green" : "p-amber"}">${esc(o.payMode)}</span>
+          </div>
+          <div style="font-size:11px;color:#475569;margin-top:3px">📍 ${esc(o.area)} · ${(o.items || []).map(i => `${esc(i.name)}×${i.qty}`).join(", ")}</div>
+          <div class="btn-row" style="margin-top:8px">
+            <button class="btn g sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="${acceptStatus}">${acceptLabel}</button>
+            <button class="btn r sm" data-act="cancelOrder" data-k="${o.kind}" data-id="${o.id}">✕ Reject (With Reason)</button>
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
+  `;
+}
+
+// Auto-unlock audio context on first tap anywhere
+document.addEventListener("pointerdown", () => {
+  try {
+    if (AUDIO_CTX && AUDIO_CTX.state === "suspended") AUDIO_CTX.resume().catch(() => {});
+  } catch (e) {}
+}, { passive: true });
+
+
 function viewLoginPage() {
   const vPins = { ...PINS.vendors, ...(S.cfg.vendorPins || {}) };
   const partnerVendors = S.vendors.filter(v => !v.isSelf && vPins[v.id]);
@@ -11172,10 +11437,11 @@ function _renderInner() {
   }
     return;
   }
-  if (ROLE === "kitchen") $("#appMain").innerHTML = viewKitchen();
+  if (ROLE === "kitchen") $("#appMain").innerHTML = renderStaffRingAlertBanner() + viewKitchen();
   else if (ROLE === "delivery") $("#appMain").innerHTML = viewDelivery();
-  else if (ROLE === "vendor") $("#appMain").innerHTML = viewVendor();
-  else if (ROLE === "owner") $("#appMain").innerHTML = viewOwner();
+  else if (ROLE === "vendor") $("#appMain").innerHTML = renderStaffRingAlertBanner() + viewVendor();
+  else if (ROLE === "owner") $("#appMain").innerHTML = renderStaffRingAlertBanner() + viewOwner();
+  syncLiveOrderRing();
   else {
     if (TAB === "checkout" && CHECKOUT_MODAL) {
       $("#appMain").innerHTML = viewCheckoutPage();
@@ -12495,7 +12761,7 @@ const ACT = {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "namaste-udala-v208-complete.html";
+      a.download = "namaste-udala-v211-complete.html";
       a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
@@ -12850,6 +13116,30 @@ const ACT = {
     const kCount = (S.kiranaItems || []).length;
     toast(`✅ Health OK: ${vCount} Vendors · ${fCount} Food · ${kCount} Kirana · ${isHttps ? "HTTPS Ready" : "Use HTTPS for GPS"}`);
   },
+  saveProfileAddr: () => {
+    const cleanP = ph(TF.phone);
+    if (!TF.name.trim() || cleanP.length !== 10) return toast("⚠️ Naam aur 10-digit Mobile number daalein!");
+    localStorage.setItem("nu_cname", TF.name.trim());
+    localStorage.setItem("nu_cphone", cleanP);
+    localStorage.setItem("nu_carea", TF.area || "Udala Bus Stand");
+    localStorage.setItem("nu_caddr", TF.addr.trim());
+    sessionStorage.setItem("nu_cust_logged_in", "1");
+    ORDER_PHONE_FILTER = cleanP;
+    render();
+    toast("✅ Profile & Address saved!");
+  },
+  custLogout: () => {
+    if (!confirm("Kya aap Logout / Switch Number karna chahte hain?")) return;
+    localStorage.removeItem("nu_cname");
+    localStorage.removeItem("nu_cphone");
+    localStorage.removeItem("nu_caddr");
+    sessionStorage.removeItem("nu_cust_logged_in");
+    TF.name = ""; TF.phone = ""; TF.addr = ""; ORDER_PHONE_FILTER = "";
+    LOGIN_CUST_NAME = ""; LOGIN_CUST_PHONE = "";
+    openLoginGate();
+    toast("👋 Logged out! Naya number login karein.");
+  },
+  armStaffSound: () => armStaffSoundAndWakeLock(false),
   testAlertSound: () => {
     playOrderAlertSound();
     toast("🔔 Order sound alert test!");
@@ -12970,6 +13260,8 @@ const ACT = {
     toast("📊 CSV file downloaded!");
   },
   triggerImport: () => { $("#importJsonInput").click(); },
+  setKitchenTab: v => { KITCHEN_TAB = v || "tiffin"; render(); },
+  setDeliveryTab: v => { DELIVERY_TAB = v || "orders"; render(); },
   setOwnerTab: v => { OWNER_TAB = v; render(); },
   toggleOwnerDetail: v => {
     window._ownDetOpen = window._ownDetOpen || {};
@@ -13251,10 +13543,11 @@ Total: ${inr(o.total)} (${o.payMode})`;
     const arr = k === "FOOD" ? S.foodOrders : S.kiranaOrders;
     const o = arr.find(x => x.id === id);
     if (!o) return;
-    const reason = prompt("Cancel / Reject ka reason likhein (e.g., Item Out of Stock / Shop Busy):", "Item out of stock");
+    const reason = prompt("Reject / Cancel ka reason zaroor likhein (e.g., Item Out of Stock / Shop Busy):", "Item out of stock");
     if (reason === null) return;
+    if (!reason.trim()) return toast("⚠️ Reject karne ke liye reason likhna zaroori hai!");
     o.status = "Cancelled";
-    o.cancelReason = reason.trim() || "Cancelled by operator";
+    o.cancelReason = reason.trim();
     recordOrderStep(o, "Cancelled");
     ensureV144_30Defaults();
     S.v144Ops.lastCancelNote = `${id}: ${o.cancelReason}`;
