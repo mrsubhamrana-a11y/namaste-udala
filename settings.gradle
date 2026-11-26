@@ -1,1 +1,3 @@
 
+rootProject.name = "NamasteUdalaAlert"
+include ':app'
