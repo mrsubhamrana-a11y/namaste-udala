@@ -2,543 +2,971 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Namaste Udala — Mera Tiffin · Multi-Vendor Food · Sauda & Daily Needs</title>
-  <meta name="theme-color" content="#113221" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <style>
-    :root {
-      --bg: #0c1f16;
-      --surface: #113221;
-      --card: #163d29;
-      --ink: #f3f8f5;
-      --muted: #b7cec1;
-      --accent: #34d399;
-      --accent-ink: #072216;
-      --warn: #fbbf24;
-      --ok: #4ade80;
-      --line: rgba(255, 255, 255, 0.12);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background: var(--bg); color: var(--ink); padding: 14px; line-height: 1.45; }
-    .app { max-width: 880px; margin: 0 auto; display: grid; gap: 14px; }
-    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
-    .subcard { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 8px; }
-    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
-    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .tab { background: rgba(255, 255, 255, 0.06); color: var(--ink); border: 1px solid var(--line); padding: 8px 12px; border-radius: 10px; font-weight: 600; cursor: pointer; }
-    .tab.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-    h1 { font-size: 1.15rem; }
-    h2 { font-size: 1.02rem; margin-bottom: 8px; }
-    h3 { font-size: 0.94rem; margin-bottom: 6px; }
-    .muted { color: var(--muted); font-size: 0.88rem; }
-    .pill { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; }
-    .pill.ok { background: rgba(74, 222, 128, 0.16); color: var(--ok); }
-    .pill.warn { background: rgba(251, 191, 36, 0.16); color: var(--warn); }
-    input, select, textarea, button { font: inherit; border-radius: 10px; padding: 10px 12px; }
-    input, select, textarea { width: 100%; background: #0a1b13; color: var(--ink); border: 1px solid var(--line); }
-    textarea { min-height: 76px; resize: vertical; }
-    button { background: var(--accent); color: var(--accent-ink); border: none; font-weight: 700; cursor: pointer; }
-    button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 10px; }
-    .hidden { display: none !important; }
-    .log { background: #07120d; color: #d8efe3; border: 1px solid var(--line); border-radius: 10px; padding: 10px; font-size: 0.8rem; max-height: 170px; overflow: auto; white-space: pre-wrap; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Namaste Udala — Mera Tiffin · Multi-Vendor Food · Sauda & Daily Needs</title>
+<meta name="theme-color" content="#ec1663" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Namaste Udala" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --sf: #ffffff;
+    --sf2: #f4f5f7;
+    --ink: #111827;
+    --mu: #6b7280;
+    --ln: #eceef2;
+    --o: #ec1663;
+    --o2: #c81052;
+    --g: #ec1663;
+    --g2: #16a34a;
+    --amb: #f59e0b;
+    --serif: 'Fraunces', Georgia, serif;
+    --sh-card: 0 8px 24px -6px rgba(17, 24, 39, .07);
+  }
+  [data-theme=dark] {
+    --bg: #0f1115; --sf: #181b22; --sf2: #222631; --ink: #f9fafb; --mu: #9ca3af; --ln: #2b303d;
+    --sh-card: 0 12px 28px -6px rgba(0, 0, 0, .55);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--ink); padding-bottom: 130px; min-height: 100vh; }
+  img { display: block; object-fit: cover; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+
+  header {
+    position: sticky; top: 0; z-index: 60;
+    background: var(--sf); color: var(--ink);
+    border-bottom: 1px solid var(--ln);
+    box-shadow: 0 4px 18px rgba(17, 24, 39, .05);
+    padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .logo {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff2e7a, #ec1663);
+    display: grid; place-items: center; font-family: var(--serif); font-weight: 800; font-size: 16px; color: #fff;
+    box-shadow: 0 6px 16px rgba(236, 22, 99, .28); cursor: pointer; flex: none;
+  }
+  .brand { flex: 1; min-width: 0; }
+  .brand small { display: block; color: var(--o); font-size: 9px; letter-spacing: 1px; font-weight: 800; }
+  .brand h1 { font-size: 16px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fb-pill { font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 99px; background: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; margin-left: 4px; }
+  [data-theme=dark] .fb-pill { background: #3b1025; color: #f9a8d4; border-color: #831843; }
+
+  main { max-width: 720px; margin: 0 auto; padding: 14px; }
+  .card { background: var(--sf); border: 1px solid var(--ln); border-radius: 22px; padding: 15px; margin-bottom: 14px; box-shadow: var(--sh-card); }
+  .card h3 { font-family: var(--serif); font-size: 16px; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+
+  .pill { display: inline-block; padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 800; }
+  .p-green { background: #dcfce7; color: #166534; }
+  .p-red { background: #ffe4e6; color: #9f1239; }
+  .p-amber { background: #fef3c7; color: #92400e; }
+  .p-blue { background: #dbeafe; color: #1e40af; }
+
+  .hero {
+    border-radius: 22px; padding: 18px; margin: 6px 0 16px; color: #fff;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    box-shadow: 0 12px 26px -6px rgba(236, 22, 99, .28);
+  }
+  .hero.tiffin-bg { background: linear-gradient(135deg, #ec1663 0%, #ff4785 100%); }
+  .hero.food-bg { background: linear-gradient(135deg, #1f1b24 0%, #3b1728 55%, #ec1663 100%); }
+  .hero.kirana-bg { background: linear-gradient(135deg, #064e3b 0%, #15803d 100%); }
+  .hero h2 { font-family: var(--serif); font-size: 19px; line-height: 1.2; margin: 4px 0; }
+  .hero p { font-size: 11.5px; opacity: .94; }
+  .hero-pop { width: 88px; height: 88px; border-radius: 50%; border: 3px solid rgba(255,255,255,.95); flex: none; box-shadow: 0 14px 24px rgba(0,0,0,.28); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    border: 0; border-radius: 99px; padding: 10px 15px; font-weight: 800; font-size: 12.5px;
+    cursor: pointer; text-decoration: none; transition: transform .12s;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn.full { width: 100%; margin-top: 8px; border-radius: 16px; }
+  .btn.o { background: linear-gradient(135deg, #ff2e7a, #ec1663); color: #fff; box-shadow: 0 6px 16px rgba(236, 22, 99, .28); }
+  .btn.g { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; box-shadow: 0 6px 16px rgba(22, 163, 74, .24); }
+  .btn.amb { background: linear-gradient(180deg, #fbbf24, #d97706); color: #0f172a; }
+  .btn.w { background: var(--sf2); color: var(--ink); border: 1px solid var(--ln); }
+  .btn.r { background: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
+  .btn.sm { padding: 6px 11px; font-size: 11px; }
+  .btn[disabled] { opacity: .45; pointer-events: none; }
+  .btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
+  .btn-row > * { flex: 1; }
+
+  .inp {
+    width: 100%; padding: 10px 12px; border: 1.5px solid var(--ln); border-radius: 14px;
+    background: var(--sf2); color: var(--ink); font-weight: 700; font-size: 12.5px; margin: 4px 0; outline: none;
+  }
+  .inp:focus { border-color: var(--o); background: var(--sf); }
+  .lbl { display: block; font-size: 10px; font-weight: 800; color: var(--mu); margin: 8px 0 3px; text-transform: uppercase; letter-spacing: .5px; }
+
+  .seg { display: flex; gap: 4px; background: var(--sf2); border: 1px solid var(--ln); padding: 4px; border-radius: 99px; margin: 4px 0; }
+  .seg button { flex: 1; border: 0; background: transparent; padding: 8px 6px; border-radius: 99px; font-size: 11px; font-weight: 800; color: var(--mu); cursor: pointer; }
+  .seg button.on { background: var(--o); color: #fff; box-shadow: 0 4px 12px rgba(236, 22, 99, .25); }
+
+  .plan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin: 10px 0; }
+  .p-tier { border: 2px solid var(--ln); border-radius: 18px; padding: 12px 10px; text-align: center; background: var(--sf2); cursor: pointer; position: relative; }
+  .p-tier.on { border-color: var(--o); background: #fff1f2; }
+  [data-theme=dark] .p-tier.on { background: #2c121b; }
+  .p-tier .tag { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: var(--o); color: #fff; font-size: 8.5px; font-weight: 800; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+  .p-tier b { display: block; font-family: var(--serif); font-size: 19px; color: var(--o); margin: 3px 0; }
+
+  .rest-card { border: 1px solid var(--ln); border-radius: 20px; overflow: hidden; background: var(--sf); margin-bottom: 14px; box-shadow: var(--sh-card); cursor: pointer; }
+  .rest-cover { position: relative; height: 140px; background: #1e293b; }
+  .rest-cover img { width: 100%; height: 100%; }
+  .rest-status { position: absolute; top: 10px; left: 10px; }
+  .rest-eta { position: absolute; bottom: 10px; right: 10px; background: rgba(15,23,42,.85); color: #fff; padding: 4px 9px; border-radius: 99px; font-size: 10px; font-weight: 800; }
+  .rest-body { padding: 12px 14px; }
+  .rest-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .rest-rating { background: #15803d; color: #fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 8px; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; }
+  .pcard { border: 1px solid var(--ln); border-radius: 20px; padding: 10px; background: var(--sf); box-shadow: var(--sh-card); display: flex; flex-direction: column; justify-content: space-between; }
+  .pimg { height: 115px; border-radius: 16px; background: #fdf2f8; margin-bottom: 8px; overflow: hidden; }
+  .pimg img { width: 100%; height: 100%; }
+  .sym { display: inline-grid; place-items: center; width: 13px; height: 13px; border: 2px solid #16a34a; border-radius: 3px; background: #fff; flex: none; }
+  .sym i { width: 5px; height: 5px; border-radius: 50%; background: #16a34a; }
+  .sym.nv { border-color: #dc2626; } .sym.nv i { background: #dc2626; }
+  .qty { display: flex; align-items: center; justify-content: space-between; background: var(--sf2); padding: 3px; border-radius: 99px; margin-top: 6px; }
+  .qty button { width: 27px; height: 27px; border-radius: 50%; border: 0; background: var(--o); color: #fff; font-weight: 800; cursor: pointer; }
+
+  .chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips button { flex: none; padding: 6px 12px; border-radius: 99px; border: 1px solid var(--ln); background: var(--sf); font-size: 11px; font-weight: 800; cursor: pointer; }
+  .chips button.on { background: var(--o); color: #fff; border-color: var(--o); }
+  .pbar { height: 8px; background: var(--sf2); border-radius: 99px; overflow: hidden; margin: 6px 0; }
+  .pbar i { display: block; height: 100%; background: linear-gradient(90deg, #ec1663, #16a34a); transition: width .25s; }
+
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--ln); font-size: 12px; }
+  .row:last-child { border-bottom: 0; }
+  .kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+  .kpi div { background: var(--sf); border: 1px solid var(--ln); border-radius: 16px; padding: 10px 6px; text-align: center; box-shadow: var(--sh-card); }
+  .kpi b { display: block; font-family: var(--serif); font-size: 17px; color: var(--o); }
+  .kpi span { font-size: 9.5px; font-weight: 800; color: var(--mu); text-transform: uppercase; }
+
+  .order-smart-card { background: var(--sf); border: 1.5px solid var(--ln); border-left: 4px solid var(--amb); border-radius: 18px; padding: 12px; margin-bottom: 10px; box-shadow: var(--sh-card); }
+  .order-smart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .order-smart-meta { font-size: 11px; color: var(--mu); line-height: 1.45; margin-top: 4px; }
+  .tl { display: flex; gap: 4px; margin: 6px 0; }
+  .tl span { flex: 1; text-align: center; font-size: 9px; font-weight: 800; padding: 4px 2px; border-radius: 8px; background: var(--sf2); color: var(--mu); }
+  .tl span.done { background: #fdf2f8; color: #ec1663; }
+  .tl span.now { background: #ec1663; color: #fff; }
+
+  .cbar {
+    position: fixed; left: 12px; right: 12px; bottom: 76px; z-index: 70; max-width: 680px; margin: 0 auto;
+    background: linear-gradient(135deg, #ec1663, #be123c); color: #fff; border-radius: 99px;
+    padding: 11px 18px; display: flex; justify-content: space-between; align-items: center;
+    font-size: 12.5px; font-weight: 800; box-shadow: 0 10px 24px rgba(236, 22, 99, .35); cursor: pointer;
+  }
+  nav {
+    position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 80; max-width: 700px; margin: 0 auto;
+    background: var(--sf); border: 1px solid var(--ln); border-radius: 24px;
+    display: flex; gap: 3px; padding: 6px 8px; box-shadow: 0 10px 30px rgba(17, 24, 39, .10);
+  }
+  nav button {
+    flex: 1; border: 0; background: transparent; border-radius: 16px; padding: 7px 2px;
+    font-size: 9.5px; font-weight: 800; color: var(--mu); cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative;
+  }
+  nav button.on { background: #fdf2f8; color: #ec1663; }
+  [data-theme=dark] nav button.on { background: #3b1025; color: #f472b6; }
+  nav .nb { position: absolute; top: 2px; right: 16%; background: var(--o); color: #fff; font-size: 8.5px; padding: 1px 5px; border-radius: 99px; }
+
+  #toast {
+    position: fixed; left: 50%; bottom: 132px; transform: translateX(-50%) translateY(20px);
+    background: #0f172a; color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 12px; font-weight: 800;
+    z-index: 900; opacity: 0; pointer-events: none; transition: .22s; text-align: center; max-width: 90vw;
+  }
+  #toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  #printArea { display: none; }
+  @media print {
+    body > *:not(#printArea) { display: none !important; }
+    #printArea { display: block !important; width: 58mm; font-family: monospace; font-size: 11px; color: #000; background: #fff; padding: 4px; }
+  }
+</style>
 </head>
 <body>
-  <div class="app">
-    <header class="card">
-      <div class="row">
-        <div>
-          <h1>Namaste Udala</h1>
-          <p class="muted">Mera Tiffin · Multi-Vendor Food · Sauda & Daily Needs · DB: udala_v4_master</p>
-        </div>
-        <div class="row">
-          <span id="syncBadge" class="pill warn">RTDB: Connecting...</span>
-          <span id="listenerBadge" class="pill warn">Listener: Checking...</span>
-          <button id="btnSound" class="ghost" type="button">Test Sound</button>
-        </div>
-      </div>
 
-      <nav class="tabs" id="roleTabs">
-        <button class="tab active" data-role="customer" type="button">Customer</button>
-        <button class="tab" data-role="kitchen" type="button">Kitchen</button>
-        <button class="tab" data-role="vendor" type="button">Vendor</button>
-        <button class="tab" data-role="delivery" type="button">Delivery</button>
-        <button class="tab" data-role="owner" type="button">Owner (4827)</button>
-      </nav>
-    </header>
+<input type="file" id="proofInput" accept="image/*" style="display:none" />
+<input type="file" id="importJsonInput" accept=".json,application/json" style="display:none" />
 
-    <!-- CUSTOMER -->
-    <section id="role-customer" class="card" style="display: grid; gap: 14px;">
-      <div>
-        <h2>Tiffin & Daily Sauda Order</h2>
-        <p class="muted">1-day free trial ya meal/sauda pack chunein aur UTR/status check karein.</p>
-      </div>
-
-      <div class="grid-2">
-        <div>
-          <label class="muted">Naam</label>
-          <input id="cName" type="text" placeholder="Aapka naam" />
-        </div>
-        <div>
-          <label class="muted">Mobile (WhatsApp / Call)</label>
-          <input id="cPhone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit mobile number" />
-        </div>
-      </div>
-
-      <div class="grid-3">
-        <div>
-          <label class="muted">Pack / Item</label>
-          <select id="cPack">
-            <option value="1-Day Free Trial" data-amt="0">1-Day Free Trial (₹0)</option>
-            <option value="7-Day Meal Pack" data-amt="700">7-Day Meal Pack (₹700)</option>
-            <option value="15-Day Meal Pack" data-amt="1450">15-Day Meal Pack (₹1450)</option>
-            <option value="1-Month Meal Pack" data-amt="2800">1-Month Meal Pack (₹2800)</option>
-            <option value="Daily Sauda Basket" data-amt="350">Daily Sauda Basket (₹350)</option>
-          </select>
-        </div>
-        <div>
-          <label class="muted">Payment</label>
-          <select id="cPayMode">
-            <option value="UPI">UPI</option>
-            <option value="COD">COD (12-digit UTR + Screenshot + Call/WA)</option>
-          </select>
-        </div>
-        <div>
-          <label class="muted">12-Digit UTR</label>
-          <input id="cUtr" type="text" inputmode="numeric" maxlength="12" placeholder="Optional / 12-digit UTR" />
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div>
-          <label class="muted">Payment Screenshot</label>
-          <input id="cShot" type="file" accept="image/*" />
-        </div>
-        <div class="row" style="align-self: end;">
-          <button id="btnPlace" type="button">Order Submit</button>
-          <span id="cStatusMsg" class="muted"></span>
-        </div>
-      </div>
-
-      <div class="subcard">
-        <h3>Order / UTR Track</h3>
-        <div class="grid-2">
-          <input id="trackInput" type="text" placeholder="Order ID (e.g. NU-301) ya UTR daalein" />
-          <button id="btnTrack" class="ghost" type="button">Check Status</button>
-        </div>
-        <p id="trackOut" class="muted"></p>
-      </div>
-    </section>
-
-    <!-- KITCHEN -->
-    <section id="role-kitchen" class="card hidden">
-      <h2>Kitchen Panel</h2>
-      <p class="muted" style="margin-bottom: 10px;">Meal prep aur cooking status update karein.</p>
-      <div id="kitchenQueue" style="display: grid; gap: 10px;"></div>
-    </section>
-
-    <!-- VENDOR -->
-    <section id="role-vendor" class="card hidden">
-      <h2>Vendor Panel</h2>
-      <p class="muted" style="margin-bottom: 10px;">Sauda aur multi-vendor items pack/ready mark karein.</p>
-      <div id="vendorQueue" style="display: grid; gap: 10px;"></div>
-    </section>
-
-    <!-- DELIVERY -->
-    <section id="role-delivery" class="card hidden">
-      <h2>Delivery Panel</h2>
-      <p class="muted" style="margin-bottom: 10px;">Out for delivery aur delivered status update karein.</p>
-      <div id="deliveryQueue" style="display: grid; gap: 10px;"></div>
-    </section>
-
-    <!-- OWNER (PIN: 4827) -->
-    <section id="role-owner" class="card hidden" style="display: grid; gap: 14px;">
-      <div class="row">
-        <h2>Owner Panel (PIN: 4827)</h2>
-        <span class="pill ok">udala_v4_master</span>
-      </div>
-
-      <div id="pinBox" class="row">
-        <input id="pinInput" type="password" inputmode="numeric" maxlength="6" placeholder="PIN 4827 daalein" style="max-width: 220px;" />
-        <button id="btnUnlock" type="button">Unlock</button>
-      </div>
-
-      <div id="ownerPanelBody" class="hidden" style="display: grid; gap: 14px;">
-        <div class="subcard">
-          <h3>RTDB Endpoint (Pre-configured)</h3>
-          <div class="grid-2">
-            <input id="rtdbUrlInput" type="url" value="https://namaste-udala-default-rtdb.firebaseio.com/udala_v4_master" />
-            <div class="row">
-              <button id="btnSaveRtdb" class="ghost" type="button">Save & Sync</button>
-              <button id="btnPullNow" type="button">Refresh RTDB</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="subcard">
-          <h3>SMS / Notification Paste & Verify</h3>
-          <textarea id="smsPaste" placeholder="UPI / Bank alert text paste karein (12-digit UTR & amount detect hoga)..."></textarea>
-          <div class="row">
-            <button id="btnVerifyPaste" type="button">Parse & Verify</button>
-            <button id="btnClearLog" class="ghost" type="button">Clear Log</button>
-          </div>
-        </div>
-
-        <div class="subcard">
-          <h3>Date-Range Timeline</h3>
-          <div class="grid-3">
-            <input id="fFrom" type="date" />
-            <input id="fTo" type="date" />
-            <div class="row">
-              <button id="btnApplyFilter" type="button">Filter</button>
-              <button id="btnResetFilter" class="ghost" type="button">Reset</button>
-            </div>
-          </div>
-          <div id="ownerOrders" style="display: grid; gap: 10px; margin-top: 8px;"></div>
-        </div>
-
-        <div class="subcard">
-          <h3>Alert Log</h3>
-          <div id="alertLog" class="log">Connecting to namaste-udala-default-rtdb/udala_v4_master...</div>
-        </div>
-      </div>
-    </section>
+<header>
+  <div class="logo" id="logoBtn" title="5-tap for Staff/Owner PIN">NU</div>
+  <div class="brand">
+    <small>UDALA · MAYURBHANJ</small>
+    <h1>Namaste Udala <span class="fb-pill" id="fbStatus">🟢 Ready</span><span class="fb-pill" id="listenerBadge">🌐 Web Mode</span></h1>
   </div>
+  <button class="btn w sm" data-act="toggleTheme" id="themeBtn">🌙</button>
+</header>
 
-  <script>
-    const PIN = "4827";
-    const KEY = "namaste_udala_v4_master";
-    const RTDB_KEY = "namaste_udala_rtdb_url";
-    const DEFAULT_RTDB_URL = "https://namaste-udala-default-rtdb.firebaseio.com/udala_v4_master";
-    const today = () => new Date().toISOString().slice(0, 10);
+<main id="appMain"></main>
+<div id="cartFloat"></div>
+<nav id="bottomNav"></nav>
+<div id="toast"></div>
+<div id="printArea"></div>
 
-    let rtdbUrl = (localStorage.getItem(RTDB_KEY) || DEFAULT_RTDB_URL).replace(/\/+$/, "");
+<script>
+/* ==================== FIREBASE CONFIG & CONSTANTS ==================== */
+const FB = {
+  apiKey: "AIzaSyBfbF6SJlNja1W253Cpz1nLTYfMDHsnQ_Y",
+  authDomain: "namaste-udala.firebaseapp.com",
+  projectId: "namaste-udala",
+  storageBucket: "namaste-udala.firebasestorage.app",
+  messagingSenderId: "998684348165",
+  appId: "1:998684348165:web:4bb0d2f5335a90a394716c",
+  databaseURL: "https://namaste-udala-default-rtdb.firebaseio.com"
+};
+const NODE = "udala_v4_master";
+const FB_REST = `${FB.databaseURL}/${NODE}.json`;
 
-    let db = (() => {
-      try {
-        const s = JSON.parse(localStorage.getItem(KEY));
-        if (s && Array.isArray(s.orders)) return s;
-      } catch (_) {}
-      return {
-        orders: [
-          { id: "NU-301", date: today(), name: "Subham Test", phone: "9876543210", pack: "7-Day Meal Pack", amount: 700, mode: "UPI", utr: "", shot: "", paid: false, stage: "NEW" },
-          { id: "NU-302", date: today(), name: "Barsha Test", phone: "9876543211", pack: "Daily Sauda Basket", amount: 350, mode: "COD", utr: "", shot: "", paid: false, stage: "NEW" }
-        ]
-      };
-    })();
+const PINS = {
+  owner: "4827",
+  kitchen: "1122",
+  delivery: "3344",
+  vendors: { v_bhanjpur: "2001", v_jarlicious: "2002", v_udala_dhaba: "2003", v_market_kirana: "3001" }
+};
 
-    let unlocked = false;
-    let range = { from: "", to: "" };
-    let isSyncing = false;
+const UDALA_AREAS = ["Market Square", "Udala Bus Stand", "Hospital Rd", "College Rd", "High School Rd", "Block Office", "Ward 1-6", "Bhanjpur"];
 
-    function updateSyncBadge(text, ok = false) {
-      const badge = document.getElementById("syncBadge");
-      if (!badge) return;
-      badge.textContent = text;
-      badge.className = ok ? "pill ok" : "pill warn";
+const IMG = {
+  idli: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80",
+  thali: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80",
+  chicken: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=600&q=80",
+  puri: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80",
+  biryani: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80",
+  paneer: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=600&q=80",
+  jarcake: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=600&q=80",
+  cake: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80",
+  atta: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80",
+  rice: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+  surf: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=600&q=80",
+  soap: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=600&q=80",
+  tea: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?auto=format&fit=crop&w=600&q=80",
+  oil: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80",
+  milk: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80",
+  kirana: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80"
+};
+
+/* ==================== HELPERS ==================== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const inr = n => "₹" + Math.max(0, +n || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 });
+const ph = s => String(s || "").replace(/\D/g, "").slice(-10);
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+const todayIso = () => {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+};
+const qrUrl = u => "https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=" + encodeURIComponent(u);
+
+function toast(msg) {
+  const el = $("#toast");
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add("on");
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => el.classList.remove("on"), 3000);
+}
+
+function validateStrictUTR(raw, usedList) {
+  const clean = String(raw || "").replace(/\D/g, "");
+  if (clean.length !== 12) return { ok: false, msg: "⚠️ Exact 12-digit UPI UTR number daalein!" };
+  if (/^(\d)\1{6,}/.test(clean) || /(012345|123456|234567|345678|456789|987654|654321)/.test(clean)) {
+    return { ok: false, msg: "⚠️ Fake sequence UTR blocked! Asli bank UTR daalein." };
+  }
+  if ((usedList || []).includes(clean)) return { ok: false, msg: "⚠️ Duplicate UTR! Yeh UTR pehle use ho chuka hai." };
+  return { ok: true, utr: clean };
+}
+
+function parsePaymentAlertText(rawText) {
+  const txt = String(rawText || "").trim();
+  if (!txt) return { utr: "", amount: null, raw: "" };
+  const utrMatch = txt.match(/\b(\d{12})\b/) || txt.match(/(?:utr|ref(?:erence)?|upi\s*ref)[^0-9]*(\d{10,16})/i);
+  const amtMatch = txt.match(/(?:rs\.?|inr|₹|paid|received|credited)\s*[:\-]?\s*([0-9]+(?:\.[0-9]{1,2})?)/i)
+    || txt.match(/([0-9]+(?:\.[0-9]{1,2})?)\s*(?:rs\.?|inr|₹)/i);
+  return { utr: utrMatch ? utrMatch[1] : "", amount: amtMatch ? parseFloat(amtMatch[1]) : null, raw: txt };
+}
+
+/* ==================== SOUND ALERT ENGINE ==================== */
+let AUDIO_CTX = null;
+let LIVE_RING_TIMER = null;
+let STAFF_SOUND_ARMED = true;
+
+function playOrderAlertSound() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!AUDIO_CTX) AUDIO_CTX = new Ctx();
+    if (AUDIO_CTX.state === "suspended") AUDIO_CTX.resume().catch(() => {});
+    const now = AUDIO_CTX.currentTime;
+    [{ t: 0, f: 659 }, { t: 0.22, f: 880 }, { t: 0.44, f: 1174 }].forEach(p => {
+      const osc = AUDIO_CTX.createOscillator();
+      const g = AUDIO_CTX.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(p.f, now + p.t);
+      g.gain.setValueAtTime(0.001, now + p.t);
+      g.gain.exponentialRampToValueAtTime(0.28, now + p.t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + p.t + 0.35);
+      osc.connect(g); g.connect(AUDIO_CTX.destination);
+      osc.start(now + p.t); osc.stop(now + p.t + 0.4);
+    });
+  } catch (e) {}
+}
+
+/* ==================== DEFAULT STATE & FIREBASE SYNC ==================== */
+function defaultState() {
+  return {
+    rev: Date.now(),
+    cfg: {
+      upi: "9583937047@jio",
+      wa: "9583937047",
+      tiffinRates: { veg: { 1: 65, 7: 450, 15: 920, 30: 1790 }, nv: { 1: 85, 7: 580, 15: 1180, 30: 2290 }, breakfastPerDay: 40 },
+      foodPartnerCommPct: 20,
+      kiranaMinOrder: 300,
+      kiranaFreeDeliveryAt: 500,
+      kiranaDeliveryFee: 25,
+      kiranaPostDeliveryComm: 30,
+      promoCode: "UDALA20",
+      promoDiscount: 20,
+      promoMinOrder: 150,
+      promoActive: true,
+      vendorPins: { ...PINS.vendors },
+      todayTiffinMenu: "Lunch: Steamed Rice, Odia Dalma, Aloo Bhaja, Salad · Dinner: 4 Roti, Paneer/Chicken Curry"
+    },
+    vendors: [
+      { id: "v_self_kitchen", name: "Namaste Ghar Kitchen (Apna)", type: "FOOD", isSelf: true, cuisine: "Odia Homestyle · Breakfast · Thali", area: "Market Square", rating: "4.9", eta: "25-30 min", status: "Open", cover: IMG.thali, settledPaid: 0 },
+      { id: "v_bhanjpur", name: "Bhanjpur Maa Rasoi", type: "FOOD", isSelf: false, cuisine: "Biryani · Chicken · Paneer · Nashta", area: "Bhanjpur", rating: "4.6", eta: "30-40 min", status: "Open", cover: IMG.biryani, settledPaid: 0 },
+      { id: "v_jarlicious", name: "Jarlicious Cake & Bakes", type: "FOOD", isSelf: false, cuisine: "Jar Cakes · Birthday Cakes · Pastries", area: "College Rd", rating: "4.8", eta: "25-35 min", status: "Open", cover: IMG.cake, settledPaid: 0 },
+      { id: "v_udala_dhaba", name: "Udala Highway Tadka", type: "FOOD", isSelf: false, cuisine: "Roti · Tadka · Egg & Mutton Curry", area: "Udala Bus Stand", rating: "4.5", eta: "30-45 min", status: "Open", cover: IMG.chicken, settledPaid: 0 },
+      { id: "v_self_kirana", name: "Namaste Kirana & Daily Hub (Apna)", type: "KIRANA", isSelf: true, cuisine: "Direct Stock · Atta · Rice · Oil", area: "Market Square", rating: "4.9", eta: "35 min", status: "Open", cover: IMG.kirana, settledPaid: 0 },
+      { id: "v_market_kirana", name: "Udala Market Super Store", type: "KIRANA", isSelf: false, cuisine: "Daily Kirana · Dairy · Household", area: "Market Square", rating: "4.5", eta: "40 min", status: "Open", cover: IMG.kirana, settledPaid: 0 }
+    ],
+    foodItems: [
+      { id: "fd1", vendorId: "v_self_kitchen", cat: "Breakfast", name: "Idli Sambar & Chutney (4 Pc)", price: 45, nv: 0, stock: 1, img: IMG.idli, desc: "Subah ka garma-garam nashta" },
+      { id: "fd2", vendorId: "v_self_kitchen", cat: "Thali", name: "Odia Homestyle Veg Thali", price: 80, nv: 0, stock: 1, img: IMG.thali, desc: "Rice, Dalma, Sabzi, Bhaja, Salad" },
+      { id: "fd3", vendorId: "v_self_kitchen", cat: "Meals", name: "Desi Chicken Curry + 4 Roti", price: 140, nv: 1, stock: 1, img: IMG.chicken, desc: "Ghar ke masalon mein bana fresh chicken" },
+      { id: "fd4", vendorId: "v_bhanjpur", cat: "Breakfast", name: "Puri Aloo Dum & Halwa Combo", price: 55, nv: 0, stock: 1, img: IMG.puri, desc: "5 Garam Puri + Spicy Aloo Dum" },
+      { id: "fd5", vendorId: "v_bhanjpur", cat: "Biryani", name: "Hyderabadi Chicken Dum Biryani", price: 160, nv: 1, stock: 1, img: IMG.biryani, desc: "Full plate with Raita & Salan" },
+      { id: "fd6", vendorId: "v_bhanjpur", cat: "Meals", name: "Paneer Butter Masala + 3 Naan", price: 150, nv: 0, stock: 1, img: IMG.paneer, desc: "Rich creamy paneer gravy" },
+      { id: "fd7", vendorId: "v_jarlicious", cat: "Bakery", name: "Chocolate Truffle Jar Cake", price: 120, nv: 0, stock: 1, img: IMG.jarcake, desc: "250ml layered Belgian chocolate jar" },
+      { id: "fd8", vendorId: "v_jarlicious", cat: "Bakery", name: "Red Velvet Celebration Cake (500g)", price: 380, nv: 0, stock: 1, img: IMG.cake, desc: "Fresh baked birthday special" },
+      { id: "fd9", vendorId: "v_udala_dhaba", cat: "Meals", name: "Egg Tadka + 4 Tandoori Roti", price: 95, nv: 1, stock: 1, img: IMG.chicken, desc: "Double egg dhaba style tadka" }
+    ],
+    kiranaItems: [
+      { id: "kr1", vendorId: "v_self_kirana", cat: "Staples", name: "Aashirvaad Shudh Chakki Atta (5kg)", price: 245, stock: 1, img: IMG.atta, desc: "100% MP Sharbati wheat" },
+      { id: "kr2", vendorId: "v_self_kirana", cat: "Staples", name: "Premium Miniket Rice (5kg)", price: 265, stock: 1, img: IMG.rice, desc: "Daily fine rice" },
+      { id: "kr3", vendorId: "v_self_kirana", cat: "HUL", name: "Surf Excel Easy Wash (1.5kg)", price: 195, stock: 1, img: IMG.surf, desc: "Direct Brand Stock" },
+      { id: "kr4", vendorId: "v_self_kirana", cat: "HUL", name: "Lifebuoy Total 10 Soap (4x125g)", price: 144, stock: 1, img: IMG.soap, desc: "Daily Hygiene Pack" },
+      { id: "kr5", vendorId: "v_self_kirana", cat: "HUL", name: "Brooke Bond Red Label Tea (500g)", price: 250, stock: 1, img: IMG.tea, desc: "Assam Tea Patti" },
+      { id: "kr6", vendorId: "v_market_kirana", cat: "Staples", name: "Fortune Sunlite Refined Oil (1L)", price: 135, stock: 1, img: IMG.oil, desc: "Sunflower cooking oil" },
+      { id: "kr7", vendorId: "v_market_kirana", cat: "Dairy", name: "Omfed Gold Milk (1L) + Bread", price: 82, stock: 1, img: IMG.milk, desc: "Fresh morning dairy" }
+    ],
+    tiffinSubs: [
+      { id: "TS-101", date: todayIso(), time: "08:00 AM", name: "Subham Rana", phone: "8073721357", area: "Udala Bus Stand", addr: "Main Road, Udala", diet: "veg", days: 30, remaining: 26, slot: "Lunch + Dinner", spice: "Medium", health: "Regular Homestyle", price: 1790, paid: 1, vStat: "ok", utr: "402312345678", skipToday: false, vacationDays: 0, deliveredToday: false, dabbaBack: false }
+    ],
+    foodOrders: [],
+    kiranaOrders: [],
+    usedUtrs: ["402312345678"],
+    expenses: [{ id: "ex1", date: todayIso(), title: "Subah Sabzi & Masala", amt: 550, time: "07:30 AM" }],
+    riderCashSettled: 0,
+    auditLog: [{ t: new Date().toLocaleTimeString(), m: "Namaste Udala Clean v214 booted." }]
+  };
+}
+
+let S = defaultState();
+try {
+  const saved = JSON.parse(localStorage.getItem("NU_V4_STATE"));
+  if (saved && saved.cfg) S = { ...defaultState(), ...saved, cfg: { ...defaultState().cfg, ...saved.cfg } };
+} catch (e) {}
+
+let applyingRemote = false;
+async function pullRemoteState() {
+  try {
+    const res = await fetch(FB_REST);
+    if (!res.ok) return;
+    const val = await res.json();
+    if (val && val.cfg && (+val.rev || 0) > (+S.rev || 0)) {
+      applyingRemote = true;
+      S = { ...defaultState(), ...val, cfg: { ...defaultState().cfg, ...val.cfg } };
+      localStorage.setItem("NU_V4_STATE", JSON.stringify(S));
+      if ($("#fbStatus")) $("#fbStatus").textContent = "🟢 Live Sync";
+      render();
+      applyingRemote = false;
+    } else if ($("#fbStatus")) {
+      $("#fbStatus").textContent = "🟢 Live Ready";
     }
+  } catch (e) {
+    if ($("#fbStatus")) $("#fbStatus").textContent = "🟡 Offline";
+  }
+}
+pullRemoteState();
+setInterval(pullRemoteState, 8000);
 
-    function log(msg) {
-      const box = document.getElementById("alertLog");
-      if (!box) return;
-      box.textContent += `\n[${new Date().toLocaleTimeString("en-IN")}] ${msg}`;
-      box.scrollTop = box.scrollHeight;
-    }
+function save(logMsg) {
+  if (logMsg) {
+    S.auditLog = S.auditLog || [];
+    S.auditLog.unshift({ t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), m: logMsg });
+    if (S.auditLog.length > 50) S.auditLog.length = 50;
+  }
+  S.rev = Date.now();
+  try { localStorage.setItem("NU_V4_STATE", JSON.stringify(S)); } catch (e) {}
+  if (!applyingRemote) {
+    fetch(FB_REST, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(S) }).catch(() => {});
+  }
+  render();
+}
 
-    async function pushToRtdb() {
-      if (!rtdbUrl) {
-        updateSyncBadge("RTDB: Local", false);
-        return;
+/* ==================== APP STATE ==================== */
+let ROLE = sessionStorage.getItem("nu_role") || "customer";
+let ACTIVE_VENDOR_ID = sessionStorage.getItem("nu_vid") || "";
+let TAB = "tiffin";
+let OWNER_TAB = "closing";
+let SELECTED_REST_ID = null;
+let FOOD_CAT = "ALL";
+let KIRANA_CAT = "ALL";
+let FOOD_CART = {};
+let KIRANA_CART = {};
+let CHECKOUT = null;
+let PROOF_DATA_URL = "";
+
+const TF = {
+  diet: "veg", days: 15, slot: "Lunch (12:30 PM)", spice: "Medium", health: "Regular Homestyle",
+  name: localStorage.getItem("nu_cname") || "", phone: localStorage.getItem("nu_cphone") || "",
+  area: localStorage.getItem("nu_carea") || "Udala Bus Stand", addr: localStorage.getItem("nu_caddr") || "", note: ""
+};
+
+if (localStorage.getItem("nu_dark") === "1") document.documentElement.dataset.theme = "dark";
+
+function calcTiffinPrice(diet, days, slot) {
+  const base = +(S.cfg.tiffinRates[diet]?.[days] || 920);
+  const bf = (+S.cfg.tiffinRates.breakfastPerDay || 40) * days;
+  if (slot === "Morning Breakfast (7:30 AM)") return bf;
+  if (slot === "Breakfast + Lunch") return bf + base;
+  if (slot === "Lunch + Dinner") return Math.round(base * 1.85);
+  if (slot === "All 3 Meals (B+L+D)") return bf + Math.round(base * 1.85);
+  return base;
+}
+
+const foodCartCount = () => Object.values(FOOD_CART).reduce((a, b) => a + (+b || 0), 0);
+const foodCartTotal = () => Object.entries(FOOD_CART).reduce((s, [id, q]) => { const it = S.foodItems.find(x => x.id === id); return it ? s + it.price * q : s; }, 0);
+const kiranaCartCount = () => Object.values(KIRANA_CART).reduce((a, b) => a + (+b || 0), 0);
+const kiranaSubtotal = () => Object.entries(KIRANA_CART).reduce((s, [id, q]) => { const it = S.kiranaItems.find(x => x.id === id); return it ? s + it.price * q : s; }, 0);
+const kiranaDeliveryFee = sub => sub <= 0 ? 0 : (sub >= (+S.cfg.kiranaFreeDeliveryAt || 500) ? 0 : (+S.cfg.kiranaDeliveryFee || 25));
+
+function statusTimeline(st, isKirana) {
+  const steps = isKirana ? ["Placed", "Packed", "Ready for Pickup", "Out for Delivery", "Delivered"] : ["Placed", "Confirmed", "Cooking", "Ready for Pickup", "Out for Delivery", "Delivered"];
+  if (st === "Cancelled") return `<div class="tl"><span style="background:#ffe4e6;color:#9f1239">❌ Cancelled</span></div>`;
+  const idx = Math.max(0, steps.indexOf(st));
+  return `<div class="tl">${steps.map((s, i) => `<span class="${i < idx ? "done" : i === idx ? "now" : ""}">${s === "Ready for Pickup" ? "Ready" : s === "Out for Delivery" ? "On Way" : s}</span>`).join("")}</div>`;
+}
+
+function getVendorLedger(v) {
+  const list = v.type === "FOOD" ? (S.foodOrders || []) : (S.kiranaOrders || []);
+  let gross = 0, comm = 0;
+  list.filter(o => o.status !== "Cancelled").forEach(o => {
+    const sub = o.items.filter(i => i.vendorId === v.id).reduce((a, i) => a + i.price * i.qty, 0);
+    if (sub > 0) {
+      gross += sub;
+      if (!v.isSelf) {
+        if (v.type === "FOOD") comm += Math.round((sub * (+S.cfg.foodPartnerCommPct || 20)) / 100);
+        if (v.type === "KIRANA" && o.status === "Delivered") comm += (+S.cfg.kiranaPostDeliveryComm || 30);
       }
-      isSyncing = true;
-      try {
-        const res = await fetch(`${rtdbUrl}.json`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...db, updatedAt: Date.now() })
-        });
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        updateSyncBadge("RTDB: Live", true);
-      } catch (e) {
-        updateSyncBadge("RTDB: Offline", false);
-        log("RTDB write error: " + e.message);
-      } finally {
-        isSyncing = false;
-      }
     }
+  });
+  return { gross, comm, due: Math.max(0, gross - comm - (+v.settledPaid || 0)) };
+}
 
-    async function pullFromRtdb(silent = false) {
-      if (!rtdbUrl || isSyncing) return;
-      try {
-        const res = await fetch(`${rtdbUrl}.json?t=${Date.now()}`);
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        const remote = await res.json();
-        if (remote === null) {
-          await pushToRtdb();
-          return;
-        }
-        if (remote && Array.isArray(remote.orders)) {
-          const prevStr = JSON.stringify(db.orders);
-          const nextStr = JSON.stringify(remote.orders);
-          if (prevStr !== nextStr) {
-            db.orders = remote.orders;
-            localStorage.setItem(KEY, JSON.stringify(db));
-            renderAll();
-            if (!silent) log("Synced latest orders from RTDB.");
-          }
-        }
-        updateSyncBadge("RTDB: Live", true);
-      } catch (e) {
-        updateSyncBadge("RTDB: Offline", false);
-        if (!silent) log("RTDB read error: " + e.message);
-      }
-    }
+/* ==================== VIEWS ==================== */
+function viewTiffin() {
+  const price = calcTiffinPrice(TF.diet, TF.days, TF.slot);
+  const mySubs = (S.tiffinSubs || []).filter(s => !TF.phone || ph(s.phone) === ph(TF.phone));
+  return `
+    <div class="hero tiffin-bg">
+      <div><span class="pill p-amber">Ghar Jaisa Fresh Tiffin</span><h2>Mera Tiffin Subscription</h2><p>Morning Breakfast · Lunch & Dinner · Free Local Delivery</p></div>
+      <img class="hero-pop" src="${IMG.thali}" alt="Tiffin" />
+    </div>
+    <div class="card" style="border-left:5px solid var(--o)">
+      <h3>🍲 Aaj Ka Menu <span class="pill p-green">Fresh Today</span></h3>
+      <p style="font-size:12.5px;font-weight:700">${esc(S.cfg.todayTiffinMenu)}</p>
+    </div>
+    <div class="card">
+      <h3>1. Apna Tiffin Plan Banayein</h3>
+      <div class="seg">
+        <button class="${TF.diet === "veg" ? "on" : ""}" data-act="tfSet" data-k="diet" data-v="veg">🟢 Pure Veg</button>
+        <button class="${TF.diet === "nv" ? "on" : ""}" data-act="tfSet" data-k="diet" data-v="nv">🔴 Non-Veg</button>
+      </div>
+      <div class="plan-grid">
+        ${[[1,"1-Day Trial","Taste"],[7,"7-Day Weekly","Flexible"],[15,"15-Day Popular","Popular"],[30,"30-Day Monthly","Best Value"]].map(([d,t,tag]) => `
+          <div class="p-tier ${+TF.days === d ? "on" : ""}" data-act="tfSet" data-k="days" data-v="${d}">
+            <span class="tag">${tag}</span><div style="font-weight:800;font-size:12px;margin-top:4px">${t}</div>
+            <b>${inr(calcTiffinPrice(TF.diet, d, TF.slot))}</b><div style="font-size:10px;color:var(--mu)">${d} Din</div>
+          </div>`).join("")}
+      </div>
+      <span class="lbl">Meal Slot</span>
+      <select class="inp" data-tf="slot">
+        ${["Morning Breakfast (7:30 AM)","Lunch (12:30 PM)","Dinner (8:00 PM)","Breakfast + Lunch","Lunch + Dinner","All 3 Meals (B+L+D)"].map(sl => `<option value="${sl}" ${TF.slot === sl ? "selected" : ""}>${sl}</option>`).join("")}
+      </select>
+      <div class="row" style="margin-top:8px"><b>Total Plan Amount</b><b style="font-family:var(--serif);font-size:22px;color:var(--o)">${inr(price)}</b></div>
+      <button class="btn o full" data-act="openTiffinCheckout">Subscribe Mera Tiffin · ${inr(price)}</button>
+    </div>
+    <div class="card">
+      <h3>Active Tiffin Pass (${mySubs.length})</h3>
+      ${mySubs.map(s => `
+        <div class="row" style="flex-direction:column;align-items:stretch">
+          <div style="display:flex;justify-content:space-between"><b>${esc(s.name)} (${s.diet === "nv" ? "Non-Veg" : "Veg"} · ${esc(s.slot)})</b><span class="pill ${s.paid ? "p-green" : "p-amber"}">${s.remaining} Din Bache</span></div>
+          <div style="font-size:11px;color:var(--mu);margin:3px 0">📍 ${esc(s.area)} · ${s.paid ? "Paid ✓" : "Pending"}</div>
+          <div class="btn-row"><button class="btn w sm" data-act="skipTiffin" data-id="${s.id}">${s.skipToday ? "Skipped Today ✓" : "⏭ Skip Today (+1d)"}</button></div>
+        </div>`).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi active tiffin pass nahi hai.</p>`}
+    </div>`;
+}
 
-    function persist() {
-      localStorage.setItem(KEY, JSON.stringify(db));
-      pushToRtdb();
-    }
+function viewFood() {
+  const vendors = S.vendors.filter(v => v.type === "FOOD");
+  if (SELECTED_REST_ID) {
+    const v = vendors.find(x => x.id === SELECTED_REST_ID);
+    if (!v) { SELECTED_REST_ID = null; return viewFood(); }
+    const items = S.foodItems.filter(i => i.vendorId === v.id);
+    return `
+      <div class="card" style="background:#1e293b;color:#fff">
+        <button class="btn w sm" data-act="backVendors" style="margin-bottom:8px">← All Restaurants</button>
+        <h2 style="font-family:var(--serif)">${esc(v.name)}</h2>
+        <p style="font-size:11.5px;color:#cbd5e1">${esc(v.cuisine)} · 📍 ${esc(v.area)} · ${esc(v.status)}</p>
+      </div>
+      <div class="grid-2">
+        ${items.map(it => {
+          const q = FOOD_CART[it.id] || 0;
+          const dis = v.status === "Closed" || !it.stock;
+          return `<div class="pcard"><div><div class="pimg"><img src="${it.img || IMG.thali}" /></div>
+            <div style="display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px"><span class="sym ${it.nv ? "nv" : ""}"><i></i></span><span>${esc(it.name)}</span></div>
+            <div style="font-size:10.5px;color:var(--mu);margin-top:2px">${esc(it.desc)}</div></div>
+            <div><div style="font-family:var(--serif);font-size:16px;font-weight:800;color:var(--o);margin-top:6px">${inr(it.price)}</div>
+            ${dis ? `<button class="btn w full sm" disabled>Unavailable</button>` : q ? `<div class="qty"><button data-act="fDec" data-id="${it.id}">−</button><b>${q}</b><button data-act="fInc" data-id="${it.id}">+</button></div>` : `<button class="btn o full sm" data-act="fInc" data-id="${it.id}">+ ADD</button>`}</div></div>`;
+        }).join("")}
+      </div>`;
+  }
+  return `
+    <div class="hero food-bg"><div><span class="pill p-amber">Multi-Vendor Food</span><h2>Udala Restaurants & Nashta</h2><p>Fresh khana, biryani & cakes seedha ghar par</p></div><img class="hero-pop" src="${IMG.biryani}" /></div>
+    <div class="chips">${["ALL","Breakfast","Thali","Meals","Biryani","Bakery"].map(c => `<button class="${FOOD_CAT === c ? "on" : ""}" data-act="setFoodCat" data-v="${c}">${c}</button>`).join("")}</div>
+    ${vendors.map(v => `
+      <div class="rest-card" data-act="openRest" data-id="${v.id}">
+        <div class="rest-cover"><img src="${v.cover || IMG.thali}" /><span class="rest-status pill ${v.status === "Open" ? "p-green" : "p-red"}">${v.status}</span><span class="rest-eta">⏱ ${esc(v.eta)}</span></div>
+        <div class="rest-body"><div class="rest-top"><strong>${esc(v.name)}</strong><span class="rest-rating">★ ${esc(v.rating)}</span></div>
+        <div style="font-size:11.5px;color:var(--mu);margin-top:3px">${esc(v.cuisine)} · 📍 ${esc(v.area)}</div></div>
+      </div>`).join("")}`;
+}
 
-    function beep() {
-      try {
-        const Ctx = window.AudioContext || window.webkitAudioContext;
-        const ctx = new Ctx();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "triangle";
-        osc.frequency.setValueAtTime(900, ctx.currentTime);
-        gain.gain.setValueAtTime(0.18, ctx.currentTime);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.35);
-      } catch (e) {
-        log("Audio error: " + e.message);
-      }
-    }
+function viewKirana() {
+  const sub = kiranaSubtotal();
+  const minOrd = +S.cfg.kiranaMinOrder || 300;
+  const freeAt = +S.cfg.kiranaFreeDeliveryAt || 500;
+  const pct = Math.min(100, Math.round((sub / freeAt) * 100));
+  const items = S.kiranaItems.filter(it => KIRANA_CAT === "ALL" || it.cat === KIRANA_CAT);
+  return `
+    <div class="hero kirana-bg"><div><span class="pill p-amber">MIN ₹${minOrd} · ₹${freeAt}+ FREE DEL</span><h2>Sauda & Daily Needs</h2><p>Atta, Chawal, Oil, Surf Excel, Lifebuoy & Dairy</p></div><img class="hero-pop" src="${IMG.surf}" /></div>
+    <div class="card">
+      <div style="font-size:12px;font-weight:800">${sub < minOrd ? `⚠️ Min order ₹${minOrd} ke liye ${inr(minOrd - sub)} aur add karein` : sub < freeAt ? `✅ ${inr(freeAt - sub)} aur add karein FREE Delivery ke liye!` : `🎉 FREE Delivery Unlocked!`}</div>
+      <div class="pbar"><i style="width:${pct}%"></i></div>
+    </div>
+    <div class="chips">${["ALL","HUL","Staples","Dairy"].map(c => `<button class="${KIRANA_CAT === c ? "on" : ""}" data-act="setKiranaCat" data-v="${c}">${c}</button>`).join("")}</div>
+    <div class="grid-2">
+      ${items.map(it => {
+        const q = KIRANA_CART[it.id] || 0;
+        return `<div class="pcard"><div><div class="pimg"><img src="${it.img || IMG.kirana}" /></div>
+          <div style="font-weight:800;font-size:12px">${esc(it.name)}</div><div style="font-size:10.5px;color:var(--mu)">${esc(it.desc)}</div></div>
+          <div><div style="font-family:var(--serif);font-size:16px;font-weight:800;color:var(--g2);margin-top:6px">${inr(it.price)}</div>
+          ${!it.stock ? `<button class="btn w full sm" disabled>Out of Stock</button>` : q ? `<div class="qty"><button data-act="kDec" data-id="${it.id}">−</button><b>${q}</b><button data-act="kInc" data-id="${it.id}">+</button></div>` : `<button class="btn g full sm" data-act="kInc" data-id="${it.id}">+ ADD</button>`}</div></div>`;
+      }).join("")}
+    </div>`;
+}
 
-    function checkListener() {
-      const badge = document.getElementById("listenerBadge");
-      const active = Boolean(window.AndroidListener || window.NamasteUdalaBridge || navigator.userAgent.includes("NamasteUdalaAlert"));
-      badge.textContent = active ? "Listener: Active" : "Listener: Web Ready";
-      badge.className = active ? "pill ok" : "pill warn";
-    }
-
-    function parseAlert(text) {
-      const utr = (text.match(/\b(\d{12})\b/) || [])[1] || "";
-      const amtMatch = text.match(/(?:rs\.?|inr|₹)\s*([0-9]+(?:\.[0-9]{1,2})?)/i);
-      const amount = amtMatch ? parseFloat(amtMatch[1]) : null;
-      return { utr, amount };
-    }
-
-    function verifyById(id, utr = "") {
-      const o = db.orders.find(x => x.id === id);
-      if (!o) return;
-      o.paid = true;
-      if (utr) o.utr = utr;
-      if (o.stage === "NEW") o.stage = "VERIFIED";
-      persist();
-      beep();
-      log(`Verified ${o.id} (₹${o.amount}, UTR: ${o.utr || "manual"}) -> udala_v4_master`);
-      renderAll();
-    }
-
-    function setStage(id, stage) {
-      const o = db.orders.find(x => x.id === id);
-      if (!o) return;
-      o.stage = stage;
-      persist();
-      log(`Stage ${o.id} -> ${stage}`);
-      renderAll();
-    }
-
-    window.onPaymentNotification = function(pkg, title, body) {
-      const combined = `${title || ""} ${body || ""}`;
-      const p = parseAlert(combined);
-      log(`App Alert [${pkg || "listener"}]: UTR=${p.utr || "-"}, Amt=${p.amount ?? "-"}`);
-      const match = db.orders.find(o => !o.paid && p.amount !== null && Number(o.amount) === Number(p.amount));
-      if (match) verifyById(match.id, p.utr);
-      else beep();
-    };
-
-    function filteredOrders() {
-      return db.orders.filter(o => {
-        if (range.from && o.date < range.from) return false;
-        if (range.to && o.date > range.to) return false;
-        return true;
-      });
-    }
-
-    function renderAll() {
-      const kBox = document.getElementById("kitchenQueue");
-      const vBox = document.getElementById("vendorQueue");
-      const dBox = document.getElementById("deliveryQueue");
-      const oBox = document.getElementById("ownerOrders");
-
-      kBox.innerHTML = db.orders.map(o => `
-        <div class="subcard">
-          <div class="row">
-            <strong>${o.id} • ${o.pack}</strong>
-            <span class="pill ${o.paid ? "ok" : "warn"}">${o.paid ? "PAID" : "UNPAID"} • ${o.stage}</span>
+function viewCheckout() {
+  if (!CHECKOUT) { TAB = "tiffin"; return viewTiffin(); }
+  const m = CHECKOUT;
+  const uLink = qrUrl(`upi://pay?pa=${S.cfg.upi}&pn=Namaste%20Udala&cu=INR&am=${Number(m.total).toFixed(2)}`);
+  return `
+    <div class="card" style="background:var(--o);color:#fff">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <button class="btn w sm" data-act="cancelCheckout">← Back</button>
+        <b>${esc(m.title)} · ${inr(m.total)}</b>
+      </div>
+    </div>
+    <div class="card">
+      <h3>1. Delivery Details</h3>
+      <div style="background:var(--sf2);padding:10px;border-radius:12px;font-size:12px;margin-bottom:8px">${esc(m.summary)}</div>
+      <span class="lbl">Aapka Naam *</span><input class="inp" data-tf="name" value="${esc(TF.name)}" placeholder="Poora Naam" />
+      <span class="lbl">10-Digit Mobile *</span><input class="inp" data-tf="phone" type="tel" maxlength="10" value="${esc(TF.phone)}" placeholder="10-Digit Mobile" />
+      <span class="lbl">Udala Area *</span><select class="inp" data-tf="area">${UDALA_AREAS.map(a => `<option value="${a}" ${TF.area === a ? "selected" : ""}>📍 ${a}</option>`).join("")}</select>
+      <span class="lbl">Address / Landmark *</span><input class="inp" data-tf="addr" value="${esc(TF.addr)}" placeholder="House / Street / Landmark" />
+      <span class="lbl">Note (Optional)</span><input class="inp" data-tf="note" value="${esc(TF.note)}" placeholder="Extra note..." />
+    </div>
+    <div class="card">
+      <h3>2. Payment Mode</h3>
+      <div class="seg">
+        <button class="${m.payMode === "UPI" ? "on" : ""}" data-act="setPayMode" data-v="UPI">📲 UPI Pay</button>
+        <button class="${m.payMode === "COD" ? "on" : ""}" data-act="setPayMode" data-v="COD">💵 Cash on Delivery</button>
+      </div>
+      ${m.payMode === "UPI" ? `
+        <div style="text-align:center;background:#f8fafc;border:1px solid var(--ln);border-radius:16px;padding:12px;margin-top:8px">
+          <img src="${uLink}" style="width:150px;height:150px;margin:0 auto;border-radius:10px" />
+          <div style="font-size:11.5px;font-weight:800;color:#0f172a;margin-top:6px">UPI: ${esc(S.cfg.upi)}</div>
+          <div class="btn-row" style="margin:8px 0">
+            <a class="btn g sm" href="upi://pay?pa=${encodeURIComponent(S.cfg.upi)}&pn=Namaste%20Udala&cu=INR&am=${Number(m.total).toFixed(2)}">📲 Pay via UPI App</a>
+            <button class="btn w sm" data-act="copyUpi">📋 Copy UPI</button>
           </div>
-          <div class="row">
-            <button type="button" onclick="setStage('${o.id}','COOKING')">Cooking</button>
-            <button class="ghost" type="button" onclick="setStage('${o.id}','READY_FOR_DISPATCH')">Meal Ready</button>
-          </div>
-        </div>
-      `).join("");
+          <input class="inp" id="chkUtrInp" inputmode="numeric" maxlength="12" placeholder="12-Digit Bank UTR *" value="${esc(m.draftUtr || "")}" style="background:#fff;color:#0f172a" />
+        </div>` : `<div style="font-size:12px;margin-top:8px;font-weight:700">💵 Delivery par rider ko ${inr(m.total)} cash dena hoga.</div>`}
+      <button class="btn o full" style="margin-top:12px;padding:14px" data-act="confirmCheckout">✅ Place Order · ${inr(m.total)}</button>
+    </div>`;
+}
 
-      vBox.innerHTML = db.orders.map(o => `
-        <div class="subcard">
-          <div class="row">
-            <strong>${o.id} • ${o.name}</strong>
-            <span class="pill warn">${o.stage}</span>
+function viewOrders() {
+  const all = [
+    ...(S.foodOrders || []).map(o => ({ ...o, kind: "FOOD" })),
+    ...(S.kiranaOrders || []).map(o => ({ ...o, kind: "KIRANA" }))
+  ].reverse();
+  return `
+    <div class="card">
+      <h3>📦 My Orders (${all.length})</h3>
+      ${all.map(o => `
+        <div class="order-smart-card">
+          <div class="order-smart-head">
+            <div><b>[${o.kind}] ${esc(o.id)} · ${inr(o.total)}</b><div style="font-size:10.5px;color:var(--mu)">${esc(o.date)} · ${esc(o.time)} · 📍 ${esc(o.area)}</div></div>
+            <span class="pill ${o.status === "Delivered" ? "p-green" : o.status === "Cancelled" ? "p-red" : "p-amber"}">${esc(o.status)}</span>
           </div>
-          <button class="ghost" type="button" onclick="setStage('${o.id}','SAUDA_PACKED')">Sauda Packed</button>
-        </div>
-      `).join("");
+          ${statusTimeline(o.status, o.kind === "KIRANA")}
+          ${o.deliveryOtp && o.status !== "Delivered" && o.status !== "Cancelled" ? `<div style="font-size:11px;background:#fef3c7;color:#92400e;padding:4px 8px;border-radius:8px;font-weight:800;margin:4px 0">🔐 Handover PIN: <b>${esc(o.deliveryOtp)}</b></div>` : ""}
+          <div class="order-smart-meta">${(o.items || []).map(i => `${esc(i.name)} ×${i.qty}`).join(", ")} · Pay: <b>${esc(o.payMode)}</b> ${o.utr ? `· UTR: ${esc(o.utr)}` : ""}</div>
+        </div>`).join("") || `<p style="font-size:12px;color:var(--mu)">Abhi koi order nahi hai.</p>`}
+    </div>`;
+}
 
-      dBox.innerHTML = db.orders.map(o => `
-        <div class="subcard">
-          <div class="row">
-            <strong>${o.id} • ${o.phone}</strong>
-            <span class="pill ${o.stage === "DELIVERED" ? "ok" : "warn"}">${o.stage}</span>
-          </div>
-          <div class="row">
-            <button class="ghost" type="button" onclick="setStage('${o.id}','OUT_FOR_DELIVERY')">Out For Delivery</button>
-            <button type="button" onclick="setStage('${o.id}','DELIVERED')">Delivered</button>
-          </div>
-        </div>
-      `).join("");
+function viewProfile() {
+  return `
+    <div class="card">
+      <h3>👤 Saved Profile & Address</h3>
+      <span class="lbl">Naam</span><input class="inp" data-tf="name" value="${esc(TF.name)}" placeholder="Aapka naam" />
+      <span class="lbl">10-Digit Mobile</span><input class="inp" data-tf="phone" type="tel" maxlength="10" value="${esc(TF.phone)}" placeholder="10-digit mobile" />
+      <span class="lbl">Udala Area</span><select class="inp" data-tf="area">${UDALA_AREAS.map(a => `<option value="${a}" ${TF.area === a ? "selected" : ""}>📍 ${a}</option>`).join("")}</select>
+      <span class="lbl">Address</span><input class="inp" data-tf="addr" value="${esc(TF.addr)}" placeholder="Pura address" />
+      <button class="btn g full" data-act="saveProfile">✓ Save Profile</button>
+    </div>
+    <div class="card">
+      <h3>🔐 Staff / Owner Login</h3>
+      <p style="font-size:11.5px;color:var(--mu);margin-bottom:8px">Owner (4827), Kitchen (1122), Delivery (3344) ya Vendor PIN se panel kholein.</p>
+      <button class="btn o full" data-act="staffPinLogin">🔑 Enter Staff / Owner PIN</button>
+    </div>`;
+}
 
-      if (unlocked) {
-        oBox.innerHTML = filteredOrders().map(o => `
-          <div class="subcard">
-            <div class="row">
-              <div>
-                <strong>${o.id}</strong> (${o.date}) • ₹${o.amount} • ${o.mode}
-                <div class="muted">Customer: ${o.name || "-"} • UTR: ${o.utr || "-"} • Shot: ${o.shot || "-"} • Stage: ${o.stage}</div>
-              </div>
-              <div>
-                ${!o.paid
-                  ? `<button type="button" onclick="verifyById('${o.id}')">Verify</button>`
-                  : `<span class="pill ok">Verified</span>`}
-              </div>
-            </div>
+function viewOwner() {
+  const fValid = (S.foodOrders || []).filter(o => o.status !== "Cancelled");
+  const kValid = (S.kiranaOrders || []).filter(o => o.status !== "Cancelled");
+  const allOrds = [...fValid.map(o => ({ ...o, kind: "FOOD" })), ...kValid.map(o => ({ ...o, kind: "KIRANA" }))].reverse();
+  const tSales = (S.tiffinSubs || []).filter(s => s.paid).reduce((a, s) => a + (+s.price || 0), 0);
+  const fSales = fValid.reduce((a, o) => a + (+o.total || 0), 0);
+  const kSales = kValid.reduce((a, o) => a + (+o.total || 0), 0);
+  const codCol = allOrds.filter(o => o.payMode === "COD" && o.status === "Delivered").reduce((a, o) => a + (+o.total || 0), 0);
+  const codDue = Math.max(0, codCol - (+S.riderCashSettled || 0));
+
+  return `
+    <div class="card" style="background:#0f172a;color:#fff">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><small style="color:#fbbf24;font-weight:800">OWNER MASTER (4827) · ${todayIso()}</small><h2>Admin Control Center</h2></div>
+        <div style="display:flex;gap:6px"><button class="btn amb sm" data-act="testSound">🔊 Sound</button><button class="btn w sm" data-act="exitStaff">Exit</button></div>
+      </div>
+    </div>
+    <div class="kpi">
+      <div><b>${inr(tSales)}</b><span>Tiffin Rev</span></div>
+      <div><b>${inr(fSales)}</b><span>Food GMV</span></div>
+      <div><b>${inr(kSales)}</b><span>Sauda GMV</span></div>
+    </div>
+    <div class="card" style="border-left:5px solid var(--g2)">
+      <h3>📲 Notification / SMS Quick-Match</h3>
+      <div class="btn-row">
+        <input class="inp" id="notifAlertPasteInp" placeholder="Paste UPI SMS / Notification text..." />
+        <button class="btn g sm" style="max-width:130px" data-act="quickMatchAlert">⚡ Match & Verify</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>📦 All Live Orders (${allOrds.length}) · COD Due: ${inr(codDue)}</h3>
+      ${allOrds.map(o => `
+        <div class="order-smart-card" style="border-left-color:${o.utrVerified ? "var(--g2)" : "var(--amb)"}">
+          <div class="order-smart-head">
+            <div><b>[${o.kind}] ${esc(o.id)} · ${esc(o.name)} · ${inr(o.total)}</b><div style="font-size:10.5px;color:var(--mu)">📞 ${esc(o.phone)} · 📍 ${esc(o.area)} · ${esc(o.payMode)} ${o.utr ? `· UTR: ${esc(o.utr)}` : ""}</div></div>
+            <span class="pill ${o.utrVerified ? "p-green" : "p-amber"}">${esc(o.status)}</span>
           </div>
-        `).join("") || `<p class="muted">Is date range mein koi order nahi hai.</p>`;
-      }
+          <div class="order-smart-meta">${(o.items || []).map(i => `${esc(i.name)}×${i.qty}`).join(", ")}</div>
+          <div class="btn-row" style="margin-top:8px">
+            ${o.payMode === "UPI" && !o.utrVerified ? `<button class="btn g sm" data-act="verifyUtr" data-k="${o.kind}" data-id="${o.id}">Verify UTR ✓</button>` : ""}
+            <button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Ready for Pickup">✅ Ready</button>
+            <button class="btn g sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Delivered">Delivered</button>
+            <button class="btn r sm" data-act="cancelOrder" data-k="${o.kind}" data-id="${o.id}">Cancel</button>
+          </div>
+        </div>`).join("") || `<p style="font-size:12px;color:var(--mu)">No orders yet.</p>`}
+    </div>`;
+}
+
+function viewKitchen() {
+  const subs = (S.tiffinSubs || []).filter(s => !s.skipToday);
+  const fOrds = (S.foodOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled");
+  return `
+    <div class="card" style="background:#113221;color:#fff"><div style="display:flex;justify-content:space-between;align-items:center"><div><small style="color:#fbbf24;font-weight:800">KITCHEN (1122)</small><h2>Rasoi Queue</h2></div><button class="btn w sm" data-act="exitStaff">Exit</button></div></div>
+    <div class="card"><h3>🍱 Active Tiffins (${subs.length})</h3>${subs.map(s => `<div class="row"><b>${esc(s.name)} (${s.diet === "nv" ? "NV" : "Veg"} · ${esc(s.slot)})</b><span>${esc(s.area)}</span></div>`).join("")}</div>
+    <div class="card"><h3>🍛 Open Food Orders (${fOrds.length})</h3>
+      ${fOrds.map(o => `<div class="order-smart-card"><b>${esc(o.id)} — ${esc(o.name)}</b><div class="order-smart-meta">${(o.items || []).map(i => `${esc(i.name)}×${i.qty}`).join(", ")}</div>
+        <div class="btn-row" style="margin-top:6px"><button class="btn amb sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Cooking">🔥 Cooking</button><button class="btn g sm" data-act="ordStatus" data-k="FOOD" data-id="${o.id}" data-s="Ready for Pickup">📦 Ready</button></div></div>`).join("") || `<p style="font-size:12px;color:var(--mu)">No pending food orders.</p>`}
+    </div>`;
+}
+
+function viewDelivery() {
+  const drops = [
+    ...(S.foodOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled").map(o => ({ ...o, kind: "FOOD" })),
+    ...(S.kiranaOrders || []).filter(o => o.status !== "Delivered" && o.status !== "Cancelled").map(o => ({ ...o, kind: "KIRANA" }))
+  ];
+  return `
+    <div class="card" style="background:#064e3b;color:#fff"><div style="display:flex;justify-content:space-between;align-items:center"><div><small style="color:#fbbf24;font-weight:800">DELIVERY (3344)</small><h2>Active Drops (${drops.length})</h2></div><button class="btn w sm" data-act="exitStaff">Exit</button></div></div>
+    <div class="card">
+      ${drops.map(o => `<div class="order-smart-card"><b>[${o.kind}] ${esc(o.id)} — ${esc(o.name)} (${o.payMode === "COD" ? "Collect " + inr(o.total) : "UPI Paid"})</b>
+        <div class="order-smart-meta">📍 ${esc(o.area)} · ${esc(o.addr)} · 📞 ${esc(o.phone)}</div>
+        <div class="btn-row" style="margin-top:8px"><a class="btn w sm" href="tel:+91${esc(o.phone)}">📞 Call</a>
+        <button class="btn amb sm" data-act="ordStatus" data-k="${o.kind}" data-id="${o.id}" data-s="Out for Delivery">🛵 Picked Up</button>
+        <button class="btn g sm" data-act="deliverPin" data-k="${o.kind}" data-id="${o.id}">✅ Deliver (PIN)</button></div></div>`).join("") || `<p style="font-size:12px;color:var(--mu)">No pending drops.</p>`}
+    </div>`;
+}
+
+function viewVendor() {
+  const v = S.vendors.find(x => x.id === ACTIVE_VENDOR_ID);
+  if (!v) { ROLE = "customer"; return viewTiffin(); }
+  const led = getVendorLedger(v);
+  const myOrders = (v.type === "FOOD" ? S.foodOrders : S.kiranaOrders).filter(o => o.status !== "Cancelled" && o.items.some(i => i.vendorId === v.id));
+  return `
+    <div class="card" style="background:#78350f;color:#fff"><div style="display:flex;justify-content:space-between;align-items:center"><div><small style="color:#fde68a;font-weight:800">VENDOR PANEL</small><h2>${esc(v.name)}</h2></div><button class="btn w sm" data-act="exitStaff">Exit</button></div></div>
+    <div class="kpi"><div><b>${inr(led.gross)}</b><span>Gross</span></div><div><b>-${inr(led.comm)}</b><span>Comm</span></div><div><b>${inr(led.due)}</b><span>Due</span></div></div>
+    <div class="card"><h3>Incoming Orders (${myOrders.length})</h3>
+      ${myOrders.slice().reverse().map(o => `<div class="order-smart-card"><b>${esc(o.id)} · ${esc(o.name)} (${esc(o.status)})</b>
+        <div class="order-smart-meta">${o.items.filter(i => i.vendorId === v.id).map(i => `${esc(i.name)}×${i.qty}`).join(", ")}</div>
+        <div class="btn-row" style="margin-top:6px"><button class="btn g sm" data-act="ordStatus" data-k="${v.type}" data-id="${o.id}" data-s="Ready for Pickup">📦 Mark Ready</button></div></div>`).join("") || `<p style="font-size:12px;color:var(--mu)">No orders yet.</p>`}
+    </div>`;
+}
+
+function render() {
+  if (ROLE === "owner") $("#appMain").innerHTML = viewOwner();
+  else if (ROLE === "kitchen") $("#appMain").innerHTML = viewKitchen();
+  else if (ROLE === "delivery") $("#appMain").innerHTML = viewDelivery();
+  else if (ROLE === "vendor") $("#appMain").innerHTML = viewVendor();
+  else {
+    if (TAB === "checkout" && CHECKOUT) $("#appMain").innerHTML = viewCheckout();
+    else if (TAB === "tiffin") $("#appMain").innerHTML = viewTiffin();
+    else if (TAB === "food") $("#appMain").innerHTML = viewFood();
+    else if (TAB === "kirana") $("#appMain").innerHTML = viewKirana();
+    else if (TAB === "orders") $("#appMain").innerHTML = viewOrders();
+    else $("#appMain").innerHTML = viewProfile();
+  }
+
+  let cbar = "";
+  if (ROLE === "customer" && TAB === "food" && foodCartCount() > 0) {
+    cbar = `<div class="cbar" data-act="openFoodCheckout"><span>🍛 Food Cart: ${foodCartCount()} Items · ${inr(foodCartTotal())}</span><span>Checkout →</span></div>`;
+  } else if (ROLE === "customer" && TAB === "kirana" && kiranaCartCount() > 0) {
+    const sub = kiranaSubtotal();
+    cbar = `<div class="cbar" data-act="openKiranaCheckout"><span>🛒 Sauda: ${inr(sub)}</span><span>Checkout →</span></div>`;
+  }
+  $("#cartFloat").innerHTML = cbar;
+
+  if (ROLE === "customer") {
+    $("#bottomNav").style.display = "flex";
+    const navs = [["tiffin","🍱","Tiffin",0],["food","🍛","Food",foodCartCount()],["kirana","🛒","Sauda",kiranaCartCount()],["orders","📦","Orders",(S.foodOrders.length+S.kiranaOrders.length)],["account","👤","Profile",0]];
+    $("#bottomNav").innerHTML = navs.map(([t,ic,lbl,cnt]) => `<button class="${TAB === t ? "on" : ""}" data-act="setTab" data-v="${t}"><span style="font-size:17px">${ic}</span><span>${lbl}</span>${cnt > 0 ? `<span class="nb">${cnt}</span>` : ""}</button>`).join("");
+  } else {
+    $("#bottomNav").style.display = "none";
+  }
+}
+
+/* ==================== ACTIONS ==================== */
+const ACT = {
+  toggleTheme: () => { const d = document.documentElement.dataset.theme !== "dark"; document.documentElement.dataset.theme = d ? "dark" : ""; localStorage.setItem("nu_dark", d ? "1" : "0"); render(); },
+  setTab: v => { TAB = v; SELECTED_REST_ID = null; render(); scrollTo({ top: 0, behavior: "smooth" }); },
+  tfSet: (v, k) => { TF[k] = k === "days" ? +v : v; render(); },
+  openRest: (v, k, id) => { SELECTED_REST_ID = id; render(); },
+  backVendors: () => { SELECTED_REST_ID = null; render(); },
+  setFoodCat: v => { FOOD_CAT = v; render(); },
+  setKiranaCat: v => { KIRANA_CAT = v; render(); },
+  fInc: (v, k, id) => { FOOD_CART[id] = (FOOD_CART[id] || 0) + 1; render(); },
+  fDec: (v, k, id) => { FOOD_CART[id] = Math.max(0, (FOOD_CART[id] || 0) - 1); if (!FOOD_CART[id]) delete FOOD_CART[id]; render(); },
+  kInc: (v, k, id) => { KIRANA_CART[id] = (KIRANA_CART[id] || 0) + 1; render(); },
+  kDec: (v, k, id) => { KIRANA_CART[id] = Math.max(0, (KIRANA_CART[id] || 0) - 1); if (!KIRANA_CART[id]) delete KIRANA_CART[id]; render(); },
+  openTiffinCheckout: () => {
+    const total = calcTiffinPrice(TF.diet, TF.days, TF.slot);
+    CHECKOUT = { kind: "TIFFIN", title: "Mera Tiffin", summary: `${TF.days}d · ${TF.diet === "nv" ? "Non-Veg" : "Veg"} · ${TF.slot}`, total, payMode: "UPI" };
+    TAB = "checkout"; render();
+  },
+  openFoodCheckout: () => {
+    const items = Object.entries(FOOD_CART).map(([id, qty]) => { const it = S.foodItems.find(x => x.id === id); return it ? { ...it, qty } : null; }).filter(Boolean);
+    if (!items.length) return;
+    CHECKOUT = { kind: "FOOD", title: "Food Checkout", summary: items.map(i => `${i.name}×${i.qty}`).join(", "), items, total: foodCartTotal(), payMode: "UPI" };
+    TAB = "checkout"; render();
+  },
+  openKiranaCheckout: () => {
+    const sub = kiranaSubtotal();
+    const minOrd = +S.cfg.kiranaMinOrder || 300;
+    if (sub < minOrd) return toast(`⚠️ Min ₹${minOrd} order zaroori hai!`);
+    const items = Object.entries(KIRANA_CART).map(([id, qty]) => { const it = S.kiranaItems.find(x => x.id === id); return it ? { ...it, qty } : null; }).filter(Boolean);
+    const fee = kiranaDeliveryFee(sub);
+    CHECKOUT = { kind: "KIRANA", title: "Sauda Checkout", summary: items.map(i => `${i.name}×${i.qty}`).join(", "), items, sub, deliveryFee: fee, total: sub + fee, payMode: "UPI" };
+    TAB = "checkout"; render();
+  },
+  cancelCheckout: () => { CHECKOUT = null; TAB = "tiffin"; render(); },
+  setPayMode: v => { if (CHECKOUT) { CHECKOUT.payMode = v; render(); } },
+  copyUpi: () => { navigator.clipboard?.writeText(S.cfg.upi); toast(`📋 Copied: ${S.cfg.upi}`); },
+  confirmCheckout: () => {
+    if (!CHECKOUT) return;
+    const cleanPhone = ph(TF.phone);
+    if (!TF.name.trim() || cleanPhone.length !== 10 || TF.addr.trim().length < 5) return toast("⚠️ Naam, 10-digit Mobile aur Address bharein!");
+    localStorage.setItem("nu_cname", TF.name.trim()); localStorage.setItem("nu_cphone", cleanPhone);
+    localStorage.setItem("nu_carea", TF.area); localStorage.setItem("nu_caddr", TF.addr.trim());
+    let utr = "";
+    if (CHECKOUT.payMode === "UPI") {
+      const chk = validateStrictUTR($("#chkUtrInp")?.value, S.usedUtrs);
+      if (!chk.ok) return toast(chk.msg);
+      utr = chk.utr;
+      S.usedUtrs.push(utr);
+    }
+    const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    if (CHECKOUT.kind === "TIFFIN") {
+      S.tiffinSubs.unshift({ id: "TS-" + Math.floor(1000 + Math.random() * 9000), date: todayIso(), time, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(), diet: TF.diet, days: TF.days, remaining: TF.days, slot: TF.slot, price: CHECKOUT.total, paid: CHECKOUT.payMode === "UPI" ? 1 : 0, utr, skipToday: false });
+    } else if (CHECKOUT.kind === "FOOD") {
+      S.foodOrders.push({ id: "FD-" + Math.floor(10000 + Math.random() * 90000), deliveryOtp: String(Math.floor(1000 + Math.random() * 9000)), date: todayIso(), time, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(), items: CHECKOUT.items, total: CHECKOUT.total, payMode: CHECKOUT.payMode, utr, utrVerified: false, status: "Placed" });
+      FOOD_CART = {};
+    } else {
+      S.kiranaOrders.push({ id: "KR-" + Math.floor(10000 + Math.random() * 90000), deliveryOtp: String(Math.floor(1000 + Math.random() * 9000)), date: todayIso(), time, name: TF.name.trim(), phone: cleanPhone, area: TF.area, addr: TF.addr.trim(), items: CHECKOUT.items, total: CHECKOUT.total, payMode: CHECKOUT.payMode, utr, utrVerified: false, status: "Placed" });
+      KIRANA_CART = {};
+    }
+    CHECKOUT = null; TAB = "orders";
+    playOrderAlertSound();
+    save(`New ${TAB} order by ${TF.name.trim()}`);
+    toast("🎉 Order Placed!");
+  },
+  skipTiffin: (v, k, id) => { const s = S.tiffinSubs.find(x => x.id === id); if (s && !s.skipToday) { s.skipToday = true; s.remaining = (+s.remaining || 1) + 1; save(`Skipped tiffin ${s.id}`); toast("⏭ Skipped (+1d added)"); } },
+  saveProfile: () => { localStorage.setItem("nu_cname", TF.name.trim()); localStorage.setItem("nu_cphone", ph(TF.phone)); localStorage.setItem("nu_carea", TF.area); localStorage.setItem("nu_caddr", TF.addr.trim()); toast("✅ Profile Saved!"); },
+  staffPinLogin: () => {
+    const pin = prompt("Staff / Owner PIN daalein (4827 / 1122 / 3344 / Vendor PIN):");
+    if (!pin) return;
+    if (pin === PINS.owner) { ROLE = "owner"; sessionStorage.setItem("nu_role", "owner"); render(); return toast("👑 Owner Unlocked"); }
+    if (pin === PINS.kitchen) { ROLE = "kitchen"; sessionStorage.setItem("nu_role", "kitchen"); render(); return toast("🍳 Kitchen Unlocked"); }
+    if (pin === PINS.delivery) { ROLE = "delivery"; sessionStorage.setItem("nu_role", "delivery"); render(); return toast("🛵 Delivery Unlocked"); }
+    const vPins = { ...PINS.vendors, ...(S.cfg.vendorPins || {}) };
+    const vid = Object.keys(vPins).find(k => vPins[k] === pin);
+    if (vid) { ROLE = "vendor"; ACTIVE_VENDOR_ID = vid; sessionStorage.setItem("nu_role", "vendor"); sessionStorage.setItem("nu_vid", vid); render(); return toast("🏪 Vendor Unlocked"); }
+    toast("❌ Galat PIN!");
+  },
+  exitStaff: () => { ROLE = "customer"; sessionStorage.setItem("nu_role", "customer"); render(); },
+  testSound: () => { playOrderAlertSound(); toast("🔔 Sound Test OK!"); },
+  ordStatus: (v, k, id, e) => {
+    const st = e.target.closest("[data-s]")?.dataset.s;
+    const o = (k === "FOOD" ? S.foodOrders : S.kiranaOrders).find(x => x.id === id);
+    if (o && st) { o.status = st; save(`${k} ${id} -> ${st}`); toast(`Updated: ${st}`); }
+  },
+  deliverPin: (v, k, id) => {
+    const o = (k === "FOOD" ? S.foodOrders : S.kiranaOrders).find(x => x.id === id);
+    if (!o) return;
+    const p = prompt(`Customer 4-digit PIN daalein (Hint: ${o.deliveryOtp || "1234"}):`);
+    if (p === null) return;
+    if (o.deliveryOtp && p.trim() !== String(o.deliveryOtp)) return toast("❌ Galat PIN!");
+    o.status = "Delivered"; save(`Delivered ${id}`); toast("✅ Delivered!");
+  },
+  cancelOrder: (v, k, id) => {
+    const o = (k === "FOOD" ? S.foodOrders : S.kiranaOrders).find(x => x.id === id);
+    if (!o) return;
+    const r = prompt("Cancel reason likhein:", "Item unavailable");
+    if (!r || !r.trim()) return;
+    o.status = "Cancelled"; o.cancelReason = r.trim(); save(`Cancelled ${id}: ${r.trim()}`); toast("❌ Cancelled");
+  },
+  verifyUtr: (v, k, id) => {
+    const o = (k === "FOOD" ? S.foodOrders : S.kiranaOrders).find(x => x.id === id);
+    if (!o) return;
+    o.utrVerified = true;
+    if (o.status === "Placed") o.status = k === "KIRANA" ? "Packed" : "Confirmed";
+    save(`Verified UTR ${o.utr} for ${id}`); toast("✅ UTR Verified!");
+  },
+  quickMatchAlert: () => {
+    const raw = ($("#notifAlertPasteInp")?.value || "").trim();
+    if (!raw) return toast("⚠️ SMS / Notification text paste karein");
+    window.onPaymentNotification("ManualPaste", "", raw);
+    if ($("#notifAlertPasteInp")) $("#notifAlertPasteInp").value = "";
+  }
+};
+
+document.addEventListener("click", e => {
+  if (e.target.closest("#logoBtn")) {
+    window._taps = (window._taps || 0) + 1;
+    clearTimeout(window._tapT);
+    window._tapT = setTimeout(() => { window._taps = 0; }, 1400);
+    if (window._taps >= 5) { window._taps = 0; ACT.staffPinLogin(); }
+    return;
+  }
+  const btn = e.target.closest("[data-act]");
+  if (btn && ACT[btn.dataset.act]) {
+    if (btn.tagName !== "A") e.preventDefault();
+    ACT[btn.dataset.act](btn.dataset.v, btn.dataset.k, btn.dataset.id, e);
+  }
+});
+
+document.addEventListener("input", e => {
+  if (e.target.id === "chkUtrInp" && CHECKOUT) { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 12); CHECKOUT.draftUtr = e.target.value; return; }
+  if (e.target.dataset.tf) {
+    if (e.target.dataset.tf === "phone") e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    TF[e.target.dataset.tf] = e.target.value;
+  }
+});
+document.addEventListener("change", e => { if (e.target.dataset.tf) { TF[e.target.dataset.tf] = e.target.value; render(); } });
+
+/* ==================== ANDROID LISTENER AUTO-VERIFY BRIDGE ==================== */
+(function initNamasteUdalaListenerBridge() {
+  const isBridge = Boolean(window.AndroidListener || window.NamasteUdalaBridge || /NamasteUdalaAlert/i.test(navigator.userAgent || ""));
+  const badge = document.getElementById("listenerBadge");
+  if (badge) badge.textContent = isBridge ? "📡 Listener ON" : "🌐 Web Mode";
+
+  window.onPaymentNotification = function (pkg, title, body) {
+    const raw = `${title || ""} ${body || ""}`.trim();
+    const parsed = parsePaymentAlertText(raw);
+    if (!parsed.utr && !(parsed.amount > 0)) return toast("⚠️ Amount ya 12-digit UTR nahi mila");
+
+    const candidates = [
+      ...(S.foodOrders || []).map(o => ({ o, kind: "FOOD" })),
+      ...(S.kiranaOrders || []).map(o => ({ o, kind: "KIRANA" }))
+    ].filter(x => x.o && x.o.payMode === "UPI" && !x.o.utrVerified && x.o.status !== "Cancelled");
+
+    const hit = candidates.find(x =>
+      (parsed.utr && String(x.o.utr || "").includes(parsed.utr)) ||
+      (parsed.amount > 0 && Math.abs((+x.o.total || 0) - parsed.amount) < 0.01)
+    );
+    if (hit) {
+      hit.o.utrVerified = true;
+      if (parsed.utr && !hit.o.utr) hit.o.utr = parsed.utr;
+      if (hit.o.status === "Placed") hit.o.status = hit.kind === "KIRANA" ? "Packed" : "Confirmed";
+      playOrderAlertSound();
+      save(`Auto-Verified [${pkg || "UPI"}] ${hit.o.id} (${inr(hit.o.total)})`);
+      return toast(`✅ Auto-Verified: ${hit.o.id} · ${inr(hit.o.total)}`);
     }
 
-    document.getElementById("roleTabs").addEventListener("click", e => {
-      const btn = e.target.closest(".tab");
-      if (!btn) return;
-      const role = btn.dataset.role;
-      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === btn));
-      ["customer", "kitchen", "vendor", "delivery", "owner"].forEach(r => {
-        document.getElementById("role-" + r).classList.toggle("hidden", r !== role);
-      });
-    });
+    const tHit = (S.tiffinSubs || []).find(s =>
+      !s.paid && (
+        (parsed.utr && String(s.utr || "").includes(parsed.utr)) ||
+        (parsed.amount > 0 && Math.abs((+s.price || 0) - parsed.amount) < 0.01)
+      )
+    );
+    if (tHit) {
+      tHit.paid = 1;
+      if (parsed.utr && !tHit.utr) tHit.utr = parsed.utr;
+      playOrderAlertSound();
+      save(`Auto-Verified Tiffin [${pkg || "UPI"}] ${tHit.id} (${inr(tHit.price)})`);
+      return toast(`✅ Tiffin Verified: ${tHit.id} · ${inr(tHit.price)}`);
+    }
+    toast("⚠️ Koi matching pending UPI order nahi mila");
+  };
+})();
 
-    document.getElementById("btnSound").addEventListener("click", () => {
-      beep();
-      log("Test Sound played.");
-    });
-
-    document.getElementById("btnPlace").addEventListener("click", () => {
-      const sel = document.getElementById("cPack");
-      const opt = sel.options[sel.selectedIndex];
-      const amount = Number(opt.dataset.amt || 0);
-      const utr = document.getElementById("cUtr").value.trim();
-      const shotFile = document.getElementById("cShot").files[0];
-      const order = {
-        id: "NU-" + Math.floor(400 + Math.random() * 599),
-        date: today(),
-        name: document.getElementById("cName").value.trim() || "Customer",
-        phone: document.getElementById("cPhone").value.trim(),
-        pack: sel.value,
-        amount,
-        mode: document.getElementById("cPayMode").value,
-        utr,
-        shot: shotFile ? shotFile.name : "",
-        paid: amount === 0,
-        stage: amount === 0 ? "VERIFIED" : "NEW"
-      };
-      db.orders.unshift(order);
-      persist();
-      document.getElementById("cStatusMsg").textContent = `Order ${order.id} created.`;
-      log(`New order ${order.id} (${order.pack}, ₹${order.amount})`);
-      renderAll();
-    });
-
-    document.getElementById("btnTrack").addEventListener("click", () => {
-      const q = document.getElementById("trackInput").value.trim().toLowerCase();
-      const hit = db.orders.find(o => o.id.toLowerCase() === q || (o.utr && o.utr.toLowerCase() === q));
-      document.getElementById("trackOut").textContent = hit
-        ? `${hit.id}: ${hit.paid ? "PAID" : "PENDING"} • Stage: ${hit.stage} • ₹${hit.amount}`
-        : "Record nahi mila.";
-    });
-
-    document.getElementById("btnUnlock").addEventListener("click", () => {
-      if (document.getElementById("pinInput").value.trim() === PIN) {
-        unlocked = true;
-        document.getElementById("pinBox").classList.add("hidden");
-        document.getElementById("ownerPanelBody").classList.remove("hidden");
-        document.getElementById("rtdbUrlInput").value = rtdbUrl;
-        log("Owner unlocked (4827).");
-        renderAll();
-      } else {
-        alert("Galat PIN.");
-      }
-    });
-
-    document.getElementById("btnSaveRtdb").addEventListener("click", () => {
-      rtdbUrl = document.getElementById("rtdbUrlInput").value.trim().replace(/\/+$/, "");
-      localStorage.setItem(RTDB_KEY, rtdbUrl);
-      log(rtdbUrl ? `RTDB URL saved: ${rtdbUrl}` : "RTDB URL cleared (Local mode).");
-      pullFromRtdb();
-    });
-
-    document.getElementById("btnPullNow").addEventListener("click", () => {
-      pullFromRtdb();
-    });
-
-    document.getElementById("btnVerifyPaste").addEventListener("click", () => {
-      const txt = document.getElementById("smsPaste").value.trim();
-      if (!txt) return;
-      const p = parseAlert(txt);
-      const match = db.orders.find(o => !o.paid && p.amount !== null && Number(o.amount) === Number(p.amount))
-        || db.orders.find(o => !o.paid);
-      if (match) verifyById(match.id, p.utr);
-      else log(`Parsed UTR=${p.utr || "-"}, Amt=${p.amount ?? "-"} — pending order nahi mila.`);
-    });
-
-    document.getElementById("btnApplyFilter").addEventListener("click", () => {
-      range.from = document.getElementById("fFrom").value;
-      range.to = document.getElementById("fTo").value;
-      renderAll();
-    });
-
-    document.getElementById("btnResetFilter").addEventListener("click", () => {
-      range = { from: "", to: "" };
-      document.getElementById("fFrom").value = "";
-      document.getElementById("fTo").value = "";
-      renderAll();
-    });
-
-    document.getElementById("btnClearLog").addEventListener("click", () => {
-      document.getElementById("alertLog").textContent = "Log cleared.";
-    });
-
-    checkListener();
-    renderAll();
-    pullFromRtdb();
-    setInterval(() => pullFromRtdb(true), 8000);
-  </script>
+render();
+</script>
 </body>
 </html>
+Setting up local file delivery for Namaste Udala
